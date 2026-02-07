@@ -97,8 +97,8 @@ render_python_app(
 
 # Projeto 4
 render_python_app(
-    "☕ Gestão de Custos: Açúcar",
-    "Aplicação voltada para o setor de alimentos e bebidas. Realiza o cálculo preciso do custo unitário baseado na variação de preços de mercado, auxiliando na precificação de produtos e controle de margem.",
+    "☕ Gestão de Custos: Açúcar 💵Como eliminei mais de R$ 25 mil por ano em desperdício só no café.",
+    "Aplicação voltada para qualquer empresa. Sabe aquela economia que ninguém vê? Aquela que parece pequena… até que você coloca os números na mesa?",
     "https://economiacafe.streamlit.app/"
 )
 
