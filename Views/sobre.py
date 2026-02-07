@@ -93,7 +93,7 @@ with col2:
     st.write("Minha abordagem é orientada a resultados e focada na busca por soluções inovadoras que aumentem a eficiência operacional e forneçam uma base sólida para decisões estratégicas.")
 
 st.write("")
-st.write("Tenho orgulho de ter impulsionado resultados e fornecido inteligência de dados para clientes de alto nível como: **Ouro Safra, Kraft Heinz, Loggi, Usina Santa Terezinha, Megavig, Lowell e BSS Blindagens entre outros.**")
+st.write("Tenho orgulho de ter impulsionado resultados e fornecido inteligência de dados para clientes de alto nível como: **Cimed, Unimed Seguros, Ouro Safra, Kraft Heinz, Loggi, Usina Santa Terezinha, Megavig, Lowell e BSS Blindagens entre outros.**")
 
 st.markdown("---")
 
