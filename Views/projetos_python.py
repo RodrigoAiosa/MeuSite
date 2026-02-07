@@ -11,7 +11,7 @@ st.markdown(
         font-size: 1.2rem;
         font-weight: bold;
         padding: 12px 20px;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
         border-radius: 10px;
         text-decoration: none;
         transition: transform 0.3s, box-shadow 0.3s;
@@ -26,12 +26,20 @@ st.markdown(
         box-shadow: 0 8px 16px rgba(0, 180, 216, 0.3);
         border-color: #00b4d8;
     }
+    .project-description {
+        color: #ffffff;
+        font-size: 0.95rem;
+        margin-bottom: 15px;
+        padding-left: 5px;
+        max-width: 800px;
+        line-height: 1.4;
+    }
     .iframe-container {
         border: 2px solid #31333F;
         border-radius: 12px;
         overflow: hidden;
         margin-bottom: 60px;
-        background-color: #f0f2f6; /* Fundo leve para o app carregar */
+        background-color: #f0f2f6;
     }
     </style>
     """,
@@ -39,15 +47,16 @@ st.markdown(
 )
 
 st.title("🐍 Projetos em Python")
-st.write("Interaja com as aplicações diretamente abaixo ou abra em tela cheia.")
+st.write("Aplicações web completas desenvolvidas para automação de processos e análise financeira.")
 st.markdown("---")
 
-# --- FUNÇÃO PARA RENDERIZAR APPS PYTHON ---
-def render_python_app(title, url):
-    # Botão de acesso rápido
+# --- FUNÇÃO PARA RENDERIZAR APPS COM DESCRIÇÃO ---
+def render_python_app(title, description, url):
+    # Botão
     st.markdown(f'<a href="{url}" target="_blank" class="project-button">{title} ↗️</a>', unsafe_allow_html=True)
-    
-    # App incorporado (Embed)
+    # Descrição
+    st.markdown(f'<div class="project-description">{description}</div>', unsafe_allow_html=True)
+    # App incorporado
     st.markdown(
         f"""
         <div class="iframe-container">
@@ -65,28 +74,32 @@ def render_python_app(title, url):
 
 # --- LISTA DE PROJETOS ---
 
-# Projeto 1: Leilão
+# Projeto 1
 render_python_app(
     "⚖️ Calculadora de Viabilidade de Leilão Profissional",
+    "Ferramenta estratégica para investidores imobiliários. Calcula automaticamente impostos (ITBI), custos cartoriais, comissões de leiloeiro e margem de lucro líquida para arrematações seguras.",
     "https://calculadoraleilao.streamlit.app/"
 )
 
-# Projeto 2: Google Maps
+# Projeto 2
 render_python_app(
     "📍 Extrator de Dados - Google Maps",
+    "Solução de automação para prospecção B2B. Extrai informações públicas diretamente do Google Maps, como nomes, telefones e localizações, facilitando a geração de listas de leads qualificadas.",
     "https://gerarlead.streamlit.app/"
 )
 
-# Projeto 3: Amortização
+# Projeto 3
 render_python_app(
     "📊 Análise Pro: Sistemas de Amortização",
+    "Simulador financeiro avançado que compara os sistemas SAC e PRICE. Ideal para análise de financiamentos de longo prazo, permitindo visualizar a evolução do saldo devedor e economia com amortizações antecipadas.",
     "https://guiadaamortizacao.streamlit.app/"
 )
 
-# Projeto 4: Gestão de Custos
+# Projeto 4
 render_python_app(
     "☕ Gestão de Custos: Açúcar",
+    "Aplicação voltada para o setor de alimentos e bebidas. Realiza o cálculo preciso do custo unitário baseado na variação de preços de mercado, auxiliando na precificação de produtos e controle de margem.",
     "https://economiacafe.streamlit.app/"
 )
 
-st.info("💡 Nota: Algumas aplicações podem levar instantes para 'acordar' caso não tenham sido usadas recentemente.")
+st.info("💡 Você pode interagir com as ferramentas diretamente aqui ou clicar no título para abrir em tela cheia.")
