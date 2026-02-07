@@ -1,6 +1,6 @@
 import streamlit as st
 
-# --- ESTILO CSS PARA BOTÕES DE TÍTULO COM HOVER ---
+# --- ESTILO CSS ---
 st.markdown(
     """
     <style>
@@ -8,31 +8,30 @@ st.markdown(
         display: inline-block;
         background-color: #262730;
         color: #00b4d8 !important;
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         font-weight: bold;
-        padding: 15px 25px;
-        margin-bottom: 20px;
+        padding: 12px 20px;
+        margin-bottom: 10px;
         border-radius: 10px;
         text-decoration: none;
-        transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        transition: transform 0.3s, box-shadow 0.3s;
         border: 1px solid rgba(0, 180, 216, 0.2);
-        width: auto;
-        min-width: 400px; /* Garante um tamanho de botão robusto */
+        width: 100%;
+        max-width: 800px;
         cursor: pointer;
+        text-align: left;
     }
-    
     .project-button:hover {
-        transform: scale(1.05); /* Efeito de Zoom */
-        box-shadow: 0 10px 20px rgba(0, 180, 216, 0.4); /* Efeito de Sombra */
+        transform: scale(1.01);
+        box-shadow: 0 8px 16px rgba(0, 180, 216, 0.3);
         border-color: #00b4d8;
-        background-color: #31333F;
     }
-
-    .container {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start; /* Alinhamento à esquerda */
-        gap: 10px;
+    .iframe-container {
+        border: 2px solid #31333F;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 60px;
+        background-color: #f0f2f6; /* Fundo leve para o app carregar */
     }
     </style>
     """,
@@ -40,42 +39,54 @@ st.markdown(
 )
 
 st.title("🐍 Projetos em Python")
-st.write("Clique nos títulos abaixo para acessar as aplicações.")
+st.write("Interaja com as aplicações diretamente abaixo ou abra em tela cheia.")
 st.markdown("---")
 
-# --- LISTA DE PROJETOS EM FORMATO DE BOTÃO ---
-st.markdown('<div class="container">', unsafe_allow_html=True)
+# --- FUNÇÃO PARA RENDERIZAR APPS PYTHON ---
+def render_python_app(title, url):
+    # Botão de acesso rápido
+    st.markdown(f'<a href="{url}" target="_blank" class="project-button">{title} ↗️</a>', unsafe_allow_html=True)
+    
+    # App incorporado (Embed)
+    st.markdown(
+        f"""
+        <div class="iframe-container">
+            <iframe 
+                src="{url}?embed=true" 
+                width="100%" 
+                height="700" 
+                frameborder="0" 
+                allowfullscreen>
+            </iframe>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
-# Projeto 1
-st.markdown(
-    '<a href="https://calculadoraleilao.streamlit.app/" target="_blank" class="project-button">'
-    '⚖️ Calculadora de Viabilidade de Leilão Profissional'
-    '</a>', 
-    unsafe_allow_html=True
+# --- LISTA DE PROJETOS ---
+
+# Projeto 1: Leilão
+render_python_app(
+    "⚖️ Calculadora de Viabilidade de Leilão Profissional",
+    "https://calculadoraleilao.streamlit.app/"
 )
 
-# Projeto 2
-st.markdown(
-    '<a href="https://gerarlead.streamlit.app/" target="_blank" class="project-button">'
-    '📍 Extrator de Dados - Google Maps'
-    '</a>', 
-    unsafe_allow_html=True
+# Projeto 2: Google Maps
+render_python_app(
+    "📍 Extrator de Dados - Google Maps",
+    "https://gerarlead.streamlit.app/"
 )
 
-# Projeto 3
-st.markdown(
-    '<a href="https://guiadaamortizacao.streamlit.app/" target="_blank" class="project-button">'
-    '📊 Análise Pro: Sistemas de Amortização'
-    '</a>', 
-    unsafe_allow_html=True
+# Projeto 3: Amortização
+render_python_app(
+    "📊 Análise Pro: Sistemas de Amortização",
+    "https://guiadaamortizacao.streamlit.app/"
 )
 
-# Projeto 4
-st.markdown(
-    '<a href="https://economiacafe.streamlit.app/" target="_blank" class="project-button">'
-    '☕ Gestão de Custos: Açúcar'
-    '</a>', 
-    unsafe_allow_html=True
+# Projeto 4: Gestão de Custos
+render_python_app(
+    "☕ Gestão de Custos: Açúcar",
+    "https://economiacafe.streamlit.app/"
 )
 
-st.markdown('</div>', unsafe_allow_html=True)
+st.info("💡 Nota: Algumas aplicações podem levar instantes para 'acordar' caso não tenham sido usadas recentemente.")
