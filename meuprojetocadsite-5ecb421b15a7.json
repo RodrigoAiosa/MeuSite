@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "meuprojetocadsite",
+  "private_key_id": "5ecb421b15a70627999859818420662bb57938f4",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQClH7QYACuOFkAl\nYONQd9Brq+sLMyIibTyxVtw7+uMChvc5/78TSZlxOGoFvofg9aHK8hmGzW398ZkL\n+0ZyEwWARsLYmKNXDk+GpYi5dq6FNdkNXwFP0SLcHXbm/K1/KYtu93z49bnSiefU\nSKg0f+PPtwFMgZrjWPxvUnXL6+A5988daeb8IYMtkkyhgJgrPegNxEwD4HCIee3u\nT2FL8z3QywFEja7/0f+LEb2Oz/0Uuf8oifaSjVMCZZVUcr1NVgvT4ai1Fubwykm4\nWxVqOsTo+u0mnkVRc2uXV7OgLbMFh+gK46f/GgxYkGwTtABj82+TUBAMzet3Vzts\nU21irQP7AgMBAAECggEARydEsyzrl9QluxWnjma61JLl+1MC7APXafGsgFoplU60\nXPVEEJsf+EZfhW8nXTxrhijR8CE4uvtvQFb8ca6Zqb+UOcJ4bEyZ30MYihbGuFdO\nWzErvwm3NFOsB3gtiQTNdTlHTH6SntNXJ0ZR2SGc+MZ61E1rAXm4eX32jbNsUX2y\nir9+ToPKNemT3NSnAtcEiILeuYqL0F2vI+MJovdxITtExYRdfM+3Cfx15TPY+HtH\nOHu1PUgQFCt8lM+LVvxpgDygnbtqkEKlcDcw9OxaymgCqD6Ie1ug9zgqW2dLCofd\nvfiVYjeLQtjF/P8t2vUOKa3iYvK7HKoH/NkEoOxnIQKBgQDXanrAD9P+PF5Jh8gP\nFebcyt2ge16BAqZtSyaaEug/+35Hyidw4b4YxlHrzV6Tu0oxPATaBDhKum2eNsg+\nFWQKbbbsPwLYr6cKBD3PHgiHtmNvsaZP8GIYpcOsalB4gw9QNeD9Q4F1sG18LL4C\n1SZ6J7Dw5PbxO5ZfZ4tDCmN3oQKBgQDEO6JNlKXg2Ie5j8BgzZlxExavaMlkS1a+\n1OW17BgRIYmIUOmFmRCyxRkqPyP8Xx0bbV//WBkcBcerVG+BT/FP5o2lStoDrbPk\ng/gPrOvki0yQEc81lT6qByWvDqb0+UJ1gSEKXsxghF/v3Q0k0AKuaFpsCrn5NcO+\nyim9wX2mGwKBgEf3q/DUmOecNYftVBouIAXtxKNj9Au33fAvpkLdRDh0Bhln4Utm\nL8NJJn9YClviu4O9YIWR2Vil9g9gj/+l19lgFDfTSVkpPe4rwpaamxD0Dz52pHCa\nh7tiTgAhOKc6afhLN9KFJhAylDFjJUv++C7haczhQdsQJEnVZwJLyzVhAoGAekHp\nIcqt+kMNdIfiRK1znuZUqN5xMsJZfjVoFIrOh8XMSRiYFTtDEw4HWrHR+sdLfC4N\ntCmwIyxatRy7B+bFopEyyLu0zrvnK0UpRKLoqRA8mDnwTiL40rf3O3S2gkPVqx3T\ndwGO9ccjem7PZJMQSJcNVujr6x8bIIAVt3qYjOcCgYB4/JoACUYXC5w+WYvAoOzH\nNviF7VOxktSjEx8mTvqSw5sROncYUi7p4RSgKX2eXYvmSRRwxLh/XNe90wcA5kS+\n+m6aslrcWqcvVPQvFNANDtVAvhDEccNKBTeXg9KJoZjFGUz1HSjMC7z16VfvYAyz\nD9IOcBsSeLL007L6VB2mhQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "google-sheets-scripter@meuprojetocadsite.iam.gserviceaccount.com",
+  "client_id": "109821626701397394738",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/google-sheets-scripter%40meuprojetocadsite.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

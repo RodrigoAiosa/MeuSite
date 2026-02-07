@@ -1,7 +1,7 @@
 import streamlit as st
 
 # --- CONFIGURAÇÃO DAS PÁGINAS ---
-# Mapeando os arquivos da sua pasta Views
+# Mapeando os arquivos da sua pasta Views conforme sua estrutura
 
 sobre_page = st.Page(
     page="Views/sobre.py",
@@ -16,8 +16,15 @@ projeto_recente_page = st.Page(
     icon=":material/history:",
 )
 
+# Nova página de contato adicionada na seção Informações
+contato_page = st.Page(
+    page="Views/contato.py",
+    title="Contato",
+    icon=":material/mail:",
+)
+
 cases_sucesso_page = st.Page(
-    page="Views/cases_sucesso.py", # Nome conforme o seu arquivo
+    page="Views/cases_sucesso.py", 
     title="Cases de Sucesso",
     icon=":material/emoji_events:",
 )
@@ -35,10 +42,10 @@ projeto_powerbi_page = st.Page(
 )
 
 # --- MENU DE NAVEGAÇÃO ---
-# Adicionada a nova seção para os slides de sucesso
+# Organizado para exibir a página de contato sob a seção "Informações"
 pg = st.navigation(
     {
-        "Informações": [sobre_page, projeto_recente_page],
+        "Informações": [sobre_page, projeto_recente_page, contato_page],
         "Resultados": [cases_sucesso_page],
         "Portfólio": [projeto_python_page, projeto_powerbi_page],
     }
