@@ -1,23 +1,22 @@
 import streamlit as st
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 import json
 
 def registrar_acesso(nome_pagina):
     """
     Registra informações de acesso no Google Sheets usando Streamlit Secrets.
-    Evita erros de caminho de arquivo e protege suas chaves no GitHub.
+    Ajusta o fuso horário para Brasília (UTC-3) e identifica o tipo de dispositivo.
     """
     try:
         # 1. Configuração de Escopo
-        scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-        
-        # 2. Carregamento das Credenciais via Secrets (O Pulo do Gato para Deploy)
-        # Em vez de ler um arquivo .json, lemos do st.secrets
+        scope = ["https://spreadsheets.google.com/feeds",
+                 "https://www.googleapis.com/auth/drive"]
+
+        # 2. Carregamento das Credenciais via Secrets
         if "gcp_service_account" in st.secrets:
             creds_info = dict(st.secrets["gcp_service_account"])
-            # Corrige as quebras de linha da chave privada
             creds_info["private_key"] = creds_info["private_key"].replace('\\n', '\n')
             creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_info, scope)
         else:
@@ -26,29 +25,34 @@ def registrar_acesso(nome_pagina):
 
         # 3. Autenticação e Abertura da Planilha
         client = gspread.authorize(creds)
-        # Use o ID da planilha (aquele código longo na URL) para maior precisão
-        sheet = client.open("Relatorio_Acessos_Site").sheet1 
+        sheet = client.open("Relatorio_Acessos_Site").sheet1
 
-        # 4. Coleta de dados do visitante
-        agora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        
-        # Coleta de cabeçalhos de forma segura
+        # 4. Ajuste do Fuso Horário (Brasília UTC-3)
+        fuso_brasilia = timezone(timedelta(hours=-3))
+        agora = datetime.now(fuso_brasilia).strftime("%d/%m/%Y %H:%M:%S")
+
+        # 5. Coleta de dados do visitante
         headers = st.context.headers
-        user_agent = headers.get("User-Agent", "Desconhecido")
+        user_agent = headers.get("User-Agent", "").lower()
         ip = headers.get("X-Forwarded-For", "Localhost").split(',')[0]
-        
-        # Identificação de SO simplificada
-        so = "Windows" if "Windows" in user_agent else "Mobile" if "Android" in user_agent or "iPhone" in user_agent else "Outro"
 
-        # 5. Gravação dos dados
-        # Conforme sua instrução salva: preserva dados existentes e adiciona novos à tabela
-        sheet.append_row([agora, "Acesso Portfólio", so, ip, nome_pagina])
-        
-        print(f"✅ SUCESSO: Acesso registrado na página '{nome_pagina}'")
+        # 6. Identificação detalhada do Dispositivo
+        if "ipad" in user_agent or ("android" in user_agent and "mobile" not in user_agent):
+            dispositivo = "Tablet"
+        elif "mobile" in user_agent or "android" in user_agent or "iphone" in user_agent:
+            dispositivo = "Celular"
+        else:
+            dispositivo = "PC"
+
+        # 7. Gravação dos dados conforme estrutura da planilha
+        # Colunas: data_hora | título/fixo | dispositivo | ip | página
+        sheet.append_row([agora, "Acesso Portfólio", dispositivo, ip, nome_pagina])
+
+        print(f"✅ SUCESSO: Acesso registrado às {agora} ({dispositivo}) na página '{nome_pagina}'")
 
     except Exception as e:
-        # Log de erro silencioso para não quebrar a experiência do usuário
         print(f"❌ ERRO NO REGISTRO: {str(e)}")
+
 
 def exibir_rodape():
     """Exibe o rodapé padrão em todas as páginas."""
