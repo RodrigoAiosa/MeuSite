@@ -3,55 +3,73 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime, timedelta, timezone
 
+def obter_credenciais_google():
+    """Função interna para centralizar a autenticação via Secrets."""
+    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+    if "gcp_service_account" in st.secrets:
+        creds_info = dict(st.secrets["gcp_service_account"])
+        creds_info["private_key"] = creds_info["private_key"].replace('\\n', '\n')
+        return ServiceAccountCredentials.from_json_keyfile_dict(creds_info, scope)
+    return None
+
 def registrar_acesso(nome_pagina):
     """
-    Registra informações de acesso no Google Sheets via Secrets.
+    Registra informações de acesso na planilha: Relatorio_Acessos_Site
     Colunas: data_hora | dispositivo | sistema operacional | ip | página
     """
     try:
-        # 1. Configuração de Escopo
-        scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-        
-        # 2. Carregamento via Secrets (Obrigatório para Deploy no GitHub)
-        # Certifique-se de que colou o JSON no painel do Streamlit Cloud como [gcp_service_account]
-        if "gcp_service_account" in st.secrets:
-            creds_info = dict(st.secrets["gcp_service_account"])
-            creds_info["private_key"] = creds_info["private_key"].replace('\\n', '\n')
-            creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_info, scope)
-        else:
-            # Se cair aqui, o segredo não foi configurado no painel Settings > Secrets do Streamlit
-            print("❌ ERRO: Secrets não encontrados no Streamlit Cloud.")
+        creds = obter_credenciais_google()
+        if not creds:
+            print("❌ ERRO: Secrets 'gcp_service_account' não encontrados.")
             return
 
-        # 3. Autenticação e Abertura
         client = gspread.authorize(creds)
+        # Abre a planilha de logs de acesso
         sheet = client.open("Relatorio_Acessos_Site").sheet1 
 
-        # 4. Fuso Horário Brasília (UTC-3)
         fuso_brasilia = timezone(timedelta(hours=-3))
         agora = datetime.now(fuso_brasilia).strftime("%d/%m/%Y %H:%M:%S")
         
-        # 5. Coleta de Headers de forma segura
         headers = st.context.headers
         ua = headers.get("User-Agent", "").lower()
         ip_visitante = headers.get("X-Forwarded-For", "Localhost").split(',')[0]
 
-        # 6. Identificação de Dispositivo (Baseado no seu Excel)
         dispositivo = "Tablet" if "ipad" in ua or ("android" in ua and "mobile" not in ua) else \
                       "Celular" if "mobile" in ua or "android" in ua or "iphone" in ua else "PC"
         
-        # 7. Identificação de Sistema Operacional
         so = "Windows" if "windows" in ua else "Android" if "android" in ua else \
              "iOS" if "iphone" in ua or "ipad" in ua else "Mac OS" if "mac os" in ua else "Outro"
 
-        # 8. Gravação na ordem exata da sua planilha (data_hora | dispositivo | SO | ip | página)
         sheet.append_row([agora, dispositivo, so, ip_visitante, nome_pagina])
-        
         print(f"✅ SUCESSO: Acesso em '{nome_pagina}' registrado.")
 
     except Exception as e:
-        # Erro impresso nos logs do Streamlit (Manage App)
-        print(f"❌ ERRO NO REGISTRO: {str(e)}")
+        print(f"❌ ERRO NO REGISTRO DE ACESSO: {str(e)}")
+
+def registrar_formulario_contato(nome, email, whatsapp, mensagem):
+    """
+    Registra os dados do formulário na planilha: bd_contato_form_site
+    Colunas: data_hora | nome | email | whatsapp | mensagem
+    """
+    try:
+        creds = obter_credenciais_google()
+        if not creds:
+            return False
+
+        client = gspread.authorize(creds)
+        # Abre especificamente a planilha do formulário de contato
+        sheet = client.open("bd_contato_form_site").sheet1 
+
+        fuso_brasilia = timezone(timedelta(hours=-3))
+        agora = datetime.now(fuso_brasilia).strftime("%d/%m/%Y %H:%M:%S")
+
+        # Grava os dados na ordem das colunas da planilha de contatos
+        sheet.append_row([agora, nome, email, whatsapp, mensagem])
+        return True
+
+    except Exception as e:
+        print(f"❌ ERRO AO SALVAR FORMULÁRIO: {str(e)}")
+        return False
 
 def exibir_rodape():
     st.markdown("---")
