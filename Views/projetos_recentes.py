@@ -1,5 +1,9 @@
 import streamlit as st
-from utils import exibir_rodape
+from utils import exibir_rodape, registrar_acesso  # Importação atualizada
+
+# --- REGISTRO DE ACESSO ---
+# Registra a entrada do usuário na vitrine de projetos
+registrar_acesso("Vitrine de Projetos (Landing Page)")
 
 # --- ESTILO CSS PARA LANDING PAGE ---
 st.markdown(
@@ -97,19 +101,16 @@ st.write("")
 
 # --- DEFINIÇÃO DOS DADOS DOS PROJETOS ---
 projects = [
-
     {
         "title": "🎈 Domando a Web: Automatizando a Coleta de Dados",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7396548688942231552",
         "img": "https://media.licdn.com/dms/image/v2/D5605AQG_O4aWEEr-TA/feedshare-thumbnail_720_1280/B56ZqXRlDZJUA0-/0/1763474559478?e=1771120800&v=beta&t=CcUM7AgRyDg2-fNTDZ9IkforQ6O5Hw3eD2Hf1XkZkKI"
     },
-
     {
         "title": "💡 Chega de Sofrer Enviando Currículo na Mão – Automatize AGORA<<",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7401302855799828480",
         "img": "https://media.licdn.com/dms/image/v2/D5605AQFOzpwPAE77QQ/videocover-low/B56Zra1qRCHkBQ-/0/1764608093688?e=1771120800&v=beta&t=dvUGvY1ixWmBZtZA3rUTFEfpeVfSyLbmvmeuZBPQEIA"
     },
-
     {
         "title": " 🚀 Por que este script muda a forma de olhar para o mercado de trabalho",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7417316742781399040",
@@ -145,11 +146,9 @@ projects = [
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7420842332155142144",
         "img": "https://media.licdn.com/dms/image/v2/D5605AQGGIbt2tD1Weg/feedshare-thumbnail_720_1280/B56ZvEub9nHAA4-/0/1768532066431?e=1771030800&v=beta&t=Cr22rY2M1p6TEYvf7fC36OJ-oaRFkCtBXEvcijBX450"
     }
-
 ]
 
 # --- RENDERIZAÇÃO DO GRID DE CARDS ---
-# Criando linhas com 3 colunas cada
 for i in range(0, len(projects), 3):
     cols = st.columns(3)
     for j in range(3):
@@ -169,4 +168,4 @@ for i in range(0, len(projects), 3):
                 """, unsafe_allow_html=True)
 
 st.markdown("---")
-exibir_rodape()  # Exibe o rodapé com as informações de contato e redes sociais
+exibir_rodape()

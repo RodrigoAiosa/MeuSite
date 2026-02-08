@@ -1,6 +1,10 @@
 import streamlit as st
 import os
-from utils import exibir_rodape
+from utils import exibir_rodape, registrar_acesso  # Importação adicionada
+
+# --- REGISTRO DE ACESSO ---
+# Chama a função logo no início para garantir a gravação na planilha
+registrar_acesso("Cases de Sucesso")
 
 # --- ESTILO CSS PARA IMAGENS GRANDES ---
 st.markdown(
@@ -28,6 +32,7 @@ st.title("🏆 Cases de Sucesso")
 st.write("Confira os resultados da nossa Mentoria Estratégica em tamanho expandido.")
 st.markdown("---")
 
+# Lista de slides localizados na pasta assets
 slides = [
     "Slide6.JPG", "Slide7.JPG", "Slide8.JPG", "Slide9.JPG",
     "Slide10.JPG", "Slide11.JPG", "Slide12.JPG", "Slide13.JPG", "Slide14.JPG"
@@ -35,6 +40,7 @@ slides = [
 
 for slide in slides:
     caminho_img = os.path.join("assets", slide)
+    # Exibe a imagem usando o parâmetro atualizado do Streamlit
     st.image(caminho_img, use_container_width=True)
     st.markdown("---")
 

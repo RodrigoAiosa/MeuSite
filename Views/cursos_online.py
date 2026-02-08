@@ -3,13 +3,17 @@ import os
 import sys
 
 # 1. RESOLVENDO O CAMINHO DO MÓDULO UTILS
-# Adiciona a pasta raiz ao sys.path para que o Python encontre o utils.py
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 try:
-    from utils import exibir_rodape
+    # Importação atualizada para incluir registrar_acesso
+    from utils import exibir_rodape, registrar_acesso 
 except ImportError:
     st.error("Erro: O arquivo 'utils.py' não foi encontrado na pasta raiz.")
+
+# --- REGISTRO DE ACESSO ---
+# Esta chamada envia os dados para a planilha via utils.py
+registrar_acesso("Cursos Online")
 
 # 2. CONFIGURAÇÃO VISUAL DA PÁGINA
 st.title("🎓 Meus Cursos Online")
@@ -21,6 +25,7 @@ col1, col2 = st.columns([1, 2], gap="large")
 
 with col1:
     img_pbi = os.path.join("assets", "fundamentos_power_bi.png")
+    # Atualizado para width='stretch' conforme as novas diretrizes do Streamlit
     st.image(img_pbi, width="stretch")
 
 with col2:
@@ -51,7 +56,7 @@ with col4:
         """
         Se dados são essenciais para decisões e SQL é a linguagem dos dados, 
         então dominar SQL é essencial para decisões inteligentes. No curso **Fundamentos SQL**, 
-        você aprende desde o básico até consultas avançadas, com foco prático e direto ao ponto. 
+        you aprende desde o básico até consultas avançadas, com foco prático e direto ao ponto. 
         Ideal para quem quer entender, manipular e extrair valor real de bases de dados. 
         Lógica simples: quer analisar? Aprenda SQL.
         """
@@ -80,5 +85,5 @@ with col6:
 
 st.markdown("---")
 
-# 3. EXIBIÇÃO DO RODAPÉ (CHAMADA DA FUNÇÃO DO UTILS.PY)
+# 3. EXIBIÇÃO DO RODAPÉ
 exibir_rodape()

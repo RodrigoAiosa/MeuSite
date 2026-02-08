@@ -1,5 +1,9 @@
 import streamlit as st
-from utils import exibir_rodape
+from utils import exibir_rodape, registrar_acesso  # Importação atualizada
+
+# --- REGISTRO DE ACESSO ---
+# Registra a entrada do usuário na página de Projetos Python
+registrar_acesso("Projetos Python")
 
 # --- ESTILO CSS ---
 st.markdown(
@@ -104,4 +108,3 @@ render_python_app(
 )
 
 exibir_rodape()
-

@@ -1,6 +1,9 @@
 import streamlit as st
-from utils import exibir_rodape
+from utils import exibir_rodape, registrar_acesso  # Importação adicionada
 
+# --- REGISTRO DE ACESSO ---
+# Registra a entrada do usuário na página de Dashboards Estratégicos
+registrar_acesso("Projetos Power BI")
 
 # --- ESTILO CSS AJUSTADO (TEXTOS MAIORES) ---
 st.markdown(
@@ -15,8 +18,8 @@ st.markdown(
         background-color: #111827;
         border: 1px solid #1f2937;
         border-radius: 18px;
-        padding: 35px 20px; /* Aumentado o padding */
-        height: 300px; /* Aumentado para acomodar textos maiores */
+        padding: 35px 20px; 
+        height: 300px; 
         transition: all 0.4s ease;
         text-align: center;
         display: flex;
@@ -32,21 +35,18 @@ st.markdown(
         box-shadow: 0 15px 35px rgba(0, 180, 216, 0.25);
     }
 
-    /* Ícone maior */
     .card-icon { font-size: 60px; margin-bottom: 15px; }
 
-    /* Título do Card maior */
     .pbi-card-title { 
         color: #ffffff; 
-        font-size: 1.4rem; /* Aumentado de 1.1 para 1.4 */
+        font-size: 1.4rem; 
         font-weight: bold; 
         line-height: 1.3;
     }
 
-    /* Link "Acessar" maior */
     .pbi-card-tag { 
         margin-top: 20px; 
-        font-size: 0.9rem; /* Aumentado */
+        font-size: 0.9rem; 
         color: #00b4d8; 
         font-weight: bold;
         text-transform: uppercase;
@@ -57,7 +57,6 @@ st.markdown(
         padding: 0 15px !important;
     }
 
-    /* Estilo para a seção de Artigos */
     .article-container {
         margin-bottom: 25px;
         text-decoration: none !important;
@@ -72,19 +71,17 @@ st.markdown(
         transition: all 0.3s ease;
     }
 
-    /* Título do Artigo maior */
     .article-title {
-        font-size: 1.6rem !important; /* Aumentado */
+        font-size: 1.6rem !important;
         color: white !important;
         margin: 0;
         font-weight: bold;
     }
 
-    /* Descrição do Artigo maior */
     .article-desc {
         color: #9ca3af;
         margin-top: 12px;
-        font-size: 1.1rem; /* Aumentado */
+        font-size: 1.1rem;
         line-height: 1.5;
     }
 
@@ -135,7 +132,6 @@ for i in range(0, len(pbi_projects), 3):
                 </a>
                 """, unsafe_allow_html=True)
 
-    # PULO DE DUAS LINHAS ENTRE FILEIRAS
     if i == 0:
         st.write("")
         st.write("")
@@ -147,7 +143,6 @@ st.markdown("---")
 st.markdown("<h2 style='font-size: 2.2rem;'>💡 Conteúdo Técnico & Artigos</h2>",
             unsafe_allow_html=True)
 
-# Artigo 1: Conexão Banco de Dados
 st.markdown("""
     <a href="https://www.linkedin.com/feed/update/urn:li:activity:7406927292955865088" target="_blank" class="article-container">
         <div class="article-card">
@@ -157,7 +152,6 @@ st.markdown("""
     </a>
 """, unsafe_allow_html=True)
 
-# Artigo 2: DAX
 st.markdown("""
     <a href="https://www.linkedin.com/feed/update/urn:li:activity:7287584764490891266" target="_blank" class="article-container">
         <div class="article-card">

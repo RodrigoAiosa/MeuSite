@@ -1,10 +1,14 @@
 import streamlit as st
 import time
-from utils import exibir_rodape
+from utils import registrar_acesso, exibir_rodape
 
+# 1. CONFIGURAÇÃO DA PÁGINA (Deve ser obrigatoriamente o primeiro comando Streamlit)
 st.set_page_config(layout="wide", page_title="Portfolio | Rodrigo Aiosa")
 
-# --- ESTILO CSS GLOBAL (INCLUINDO EFEITO FLIP) ---
+# 2. REGISTRO DE ACESSO (Chamado logo após a configuração inicial)
+registrar_acesso("Sobre Mim")
+
+# --- ESTILO CSS GLOBAL (MANTIDO) ---
 st.markdown(
     """
     <style>
@@ -131,13 +135,11 @@ st.markdown("### ⭐ Experiência e Resultados")
 
 c1, c2, c3, c4 = st.columns(4)
 
-# Placeholders para a animação
 p1 = c1.empty()
 p2 = c2.empty()
 p3 = c3.empty()
 p4 = c4.empty()
 
-# Frases do verso (Habilidades destacadas)
 back_texts = [
     "Expertise em automação de processos e análise preditiva.",
     "Soluções personalizadas para grandes players do mercado.",
@@ -145,14 +147,12 @@ back_texts = [
     "Parceria contínua baseada em confiança e resultados reais."
 ]
 
-# Loop da animação de carregamento
 for i in range(0, 101, 5):
     val_exp = int(20 * i / 100)
     val_emp = int(450 * i / 100)
     val_proj = int(500 * i / 100)
     val_rec = int(87 * i / 100)
 
-    # Dados dos cards (Frente e Verso)
     cards_data = [
         (f"{val_exp}+", "Anos de experiência", "🏆", back_texts[0], p1),
         (f"{val_emp}+", "Empresas atendidas", "🏢", back_texts[1], p2),
@@ -211,11 +211,12 @@ st.markdown(
 
 st.write("")
 
-# Centralização da imagem de clientes
 col_img1, col_img2, col_img3 = st.columns([1, 8, 1])
 with col_img2:
-    st.image("assets/clientes_atendidos.jpg", use_container_width=True)
+    # Atualizado para evitar avisos de versão antiga do Streamlit
+    st.image("assets/clientes_atendidos.jpg", width=None, use_container_width=True)
 
 st.markdown("---")
 
+# 3. EXIBIÇÃO DO RODAPÉ
 exibir_rodape()

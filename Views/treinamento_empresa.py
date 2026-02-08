@@ -1,6 +1,10 @@
 import streamlit as st
 import urllib.parse
-from utils import exibir_rodape
+from utils import exibir_rodape, registrar_acesso  # Importação atualizada
+
+# --- REGISTRO DE ACESSO ---
+# Registra que o usuário está visualizando a página de Treinamento Corporativo
+registrar_acesso("Treinamento Corporativo")
 
 # --- ESTILO CSS (TEXTOS MAIORES E EFEITOS) ---
 st.markdown(
@@ -118,13 +122,13 @@ st.markdown(
     <div class="manifesto-container">
         <h2 class="manifesto-title">A Diferença entre Operar Dados e Gerar Lucro</h2>
         <p class="manifesto-text">
-            <strong></strong> Com anos de experiência transformando estruturas de dados complexas em decisões estratégicas para grandes players do mercado, meu compromisso não é apenas ensinar ferramentas, mas transmitir a mentalidade de excelência em Business Intelligence que validei na prática.
+             Com anos de experiência transformando estruturas de dados complexas em decisões estratégicas para grandes players do mercado, meu compromisso não é apenas ensinar ferramentas, mas transmitir a mentalidade de excelência em Business Intelligence que validei na prática.
         </p>
         <p class="manifesto-text">
-            <strong></strong> Imagine a frustração de uma equipe talentosa presa em planilhas lentas, corrigindo erros manuais que nunca deveriam ter existido, enquanto a concorrência avança com decisões baseadas em dados em tempo real. O custo do "jeito que sempre fizemos" é o esgotamento do seu time e a perda de oportunidades invisíveis.
+             Imagine a frustração de uma equipe talentosa presa em planilhas lentas, corrigindo erros manuais que nunca deveriam ter existido, enquanto a concorrência avança com decisões baseadas em dados em tempo real. O custo do "jeito que sempre fizemos" é o esgotamento do seu time e a perda de oportunidades invisíveis.
         </p>
         <p class="manifesto-text">
-            <strong></strong> Números não mentem: empresas que investem em alfabetização de dados aumentam sua produtividade em até 25% e reduzem custos operacionais drasticamente. Meu treinamento conecta seus relatórios diretamente ao banco de dados com performance otimizada, garantindo que sua equipe foque em análise, e não em digitação.
+             Números não mentem: empresas que investem em alfabetização de dados aumentam sua produtividade em até 25% e reduzem custos operacionais drasticamente. Meu treinamento conecta seus relatórios diretamente ao banco de dados com performance otimizada, garantindo que sua equipe foque em análise, e não em digitação.
         </p>
     </div>
     """,
