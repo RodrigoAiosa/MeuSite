@@ -1,7 +1,9 @@
 import streamlit as st
 
+# Configuração da aba do navegador (DEVE SER A PRIMEIRA COISA)
+st.set_page_config(page_title="Portfólio Rodrigo Aiosa", page_icon="📊", layout="wide")
+
 # --- CONFIGURAÇÃO DAS PÁGINAS ---
-# Mapeando os arquivos da sua pasta Views conforme sua estrutura
 
 sobre_page = st.Page(
     page="Views/sobre.py",
@@ -16,7 +18,6 @@ projeto_recente_page = st.Page(
     icon=":material/history:",
 )
 
-# Nova página de contato adicionada na seção Informações
 contato_page = st.Page(
     page="Views/contato.py",
     title="Contato",
@@ -41,18 +42,22 @@ projeto_powerbi_page = st.Page(
     icon=":material/bar_chart:",
 )
 
+# Corrigido: Variável única para Treinamento (antes estava sobrescrevendo projeto_powerbi_page)
+treinamento_empresa_page = st.Page(
+    page="Views/treinamento_empresa.py",
+    title="Treinamento para Empresas",
+    icon=":material/school:", # Alterado para ícone de escola/treino
+)
+
+
 # --- MENU DE NAVEGAÇÃO ---
-# Organizado para exibir a página de contato sob a seção "Informações"
 pg = st.navigation(
     {
-        "Informações": [sobre_page, projeto_recente_page, contato_page],
+        "Informações": [sobre_page, projeto_recente_page, contato_page, treinamento_empresa_page],
         "Resultados": [cases_sucesso_page],
         "Portfólio": [projeto_python_page, projeto_powerbi_page],
     }
 )
-
-# Configuração da aba do navegador (Deve vir antes do pg.run)
-st.set_page_config(page_title="Portfólio Rodrigo Aiosa", page_icon="📊", layout="wide")
 
 # Executa o app
 pg.run()

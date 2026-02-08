@@ -95,18 +95,25 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.markdown("<h1 style='text-align: center; font-size: 3rem;'>📊 Dashboards Estratégicos</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; font-size: 3rem;'>📊 Dashboards Estratégicos</h1>",
+            unsafe_allow_html=True)
 st.markdown("<p style='text-align: center; color: #9ca3af; font-size: 1.2rem;'>Clique nos cards abaixo para interagir com os relatórios em tempo real.</p>", unsafe_allow_html=True)
 st.write("")
 
 # --- DADOS DOS PROJETOS ---
 pbi_projects = [
-    {"title": "💳 Relatório STONE", "icon": "🏛️", "url": "https://app.powerbi.com/view?r=eyJrIjoiMmViN2ZlMWMtY2Q4My00NmNmLTg0NzAtZjEzMzliNzcwMWMyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9"},
-    {"title": "📊 Vendas Meta vs Realizado", "icon": "📈", "url": "https://app.powerbi.com/view?r=eyJrIjoiYTg4OTdkZDUtNmIwZS00NGE1LTk2MDktMzc1YjM3ZjViN2Q5IiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9"},
-    {"title": "📦 Controle de Pedidos BNZ", "icon": "📦", "url": "https://app.powerbi.com/view?r=eyJrIjoiODE4YmZkNDItNWQ0OC00YmUyLThiZTktOTlmN2E0NWM3NTljIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9"},
-    {"title": "🎯 Análise Dados Estratégica", "icon": "🎯", "url": "https://app.powerbi.com/view?r=eyJrIjoiM2ZhYjQ5YzItNTliMS00M2QxLWFhMmItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9"},
-    {"title": "👥 People Analytics (RH)", "icon": "👥", "url": "https://app.powerbi.com/view?r=eyJrIjoiYmE2OGE3ODktZTUzMi00YTU2LTlkYmItYzUzY2UzNmJkMjAyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9"},
-    {"title": "🚀 Gestão de Negócios", "icon": "🚀", "url": "https://app.powerbi.com/view?r=eyJrIjoiYzNhNDFkNzEtZmVkNy00ODZkLTgyZDYtMWIzMDQ3YWU2ZjFiIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9"}
+    {"title": "💳 Relatório STONE", "icon": "🏛️",
+        "url": "https://app.powerbi.com/view?r=eyJrIjoiMmViN2ZlMWMtY2Q4My00NmNmLTg0NzAtZjEzMzliNzcwMWMyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9"},
+    {"title": "📊 Vendas Meta vs Realizado", "icon": "📈",
+        "url": "https://app.powerbi.com/view?r=eyJrIjoiYTg4OTdkZDUtNmIwZS00NGE1LTk2MDktMzc1YjM3ZjViN2Q5IiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9"},
+    {"title": "📦 Controle de Pedidos BNZ", "icon": "📦",
+        "url": "https://app.powerbi.com/view?r=eyJrIjoiODE4YmZkNDItNWQ0OC00YmUyLThiZTktOTlmN2E0NWM3NTljIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9"},
+    {"title": "🎯 Análise Dados Estratégica", "icon": "🎯",
+        "url": "https://app.powerbi.com/view?r=eyJrIjoiM2ZhYjQ5YzItNTliMS00M2QxLWFhMmItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9"},
+    {"title": "👥 People Analytics (RH)", "icon": "👥",
+     "url": "https://app.powerbi.com/view?r=eyJrIjoiYmE2OGE3ODktZTUzMi00YTU2LTlkYmItYzUzY2UzNmJkMjAyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9"},
+    {"title": "🚀 Gestão de Negócios", "icon": "🚀",
+        "url": "https://app.powerbi.com/view?r=eyJrIjoiYzNhNDFkNzEtZmVkNy00ODZkLTgyZDYtMWIzMDQ3YWU2ZjFiIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9"}
 ]
 
 # --- RENDERIZAÇÃO DOS CARDS ---
@@ -125,9 +132,9 @@ for i in range(0, len(pbi_projects), 3):
                     </div>
                 </a>
                 """, unsafe_allow_html=True)
-    
+
     # PULO DE DUAS LINHAS ENTRE FILEIRAS
-    if i == 0: 
+    if i == 0:
         st.write("")
         st.write("")
 
@@ -135,7 +142,8 @@ st.write("")
 st.markdown("---")
 
 # --- CONTEÚDO TÉCNICO & ARTIGOS ---
-st.markdown("<h2 style='font-size: 2.2rem;'>💡 Conteúdo Técnico & Artigos</h2>", unsafe_allow_html=True)
+st.markdown("<h2 style='font-size: 2.2rem;'>💡 Conteúdo Técnico & Artigos</h2>",
+            unsafe_allow_html=True)
 
 # Artigo 1: Conexão Banco de Dados
 st.markdown("""
