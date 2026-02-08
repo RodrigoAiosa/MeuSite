@@ -99,6 +99,24 @@ st.write("")
 
 # --- DEFINIÇÃO DOS DADOS DOS PROJETOS ---
 projects = [
+
+    {
+        "title": "🎈 Domando a Web: Automatizando a Coleta de Dados",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7396548688942231552",
+        "img": "https://media.licdn.com/dms/image/v2/D5605AQG_O4aWEEr-TA/feedshare-thumbnail_720_1280/B56ZqXRlDZJUA0-/0/1763474559478?e=1771120800&v=beta&t=CcUM7AgRyDg2-fNTDZ9IkforQ6O5Hw3eD2Hf1XkZkKI"
+    },
+
+    {
+        "title": "💡 Chega de Sofrer Enviando Currículo na Mão – Automatize AGORA<<",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7401302855799828480",
+        "img": "https://media.licdn.com/dms/image/v2/D5605AQFOzpwPAE77QQ/videocover-low/B56Zra1qRCHkBQ-/0/1764608093688?e=1771120800&v=beta&t=dvUGvY1ixWmBZtZA3rUTFEfpeVfSyLbmvmeuZBPQEIA"
+    },
+
+    {
+        "title": " 🚀 Por que este script muda a forma de olhar para o mercado de trabalho",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7417316742781399040",
+        "img": "https://media.licdn.com/dms/image/v2/D5605AQGx_Pu_f5S1eQ/feedshare-thumbnail_720_1280/B56Zu.aQJFIsA4-/0/1768426111860?e=1771120800&v=beta&t=7PWQR4yv97hNkBjtscb_lI5QTVvfNdhxbQ8f1hjpgi4"
+    },
     {
         "title": "🏛️ O Fim da Era Manual: Dashboard Automático",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7425547898580328449",
@@ -129,6 +147,7 @@ projects = [
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7420842332155142144",
         "img": "https://media.licdn.com/dms/image/v2/D5605AQGGIbt2tD1Weg/feedshare-thumbnail_720_1280/B56ZvEub9nHAA4-/0/1768532066431?e=1771030800&v=beta&t=Cr22rY2M1p6TEYvf7fC36OJ-oaRFkCtBXEvcijBX450"
     }
+
 ]
 
 # --- RENDERIZAÇÃO DO GRID DE CARDS ---
