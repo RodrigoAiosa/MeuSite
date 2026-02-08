@@ -2,24 +2,25 @@ import streamlit as st
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime, timedelta, timezone
-import json
 
 def registrar_acesso(nome_pagina):
     """
-    Registra informações de acesso no Google Sheets usando Streamlit Secrets.
-    Ajusta o fuso horário para Brasília (UTC-3) e identifica o tipo de dispositivo.
+    Registra informações de acesso no Google Sheets com colunas específicas:
+    data_hora | dispositivo | sistema operacional | ip | página
     """
     try:
         # 1. Configuração de Escopo
         scope = ["https://spreadsheets.google.com/feeds",
                  "https://www.googleapis.com/auth/drive"]
 
-        # 2. Carregamento das Credenciais via Secrets
+        # 2. Carregamento das Credenciais via Secrets (Evita erro de arquivo local)
         if "gcp_service_account" in st.secrets:
             creds_info = dict(st.secrets["gcp_service_account"])
+            # Garante que a chave privada seja lida corretamente com quebras de linha
             creds_info["private_key"] = creds_info["private_key"].replace('\\n', '\n')
             creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_info, scope)
         else:
+            # Erro exibido caso o secrets.toml não esteja configurado
             st.error("Configuração 'gcp_service_account' não encontrada nos Secrets.")
             return
 
@@ -27,32 +28,47 @@ def registrar_acesso(nome_pagina):
         client = gspread.authorize(creds)
         sheet = client.open("Relatorio_Acessos_Site").sheet1
 
-        # 4. Ajuste do Fuso Horário (Brasília UTC-3)
+        # 4. Ajuste do Fuso Horário para Brasília (UTC-3)
         fuso_brasilia = timezone(timedelta(hours=-3))
         agora = datetime.now(fuso_brasilia).strftime("%d/%m/%Y %H:%M:%S")
 
-        # 5. Coleta de dados do visitante
+        # 5. Coleta de dados do visitante (User-Agent e IP)
         headers = st.context.headers
-        user_agent = headers.get("User-Agent", "").lower()
+        ua_string = headers.get("User-Agent", "").lower()
         ip = headers.get("X-Forwarded-For", "Localhost").split(',')[0]
 
-        # 6. Identificação detalhada do Dispositivo
-        if "ipad" in user_agent or ("android" in user_agent and "mobile" not in user_agent):
+        # 6. Identificação do Dispositivo (PC, Celular ou Tablet)
+        if "ipad" in ua_string or ("android" in ua_string and "mobile" not in ua_string):
             dispositivo = "Tablet"
-        elif "mobile" in user_agent or "android" in user_agent or "iphone" in user_agent:
+        elif "mobile" in ua_string or "android" in ua_string or "iphone" in ua_string:
             dispositivo = "Celular"
         else:
             dispositivo = "PC"
+            
+        # 7. Identificação do Sistema Operacional
+        if "windows" in ua_string:
+            so = "Windows"
+        elif "android" in ua_string:
+            so = "Android"
+        elif "iphone" in ua_string or "ipad" in ua_string:
+            so = "iOS"
+        elif "macintosh" in ua_string or "mac os" in ua_string:
+            so = "Mac OS"
+        elif "linux" in ua_string:
+            so = "Linux"
+        else:
+            so = "Outro"
 
-        # 7. Gravação dos dados conforme estrutura da planilha
-        # Colunas: data_hora | título/fixo | dispositivo | ip | página
-        sheet.append_row([agora, "Acesso Portfólio", dispositivo, ip, nome_pagina])
+        # 8. Gravação conforme a ordem das colunas da planilha
+        # data_hora | dispositivo | sistema operacional | ip | página
+        sheet.append_row([agora, dispositivo, so, ip, nome_pagina])
 
-        print(f"✅ SUCESSO: Acesso registrado às {agora} ({dispositivo}) na página '{nome_pagina}'")
+        # Log interno (visto apenas no console do servidor)
+        print(f"✅ SUCESSO: {nome_pagina} registrado para {dispositivo} ({so})")
 
     except Exception as e:
+        # Captura erros como falha de parsing ou conexão
         print(f"❌ ERRO NO REGISTRO: {str(e)}")
-
 
 def exibir_rodape():
     """Exibe o rodapé padrão em todas as páginas."""
