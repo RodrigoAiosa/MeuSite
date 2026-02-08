@@ -1,7 +1,5 @@
 import streamlit as st
-
-# --- CONFIGURAÇÃO DA PÁGINA (Caso seja rodado sozinho) ---
-# st.set_page_config(layout="wide", page_title="Projetos | Rodrigo Aiosa")
+from utils import exibir_rodape
 
 # --- ESTILO CSS PARA LANDING PAGE ---
 st.markdown(
@@ -171,4 +169,4 @@ for i in range(0, len(projects), 3):
                 """, unsafe_allow_html=True)
 
 st.markdown("---")
-st.markdown("<p style='text-align: center; color: #6b7280;'>Rodrigo Aiosa © 2026 | Soluções em Dados</p>", unsafe_allow_html=True)
+exibir_rodape()  # Exibe o rodapé com as informações de contato e redes sociais

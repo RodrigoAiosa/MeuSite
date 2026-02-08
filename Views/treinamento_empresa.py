@@ -1,5 +1,6 @@
 import streamlit as st
 import urllib.parse
+from utils import exibir_rodape
 
 # --- ESTILO CSS (TEXTOS MAIORES E EFEITOS) ---
 st.markdown(
@@ -187,4 +188,4 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
-st.markdown("<p style='text-align: center; color: #6b7280; font-size: 1.1rem;'>Rodrigo Aiosa © 2026 | Especialista em BI & Treinamentos</p>", unsafe_allow_html=True)
+exibir_rodape()

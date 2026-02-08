@@ -1,5 +1,6 @@
 import streamlit as st
 import time
+from utils import exibir_rodape
 
 st.set_page_config(layout="wide", page_title="Portfolio | Rodrigo Aiosa")
 
@@ -217,17 +218,4 @@ with col_img2:
 
 st.markdown("---")
 
-# --- REDES SOCIAIS ---
-st.markdown(
-    '''
-    <div class="social-icons">
-        <a href="https://www.linkedin.com/in/rodrigoaiosa/" target="_blank">
-            <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" title="LinkedIn">
-        </a>
-        <a href="https://wa.me/5511977019335" target="_blank">
-            <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" title="WhatsApp">
-        </a>
-    </div>
-    ''',
-    unsafe_allow_html=True
-)
+exibir_rodape()

@@ -1,4 +1,6 @@
 import streamlit as st
+from utils import exibir_rodape
+
 
 # --- ESTILO CSS AJUSTADO (TEXTOS MAIORES) ---
 st.markdown(
@@ -165,4 +167,4 @@ st.markdown("""
     </a>
 """, unsafe_allow_html=True)
 
-st.markdown("<br><p style='text-align: center; color: #6b7280; font-size: 1rem;'>Rodrigo Aiosa © 2026 | Business Intelligence Specialist</p>", unsafe_allow_html=True)
+exibir_rodape()

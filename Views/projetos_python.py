@@ -1,4 +1,5 @@
 import streamlit as st
+from utils import exibir_rodape
 
 # --- ESTILO CSS ---
 st.markdown(
@@ -102,4 +103,5 @@ render_python_app(
     "https://economiacafe.streamlit.app/"
 )
 
-st.info("💡 Você pode interagir com as ferramentas diretamente aqui ou clicar no título para abrir em tela cheia.")
+exibir_rodape()
+

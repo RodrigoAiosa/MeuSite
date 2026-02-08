@@ -3,6 +3,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
 import re
+from utils import exibir_rodape
 
 def salvar_contato(dados):
     # Configuração de escopo e credenciais
@@ -98,22 +99,6 @@ def main():
                 # Exibe o erro caso a API falhe (mesmo após ativação)
                 st.error(f"Erro crítico ao conectar com a planilha: {e}")
 
-    # Rodapé padrão Rodrigo AIOSA
-    st.markdown("---")
-    footer_html = """
-    <div style='text-align: center; color: gray;'>
-        <p style='margin-bottom: 5px;'>Desenvolvido por <b>Rodrigo AIOSA</b></p>
-        <div style='display: flex; justify-content: center; gap: 20px; font-size: 24px;'>
-            <a href='https://wa.me/5511977019335' target='_blank'>
-                <img src='https://cdn-icons-png.flaticon.com/512/733/733585.png' width='25' height='25'>
-            </a>
-            <a href='https://www.linkedin.com/in/rodrigoaiosa/' target='_blank'>
-                <img src='https://cdn-icons-png.flaticon.com/512/174/174857.png' width='25' height='25'>
-            </a>
-        </div>
-    </div>
-    """
-    st.markdown(footer_html, unsafe_allow_html=True)
-
 if __name__ == "__main__":
     main()
+exibir_rodape()
