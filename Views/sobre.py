@@ -1,6 +1,9 @@
 import streamlit as st
+import time
 
-# --- ESTILO CSS PARA A FOTO, LAYOUT E ÍCONES CENTRALIZADOS ---
+st.set_page_config(layout="wide", page_title="Portfolio | Rodrigo Aiosa")
+
+# --- ESTILO CSS GLOBAL (INCLUINDO EFEITO FLIP) ---
 st.markdown(
     """
     <style>
@@ -9,6 +12,7 @@ st.markdown(
         justify-content: center;
         margin-top: -30px;
     }
+
     .profile-pic img {
         border-radius: 50%;
         width: 200px;
@@ -17,34 +21,98 @@ st.markdown(
         border: 5px solid #00b4d8;
         box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
+
     .main-title {
         text-align: center;
         margin-top: 10px;
     }
-    /* Centralização e remoção de bordas dos botões sociais */
+
+    /* EFEITO FLIP CARD */
+    .flip-card {
+        background-color: transparent;
+        width: 100%;
+        height: 180px;
+        perspective: 1000px;
+        margin-bottom: 20px;
+    }
+
+    .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+        cursor: pointer;
+    }
+
+    .flip-card:hover .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        border-radius: 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        border: 1px solid #1f2937;
+    }
+
+    .flip-card-front {
+        background-color: #111827;
+        color: white;
+    }
+
+    .flip-card-back {
+        background-color: #00b4d8;
+        color: #111827;
+        transform: rotateY(180deg);
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 1.4;
+    }
+
+    .card-icon { font-size:28px; margin-bottom:5px; }
+    .card-number { font-size:26px; font-weight:bold; color:#00b4d8; }
+    .card-title { font-size:14px; color:#9ca3af; }
+
+    /* TEXTO CENTRALIZADO */
+    .centered-text {
+        text-align: center;
+        max-width: 900px;
+        margin: 0 auto;
+        font-size: 1.1em;
+        color: #9ca3af;
+    }
+
+    /* SOCIAL ICONS */
     .social-icons {
         display: flex;
         justify-content: center;
-        gap: 30px; /* Espaço entre os ícones */
+        gap: 25px;
         margin-top: 20px;
     }
-    .social-icons a {
-        transition: transform 0.3s;
-        text-decoration: none;
-    }
-    .social-icons a:hover {
-        transform: scale(1.2); /* Efeito de zoom ao passar o mouse */
-    }
     .social-icons img {
-        width: 50px; /* Tamanho dos ícones */
-        height: 50px;
+        width: 42px;
+        transition: transform 0.3s ease;
+        border-radius: 8px;
+    }
+    .social-icons img:hover { 
+        transform: scale(1.3) translateY(-5px); 
     }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# --- CABEÇALHO COM FOTO ---
+# --- CABEÇALHO ---
 st.markdown(
     '<div class="profile-pic">'
     '<img src="https://media.licdn.com/dms/image/v2/D5603AQH-2rDkpd-OxA/profile-displayphoto-scale_200_200/B56ZmxqxTBKMAY-/0/1759622405960?e=1772064000&v=beta&t=_6-zEhPhGUF9GQwDJ-7OZ0DtlWLD4AJBwI5kPsz-X6U">'
@@ -53,59 +121,111 @@ st.markdown(
 )
 
 st.markdown('<h1 class="main-title">Rodrigo Aiosa</h1>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: center; font-size: 1.2em; color: #00b4d8; font-weight: bold;">Python | Excel | Power BI | ETL | SQL SERVER | Linguagem M | DAX</div>', unsafe_allow_html=True)
 
-# --- SKILLS RÁPIDAS ---
 st.write("")
-st.markdown("""
-<div style="text-align: center; font-size: 1.2em; color: #00b4d8; font-weight: bold;">
-Python | Excel | Power BI | ETL | SQL SERVER | Linguagem M | DAX
-</div>
-""", unsafe_allow_html=True)
 
-st.info("Minha expertise envolve a criação de relatórios interativos e a busca por soluções inovadoras para a otimização de processos.")
+# --- CARDS COM CONTADOR ANIMADO E FLIP ---
+st.markdown("### ⭐ Experiência e Resultados")
+
+c1, c2, c3, c4 = st.columns(4)
+
+# Placeholders para a animação
+p1 = c1.empty()
+p2 = c2.empty()
+p3 = c3.empty()
+p4 = c4.empty()
+
+# Frases do verso (Habilidades destacadas)
+back_texts = [
+    "Expertise em automação de processos e análise preditiva.",
+    "Soluções personalizadas para grandes players do mercado.",
+    "Dashboards estratégicos focados em KPIs de alto nível.",
+    "Parceria contínua baseada em confiança e resultados reais."
+]
+
+# Loop da animação de carregamento
+for i in range(0, 101, 5):
+    val_exp = int(20 * i / 100)
+    val_emp = int(450 * i / 100)
+    val_proj = int(500 * i / 100)
+    val_rec = int(87 * i / 100)
+
+    # Dados dos cards (Frente e Verso)
+    cards_data = [
+        (f"{val_exp}+", "Anos de experiência", "🏆", back_texts[0], p1),
+        (f"{val_emp}+", "Empresas atendidas", "🏢", back_texts[1], p2),
+        (f"{val_proj}+", "Projetos entregues", "📊", back_texts[2], p3),
+        (f"{val_rec}%", "Recompra de clientes", "🤝", back_texts[3], p4)
+    ]
+
+    for val, title, icon, back, placeholder in cards_data:
+        placeholder.markdown(f"""
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="card-icon">{icon}</div>
+                    <div class="card-number">{val}</div>
+                    <div class="card-title">{title}</div>
+                </div>
+                <div class="flip-card-back">
+                    {back}
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    time.sleep(0.03)
 
 st.markdown("---")
 
-# --- SEÇÃO: EXPERIÊNCIA DE MERCADO (TEXTO INTEGRAL) ---
+# --- EXPERIÊNCIA DE MERCADO ---
 st.subheader("🤝 Experiência de Mercado")
+st.write("Especialista em Análise de Dados e Business Intelligence, transformando dados brutos em decisões inteligentes.")
 
-st.write("""
-Especialista em Análise de Dados e Business Intelligence, com uma trajetória focada em transformar dados complexos em insights estratégicos que geram eficiência de processos e melhoram a tomada de decisão.
-
-Atuo na implementação de projetos de dados **end-to-end**, desde a extração e transformação até a visualização final, utilizando uma stack tecnológica robusta:
-""")
-
-# Organização da Stack em colunas para melhor leitura
 col1, col2 = st.columns(2)
-
 with col1:
-    st.markdown("#### 🐍 Análise Avançada e Automação")
-    st.write("Proficiência em **Python** para análise avançada e automação, e **Excel** para manipulação e modelagem de dados.")
-
-    st.markdown("#### 📊 Business Intelligence (BI)")
-    st.write("Expertise no **Power BI** para visualização dinâmica, incluindo a criação de modelos robustos com **DAX** (cálculos complexos) e a utilização da **Linguagem M** (para transformação eficiente de dados via Power Query).")
-
+    st.markdown("### 🔎 Análise Avançada e Automação")
+    st.write("Desenvolvimento de scripts Python e modelos em Excel para otimização de tempo.")
+    st.markdown("### 📊 Business Intelligence (BI)")
+    st.write("Criação de ecossistemas de dados com Power BI, DAX e M.")
 with col2:
-    st.markdown("#### 🗄️ Gerenciamento de Dados")
-    st.write("Sólidas habilidades em **SQL Server** e processos de **ETL**, garantindo a gestão eficiente e a integridade total dos bancos de dados.")
-
-    st.markdown("#### 🎯 Minha Abordagem")
-    st.write("Minha abordagem é orientada a resultados e focada na busca por soluções inovadoras que aumentem a eficiência operacional e forneçam uma base sólida para decisões estratégicas.")
+    st.markdown("### 🗄️ Gerenciamento de Dados")
+    st.write("Estruturação de bancos de dados SQL Server e fluxos de ETL eficientes.")
+    st.markdown("### 🎯 Minha Abordagem")
+    st.write("Foco total na dor do cliente e na geração de valor imediato.")
 
 st.write("")
-st.write("Tenho orgulho de ter impulsionado resultados e fornecido inteligência de dados para clientes de alto nível como: **Cimed, Unimed Seguros, Ouro Safra, Kraft Heinz, Loggi, Usina Santa Terezinha, Megavig, Lowell e BSS Blindagens entre outros.**")
+
+# --- SEÇÃO DE CLIENTES CENTRALIZADA ---
+st.markdown(
+    """
+    <div class="centered-text">
+        <p><strong>Clientes em Destaque:</strong></p>
+        <p>Cimed, Unimed Seguros, Ouro Safra, Kraft Heinz, Loggi, Usina Santa Terezinha, Megavig, Lowell e BSS Blindagens.</p>
+    </div>
+    """, 
+    unsafe_allow_html=True
+)
+
+st.write("")
+
+# Centralização da imagem de clientes
+col_img1, col_img2, col_img3 = st.columns([1, 8, 1])
+with col_img2:
+    st.image("assets/clientes_atendidos.jpg", use_container_width=True)
 
 st.markdown("---")
 
-# --- ÍCONES SOCIAIS CENTRALIZADOS E SEM BORDAS ---
+# --- REDES SOCIAIS ---
 st.markdown(
-    f'''
+    '''
     <div class="social-icons">
         <a href="https://www.linkedin.com/in/rodrigoaiosa/" target="_blank">
-            <img src="https://images.icon-icons.com/99/PNG/96/linkedin_socialnetwork_17441.png" alt="LinkedIn">
+            <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" title="LinkedIn">
         </a>
         <a href="https://wa.me/5511977019335" target="_blank">
-            <img src="https://images.icon-icons.com/99/PNG/96/whatsapp_socialnetwork_17360.png" alt="WhatsApp">
+            <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" title="WhatsApp">
         </a>
     </div>
     ''',

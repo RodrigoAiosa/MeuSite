@@ -1,143 +1,155 @@
 import streamlit as st
 
-# --- ESTILO CSS PARA ALINHAMENTO À ESQUERDA E TAMANHO DE 200PX ---
+# --- CONFIGURAÇÃO DA PÁGINA (Caso seja rodado sozinho) ---
+# st.set_page_config(layout="wide", page_title="Projetos | Rodrigo Aiosa")
+
+# --- ESTILO CSS PARA LANDING PAGE ---
 st.markdown(
     """
     <style>
+    /* Container dos Cards */
+    .main-project-container {
+        padding: 20px 0px;
+    }
+    
+    /* Card do Projeto */
     .project-card {
+        background-color: #111827;
+        border: 1px solid #1f2937;
+        border-radius: 15px;
+        padding: 15px;
+        margin-bottom: 30px;
+        transition: transform 0.3s ease, border 0.3s ease;
+        height: 420px; /* Altura fixa para manter o grid uniforme */
         display: flex;
         flex-direction: column;
-        align-items: flex-start; /* Alinha o conteúdo à esquerda */
-        justify-content: flex-start;
-        text-align: left;
-        margin-bottom: 50px;
+        justify-content: space-between;
     }
-    .project-image {
-        border-radius: 12px;
-        transition: transform 0.3s, box-shadow 0.3s;
-        cursor: pointer;
-        border: 2px solid rgba(0, 180, 216, 0.3);
-        /* Tamanho fixo em 200px */
-        width: 200px; 
-        height: 200px;
-        object-fit: cover;
+    
+    .project-card:hover {
+        transform: translateY(-10px);
+        border: 1px solid #00b4d8;
+        box-shadow: 0 10px 30px rgba(0, 180, 216, 0.2);
     }
-    .project-image:hover {
-        transform: scale(1.05);
-        box-shadow: 0 10px 25px rgba(0, 180, 216, 0.5);
-    }
+    
+    /* Título do Projeto */
     .project-title {
-        color: #00b4d8;
+        color: #ffffff;
+        font-size: 1.1rem;
         font-weight: bold;
-        margin-bottom: 15px;
+        margin: 15px 0 10px 0;
+        line-height: 1.4;
+        min-height: 60px; /* Garante que títulos longos não quebrem o layout */
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    /* Imagem do Projeto */
+    .project-image-container {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        border-radius: 10px;
+    }
+    
+    .project-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .project-card:hover .project-image {
+        transform: scale(1.1);
+    }
+    
+    /* Botão/Link Estilizado */
+    .view-button {
+        background-color: transparent;
+        color: #00b4d8;
+        border: 1px solid #00b4d8;
+        padding: 8px 15px;
+        border-radius: 8px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 0.9rem;
+        font-weight: bold;
+        transition: all 0.3s;
         margin-top: 10px;
-        font-size: 1.2rem;
+    }
+    
+    .view-button:hover {
+        background-color: #00b4d8;
+        color: #111827;
+        text-decoration: none;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-st.title("🚀 Projetos Recentes")
-st.write("Clique nos ícones para conferir as demonstrações completas no LinkedIn.")
-st.markdown("---")
+# --- TÍTULO DA SEÇÃO ---
+st.markdown("<h1 style='text-align: center; color: white;'>🚀 Portfólio de Projetos</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: #9ca3af;'>Uma seleção das soluções desenvolvidas utilizando Python, BI e Inteligência Artificial.</p>", unsafe_allow_html=True)
+st.write("")
+st.write("")
 
-# --- PROJETO 1: DASHBOARD AUTOMATIZADO ---
-st.markdown(
-    """
-    <div class="project-card">
-        <h2 class="project-title">🏛️ O FIM DA ERA DO TRABALHO MANUAL: SEU DASHBOARD PRONTO EM UM CLIQUE</h2>
-        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7425547898580328449" target="_blank">
-            <img src="https://media.licdn.com/dms/image/v2/D5605AQEZjyr3_u48-w/feedshare-thumbnail_720_1280/B56ZwzYaHOK4A4-/0/1770388562694?e=1771030800&v=beta&t=ylHtVPZgzEbyzEqvBv0v9-hHF0x4ZEpn-k8ktPDilXg" 
-                 class="project-image" 
-                 alt="Dashboard Automatizado">
-        </a>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+# --- DEFINIÇÃO DOS DADOS DOS PROJETOS ---
+projects = [
+    {
+        "title": "🏛️ O Fim da Era Manual: Dashboard Automático",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7425547898580328449",
+        "img": "https://media.licdn.com/dms/image/v2/D5605AQEZjyr3_u48-w/feedshare-thumbnail_720_1280/B56ZwzYaHOK4A4-/0/1770388562694?e=1771030800&v=beta&t=ylHtVPZgzEbyzEqvBv0v9-hHF0x4ZEpn-k8ktPDilXg"
+    },
+    {
+        "title": "📊 Análise Pro: Sistemas de Amortização",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7425612242248835073/",
+        "img": "https://media.licdn.com/dms/image/v2/D5622AQF74taisme4XA/feedshare-shrink_480/B56Zw0S_FZHIAs-/0/1770403918426?e=1772064000&v=beta&t=eqFjQKekX8rYQATeRIhy2uruedxVjRL29Oo7Xt97Ogw"
+    },
+    {
+        "title": "📍 Ciência por trás da Prospecção de Alta Performance",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7425188593134026752",
+        "img": "https://media.licdn.com/dms/image/v2/D5605AQEYmI4B2ByfGw/feedshare-thumbnail_720_1280/B56ZwuRowKK8A4-/0/1770302901551?e=1771030800&v=beta&t=DxCLIdRDCnXLMcadvJwW6zhWXMXZl6PoIm-PzzZM0fY"
+    },
+    {
+        "title": "🚗 Contagem de Veículos em Tempo Real (Visão Computacional)",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7422736985196371969",
+        "img": "https://media.licdn.com/dms/image/v2/D5605AQHKj124qT0VeA/feedshare-thumbnail_720_1280/B56ZwLb66MIUA8-/0/1769718394777?e=1771030800&v=beta&t=Ytd5H0Ctowz9PYkim4wpahKxudojH9-kkiY5HLmd_2s"
+    },
+    {
+        "title": "💡 Pedra, Papel e Tesoura com Inteligência Artificial",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7422420309632303104",
+        "img": "https://media.licdn.com/dms/image/v2/D5605AQEnOdzL023RyA/feedshare-thumbnail_720_1280/B56ZwG76crJoA4-/0/1769642895486?e=1771030800&v=beta&t=lA5YIEjUivMZFCCnFPOY6CG3Iinb6N6GFD0nXls-UzI"
+    },
+    {
+        "title": "❤️ O dia em que a IA me ajudou como PAI",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7420842332155142144",
+        "img": "https://media.licdn.com/dms/image/v2/D5605AQGGIbt2tD1Weg/feedshare-thumbnail_720_1280/B56ZvEub9nHAA4-/0/1768532066431?e=1771030800&v=beta&t=Cr22rY2M1p6TEYvf7fC36OJ-oaRFkCtBXEvcijBX450"
+    }
+]
 
-st.markdown("---")
-
-# --- PROJETO 2: SISTEMAS DE AMORTIZAÇÃO ---
-st.markdown(
-    """
-    <div class="project-card">
-        <h2 class="project-title">📊 Análise Pro: Sistemas de Amortização</h2>
-        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7425612242248835073/" target="_blank">
-            <img src="https://media.licdn.com/dms/image/v2/D5622AQF74taisme4XA/feedshare-shrink_480/B56Zw0S_FZHIAs-/0/1770403918426?e=1772064000&v=beta&t=eqFjQKekX8rYQATeRIhy2uruedxVjRL29Oo7Xt97Ogw" 
-                 class="project-image" 
-                 alt="Análise de Amortização">
-        </a>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
-st.markdown("---")
-
-# --- PROJETO 3: CIÊNCIA DE PROSPECÇÃO ---
-st.markdown(
-    """
-    <div class="project-card">
-        <h2 class="project-title">📍O fim das listas de leads obsoletas: A ciência por trás da prospecção de alta performance</h2>
-        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7425188593134026752" target="_blank">
-            <img src="https://media.licdn.com/dms/image/v2/D5605AQEYmI4B2ByfGw/feedshare-thumbnail_720_1280/B56ZwuRowKK8A4-/0/1770302901551?e=1771030800&v=beta&t=DxCLIdRDCnXLMcadvJwW6zhWXMXZl6PoIm-PzzZM0fY" 
-                 class="project-image" 
-                 alt="Prospecção de Alta Performance">
-        </a>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
-st.markdown("---")
-
-# --- PROJETO 4: VISÃO COMPUTACIONAL ---
-st.markdown(
-    """
-    <div class="project-card">
-        <h2 class="project-title">🚗 Contagem de veículos em tempo real: um projeto prático de visão computacional com Python</h2>
-        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7422736985196371969" target="_blank">
-            <img src="https://media.licdn.com/dms/image/v2/D5605AQHKj124qT0VeA/feedshare-thumbnail_720_1280/B56ZwLb66MIUA8-/0/1769718394777?e=1771030800&v=beta&t=Ytd5H0Ctowz9PYkim4wpahKxudojH9-kkiY5HLmd_2s" 
-                 class="project-image" 
-                 alt="Contagem de Veículos">
-        </a>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+# --- RENDERIZAÇÃO DO GRID DE CARDS ---
+# Criando linhas com 3 colunas cada
+for i in range(0, len(projects), 3):
+    cols = st.columns(3)
+    for j in range(3):
+        if i + j < len(projects):
+            project = projects[i + j]
+            with cols[j]:
+                st.markdown(f"""
+                <div class="project-card">
+                    <div>
+                        <div class="project-image-container">
+                            <img src="{project['img']}" class="project-image">
+                        </div>
+                        <h3 class="project-title">{project['title']}</h3>
+                    </div>
+                    <a href="{project['link']}" target="_blank" class="view-button">Ver Demonstração</a>
+                </div>
+                """, unsafe_allow_html=True)
 
 st.markdown("---")
-
-# --- PROJETO 5: JOGO IA ---
-st.markdown(
-    """
-    <div class="project-card">
-        <h2 class="project-title">💡Pedra; Papel; Tesoura com IA</h2>
-        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7422420309632303104" target="_blank">
-            <img src="https://media.licdn.com/dms/image/v2/D5605AQEnOdzL023RyA/feedshare-thumbnail_720_1280/B56ZwG76crJoA4-/0/1769642895486?e=1771030800&v=beta&t=lA5YIEjUivMZFCCnFPOY6CG3Iinb6N6GFD0nXls-UzI" 
-                 class="project-image" 
-                 alt="Pedra Papel Tesoura IA">
-        </a>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
-st.markdown("---")
-
-# --- PROJETO 6: IA COMO PAI ---
-st.markdown(
-    """
-    <div class="project-card">
-        <h2 class="project-title">❤️ O dia em que a IA me ajudou como PAI</h2>
-        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7420842332155142144" target="_blank">
-            <img src="https://media.licdn.com/dms/image/v2/D5605AQGGIbt2tD1Weg/feedshare-thumbnail_720_1280/B56ZvEub9nHAA4-/0/1768532066431?e=1771030800&v=beta&t=Cr22rY2M1p6TEYvf7fC36OJ-oaRFkCtBXEvcijBX450" 
-                 class="project-image" 
-                 alt="IA como Pai">
-        </a>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+st.markdown("<p style='text-align: center; color: #6b7280;'>Rodrigo Aiosa © 2026 | Soluções em Dados</p>", unsafe_allow_html=True)
