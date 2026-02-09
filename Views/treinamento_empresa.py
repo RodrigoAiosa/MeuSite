@@ -1,193 +1,160 @@
 import streamlit as st
 import urllib.parse
-from utils import exibir_rodape, registrar_acesso  # Importação atualizada
+from utils import exibir_rodape, registrar_acesso
 
 # --- REGISTRO DE ACESSO ---
-# Registra que o usuário está visualizando a página de Treinamento Corporativo
 registrar_acesso("Treinamento Corporativo")
 
-# --- ESTILO CSS (TEXTOS MAIORES E EFEITOS) ---
+# --- CONFIGURAÇÃO DE ESTILO CSS AVANÇADO ---
 st.markdown(
     """
     <style>
-    /* Manifesto de Aristóteles */
-    .manifesto-container {
-        max-width: 900px;
-        margin: auto;
-        text-align: justify;
-        background: rgba(0, 180, 216, 0.05);
-        padding: 40px;
-        border-radius: 20px;
-        border: 1px dashed rgba(0, 180, 216, 0.3);
-        margin-bottom: 50px;
-    }
-
-    .manifesto-title {
+    /* Gradient Text & Hero Section */
+    .hero-title {
+        background: linear-gradient(90deg, #00b4d8, #90e0ef);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 3.5rem;
+        font-weight: 800;
         text-align: center;
-        color: #00b4d8;
-        font-size: 2.2rem;
-        margin-bottom: 25px;
-        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    
+    .hero-subtitle {
+        color: #94a3b8;
+        font-size: 1.4rem;
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto 50px auto;
+        line-height: 1.6;
     }
 
-    .manifesto-text {
-        font-size: 1.25rem;
-        color: #e5e7eb;
-        line-height: 1.8;
+    /* Manifesto Section */
+    .manifesto-box {
+        background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.8));
+        border: 1px solid rgba(0, 180, 216, 0.3);
+        border-radius: 24px;
+        padding: 50px;
+        margin-bottom: 60px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    /* CARDS IGUALADOS (MESMO TAMANHO) */
+    .feature-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        padding: 40px 25px;
+        text-align: center;
+        height: 320px; 
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        transition: all 0.3s ease;
         margin-bottom: 20px;
     }
 
-    /* Cards de Treinamento */
-    .train-card {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(0, 180, 216, 0.2);
-        border-radius: 20px;
-        padding: 35px;
-        height: 380px;
-        text-align: center;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    .feature-card:hover {
+        background: rgba(0, 180, 216, 0.05);
+        border-color: #00b4d8;
+        transform: translateY(-10px);
+    }
+
+    .feature-icon {
+        background: linear-gradient(135deg, #00b4d8, #0077b6);
+        width: 70px;
+        height: 70px;
+        border-radius: 18px;
+        font-size: 30px;
+        margin-bottom: 25px;
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
-        margin-bottom: 30px;
+        box-shadow: 0 10px 20px rgba(0, 180, 216, 0.2);
     }
 
-    .train-card:hover {
-        transform: scale(1.05);
-        background: rgba(0, 180, 216, 0.08);
-        border-color: #00b4d8;
-        box-shadow: 0 15px 40px rgba(0, 180, 216, 0.2);
-    }
-
-    .train-icon { font-size: 65px; margin-bottom: 20px; }
-    
-    .train-title { 
-        color: #00b4d8; 
-        font-size: 1.7rem; 
-        font-weight: bold; 
-        margin-bottom: 15px;
-    }
-
-    .train-text { 
-        color: #9ca3af; 
-        font-size: 1.2rem; 
-        line-height: 1.5;
-    }
-
-    /* Botão WhatsApp Centralizado */
-    .cta-container {
+    /* CTA WhatsApp - SEM O FUNDO (APENAS BOTÃO) */
+    .cta-button-only-container {
         display: flex;
         justify-content: center;
         align-items: center;
         width: 100%;
-        margin-top: 50px;
-        padding-bottom: 60px;
+        margin: 50px 0;
     }
 
-    .btn-whatsapp {
-        background-color: #25d366;
+    .btn-whatsapp-premium {
+        background: #25d366;
         color: white !important;
-        padding: 22px 55px;
-        border-radius: 50px;
+        padding: 20px 45px;
+        border-radius: 15px;
         text-decoration: none;
+        font-size: 1.3rem;
         font-weight: bold;
-        font-size: 1.4rem;
-        transition: 0.3s;
-        box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        gap: 12px;
+        gap: 15px;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
     }
 
-    .btn-whatsapp:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(37, 211, 102, 0.5);
-        background-color: #20ba5a;
+    .btn-whatsapp-premium:hover {
+        background: #20ba5a;
+        transform: scale(1.05);
+        box-shadow: 0 15px 40px rgba(37, 211, 102, 0.5);
     }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# --- CABEÇALHO ---
-st.markdown("<h1 style='text-align: center; font-size: 3.8rem;'>Treinamento Corporativo Personalizado 🎓</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: #9ca3af; font-size: 1.5rem; max-width: 900px; margin: auto;'>Capacite seus colaboradores com treinamentos práticos e voltados para resultados reais.</p>", unsafe_allow_html=True)
-st.write("")
-st.write("")
+# --- CONTEÚDO ---
+st.markdown('<h1 class="hero-title">Treinamento & Consultoria High-End</h1>', unsafe_allow_html=True)
+st.markdown('<p class="hero-subtitle">Transformamos sua operação de dados em uma vantagem competitiva real.</p>', unsafe_allow_html=True)
 
-# --- MANIFESTO PERSUASIVO (ARISTÓTELES) ---
-st.markdown(
-    """
-    <div class="manifesto-container">
-        <h2 class="manifesto-title">A Diferença entre Operar Dados e Gerar Lucro</h2>
-        <p class="manifesto-text">
-             Com anos de experiência transformando estruturas de dados complexas em decisões estratégicas para grandes players do mercado, meu compromisso não é apenas ensinar ferramentas, mas transmitir a mentalidade de excelência em Business Intelligence que validei na prática.
-        </p>
-        <p class="manifesto-text">
-             Imagine a frustração de uma equipe talentosa presa em planilhas lentas, corrigindo erros manuais que nunca deveriam ter existido, enquanto a concorrência avança com decisões baseadas em dados em tempo real. O custo do "jeito que sempre fizemos" é o esgotamento do seu time e a perda de oportunidades invisíveis.
-        </p>
-        <p class="manifesto-text">
-             Números não mentem: empresas que investem em alfabetização de dados aumentam sua produtividade em até 25% e reduzem custos operacionais drasticamente. Meu treinamento conecta seus relatórios diretamente ao banco de dados com performance otimizada, garantindo que sua equipe foque em análise, e não em digitação.
+# Manifesto
+st.markdown("""
+    <div class="manifesto-box">
+        <h2 style='color: white; font-size: 2rem; margin-bottom: 25px;'>Sua empresa está gerando inteligência ou apenas acumulando planilhas?</h2>
+        <p style='color: #cbd5e1; font-size: 1.2rem; line-height: 1.8;'>
+            Nossa abordagem conecta <b>Python, BI e Processos de Negócio</b> para criar um fluxo automatizado.
         </p>
     </div>
-    """,
-    unsafe_allow_html=True
-)
+""", unsafe_allow_html=True)
 
-# --- GRID DE BENEFÍCIOS ---
-col1, col2 = st.columns(2)
+# --- GRID DE BENEFÍCIOS IGUALADOS ---
+st.markdown("<h3 style='text-align: center; margin-bottom: 40px;'>Pilares da Transformação</h3>", unsafe_allow_html=True)
 
-with col1:
-    st.markdown("""
-        <div class="train-card">
-            <div class="train-icon">🚀</div>
-            <div class="train-title">Aumente a Produtividade</div>
-            <div class="train-text">Otimize o tempo da equipe com automações que eliminam tarefas repetitivas e manuais.</div>
-        </div>
-    """, unsafe_allow_html=True)
-    st.markdown("""
-        <div class="train-card">
-            <div class="train-icon">🛠️</div>
-            <div class="train-title">100% Aplicável</div>
-            <div class="train-text">Treinamentos focados nos problemas reais da sua empresa para aplicação imediata.</div>
-        </div>
-    """, unsafe_allow_html=True)
+col1, col2, col3, col4 = st.columns(4)
 
-with col2:
-    st.markdown("""
-        <div class="train-card">
-            <div class="train-icon">🎯</div>
-            <div class="train-title">Reduza Erros Operacionais</div>
-            <div class="train-text">Garanta a integridade dos dados e processos através de metodologias de conferência eficientes.</div>
-        </div>
-    """, unsafe_allow_html=True)
-    st.markdown("""
-        <div class="train-card">
-            <div class="train-icon">📊</div>
-            <div class="train-title">Acompanhamento de Evolução</div>
-            <div class="train-text">Métricas claras de desempenho para medir o crescimento técnico da sua equipe.</div>
-        </div>
-    """, unsafe_allow_html=True)
+features = [
+    {"icon": "⚡", "title": "Automação", "text": "Elimine o trabalho braçal e foque na estratégia do negócio."},
+    {"icon": "🎯", "title": "Precisão", "text": "Dados integrados diretamente da fonte, eliminando erros humanos."},
+    {"icon": "📈", "title": "Scalability", "text": "Estruturas prontas para crescer com seu volume de dados."},
+    {"icon": "🎓", "title": "Data Culture", "text": "Capacite seu time com a mentalidade de BI moderna e eficiente."}
+]
 
-# --- CONFIGURAÇÃO DO WHATSAPP ---
+cols = [col1, col2, col3, col4]
+for i, f in enumerate(features):
+    with cols[i]:
+        st.markdown(f"""
+            <div class="feature-card">
+                <div class="feature-icon">{f['icon']}</div>
+                <h4 style="color: #00b4d8; margin-bottom: 15px; min-height: 50px;">{f['title']}</h4>
+                <p style="color: #94a3b8; font-size: 0.95rem;">{f['text']}</p>
+            </div>
+        """, unsafe_allow_html=True)
+
+# --- WHATSAPP (APENAS BOTÃO CENTRALIZADO) ---
 telefone = "5511977019335"
-mensagem = (
-    "Olá,\n\n"
-    "Vejo que deseja maiores informações sobre nosso treinamento, por gentileza, enviar os seguintes dados:\n\n"
-    "CNPJ:\n"
-    "Razão Social:\n"
-    "e-mail:\n\n"
-    "Entrarei em contato em seguida."
-)
-mensagem_url = urllib.parse.quote(mensagem)
+# Mensagem personalizada preservando o objetivo de contato direto
+mensagem_url = urllib.parse.quote("Olá Rodrigo, gostaria de agendar uma consultoria estratégica.")
 link_whatsapp = f"https://wa.me/{telefone}?text={mensagem_url}"
 
-# --- BOTÃO FINAL CENTRALIZADO ---
 st.markdown(f"""
-    <div class="cta-container">
-        <a href="{link_whatsapp}" target="_blank" class="btn-whatsapp">
-            💬 Fale conosco via WhatsApp
+    <div class="cta-button-only-container">
+        <a href="{link_whatsapp}" target="_blank" class="btn-whatsapp-premium">
+            <span>🚀 Agendar Consultoria via WhatsApp</span>
         </a>
     </div>
 """, unsafe_allow_html=True)
