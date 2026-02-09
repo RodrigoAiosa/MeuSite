@@ -4,7 +4,7 @@ import uuid
 from google.oauth2.service_account import Credentials
 from datetime import datetime, timedelta, timezone
 
-# --- CONFIGURAÇÃO DE SESSÃO ---
+# --- CONFIGURAÇÃO DE SESSÃO INICIAL ---
 if 'session_id' not in st.session_state:
     st.session_state['session_id'] = str(uuid.uuid4())[:8]
 
@@ -21,7 +21,7 @@ def conectar_google_sheets():
         if "gcp_service_account" in st.secrets:
             creds_info = dict(st.secrets["gcp_service_account"])
             
-            # Garante que as quebras de linha sejam interpretadas corretamente
+            # Converte a string salva nos Secrets para o formato de chave real
             if "private_key" in creds_info:
                 creds_info["private_key"] = creds_info["private_key"].replace("\\n", "\n")
             
@@ -35,8 +35,16 @@ def conectar_google_sheets():
 def registrar_acesso(nome_pagina, acao="Visualização"):
     """
     Registra o acesso na planilha Relatorio_Acessos_Site (9 colunas).
-    Identifica Dispositivo e Sistema Operacional (Windows, Android, Linux, Mac, iOS).
+    Identifica Dispositivo e SO (Windows, Android, Linux, Mac OS, iOS).
+    Garante que o session_id nunca seja N/A.
     """
+    # GARANTIA DE SESSÃO: Se o celular carregar o script rápido demais, 
+    # forçamos a existência do ID antes de gravar.
+    if 'session_id' not in st.session_state or st.session_state['session_id'] is None:
+        st.session_state['session_id'] = str(uuid.uuid4())[:8]
+    
+    id_sessao = st.session_state['session_id']
+
     try:
         client = conectar_google_sheets()
         if client:
@@ -45,7 +53,7 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
             fuso_brasilia = timezone(timedelta(hours=-3))
             agora = datetime.now(fuso_brasilia).strftime("%d/%m/%Y %H:%M:%S")
             
-            # Inicialização de variáveis de detecção
+            # Valores padrão
             dispositivo = "PC"
             so = "Não Identificado"
             ip = "Nao_Capturado"
@@ -59,7 +67,7 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
                 if ip_raw:
                     ip = ip_raw.split(',')[0]
                 
-                # 2. Identificar Sistema Operacional
+                # 2. Identificar Sistema Operacional e Dispositivo
                 if "windows" in ua_string:
                     so = "Windows"
                 elif "android" in ua_string:
@@ -73,27 +81,26 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
                     so = "iOS"
                     dispositivo = "Celular"
                 
-                # 3. Refinar Dispositivo (caso não tenha pego no SO)
+                # Refinamento de dispositivo móvel
                 if "mobile" in ua_string and dispositivo == "PC":
                     dispositivo = "Celular"
-                    
             except:
                 pass
 
-            # Linha formatada para as colunas A até I da sua planilha
+            # Linha formatada para as colunas A até I
             linha = [
-                agora,                          # Coluna A: data_hora
-                st.session_state.get('session_id', 'N/A'), # Coluna B: session_id
-                dispositivo,                    # Coluna C: dispositivo
-                so,                             # Coluna D: sistema_operacional
-                "Navegador",                    # Coluna E: navegador
-                ip,                             # Coluna F: ip
-                "Direto",                       # Coluna G: origem
-                nome_pagina,                    # Coluna H: pagina
-                acao                            # Coluna I: acao
+                agora,        # Coluna A
+                id_sessao,    # Coluna B (Garantido sem N/A)
+                dispositivo,  # Coluna C
+                so,           # Coluna D
+                "Navegador",  # Coluna E
+                ip,           # Coluna F
+                "Direto",     # Coluna G
+                nome_pagina,  # Coluna H
+                acao          # Coluna I
             ]
             
-            # append_row preserva dados existentes conforme sua regra
+            # Adiciona ao final preservando os dados anteriores
             sheet.append_row(linha)
     except Exception as e:
         print(f"Erro silencioso no log de acesso: {e}")
@@ -109,6 +116,7 @@ def salvar_formulario_contato(dados_lista):
             fuso_brasilia = timezone(timedelta(hours=-3))
             agora = datetime.now(fuso_brasilia).strftime("%d/%m/%Y %H:%M:%S")
             
+            # Salva Data + (Nome, Email, WhatsApp, Mensagem)
             sheet.append_row([agora] + dados_lista)
             return True
     except Exception as e:
