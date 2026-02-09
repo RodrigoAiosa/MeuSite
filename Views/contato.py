@@ -3,7 +3,7 @@ import gspread
 from datetime import datetime
 from utils import exibir_rodape, registrar_acesso, obter_credenciais
 
-# Registra a visualização da página
+# Registro obrigatório de acesso
 registrar_acesso("Página de Contato")
 
 def main():
@@ -23,15 +23,15 @@ def main():
                 st.error("❌ Preencha todos os campos!")
             else:
                 try:
-                    with st.spinner("Gravando dados..."):
+                    with st.spinner("Gravando dados com segurança..."):
                         creds = obter_credenciais()
                         client = gspread.authorize(creds)
                         
-                        # ID direto da planilha de contatos do seu print
+                        # Usando o ID fixo da planilha para evitar falhas de permissão
                         url_id = "1JXVHEK4qjj4CJUdfaapKjBxl_WFmBDFHMJyIItxfchU"
                         sheet = client.open_by_key(url_id).sheet1
                         
-                        # Salva preservando o histórico existente
+                        # Adiciona nova linha preservando o histórico
                         data_hora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
                         sheet.append_row([data_hora, nome, email, whatsapp, mensagem])
                         
