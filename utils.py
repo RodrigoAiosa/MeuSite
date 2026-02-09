@@ -9,10 +9,6 @@ import time
 if 'session_id' not in st.session_state:
     st.session_state['session_id'] = str(uuid.uuid4())[:8]
 
-# Inicializa o rastreador de última página para evitar duplicidade
-if 'ultima_pagina_registrada' not in st.session_state:
-    st.session_state['ultima_pagina_registrada'] = None
-
 def conectar_google_sheets():
     """
     Autentica no Google Sheets usando st.secrets com tratamento de chave PEM.
@@ -37,23 +33,23 @@ def conectar_google_sheets():
 
 def registrar_acesso(nome_pagina, acao="Visualização"):
     """
-    Registra o acesso evitando duplicidade causada pelo Rerun do Streamlit no Mobile.
+    Registra o acesso evitando duplicidade e KeyError no Streamlit Cloud.
     """
-    # 1. GARANTIA DE SESSÃO
+    # 1. GARANTIA DE SESSÃO (Evita N/A)
     if 'session_id' not in st.session_state:
         st.session_state['session_id'] = str(uuid.uuid4())[:8]
     
     id_sessao = st.session_state['session_id']
 
-    # 2. TRAVA ANTI-DUPLICIDADE
-    # Se a página atual for igual à última registrada nos últimos 2 segundos, ignora.
+    # 2. TRAVA ANTI-DUPLICIDADE COM SEGURANÇA (Resolve o KeyError)
     tempo_atual = time.time()
-    if 'ultimo_registro_time' not in st.session_state:
-        st.session_state['ultimo_registro_time'] = 0
+    
+    # Usamos .get() para nunca dar KeyError se a chave sumir do estado
+    ultima_pag = st.session_state.get('ultima_pagina_registrada')
+    ultimo_time = st.session_state.get('ultimo_registro_time', 0)
 
-    if st.session_state['ultima_pagina_registrada'] == nome_pagina and \
-       (tempo_atual - st.session_state['ultimo_registro_time']) < 3:
-        return # Sai da função sem registrar duplicado
+    if ultima_pag == nome_pagina and (tempo_atual - ultimo_time) < 4:
+        return # Ignora execução duplicada em menos de 4 segundos
 
     try:
         client = conectar_google_sheets()
@@ -87,7 +83,7 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
             linha = [agora, id_sessao, dispositivo, so, "Navegador", ip, "Direto", nome_pagina, acao]
             sheet.append_row(linha)
             
-            # ATUALIZA A TRAVA: Salva que esta página acabou de ser registrada
+            # ATUALIZA A TRAVA COM SEGURANÇA
             st.session_state['ultima_pagina_registrada'] = nome_pagina
             st.session_state['ultimo_registro_time'] = tempo_atual
 
@@ -96,7 +92,7 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
 
 def salvar_formulario_contato(dados_lista):
     """
-    Salva contato preservando o histórico.
+    Salva contato na planilha bd_contato_form_site preservando o histórico.
     """
     try:
         client = conectar_google_sheets()
@@ -107,9 +103,12 @@ def salvar_formulario_contato(dados_lista):
             sheet.append_row([agora] + dados_lista)
             return True
     except Exception as e:
-        st.error(f"Erro ao salvar: {e}")
+        st.error(f"Erro ao salvar formulário: {e}")
         return False
 
 def exibir_rodape():
+    """
+    Exibe o rodapé padrão em todas as páginas.
+    """
     st.markdown("---")
     st.markdown("<div style='text-align: center; color: gray;'>Desenvolvido por Rodrigo Aiosa © 2026</div>", unsafe_allow_html=True)
