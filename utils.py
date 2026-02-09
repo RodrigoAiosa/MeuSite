@@ -6,10 +6,10 @@ from datetime import datetime, timedelta, timezone
 import time
 
 # --- CONFIGURAÇÃO DE SESSÃO INICIAL ---
+# Usamos o st.session_state para garantir que o tempo não resete entre interações
 if 'session_id' not in st.session_state:
     st.session_state['session_id'] = str(uuid.uuid4())[:8]
 
-# Registro do tempo de início da sessão para cálculo de duração
 if 'start_time' not in st.session_state:
     st.session_state['start_time'] = time.time()
 
@@ -39,9 +39,12 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
     """
     Registra o acesso evitando duplicidade e incluindo a duração da sessão.
     """
-    # 1. GARANTIA DE SESSÃO
+    # 1. GARANTIA DE SESSÃO (Essencial para o ambiente Cloud)
     if 'session_id' not in st.session_state:
         st.session_state['session_id'] = str(uuid.uuid4())[:8]
+    
+    if 'start_time' not in st.session_state:
+        st.session_state['start_time'] = time.time()
     
     id_sessao = st.session_state['session_id']
 
@@ -50,6 +53,7 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
     ultima_pag = st.session_state.get('ultima_pagina_registrada')
     ultimo_time = st.session_state.get('ultimo_registro_time', 0)
 
+    # Evita logs duplicados em disparos rápidos do Streamlit
     if ultima_pag == nome_pagina and (tempo_atual - ultimo_time) < 4:
         return 
 
@@ -61,8 +65,9 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
             agora_dt = datetime.now(fuso_brasilia)
             agora_str = agora_dt.strftime("%d/%m/%Y %H:%M:%S")
             
-            # 3. CÁLCULO DA DURAÇÃO
-            segundos_decorridos = int(tempo_atual - st.session_state.get('start_time', tempo_atual))
+            # 3. CÁLCULO DA DURAÇÃO (Diferença entre agora e o início da sessão)
+            segundos_decorridos = int(tempo_atual - st.session_state['start_time'])
+            # Formata para HH:MM:SS
             duracao = str(timedelta(seconds=segundos_decorridos))
             
             dispositivo = "PC"
@@ -87,7 +92,7 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
                 if "mobile" in ua_string and dispositivo == "PC": dispositivo = "Celular"
             except: pass
 
-            # Linha com a nova coluna 'Duração' ao final
+            # 4. MONTAGEM DA LINHA (Preservando todos os dados e salvando na tabela)
             linha = [
                 agora_str, 
                 id_sessao, 
@@ -98,7 +103,7 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
                 "Direto", 
                 nome_pagina, 
                 acao, 
-                duracao
+                duracao # Coluna J (10ª coluna)
             ]
             
             sheet.append_row(linha)
@@ -108,7 +113,8 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
             st.session_state['ultimo_registro_time'] = tempo_atual
 
     except Exception as e:
-        print(f"Erro silencioso no log: {e}")
+        # Erro impresso apenas no log do servidor para não quebrar a UI do usuário
+        print(f"Erro silencioso no log de acesso: {e}")
 
 def salvar_formulario_contato(dados_lista):
     """
