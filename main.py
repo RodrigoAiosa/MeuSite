@@ -8,7 +8,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- ESTILO CSS COMPLETO (Sidebar & Hover) ---
+# --- ESTILO CSS COMPLETO (Sidebar, Hover e Ajustes de Layout) ---
 st.markdown("""
     <style>
     /* Estilização da Sidebar */
@@ -19,7 +19,7 @@ st.markdown("""
     /* Estilização dos itens do Menu de Navegação */
     [data-testid="stSidebarNav"] {
         background-color: rgb(38, 38, 48) !important;
-        padding-top: 20px;
+        padding-top: 10px; /* Reduzido para aproximar do nome da empresa */
     }
 
     [data-testid="stSidebarNav"] ul li a {
@@ -48,6 +48,16 @@ st.markdown("""
         font-weight: bold;
         border: none;
         box-shadow: 0 4px 15px rgba(0, 180, 216, 0.3);
+    }
+
+    /* Títulos de Categorias na Navegação */
+    [data-testid="stSidebarNav"] [data-testid="stSidebarNavSeparator"] + div {
+        color: #00b4d8 !important;
+        font-weight: 800 !important;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+        margin-left: 20px;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -106,10 +116,9 @@ cursos_online_page = st.Page(
 pg = st.navigation({
     "Informações": [sobre_page, projeto_recente_page, contato_page],
     "Resultados": [cases_sucesso_page],
-    "Portfólio": [projeto_python_page, projeto_powerbi_page],
+    "Portifólio": [projeto_python_page, projeto_powerbi_page],
     "Treinamentos": [treinamento_empresa_page, cursos_online_page]
 })
 
 # Carrega a página selecionada
 pg.run()
-
