@@ -4,7 +4,7 @@ import re
 from datetime import datetime
 from utils import exibir_rodape, registrar_acesso, obter_credenciais
 
-# Registro de entrada
+# Registra que o usuário entrou na página
 registrar_acesso("Página de Contato")
 
 def salvar_contato(dados):
@@ -12,45 +12,58 @@ def salvar_contato(dados):
     try:
         creds = obter_credenciais()
         client = gspread.authorize(creds)
-        # Use a URL exata para evitar erro de 'account not found'
+        
+        # Link DIRETO para evitar qualquer erro de busca por nome
         url_planilha = "https://docs.google.com/spreadsheets/d/1JXVHEK4qjj4CJUdfaapKjBxl_WFmBDFHMJyIItxfchU/edit#gid=0"
         sheet = client.open_by_url(url_planilha).sheet1
+        
+        # O comando append_row adiciona ao final sem apagar nada
         sheet.append_row(dados)
     except Exception as e:
-        raise Exception(f"Falha na conexão: {str(e)}")
+        # Repassa o erro detalhado para o Streamlit mostrar na tela se falhar
+        raise Exception(f"Erro na API do Google: {str(e)}")
 
 def validar_email(email):
-    return re.match(r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$', email)
+    regex = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+    return re.match(regex, email)
 
 def main():
     st.markdown("<h1 style='text-align: center; color: #00b4d8;'>🚀 Vamos escalar seu projeto?</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: #94a3b8;'>Entrarei em contato em até 24h.</p>", unsafe_allow_html=True)
     
-    with st.container():
-        with st.form(key="form_contato", clear_on_submit=True):
-            nome = st.text_input("👤 Nome Completo", placeholder="Rodrigo Aiosa")
-            col_mail, col_zap = st.columns(2)
-            with col_mail:
-                email = st.text_input("📧 E-mail Profissional")
-            with col_zap:
-                whatsapp = st.text_input("📱 WhatsApp (com DDD)")
+    col1, col2, col3 = st.columns([1, 2, 1])
+    
+    with col2:
+        with st.form(key="form_contato_final", clear_on_submit=True):
+            nome = st.text_input("👤 Nome Completo", placeholder="Seu nome aqui")
             
-            mensagem = st.text_area("💬 Como posso te ajudar?")
-            botao = st.form_submit_button("Enviar Mensagem Agora")
+            f_col1, f_col2 = st.columns(2)
+            with f_col1:
+                email = st.text_input("📧 E-mail Profissional")
+            with f_col2:
+                whatsapp = st.text_input("📱 WhatsApp (DDD + Número)")
+            
+            mensagem = st.text_area("💬 Como posso te ajudar?", height=120)
+            
+            botao_enviar = st.form_submit_button("Enviar Mensagem Agora")
 
-        if botao:
+        if botao_enviar:
             if not nome or not email or not whatsapp or not mensagem:
-                st.error("❌ Preencha todos os campos.")
+                st.error("❌ Por favor, preencha todos os campos do formulário.")
             elif not validar_email(email.lower()):
-                st.error("❌ E-mail inválido.")
+                st.error("❌ O e-mail informado parece inválido.")
             else:
                 try:
-                    with st.spinner("Enviando..."):
-                        agora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-                        salvar_contato([agora, nome, email, whatsapp, mensagem])
+                    with st.spinner("Conectando ao servidor..."):
+                        data_hora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+                        lista_para_salvar = [data_hora, nome, email, whatsapp, mensagem]
+                        
+                        salvar_contato(lista_para_salvar)
+                        
                         st.balloons()
-                        st.success("✅ Mensagem enviada! Entrarei em contato em breve.")
+                        st.success("✅ Sucesso! Seus dados foram salvos na nossa base.")
                 except Exception as e:
-                    st.error(f"Erro crítico: {e}")
+                    st.error(f"Erro ao enviar: {e}")
 
 if __name__ == "__main__":
     main()
