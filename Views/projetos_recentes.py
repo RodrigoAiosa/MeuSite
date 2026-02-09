@@ -1,20 +1,14 @@
 import streamlit as st
-from utils import exibir_rodape, registrar_acesso  # Importação atualizada
+from utils import exibir_rodape, registrar_acesso
+import webbrowser
 
 # --- REGISTRO DE ACESSO ---
-# Registra a entrada do usuário na vitrine de projetos
 registrar_acesso("Vitrine de Projetos (Landing Page)")
 
 # --- ESTILO CSS PARA LANDING PAGE ---
 st.markdown(
     """
     <style>
-    /* Container dos Cards */
-    .main-project-container {
-        padding: 20px 0px;
-    }
-    
-    /* Card do Projeto */
     .project-card {
         background-color: #111827;
         border: 1px solid #1f2937;
@@ -22,7 +16,7 @@ st.markdown(
         padding: 15px;
         margin-bottom: 30px;
         transition: transform 0.3s ease, border 0.3s ease;
-        height: 420px; /* Altura fixa para manter o grid uniforme */
+        height: 450px; /* Ajustado para acomodar o botão do Streamlit */
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -34,21 +28,14 @@ st.markdown(
         box-shadow: 0 10px 30px rgba(0, 180, 216, 0.2);
     }
     
-    /* Título do Projeto */
     .project-title {
         color: #ffffff;
         font-size: 1.1rem;
         font-weight: bold;
         margin: 15px 0 10px 0;
-        line-height: 1.4;
-        min-height: 60px; /* Garante que títulos longos não quebrem o layout */
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+        min-height: 60px;
     }
     
-    /* Imagem do Projeto */
     .project-image-container {
         width: 100%;
         height: 200px;
@@ -60,46 +47,30 @@ st.markdown(
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.5s ease;
     }
-    
-    .project-card:hover .project-image {
-        transform: scale(1.1);
-    }
-    
-    /* Botão/Link Estilizado */
-    .view-button {
+
+    /* Estilização para o botão do Streamlit parecer o seu anterior */
+    div.stButton > button {
+        width: 100%;
         background-color: transparent;
-        color: #00b4d8;
-        border: 1px solid #00b4d8;
-        padding: 8px 15px;
+        color: #00b4d8 !important;
+        border: 1px solid #00b4d8 !important;
         border-radius: 8px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 0.9rem;
-        font-weight: bold;
         transition: all 0.3s;
-        margin-top: 10px;
     }
-    
-    .view-button:hover {
-        background-color: #00b4d8;
-        color: #111827;
-        text-decoration: none;
+    div.stButton > button:hover {
+        background-color: #00b4d8 !important;
+        color: #111827 !important;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# --- TÍTULO DA SEÇÃO ---
 st.markdown("<h1 style='text-align: center; color: white;'>🚀 Portfólio de Projetos</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: #9ca3af;'>Uma seleção das soluções desenvolvidas utilizando Python, BI e Inteligência Artificial.</p>", unsafe_allow_html=True)
-st.write("")
 st.write("")
 
-# --- DEFINIÇÃO DOS DADOS DOS PROJETOS ---
+# --- DADOS DOS PROJETOS ---
 projects = [
     {
         "title": "🎈 Domando a Web: Automatizando a Coleta de Dados",
@@ -148,13 +119,14 @@ projects = [
     }
 ]
 
-# --- RENDERIZAÇÃO DO GRID DE CARDS ---
+# --- RENDERIZAÇÃO ---
 for i in range(0, len(projects), 3):
     cols = st.columns(3)
     for j in range(3):
         if i + j < len(projects):
             project = projects[i + j]
             with cols[j]:
+                # Card visual (HTML apenas para imagem e título)
                 st.markdown(f"""
                 <div class="project-card">
                     <div>
@@ -163,9 +135,16 @@ for i in range(0, len(projects), 3):
                         </div>
                         <h3 class="project-title">{project['title']}</h3>
                     </div>
-                    <a href="{project['link']}" target="_blank" class="view-button">Ver Demonstração</a>
-                </div>
                 """, unsafe_allow_html=True)
+                
+                # Botão do Streamlit para capturar o clique
+                if st.button("Ver Demonstração", key=f"btn_{i+j}"):
+                    # REGISTRA O CLIQUE NA PLANILHA
+                    registrar_acesso(nome_pagina=project['title'], acao="Clique no Link")
+                    # ABRE O LINK EM NOVA ABA (Via JavaScript)
+                    st.markdown(f'<script>window.open("{project["link"]}", "_blank");</script>', unsafe_allow_html=True)
+                
+                st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown("---")
 exibir_rodape()
