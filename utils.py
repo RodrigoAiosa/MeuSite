@@ -1,79 +1,101 @@
 import streamlit as st
 import gspread
-import uuid
+import re
 import os
-import time
-from google.oauth2.service_account import Credentials
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
+from google.oauth2.service_account import Credentials  # Biblioteca moderna
+from utils import exibir_rodape, registrar_acesso
 
-# ---------------------------------------------------
-# SESSION GLOBAL (multipage safe)
-# ---------------------------------------------------
-if "session_id" not in st.session_state:
-    st.session_state["session_id"] = str(uuid.uuid4())[:8]
+# --- REGISTRO DE ACESSO ---
+registrar_acesso("Página de Contato")
 
-if "start_time" not in st.session_state:
-    st.session_state["start_time"] = time.time()
-
-def registrar_acesso(nome_pagina, acao="Visualização"):
+def salvar_contato(dados):
     """
-    Registro seguro no Google Sheets preservando dados existentes.
+    Salva os dados do formulário na planilha de contatos.
+    Usa a biblioteca google-auth para evitar o erro invalid_grant.
     """
+    scope = [
+        "https://www.googleapis.com/auth/spreadsheets",
+        "https://www.googleapis.com/auth/drive"
+    ]
+    
+    # Define o caminho do JSON (subindo um nível a partir da pasta Views)
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    root_dir = os.path.dirname(current_dir)
+    caminho_json = os.path.join(root_dir, "meuprojetocadsite-5ecb421b15a7.json")
+    
     try:
-        scope = [
-            "https://www.googleapis.com/auth/spreadsheets",
-            "https://www.googleapis.com/auth/drive"
-        ]
-
-        # Busca o JSON na raiz do projeto
-        creds = Credentials.from_service_account_file(
-            "meuprojetocadsite-5ecb421b15a7.json",
-            scopes=scope
-        )
-
+        # Autenticação robusta (mesma lógica usada no utils.py)
+        creds = Credentials.from_service_account_file(caminho_json, scopes=scope)
         client = gspread.authorize(creds)
-        sheet = client.open("Relatorio_Acessos_Site").sheet1
-
-        fuso = timezone(timedelta(hours=-3))
-        agora_dt = datetime.now(fuso)
-        agora_str = agora_dt.strftime("%d/%m/%Y %H:%M:%S")
-
-        segundos_decorridos = int(time.time() - st.session_state["start_time"])
-        duracao_formatada = str(timedelta(seconds=segundos_decorridos))
-
-        headers = st.context.headers
-        ua = headers.get("User-Agent", "").lower()
-        ip = headers.get("X-Forwarded-For", "Localhost").split(",")[0]
-
-        dispositivo = "Celular" if "mobile" in ua else "PC"
-
-        # Salva mantendo o histórico
-        sheet.append_row([
-            agora_str,
-            st.session_state.get("session_id", "unknown"),
-            dispositivo,
-            "Detectado",
-            "Navegador",
-            ip,
-            "Direto",
-            nome_pagina,
-            acao,
-            duracao_formatada 
-        ])
-
+        
+        # URL da planilha de contatos
+        url = "https://docs.google.com/spreadsheets/d/1JXVHEK4qjj4CJUdfaapKjBxl_WFmBDFHMJyIItxfchU/edit#gid=0"
+        sheet = client.open_by_url(url).sheet1
+        
+        # Salva mantendo os dados existentes
+        sheet.append_row(dados)
+        
+    except FileNotFoundError:
+        raise Exception(f"Arquivo JSON não encontrado no servidor: {caminho_json}")
     except Exception as e:
-        print("LOG ERROR:", e)
+        raise Exception(f"Erro na conexão com a planilha: {str(e)}")
 
-def exibir_rodape():
-    """
-    Exibe o rodapé com apenas uma linha divisória.
-    """
-    st.markdown(
-        """
-        <hr style='border: 0.5px solid rgba(255, 255, 255, 0.1); margin-top: 50px; margin-bottom: 20px;'>
-        <div style='text-align:center; color:gray; font-size: 0.8rem; padding-bottom: 20px;'>
-            SKY DATA SOLUTION © 2026 | Rodrigo Aiosa
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+def validar_email(email):
+    regex = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+    return re.search(regex, email)
+
+def main():
+    # --- ESTILO CSS ---
+    st.markdown("""
+        <style>
+        .stForm {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px !important;
+        }
+        button[kind="primaryFormSubmit"] {
+            width: 100%;
+            background: linear-gradient(90deg, #00b4d8 0%, #0077b6 100%) !important;
+            color: white !important;
+            border-radius: 12px !important;
+            font-weight: bold !important;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
+    st.markdown("<h1 style='text-align: center; color: #00b4d8;'>🚀 Vamos escalar seu projeto?</h1>", unsafe_allow_html=True)
+
+    col1, col2, col3 = st.columns([1, 2, 1])
+
+    with col2:
+        with st.form(key="form_contato", clear_on_submit=True):
+            nome = st.text_input("👤 Nome Completo")
+            email = st.text_input("📧 E-mail Profissional")
+            whatsapp = st.text_input("📱 WhatsApp (com DDD)")
+            mensagem = st.text_area("💬 Como posso te ajudar?", height=150)
+            
+            botao_enviar = st.form_submit_button("Enviar Mensagem")
+
+        if botao_enviar:
+            if not nome or not email or not whatsapp or not mensagem:
+                st.error("❌ Por favor, preencha todos os campos.")
+            elif not validar_email(email.lower()):
+                st.error("❌ E-mail inválido.")
+            else:
+                try:
+                    with st.spinner("Enviando..."):
+                        data_hora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+                        lista_dados = [data_hora, nome, email, whatsapp, mensagem]
+                        
+                        salvar_contato(lista_dados)
+                        st.balloons()
+                        st.success("✅ Mensagem enviada com sucesso!")
+                except Exception as e:
+                    st.error(f"Erro ao enviar: {e}")
+
+if __name__ == "__main__":
+    main()
+
+exibir_rodape()
