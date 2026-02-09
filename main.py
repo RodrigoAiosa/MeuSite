@@ -110,10 +110,6 @@ pg = st.navigation({
     "Treinamentos": [treinamento_empresa_page, cursos_online_page]
 })
 
-# --- EXECUÇÃO LOGÍSTICA ---
-
-# Registrar o acesso na planilha usando o arquivo JSON específico
-registrar_acesso(pg.title)
-
 # Carrega a página selecionada
 pg.run()
+
