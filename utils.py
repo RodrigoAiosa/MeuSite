@@ -21,7 +21,7 @@ def conectar_google_sheets():
         if "gcp_service_account" in st.secrets:
             creds_info = dict(st.secrets["gcp_service_account"])
             
-            # Converte a string salva nos Secrets para o formato de chave real
+            # Garante que as quebras de linha sejam interpretadas corretamente
             if "private_key" in creds_info:
                 creds_info["private_key"] = creds_info["private_key"].replace("\\n", "\n")
             
@@ -35,7 +35,7 @@ def conectar_google_sheets():
 def registrar_acesso(nome_pagina, acao="Visualização"):
     """
     Registra o acesso na planilha Relatorio_Acessos_Site (9 colunas).
-    Preserva dados existentes.
+    Versão robusta para capturar acessos mobile/4G.
     """
     try:
         client = conectar_google_sheets()
@@ -45,28 +45,42 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
             fuso_brasilia = timezone(timedelta(hours=-3))
             agora = datetime.now(fuso_brasilia).strftime("%d/%m/%Y %H:%M:%S")
             
-            headers = st.context.headers
-            ua_string = headers.get("User-Agent", "").lower()
-            ip = headers.get("X-Forwarded-For", "Localhost").split(',')[0]
-            dispositivo = "Celular" if "mobile" in ua_string else "PC"
-            
+            # Lógica robusta para headers (evita erro no 4G)
+            try:
+                headers = st.context.headers
+                ua_string = headers.get("User-Agent", "").lower()
+                # Tenta pegar o IP real, senão usa um padrão
+                ip_raw = headers.get("X-Forwarded-For", "IP_Nao_Identificado")
+                ip = ip_raw.split(',')[0] if ip_raw else "IP_Nao_Identificado"
+                
+                # Identificação de dispositivo ampliada
+                if any(x in ua_string for x in ["mobile", "android", "iphone", "ipad"]):
+                    dispositivo = "Celular"
+                else:
+                    dispositivo = "PC"
+            except:
+                # Se os headers falharem (comum em algumas redes móveis), registra como desconhecido mas NÃO PARA o script
+                dispositivo = "Mobile/Outro"
+                ip = "Nao_Capturado"
+
             # Linha formatada para as colunas A até I da sua planilha
             linha = [
-                agora,                          # data_hora
-                st.session_state['session_id'], # session_id
-                dispositivo,                    # dispositivo
-                "Detectado",                    # sistema_operacional
-                "Navegador",                    # navegador
-                ip,                             # ip
-                "Direto",                       # origem
-                nome_pagina,                    # pagina
-                acao                            # acao
+                agora,                          # Coluna A: data_hora
+                st.session_state.get('session_id', 'N/A'), # Coluna B: session_id
+                dispositivo,                    # Coluna C: dispositivo
+                "Detectado",                    # Coluna D: sistema_operacional
+                "Navegador",                    # Coluna E: navegador
+                ip,                             # Coluna F: ip
+                "Direto",                       # Coluna G: origem
+                nome_pagina,                    # Coluna H: pagina
+                acao                            # Coluna I: acao
             ]
             
+            # append_row preserva dados existentes conforme diretriz de 2026-01-18
             sheet.append_row(linha)
     except Exception as e:
-        # Erro silencioso para não impactar o usuário final
-        print(f"Erro no log de acesso: {e}")
+        # Apenas para debug interno se necessário
+        print(f"Erro silencioso no log de acesso: {e}")
 
 def salvar_formulario_contato(dados_lista):
     """
@@ -79,6 +93,7 @@ def salvar_formulario_contato(dados_lista):
             fuso_brasilia = timezone(timedelta(hours=-3))
             agora = datetime.now(fuso_brasilia).strftime("%d/%m/%Y %H:%M:%S")
             
+            # Salva Data + Nome, Email, WhatsApp, Mensagem
             sheet.append_row([agora] + dados_lista)
             return True
     except Exception as e:
