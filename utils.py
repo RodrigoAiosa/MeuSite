@@ -10,7 +10,7 @@ if 'session_id' not in st.session_state:
 
 def conectar_google_sheets():
     """
-    Centraliza a conexão com o Google Sheets priorizando st.secrets.
+    Autentica no Google Sheets usando exclusivamente st.secrets.
     """
     scope = [
         "https://www.googleapis.com/auth/spreadsheets",
@@ -18,26 +18,32 @@ def conectar_google_sheets():
     ]
     
     try:
-        # Tenta usar Secrets (Ideal para Streamlit Cloud)
+        # Prioriza 100% o Streamlit Secrets para o ambiente de produção
         if "gcp_service_account" in st.secrets:
             creds_info = dict(st.secrets["gcp_service_account"])
-            # Removemos substituições manuais; o TOML com """ cuida disso.
+            
+            # Correção para o erro 'Unable to load PEM file': 
+            # Garante que as quebras de linha da chave privada sejam interpretadas corretamente
+            if "\\n" in creds_info["private_key"]:
+                creds_info["private_key"] = creds_info["private_key"].replace("\\n", "\n")
+            
             creds = Credentials.from_service_account_info(creds_info, scopes=scope)
             return gspread.authorize(creds)
         else:
-            st.error("Credenciais 'gcp_service_account' não encontradas no Secrets.")
+            st.error("Erro: Configuração 'gcp_service_account' não encontrada nos Secrets do Streamlit.")
             return None
     except Exception as e:
-        st.error(f"Erro na autenticação: {e}")
+        st.error(f"Erro Crítico de Autenticação: {e}")
         return None
 
 def registrar_acesso(nome_pagina, acao="Visualização"):
     """
-    Registra acessos anexando uma nova linha (Preserva dados existentes).
+    Registra o acesso anexando uma nova linha para preservar dados.
     """
     try:
         client = conectar_google_sheets()
         if client:
+            # Abre a planilha de acessos
             sheet = client.open("Relatorio_Acessos_Site").sheet1
             
             fuso_brasilia = timezone(timedelta(hours=-3))
@@ -48,17 +54,24 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
             ip = headers.get("X-Forwarded-For", "Localhost").split(',')[0]
             dispositivo = "Celular" if "mobile" in ua_string else "PC"
             
-            # append_row adiciona ao final sem apagar nada
+            # append_row adiciona ao final sem sobrescrever os dados existentes
             sheet.append_row([
-                agora, st.session_state['session_id'], dispositivo, 
-                "Detectado", "Navegador", ip, "Direto", nome_pagina, acao
+                agora, 
+                st.session_state['session_id'], 
+                dispositivo, 
+                "Detectado", 
+                "Navegador", 
+                ip, 
+                "Direto", 
+                nome_pagina, 
+                acao
             ])
     except Exception as e:
         print(f"Erro silencioso no acesso: {e}")
 
 def salvar_formulario_contato(dados_lista):
     """
-    Salva dados do formulário na planilha bd_contato_form_site.
+    Anexa dados do formulário na planilha bd_contato_form_site.
     """
     try:
         client = conectar_google_sheets()
@@ -67,23 +80,16 @@ def salvar_formulario_contato(dados_lista):
             fuso_brasilia = timezone(timedelta(hours=-3))
             agora = datetime.now(fuso_brasilia).strftime("%d/%m/%Y %H:%M:%S")
             
-            # Insere a data no início da lista de dados
-            registro = [agora] + dados_lista
-            sheet.append_row(registro)
+            # Cria a linha: Data + Nome, Email, WhatsApp, Mensagem
+            linha_completa = [agora] + dados_lista
+            
+            # O método append_row preserva o histórico da planilha
+            sheet.append_row(linha_completa)
             return True
     except Exception as e:
-        st.error(f"Erro ao salvar formulário: {e}")
+        st.error(f"Erro ao salvar no formulário: {e}")
         return False
 
 def exibir_rodape():
     st.markdown("---")
-    footer_html = """
-    <div style='text-align: center; color: gray; padding: 10px;'>
-        <p><b>Rodrigo Aiosa © 2026</b> | Especialista em BI & Treinamentos</p>
-        <div style='display: flex; justify-content: center; gap: 25px;'>
-            <a href='https://wa.me/5511977019335' target='_blank'><img src='https://cdn-icons-png.flaticon.com/512/733/733585.png' width='30'></a>
-            <a href='https://www.linkedin.com/in/rodrigoaiosa/' target='_blank'><img src='https://cdn-icons-png.flaticon.com/512/174/174857.png' width='30'></a>
-        </div>
-    </div>
-    """
-    st.markdown(footer_html, unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center; color: gray;'>Rodrigo Aiosa © 2026</div>", unsafe_allow_html=True)
