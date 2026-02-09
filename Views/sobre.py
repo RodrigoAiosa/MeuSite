@@ -120,7 +120,7 @@ st.markdown(
 # --- CABEÇALHO ---
 st.markdown(
     '<div class="profile-pic">'
-    '<img src="https://media.licdn.com/dms/image/v2/D5603AQH-2rDkpd-OxA/profile-displayphoto-scale_200_200/B56ZmxqxTBKMAY-/0/1759622405960?e=1772064000&v=beta&t=_6-zEhPhGUF9GQwDJ-7OZ0DtlWLD4AJBwI5kPsz-X6U">'
+    '<img src="https://media.licdn.com/dms/image/v2/D5603AQFTfyqJswUYwg/profile-displayphoto-scale_200_200/B56ZxDaPuZK4AY-/0/1770657482765?e=1772064000&v=beta&t=1PXFrPJTt5w46Y7NUTgqCQ3H2jjMmkE1QwFi-lwwwko">'
     '</div>',
     unsafe_allow_html=True
 )
@@ -219,4 +219,5 @@ with col_img2:
 st.markdown("---")
 
 # 3. EXIBIÇÃO DO RODAPÉ
+
 exibir_rodape()
