@@ -1,140 +1,134 @@
 import streamlit as st
 import gspread
-import uuid
-from google.oauth2.service_account import Credentials
-from datetime import datetime, timedelta, timezone
-import time
+import re
+import os
+import json
+from datetime import datetime
+from google.oauth2.service_account import Credentials # Biblioteca atualizada
+from utils import exibir_rodape, registrar_acesso
 
-# --- CONFIGURAÇÃO DE SESSÃO INICIAL ---
-# Usamos o st.session_state para garantir que o tempo não resete entre interações
-if 'session_id' not in st.session_state:
-    st.session_state['session_id'] = str(uuid.uuid4())[:8]
+# --- REGISTRO DE ACESSO ---
+registrar_acesso("Página de Contato")
 
-if 'start_time' not in st.session_state:
-    st.session_state['start_time'] = time.time()
-
-def conectar_google_sheets():
+def salvar_contato(dados):
     """
-    Autentica no Google Sheets usando st.secrets com tratamento de chave PEM.
+    Salva os dados do formulário na planilha de contatos usando google-auth.
+    Preserva registros anteriores conforme instrução.
     """
+    # Escopos atualizados para Google Auth
     scope = [
         "https://www.googleapis.com/auth/spreadsheets",
         "https://www.googleapis.com/auth/drive"
     ]
     
+    # Caminho do JSON (ajustado para subir um nível a partir de Views/)
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    root_dir = os.path.dirname(current_dir)
+    caminho_json = os.path.join(root_dir, "meuprojetocadsite-5ecb421b15a7.json")
+    
     try:
-        if "gcp_service_account" in st.secrets:
-            creds_info = dict(st.secrets["gcp_service_account"])
-            if "private_key" in creds_info:
-                creds_info["private_key"] = creds_info["private_key"].replace("\\n", "\n")
-            
-            creds = Credentials.from_service_account_info(creds_info, scopes=scope)
-            return gspread.authorize(creds)
-        return None
+        # Autenticação moderna usando as mesmas credenciais do utils.py
+        creds = Credentials.from_service_account_file(caminho_json, scopes=scope)
+        client = gspread.authorize(creds)
+        
+        # URL da sua planilha de contatos
+        url = "https://docs.google.com/spreadsheets/d/1JXVHEK4qjj4CJUdfaapKjBxl_WFmBDFHMJyIItxfchU/edit#gid=0"
+        sheet = client.open_by_url(url).sheet1
+        
+        # Append preservando dados existentes 
+        sheet.append_row(dados)
+        
+    except FileNotFoundError:
+        raise Exception(f"Arquivo JSON não encontrado em: {caminho_json}")
     except Exception as e:
-        st.error(f"Erro Crítico de Autenticação: {e}")
-        return None
+        raise Exception(f"Erro na autenticação/planilha: {str(e)}")
 
-def registrar_acesso(nome_pagina, acao="Visualização"):
-    """
-    Registra o acesso evitando duplicidade e incluindo a duração da sessão.
-    """
-    # 1. GARANTIA DE SESSÃO (Essencial para o ambiente Cloud)
-    if 'session_id' not in st.session_state:
-        st.session_state['session_id'] = str(uuid.uuid4())[:8]
-    
-    if 'start_time' not in st.session_state:
-        st.session_state['start_time'] = time.time()
-    
-    id_sessao = st.session_state['session_id']
+def validar_email(email):
+    regex = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+    return re.search(regex, email)
 
-    # 2. TRAVA ANTI-DUPLICIDADE
-    tempo_atual = time.time()
-    ultima_pag = st.session_state.get('ultima_pagina_registrada')
-    ultimo_time = st.session_state.get('ultimo_registro_time', 0)
+def main():
+    # --- INJEÇÃO DE CSS PARA DESIGN DE ALTA CONVERSÃO ---
+    st.markdown("""
+        <style>
+        .stForm {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px !important;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
 
-    # Evita logs duplicados em disparos rápidos do Streamlit
-    if ultima_pag == nome_pagina and (tempo_atual - ultimo_time) < 4:
-        return 
+        div[data-baseweb="input"] > div, div[data-baseweb="textarea"] > div {
+            background-color: rgba(15, 23, 42, 0.6) !important;
+            border-radius: 12px !important;
+            border: 1px solid rgba(0, 180, 216, 0.2) !important;
+        }
 
-    try:
-        client = conectar_google_sheets()
-        if client:
-            sheet = client.open("Relatorio_Acessos_Site").sheet1
-            fuso_brasilia = timezone(timedelta(hours=-3))
-            agora_dt = datetime.now(fuso_brasilia)
-            agora_str = agora_dt.strftime("%d/%m/%Y %H:%M:%S")
+        button[kind="primaryFormSubmit"] {
+            width: 100%;
+            background: linear-gradient(90deg, #00b4d8 0%, #0077b6 100%) !important;
+            color: white !important;
+            border-radius: 12px !important;
+            font-weight: bold !important;
+            height: 3rem;
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+        <div class='contact-header'>
+            <h1 style='color: #00b4d8;'>🚀 Vamos escalar seu projeto?</h1>
+            <p style='color: #94a3b8; font-size: 1.1rem;'>
+                Preencha os dados abaixo e entrarei em contato em até 24h.
+            </p>
+        </div>
+    """, unsafe_allow_html=True)
+
+    col1, col2, col3 = st.columns([1, 2, 1])
+
+    with col2:
+        with st.form(key="form_contato", clear_on_submit=True):
+            nome = st.text_input("👤 Nome Completo", placeholder="Ex: Rodrigo Aiosa")
             
-            # 3. CÁLCULO DA DURAÇÃO (Diferença entre agora e o início da sessão)
-            segundos_decorridos = int(tempo_atual - st.session_state['start_time'])
-            # Formata para HH:MM:SS
-            duracao = str(timedelta(seconds=segundos_decorridos))
+            f_col1, f_col2 = st.columns(2)
+            with f_col1:
+                email = st.text_input("📧 E-mail Profissional", placeholder="seu@email.com")
+            with f_col2:
+                whatsapp = st.text_input("📱 WhatsApp (com DDD)", placeholder="11988887777")
             
-            dispositivo = "PC"
-            so = "Não Identificado"
-            ip = "Nao_Capturado"
+            mensagem = st.text_area("💬 Como posso te ajudar?", placeholder="Conte um pouco sobre seu desafio...", height=150)
             
-            try:
-                headers = st.context.headers
-                ua_string = headers.get("User-Agent", "").lower()
-                ip_raw = headers.get("X-Forwarded-For", "")
-                if ip_raw: ip = ip_raw.split(',')[0]
+            botao_enviar = st.form_submit_button("Enviar Mensagem Agora")
+
+        if botao_enviar:
+            if len(nome.strip()) < 10:
+                st.error("❌ O nome deve ter no mínimo 10 caracteres.")
+            elif not validar_email(email.lower()):
+                st.error("❌ Por favor, insira um e-mail válido.")
+            elif not (whatsapp.isdigit() and len(whatsapp) >= 10):
+                st.error("❌ Insira um WhatsApp válido (apenas números com DDD).")
+            elif not mensagem:
+                st.error("❌ Por favor, preencha o campo de mensagem.")
+            else:
+                try:
+                    with st.spinner("Enviando sua mensagem..."):
+                        data_hora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+                        lista_dados = [data_hora, nome, email, whatsapp, mensagem]
+                        
+                        salvar_contato(lista_dados)
+                        st.balloons()
+                        st.success("✅ Sucesso! Recebi sua mensagem e falaremos em breve.")
                 
-                if "windows" in ua_string: so = "Windows"
-                elif "android" in ua_string: 
-                    so = "Android"
-                    dispositivo = "Celular"
-                elif "linux" in ua_string: so = "Linux"
-                elif "macintosh" in ua_string or "mac os" in ua_string: so = "Mac OS"
-                elif "iphone" in ua_string or "ipad" in ua_string:
-                    so = "iOS"
-                    dispositivo = "Celular"
-                if "mobile" in ua_string and dispositivo == "PC": dispositivo = "Celular"
-            except: pass
+                except Exception as e:
+                    st.error(f"Erro ao enviar: {e}")
 
-            # 4. MONTAGEM DA LINHA (Preservando todos os dados e salvando na tabela)
-            linha = [
-                agora_str, 
-                id_sessao, 
-                dispositivo, 
-                so, 
-                "Navegador", 
-                ip, 
-                "Direto", 
-                nome_pagina, 
-                acao, 
-                duracao # Coluna J (10ª coluna)
-            ]
-            
-            sheet.append_row(linha)
-            
-            # ATUALIZA A TRAVA
-            st.session_state['ultima_pagina_registrada'] = nome_pagina
-            st.session_state['ultimo_registro_time'] = tempo_atual
+if __name__ == "__main__":
+    main()
 
-    except Exception as e:
-        # Erro impresso apenas no log do servidor para não quebrar a UI do usuário
-        print(f"Erro silencioso no log de acesso: {e}")
-
-def salvar_formulario_contato(dados_lista):
-    """
-    Salva contato na planilha bd_contato_form_site preservando o histórico.
-    """
-    try:
-        client = conectar_google_sheets()
-        if client:
-            sheet = client.open("bd_contato_form_site").sheet1
-            fuso_brasilia = timezone(timedelta(hours=-3))
-            agora = datetime.now(fuso_brasilia).strftime("%d/%m/%Y %H:%M:%S")
-            sheet.append_row([agora] + dados_lista)
-            return True
-    except Exception as e:
-        st.error(f"Erro ao salvar formulário: {e}")
-        return False
-
-def exibir_rodape():
-    """
-    Exibe o rodapé padrão em todas as páginas.
-    """
-    st.markdown("---")
-    st.markdown("<div style='text-align: center; color: gray;'>Desenvolvido por Rodrigo Aiosa © 2026</div>", unsafe_allow_html=True)
+exibir_rodape()
