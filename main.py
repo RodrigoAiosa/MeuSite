@@ -127,5 +127,4 @@ registrar_acesso(st.session_state.get("current_page", "Início"))
 # 2. Carrega a página selecionada
 pg.run()
 
-# 3. Exibe o rodapé em todas as páginas automaticamente
-exibir_rodape()
+
