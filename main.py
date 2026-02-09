@@ -1,5 +1,5 @@
 import streamlit as st
-from utils import registrar_acesso
+from utils import registrar_acesso, exibir_rodape
 
 # 1. Configuração da página - Resolve avisos de 2026
 st.set_page_config(
@@ -19,7 +19,7 @@ st.markdown("""
     /* Estilização dos itens do Menu de Navegação */
     [data-testid="stSidebarNav"] {
         background-color: rgb(38, 38, 48) !important;
-        padding-top: 10px; /* Reduzido para aproximar do nome da empresa */
+        padding-top: 10px;
     }
 
     [data-testid="stSidebarNav"] ul li a {
@@ -120,5 +120,12 @@ pg = st.navigation({
     "Treinamentos": [treinamento_empresa_page, cursos_online_page]
 })
 
-# Carrega a página selecionada
+# --- EXECUÇÃO ---
+# 1. Registra o acesso da página atual na planilha antes de carregar
+registrar_acesso(st.session_state.get("current_page", "Início"))
+
+# 2. Carrega a página selecionada
 pg.run()
+
+# 3. Exibe o rodapé em todas as páginas automaticamente
+exibir_rodape()
