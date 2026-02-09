@@ -43,7 +43,7 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
     try:
         client = conectar_google_sheets()
         if client:
-            # Abre a planilha de acessos
+            # Abre a planilha de acessos conforme o nome exato visto nas imagens
             sheet = client.open("Relatorio_Acessos_Site").sheet1
             
             fuso_brasilia = timezone(timedelta(hours=-3))
