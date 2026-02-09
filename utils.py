@@ -22,24 +22,24 @@ def obter_credenciais():
     caminho_json = "meuprojetocadsite-5ecb421b15a7.json"
     
     if not os.path.exists(caminho_json):
-        # Tenta buscar um nível acima caso necessário
+        # Fallback para busca caso o script esteja em subpastas
         caminho_base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         caminho_json = os.path.join(caminho_base, "meuprojetocadsite-5ecb421b15a7.json")
 
     with open(caminho_json, 'r') as f:
         info = json.load(f)
     
-    # Limpeza crucial da chave privada para evitar o erro 'account not found'
+    # Tratamento crucial para que o Google reconheça a conta de serviço
     info["private_key"] = info["private_key"].replace("\\n", "\n")
     
     return Credentials.from_service_account_info(info, scopes=scope)
 
 def registrar_acesso(nome_pagina, acao="Visualização"):
-    """Registra logs preservando os dados anteriores."""
+    """Registra logs preservando os dados anteriores na planilha."""
     try:
         creds = obter_credenciais()
         client = gspread.authorize(creds)
-        # ID da sua planilha de acessos conforme print
+        # ID direto da sua planilha para evitar erro de 'account not found' por nome
         sheet = client.open_by_key("1JXVHEK4qjj4CJUdfaapKjBxl_WFmBDFHMJyIItxfchU").sheet1
 
         fuso = timezone(timedelta(hours=-3))
