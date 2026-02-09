@@ -3,6 +3,7 @@ import gspread
 import uuid
 import os
 import time
+import json
 from google.oauth2.service_account import Credentials
 from datetime import datetime, timedelta, timezone
 
@@ -13,46 +14,51 @@ if "start_time" not in st.session_state:
     st.session_state["start_time"] = time.time()
 
 def obter_credenciais():
-    """Busca o JSON na raiz de forma segura para o Streamlit Cloud."""
+    """Busca o JSON e limpa a chave privada para evitar o erro invalid_grant."""
     scope = [
         "https://www.googleapis.com/auth/spreadsheets",
         "https://www.googleapis.com/auth/drive"
     ]
-    # O arquivo deve estar na RAIZ do GitHub
-    arquivo_json = "meuprojetocadsite-5ecb421b15a7.json"
+    caminho_json = "meuprojetocadsite-5ecb421b15a7.json"
     
-    if not os.path.exists(arquivo_json):
-        raise FileNotFoundError(f"O arquivo {arquivo_json} não foi encontrado na raiz do projeto.")
-        
-    return Credentials.from_service_account_file(arquivo_json, scopes=scope)
+    if not os.path.exists(caminho_json):
+        # Fallback para busca em diretórios pais se necessário
+        caminho_json = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", caminho_json)
+
+    with open(caminho_json, 'r') as f:
+        info = json.load(f)
+    
+    # O PULO DO GATO: Garante que a chave privada seja lida corretamente pelo Google
+    info["private_key"] = info["private_key"].replace("\\n", "\n")
+    
+    return Credentials.from_service_account_info(info, scopes=scope)
 
 def registrar_acesso(nome_pagina, acao="Visualização"):
-    """Registra logs de acesso na planilha."""
+    """Registra logs preservando os dados anteriores na planilha."""
     try:
         creds = obter_credenciais()
         client = gspread.authorize(creds)
-        sheet = client.open("Relatorio_Acessos_Site").sheet1
+        # Abre pelo ID direto para não ter erro de 'account not found' por nome
+        sheet = client.open_by_key("1JXVHEK4qjj4CJUdfaapKjBxl_WFmBDFHMJyIItxfchU").sheet1
 
         fuso = timezone(timedelta(hours=-3))
         agora_str = datetime.now(fuso).strftime("%d/%m/%Y %H:%M:%S")
         
-        segundos = int(time.time() - st.session_state["start_time"])
-        duracao = str(timedelta(seconds=segundos))
-
         ua = st.context.headers.get("User-Agent", "").lower()
         dispositivo = "Celular" if "mobile" in ua else "PC"
 
         sheet.append_row([
             agora_str, st.session_state["session_id"], dispositivo, 
             "Ativo", "Navegador", "Remote", "Direto", 
-            nome_pagina, acao, duracao
+            nome_pagina, acao, "00:00"
         ])
     except Exception as e:
-        print(f"Erro no log de acesso: {e}")
+        print(f"Log Error: {e}")
 
 def exibir_rodape():
-    st.markdown("---")
+    st.markdown("<hr style='border: 0.5px solid rgba(255,255,255,0.1);'>", unsafe_allow_html=True)
     st.markdown(
-        "<div style='text-align:center; color:gray; font-size: 0.8rem;'>SKY DATA SOLUTION © 2026 | Rodrigo Aiosa</div>",
+        "<div style='text-align:center; color:gray; font-size: 0.8rem; padding-bottom: 20px;'>"
+        "SKY DATA SOLUTION © 2026 | Rodrigo Aiosa</div>",
         unsafe_allow_html=True
     )
