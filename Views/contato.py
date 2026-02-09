@@ -1,24 +1,46 @@
 import streamlit as st
-from utils import salvar_formulario_contato, exibir_rodape
+import gspread
+from datetime import datetime
+from utils import exibir_rodape, registrar_acesso, obter_credenciais
 
-st.title("📬 Entre em Contato")
-st.write("Preencha o formulário abaixo para enviar sua mensagem.")
+# Registra a visualização da página
+registrar_acesso("Página de Contato")
 
-with st.form("form_contato_site", clear_on_submit=True):
-    nome = st.text_input("Nome Completo")
-    email = st.text_input("E-mail")
-    whatsapp = st.text_input("WhatsApp (DDD + Número)")
-    mensagem = st.text_area("Sua Mensagem")
+def main():
+    st.markdown("<h1 style='text-align: center; color: #00b4d8;'>🚀 Vamos escalar seu projeto?</h1>", unsafe_allow_html=True)
     
-    submit = st.form_submit_button("Enviar Mensagem")
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        with st.form(key="contato_final", clear_on_submit=True):
+            nome = st.text_input("👤 Nome Completo")
+            email = st.text_input("📧 E-mail Profissional")
+            whatsapp = st.text_input("📱 WhatsApp (DDD + Número)")
+            mensagem = st.text_area("💬 Como posso te ajudar?")
+            enviar = st.form_submit_button("Enviar Mensagem Agora")
 
-if submit:
-    if nome and email and mensagem:
-        # Chama a função que preserva os dados existentes
-        com_sucesso = salvar_formulario_contato([nome, email, whatsapp, mensagem])
-        if com_sucesso:
-            st.success("Sua mensagem foi enviada com sucesso! Obrigado pelo contato.")
-    else:
-        st.warning("Por favor, preencha todos os campos obrigatórios (Nome, E-mail e Mensagem).")
+        if enviar:
+            if not nome or not email or not whatsapp or not mensagem:
+                st.error("❌ Preencha todos os campos!")
+            else:
+                try:
+                    with st.spinner("Gravando dados..."):
+                        creds = obter_credenciais()
+                        client = gspread.authorize(creds)
+                        
+                        # ID direto da planilha de contatos do seu print
+                        url_id = "1JXVHEK4qjj4CJUdfaapKjBxl_WFmBDFHMJyIItxfchU"
+                        sheet = client.open_by_key(url_id).sheet1
+                        
+                        # Salva preservando o histórico existente
+                        data_hora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+                        sheet.append_row([data_hora, nome, email, whatsapp, mensagem])
+                        
+                        st.balloons()
+                        st.success("✅ Sucesso! Dados gravados na planilha.")
+                except Exception as e:
+                    st.error(f"Erro Crítico: {e}")
+
+if __name__ == "__main__":
+    main()
 
 exibir_rodape()
