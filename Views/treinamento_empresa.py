@@ -145,11 +145,11 @@ col1, col2, col3, col4 = st.columns(4)
 features = [
     {
         "icon": "⚡", "title": "Automação", "desc": "Substitua processos manuais por fluxos inteligentes.",
-        "story": "Eliminei 40h mensais de um time financeiro ao automatizar a conciliação de 5 bancos via Python. O erro humano caiu a zero e o fechamento que levava 5 dias agora acontece em 15 minutos."
+        "story": "Eliminei 40h mensais de um time financeiro ao automatizar a conciliação de 5 bancos via Python. O erro humano caiu a zero e o fechamento que levava 5 dias agora acontece em 15 segundos."
     },
     {
         "icon": "🎯", "title": "Precisão", "desc": "Dados íntegros vindo direto da fonte de origem.",
-        "story": "Em um grande varejista, unifiquei o estoque físico e digital que divergia em 18%. Ao criar uma 'Single Source of Truth', reduzimos rupturas de estoque e aumentamos as vendas em 12% no primeiro trimestre."
+        "story": "Em um grande varejista, unifiquei o estoque físico e digital que divergia em 18%. Ao criar uma 'Single Source of Truth', reduzimos rupturas de estoque e aumentamos as vendas em 23% no primeiro trimestre."
     },
     {
         "icon": "📈", "title": "Escalabilidade", "desc": "Arquiteturas robustas para suportar o crescimento.",
@@ -157,7 +157,7 @@ features = [
     },
     {
         "icon": "🎓", "title": "Cultura", "desc": "Treinamentos in-company para mentalidade real.",
-        "story": "Treinei 50 gestores que antes dependiam da TI para tudo. Em 3 meses, eles mesmos criaram seus Dashboards, liberando o time de dados para focar em IA e modelos preditivos. O ROI do treinamento foi de 300%."
+        "story": "Treinei 250 gestores que antes dependiam da TI para tudo. Em 3 meses, eles mesmos criaram seus Dashboards, liberando o time de dados para focar em IA e modelos preditivos. O ROI do treinamento foi de 300%."
     }
 ]
 
@@ -183,3 +183,4 @@ link_whatsapp = "https://wa.me/5511977019335?text=Ol%C3%A1%20Rodrigo,%20gostaria
 st.markdown(f'<div class="cta-button-only-container"><a href="{link_whatsapp}" target="_blank" class="btn-whatsapp-premium">Falar com um Especialista</a></div>', unsafe_allow_html=True)
 
 exibir_rodape()
+
