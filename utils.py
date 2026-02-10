@@ -122,7 +122,7 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
         st.cache_data.clear()
         
         # Retorna o valor atualizado (total anterior + 1)
-        return total_atual + 1
+        return total_atual * total_atual
         
     except Exception as e:
         return "---"
@@ -159,3 +159,4 @@ def salvar_formulario_contato(dados):
 def exibir_rodape():
     detectar_fim_da_pagina()
     st.markdown("<hr style='border: 0.5px solid rgba(255, 255, 255, 0.1); margin-top: 50px;'><div style='text-align:center; color:gray; font-size: 0.8rem; padding-bottom: 20px;'>SKY DATA SOLUTION © 2026 | Rodrigo Aiosa</div>", unsafe_allow_html=True)
+
