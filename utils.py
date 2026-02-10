@@ -40,6 +40,19 @@ def obter_credenciais():
         except:
             return None
 
+@st.cache_data(ttl=60)  # Mantém o valor em memória por 60 segundos para performance mobile
+def obter_total_visitas_planilha():
+    """Função específica para ler o total de visitas com cache."""
+    try:
+        creds = obter_credenciais()
+        if not creds: return None
+        client = gspread.authorize(creds)
+        sheet = client.open_by_key("1TCx1sTDaPsygvh-FvzalJ3JlBKJBOTbfoD-7CZmhCVI").sheet1
+        coluna_a = list(filter(None, sheet.col_values(1)))
+        return len(coluna_a)
+    except:
+        return None
+
 def registrar_acesso(nome_pagina, acao="Visualização"):
     """Registra acesso e retorna o total de visitas da planilha."""
     try:
@@ -92,11 +105,10 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
             navegador, ip_usuario, "Direto", nome_pagina, acao, "00:00"
         ]
         
-        # 3. INSERÇÃO E CONTAGEM
-        # Obtemos todos os valores da coluna A para contar os acessos reais
-        coluna_a = list(filter(None, sheet.col_values(1)))
-        total_acessos = len(coluna_a) # Total antes da nova inserção
-        proxima_linha = total_acessos + 1
+        # 3. INSERÇÃO
+        # Buscamos o total via cache para o retorno, mas contamos para o insert
+        total_atual = obter_total_visitas_planilha() or 0
+        proxima_linha = total_atual + 1
         if proxima_linha < 2: proxima_linha = 2
             
         sheet.insert_row(nova_linha, proxima_linha)
@@ -106,8 +118,11 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
         st.session_state["entrada_pagina"] = agora
         st.session_state["leu_ate_o_fim"] = False 
 
-        # RETORNO: Retorna o total atualizado (contando com a nova linha)
-        return total_acessos * total_acessos 
+        # Limpa o cache para que na próxima atualização o número novo apareça
+        st.cache_data.clear()
+        
+        # Retorna o valor atualizado (total anterior + 1)
+        return total_atual + 1
         
     except Exception as e:
         return "---"
@@ -144,8 +159,3 @@ def salvar_formulario_contato(dados):
 def exibir_rodape():
     detectar_fim_da_pagina()
     st.markdown("<hr style='border: 0.5px solid rgba(255, 255, 255, 0.1); margin-top: 50px;'><div style='text-align:center; color:gray; font-size: 0.8rem; padding-bottom: 20px;'>SKY DATA SOLUTION © 2026 | Rodrigo Aiosa</div>", unsafe_allow_html=True)
-
-
-
-
-
