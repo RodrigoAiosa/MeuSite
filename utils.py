@@ -1,6 +1,7 @@
 import streamlit as st
 import gspread
 import uuid
+import streamlit.components.v1 as components
 from google.oauth2.service_account import Credentials
 from datetime import datetime, timedelta, timezone
 
@@ -11,9 +12,11 @@ if "entrada_pagina" not in st.session_state:
     st.session_state["entrada_pagina"] = datetime.now(timezone(timedelta(hours=-3)))
 if "ultima_linha_acesso" not in st.session_state:
     st.session_state["ultima_linha_acesso"] = None
+if "leu_ate_o_fim" not in st.session_state:
+    st.session_state["leu_ate_o_fim"] = False
 
 def obter_credenciais():
-    """Conecta ao Google usando Secrets do Streamlit."""
+    """Conecta ao Google usando Secrets do Streamlit Cloud."""
     scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
     try:
         creds_dict = {
@@ -34,13 +37,13 @@ def obter_credenciais():
         return None
 
 def registrar_acesso(nome_pagina, acao="Visualização"):
-    """Registra acessos sequencialmente a partir da linha 2 e calcula a duração."""
+    """Registra acessos sequencialmente a partir da linha 2 e calcula duração."""
     try:
         creds = obter_credenciais()
         if not creds: return
         client = gspread.authorize(creds)
         
-        # ID da planilha de ACESSOS
+        # ID da planilha de MONITORAMENTO (Acessos)
         id_planilha_acessos = "1TCx1sTDaPsygvh-FvzalJ3JlBKJBOTbfoD-7CZmhCVI"
         sheet = client.open_by_key(id_planilha_acessos).sheet1
         
@@ -54,12 +57,11 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
             minutos, segundos = divmod(int(delta.total_seconds()), 60)
             duracao_str = f"{minutos:02d}:{segundos:02d}"
             try:
-                # Atualiza a coluna 10 (J) da última linha registrada
                 sheet.update_cell(st.session_state["ultima_linha_acesso"], 10, duracao_str)
             except:
                 pass
 
-        # 2. INSERIR NOVA LINHA (Garantindo início na linha 2)
+        # 2. INSERIR NOVA LINHA (Garantindo início na linha 2 da Coluna A)
         ua = st.context.headers.get("User-Agent", "").lower()
         dispositivo = "Celular" if "mobile" in ua else "PC"
         
@@ -76,34 +78,65 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
             "00:00"
         ]
         
-        # Busca a primeira linha realmente vazia na Coluna A para evitar saltos
+        # Evita pular linhas: busca o fim real dos dados na Coluna A
         valores_coluna_a = sheet.col_values(1)
         proxima_linha = len(valores_coluna_a) + 1
-        
-        if proxima_linha < 2:
-            proxima_linha = 2
+        if proxima_linha < 2: proxima_linha = 2
             
         sheet.insert_row(nova_linha, proxima_linha)
         
         # 3. ATUALIZAR ESTADOS DE SESSÃO
         st.session_state["ultima_linha_acesso"] = proxima_linha
         st.session_state["entrada_pagina"] = agora
+        st.session_state["leu_ate_o_fim"] = False # Reseta para a nova página
         
     except Exception:
         pass
 
+def detectar_fim_da_pagina():
+    """Injeta JavaScript para monitorar o scroll e atualizar a coluna 'acao'."""
+    js_code = """
+    <script>
+    const monitorarScroll = () => {
+        const alturaJanela = window.innerHeight;
+        const alturaDocumento = document.documentElement.scrollHeight;
+        const posicaoScroll = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Gatilho: 95% da página percorrida
+        if ((alturaJanela + posicaoScroll) >= (alturaDocumento - 100)) {
+            window.parent.postMessage({type: 'streamlit:setComponentValue', value: true}, '*');
+        }
+    }
+    window.parent.document.addEventListener('scroll', monitorarScroll);
+    </script>
+    """
+    # Componente oculto para detectar o sinal do JS
+    chegou_ao_fim = components.html(js_code, height=0, width=0)
+    
+    if chegou_ao_fim and not st.session_state.get("leu_ate_o_fim"):
+        try:
+            creds = obter_credenciais()
+            client = gspread.authorize(creds)
+            id_planilha_acessos = "1TCx1sTDaPsygvh-FvzalJ3JlBKJBOTbfoD-7CZmhCVI"
+            sheet = client.open_by_key(id_planilha_acessos).sheet1
+            
+            # Atualiza coluna I (9) da linha de acesso atual
+            sheet.update_cell(st.session_state["ultima_linha_acesso"], 9, "Leu até o fim")
+            st.session_state["leu_ate_o_fim"] = True
+        except:
+            pass
+
 def salvar_formulario_contato(dados):
-    """Salva os dados do formulário na planilha de contatos preservando existentes."""
+    """Salva os dados do formulário na planilha de contatos sem apagar os existentes."""
     try:
         creds = obter_credenciais()
         if not creds: return False
         client = gspread.authorize(creds)
         
-        # ID da planilha de CONTATOS
+        # ID da planilha de CONTATOS (Formulário)
         id_planilha_contato = "1JXVHEK4qjj4CJUdfaapKjBxl_WFmBDFHMJyIItxfchU"
         sheet = client.open_by_key(id_planilha_contato).sheet1
         
-        # Insere na próxima linha disponível da coluna A
         valores_coluna_a = sheet.col_values(1)
         proxima_linha = len(valores_coluna_a) + 1
         if proxima_linha < 2: proxima_linha = 2
@@ -115,5 +148,6 @@ def salvar_formulario_contato(dados):
         return False
 
 def exibir_rodape():
-    """Exibe o rodapé padrão em todas as páginas."""
+    """Exibe o rodapé e chama a detecção de scroll."""
+    detectar_fim_da_pagina()
     st.markdown("<hr style='border: 0.5px solid rgba(255, 255, 255, 0.1); margin-top: 50px;'><div style='text-align:center; color:gray; font-size: 0.8rem; padding-bottom: 20px;'>SKY DATA SOLUTION © 2026 | Rodrigo Aiosa</div>", unsafe_allow_html=True)
