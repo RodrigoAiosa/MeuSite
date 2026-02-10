@@ -1,12 +1,12 @@
 import streamlit as st
 import os
-from utils import exibir_rodape, registrar_acesso  # Importação adicionada
+from utils import exibir_rodape, registrar_acesso
 
 # --- REGISTRO DE ACESSO ---
-# Chama a função logo no início para garantir a gravação na planilha
+# Registra o acesso na planilha "Relatorio_Acessos_Site" (ID: 1TCx...CVI)
 registrar_acesso("Cases de Sucesso")
 
-# --- ESTILO CSS PARA IMAGENS GRANDES ---
+# --- ESTILO CSS PARA IMAGENS ---
 st.markdown(
     """
     <style>
@@ -38,10 +38,16 @@ slides = [
     "Slide10.JPG", "Slide11.JPG", "Slide12.JPG", "Slide13.JPG", "Slide14.JPG"
 ]
 
+# Loop para exibir as imagens
 for slide in slides:
     caminho_img = os.path.join("assets", slide)
-    # Exibe a imagem usando o parâmetro atualizado do Streamlit
-    st.image(caminho_img, use_container_width=True)
-    st.markdown("---")
+    
+    # Verifica se o arquivo realmente existe para evitar erros visuais
+    if os.path.exists(caminho_img):
+        st.image(caminho_img, use_container_width=True)
+        st.markdown("---")
+    else:
+        st.warning(f"Imagem não encontrada: {slide}")
 
+# Exibe o rodapé padrão da SKY DATA SOLUTION
 exibir_rodape()
