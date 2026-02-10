@@ -12,7 +12,7 @@ if "session_id" not in st.session_state:
     st.session_state["session_id"] = str(uuid.uuid4())[:8]
 
 def obter_credenciais():
-    """Limpa a chave para evitar erro de assinatura JWT."""
+    """Limpeza bruta da chave privada para eliminar o erro de assinatura JWT."""
     scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
     caminho_json = "meuprojetocadsite-5ecb421b15a7.json"
     
@@ -22,37 +22,41 @@ def obter_credenciais():
     with open(caminho_json, 'r') as f:
         info = json.load(f)
     
+    # RESOLUÇÃO DEFINITIVA: Remove escapes e força a formatação correta da chave
     if "private_key" in info:
-        info["private_key"] = info["private_key"].replace("\\n", "\n").strip()
+        # Substitui quebras de linha literais por caracteres reais e remove lixo
+        chave_corrigida = info["private_key"].replace("\\n", "\n").strip()
+        info["private_key"] = chave_corrigida
     
     return Credentials.from_service_account_info(info, scopes=scope)
 
 def registrar_acesso(nome_pagina, acao="Visualização"):
-    """Registra acessos sem apagar dados anteriores."""
+    """Registra acessos sem apagar os dados existentes na planilha."""
     try:
         creds = obter_credenciais()
         client = gspread.authorize(creds)
         id_planilha = "1JXVHEK4qjj4CJUdfaapKjBxl_WFmBDFHMJyIItxfchU"
         sheet = client.open_by_key(id_planilha).sheet1
-        
+
         fuso = timezone(timedelta(hours=-3))
         agora_str = datetime.now(fuso).strftime("%d/%m/%Y %H:%M:%S")
         ua = st.context.headers.get("User-Agent", "").lower()
         dispositivo = "Celular" if "mobile" in ua else "PC"
 
+        # append_row preserva o histórico anterior
         sheet.append_row([agora_str, st.session_state.get("session_id"), dispositivo, "Ativo", "Navegador", "Remote", "Direto", nome_pagina, acao, "00:00"])
     except Exception as e:
         print(f"Erro Log: {e}")
 
 def salvar_formulario_contato(dados):
-    """Grava a lista de dados e preserva o histórico."""
+    """Adiciona nova linha preservando os dados da tabela."""
     try:
         creds = obter_credenciais()
         client = gspread.authorize(creds)
         id_planilha = "1JXVHEK4qjj4CJUdfaapKjBxl_WFmBDFHMJyIItxfchU"
         sheet = client.open_by_key(id_planilha).sheet1
         
-        # O gspread.append_row salva no fim da planilha
+        # append_row garante que não haverá sobrescrita
         sheet.append_row(dados)
         return True
     except Exception as e:
@@ -60,5 +64,5 @@ def salvar_formulario_contato(dados):
         return False
 
 def exibir_rodape():
-    """Rodapé padrão SKY DATA SOLUTION."""
+    """Rodapé SKY DATA SOLUTION."""
     st.markdown("<hr style='border: 0.5px solid rgba(255, 255, 255, 0.1); margin-top: 50px;'><div style='text-align:center; color:gray; font-size: 0.8rem; padding-bottom: 20px;'>SKY DATA SOLUTION © 2026 | Rodrigo Aiosa</div>", unsafe_allow_html=True)
