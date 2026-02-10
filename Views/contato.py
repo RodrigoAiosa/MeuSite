@@ -33,7 +33,7 @@ def main():
             elif not mensagem.strip():
                 st.error("Escreva uma mensagem.")
             else:
-                with st.spinner("Enviando para a planilha..."):
+                with st.spinner("Enviando..."):
                     # Organização dos dados para a planilha bd_contato_form_site
                     dados_lista = [
                         datetime.now().strftime("%d/%m/%Y %H:%M:%S"), 
@@ -56,4 +56,5 @@ if __name__ == "__main__":
     main()
 
 exibir_rodape()
+
 
