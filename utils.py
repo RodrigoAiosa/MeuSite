@@ -36,7 +36,7 @@ def obter_credenciais():
         return None
 
 def registrar_acesso(nome_pagina, acao="Visualização"):
-    """Registra acessos detalhando o tipo de dispositivo móvel (Android, iOS, Tablet)."""
+    """Registra acessos detalhando Apple, Android ou PC e calcula duração."""
     try:
         creds = obter_credenciais()
         if not creds: return
@@ -51,36 +51,42 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
         if st.session_state.get("ultima_linha_acesso"):
             delta = agora - st.session_state["entrada_pagina"]
             duracao_str = f"{int(delta.total_seconds() // 60):02d}:{int(delta.total_seconds() % 60):02d}"
-            if sheet.cell(st.session_state["ultima_linha_acesso"], 1).value:
+            try:
                 sheet.update_cell(st.session_state["ultima_linha_acesso"], 10, duracao_str)
+            except: pass
 
         # 2. IDENTIFICAÇÃO DETALHADA DO DISPOSITIVO
         ua = st.context.headers.get("User-Agent", "").lower()
+        so = "Ativo"
         
         if "ipad" in ua or ("android" in ua and "mobile" not in ua):
             dispositivo = "Tablet"
         elif "iphone" in ua:
             dispositivo = "Celular (Apple)"
+            so = "iOS"
         elif "android" in ua:
             dispositivo = "Celular (Android)"
-        elif "mobile" in ua:
-            dispositivo = "Celular (Outro)"
+            so = "Android"
         else:
             dispositivo = "PC"
+            so = "Windows/Mac/Linux"
         
-        nova_linha = [agora_str, st.session_state["session_id"], dispositivo, "Ativo", "Navegador", "Remote", "Direto", nome_pagina, acao, "00:00"]
+        nova_linha = [agora_str, st.session_state["session_id"], dispositivo, so, "Navegador", "Remote", "Direto", nome_pagina, acao, "00:00"]
         
-        # Busca linha real para evitar o erro da célula J28
+        # Busca a próxima linha disponível real
         proxima_linha = len(list(filter(None, sheet.col_values(1)))) + 1
         if proxima_linha < 2: proxima_linha = 2
             
         sheet.insert_row(nova_linha, proxima_linha)
         
+        # Atualiza os dados na sessão
         st.session_state["ultima_linha_acesso"] = proxima_linha
         st.session_state["entrada_pagina"] = agora
         st.session_state["leu_ate_o_fim"] = False 
-    except:
-        pass
+        
+    except Exception as e:
+        # Remova o 'pass' temporariamente se quiser ver o erro no terminal
+        print(f"Erro ao registrar: {e}")
 
 def detectar_fim_da_pagina():
     js_code = """
@@ -92,7 +98,8 @@ def detectar_fim_da_pagina():
     window.parent.document.addEventListener('scroll', monitorar);
     </script>
     """
-    if components.html(js_code, height=0, width=0) and not st.session_state.get("leu_ate_o_fim"):
+    chegou_fim = components.html(js_code, height=0, width=0)
+    if chegou_fim and not st.session_state.get("leu_ate_o_fim"):
         try:
             creds = obter_credenciais()
             sheet = gspread.authorize(creds).open_by_key("1TCx1sTDaPsygvh-FvzalJ3JlBKJBOTbfoD-7CZmhCVI").sheet1
