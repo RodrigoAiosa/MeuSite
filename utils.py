@@ -1,7 +1,6 @@
 import streamlit as st
 import gspread
 import uuid
-import re
 import streamlit.components.v1 as components
 from google.oauth2.service_account import Credentials
 from datetime import datetime, timedelta, timezone
@@ -32,68 +31,53 @@ def obter_credenciais():
             "client_x509_cert_url": st.secrets["client_x509_cert_url"]
         }
         return Credentials.from_service_account_info(creds_dict, scopes=scope)
-    except Exception:
+    except:
         try:
             return Credentials.from_service_account_file("meuprojetocadsite-5ecb421b15a7.json", scopes=scope)
         except:
             return None
 
 def registrar_acesso(nome_pagina, acao="Visualização"):
-    """Registra acesso e retorna o total de visitas de forma direta."""
+    """Registra o acesso e retorna o número total de linhas."""
     try:
         creds = obter_credenciais()
-        if not creds: return 0
+        if not creds: return "---"
         
         client = gspread.authorize(creds)
         sheet = client.open_by_key("1TCx1sTDaPsygvh-FvzalJ3JlBKJBOTbfoD-7CZmhCVI").sheet1
+        
+        # 1. PEGAR TOTAL ATUAL (Rápido)
+        # Usamos row_count ou len da col1 para saber o volume
+        total_atual = len(sheet.col_values(1))
         
         fuso = timezone(timedelta(hours=-3))
         agora = datetime.now(fuso)
         agora_str = agora.strftime("%d/%m/%Y %H:%M:%S")
         
-        # 1. ATUALIZAR DURAÇÃO NA LINHA ANTERIOR
-        if st.session_state.get("ultima_linha_acesso"):
-            delta = agora - st.session_state["entrada_pagina"]
-            duracao_str = f"{int(delta.total_seconds() // 60):02d}:{int(delta.total_seconds() % 60):02d}"
-            try:
-                sheet.update_cell(st.session_state["ultima_linha_acesso"], 10, duracao_str)
-            except: pass
-
-        # 2. CAPTURA DO DISPOSITIVO
+        # 2. CAPTURA DE DISPOSITIVO
         headers = st.context.headers
         ua = headers.get("User-Agent", "").lower()
-        ip_usuario = headers.get("X-Forwarded-For", "Privado").split(",")[0]
+        ip = headers.get("X-Forwarded-For", "Privado").split(",")[0]
         
-        # Classificação simples
-        if "iphone" in ua: dispositivo, so_final = "Celular (iPhone)", "iOS"
-        elif "android" in ua: dispositivo, so_final = "Celular (Android)", "Android"
-        elif "windows" in ua: dispositivo, so_final = "PC", "Windows"
-        else: dispositivo, so_final = "PC", "Outro"
+        dispositivo = "PC"
+        if "iphone" in ua: dispositivo = "iPhone"
+        elif "android" in ua: dispositivo = "Android"
 
         nova_linha = [
-            agora_str, st.session_state["session_id"], dispositivo, so_final, 
-            "Navegador", ip_usuario, "Direto", nome_pagina, acao, "00:00"
+            agora_str, st.session_state["session_id"], dispositivo, 
+            "SO", "Navegador", ip, "Direto", nome_pagina, acao, "00:00"
         ]
         
-        # 3. INSERÇÃO E CONTAGEM DIRETA
-        # Pegamos todos os valores da coluna A para contar
-        coluna_a = sheet.col_values(1)
-        total_atual = len(list(filter(None, coluna_a)))
+        # 3. INSERIR E RETORNAR
+        sheet.insert_row(nova_linha, total_atual + 1)
+        st.session_state["ultima_linha_acesso"] = total_atual + 1
         
-        proxima_linha = total_atual + 1
-        sheet.insert_row(nova_linha, proxima_linha)
-        
-        st.session_state["ultima_linha_acesso"] = proxima_linha
-        st.session_state["entrada_pagina"] = agora
-        
-        # Retorna o total somando a nova linha
-        return total_atual * total_atual
-        
-    except Exception:
-        return 0
+        return total_atual + 1
+    except:
+        return "---"
 
 def detectar_fim_da_pagina():
-    # ... (seu código de JS se mantém igual)
+    # Mantido conforme original
     pass
 
 def salvar_formulario_contato(dados):
@@ -107,4 +91,3 @@ def salvar_formulario_contato(dados):
 
 def exibir_rodape():
     st.markdown("<hr style='border: 0.5px solid rgba(255, 255, 255, 0.1); margin-top: 50px;'><div style='text-align:center; color:gray; font-size: 0.8rem; padding-bottom: 20px;'>SKY DATA SOLUTION © 2026 | Rodrigo Aiosa</div>", unsafe_allow_html=True)
-
