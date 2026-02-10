@@ -32,12 +32,12 @@ st.markdown(
     .hero-subtitle {
         color: #94a3b8;
         font-size: 1.3rem;
-        text-align: center; /* Centraliza o texto */
-        max-width: 850px;    /* Limita a largura para não ficar uma linha infinita */
-        margin: 0 auto 60px auto; /* O 'auto' nas laterais centraliza o bloco na página */
+        text-align: center;
+        max-width: 850px;
+        margin: 0 auto 60px auto;
         line-height: 1.6;
         font-weight: 300;
-        display: block;      /* Garante que se comporte como bloco para o margin auto funcionar */
+        display: block;
     }
 
     /* Manifesto Section com Efeito Glass */
@@ -50,6 +50,19 @@ st.markdown(
         margin-bottom: 80px;
         text-align: center;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Badge de ROI */
+    .roi-badge {
+        display: inline-block;
+        background: rgba(0, 180, 216, 0.15);
+        color: #00b4d8;
+        padding: 8px 20px;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-top: 25px;
+        border: 1px solid rgba(0, 180, 216, 0.3);
     }
 
     /* CARDS REFINADOS */
@@ -123,13 +136,19 @@ st.markdown(
 # --- CONTEÚDO ---
 st.markdown('<h1 class="hero-title">Consultoria Data-Driven</h1>', unsafe_allow_html=True)
 
-# Manifesto
+# Manifesto com destaque de ROI e Treinamento
 st.markdown("""
     <div class="manifesto-box">
         <h2 style='color: white; font-size: 2.2rem; font-weight: 700; margin-bottom: 20px; letter-spacing: -1px;'>Sua empresa gera inteligência ou apenas acumula planilhas?</h2>
         <p style='color: #94a3b8; font-size: 1.25rem; line-height: 1.8; max-width: 800px; margin: 0 auto;'>
             Nossa metodologia conecta <b>Python, BI e Processos de Negócio</b> para transformar dados brutos em decisões estratégicas automáticas.
         </p>
+        <div style='margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); pt-20px;'>
+            <p style='color: #e2e8f0; font-size: 1.1rem; margin-top: 25px;'>
+                Metodologia validada em grandes players do mercado, entregando um <b>ROI comprovado entre 35% e 42%</b> em projetos de capacitação e automação.
+            </p>
+            <div class="roi-badge">📈 Performance Garantida: ROI Mínimo de 35%</div>
+        </div>
     </div>
 """, unsafe_allow_html=True)
 
@@ -170,4 +189,3 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 exibir_rodape()
-
