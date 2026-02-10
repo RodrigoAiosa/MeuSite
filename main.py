@@ -16,9 +16,9 @@ try:
         # Formato: 117.649
         total_visitas = f"{int(resultado_visitas):,}".replace(",", ".")
     else:
-        total_visitas = "---"
+        total_visitas = resultado_visitas
 except Exception:
-    total_visitas = "---"
+    total_visitas = resultado_visitas
 
 # --- ESTILO CSS (Otimizado para Mobile) ---
 st.markdown("""
@@ -132,3 +132,4 @@ with st.sidebar:
 
 # Execução da página
 pg.run()
+
