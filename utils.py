@@ -13,7 +13,6 @@ if "ultima_linha_acesso" not in st.session_state:
     st.session_state["ultima_linha_acesso"] = None
 
 def obter_credenciais():
-    """Conecta ao Google usando Secrets."""
     scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
     try:
         creds_dict = {
@@ -34,13 +33,12 @@ def obter_credenciais():
         return None
 
 def registrar_acesso(nome_pagina, acao="Visualização"):
-    """Registra acessos e calcula a duração da página anterior."""
+    """Registra acessos na planilha de monitoramento e calcula duração na coluna J."""
     try:
         creds = obter_credenciais()
         if not creds: return
         client = gspread.authorize(creds)
         
-        # Planilha de MONITORAMENTO (Acessos)
         id_planilha_acessos = "1TCx1sTDaPsygvh-FvzalJ3JlBKJBOTbfoD-7CZmhCVI"
         sheet = client.open_by_key(id_planilha_acessos).sheet1
         
@@ -48,7 +46,7 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
         agora = datetime.now(fuso)
         agora_str = agora.strftime("%d/%m/%Y %H:%M:%S")
         
-        # Atualiza duração da página anterior na coluna J (10)
+        # 1. ATUALIZAR DURAÇÃO DA PÁGINA ANTERIOR (Coluna J)
         if st.session_state["ultima_linha_acesso"]:
             delta = agora - st.session_state["entrada_pagina"]
             minutos, segundos = divmod(int(delta.total_seconds()), 60)
@@ -57,34 +55,29 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
                 sheet.update_cell(st.session_state["ultima_linha_acesso"], 10, duracao_str)
             except: pass
 
-        # Nova linha de acesso
+        # 2. INSERIR NOVA LINHA DE ACESSO
         ua = st.context.headers.get("User-Agent", "").lower()
         dispositivo = "Celular" if "mobile" in ua else "PC"
         
         nova_linha = [agora_str, st.session_state["session_id"], dispositivo, "Ativo", "Navegador", "Remote", "Direto", nome_pagina, acao, "00:00"]
         sheet.append_row(nova_linha)
         
-        # Salva referência para o próximo cálculo
+        # 3. ATUALIZAR ESTADOS
         st.session_state["ultima_linha_acesso"] = len(sheet.get_all_values())
         st.session_state["entrada_pagina"] = agora
     except: pass
 
 def salvar_formulario_contato(dados):
-    """SALVA OS DADOS DO FORMULÁRIO (Função que estava faltando)"""
+    """Salva dados do formulário preservando os existentes."""
     try:
         creds = obter_credenciais()
         if not creds: return False
         client = gspread.authorize(creds)
-        
-        # Planilha de CONTATOS (Formulário)
         id_planilha_contato = "1JXVHEK4qjj4CJUdfaapKjBxl_WFmBDFHMJyIItxfchU"
         sheet = client.open_by_key(id_planilha_contato).sheet1
-        
         sheet.append_row(dados)
         return True
-    except Exception as e:
-        st.error(f"Erro ao salvar formulário: {e}")
-        return False
+    except: return False
 
 def exibir_rodape():
     st.markdown("<hr style='border: 0.5px solid rgba(255, 255, 255, 0.1); margin-top: 50px;'><div style='text-align:center; color:gray; font-size: 0.8rem; padding-bottom: 20px;'>SKY DATA SOLUTION © 2026 | Rodrigo Aiosa</div>", unsafe_allow_html=True)
