@@ -79,12 +79,12 @@ def render_python_app(title, description, url):
 
 # --- LISTA DE PROJETOS ---
 
-# Projeto 1
-render_python_app(
-    "⚖️ Calculadora de Viabilidade de Leilão Profissional",
-    "Ferramenta estratégica para investidores imobiliários. Calcula automaticamente impostos (ITBI), custos cartoriais, comissões de leiloeiro e margem de lucro líquida para arrematações seguras.",
-    "https://calculadoraleilao.streamlit.app/"
-)
+# # Projeto 1
+# render_python_app(
+#     "⚖️ Calculadora de Viabilidade de Leilão Profissional",
+#     "Ferramenta estratégica para investidores imobiliários. Calcula automaticamente impostos (ITBI), custos cartoriais, comissões de leiloeiro e margem de lucro líquida para arrematações seguras.",
+#     "https://calculadoraleilao.streamlit.app/"
+# )
 
 # Projeto 2
 render_python_app(
@@ -106,5 +106,6 @@ render_python_app(
     "Aplicação voltada para qualquer empresa. Sabe aquela economia que ninguém vê? Aquela que parece pequena… até que você coloca os números na mesa?",
     "https://economiacafe.streamlit.app/"
 )
+
 
 exibir_rodape()
