@@ -36,7 +36,7 @@ def obter_credenciais():
         return None
 
 def registrar_acesso(nome_pagina, acao="Visualização"):
-    """Registra acessos com IP, SO e Navegador detalhados."""
+    """Registra acessos com IP, SO e Navegador (Correção Chrome)."""
     try:
         creds = obter_credenciais()
         if not creds: return
@@ -52,18 +52,17 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
             delta = agora - st.session_state["entrada_pagina"]
             duracao_str = f"{int(delta.total_seconds() // 60):02d}:{int(delta.total_seconds() % 60):02d}"
             try:
+                # Valida se a linha existe na Coluna A antes de atualizar
                 if sheet.cell(st.session_state["ultima_linha_acesso"], 1).value:
                     sheet.update_cell(st.session_state["ultima_linha_acesso"], 10, duracao_str)
             except: pass
 
-        # 2. CAPTURAR DADOS TÉCNICOS (IP, SO, NAVEGADOR)
+        # 2. CAPTURAR DADOS TÉCNICOS
         headers = st.context.headers
         ua = headers.get("User-Agent", "").lower()
-        
-        # IP Real
         ip_usuario = headers.get("X-Forwarded-For", "Privado").split(",")[0]
         
-        # Sistema Operacional (Coluna D)
+        # Identificação do Sistema Operacional (Coluna D)
         if "iphone" in ua or "ipad" in ua:
             so_final = "iOS"
             dispositivo = "Celular (Apple)" if "iphone" in ua else "Tablet (Apple)"
@@ -77,15 +76,15 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
             so_final = "MacOS"
             dispositivo = "PC"
         else:
-            so_final = "Linux/Outro"
+            so_final = "Outro"
             dispositivo = "PC"
 
-        # Navegador (Coluna E)
-        if "edg" in ua: navegador = "Edge"
-        elif "chrome" in ua and "safari" in ua and "opr" not in ua: navegador = "Chrome"
-        elif "safari" in ua and "chrome" not in ua: navegador = "Safari"
-        elif "firefox" in ua: navegador = "Firefox"
-        elif "opr" in ua or "opera" in ua: navegador = "Opera"
+        # Identificação do Navegador (Coluna E) - ORDEM CRÍTICA
+        if "edg/" in ua: navegador = "Edge"
+        elif "opr/" in ua or "opera/" in ua: navegador = "Opera"
+        elif "firefox/" in ua: navegador = "Firefox"
+        elif "chrome/" in ua: navegador = "Chrome" # Agora só entra aqui se não for Edge/Opera
+        elif "safari/" in ua: navegador = "Safari"
         else: navegador = "Outro"
         
         nova_linha = [
@@ -101,7 +100,7 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
             "00:00"
         ]
         
-        # Busca linha real para evitar saltos
+        # Busca linha real para evitar o erro de escrever em células perdidas
         proxima_linha = len(list(filter(None, sheet.col_values(1)))) + 1
         if proxima_linha < 2: proxima_linha = 2
             
@@ -122,7 +121,8 @@ def detectar_fim_da_pagina():
     window.parent.document.addEventListener('scroll', monitorar);
     </script>
     """
-    if components.html(js_code, height=0, width=0) and not st.session_state.get("leu_ate_o_fim"):
+    chegou_fim = components.html(js_code, height=0, width=0)
+    if chegou_fim and not st.session_state.get("leu_ate_o_fim"):
         try:
             creds = obter_credenciais()
             sheet = gspread.authorize(creds).open_by_key("1TCx1sTDaPsygvh-FvzalJ3JlBKJBOTbfoD-7CZmhCVI").sheet1
