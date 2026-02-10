@@ -1,9 +1,10 @@
 import streamlit as st
 import re
 from datetime import datetime
-from utils import exibir_rodape, salvar_formulario_contato
+from utils import exibir_rodape, salvar_formulario_contato, registrar_acesso
 
 # --- REGISTRO DE ACESSO REMOVIDO PARA NÃO SUJAR A PLANILHA ---
+registrar_acesso("Contato")
 
 def validar_email(email):
     # Regex para validar e-mails profissionais
@@ -55,3 +56,4 @@ if __name__ == "__main__":
     main()
 
 exibir_rodape()
+
