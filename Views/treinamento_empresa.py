@@ -3,7 +3,7 @@ import urllib.parse
 from utils import exibir_rodape, registrar_acesso
 
 # --- REGISTRO DE ACESSO ---
-registrar_acesso("Treinamento Corporativo")
+registrar_acesso("Consultoria & Treinamento Corporativo")
 
 # --- CONFIGURAÇÃO DE ESTILO PSICOLOGIA DAS CORES ---
 st.markdown(
@@ -217,4 +217,5 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 exibir_rodape()
+
 
