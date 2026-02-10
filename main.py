@@ -1,68 +1,33 @@
 import streamlit as st
 from utils import registrar_acesso
 
-# 1. Configuração da página - Deve ser a primeira instrução
+# 1. Configuração da página
 st.set_page_config(
     page_title="Portfólio Rodrigo Aiosa", 
     page_icon="📊", 
     layout="wide"
 )
 
-# --- LÓGICA DE DADOS (Executa antes de tudo) ---
-# Chamamos a função e já tratamos o formato com separador de milhar brasileiro
-try:
-    resultado_visitas = registrar_acesso(st.session_state.get("current_page", "Home"))
-    if isinstance(resultado_visitas, (int, float)):
-        # Formato: 117.649
-        total_visitas = f"{int(resultado_visitas):,}".replace(",", ".")
-    else:
-        total_visitas = resultado_visitas 
-except Exception:
-    total_visitas = "except"
-
-# --- ESTILO CSS (Otimizado para Mobile) ---
+# --- ESTILO CSS (Otimizado para não "sumir" no mobile) ---
 st.markdown("""
     <style>
-    /* Sidebar Background */
-    [data-testid="stSidebar"] {
-        background-color: rgb(38, 38, 48) !important;
-    }
-    
-    /* Menu de Navegação */
-    [data-testid="stSidebarNav"] {
-        background-color: rgb(38, 38, 48) !important;
-        padding-top: 10px;
-    }
+    [data-testid="stSidebar"] { background-color: rgb(38, 38, 48) !important; }
+    [data-testid="stSidebarNav"] { background-color: rgb(38, 38, 48) !important; }
 
-    /* Itens do Menu */
-    [data-testid="stSidebarNav"] ul li a {
-        background-color: transparent !important;
-        border-radius: 12px;
-        margin: 8px 15px;
-        padding: 12px 15px;
-        border: 1px solid rgba(0, 180, 216, 0.4);
-        color: white !important;
-        text-decoration: none !important;
-        display: flex;
-        align-items: center;
-    }
-
-    /* CSS do Contador - Removido Fixed para funcionar no Mobile */
     .visitor-container-box {
         background: rgba(17, 25, 40, 0.8);
         backdrop-filter: blur(10px);
         border: 1px solid rgba(0, 180, 216, 0.3);
         border-radius: 12px;
         padding: 15px;
-        margin: 20px 15px;
+        margin: 10px 15px;
         display: flex;
         align-items: center;
         gap: 12px;
     }
 
     .status-pulse {
-        height: 10px;
-        width: 10px;
+        height: 10px; width: 10px;
         background-color: #00ffcc;
         border-radius: 50%;
         box-shadow: 0 0 10px #00ffcc;
@@ -76,20 +41,8 @@ st.markdown("""
         100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 204, 0); }
     }
 
-    .v-text {
-        color: #a0aec0;
-        font-size: 10px;
-        text-transform: uppercase;
-        letter-spacing: 1.2px;
-        margin-bottom: 2px;
-    }
-
-    .v-number {
-        color: #ffffff;
-        font-weight: 700;
-        font-size: 18px;
-        font-family: 'Inter', sans-serif;
-    }
+    .v-text { color: #a0aec0; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; }
+    .v-number { color: #ffffff; font-weight: 700; font-size: 18px; }
     </style>
     """, unsafe_allow_html=True)
 
@@ -112,12 +65,19 @@ navigation_dict = {
 
 pg = st.navigation(navigation_dict)
 
-# --- SIDEBAR (Renderização do Contador) ---
+# --- LÓGICA DE VISITAS ---
+# Chamamos o registro. Com o cache no utils, a resposta será instantânea após a primeira carga.
+res = registrar_acesso(pg.title)
+
+if res and isinstance(res, int):
+    total_visitas = f"{res:,}".replace(",", ".")
+else:
+    # Caso falhe, tentamos uma última vez sem formatação ou mantemos o traço
+    total_visitas = str(res) if res else "---"
+
+# --- SIDEBAR ---
 with st.sidebar:
-    # Espaçador para o topo
     st.markdown("<div style='margin-top: 15px;'></div>", unsafe_allow_html=True)
-    
-    # Renderização do Badge
     st.markdown(f"""
         <div class="visitor-container-box">
             <div class="status-pulse"></div>
@@ -127,11 +87,6 @@ with st.sidebar:
             </div>
         </div>
     """, unsafe_allow_html=True)
-    
     st.markdown("---")
 
-# Execução da página
 pg.run()
-
-
-
