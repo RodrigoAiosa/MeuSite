@@ -129,3 +129,21 @@ registrar_acesso(pg.title)
 
 # Carrega a página selecionada
 pg.run()
+
+
+
+# --- BLOCO DE TESTE (Pode remover após testar) ---
+if st.checkbox("Verificar meu dispositivo"):
+    headers = st.context.headers
+    ua = headers.get("User-Agent", "").lower()
+    
+    # Simulação rápida da lógica do utils
+    if "iphone" in ua:
+        detecd = "Celular (iPhone)"
+    elif "android" in ua:
+        detecd = "Celular/Tablet (Android)"
+    else:
+        detecd = "PC ou Outro"
+        
+    st.info(f"Seu navegador informa: {ua}")
+    st.success(f"O sistema te registrou como: **{detecd}**")
