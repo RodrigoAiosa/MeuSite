@@ -1,7 +1,7 @@
 import streamlit as st
 from utils import registrar_acesso
 
-# 1. Configuração da página - Resolve avisos de 2026
+# 1. Configuração da página
 st.set_page_config(
     page_title="Portfólio Rodrigo Aiosa", 
     page_icon="📊", 
@@ -16,7 +16,6 @@ st.markdown("""
         background-color: rgb(38, 38, 48) !important;
     }
     
-    /* Estilização dos itens do Menu de Navegação */
     [data-testid="stSidebarNav"] {
         background-color: rgb(38, 38, 48) !important;
         padding-top: 10px;
@@ -41,7 +40,6 @@ st.markdown("""
         transform: translateX(5px);
     }
 
-    /* Item Ativo (Página Atual) */
     [data-testid="stSidebarNav"] ul li a[aria-current="page"] {
         background: linear-gradient(90deg, #00b4d8 0%, #0077b6 100%) !important;
         color: white !important;
@@ -50,7 +48,6 @@ st.markdown("""
         box-shadow: 0 4px 15px rgba(0, 180, 216, 0.3);
     }
 
-    /* Títulos de Categorias na Navegação */
     [data-testid="stSidebarNav"] [data-testid="stSidebarNavSeparator"] + div {
         color: #00b4d8 !important;
         font-weight: 800 !important;
@@ -60,21 +57,17 @@ st.markdown("""
         margin-left: 20px;
     }
 
-    /* CSS para o Contador de Visitas Minimalista */
+    /* CSS para o Contador de Visitas */
     .visitor-counter {
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        z-index: 1000;
+        margin-top: 20px;
         background: rgba(17, 25, 40, 0.75);
         backdrop-filter: blur(8px);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 10px;
-        padding: 8px 15px;
+        padding: 10px 15px;
         display: flex;
         align-items: center;
         gap: 10px;
-        font-family: 'Inter', sans-serif;
     }
 
     .status-dot {
@@ -95,67 +88,29 @@ st.markdown("""
 
     .visitor-text {
         color: #a0aec0;
-        font-size: 12px;
-        letter-spacing: 0.5px;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
     .visitor-count {
         color: #ffffff;
         font-weight: bold;
         font-size: 14px;
+        font-family: 'Courier New', Courier, monospace;
     }
     </style>
     """, unsafe_allow_html=True)
 
 # --- DEFINIÇÃO DAS PÁGINAS ---
-sobre_page = st.Page(
-    page="Views/sobre.py", 
-    title="Sobre Mim", 
-    icon=":material/account_circle:", 
-    default=True
-)
-
-projeto_recente_page = st.Page(
-    page="Views/projetos_recentes.py", 
-    title="Projeto Recente", 
-    icon=":material/history:"
-)
-
-contato_page = st.Page(
-    page="Views/contato.py", 
-    title="Contato", 
-    icon=":material/mail:"
-)
-
-cases_sucesso_page = st.Page(
-    page="Views/cases_sucesso.py", 
-    title="Cases de Sucesso", 
-    icon=":material/emoji_events:"
-)
-
-projeto_python_page = st.Page(
-    page="Views/projetos_python.py", 
-    title="Projetos Python", 
-    icon=":material/code:"
-)
-
-projeto_powerbi_page = st.Page(
-    page="Views/projetos_powerbi.py", 
-    title="Projetos Power BI", 
-    icon=":material/bar_chart:"
-)
-
-treinamento_empresa_page = st.Page(
-    page="Views/treinamento_empresa.py", 
-    title="Para Empresas", 
-    icon=":material/school:"
-)
-
-cursos_online_page = st.Page(
-    page="Views/cursos_online.py", 
-    title="Cursos Online", 
-    icon=":material/local_library:"
-)
+sobre_page = st.Page(page="Views/sobre.py", title="Sobre Mim", icon=":material/account_circle:", default=True)
+projeto_recente_page = st.Page(page="Views/projetos_recentes.py", title="Projeto Recente", icon=":material/history:")
+contato_page = st.Page(page="Views/contato.py", title="Contato", icon=":material/mail:")
+cases_sucesso_page = st.Page(page="Views/cases_sucesso.py", title="Cases de Sucesso", icon=":material/emoji_events:")
+projeto_python_page = st.Page(page="Views/projetos_python.py", title="Projetos Python", icon=":material/code:")
+projeto_powerbi_page = st.Page(page="Views/projetos_powerbi.py", title="Projetos Power BI", icon=":material/bar_chart:")
+treinamento_empresa_page = st.Page(page="Views/treinamento_empresa.py", title="Para Empresas", icon=":material/school:")
+cursos_online_page = st.Page(page="Views/cursos_online.py", title="Cursos Online", icon=":material/local_library:")
 
 # --- NAVEGAÇÃO ESTRUTURADA ---
 navigation_dict = {
@@ -167,19 +122,25 @@ navigation_dict = {
 
 pg = st.navigation(navigation_dict)
 
-# --- REGISTRO DE ACESSO E CONTADOR ---
-# Aqui assumimos que registrar_acesso retorna o total ou você busca do seu banco
-total_visitas = registrar_acesso(pg.title) 
+# --- LÓGICA DE VISITAS FORMATADA ---
+resultado_visitas = registrar_acesso(pg.title)
 
-# --- UI DO CONTADOR MINIMALISTA (SIDEBAR FOOTER) ---
+# Formata com separador de milhar: 117649 -> 117.649
+if isinstance(resultado_visitas, int):
+    total_visitas = f"{resultado_visitas:,}".replace(",", ".")
+else:
+    total_visitas = "Carregando..."
+
+# --- SIDEBAR FOOTER ---
 with st.sidebar:
-    st.markdown("---") # Linha divisória
-    # Badge moderno com animação de pulso
+    st.markdown("<br>" * 2, unsafe_allow_html=True)
     st.markdown(f"""
         <div class="visitor-counter">
             <span class="status-dot"></span>
-            <span class="visitor-text">VISITAS TOTAIS: </span>
-            <span class="visitor-count">{total_visitas}</span>
+            <div>
+                <div class="visitor-text">VISITAS TOTAIS</div>
+                <div class="visitor-count">{total_visitas}</div>
+            </div>
         </div>
     """, unsafe_allow_html=True)
 
