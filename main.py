@@ -8,7 +8,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- ESTILO CSS COMPLETO ---
+# --- ESTILO CSS ATUALIZADO (Foco em Responsividade) ---
 st.markdown("""
     <style>
     /* Estilização da Sidebar */
@@ -34,50 +34,27 @@ st.markdown("""
         color: white !important;
     }
 
-    [data-testid="stSidebarNav"] ul li a:hover {
-        background-color: rgba(0, 180, 216, 0.1) !important;
-        border: 1px solid #00b4d8;
-        transform: translateX(5px);
-    }
-
-    [data-testid="stSidebarNav"] ul li a[aria-current="page"] {
-        background: linear-gradient(90deg, #00b4d8 0%, #0077b6 100%) !important;
-        color: white !important;
-        font-weight: bold;
-        border: none;
-        box-shadow: 0 4px 15px rgba(0, 180, 216, 0.3);
-    }
-
-    [data-testid="stSidebarNav"] [data-testid="stSidebarNavSeparator"] + div {
-        color: #00b4d8 !important;
-        font-weight: 800 !important;
-        text-transform: uppercase;
-        font-size: 0.75rem;
-        letter-spacing: 1px;
-        margin-left: 20px;
-    }
-
-    /* CSS para o Contador de Visitas */
+    /* Estilo do Contador Adaptado para Mobile */
     .visitor-counter {
-        margin-top: 20px;
+        margin: 20px 15px; /* Margem lateral para não colar na borda no mobile */
         background: rgba(17, 25, 40, 0.75);
         backdrop-filter: blur(8px);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 10px;
-        padding: 10px 15px;
+        padding: 12px 15px;
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
     }
 
     .status-dot {
-        height: 8px;
-        width: 8px;
+        height: 10px;
+        width: 10px;
         background-color: #00ffcc;
         border-radius: 50%;
-        display: inline-block;
         box-shadow: 0 0 8px #00ffcc;
         animation: pulse 2s infinite;
+        flex-shrink: 0; /* Impede que a bolinha amasse no mobile */
     }
 
     @keyframes pulse {
@@ -88,16 +65,17 @@ st.markdown("""
 
     .visitor-text {
         color: #a0aec0;
-        font-size: 11px;
+        font-size: 10px;
         text-transform: uppercase;
         letter-spacing: 1px;
+        line-height: 1;
     }
 
     .visitor-count {
         color: #ffffff;
         font-weight: bold;
-        font-size: 14px;
-        font-family: 'Courier New', Courier, monospace;
+        font-size: 16px;
+        font-family: 'Inter', sans-serif;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -112,7 +90,6 @@ projeto_powerbi_page = st.Page(page="Views/projetos_powerbi.py", title="Projetos
 treinamento_empresa_page = st.Page(page="Views/treinamento_empresa.py", title="Para Empresas", icon=":material/school:")
 cursos_online_page = st.Page(page="Views/cursos_online.py", title="Cursos Online", icon=":material/local_library:")
 
-# --- NAVEGAÇÃO ESTRUTURADA ---
 navigation_dict = {
     "Informações": [sobre_page, projeto_recente_page, contato_page],
     "Resultados": [cases_sucesso_page],
@@ -122,27 +99,29 @@ navigation_dict = {
 
 pg = st.navigation(navigation_dict)
 
-# --- LÓGICA DE VISITAS FORMATADA ---
+# --- LÓGICA DE ACESSO ---
 resultado_visitas = registrar_acesso(pg.title)
 
-# Formata com separador de milhar: 117649 -> 117.649
+# Formatação com ponto como separador de milhar (Ex: 117.649)
 if isinstance(resultado_visitas, int):
     total_visitas = f"{resultado_visitas:,}".replace(",", ".")
 else:
     total_visitas = "Carregando..."
 
-# --- SIDEBAR FOOTER ---
+# --- SIDEBAR ---
 with st.sidebar:
-    st.markdown("<br>" * 2, unsafe_allow_html=True)
+    # Opcional: Adiciona um espaço flexível para empurrar o contador para o fundo
+    st.markdown("<div style='height: 5vh;'></div>", unsafe_allow_html=True)
+    
+    # Badge do contador
     st.markdown(f"""
         <div class="visitor-counter">
             <span class="status-dot"></span>
             <div>
-                <div class="visitor-text">VISITAS TOTAIS</div>
+                <div class="visitor-text">Visitas Totais</div>
                 <div class="visitor-count">{total_visitas}</div>
             </div>
         </div>
     """, unsafe_allow_html=True)
 
-# Carrega a página selecionada
 pg.run()
