@@ -169,7 +169,7 @@ st.markdown(
 )
 
 # --- CONTEÚDO ---
-st.markdown('<h1 class="hero-title">Consultoria Data-Driven</h1>', unsafe_allow_html=True)
+st.markdown('<h1 class="hero-title">Consultoria e Treinamento Data-Driven</h1>', unsafe_allow_html=True)
 
 st.markdown("""
     <div class="manifesto-box">
@@ -256,4 +256,5 @@ link_whatsapp = "https://wa.me/5511977019335?text=Olá Rodrigo, gostaria de agen
 st.markdown(f'<div class="cta-button-only-container"><a href="{link_whatsapp}" target="_blank" class="btn-whatsapp-premium">Agendar Reunião Estratégica</a></div>', unsafe_allow_html=True)
 
 exibir_rodape()
+
 
