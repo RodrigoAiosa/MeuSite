@@ -123,9 +123,6 @@ st.markdown(
 # --- CONTEÚDO ---
 st.markdown('<h1 class="hero-title">Consultoria Data-Driven</h1>', unsafe_allow_html=True)
 
-# Texto agora centralizado via CSS (hero-subtitle)
-st.markdown('<p class="hero-subtitle">Elevando a maturidade analítica da sua empresa com soluções personalizadas de Python e BI.</p>', unsafe_allow_html=True)
-
 # Manifesto
 st.markdown("""
     <div class="manifesto-box">
@@ -173,3 +170,4 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 exibir_rodape()
+
