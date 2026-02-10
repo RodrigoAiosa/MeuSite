@@ -23,19 +23,21 @@ st.markdown(
         font-size: 4rem;
         font-weight: 800;
         text-align: center;
-        margin-bottom: 5px;
+        margin-bottom: 15px;
         letter-spacing: -2px;
         line-height: 1.1;
     }
     
+    /* CENTRALIZAÇÃO DO SUBTÍTULO */
     .hero-subtitle {
         color: #94a3b8;
         font-size: 1.3rem;
-        text-align: center;
-        max-width: 700px;
-        margin: 0 auto 60px auto;
+        text-align: center; /* Centraliza o texto */
+        max-width: 850px;    /* Limita a largura para não ficar uma linha infinita */
+        margin: 0 auto 60px auto; /* O 'auto' nas laterais centraliza o bloco na página */
         line-height: 1.6;
         font-weight: 300;
+        display: block;      /* Garante que se comporte como bloco para o margin auto funcionar */
     }
 
     /* Manifesto Section com Efeito Glass */
@@ -61,8 +63,6 @@ st.markdown(
         display: flex;
         flex-direction: column;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        overflow: hidden;
     }
 
     .feature-card:hover {
@@ -86,7 +86,7 @@ st.markdown(
         border: 1px solid rgba(0, 180, 216, 0.2);
     }
 
-    /* Botão Minimalista e Poderoso */
+    /* Botão Minimalista */
     .cta-button-only-container {
         display: flex;
         justify-content: center;
@@ -115,11 +115,6 @@ st.markdown(
         transform: scale(1.02);
         box-shadow: 0 20px 40px rgba(0, 180, 216, 0.3);
     }
-
-    /* Ajuste de Grid */
-    [data-testid="column"] {
-        padding: 0 10px;
-    }
     </style>
     """,
     unsafe_allow_html=True
@@ -127,6 +122,8 @@ st.markdown(
 
 # --- CONTEÚDO ---
 st.markdown('<h1 class="hero-title">Consultoria Data-Driven</h1>', unsafe_allow_html=True)
+
+# Texto agora centralizado via CSS (hero-subtitle)
 st.markdown('<p class="hero-subtitle">Elevando a maturidade analítica da sua empresa com soluções personalizadas de Python e BI.</p>', unsafe_allow_html=True)
 
 # Manifesto
