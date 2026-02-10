@@ -37,7 +37,7 @@ def obter_credenciais():
         return None
 
 def registrar_acesso(nome_pagina, acao="Visualização"):
-    """Registra acesso com IP, SO e Navegador + Versão detalhados."""
+    """Registra acesso com identificação detalhada de PC, Celular ou Tablet."""
     try:
         creds = obter_credenciais()
         if not creds: return
@@ -57,27 +57,39 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
                     sheet.update_cell(st.session_state["ultima_linha_acesso"], 10, duracao_str)
             except: pass
 
-        # 2. CAPTURAR DADOS TÉCNICOS
+        # 2. CAPTURAR DADOS TÉCNICOS DETALHADOS
         headers = st.context.headers
         ua = headers.get("User-Agent", "").lower()
         ip_usuario = headers.get("X-Forwarded-For", "Privado").split(",")[0]
         
-        # Sistema Operacional (Coluna D)
-        if "iphone" in ua or "ipad" in ua:
+        # Identificação de Dispositivo (Coluna C) e Sistema Operacional (Coluna D)
+        if "iphone" in ua:
+            dispositivo = "Celular (iPhone)"
             so_final = "iOS"
-            dispositivo = "Celular (Apple)" if "iphone" in ua else "Tablet (Apple)"
+        elif "ipad" in ua:
+            dispositivo = "Tablet (iPad)"
+            so_final = "iOS"
         elif "android" in ua:
+            if "mobile" in ua:
+                dispositivo = "Celular (Android)"
+            else:
+                dispositivo = "Tablet (Android)"
             so_final = "Android"
-            dispositivo = "Tablet" if "mobile" not in ua else "Celular (Android)"
+        elif "windows phone" in ua or "iemobile" in ua:
+            dispositivo = "Celular (Windows)"
+            so_final = "Windows Phone"
         elif "windows" in ua:
+            dispositivo = "PC"
             so_final = "Windows"
+        elif "macintosh" in ua or "mac os x" in ua:
             dispositivo = "PC"
-        elif "macintosh" in ua:
             so_final = "MacOS"
+        elif "linux" in ua and "android" not in ua:
             dispositivo = "PC"
+            so_final = "Linux"
         else:
-            so_final = "Linux/Outro"
-            dispositivo = "PC"
+            dispositivo = "Outro Móvel" if any(x in ua for x in ["mobile", "mobi", "webos", "blackberry"]) else "PC"
+            so_final = "Desconhecido"
 
         # Navegador e Versão (Coluna E)
         if "edg/" in ua:
@@ -111,7 +123,7 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
             "00:00"
         ]
         
-        # Evita saltos na planilha
+        # Evita saltos na planilha e preserva dados existentes
         proxima_linha = len(list(filter(None, sheet.col_values(1)))) + 1
         if proxima_linha < 2: proxima_linha = 2
             
