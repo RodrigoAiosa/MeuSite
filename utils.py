@@ -15,7 +15,7 @@ if "start_time" not in st.session_state:
     st.session_state["start_time"] = time.time()
 
 def obter_credenciais():
-    """Conexão blindada: limpa caracteres invisíveis que causam erro de assinatura JWT."""
+    """Conexão blindada: limpa a assinatura da chave para matar o erro de JWT Signature."""
     scope = [
         "https://www.googleapis.com/auth/spreadsheets",
         "https://www.googleapis.com/auth/drive"
@@ -29,9 +29,11 @@ def obter_credenciais():
     with open(caminho_json, 'r') as f:
         info = json.load(f)
     
-    # RESOLUÇÃO DO ERRO JWT: Remove quebras de linha extras e espaços em branco
+    # RESOLUÇÃO DO ERRO JWT: Limpeza radical de espaços e quebras de linha corrompidas
     if "private_key" in info:
-        info["private_key"] = info["private_key"].replace("\\n", "\n").strip()
+        # Primeiro limpa espaços antes/depois, depois garante as quebras de linha corretas
+        chave_limpa = info["private_key"].strip()
+        info["private_key"] = chave_limpa.replace("\\n", "\n")
     
     return Credentials.from_service_account_info(info, scopes=scope)
 
@@ -50,7 +52,7 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
         ua = st.context.headers.get("User-Agent", "").lower()
         dispositivo = "Celular" if "mobile" in ua else "PC"
 
-        # append_row garante que dados novos não apaguem os antigos
+        # Adiciona nova linha preservando os registros existentes
         sheet.append_row([
             agora_str, st.session_state.get("session_id"), dispositivo,
             "Ativo", "Navegador", "Remote", "Direto", nome_pagina, acao, "00:00"
@@ -59,13 +61,14 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
         print(f"Erro Log: {e}")
 
 def salvar_formulario_contato(dados):
-    """Grava novos contatos sem afetar os dados existentes na planilha."""
+    """Grava novos contatos sem apagar os registros existentes."""
     try:
         creds = obter_credenciais()
         client = gspread.authorize(creds)
         id_planilha = "1JXVHEK4qjj4CJUdfaapKjBxl_WFmBDFHMJyIItxfchU"
         sheet = client.open_by_key(id_planilha).sheet1
         
+        # append_row é o comando de segurança para não sobrescrever
         sheet.append_row(dados)
         return True
     except Exception as e:
@@ -73,7 +76,7 @@ def salvar_formulario_contato(dados):
         return False
 
 def exibir_rodape():
-    """Rodapé padrão da SKY DATA SOLUTION em 2026."""
+    """Rodapé padrão da SKY DATA SOLUTION."""
     st.markdown(
         """
         <hr style='border: 0.5px solid rgba(255, 255, 255, 0.1); margin-top: 50px;'>
