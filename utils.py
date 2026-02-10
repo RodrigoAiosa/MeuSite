@@ -1,6 +1,5 @@
 import streamlit as st
 import gspread
-import json
 import uuid
 from google.oauth2.service_account import Credentials
 from datetime import datetime, timedelta, timezone
@@ -10,11 +9,10 @@ if "session_id" not in st.session_state:
     st.session_state["session_id"] = str(uuid.uuid4())[:8]
 
 def obter_credenciais():
-    """Conecta ao Google usando Secrets, evitando erros de leitura de arquivo JSON."""
+    """Conecta ao Google usando Secrets."""
     scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
     
     try:
-        # Puxa os dados que você colou no painel do Streamlit Cloud
         creds_dict = {
             "type": st.secrets["type"],
             "project_id": st.secrets["project_id"],
@@ -29,17 +27,17 @@ def obter_credenciais():
         }
         return Credentials.from_service_account_info(creds_dict, scopes=scope)
     except Exception as e:
-        st.error(f"Erro nas Secrets: {e}. Verifique se colou os dados corretamente no painel.")
+        st.error(f"Erro nas Secrets: {e}")
         return None
 
 def registrar_acesso(nome_pagina, acao="Visualização"):
-    """Registra acessos na planilha de monitoramento sem apagar os dados existentes."""
+    """Registra acessos na planilha de monitoramento 'Relatorio_Acessos_Site'."""
     try:
         creds = obter_credenciais()
         if not creds: return
         client = gspread.authorize(creds)
         
-        # ID da planilha de ACESSOS atualizado conforme sua solicitação
+        # ID da planilha 'Relatorio_Acessos_Site' conforme solicitado
         id_planilha_acessos = "1TCx1sTDaPsygvh-FvzalJ3JlBKJBOTbfoD-7CZmhCVI"
         sheet = client.open_by_key(id_planilha_acessos).sheet1
         
@@ -48,7 +46,7 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
         ua = st.context.headers.get("User-Agent", "").lower()
         dispositivo = "Celular" if "mobile" in ua else "PC"
         
-        # append_row preserva o histórico da tabela, adicionando sempre ao final
+        # append_row preserva o histórico e adiciona nova linha
         sheet.append_row([
             agora_str, 
             st.session_state.get("session_id"), 
@@ -71,11 +69,10 @@ def salvar_formulario_contato(dados):
         if not creds: return False
         client = gspread.authorize(creds)
         
-        # Mantido o ID original para o formulário de contato (ou ajuste se necessário)
+        # ID da planilha de contatos (bd_contato_form_site)
         id_planilha_contato = "1JXVHEK4qjj4CJUdfaapKjBxl_WFmBDFHMJyIItxfchU"
         sheet = client.open_by_key(id_planilha_contato).sheet1
         
-        # O método append_row garante a preservação dos dados existentes
         sheet.append_row(dados)
         return True
     except Exception as e:
