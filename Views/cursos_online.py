@@ -1,6 +1,10 @@
 import streamlit as st
 import os
 import sys
+from utils import exibir_rodape, registrar_acesso
+
+# --- REGISTRO DE ACESSO REMOVIDO PARA NÃO SUJAR A PLANILHA ---
+registrar_acesso("Cursos Online")
 
 # 1. RESOLVENDO O CAMINHO DO MÓDULO UTILS
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -86,4 +90,5 @@ with col6:
 st.markdown("---")
 
 # 3. EXIBIÇÃO DO RODAPÉ
+
 exibir_rodape()
