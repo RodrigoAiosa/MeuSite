@@ -170,11 +170,11 @@ col1, col2, col3, col4 = st.columns(4)
 features = [
     {
         "icon": "⚡", "title": "Automação", "desc": "Libere seu time do operacional repetitivo.",
-        "story": "Economizei 40h/mês de um time financeiro. O que levava 5 dias de planilha hoje acontece em 15 minutos, com erro zero e validação automática."
+        "story": "Economizei 40h/mês de um time financeiro. O que levava 5 dias de planilha hoje acontece em 5 segundos, com erro zero e validação automática."
     },
     {
         "icon": "🎯", "title": "Precisão", "desc": "Decisões baseadas em fatos, não em palpites.",
-        "story": "Reduzi em 18% a divergência de estoque de um grande varejista. Menos ruptura, mais dinheiro no caixa desde o primeiro mês."
+        "story": "Reduzi em 28% a divergência de estoque de um grande varejista. Menos ruptura, mais dinheiro no caixa desde o primeiro mês."
     },
     {
         "icon": "📈", "title": "Escalabilidade", "desc": "Estrutura pronta para dobrar de tamanho.",
@@ -182,7 +182,7 @@ features = [
     },
     {
         "icon": "🎓", "title": "Cultura", "desc": "Independência total para seus gestores.",
-        "story": "Treinei 50 líderes para serem donos dos seus dados. O time de TI parou de apagar incêndio e passou a focar em estratégia e inovação."
+        "story": "Treinei +350 líderes para serem donos dos seus dados. O time de TI parou de apagar incêndio e passou a focar em estratégia e inovação."
     }
 ]
 
@@ -217,3 +217,4 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 exibir_rodape()
+
