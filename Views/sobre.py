@@ -220,4 +220,5 @@ st.markdown("---")
 
 # 3. EXIBIÇÃO DO RODAPÉ
 
-exibir_rodape()
+# exibir_rodape()
+
