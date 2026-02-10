@@ -3,7 +3,7 @@ import re
 from datetime import datetime
 from utils import exibir_rodape, salvar_formulario_contato
 
-# --- REGISTRO DE ACESSO REMOVIDO ---
+# --- REGISTRO DE ACESSO REMOVIDO PARA NÃO SUJAR A PLANILHA ---
 
 def validar_email(email):
     # Regex para validar e-mails profissionais
@@ -22,6 +22,7 @@ def main():
         enviar = st.form_submit_button("Enviar Mensagem Agora")
 
         if enviar:
+            # Validações antes do envio
             if len(nome.strip()) < 10:
                 st.error("Insira o nome completo.")
             elif not validar_email(email.lower()):
@@ -32,7 +33,7 @@ def main():
                 st.error("Escreva uma mensagem.")
             else:
                 with st.spinner("Enviando para a planilha..."):
-                    # Organização dos dados para a planilha
+                    # Organização dos dados para a planilha bd_contato_form_site
                     dados_lista = [
                         datetime.now().strftime("%d/%m/%Y %H:%M:%S"), 
                         nome, 
@@ -41,7 +42,7 @@ def main():
                         mensagem
                     ]
                     
-                    # Salva os dados na planilha preservando os anteriores
+                    # Salva apenas os dados do formulário
                     sucesso = salvar_formulario_contato(dados_lista)
                     
                     if sucesso:
