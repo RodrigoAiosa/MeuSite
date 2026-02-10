@@ -8,7 +8,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- ESTILO CSS COMPLETO (Sidebar, Hover e Ajustes de Layout) ---
+# --- ESTILO CSS COMPLETO ---
 st.markdown("""
     <style>
     /* Estilização da Sidebar */
@@ -19,7 +19,7 @@ st.markdown("""
     /* Estilização dos itens do Menu de Navegação */
     [data-testid="stSidebarNav"] {
         background-color: rgb(38, 38, 48) !important;
-        padding-top: 10px; /* Reduzido para aproximar do nome da empresa */
+        padding-top: 10px;
     }
 
     [data-testid="stSidebarNav"] ul li a {
@@ -122,9 +122,10 @@ navigation_dict = {
 
 pg = st.navigation(navigation_dict)
 
+# --- REGISTRO DE ACESSO ---
+# Registramos antes do pg.run() para garantir que a entrada na página 
+# seja computada mesmo que o script da view demore a carregar.
+registrar_acesso(pg.title)
+
 # Carrega a página selecionada
 pg.run()
-
-# --- REGISTRO AUTOMÁTICO DE ACESSO ---
-# Esta linha garante que a planilha receba os dados a cada interação
-registrar_acesso(pg.title)
