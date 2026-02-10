@@ -16,14 +16,8 @@ if "session_id" not in st.session_state:
 # GOOGLE SHEETS CONNECTION
 # -------------------------------
 def conectar_gsheet():
-    """
-    Conecta ao Google Sheets usando st.secrets
-    """
-
     try:
         creds_dict = dict(st.secrets["gcp_service_account"])
-
-        # Corrige a chave privada (PEM)
         creds_dict["private_key"] = creds_dict["private_key"].replace("\\n", "\n")
 
         scopes = [
@@ -42,7 +36,7 @@ def conectar_gsheet():
 
 
 # -------------------------------
-# REGISTRAR CONTATO
+# SALVAR CONTATO
 # -------------------------------
 def salvar_contato(nome, email, whatsapp, mensagem):
     client = conectar_gsheet()
@@ -97,3 +91,11 @@ def registrar_acesso(pagina, ip=""):
 
     except Exception as e:
         print("Erro ao registrar acesso:", e)
+
+
+# -------------------------------
+# RODAPÉ
+# -------------------------------
+def exibir_rodape():
+    st.markdown("---")
+    st.caption("SKY DATA SOLUTION © 2026 | Rodrigo Aiosa")
