@@ -36,7 +36,7 @@ def obter_credenciais():
         return None
 
 def registrar_acesso(nome_pagina, acao="Visualização"):
-    """Registra acessos detalhando Apple, Android ou PC e calcula duração."""
+    """Registra acessos identificando o Sistema Operacional específico."""
     try:
         creds = obter_credenciais()
         if not creds: return
@@ -52,41 +52,45 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
             delta = agora - st.session_state["entrada_pagina"]
             duracao_str = f"{int(delta.total_seconds() // 60):02d}:{int(delta.total_seconds() % 60):02d}"
             try:
-                sheet.update_cell(st.session_state["ultima_linha_acesso"], 10, duracao_str)
+                # Valida se a linha existe antes de tentar escrever a "bosta" no lugar errado
+                if sheet.cell(st.session_state["ultima_linha_acesso"], 1).value:
+                    sheet.update_cell(st.session_state["ultima_linha_acesso"], 10, duracao_str)
             except: pass
 
-        # 2. IDENTIFICAÇÃO DETALHADA DO DISPOSITIVO
+        # 2. IDENTIFICAÇÃO DO SISTEMA OPERACIONAL (Ajustado para não mostrar todos)
         ua = st.context.headers.get("User-Agent", "").lower()
-        so = "Ativo"
         
-        if "ipad" in ua or ("android" in ua and "mobile" not in ua):
-            dispositivo = "Tablet"
-        elif "iphone" in ua:
-            dispositivo = "Celular (Apple)"
-            so = "iOS"
+        if "iphone" in ua or "ipad" in ua:
+            dispositivo = "Celular (Apple)" if "iphone" in ua else "Tablet (Apple)"
+            so_final = "iOS"
         elif "android" in ua:
-            dispositivo = "Celular (Android)"
-            so = "Android"
+            dispositivo = "Tablet" if "mobile" not in ua else "Celular (Android)"
+            so_final = "Android"
+        elif "windows" in ua:
+            dispositivo = "PC"
+            so_final = "Windows"
+        elif "macintosh" in ua or "mac os" in ua:
+            dispositivo = "PC"
+            so_final = "MacOS"
+        elif "linux" in ua:
+            dispositivo = "PC"
+            so_final = "Linux"
         else:
             dispositivo = "PC"
-            so = "Windows/Mac/Linux"
+            so_final = "Outro"
         
-        nova_linha = [agora_str, st.session_state["session_id"], dispositivo, so, "Navegador", "Remote", "Direto", nome_pagina, acao, "00:00"]
+        nova_linha = [agora_str, st.session_state["session_id"], dispositivo, so_final, "Navegador", "Remote", "Direto", nome_pagina, acao, "00:00"]
         
-        # Busca a próxima linha disponível real
+        # Busca a próxima linha disponível real filtrando células vazias
         proxima_linha = len(list(filter(None, sheet.col_values(1)))) + 1
         if proxima_linha < 2: proxima_linha = 2
             
         sheet.insert_row(nova_linha, proxima_linha)
         
-        # Atualiza os dados na sessão
         st.session_state["ultima_linha_acesso"] = proxima_linha
         st.session_state["entrada_pagina"] = agora
         st.session_state["leu_ate_o_fim"] = False 
-        
-    except Exception as e:
-        # Remova o 'pass' temporariamente se quiser ver o erro no terminal
-        print(f"Erro ao registrar: {e}")
+    except: pass
 
 def detectar_fim_da_pagina():
     js_code = """
@@ -98,8 +102,7 @@ def detectar_fim_da_pagina():
     window.parent.document.addEventListener('scroll', monitorar);
     </script>
     """
-    chegou_fim = components.html(js_code, height=0, width=0)
-    if chegou_fim and not st.session_state.get("leu_ate_o_fim"):
+    if components.html(js_code, height=0, width=0) and not st.session_state.get("leu_ate_o_fim"):
         try:
             creds = obter_credenciais()
             sheet = gspread.authorize(creds).open_by_key("1TCx1sTDaPsygvh-FvzalJ3JlBKJBOTbfoD-7CZmhCVI").sheet1
