@@ -36,7 +36,7 @@ def obter_credenciais():
         return None
 
 def registrar_acesso(nome_pagina, acao="Visualização"):
-    """Registra acessos com IP real e Sistema Operacional específico."""
+    """Registra acessos com IP, SO e Navegador detalhados."""
     try:
         creds = obter_credenciais()
         if not creds: return
@@ -52,62 +52,67 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
             delta = agora - st.session_state["entrada_pagina"]
             duracao_str = f"{int(delta.total_seconds() // 60):02d}:{int(delta.total_seconds() % 60):02d}"
             try:
-                # Só atualiza se a linha original ainda existir
                 if sheet.cell(st.session_state["ultima_linha_acesso"], 1).value:
                     sheet.update_cell(st.session_state["ultima_linha_acesso"], 10, duracao_str)
             except: pass
 
-        # 2. CAPTURAR IP E DISPOSITIVO
+        # 2. CAPTURAR DADOS TÉCNICOS (IP, SO, NAVEGADOR)
         headers = st.context.headers
         ua = headers.get("User-Agent", "").lower()
         
-        # Captura o IP real (X-Forwarded-For pega o IP do cliente atrás do proxy do Streamlit)
-        ip_usuario = headers.get("X-Forwarded-For", "Privado/Local").split(",")[0]
+        # IP Real
+        ip_usuario = headers.get("X-Forwarded-For", "Privado").split(",")[0]
         
-        # Sistema Operacional Detalhado
+        # Sistema Operacional (Coluna D)
         if "iphone" in ua or "ipad" in ua:
-            dispositivo = "Celular (Apple)" if "iphone" in ua else "Tablet (Apple)"
             so_final = "iOS"
+            dispositivo = "Celular (Apple)" if "iphone" in ua else "Tablet (Apple)"
         elif "android" in ua:
-            dispositivo = "Tablet" if "mobile" not in ua else "Celular (Android)"
             so_final = "Android"
+            dispositivo = "Tablet" if "mobile" not in ua else "Celular (Android)"
         elif "windows" in ua:
-            dispositivo = "PC"
             so_final = "Windows"
-        elif "macintosh" in ua or "mac os" in ua:
             dispositivo = "PC"
+        elif "macintosh" in ua:
             so_final = "MacOS"
-        else:
             dispositivo = "PC"
-            so_final = "Outro/Linux"
+        else:
+            so_final = "Linux/Outro"
+            dispositivo = "PC"
+
+        # Navegador (Coluna E)
+        if "edg" in ua: navegador = "Edge"
+        elif "chrome" in ua and "safari" in ua and "opr" not in ua: navegador = "Chrome"
+        elif "safari" in ua and "chrome" not in ua: navegador = "Safari"
+        elif "firefox" in ua: navegador = "Firefox"
+        elif "opr" in ua or "opera" in ua: navegador = "Opera"
+        else: navegador = "Outro"
         
         nova_linha = [
             agora_str, 
             st.session_state["session_id"], 
             dispositivo, 
             so_final, 
-            "Navegador", 
-            ip_usuario, # Coluna F agora com o IP real
+            navegador, 
+            ip_usuario, 
             "Direto", 
             nome_pagina, 
             acao, 
             "00:00"
         ]
         
-        # Busca a próxima linha disponível real
+        # Busca linha real para evitar saltos
         proxima_linha = len(list(filter(None, sheet.col_values(1)))) + 1
         if proxima_linha < 2: proxima_linha = 2
             
         sheet.insert_row(nova_linha, proxima_linha)
         
-        # Atualiza estados de navegação
         st.session_state["ultima_linha_acesso"] = proxima_linha
         st.session_state["entrada_pagina"] = agora
         st.session_state["leu_ate_o_fim"] = False 
     except: pass
 
 def detectar_fim_da_pagina():
-    """Monitora scroll e atualiza coluna I."""
     js_code = """
     <script>
     const monitorar = () => {
@@ -127,7 +132,6 @@ def detectar_fim_da_pagina():
         except: pass
 
 def salvar_formulario_contato(dados):
-    """Salva formulário na planilha de contatos."""
     try:
         creds = obter_credenciais()
         sheet = gspread.authorize(creds).open_by_key("1JXVHEK4qjj4CJUdfaapKjBxl_WFmBDFHMJyIItxfchU").sheet1
@@ -137,6 +141,5 @@ def salvar_formulario_contato(dados):
     except: return False
 
 def exibir_rodape():
-    """Rodapé padrão com detecção de scroll."""
     detectar_fim_da_pagina()
     st.markdown("<hr style='border: 0.5px solid rgba(255, 255, 255, 0.1); margin-top: 50px;'><div style='text-align:center; color:gray; font-size: 0.8rem; padding-bottom: 20px;'>SKY DATA SOLUTION © 2026 | Rodrigo Aiosa</div>", unsafe_allow_html=True)
