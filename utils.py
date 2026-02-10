@@ -1,91 +1,67 @@
 import streamlit as st
 import gspread
 import uuid
-import time
 from google.oauth2.service_account import Credentials
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 
-# =========================================================
-# SESSÃO
-# =========================================================
+
+# -------------------------------
+# SESSION ID
+# -------------------------------
 if "session_id" not in st.session_state:
     st.session_state["session_id"] = str(uuid.uuid4())[:8]
 
-if "start_time" not in st.session_state:
-    st.session_state["start_time"] = time.time()
 
+# -------------------------------
+# GOOGLE SHEETS CONNECTION
+# -------------------------------
+def conectar_gsheet():
+    """
+    Conecta ao Google Sheets usando st.secrets
+    """
 
-# =========================================================
-# AUTENTICAÇÃO GOOGLE (STREAMLIT SECRETS)
-# =========================================================
-def obter_credenciais():
-    scope = [
-        "https://www.googleapis.com/auth/spreadsheets",
-        "https://www.googleapis.com/auth/drive",
-    ]
-
-    return Credentials.from_service_account_info(
-        st.secrets["gcp_service_account"],
-        scopes=scope,
-    )
-
-
-@st.cache_resource
-def conectar_planilha():
-    creds = obter_credenciais()
-    client = gspread.authorize(creds)
-
-    id_planilha = "1JXVHEK4qjj4CJUdfaapKjBxl_WFmBDFHMJyIItxfchU"
-
-    return client.open_by_key(id_planilha).sheet1
-
-
-# =========================================================
-# LOG DE ACESSO
-# =========================================================
-def registrar_acesso(nome_pagina, acao="Visualização"):
     try:
-        sheet = conectar_planilha()
+        creds_dict = dict(st.secrets["gcp_service_account"])
 
-        fuso = timezone(timedelta(hours=-3))
-        agora = datetime.now(fuso).strftime("%d/%m/%Y %H:%M:%S")
+        # Corrige a chave privada (PEM)
+        creds_dict["private_key"] = creds_dict["private_key"].replace("\\n", "\n")
 
-        ua = st.context.headers.get("User-Agent", "").lower()
-        dispositivo = "Celular" if "mobile" in ua else "PC"
+        scopes = [
+            "https://www.googleapis.com/auth/spreadsheets",
+            "https://www.googleapis.com/auth/drive",
+        ]
+
+        creds = Credentials.from_service_account_info(creds_dict, scopes=scopes)
+        client = gspread.authorize(creds)
+
+        return client
+
+    except Exception as e:
+        st.error(f"Erro ao conectar Google Sheets: {e}")
+        return None
+
+
+# -------------------------------
+# REGISTRAR CONTATO
+# -------------------------------
+def salvar_contato(nome, email, whatsapp, mensagem):
+    client = conectar_gsheet()
+
+    if client is None:
+        return False
+
+    try:
+        sheet = client.open("bd_contato_form_site").sheet1
+
+        agora = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
 
         sheet.append_row([
             agora,
-            st.session_state.get("session_id"),
-            dispositivo,
-            "Ativo",
-            "Navegador",
-            "Remote",
-            "Direto",
-            nome_pagina,
-            acao,
-            "00:00",
-        ])
-
-    except Exception as e:
-        print("Erro ao registrar acesso:", e)
-
-
-# =========================================================
-# FORMULÁRIO DE CONTATO
-# =========================================================
-def salvar_formulario_contato(nome, email, whatsapp, mensagem):
-    try:
-        sheet = conectar_planilha()
-
-        fuso = timezone(timedelta(hours=-3))
-        data = datetime.now(fuso).strftime("%d/%m/%Y %H:%M:%S")
-
-        sheet.append_row([
-            data,
             nome,
             email,
             whatsapp,
             mensagem,
+            st.session_state["session_id"],
         ])
 
         return True
@@ -95,17 +71,29 @@ def salvar_formulario_contato(nome, email, whatsapp, mensagem):
         return False
 
 
-# =========================================================
-# RODAPÉ
-# =========================================================
-def exibir_rodape():
-    st.markdown(
-        """
-        <hr style='border:0.5px solid rgba(255,255,255,0.1); margin-top:50px;'>
+# -------------------------------
+# REGISTRAR ACESSO
+# -------------------------------
+def registrar_acesso(pagina, ip=""):
+    client = conectar_gsheet()
 
-        <div style='text-align:center; color:gray; font-size:0.8rem; padding-bottom:20px;'>
-            SKY DATA SOLUTION © 2026 | Rodrigo Aiosa
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    if client is None:
+        return
+
+    try:
+        sheet = client.open("Relatorio_Acessos_Site").sheet1
+
+        agora = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+
+        dispositivo = st.context.headers.get("User-Agent", "unknown")
+
+        sheet.append_row([
+            agora,
+            dispositivo,
+            ip,
+            pagina,
+            st.session_state["session_id"],
+        ])
+
+    except Exception as e:
+        print("Erro ao registrar acesso:", e)
