@@ -59,6 +59,51 @@ st.markdown("""
         letter-spacing: 1px;
         margin-left: 20px;
     }
+
+    /* CSS para o Contador de Visitas Minimalista */
+    .visitor-counter {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        z-index: 1000;
+        background: rgba(17, 25, 40, 0.75);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 8px 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .status-dot {
+        height: 8px;
+        width: 8px;
+        background-color: #00ffcc;
+        border-radius: 50%;
+        display: inline-block;
+        box-shadow: 0 0 8px #00ffcc;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 204, 0.7); }
+        70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(0, 255, 204, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 204, 0); }
+    }
+
+    .visitor-text {
+        color: #a0aec0;
+        font-size: 12px;
+        letter-spacing: 0.5px;
+    }
+
+    .visitor-count {
+        color: #ffffff;
+        font-weight: bold;
+        font-size: 14px;
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -122,29 +167,21 @@ navigation_dict = {
 
 pg = st.navigation(navigation_dict)
 
-# --- REGISTRO DE ACESSO ---
-# Registramos antes do pg.run() para garantir que a entrada na página 
-# seja computada mesmo que o script da view demore a carregar.
-registrar_acesso(pg.title)
+# --- REGISTRO DE ACESSO E CONTADOR ---
+# Aqui assumimos que registrar_acesso retorna o total ou você busca do seu banco
+total_visitas = registrar_acesso(pg.title) 
+
+# --- UI DO CONTADOR MINIMALISTA (SIDEBAR FOOTER) ---
+with st.sidebar:
+    st.markdown("---") # Linha divisória
+    # Badge moderno com animação de pulso
+    st.markdown(f"""
+        <div class="visitor-counter">
+            <span class="status-dot"></span>
+            <span class="visitor-text">VISITAS TOTAIS: </span>
+            <span class="visitor-count">{total_visitas}</span>
+        </div>
+    """, unsafe_allow_html=True)
 
 # Carrega a página selecionada
 pg.run()
-
-
-
-# # --- BLOCO DE TESTE (Pode remover após testar) ---
-# if st.checkbox("Verificar meu dispositivo"):
-#     headers = st.context.headers
-#     ua = headers.get("User-Agent", "").lower()
-    
-#     # Simulação rápida da lógica do utils
-#     if "iphone" in ua:
-#         detecd = "Celular (iPhone)"
-#     elif "android" in ua:
-#         detecd = "Celular/Tablet (Android)"
-#     else:
-#         detecd = "PC ou Outro"
-        
-#     st.info(f"Seu navegador informa: {ua}")
-#     st.success(f"O sistema te registrou como: **{detecd}**")
-
