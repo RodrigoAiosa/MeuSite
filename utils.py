@@ -19,6 +19,7 @@ if "leu_ate_o_fim" not in st.session_state:
 def obter_credenciais():
     scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
     try:
+        # Tenta pegar das Secrets do Streamlit Cloud
         creds_dict = {
             "type": st.secrets["type"],
             "project_id": st.secrets["project_id"],
@@ -32,37 +33,40 @@ def obter_credenciais():
             "client_x509_cert_url": st.secrets["client_x509_cert_url"]
         }
         return Credentials.from_service_account_info(creds_dict, scopes=scope)
-    except Exception as e:
-        st.error(f"Erro nas Secrets: {e}")
-        return None
+    except Exception:
+        # Fallback para arquivo local caso não encontre secrets (uso em desenvolvimento)
+        try:
+            return Credentials.from_service_account_file("meuprojetocadsite-5ecb421b15a7.json", scopes=scope)
+        except:
+            return None
 
 def registrar_acesso(nome_pagina, acao="Visualização"):
-    """Registra acesso com identificação detalhada de PC, Celular ou Tablet."""
+    """Registra acesso classificando corretamente PC, iPhone, Android, etc."""
     try:
         creds = obter_credenciais()
         if not creds: return
         client = gspread.authorize(creds)
+        # Abre a planilha pelo ID fornecido
         sheet = client.open_by_key("1TCx1sTDaPsygvh-FvzalJ3JlBKJBOTbfoD-7CZmhCVI").sheet1
         
         fuso = timezone(timedelta(hours=-3))
         agora = datetime.now(fuso)
         agora_str = agora.strftime("%d/%m/%Y %H:%M:%S")
         
-        # 1. ATUALIZAR DURAÇÃO (Coluna J)
+        # 1. ATUALIZAR DURAÇÃO NA LINHA ANTERIOR (Coluna J)
         if st.session_state.get("ultima_linha_acesso"):
             delta = agora - st.session_state["entrada_pagina"]
             duracao_str = f"{int(delta.total_seconds() // 60):02d}:{int(delta.total_seconds() % 60):02d}"
             try:
-                if sheet.cell(st.session_state["ultima_linha_acesso"], 1).value:
-                    sheet.update_cell(st.session_state["ultima_linha_acesso"], 10, duracao_str)
+                sheet.update_cell(st.session_state["ultima_linha_acesso"], 10, duracao_str)
             except: pass
 
-        # 2. CAPTURAR DADOS TÉCNICOS DETALHADOS
+        # 2. CAPTURA E CLASSIFICAÇÃO DO DISPOSITIVO
         headers = st.context.headers
         ua = headers.get("User-Agent", "").lower()
         ip_usuario = headers.get("X-Forwarded-For", "Privado").split(",")[0]
         
-        # Identificação de Dispositivo (Coluna C) e Sistema Operacional (Coluna D)
+        # Lógica de Classificação para a Coluna C (Dispositivo) e D (SO)
         if "iphone" in ua:
             dispositivo = "Celular (iPhone)"
             so_final = "iOS"
@@ -70,12 +74,9 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
             dispositivo = "Tablet (iPad)"
             so_final = "iOS"
         elif "android" in ua:
-            if "mobile" in ua:
-                dispositivo = "Celular (Android)"
-            else:
-                dispositivo = "Tablet (Android)"
+            dispositivo = "Celular (Android)" if "mobile" in ua else "Tablet (Android)"
             so_final = "Android"
-        elif "windows phone" in ua or "iemobile" in ua:
+        elif any(x in ua for x in ["windows phone", "iemobile"]):
             dispositivo = "Celular (Windows)"
             so_final = "Windows Phone"
         elif "windows" in ua:
@@ -84,55 +85,51 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
         elif "macintosh" in ua or "mac os x" in ua:
             dispositivo = "PC"
             so_final = "MacOS"
-        elif "linux" in ua and "android" not in ua:
+        elif "linux" in ua:
             dispositivo = "PC"
             so_final = "Linux"
         else:
-            dispositivo = "Outro Móvel" if any(x in ua for x in ["mobile", "mobi", "webos", "blackberry"]) else "PC"
+            dispositivo = "Outro Móvel" if "mobi" in ua else "PC"
             so_final = "Desconhecido"
 
-        # Navegador e Versão (Coluna E)
-        if "edg/" in ua:
-            match = re.search(r'edg/([\d\.]+)', ua)
-            navegador = f"Edge {match.group(1)}" if match else "Edge"
-        elif "opr/" in ua or "opera/" in ua:
-            match = re.search(r'(?:opr|opera)/([\d\.]+)', ua)
-            navegador = f"Opera {match.group(1)}" if match else "Opera"
-        elif "firefox/" in ua:
-            match = re.search(r'firefox/([\d\.]+)', ua)
-            navegador = f"Firefox {match.group(1)}" if match else "Firefox"
-        elif "chrome/" in ua:
-            match = re.search(r'chrome/([\d\.]+)', ua)
-            navegador = f"Chrome {match.group(1)}" if match else "Chrome"
-        elif "safari/" in ua:
-            match = re.search(r'version/([\d\.]+)', ua)
-            navegador = f"Safari {match.group(1)}" if match else "Safari"
-        else:
-            navegador = "Outro"
+        # Identificação do Navegador (Coluna E)
+        if "edg/" in ua: navegador = "Edge"
+        elif "opr/" in ua or "opera/" in ua: navegador = "Opera"
+        elif "firefox/" in ua: navegador = "Firefox"
+        elif "chrome/" in ua: navegador = "Chrome"
+        elif "safari/" in ua: navegador = "Safari"
+        else: navegador = "Outro"
         
+        # Montagem da nova linha
         nova_linha = [
-            agora_str, 
-            st.session_state["session_id"], 
-            dispositivo, 
-            so_final, 
-            navegador, 
-            ip_usuario, 
-            "Direto", 
-            nome_pagina, 
-            acao, 
-            "00:00"
+            agora_str,                     # A: Data/Hora
+            st.session_state["session_id"], # B: ID Sessão
+            dispositivo,                   # C: DISPOSITIVO (O que você pediu)
+            so_final,                      # D: S.O.
+            navegador,                     # E: Navegador
+            ip_usuario,                    # F: IP
+            "Direto",                      # G: Origem
+            nome_pagina,                   # H: Página
+            acao,                          # I: Ação
+            "00:00"                        # J: Duração Inicial
         ]
         
-        # Evita saltos na planilha e preserva dados existentes
+        # Inserção preservando os dados existentes
+        # Filtra valores vazios para achar a última linha preenchida real
         proxima_linha = len(list(filter(None, sheet.col_values(1)))) + 1
         if proxima_linha < 2: proxima_linha = 2
             
         sheet.insert_row(nova_linha, proxima_linha)
         
+        # Atualiza estado para controle de duração e scroll
         st.session_state["ultima_linha_acesso"] = proxima_linha
         st.session_state["entrada_pagina"] = agora
         st.session_state["leu_ate_o_fim"] = False 
-    except: pass
+        
+    except Exception as e:
+        # Em produção, você pode deixar o pass para não exibir erro ao usuário
+        # st.write(f"Erro ao registrar: {e}") 
+        pass
 
 def detectar_fim_da_pagina():
     js_code = """
