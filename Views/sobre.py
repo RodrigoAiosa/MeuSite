@@ -215,10 +215,7 @@ col_img1, col_img2, col_img3 = st.columns([1, 8, 1])
 with col_img2:
     # Atualizado para evitar avisos de versão antiga do Streamlit
     st.image("assets/clientes_atendidos.jpg", width=None, use_container_width=True)
+    
+exibir_rodape()
 
-st.markdown("---")
-
-# 3. EXIBIÇÃO DO RODAPÉ
-
-# exibir_rodape()
 
