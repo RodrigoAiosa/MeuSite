@@ -5,7 +5,7 @@ from utils import exibir_rodape, registrar_acesso
 # --- REGISTRO DE ACESSO ---
 registrar_acesso("Treinamento Corporativo")
 
-# --- CONFIGURAÇÃO DE ESTILO CSS AVANÇADO ---
+# --- CONFIGURAÇÃO DE ESTILO PSICOLOGIA DAS CORES ---
 st.markdown(
     """
     <style>
@@ -13,10 +13,12 @@ st.markdown(
 
     html, body, [class*="css"] {
         font-family: 'Inter', sans-serif;
+        background-color: #020617;
     }
 
+    /* Hero Title - Contraste de Valor */
     .hero-title {
-        background: linear-gradient(135deg, #ffffff 30%, #00b4d8 100%);
+        background: linear-gradient(135deg, #ffffff 40%, #fbbf24 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         font-size: 4rem;
@@ -24,63 +26,73 @@ st.markdown(
         text-align: center;
         margin-bottom: 15px;
         letter-spacing: -2px;
-        line-height: 1.1;
     }
 
+    /* Manifesto Box - Foco em Autoridade */
     .manifesto-box {
-        background: rgba(15, 23, 42, 0.6);
+        background: rgba(30, 41, 59, 0.5);
         backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(251, 191, 36, 0.2); /* Borda em Âmbar sutil */
         border-radius: 32px;
         padding: 60px;
         margin-bottom: 80px;
         text-align: center;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
     }
 
+    /* ROI Badge - Psicologia da Recompensa */
     .roi-badge {
         display: inline-block;
-        background: rgba(0, 180, 216, 0.15);
-        color: #00b4d8;
-        padding: 8px 20px;
+        background: linear-gradient(90deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2));
+        color: #fbbf24;
+        padding: 10px 25px;
         border-radius: 50px;
-        font-weight: 600;
-        font-size: 0.9rem;
+        font-weight: 700;
+        font-size: 1rem;
         margin-top: 25px;
-        border: 1px solid rgba(0, 180, 216, 0.3);
+        border: 1px solid #fbbf24;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
-    /* --- CARDS COM EFEITO OVERLAY DE TEXTO --- */
+    /* Cards de Benefício - Estimulando Curiosidade */
     .feature-card {
-        background: rgba(30, 41, 59, 0.4);
+        background: rgba(15, 23, 42, 0.8);
         border: 1px solid rgba(255, 255, 255, 0.05);
         border-radius: 24px;
         padding: 40px 25px;
         text-align: center;
-        height: 380px; 
+        height: 400px; 
         position: relative;
         overflow: hidden;
-        transition: all 0.4s ease;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .card-content {
         transition: opacity 0.3s ease;
     }
 
+    /* Card Story - Laranja estimula ação e entusiasmo */
     .card-story {
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100%;
-        background: #00b4d8;
+        background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
         color: white;
-        padding: 30px 20px;
+        padding: 30px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.9rem;
-        font-weight: 500;
-        line-height: 1.5;
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 1.6;
         opacity: 0;
-        transform: translateY(20px);
+        transform: scale(0.9);
         transition: all 0.4s ease;
+    }
+
+    .feature-card:hover {
+        border-color: #f97316;
+        box-shadow: 0 15px 30px rgba(249, 115, 22, 0.2);
     }
 
     .feature-card:hover .card-content {
@@ -89,32 +101,45 @@ st.markdown(
 
     .feature-card:hover .card-story {
         opacity: 1;
-        transform: translateY(0);
+        transform: scale(1);
     }
 
     .feature-icon {
-        background: rgba(0, 180, 216, 0.1);
-        width: 50px; height: 50px;
-        border-radius: 12px;
-        font-size: 24px;
+        background: rgba(251, 191, 36, 0.1);
+        width: 60px; height: 60px;
+        border-radius: 16px;
+        font-size: 28px;
         margin: 0 auto 20px auto;
         display: flex; justify-content: center; align-items: center;
-        color: #00b4d8;
+        color: #fbbf24;
+        border: 1px solid rgba(251, 191, 36, 0.3);
     }
 
+    /* Botão de Conversão (Verde = Dinheiro/Segurança/Prosseguir) */
     .cta-button-only-container {
-        display: flex; justify-content: center; margin: 60px 0;
+        display: flex; justify-content: center; margin: 80px 0;
     }
 
     .btn-whatsapp-premium {
-        background: #ffffff; color: #0f172a !important;
-        padding: 18px 45px; border-radius: 100px;
-        text-decoration: none; font-weight: 700;
+        background: #10b981;
+        color: white !important;
+        padding: 24px 60px;
+        border-radius: 100px;
+        text-decoration: none;
+        font-size: 1.2rem;
+        font-weight: 800;
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
         transition: all 0.3s ease;
+        box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        text-transform: uppercase;
     }
 
     .btn-whatsapp-premium:hover {
-        background: #00b4d8; color: white !important;
+        background: #059669;
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 20px 40px rgba(16, 185, 129, 0.4);
     }
     </style>
     """,
@@ -126,38 +151,38 @@ st.markdown('<h1 class="hero-title">Consultoria Data-Driven</h1>', unsafe_allow_
 
 st.markdown("""
     <div class="manifesto-box">
-        <h2 style='color: white; font-size: 2.2rem; font-weight: 700; margin-bottom: 20px;'>Sua empresa gera inteligência ou apenas acumula planilhas?</h2>
-        <p style='color: #94a3b8; font-size: 1.25rem; line-height: 1.8; max-width: 800px; margin: 0 auto;'>
-            Nossa metodologia conecta <b>Python, BI e Processos de Negócio</b> para transformar dados brutos em decisões estratégicas automáticas.
+        <h2 style='color: white; font-size: 2.3rem; font-weight: 700; margin-bottom: 20px;'>Sua empresa gera inteligência ou apenas acumula planilhas?</h2>
+        <p style='color: #cbd5e1; font-size: 1.3rem; line-height: 1.8; max-width: 850px; margin: 0 auto;'>
+            Conectamos <b>Python, BI e Processos</b> para transformar dados brutos em decisões que geram lucro imediato.
         </p>
-        <div style='margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1);'>
-            <p style='color: #e2e8f0; font-size: 1.1rem; margin-top: 25px;'>
-                Metodologia validada em grandes players do mercado, entregando um <b>ROI comprovado entre 35% e 42%</b>.
+        <div style='margin-top: 35px; border-top: 1px solid rgba(255,255,255,0.1);'>
+            <p style='color: #ffffff; font-size: 1.1rem; margin-top: 25px; opacity: 0.9;'>
+                Metodologia aplicada em gigantes do setor com <b>ROI auditado de até 42%</b>.
             </p>
-            <div class="roi-badge">📈 Performance Garantida: ROI Mínimo de 35%</div>
+            <div class="roi-badge">💎 Resultado Garantido: ROI de 35% a 42%</div>
         </div>
     </div>
 """, unsafe_allow_html=True)
 
-# --- GRID DE BENEFÍCIOS COM STORIES ---
+# --- GRID DE BENEFÍCIOS ---
 col1, col2, col3, col4 = st.columns(4)
 
 features = [
     {
-        "icon": "⚡", "title": "Automação", "desc": "Substitua processos manuais por fluxos inteligentes.",
-        "story": "Eliminei 40h mensais de um time financeiro ao automatizar a conciliação de 5 bancos via Python. O erro humano caiu a zero e o fechamento que levava 5 dias agora acontece em 15 segundos."
+        "icon": "⚡", "title": "Automação", "desc": "Libere seu time do operacional repetitivo.",
+        "story": "Economizei 40h/mês de um time financeiro. O que levava 5 dias de planilha hoje acontece em 15 minutos, com erro zero e validação automática."
     },
     {
-        "icon": "🎯", "title": "Precisão", "desc": "Dados íntegros vindo direto da fonte de origem.",
-        "story": "Em um grande varejista, unifiquei o estoque físico e digital que divergia em 18%. Ao criar uma 'Single Source of Truth', reduzimos rupturas de estoque e aumentamos as vendas em 23% no primeiro trimestre."
+        "icon": "🎯", "title": "Precisão", "desc": "Decisões baseadas em fatos, não em palpites.",
+        "story": "Reduzi em 18% a divergência de estoque de um grande varejista. Menos ruptura, mais dinheiro no caixa desde o primeiro mês."
     },
     {
-        "icon": "📈", "title": "Escalabilidade", "desc": "Arquiteturas robustas para suportar o crescimento.",
-        "story": "Desenvolvi um Data Lake para uma Scale-up que crescia 200% ao ano. A infraestrutura permitiu processar milhões de linhas sem lentidão, sustentando a expansão para 3 novos países sem custos extras de TI."
+        "icon": "📈", "title": "Escalabilidade", "desc": "Estrutura pronta para dobrar de tamanho.",
+        "story": "Criei o Data Lake de uma Scale-up que triplicou de tamanho em um ano. A tecnologia acompanhou o crescimento sem precisar contratar mais analistas."
     },
     {
-        "icon": "🎓", "title": "Cultura", "desc": "Treinamentos in-company para mentalidade real.",
-        "story": "Treinei 250 gestores que antes dependiam da TI para tudo. Em 3 meses, eles mesmos criaram seus Dashboards, liberando o time de dados para focar em IA e modelos preditivos. O ROI do treinamento foi de 300%."
+        "icon": "🎓", "title": "Cultura", "desc": "Independência total para seus gestores.",
+        "story": "Treinei 50 líderes para serem donos dos seus dados. O time de TI parou de apagar incêndio e passou a focar em estratégia e inovação."
     }
 ]
 
@@ -168,9 +193,9 @@ for i, f in enumerate(features):
             <div class="feature-card">
                 <div class="card-content">
                     <div class="feature-icon">{f['icon']}</div>
-                    <h4 style="color: white; margin-bottom: 15px;">{f['title']}</h4>
-                    <p style="color: #64748b; font-size: 0.9rem;">{f['desc']}</p>
-                    <p style="color: #00b4d8; font-size: 0.8rem; margin-top: 20px; font-weight: bold;">[Passe o mouse]</p>
+                    <h4 style="color: white; font-weight: 700;">{f['title']}</h4>
+                    <p style="color: #94a3b8; font-size: 0.95rem;">{f['desc']}</p>
+                    <p style="color: #fbbf24; font-size: 0.8rem; margin-top: 40px; font-weight: 800; letter-spacing: 1px;">VER RESULTADO REAL</p>
                 </div>
                 <div class="card-story">
                     "{f['story']}"
@@ -178,9 +203,17 @@ for i, f in enumerate(features):
             </div>
         """, unsafe_allow_html=True)
 
-# --- WHATSAPP ---
-link_whatsapp = "https://wa.me/5511977019335?text=Ol%C3%A1%20Rodrigo,%20gostaria%20de%20uma%20conversa%20estrat%C3%A9gica."
-st.markdown(f'<div class="cta-button-only-container"><a href="{link_whatsapp}" target="_blank" class="btn-whatsapp-premium">Falar com um Especialista</a></div>', unsafe_allow_html=True)
+# --- WHATSAPP (A Grande Conversão) ---
+telefone = "5511977019335"
+msg = urllib.parse.quote("Olá Rodrigo, vi seus resultados de ROI e quero agendar uma conversa estratégica para minha empresa.")
+link_whatsapp = f"https://wa.me/{telefone}?text={msg}"
+
+st.markdown(f"""
+    <div class="cta-button-only-container">
+        <a href="{link_whatsapp}" target="_blank" class="btn-whatsapp-premium">
+            Falar com um Especialista Agora
+        </a>
+    </div>
+""", unsafe_allow_html=True)
 
 exibir_rodape()
-
