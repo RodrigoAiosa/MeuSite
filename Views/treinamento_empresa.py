@@ -9,99 +9,116 @@ registrar_acesso("Treinamento Corporativo")
 st.markdown(
     """
     <style>
-    /* Gradient Text & Hero Section */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+    html, body, [class*="css"] {
+        font-family: 'Inter', sans-serif;
+    }
+
+    /* Hero Section */
     .hero-title {
-        background: linear-gradient(90deg, #00b4d8, #90e0ef);
+        background: linear-gradient(135deg, #ffffff 30%, #00b4d8 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        font-size: 3.5rem;
+        font-size: 4rem;
         font-weight: 800;
         text-align: center;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
+        letter-spacing: -2px;
+        line-height: 1.1;
     }
     
     .hero-subtitle {
         color: #94a3b8;
-        font-size: 1.4rem;
+        font-size: 1.3rem;
         text-align: center;
-        max-width: 800px;
-        margin: 0 auto 50px auto;
+        max-width: 700px;
+        margin: 0 auto 60px auto;
         line-height: 1.6;
+        font-weight: 300;
     }
 
-    /* Manifesto Section */
+    /* Manifesto Section com Efeito Glass */
     .manifesto-box {
-        background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.8));
-        border: 1px solid rgba(0, 180, 216, 0.3);
-        border-radius: 24px;
-        padding: 50px;
-        margin-bottom: 60px;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 32px;
+        padding: 60px;
+        margin-bottom: 80px;
+        text-align: center;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     }
 
-    /* CARDS IGUALADOS (MESMO TAMANHO) */
+    /* CARDS REFINADOS */
     .feature-card {
-        background: rgba(255, 255, 255, 0.02);
+        background: rgba(30, 41, 59, 0.4);
         border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 20px;
-        padding: 40px 25px;
+        border-radius: 24px;
+        padding: 45px 30px;
         text-align: center;
-        height: 320px; 
+        height: 350px; 
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        transition: all 0.3s ease;
-        margin-bottom: 20px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
     }
 
     .feature-card:hover {
-        background: rgba(0, 180, 216, 0.05);
-        border-color: #00b4d8;
-        transform: translateY(-10px);
+        border-color: rgba(0, 180, 216, 0.5);
+        transform: translateY(-12px);
+        background: rgba(30, 41, 59, 0.7);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     }
 
     .feature-icon {
-        background: linear-gradient(135deg, #00b4d8, #0077b6);
-        width: 70px;
-        height: 70px;
-        border-radius: 18px;
-        font-size: 30px;
-        margin-bottom: 25px;
+        background: linear-gradient(135deg, rgba(0, 180, 216, 0.1), rgba(0, 119, 182, 0.2));
+        width: 60px;
+        height: 60px;
+        border-radius: 16px;
+        font-size: 28px;
+        margin: 0 auto 25px auto;
         display: flex;
         justify-content: center;
         align-items: center;
-        box-shadow: 0 10px 20px rgba(0, 180, 216, 0.2);
+        color: #00b4d8;
+        border: 1px solid rgba(0, 180, 216, 0.2);
     }
 
-    /* CTA WhatsApp - SEM O FUNDO (APENAS BOTÃO) */
+    /* Botão Minimalista e Poderoso */
     .cta-button-only-container {
         display: flex;
         justify-content: center;
-        align-items: center;
-        width: 100%;
-        margin: 50px 0;
+        margin: 80px 0;
     }
 
     .btn-whatsapp-premium {
-        background: #25d366;
-        color: white !important;
-        padding: 20px 45px;
-        border-radius: 15px;
+        background: #ffffff;
+        color: #0f172a !important;
+        padding: 22px 50px;
+        border-radius: 100px;
         text-decoration: none;
-        font-size: 1.3rem;
-        font-weight: bold;
+        font-size: 1.1rem;
+        font-weight: 700;
         display: inline-flex;
         align-items: center;
-        gap: 15px;
+        gap: 12px;
         transition: all 0.3s ease;
-        box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
     .btn-whatsapp-premium:hover {
-        background: #20ba5a;
-        transform: scale(1.05);
-        box-shadow: 0 15px 40px rgba(37, 211, 102, 0.5);
+        background: #00b4d8;
+        color: white !important;
+        transform: scale(1.02);
+        box-shadow: 0 20px 40px rgba(0, 180, 216, 0.3);
+    }
+
+    /* Ajuste de Grid */
+    [data-testid="column"] {
+        padding: 0 10px;
     }
     </style>
     """,
@@ -109,29 +126,29 @@ st.markdown(
 )
 
 # --- CONTEÚDO ---
-st.markdown('<h1 class="hero-title">Treinamento & Consultoria High-End</h1>', unsafe_allow_html=True)
-st.markdown('<p class="hero-subtitle">Transformamos sua operação de dados em uma vantagem competitiva real.</p>', unsafe_allow_html=True)
+st.markdown('<h1 class="hero-title">Consultoria Data-Driven</h1>', unsafe_allow_html=True)
+st.markdown('<p class="hero-subtitle">Elevando a maturidade analítica da sua empresa com soluções personalizadas de Python e BI.</p>', unsafe_allow_html=True)
 
 # Manifesto
 st.markdown("""
     <div class="manifesto-box">
-        <h2 style='color: white; font-size: 2rem; margin-bottom: 25px;'>Sua empresa está gerando inteligência ou apenas acumulando planilhas?</h2>
-        <p style='color: #cbd5e1; font-size: 1.2rem; line-height: 1.8;'>
-            Nossa abordagem conecta <b>Python, BI e Processos de Negócio</b> para criar um fluxo automatizado.
+        <h2 style='color: white; font-size: 2.2rem; font-weight: 700; margin-bottom: 20px; letter-spacing: -1px;'>Sua empresa gera inteligência ou apenas acumula planilhas?</h2>
+        <p style='color: #94a3b8; font-size: 1.25rem; line-height: 1.8; max-width: 800px; margin: 0 auto;'>
+            Nossa metodologia conecta <b>Python, BI e Processos de Negócio</b> para transformar dados brutos em decisões estratégicas automáticas.
         </p>
     </div>
 """, unsafe_allow_html=True)
 
-# --- GRID DE BENEFÍCIOS IGUALADOS ---
-st.markdown("<h3 style='text-align: center; margin-bottom: 40px;'>Pilares da Transformação</h3>", unsafe_allow_html=True)
+# --- GRID DE BENEFÍCIOS ---
+st.markdown("<h3 style='text-align: center; color: white; margin-bottom: 50px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem;'>Pilares de Atuação</h3>", unsafe_allow_html=True)
 
 col1, col2, col3, col4 = st.columns(4)
 
 features = [
-    {"icon": "⚡", "title": "Automação", "text": "Elimine o trabalho braçal e foque na estratégia do negócio."},
-    {"icon": "🎯", "title": "Precisão", "text": "Dados integrados diretamente da fonte, eliminando erros humanos."},
-    {"icon": "📈", "title": "Scalability", "text": "Estruturas prontas para crescer com seu volume de dados."},
-    {"icon": "🎓", "title": "Data Culture", "text": "Capacite seu time com a mentalidade de BI moderna e eficiente."}
+    {"icon": "⚡", "title": "Automação", "text": "Substitua processos manuais por fluxos inteligentes e ganhe tempo estratégico."},
+    {"icon": "🎯", "title": "Precisão", "text": "Single source of truth: dados íntegros vindos direto da fonte de origem."},
+    {"icon": "📈", "title": "Escalabilidade", "text": "Arquiteturas robustas projetadas para suportar o crescimento do seu negócio."},
+    {"icon": "🎓", "title": "Cultura", "text": "Treinamentos in-company para instaurar uma mentalidade Data-Driven real."}
 ]
 
 cols = [col1, col2, col3, col4]
@@ -140,21 +157,20 @@ for i, f in enumerate(features):
         st.markdown(f"""
             <div class="feature-card">
                 <div class="feature-icon">{f['icon']}</div>
-                <h4 style="color: #00b4d8; margin-bottom: 15px; min-height: 50px;">{f['title']}</h4>
-                <p style="color: #94a3b8; font-size: 0.95rem;">{f['text']}</p>
+                <h4 style="color: white; margin-bottom: 15px; font-weight: 600;">{f['title']}</h4>
+                <p style="color: #64748b; font-size: 0.95rem; line-height: 1.5;">{f['text']}</p>
             </div>
         """, unsafe_allow_html=True)
 
-# --- WHATSAPP (APENAS BOTÃO CENTRALIZADO) ---
+# --- WHATSAPP ---
 telefone = "5511977019335"
-# Mensagem personalizada preservando o objetivo de contato direto
-mensagem_url = urllib.parse.quote("Olá Rodrigo, gostaria de agendar uma consultoria estratégica.")
+mensagem_url = urllib.parse.quote("Olá Rodrigo, vi sua página de consultoria e gostaria de agendar uma conversa estratégica.")
 link_whatsapp = f"https://wa.me/{telefone}?text={mensagem_url}"
 
 st.markdown(f"""
     <div class="cta-button-only-container">
         <a href="{link_whatsapp}" target="_blank" class="btn-whatsapp-premium">
-            <span>🚀 Agendar Consultoria via WhatsApp</span>
+            <span>Falar com um Especialista</span>
         </a>
     </div>
 """, unsafe_allow_html=True)
