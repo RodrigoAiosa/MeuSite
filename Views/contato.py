@@ -92,12 +92,17 @@ def main():
 
             else:
                 with st.spinner("Enviando mensagem..."):
-                    sucesso = salvar_formulario_contato(
+                    # AJUSTE: Transformando os campos em uma LISTA única para a função
+                    dados_lista = [
+                        datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
                         nome,
                         email,
                         whatsapp,
                         mensagem
-                    )
+                    ]
+                    
+                    # Chamada corrigida passando apenas 1 argumento (a lista)
+                    sucesso = salvar_formulario_contato(dados_lista)
 
                 if sucesso:
                     st.balloons()
