@@ -1,14 +1,14 @@
 import streamlit as st
 from utils import registrar_acesso
 
-# 1. Configuração da página
+# 1. Configuração da página - Deve ser sempre o primeiro comando
 st.set_page_config(
     page_title="Portfólio Rodrigo Aiosa", 
     page_icon="📊", 
     layout="wide"
 )
 
-# --- ESTILO CSS (Otimizado para não "sumir" no mobile) ---
+# --- ESTILO CSS (Garante visibilidade no PC e Mobile) ---
 st.markdown("""
     <style>
     [data-testid="stSidebar"] { background-color: rgb(38, 38, 48) !important; }
@@ -42,7 +42,7 @@ st.markdown("""
     }
 
     .v-text { color: #a0aec0; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; }
-    .v-number { color: #ffffff; font-weight: 700; font-size: 18px; }
+    .v-number { color: #ffffff; font-weight: 700; font-size: 18px; font-family: 'Inter', sans-serif; }
     </style>
     """, unsafe_allow_html=True)
 
@@ -65,15 +65,18 @@ navigation_dict = {
 
 pg = st.navigation(navigation_dict)
 
-# --- LÓGICA DE VISITAS ---
-# Chamamos o registro. Com o cache no utils, a resposta será instantânea após a primeira carga.
-res = registrar_acesso(pg.title)
-
-if res and isinstance(res, int):
-    total_visitas = f"{res:,}".replace(",", ".")
-else:
-    # Caso falhe, tentamos uma última vez sem formatação ou mantemos o traço
-    total_visitas = str(res) if res else "---"
+# --- LÓGICA DE VISITAS (Resiliente) ---
+try:
+    # Chama a função do utils (certifique-se de usar a versão SEM cache enviada anteriormente)
+    res = registrar_acesso(pg.title)
+    
+    # Tratamento rigoroso para garantir o formato 117.649
+    if res is not None and str(res).isdigit() or isinstance(res, int):
+        total_visitas = f"{int(res):,}".replace(",", ".")
+    else:
+        total_visitas = "---"
+except Exception:
+    total_visitas = "---"
 
 # --- SIDEBAR ---
 with st.sidebar:
@@ -89,4 +92,5 @@ with st.sidebar:
     """, unsafe_allow_html=True)
     st.markdown("---")
 
+# Executa a página
 pg.run()
