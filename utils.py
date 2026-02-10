@@ -1,6 +1,7 @@
 import streamlit as st
 import gspread
 import uuid
+import re
 import streamlit.components.v1 as components
 from google.oauth2.service_account import Credentials
 from datetime import datetime, timedelta, timezone
@@ -36,7 +37,7 @@ def obter_credenciais():
         return None
 
 def registrar_acesso(nome_pagina, acao="Visualização"):
-    """Registra acessos com IP, SO e Navegador (Correção Chrome)."""
+    """Registra acesso com IP, SO e Navegador + Versão detalhados."""
     try:
         creds = obter_credenciais()
         if not creds: return
@@ -47,12 +48,11 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
         agora = datetime.now(fuso)
         agora_str = agora.strftime("%d/%m/%Y %H:%M:%S")
         
-        # 1. ATUALIZAR DURAÇÃO DA PÁGINA ANTERIOR (Coluna J)
+        # 1. ATUALIZAR DURAÇÃO (Coluna J)
         if st.session_state.get("ultima_linha_acesso"):
             delta = agora - st.session_state["entrada_pagina"]
             duracao_str = f"{int(delta.total_seconds() // 60):02d}:{int(delta.total_seconds() % 60):02d}"
             try:
-                # Valida se a linha existe na Coluna A antes de atualizar
                 if sheet.cell(st.session_state["ultima_linha_acesso"], 1).value:
                     sheet.update_cell(st.session_state["ultima_linha_acesso"], 10, duracao_str)
             except: pass
@@ -62,7 +62,7 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
         ua = headers.get("User-Agent", "").lower()
         ip_usuario = headers.get("X-Forwarded-For", "Privado").split(",")[0]
         
-        # Identificação do Sistema Operacional (Coluna D)
+        # Sistema Operacional (Coluna D)
         if "iphone" in ua or "ipad" in ua:
             so_final = "iOS"
             dispositivo = "Celular (Apple)" if "iphone" in ua else "Tablet (Apple)"
@@ -76,16 +76,27 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
             so_final = "MacOS"
             dispositivo = "PC"
         else:
-            so_final = "Outro"
+            so_final = "Linux/Outro"
             dispositivo = "PC"
 
-        # Identificação do Navegador (Coluna E) - ORDEM CRÍTICA
-        if "edg/" in ua: navegador = "Edge"
-        elif "opr/" in ua or "opera/" in ua: navegador = "Opera"
-        elif "firefox/" in ua: navegador = "Firefox"
-        elif "chrome/" in ua: navegador = "Chrome" # Agora só entra aqui se não for Edge/Opera
-        elif "safari/" in ua: navegador = "Safari"
-        else: navegador = "Outro"
+        # Navegador e Versão (Coluna E)
+        if "edg/" in ua:
+            match = re.search(r'edg/([\d\.]+)', ua)
+            navegador = f"Edge {match.group(1)}" if match else "Edge"
+        elif "opr/" in ua or "opera/" in ua:
+            match = re.search(r'(?:opr|opera)/([\d\.]+)', ua)
+            navegador = f"Opera {match.group(1)}" if match else "Opera"
+        elif "firefox/" in ua:
+            match = re.search(r'firefox/([\d\.]+)', ua)
+            navegador = f"Firefox {match.group(1)}" if match else "Firefox"
+        elif "chrome/" in ua:
+            match = re.search(r'chrome/([\d\.]+)', ua)
+            navegador = f"Chrome {match.group(1)}" if match else "Chrome"
+        elif "safari/" in ua:
+            match = re.search(r'version/([\d\.]+)', ua)
+            navegador = f"Safari {match.group(1)}" if match else "Safari"
+        else:
+            navegador = "Outro"
         
         nova_linha = [
             agora_str, 
@@ -100,7 +111,7 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
             "00:00"
         ]
         
-        # Busca linha real para evitar o erro de escrever em células perdidas
+        # Evita saltos na planilha
         proxima_linha = len(list(filter(None, sheet.col_values(1)))) + 1
         if proxima_linha < 2: proxima_linha = 2
             
