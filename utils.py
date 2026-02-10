@@ -7,7 +7,7 @@ import time
 from google.oauth2.service_account import Credentials
 from datetime import datetime, timedelta, timezone
 
-# --- CONFIGURAÇÃO DE SESSÃO ---
+# --- CONFIGURAÇÃO DE SESSÃO GLOBAL ---
 if "session_id" not in st.session_state:
     st.session_state["session_id"] = str(uuid.uuid4())[:8]
 
@@ -15,64 +15,56 @@ if "start_time" not in st.session_state:
     st.session_state["start_time"] = time.time()
 
 def obter_credenciais():
-    """Conecta ao Google limpando a chave privada para evitar o erro invalid_grant."""
+    """Conexão estável: trata a chave privada para evitar o erro invalid_grant."""
     scope = [
         "https://www.googleapis.com/auth/spreadsheets",
         "https://www.googleapis.com/auth/drive"
     ]
     
-    # Nome exato do seu arquivo JSON na raiz do GitHub
     caminho_json = "meuprojetocadsite-5ecb421b15a7.json"
     
     if not os.path.exists(caminho_json):
-        raise FileNotFoundError(f"Arquivo {caminho_json} não encontrado!")
+        raise FileNotFoundError(f"Arquivo {caminho_json} não encontrado na raiz do projeto!")
 
     with open(caminho_json, 'r') as f:
         info = json.load(f)
     
-    # CORREÇÃO DO ERRO: Trata as quebras de linha que o Linux/Streamlit estranha
+    # Resolve o erro de formatação no Streamlit Cloud
     if "private_key" in info:
         info["private_key"] = info["private_key"].replace("\\n", "\n")
     
     return Credentials.from_service_account_info(info, scopes=scope)
 
 def registrar_acesso(nome_pagina, acao="Visualização"):
-    """Salva logs de acesso SEM apagar os registros anteriores."""
+    """Registra acessos na planilha preservando dados antigos."""
     try:
         creds = obter_credenciais()
         client = gspread.authorize(creds)
-        # ID da sua planilha extraído da imagem
         id_planilha = "1JXVHEK4qjj4CJUdfaapKjBxl_WFmBDFHMJyIItxfchU"
         sheet = client.open_by_key(id_planilha).sheet1
 
         fuso = timezone(timedelta(hours=-3))
         agora_str = datetime.now(fuso).strftime("%d/%m/%Y %H:%M:%S")
-
-        segundos_decorridos = int(time.time() - st.session_state["start_time"])
-        duracao_formatada = str(timedelta(seconds=segundos_decorridos))
-
-        headers = st.context.headers
-        ua = headers.get("User-Agent", "").lower()
-        ip = headers.get("X-Forwarded-For", "Localhost").split(",")[0]
+        
+        ua = st.context.headers.get("User-Agent", "").lower()
         dispositivo = "Celular" if "mobile" in ua else "PC"
 
-        # Adiciona nova linha preservando tudo
+        # Adiciona nova linha sem sobrescrever nada
         sheet.append_row([
             agora_str, st.session_state.get("session_id"), dispositivo,
-            "Ativo", "Navegador", ip, "Direto", nome_pagina, acao, duracao_formatada 
+            "Ativo", "Navegador", "Remote", "Direto", nome_pagina, acao, "00:00"
         ])
     except Exception as e:
         print(f"Erro Log: {e}")
 
 def salvar_formulario_contato(dados):
-    """Grava dados do formulário preservando o histórico existente."""
+    """Salva dados do formulário preservando todo o histórico."""
     try:
         creds = obter_credenciais()
         client = gspread.authorize(creds)
         id_planilha = "1JXVHEK4qjj4CJUdfaapKjBxl_WFmBDFHMJyIItxfchU"
         sheet = client.open_by_key(id_planilha).sheet1
         
-        # append_row garante que novos dados não sobrescrevam os antigos
         sheet.append_row(dados)
         return True
     except Exception as e:
@@ -80,7 +72,7 @@ def salvar_formulario_contato(dados):
         return False
 
 def exibir_rodape():
-    """Exibe o rodapé unificado da SKY DATA SOLUTION."""
+    """Rodapé padrão SKY DATA SOLUTION."""
     st.markdown(
         """
         <hr style='border: 0.5px solid rgba(255, 255, 255, 0.1); margin-top: 50px;'>
