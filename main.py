@@ -1,5 +1,5 @@
 import streamlit as st
-from utils import registrar_acesso, exibir_rodape
+from utils import registrar_acesso
 
 # 1. Configuração da página - Resolve avisos de 2026
 st.set_page_config(
@@ -19,7 +19,7 @@ st.markdown("""
     /* Estilização dos itens do Menu de Navegação */
     [data-testid="stSidebarNav"] {
         background-color: rgb(38, 38, 48) !important;
-        padding-top: 10px;
+        padding-top: 10px; /* Reduzido para aproximar do nome da empresa */
     }
 
     [data-testid="stSidebarNav"] ul li a {
@@ -113,18 +113,18 @@ cursos_online_page = st.Page(
 )
 
 # --- NAVEGAÇÃO ESTRUTURADA ---
-pg = st.navigation({
+navigation_dict = {
     "Informações": [sobre_page, projeto_recente_page, contato_page],
     "Resultados": [cases_sucesso_page],
     "Portifólio": [projeto_python_page, projeto_powerbi_page],
     "Treinamentos": [treinamento_empresa_page, cursos_online_page]
-})
+}
 
-# --- EXECUÇÃO ---
-# 1. Registra o acesso da página atual na planilha antes de carregar
-registrar_acesso(st.session_state.get("current_page", "Início"))
+pg = st.navigation(navigation_dict)
 
-# 2. Carrega a página selecionada
+# Carrega a página selecionada
 pg.run()
 
-
+# --- REGISTRO AUTOMÁTICO DE ACESSO ---
+# Esta linha garante que a planilha receba os dados a cada interação
+registrar_acesso(pg.title)
