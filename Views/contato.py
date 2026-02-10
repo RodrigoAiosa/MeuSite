@@ -4,50 +4,37 @@ from datetime import datetime
 from utils import exibir_rodape, registrar_acesso, salvar_formulario_contato
 
 # --- REGISTRO DE ACESSO ---
-# Esta função usa o e-mail ativo aiosaprojeto para registrar sua visita sem apagar nada
 registrar_acesso("Página de Contato")
 
 def validar_email(email):
-    # Regex corrigida para aceitar domínios modernos
-    regex = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,4}$'
+    # Regex robusta para validar e-mails profissionais
+    regex = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
     return re.search(regex, email)
 
 def main():
-    # --- CONFIGURAÇÃO DE DESIGN ---
-    st.markdown("""
-        <style>
-        .stForm {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 30px !important;
-        }
-        </style>
-    """, unsafe_allow_html=True)
-
-    st.title("🚀 Vamos escalar seu projeto?")
+    st.markdown("<h1 style='text-align: center; color: #00b4d8;'>🚀 Vamos escalar seu projeto?</h1>", unsafe_allow_html=True)
     
     with st.form("form_contato", clear_on_submit=True):
         nome = st.text_input("👤 Nome Completo")
         email = st.text_input("📧 E-mail Profissional")
         whatsapp = st.text_input("📱 WhatsApp (11 números)")
-        mensagem = st.text_area("💬 Como posso te ajudar?", height=150)
+        mensagem = st.text_area("💬 Como posso te ajudar?")
         
         enviar = st.form_submit_button("Enviar Mensagem Agora")
 
         if enviar:
-            # Validação robusta de campos
+            # Validações para garantir a qualidade dos dados
             if len(nome.strip()) < 10:
-                st.error("Por favor, insira o nome completo (mínimo 10 caracteres).")
+                st.error("Insira o nome completo.")
             elif not validar_email(email.lower()):
-                st.error("O formato do e-mail é inválido.")
+                st.error("E-mail inválido.")
             elif not (whatsapp.isdigit() and len(whatsapp) == 11):
-                st.error("O WhatsApp deve conter exatamente 11 números (DDD + número).")
+                st.error("WhatsApp deve ter 11 dígitos (DDD + número).")
             elif not mensagem.strip():
-                st.error("A mensagem não pode estar vazia.")
+                st.error("Escreva uma mensagem.")
             else:
-                with st.spinner("Conectando ao Google Sheets..."):
-                    # AJUSTE: Lista formatada para bater com as colunas da sua planilha
+                with st.spinner("Enviando para a planilha..."):
+                    # Organização dos dados conforme a planilha
                     dados_lista = [
                         datetime.now().strftime("%d/%m/%Y %H:%M:%S"), 
                         nome, 
@@ -56,18 +43,16 @@ def main():
                         mensagem
                     ]
                     
-                    # Chamada única para evitar o erro de TypeError
+                    # Correção do TypeError: enviando como lista única
                     sucesso = salvar_formulario_contato(dados_lista)
                     
                     if sucesso:
                         st.balloons()
-                        st.success("Mensagem enviada com sucesso! Entrarei em contato em breve.")
+                        st.success("Mensagem enviada com sucesso!")
                     else:
-                        # Se falhar, é sinal que a conta aiosaprojeto precisa do JSON atualizado
-                        st.error("Falha técnica no envio. Por favor, tente novamente em instantes.")
+                        st.error("Falha técnica no envio. Verifique as credenciais do Google.")
 
 if __name__ == "__main__":
     main()
 
-# Exibe o rodapé da SKY DATA SOLUTION
 exibir_rodape()
