@@ -3,7 +3,7 @@ import urllib.parse
 from utils import exibir_rodape, registrar_acesso
 
 # --- REGISTRO DE ACESSO ---
-registrar_acesso("Consultoria & Treinamento Corporativo")
+registrar_acesso("Treinamento Corporativo")
 
 # --- CONFIGURAÇÃO DE ESTILO PSICOLOGIA DAS CORES ---
 st.markdown(
@@ -147,7 +147,7 @@ st.markdown(
 )
 
 # --- CONTEÚDO ---
-st.markdown('<h1 class="hero-title">Consultoria Data-Driven</h1>', unsafe_allow_html=True)
+st.markdown('<h1 class="hero-title">Consultoria e Treinamento Data-Driven</h1>', unsafe_allow_html=True)
 
 st.markdown("""
     <div class="manifesto-box">
@@ -217,5 +217,6 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 exibir_rodape()
+
 
 
