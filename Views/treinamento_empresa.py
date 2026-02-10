@@ -190,8 +190,8 @@ st.markdown("""
 col1, col2, col3, col4 = st.columns(4)
 
 features = [
-    {"icon": "⚡", "title": "Automação", "desc": "Libere seu time do operacional repetitivo.", "story": "Economizei 40h/mês de um time financeiro. O que levava 5 dias de planilha hoje acontece em 15 minutos."},
-    {"icon": "🎯", "title": "Precisão", "desc": "Decisões baseadas em fatos, não em palpites.", "story": "Reduzi em 18% a divergência de estoque de um grande varejista. Menos ruptura, mais dinheiro no caixa."},
+    {"icon": "⚡", "title": "Automação", "desc": "Libere seu time do operacional repetitivo.", "story": "Economizei 40h/mês de um time financeiro. O que levava 5 dias de planilha hoje acontece em 5 segundos."},
+    {"icon": "🎯", "title": "Precisão", "desc": "Decisões baseadas em fatos, não em palpites.", "story": "Reduzi em 28% a divergência de estoque de um grande varejista. Menos ruptura, mais dinheiro no caixa."},
     {"icon": "📈", "title": "Escalabilidade", "desc": "Estrutura pronta para dobrar de tamanho.", "story": "Criei o Data Lake de uma Scale-up que triplicou de tamanho em um ano sem precisar contratar mais analistas."},
     {"icon": "🎓", "title": "Cultura", "desc": "Independência total para seus gestores.", "story": "Treinei 50 líderes para serem donos dos seus dados. O time de TI parou de apagar incêndio e passou a focar em estratégia."}
 ]
@@ -256,3 +256,4 @@ link_whatsapp = "https://wa.me/5511977019335?text=Olá Rodrigo, gostaria de agen
 st.markdown(f'<div class="cta-button-only-container"><a href="{link_whatsapp}" target="_blank" class="btn-whatsapp-premium">Agendar Reunião Estratégica</a></div>', unsafe_allow_html=True)
 
 exibir_rodape()
+
