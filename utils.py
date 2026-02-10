@@ -33,21 +33,22 @@ def obter_credenciais():
         return None
 
 def registrar_acesso(nome_pagina, acao="Visualização"):
-    """Registra acessos sem apagar os dados existentes."""
+    """Registra acessos na planilha de monitoramento sem apagar os dados existentes."""
     try:
         creds = obter_credenciais()
         if not creds: return
         client = gspread.authorize(creds)
-        # ID da sua planilha extraído do navegador
-        id_planilha = "1JXVHEK4qjj4CJUdfaapKjBxl_WFmBDFHMJyIItxfchU"
-        sheet = client.open_by_key(id_planilha).sheet1
+        
+        # ID da planilha de ACESSOS atualizado conforme sua solicitação
+        id_planilha_acessos = "1TCx1sTDaPsygvh-FvzalJ3JlBKJBOTbfoD-7CZmhCVI"
+        sheet = client.open_by_key(id_planilha_acessos).sheet1
         
         fuso = timezone(timedelta(hours=-3))
         agora_str = datetime.now(fuso).strftime("%d/%m/%Y %H:%M:%S")
         ua = st.context.headers.get("User-Agent", "").lower()
         dispositivo = "Celular" if "mobile" in ua else "PC"
         
-        # append_row preserva o histórico da tabela
+        # append_row preserva o histórico da tabela, adicionando sempre ao final
         sheet.append_row([
             agora_str, 
             st.session_state.get("session_id"), 
@@ -64,13 +65,15 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
         pass
 
 def salvar_formulario_contato(dados):
-    """Adiciona nova linha preservando os dados anteriores."""
+    """Adiciona nova linha na planilha de CONTATOS preservando os dados anteriores."""
     try:
         creds = obter_credenciais()
         if not creds: return False
         client = gspread.authorize(creds)
-        id_planilha = "1JXVHEK4qjj4CJUdfaapKjBxl_WFmBDFHMJyIItxfchU"
-        sheet = client.open_by_key(id_planilha).sheet1
+        
+        # Mantido o ID original para o formulário de contato (ou ajuste se necessário)
+        id_planilha_contato = "1JXVHEK4qjj4CJUdfaapKjBxl_WFmBDFHMJyIItxfchU"
+        sheet = client.open_by_key(id_planilha_contato).sheet1
         
         # O método append_row garante a preservação dos dados existentes
         sheet.append_row(dados)
