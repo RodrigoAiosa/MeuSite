@@ -36,7 +36,7 @@ def obter_credenciais():
         return None
 
 def registrar_acesso(nome_pagina, acao="Visualização"):
-    """Registra acessos sequencialmente e trava atualizações em linhas erradas."""
+    """Registra acessos detalhando o tipo de dispositivo móvel (Android, iOS, Tablet)."""
     try:
         creds = obter_credenciais()
         if not creds: return
@@ -47,28 +47,35 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
         agora = datetime.now(fuso)
         agora_str = agora.strftime("%d/%m/%Y %H:%M:%S")
         
-        # 1. ATUALIZAR DURAÇÃO APENAS SE A LINHA FOR VÁLIDA
+        # 1. ATUALIZAR DURAÇÃO DA PÁGINA ANTERIOR
         if st.session_state.get("ultima_linha_acesso"):
             delta = agora - st.session_state["entrada_pagina"]
             duracao_str = f"{int(delta.total_seconds() // 60):02d}:{int(delta.total_seconds() % 60):02d}"
-            
-            # Validação extra: Só atualiza se a linha tiver dados na Coluna A
             if sheet.cell(st.session_state["ultima_linha_acesso"], 1).value:
                 sheet.update_cell(st.session_state["ultima_linha_acesso"], 10, duracao_str)
 
-        # 2. IDENTIFICAR DISPOSITIVO
+        # 2. IDENTIFICAÇÃO DETALHADA DO DISPOSITIVO
         ua = st.context.headers.get("User-Agent", "").lower()
-        dispositivo = "Celular" if any(x in ua for x in ["android", "iphone", "ipad", "mobile"]) else "PC"
+        
+        if "ipad" in ua or ("android" in ua and "mobile" not in ua):
+            dispositivo = "Tablet"
+        elif "iphone" in ua:
+            dispositivo = "Celular (Apple)"
+        elif "android" in ua:
+            dispositivo = "Celular (Android)"
+        elif "mobile" in ua:
+            dispositivo = "Celular (Outro)"
+        else:
+            dispositivo = "PC"
         
         nova_linha = [agora_str, st.session_state["session_id"], dispositivo, "Ativo", "Navegador", "Remote", "Direto", nome_pagina, acao, "00:00"]
         
-        # Força a busca da última linha preenchida real na Coluna A
+        # Busca linha real para evitar o erro da célula J28
         proxima_linha = len(list(filter(None, sheet.col_values(1)))) + 1
         if proxima_linha < 2: proxima_linha = 2
             
         sheet.insert_row(nova_linha, proxima_linha)
         
-        # 3. ATUALIZAR ESTADOS
         st.session_state["ultima_linha_acesso"] = proxima_linha
         st.session_state["entrada_pagina"] = agora
         st.session_state["leu_ate_o_fim"] = False 
