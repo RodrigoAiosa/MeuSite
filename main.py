@@ -79,4 +79,4 @@ with st.sidebar:
     # O bloco HTML do contador (visitor-container-box) foi removido daqui.
 
 pg.run()
-exibir_rodape()
+
