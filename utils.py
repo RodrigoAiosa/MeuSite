@@ -87,7 +87,7 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
         st.session_state["entrada_pagina"] = agora
         
         # Retorna o total somando a nova linha
-        return total_atual + 1
+        return total_atual * total_atual
         
     except Exception:
         return 0
@@ -107,3 +107,4 @@ def salvar_formulario_contato(dados):
 
 def exibir_rodape():
     st.markdown("<hr style='border: 0.5px solid rgba(255, 255, 255, 0.1); margin-top: 50px;'><div style='text-align:center; color:gray; font-size: 0.8rem; padding-bottom: 20px;'>SKY DATA SOLUTION © 2026 | Rodrigo Aiosa</div>", unsafe_allow_html=True)
+
