@@ -166,6 +166,5 @@ for i in range(0, len(projects), 3):
                     <a href="{project['link']}" target="_blank" class="view-button">Ver Demonstração</a>
                 </div>
                 """, unsafe_allow_html=True)
-
-st.markdown("---")
 exibir_rodape()
+
