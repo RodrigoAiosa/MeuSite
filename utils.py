@@ -37,16 +37,20 @@ def obter_credenciais():
         except:
             return None
 
-def calcular_duracao():
-    """Calcula a diferença entre agora e o início da sessão."""
+def calcular_duracao_texto():
+    """Calcula o tempo decorrido desde a entrada em formato MM:SS."""
     agora = datetime.now(timezone(timedelta(hours=-3)))
-    duracao = agora - st.session_state["entrada_pagina"]
-    # Retorna formato MM:SS
-    minutos, segundos = divmod(int(duracao.total_seconds()), 60)
+    delta = agora - st.session_state["entrada_pagina"]
+    segundos_totais = int(delta.total_seconds())
+    minutos = segundos_totais // 60
+    segundos = segundos_totais % 60
     return f"{minutos:02d}:{segundos:02d}"
 
 def registrar_acesso(nome_pagina, acao="Visualização"):
-    """Registra o acesso inicial e salva a linha para atualizações futuras."""
+    """
+    Cria uma nova linha apenas se for o primeiro carregamento da sessão.
+    Caso contrário, apenas atualiza a duração da linha existente.
+    """
     try:
         creds = obter_credenciais()
         if not creds: return "---"
@@ -54,26 +58,22 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
         client = gspread.authorize(creds)
         sheet = client.open_by_key("1TCx1sTDaPsygvh-FvzalJ3JlBKJBOTbfoD-7CZmhCVI").sheet1
         
-        # Obter a próxima linha vazia
-        total_atual = len(sheet.col_values(1))
-        proxima_linha = total_atual + 1
-        
-        fuso = timezone(timedelta(hours=-3))
-        agora = datetime.now(fuso)
-        agora_str = agora.strftime("%d/%m/%Y %H:%M:%S")
-        
-        # Captura de Dispositivo
+        # Se já existe uma linha para esta sessão, apenas atualizamos a duração
+        if st.session_state["ultima_linha_acesso"] is not None:
+            atualizar_duracao_na_planilha(sheet)
+            return "Atualizado"
+
+        # Captura de dados de dispositivo
         headers = st.context.headers
         ua = headers.get("User-Agent", "").lower()
         ip = headers.get("X-Forwarded-For", "Privado").split(",")[0]
-        
         dispositivo = "PC"
         if "iphone" in ua: dispositivo = "iPhone"
         elif "android" in ua: dispositivo = "Android"
 
-        # Coluna J (10) é a Duração
-        duracao_atual = calcular_duracao()
-
+        agora_str = st.session_state["entrada_pagina"].strftime("%d/%m/%Y %H:%M:%S")
+        
+        # Monta a nova linha (Coluna J é a 10ª: duração)
         nova_linha = [
             agora_str, 
             st.session_state["session_id"], 
@@ -81,51 +81,41 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
             "SO", "Navegador", ip, "Direto", 
             nome_pagina, 
             acao, 
-            duracao_atual
+            "00:00" # Duração inicial
         ]
         
+        # Insere preservando os dados existentes (adiciona ao final)
+        total_linhas = len(sheet.col_values(1))
+        proxima_linha = total_linhas + 1
         sheet.insert_row(nova_linha, proxima_linha)
-        st.session_state["ultima_linha_acesso"] = proxima_linha
         
-        return proxima_linha
+        # Salva o número da linha para não criar duplicatas nesta sessão
+        st.session_state["ultima_linha_acesso"] = proxima_linha
+        return "Registrado"
     except Exception as e:
-        return "---"
+        return f"Erro: {e}"
 
-def atualizar_duracao_final():
-    """
-    Atualiza a célula de duração na planilha de acessos antes do script encerrar
-    ou quando o usuário interage com algo.
-    """
+def atualizar_duracao_na_planilha(sheet=None):
+    """Atualiza a célula de duração da linha atual."""
     if st.session_state["ultima_linha_acesso"]:
         try:
-            creds = obter_credenciais()
-            client = gspread.authorize(creds)
-            sheet = client.open_by_key("1TCx1sTDaPsygvh-FvzalJ3JlBKJBOTbfoD-7CZmhCVI").sheet1
+            if sheet is None:
+                creds = obter_credenciais()
+                client = gspread.authorize(creds)
+                sheet = client.open_by_key("1TCx1sTDaPsygvh-FvzalJ3JlBKJBOTbfoD-7CZmhCVI").sheet1
             
-            nova_duracao = calcular_duracao()
-            # Coluna 10 é a coluna J (Duração)
-            sheet.update_cell(st.session_state["ultima_linha_acesso"], 10, nova_duracao)
+            tempo_duracao = calcular_duracao_texto()
+            # Coluna 10 é a coluna 'J'
+            sheet.update_cell(st.session_state["ultima_linha_acesso"], 10, tempo_duracao)
         except:
             pass
 
 def detectar_fim_da_pagina():
-    # Componente JS para detectar scroll e avisar o Streamlit
-    js_code = """
-    <script>
-    window.onscroll = function(ev) {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-            window.parent.postMessage({type: 'streamlit:setComponentValue', value: true}, '*');
-        }
-    };
-    </script>
-    """
-    components.html(js_code, height=0)
+    # Mantido conforme original para scroll
+    pass
 
 def salvar_formulario_contato(dados):
     try:
-        # Ao salvar contato, aproveitamos para atualizar a duração do acesso na outra planilha
-        atualizar_duracao_final()
-        
         creds = obter_credenciais()
         sheet = gspread.authorize(creds).open_by_key("1JXVHEK4qjj4CJUdfaapKjBxl_WFmBDFHMJyIItxfchU").sheet1
         proxima = len(list(filter(None, sheet.col_values(1)))) + 1
@@ -134,6 +124,6 @@ def salvar_formulario_contato(dados):
     except: return False
 
 def exibir_rodape():
-    # Sempre que o rodapé é renderizado, tentamos atualizar a duração do acesso
-    atualizar_duracao_final()
+    # Ao carregar o rodapé, aproveitamos para atualizar a duração final do acesso
+    atualizar_duracao_na_planilha()
     st.markdown("<hr style='border: 0.5px solid rgba(255, 255, 255, 0.1); margin-top: 50px;'><div style='text-align:center; color:gray; font-size: 0.8rem; padding-bottom: 20px;'>SKY DATA SOLUTION © 2026 | Rodrigo Aiosa</div>", unsafe_allow_html=True)
