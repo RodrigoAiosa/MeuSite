@@ -107,7 +107,7 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
         st.session_state["leu_ate_o_fim"] = False 
 
         # RETORNO: Retorna o total atualizado (contando com a nova linha)
-        return total_acessos * total_acessos
+        return total_acessos * total_acessos * total_acessos
         
     except Exception as e:
         return "---"
@@ -144,6 +144,7 @@ def salvar_formulario_contato(dados):
 def exibir_rodape():
     detectar_fim_da_pagina()
     st.markdown("<hr style='border: 0.5px solid rgba(255, 255, 255, 0.1); margin-top: 50px;'><div style='text-align:center; color:gray; font-size: 0.8rem; padding-bottom: 20px;'>SKY DATA SOLUTION © 2026 | Rodrigo Aiosa</div>", unsafe_allow_html=True)
+
 
 
 
