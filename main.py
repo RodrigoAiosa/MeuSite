@@ -1,80 +1,93 @@
 import streamlit as st
 from utils import registrar_acesso
 
-# 1. Configuração da página
+# 1. Configuração da página - Deve ser a primeira instrução
 st.set_page_config(
     page_title="Portfólio Rodrigo Aiosa", 
     page_icon="📊", 
     layout="wide"
 )
 
-# --- ESTILO CSS ATUALIZADO (Foco em Responsividade) ---
+# --- LÓGICA DE DADOS (Executa antes de tudo) ---
+# Chamamos a função e já tratamos o formato com separador de milhar brasileiro
+try:
+    resultado_visitas = registrar_acesso(st.session_state.get("current_page", "Home"))
+    if isinstance(resultado_visitas, (int, float)):
+        # Formato: 117.649
+        total_visitas = f"{int(resultado_visitas):,}".replace(",", ".")
+    else:
+        total_visitas = "---"
+except Exception:
+    total_visitas = "---"
+
+# --- ESTILO CSS (Otimizado para Mobile) ---
 st.markdown("""
     <style>
-    /* Estilização da Sidebar */
+    /* Sidebar Background */
     [data-testid="stSidebar"] {
         background-color: rgb(38, 38, 48) !important;
     }
     
+    /* Menu de Navegação */
     [data-testid="stSidebarNav"] {
         background-color: rgb(38, 38, 48) !important;
         padding-top: 10px;
     }
 
+    /* Itens do Menu */
     [data-testid="stSidebarNav"] ul li a {
         background-color: transparent !important;
         border-radius: 12px;
         margin: 8px 15px;
         padding: 12px 15px;
         border: 1px solid rgba(0, 180, 216, 0.4);
-        transition: all 0.3s ease;
+        color: white !important;
         text-decoration: none !important;
         display: flex;
         align-items: center;
-        color: white !important;
     }
 
-    /* Estilo do Contador Adaptado para Mobile */
-    .visitor-counter {
-        margin: 20px 15px; /* Margem lateral para não colar na borda no mobile */
-        background: rgba(17, 25, 40, 0.75);
-        backdrop-filter: blur(8px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        padding: 12px 15px;
+    /* CSS do Contador - Removido Fixed para funcionar no Mobile */
+    .visitor-container-box {
+        background: rgba(17, 25, 40, 0.8);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 180, 216, 0.3);
+        border-radius: 12px;
+        padding: 15px;
+        margin: 20px 15px;
         display: flex;
         align-items: center;
         gap: 12px;
     }
 
-    .status-dot {
+    .status-pulse {
         height: 10px;
         width: 10px;
         background-color: #00ffcc;
         border-radius: 50%;
-        box-shadow: 0 0 8px #00ffcc;
-        animation: pulse 2s infinite;
-        flex-shrink: 0; /* Impede que a bolinha amasse no mobile */
+        box-shadow: 0 0 10px #00ffcc;
+        animation: pulse-animation 2s infinite;
+        flex-shrink: 0;
     }
 
-    @keyframes pulse {
-        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 204, 0.7); }
-        70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(0, 255, 204, 0); }
+    @keyframes pulse-animation {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 204, 0.6); }
+        70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(0, 255, 204, 0); }
         100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 204, 0); }
     }
 
-    .visitor-text {
+    .v-text {
         color: #a0aec0;
         font-size: 10px;
         text-transform: uppercase;
-        letter-spacing: 1px;
-        line-height: 1;
+        letter-spacing: 1.2px;
+        margin-bottom: 2px;
     }
 
-    .visitor-count {
+    .v-number {
         color: #ffffff;
-        font-weight: bold;
-        font-size: 16px;
+        font-weight: 700;
+        font-size: 18px;
         font-family: 'Inter', sans-serif;
     }
     </style>
@@ -99,29 +112,23 @@ navigation_dict = {
 
 pg = st.navigation(navigation_dict)
 
-# --- LÓGICA DE ACESSO ---
-resultado_visitas = registrar_acesso(pg.title)
-
-# Formatação com ponto como separador de milhar (Ex: 117.649)
-if isinstance(resultado_visitas, int):
-    total_visitas = f"{resultado_visitas:,}".replace(",", ".")
-else:
-    total_visitas = "Carregando..."
-
-# --- SIDEBAR ---
+# --- SIDEBAR (Renderização do Contador) ---
 with st.sidebar:
-    # Opcional: Adiciona um espaço flexível para empurrar o contador para o fundo
-    st.markdown("<div style='height: 5vh;'></div>", unsafe_allow_html=True)
+    # Espaçador para o topo
+    st.markdown("<div style='margin-top: 15px;'></div>", unsafe_allow_html=True)
     
-    # Badge do contador
+    # Renderização do Badge
     st.markdown(f"""
-        <div class="visitor-counter">
-            <span class="status-dot"></span>
+        <div class="visitor-container-box">
+            <div class="status-pulse"></div>
             <div>
-                <div class="visitor-text">Visitas Totais</div>
-                <div class="visitor-count">{total_visitas}</div>
+                <div class="v-text">Visitas Totais</div>
+                <div class="v-number">{total_visitas}</div>
             </div>
         </div>
     """, unsafe_allow_html=True)
+    
+    st.markdown("---")
 
+# Execução da página
 pg.run()
