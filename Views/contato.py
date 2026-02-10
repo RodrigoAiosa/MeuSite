@@ -92,8 +92,8 @@ def main():
 
             else:
                 with st.spinner("Enviando mensagem..."):
-                    # AJUSTE: Transformando os campos em uma LISTA única para a função
-                    dados_lista = [
+                    # AJUSTE CRÍTICO: Agrupando dados em uma lista única [] para evitar o TypeError
+                    dados_para_planilha = [
                         datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
                         nome,
                         email,
@@ -101,8 +101,8 @@ def main():
                         mensagem
                     ]
                     
-                    # Chamada corrigida passando apenas 1 argumento (a lista)
-                    sucesso = salvar_formulario_contato(dados_lista)
+                    # Chama a função passando apenas a lista (1 argumento)
+                    sucesso = salvar_formulario_contato(dados_para_planilha)
 
                 if sucesso:
                     st.balloons()
