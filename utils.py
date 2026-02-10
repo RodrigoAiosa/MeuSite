@@ -34,26 +34,27 @@ def obter_credenciais():
         }
         return Credentials.from_service_account_info(creds_dict, scopes=scope)
     except Exception:
-        # Fallback para arquivo local caso não encontre secrets (uso em desenvolvimento)
+        # Fallback para arquivo local
         try:
             return Credentials.from_service_account_file("meuprojetocadsite-5ecb421b15a7.json", scopes=scope)
         except:
             return None
 
 def registrar_acesso(nome_pagina, acao="Visualização"):
-    """Registra acesso classificando corretamente PC, iPhone, Android, etc."""
+    """Registra acesso e retorna o total de visitas da planilha."""
     try:
         creds = obter_credenciais()
-        if not creds: return
+        if not creds: 
+            return "Erro Creds"
+        
         client = gspread.authorize(creds)
-        # Abre a planilha pelo ID fornecido
         sheet = client.open_by_key("1TCx1sTDaPsygvh-FvzalJ3JlBKJBOTbfoD-7CZmhCVI").sheet1
         
         fuso = timezone(timedelta(hours=-3))
         agora = datetime.now(fuso)
         agora_str = agora.strftime("%d/%m/%Y %H:%M:%S")
         
-        # 1. ATUALIZAR DURAÇÃO NA LINHA ANTERIOR (Coluna J)
+        # 1. ATUALIZAR DURAÇÃO NA LINHA ANTERIOR
         if st.session_state.get("ultima_linha_acesso"):
             delta = agora - st.session_state["entrada_pagina"]
             duracao_str = f"{int(delta.total_seconds() // 60):02d}:{int(delta.total_seconds() % 60):02d}"
@@ -61,75 +62,55 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
                 sheet.update_cell(st.session_state["ultima_linha_acesso"], 10, duracao_str)
             except: pass
 
-        # 2. CAPTURA E CLASSIFICAÇÃO DO DISPOSITIVO
+        # 2. CAPTURA DO DISPOSITIVO
         headers = st.context.headers
         ua = headers.get("User-Agent", "").lower()
         ip_usuario = headers.get("X-Forwarded-For", "Privado").split(",")[0]
         
-        # Lógica de Classificação para a Coluna C (Dispositivo) e D (SO)
         if "iphone" in ua:
-            dispositivo = "Celular (iPhone)"
-            so_final = "iOS"
+            dispositivo, so_final = "Celular (iPhone)", "iOS"
         elif "ipad" in ua:
-            dispositivo = "Tablet (iPad)"
-            so_final = "iOS"
+            dispositivo, so_final = "Tablet (iPad)", "iOS"
         elif "android" in ua:
             dispositivo = "Celular (Android)" if "mobile" in ua else "Tablet (Android)"
             so_final = "Android"
-        elif any(x in ua for x in ["windows phone", "iemobile"]):
-            dispositivo = "Celular (Windows)"
-            so_final = "Windows Phone"
         elif "windows" in ua:
-            dispositivo = "PC"
-            so_final = "Windows"
+            dispositivo, so_final = "PC", "Windows"
         elif "macintosh" in ua or "mac os x" in ua:
-            dispositivo = "PC"
-            so_final = "MacOS"
-        elif "linux" in ua:
-            dispositivo = "PC"
-            so_final = "Linux"
+            dispositivo, so_final = "PC", "MacOS"
         else:
             dispositivo = "Outro Móvel" if "mobi" in ua else "PC"
             so_final = "Desconhecido"
 
-        # Identificação do Navegador (Coluna E)
         if "edg/" in ua: navegador = "Edge"
-        elif "opr/" in ua or "opera/" in ua: navegador = "Opera"
-        elif "firefox/" in ua: navegador = "Firefox"
         elif "chrome/" in ua: navegador = "Chrome"
         elif "safari/" in ua: navegador = "Safari"
         else: navegador = "Outro"
         
-        # Montagem da nova linha
         nova_linha = [
-            agora_str,                     # A: Data/Hora
-            st.session_state["session_id"], # B: ID Sessão
-            dispositivo,                   # C: DISPOSITIVO (O que você pediu)
-            so_final,                      # D: S.O.
-            navegador,                     # E: Navegador
-            ip_usuario,                    # F: IP
-            "Direto",                      # G: Origem
-            nome_pagina,                   # H: Página
-            acao,                          # I: Ação
-            "00:00"                        # J: Duração Inicial
+            agora_str, st.session_state["session_id"], dispositivo, so_final, 
+            navegador, ip_usuario, "Direto", nome_pagina, acao, "00:00"
         ]
         
-        # Inserção preservando os dados existentes
-        # Filtra valores vazios para achar a última linha preenchida real
-        proxima_linha = len(list(filter(None, sheet.col_values(1)))) + 1
+        # 3. INSERÇÃO E CONTAGEM
+        # Obtemos todos os valores da coluna A para contar os acessos reais
+        coluna_a = list(filter(None, sheet.col_values(1)))
+        total_acessos = len(coluna_a) # Total antes da nova inserção
+        proxima_linha = total_acessos + 1
         if proxima_linha < 2: proxima_linha = 2
             
         sheet.insert_row(nova_linha, proxima_linha)
         
-        # Atualiza estado para controle de duração e scroll
+        # Atualiza estados
         st.session_state["ultima_linha_acesso"] = proxima_linha
         st.session_state["entrada_pagina"] = agora
         st.session_state["leu_ate_o_fim"] = False 
+
+        # RETORNO: Retorna o total atualizado (contando com a nova linha)
+        return total_acessos + 1
         
     except Exception as e:
-        # Em produção, você pode deixar o pass para não exibir erro ao usuário
-        # st.write(f"Erro ao registrar: {e}") 
-        pass
+        return "---"
 
 def detectar_fim_da_pagina():
     js_code = """
