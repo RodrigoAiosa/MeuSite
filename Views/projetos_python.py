@@ -79,6 +79,15 @@ def render_python_app(title, description, url):
 
 # --- LISTA DE PROJETOS ---
 
+# Projeto 
+render_python_app(
+    "💼 Precificador Profissional para MEI",
+    "Calculadora profissional de precificação para MEI que ajuda a definir o preço de venda com base em custos, impostos, comissões e margem de lucro. Inclui markup automático, ponto de equilíbrio, gráficos financeiros e exportação de relatórios em Excel.",
+    "https://calculadora-preco-venda.streamlit.app/"
+)
+
+
+
 # # Projeto 1
 # render_python_app(
 #     "⚖️ Calculadora de Viabilidade de Leilão Profissional",
@@ -109,4 +118,5 @@ render_python_app(
 
 
 exibir_rodape()
+
 
