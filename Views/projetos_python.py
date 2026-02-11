@@ -93,12 +93,12 @@ render_python_app(
     "https://gerarlead.streamlit.app/"
 )
 
-# Projeto 3
-render_python_app(
-    "📊 Análise Pro: Sistemas de Amortização",
-    "Simulador financeiro avançado que compara os sistemas SAC e PRICE. Ideal para análise de financiamentos de longo prazo, permitindo visualizar a evolução do saldo devedor e economia com amortizações antecipadas.",
-    "https://guiadaamortizacao.streamlit.app/"
-)
+# # Projeto 3
+# render_python_app(
+#     "📊 Análise Pro: Sistemas de Amortização",
+#     "Simulador financeiro avançado que compara os sistemas SAC e PRICE. Ideal para análise de financiamentos de longo prazo, permitindo visualizar a evolução do saldo devedor e economia com amortizações antecipadas.",
+#     "https://guiadaamortizacao.streamlit.app/"
+# )
 
 # Projeto 4
 render_python_app(
@@ -109,3 +109,4 @@ render_python_app(
 
 
 exibir_rodape()
+
