@@ -1,5 +1,5 @@
 import streamlit as st
-from utils import exibir_rodape, registrar_acesso  # Importação atualizada
+from utils import exibir_rodape, registrar_acesso  # Importação mantida
 
 # --- REGISTRO DE ACESSO ---
 # Registra a entrada do usuário na página de Projetos Python
@@ -57,20 +57,26 @@ st.markdown("---")
 
 # --- FUNÇÃO PARA RENDERIZAR APPS COM DESCRIÇÃO ---
 def render_python_app(title, description, url):
-    # Botão
+    # Botão para abrir em nova aba (essencial caso o iframe falhe)
     st.markdown(f'<a href="{url}" target="_blank" class="project-button">{title} ↗️</a>', unsafe_allow_html=True)
     # Descrição
     st.markdown(f'<div class="project-description">{description}</div>', unsafe_allow_html=True)
+    
+    # Limpeza da URL para o iframe (removendo âncoras que causam redirect loops)
+    clean_url = url.split('#')[0]
+    embed_url = f"{clean_url}?embed=true"
+    
     # App incorporado
     st.markdown(
         f"""
         <div class="iframe-container">
             <iframe 
-                src="{url}?embed=true" 
+                src="{embed_url}" 
                 width="100%" 
                 height="700" 
                 frameborder="0" 
-                allowfullscreen>
+                allowfullscreen
+                sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-downloads">
             </iframe>
         </div>
         """,
@@ -80,11 +86,11 @@ def render_python_app(title, description, url):
 # --- LISTA DE PROJETOS ---
 
 # Projeto 
+# Removi a âncora da URL para evitar o erro de redirecionamento no iframe
 render_python_app(
     "🤖 AIOSA — Assistente Virtual Inteligente",
-    "Assistente virtual desenvolvido em Python utilizando Streamlit e IA generativa. ",
-    "https://aiosaassistente.streamlit.app/#sou-o-a-iosa-seu-assistente-virtual"
+    "Assistente virtual desenvolvido em Python utilizando Streamlit e IA generativa.",
+    "https://aiosaassistente.streamlit.app/"
 )
 
 exibir_rodape()
-
