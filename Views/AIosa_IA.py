@@ -89,7 +89,7 @@ def render_python_app(title, description, url):
 # Removi a âncora da URL para evitar o erro de redirecionamento no iframe
 render_python_app(
     "🤖 AIOSA — Assistente Virtual Inteligente",
-    "Assistente virtual desenvolvido em Python utilizando Streamlit e IA generativa.",
+    "Assistente virtual desenvolvido por Rodrigo Aiosa.",
     "https://aiosaassistente.streamlit.app/"
 )
 
