@@ -79,37 +79,45 @@ def render_python_app(title, description, url):
 
 # --- LISTA DE PROJETOS ---
 
-# Projeto 
+
+# Projeto
+render_python_app(
+    "💼 APP SOS MULHER",
+    "Em 2025, dados publicados pelo Ministério da Justiça e Segurança Pública apontam que foram registrados 1.518 feminicídios, a maior marca já registrada até o momento.",
+    "https://sosmulher.streamlit.app/"
+)
+
+
+
+# Projeto
 render_python_app(
     "💼 Precificador Profissional para MEI",
     "Calculadora profissional de precificação para MEI que ajuda a definir o preço de venda com base em custos, impostos, comissões e margem de lucro. Inclui markup automático, ponto de equilíbrio, gráficos financeiros e exportação de relatórios em Excel.",
     "https://calculadora-preco-venda.streamlit.app/"
 )
 
-
-
-# # Projeto 1
+# # Projeto 
 # render_python_app(
 #     "⚖️ Calculadora de Viabilidade de Leilão Profissional",
 #     "Ferramenta estratégica para investidores imobiliários. Calcula automaticamente impostos (ITBI), custos cartoriais, comissões de leiloeiro e margem de lucro líquida para arrematações seguras.",
 #     "https://calculadoraleilao.streamlit.app/"
 # )
 
-# Projeto 2
+# Projeto 
 render_python_app(
     "📍 Extrator de Dados - Google Maps",
     "Solução de automação para prospecção B2B. Extrai informações públicas diretamente do Google Maps, como nomes, telefones e localizações, facilitando a geração de listas de leads qualificadas.",
     "https://gerarlead.streamlit.app/"
 )
 
-# # Projeto 3
+# # Projeto 
 # render_python_app(
 #     "📊 Análise Pro: Sistemas de Amortização",
 #     "Simulador financeiro avançado que compara os sistemas SAC e PRICE. Ideal para análise de financiamentos de longo prazo, permitindo visualizar a evolução do saldo devedor e economia com amortizações antecipadas.",
 #     "https://guiadaamortizacao.streamlit.app/"
 # )
 
-# Projeto 4
+# Projeto 
 render_python_app(
     "☕ Gestão de Custos: Açúcar 💵Como eliminei mais de R$ 25 mil por ano em desperdício só no café.",
     "Aplicação voltada para qualquer empresa. Sabe aquela economia que ninguém vê? Aquela que parece pequena… até que você coloca os números na mesa?",
@@ -118,5 +126,6 @@ render_python_app(
 
 
 exibir_rodape()
+
 
 
