@@ -57,6 +57,7 @@ projeto_powerbi_page = st.Page(page="Views/projetos_powerbi.py", title="Projetos
 treinamento_empresa_page = st.Page(page="Views/treinamento_empresa.py", title="Para Empresas", icon=":material/school:")
 cursos_online_page = st.Page(page="Views/cursos_online.py", title="Cursos Online", icon=":material/local_library:")
 contato = st.Page(page="Views/contato.py", title="Contato", icon=":material/local_library:")
+AIOSAIA = st.Page(page="Views/AIosa_IA.py", title="Contato", icon=":material/local_library:")
 
 # --- NAVEGAÇÃO ---
 navigation_dict = {
@@ -64,7 +65,8 @@ navigation_dict = {
     "Resultados": [cases_sucesso_page],
     "Portifólio": [projeto_python_page, projeto_powerbi_page],
     "Treinamentos": [treinamento_empresa_page, cursos_online_page],
-    "Entre em contato": [contato]
+    "Entre em contato": [contato],
+    "Aiosa IA": [AIOSAIA]
 }
 
 pg = st.navigation(navigation_dict)
@@ -81,5 +83,6 @@ with st.sidebar:
     # O bloco HTML do contador (visitor-container-box) foi removido daqui.
 
 pg.run()
+
 
 
