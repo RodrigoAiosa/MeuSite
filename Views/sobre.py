@@ -10,26 +10,29 @@ registrar_acesso("Sobre Mim")
 
 # --- PALETA DE CORES PARA CONVERSÃO ---
 CORES = {
-    'primary': '#FF6B35',      # Laranja (urgência, ação)
-    'secondary': '#004E89',    # Azul escuro (confiança)
-    'accent': '#F77F00',       # Laranja vibrante (CTAs)
-    'success': '#06D6A0',      # Verde (sucesso)
-    'dark': '#0A0E27',         # Quase preto (elegância)
-    'light': '#F8F9FA',        # Branco suave
-    'text_muted': '#ADB5BD'    # Cinza
+    'primary': '#FF6B35',
+    'secondary': '#004E89',
+    'accent': '#F77F00',
+    'success': '#06D6A0',
+    'dark': '#0A0E27',
+    'light': '#F8F9FA',
+    'text_muted': '#ADB5BD'
 }
 
-# --- ESTILO CSS COMPLETO OTIMIZADO PARA CONVERSÃO ---
+# --- ESTILO CSS COMPLETO ---
 st.markdown(f"""
     <style>
-    /* RESET E CONFIGURAÇÕES GLOBAIS */
-    * {{
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+    /* Ocultar elementos padrão do Streamlit */
+    #MainMenu {{visibility: hidden;}}
+    footer {{visibility: hidden;}}
+    header {{visibility: hidden;}}
+    
+    /* RESET */
+    .stApp {{
+        background-color: {CORES['dark']};
     }}
     
-    /* GRADIENT HERO SECTION */
+    /* HERO GRADIENT */
     .hero-gradient {{
         background: linear-gradient(135deg, {CORES['dark']} 0%, #1a1f3a 100%);
         padding: 60px 20px 40px;
@@ -39,7 +42,7 @@ st.markdown(f"""
         box-shadow: 0 10px 40px rgba(0,0,0,0.3);
     }}
     
-    /* PROFILE PIC - Maior e com border animado */
+    /* PROFILE PIC */
     .profile-pic {{
         display: flex;
         justify-content: center;
@@ -55,7 +58,7 @@ st.markdown(f"""
         border-radius: 50%;
         background: linear-gradient(45deg, {CORES['primary']}, {CORES['accent']});
         animation: pulse-border 2s ease-in-out infinite;
-        z-index: -1;
+        z-index: 0;
     }}
     
     @keyframes pulse-border {{
@@ -70,9 +73,11 @@ st.markdown(f"""
         object-fit: cover;
         border: 6px solid {CORES['dark']};
         box-shadow: 0 8px 30px rgba(255, 107, 53, 0.4);
+        position: relative;
+        z-index: 1;
     }}
     
-    /* TÍTULO COM EFEITO GRADIENTE */
+    /* TÍTULO */
     .main-title {{
         text-align: center;
         font-size: 3.5em;
@@ -85,7 +90,7 @@ st.markdown(f"""
         letter-spacing: -1px;
     }}
     
-    /* SUBTITLE COM MAIS DESTAQUE */
+    /* SUBTITLE */
     .subtitle {{
         text-align: center;
         font-size: 1.3em;
@@ -96,6 +101,11 @@ st.markdown(f"""
         max-width: 800px;
         margin-left: auto;
         margin-right: auto;
+        padding: 0 20px;
+    }}
+    
+    .subtitle strong {{
+        color: white;
     }}
     
     /* TRUST BADGES */
@@ -103,59 +113,63 @@ st.markdown(f"""
         display: inline-block;
         background: {CORES['success']};
         color: white;
-        padding: 8px 20px;
-        border-radius: 20px;
-        font-size: 0.9em;
+        padding: 10px 22px;
+        border-radius: 25px;
+        font-size: 0.95em;
         font-weight: 600;
-        margin: 5px;
+        margin: 8px 6px;
         box-shadow: 0 4px 15px rgba(6, 214, 160, 0.3);
+        white-space: nowrap;
     }}
     
     .trust-badges-container {{
         text-align: center;
-        margin-top: 20px;
+        margin-top: 25px;
     }}
     
-    /* CTA BUTTON - BOTÃO DE CONVERSÃO */
+    /* CTA BUTTONS */
     .cta-button {{
         display: inline-block;
         background: linear-gradient(135deg, {CORES['primary']} 0%, {CORES['accent']} 100%);
-        color: white;
+        color: white !important;
         padding: 18px 45px;
         border-radius: 50px;
         font-size: 1.2em;
         font-weight: 700;
-        text-decoration: none;
+        text-decoration: none !important;
         box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
         transition: all 0.3s ease;
         border: none;
         cursor: pointer;
         text-align: center;
-        margin: 20px auto;
-        display: block;
-        width: fit-content;
+        margin: 20px 10px;
     }}
     
     .cta-button:hover {{
         transform: translateY(-3px);
         box-shadow: 0 12px 35px rgba(255, 107, 53, 0.6);
-        text-decoration: none;
-        color: white;
+        text-decoration: none !important;
+        color: white !important;
+    }}
+    
+    .cta-container {{
+        text-align: center;
+        margin: 30px 0;
     }}
     
     .cta-secondary {{
-        background: transparent;
+        background: transparent !important;
         border: 2px solid {CORES['primary']};
-        color: {CORES['primary']};
+        color: {CORES['primary']} !important;
         box-shadow: none;
     }}
     
     .cta-secondary:hover {{
-        background: rgba(255, 107, 53, 0.1);
-        color: {CORES['primary']};
+        background: rgba(255, 107, 53, 0.1) !important;
+        color: {CORES['primary']} !important;
     }}
     
-    /* CARDS MODERNOS - Diretos e limpos */
+    /* STAT CARDS */
     .stat-card {{
         background: linear-gradient(135deg, #1a1f3a 0%, {CORES['dark']} 100%);
         border-radius: 20px;
@@ -191,7 +205,6 @@ st.markdown(f"""
     .stat-icon {{ 
         font-size: 36px; 
         margin-bottom: 10px;
-        filter: grayscale(0.3);
     }}
     
     .stat-number {{ 
@@ -202,6 +215,7 @@ st.markdown(f"""
         -webkit-text-fill-color: transparent;
         background-clip: text;
         margin: 10px 0;
+        line-height: 1.2;
     }}
     
     .stat-label {{ 
@@ -210,6 +224,7 @@ st.markdown(f"""
         font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 1px;
+        line-height: 1.3;
     }}
     
     .stat-description {{
@@ -220,7 +235,7 @@ st.markdown(f"""
         line-height: 1.4;
     }}
     
-    /* SEÇÃO DE BENEFÍCIOS */
+    /* BENEFIT CARDS */
     .benefit-card {{
         background: #1a1f3a;
         border-left: 4px solid {CORES['primary']};
@@ -242,11 +257,11 @@ st.markdown(f"""
         vertical-align: middle;
     }}
     
-    /* SECTION TITLE */
+    /* SECTION TITLES */
     .section-title {{
         font-size: 2.2em;
         font-weight: 700;
-        margin: 40px 0 30px;
+        margin: 40px 0 20px;
         text-align: center;
         color: white;
     }}
@@ -261,7 +276,7 @@ st.markdown(f"""
         margin-right: auto;
     }}
     
-    /* SOCIAL PROOF - Logos de clientes */
+    /* CLIENT SECTION */
     .client-logo-section {{
         background: linear-gradient(135deg, {CORES['light']} 0%, #e9ecef 100%);
         padding: 50px 30px;
@@ -283,24 +298,25 @@ st.markdown(f"""
         font-size: 1.1em;
     }}
     
-    /* TESTIMONIAL CARD */
+    /* TESTIMONIAL */
     .testimonial {{
         background: #1a1f3a;
-        padding: 30px;
+        padding: 35px 30px;
         border-radius: 20px;
         border-left: 5px solid {CORES['primary']};
-        margin: 20px 0;
+        margin: 30px 0;
         position: relative;
     }}
     
     .testimonial::before {{
         content: '"';
         position: absolute;
-        top: -10px;
+        top: -15px;
         left: 20px;
         font-size: 80px;
         color: rgba(255, 107, 53, 0.2);
         font-family: Georgia, serif;
+        line-height: 1;
     }}
     
     .testimonial-text {{
@@ -309,6 +325,7 @@ st.markdown(f"""
         color: #E9ECEF;
         position: relative;
         z-index: 1;
+        padding-left: 10px;
     }}
     
     .testimonial-author {{
@@ -316,16 +333,18 @@ st.markdown(f"""
         margin-top: 15px;
         color: {CORES['primary']};
         font-weight: 600;
+        font-size: 0.95em;
     }}
     
     /* SCARCITY BANNER */
     .scarcity-banner {{
         background: linear-gradient(135deg, {CORES['primary']} 0%, #D64933 100%);
         color: white;
-        padding: 15px;
+        padding: 18px;
         border-radius: 12px;
         text-align: center;
         font-weight: 700;
+        font-size: 1.1em;
         margin: 30px 0;
         box-shadow: 0 5px 20px rgba(255, 107, 53, 0.4);
         animation: pulse-glow 2s ease-in-out infinite;
@@ -350,6 +369,7 @@ st.markdown(f"""
         color: white;
         margin-bottom: 20px;
         font-size: 2.5em;
+        font-weight: 700;
     }}
     
     .footer-cta-text {{
@@ -359,6 +379,7 @@ st.markdown(f"""
         max-width: 600px;
         margin-left: auto;
         margin-right: auto;
+        line-height: 1.6;
     }}
     
     /* DIVIDER */
@@ -369,7 +390,7 @@ st.markdown(f"""
         margin: 50px 0;
     }}
     
-    /* RESPONSIVIDADE */
+    /* RESPONSIVO */
     @media (max-width: 768px) {{
         .main-title {{
             font-size: 2.5em;
@@ -377,6 +398,7 @@ st.markdown(f"""
         
         .subtitle {{
             font-size: 1.1em;
+            padding: 0 15px;
         }}
         
         .stat-card {{
@@ -387,6 +409,21 @@ st.markdown(f"""
         .cta-button {{
             font-size: 1em;
             padding: 15px 35px;
+            display: block;
+            margin: 15px auto;
+        }}
+        
+        .trust-badge {{
+            font-size: 0.85em;
+            padding: 8px 16px;
+        }}
+        
+        .section-title {{
+            font-size: 1.8em;
+        }}
+        
+        .footer-cta h2 {{
+            font-size: 2em;
         }}
     }}
     </style>
@@ -405,47 +442,44 @@ st.markdown(f"""
         </p>
         
         <div class="trust-badges-container">
-            <div class="trust-badge">✓ 450+ Empresas Confiaram</div>
-            <div class="trust-badge">✓ 87% Taxa de Recompra</div>
-            <div class="trust-badge">✓ 20 Anos de Experiência</div>
+            <span class="trust-badge">✓ 450+ Empresas Confiaram</span>
+            <span class="trust-badge">✓ 87% Taxa de Recompra</span>
+            <span class="trust-badge">✓ 20 Anos de Experiência</span>
         </div>
     </div>
 """, unsafe_allow_html=True)
 
 # --- CTA PRINCIPAL ---
 st.markdown("""
-    <a href="#contato" class="cta-button">
-        🚀 Agendar Consultoria Gratuita
-    </a>
+    <div class="cta-container">
+        <a href="#contato" class="cta-button">
+            🚀 Agendar Consultoria Gratuita
+        </a>
+    </div>
 """, unsafe_allow_html=True)
 
 st.write("")
 
-# --- CARDS DE ESTATÍSTICAS COM CONTADOR ANIMADO ---
+# --- CARDS DE ESTATÍSTICAS ---
 st.markdown('<h2 class="section-title">⭐ Resultados Comprovados</h2>', unsafe_allow_html=True)
 st.markdown('<p class="section-subtitle">Números que falam por si: experiência, confiança e excelência em cada projeto</p>', unsafe_allow_html=True)
 
 c1, c2, c3, c4 = st.columns(4)
 placeholders = [c1.empty(), c2.empty(), c3.empty(), c4.empty()]
 
-stats_data = [
-    ("20+", "Anos de<br>Experiência", "🏆", "Expertise consolidada em análise preditiva e BI"),
-    ("450+", "Empresas<br>Atendidas", "🏢", "Soluções personalizadas para grandes players"),
-    ("500+", "Projetos<br>Entregues", "📊", "Dashboards estratégicos focados em ROI"),
-    ("87%", "Taxa de<br>Recompra", "🤝", "Baseado em resultados reais e confiança mútua")
+stats_config = [
+    (20, "+", "Anos de<br>Experiência", "🏆", "Expertise consolidada em análise preditiva e BI"),
+    (450, "+", "Empresas<br>Atendidas", "🏢", "Soluções personalizadas para grandes players"),
+    (500, "+", "Projetos<br>Entregues", "📊", "Dashboards estratégicos focados em ROI"),
+    (87, "%", "Taxa de<br>Recompra", "🤝", "Baseado em resultados reais e confiança mútua")
 ]
 
-# Animação dos números
+# Animação
 for i in range(0, 101, 5):
-    values = [
-        int(20 * i / 100),
-        int(450 * i / 100),
-        int(500 * i / 100),
-        int(87 * i / 100)
-    ]
-    
-    for idx, (placeholder, value, (final, label, icon, desc)) in enumerate(zip(placeholders, values, stats_data)):
-        display_val = f"{value}+" if idx < 3 else f"{value}%"
+    for idx, (placeholder, (max_val, suffix, label, icon, desc)) in enumerate(zip(placeholders, stats_config)):
+        current_val = int(max_val * i / 100)
+        display_val = f"{current_val}{suffix}"
+        
         placeholder.markdown(f"""
             <div class="stat-card">
                 <div class="stat-icon">{icon}</div>
@@ -459,7 +493,7 @@ for i in range(0, 101, 5):
 
 st.markdown("---")
 
-# --- SEÇÃO DE BENEFÍCIOS ---
+# --- BENEFÍCIOS ---
 st.markdown('<h2 class="section-title">💼 Como Posso Transformar Seu Negócio</h2>', unsafe_allow_html=True)
 st.markdown('<p class="section-subtitle">Soluções focadas em resultados mensuráveis e impacto direto no seu bottom line</p>', unsafe_allow_html=True)
 
@@ -503,7 +537,7 @@ with col2:
 
 st.markdown("---")
 
-# --- COMPETÊNCIAS TÉCNICAS ---
+# --- STACK TECNOLÓGICO ---
 st.markdown('<h2 class="section-title">🛠️ Stack Tecnológico</h2>', unsafe_allow_html=True)
 
 tech_col1, tech_col2, tech_col3 = st.columns(3)
@@ -537,7 +571,7 @@ with tech_col3:
 
 st.markdown("---")
 
-# --- SOCIAL PROOF - CLIENTES ---
+# --- CLIENTES ---
 st.markdown("""
     <div class="client-logo-section">
         <h3>🏆 Empresas que Confiam no Meu Trabalho</h3>
@@ -557,9 +591,9 @@ st.write("")
 st.markdown("""
     <div class="testimonial">
         <p class="testimonial-text">
-            "Rodrigo reduziu nosso tempo de análise em 60% e aumentou a precisão das previsões de demanda 
+            Rodrigo reduziu nosso tempo de análise em 60% e aumentou a precisão das previsões de demanda 
             em 35%. O ROI foi positivo em apenas 3 meses. Profissional excepcional que entende tanto 
-            de tecnologia quanto de negócios."
+            de tecnologia quanto de negócios.
         </p>
         <p class="testimonial-author">
             — Diretor de Operações, Empresa do Setor Farmacêutico
@@ -569,14 +603,14 @@ st.markdown("""
 
 st.markdown("---")
 
-# --- BANNER DE URGÊNCIA ---
+# --- URGÊNCIA ---
 st.markdown("""
     <div class="scarcity-banner">
         ⏰ VAGAS LIMITADAS: Apenas 3 consultorias estratégicas disponíveis este mês
     </div>
 """, unsafe_allow_html=True)
 
-# --- CTA FINAL FORTE ---
+# --- CTA FINAL ---
 st.markdown("""
     <div class="footer-cta">
         <h2>Pronto para Transformar Seus Dados em Lucro Real?</h2>
@@ -584,12 +618,14 @@ st.markdown("""
             Agende uma consultoria estratégica gratuita de 30 minutos e descubra como posso 
             ajudar seu negócio a crescer com inteligência de dados
         </p>
-        <a href="mailto:contato@rodrigoaiosa.com" class="cta-button">
-            📧 Agendar Consultoria Agora
-        </a>
-        <a href="#portfolio" class="cta-button cta-secondary">
-            📄 Ver Cases de Sucesso
-        </a>
+        <div class="cta-container">
+            <a href="mailto:contato@rodrigoaiosa.com" class="cta-button">
+                📧 Agendar Consultoria Agora
+            </a>
+            <a href="#portfolio" class="cta-button cta-secondary">
+                📄 Ver Cases de Sucesso
+            </a>
+        </div>
     </div>
 """, unsafe_allow_html=True)
 
