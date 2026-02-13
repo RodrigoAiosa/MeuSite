@@ -66,7 +66,7 @@ navigation_dict = {
     "Portifólio": [projeto_python_page, projeto_powerbi_page],
     "Treinamentos": [treinamento_empresa_page, cursos_online_page],
     "Entre em contato": [contato],
-    "Aiosa IA": [AIOSAIA]
+    "Assistente IA": [AIOSAIA]
 }
 
 pg = st.navigation(navigation_dict)
@@ -83,6 +83,7 @@ with st.sidebar:
     # O bloco HTML do contador (visitor-container-box) foi removido daqui.
 
 pg.run()
+
 
 
 
