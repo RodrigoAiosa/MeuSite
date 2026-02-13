@@ -1,8 +1,9 @@
 import streamlit as st
-from utils import exibir_rodape, registrar_acesso
+from utils import exibir_rodape, registrar_acesso  # Importação atualizada
 
 # --- REGISTRO DE ACESSO ---
-registrar_acesso("Assistente Virtual AIOSA")
+# Registra a entrada do usuário na página de Projetos Python
+registrar_acesso("Projetos Python")
 
 # --- ESTILO CSS ---
 st.markdown(
@@ -50,22 +51,17 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.title("🤖 Assistente Virtual AIOSA")
-st.write("Aplicação de inteligência artificial desenvolvida em Python para atendimento, automação e interação com usuários.")
+st.title("🐍 Projetos em Python")
+st.write("Aplicações web completas desenvolvidas para automação de processos e análise financeira.")
 st.markdown("---")
 
-# --- FUNÇÃO PARA RENDERIZAR APP ---
+# --- FUNÇÃO PARA RENDERIZAR APPS COM DESCRIÇÃO ---
 def render_python_app(title, description, url):
-    st.markdown(
-        f'<a href="{url}" target="_blank" class="project-button">{title} ↗️</a>',
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        f'<div class="project-description">{description}</div>',
-        unsafe_allow_html=True
-    )
-
+    # Botão
+    st.markdown(f'<a href="{url}" target="_blank" class="project-button">{title} ↗️</a>', unsafe_allow_html=True)
+    # Descrição
+    st.markdown(f'<div class="project-description">{description}</div>', unsafe_allow_html=True)
+    # App incorporado
     st.markdown(
         f"""
         <div class="iframe-container">
@@ -81,13 +77,14 @@ def render_python_app(title, description, url):
         unsafe_allow_html=True
     )
 
-# --- PROJETO ÚNICO ---
+# --- LISTA DE PROJETOS ---
+
+# Projeto 
 render_python_app(
     "🤖 AIOSA — Assistente Virtual Inteligente",
-    "Assistente virtual desenvolvido em Python utilizando Streamlit e IA generativa. "
-    "A aplicação permite interação em linguagem natural, automação de tarefas e demonstração "
-    "de soluções inteligentes aplicadas a negócios, atendimento e produtividade.",
+    "Assistente virtual desenvolvido em Python utilizando Streamlit e IA generativa. ",
     "https://aiosaassistente.streamlit.app/#sou-o-a-iosa-seu-assistente-virtual"
 )
 
 exibir_rodape()
+
