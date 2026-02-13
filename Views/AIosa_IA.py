@@ -3,7 +3,7 @@ from utils import exibir_rodape, registrar_acesso  # Importação mantida
 
 # --- REGISTRO DE ACESSO ---
 # Registra a entrada do usuário na página de Projetos Python
-registrar_acesso("Projetos Python")
+registrar_acesso("🐍 AIosa Agente de IA")
 
 # --- ESTILO CSS ---
 st.markdown(
@@ -51,7 +51,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.title("🐍 Projetos em Python")
+st.title("🐍 AIosa Agente de IA")
 st.write("Aplicações web completas desenvolvidas para automação de processos e análise financeira.")
 st.markdown("---")
 
