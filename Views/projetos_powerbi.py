@@ -4,7 +4,7 @@ from utils import exibir_rodape, registrar_acesso
 # --- REGISTRO DE ACESSO ---
 registrar_acesso("Projetos Power BI")
 
-# --- ESTILO CSS PARA FLIP CARDS ---
+# --- ESTILO CSS PARA FLIP CARDS COM EFEITO GLOW TRANSFORM ---
 st.markdown(
     """
     <style>
@@ -12,9 +12,16 @@ st.markdown(
     .flip-card {
         background-color: transparent;
         width: 100%;
-        height: 350px;
+        height: 380px;
         perspective: 1000px;
-        margin-bottom: 30px;
+        margin-bottom: 40px;
+        animation: fadeInUp 0.8s ease-out forwards;
+        opacity: 0;
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
     .flip-card-inner {
@@ -43,13 +50,51 @@ st.markdown(
         justify-content: center;
         align-items: center;
         padding: 25px;
-        border: 1px solid #1f2937;
     }
 
-    /* Estilo Frente */
+    /* --- ESTILO FRENTE (Com Efeito Uiverse) --- */
     .flip-card-front {
         background-color: #111827;
         color: white;
+        z-index: 2;
+        border: 1px solid #1f2937;
+    }
+
+    /* Efeito de Gradiente por trás (Before) */
+    .flip-card-front::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        margin: auto;
+        width: 102%;
+        height: 102%;
+        border-radius: 20px;
+        background: linear-gradient(-45deg, #e81cff 0%, #00b4d8 100% );
+        z-index: -10;
+        pointer-events: none;
+        transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    /* Efeito de Brilho/Blur (After) */
+    .flip-card-front::after {
+        content: "";
+        z-index: -1;
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(-45deg, #e81cff 0%, #00b4d8 100% );
+        transform: translate3d(0, 0, 0) scale(0.95);
+        filter: blur(20px);
+        opacity: 0.5;
+        transition: all 0.6s;
+    }
+
+    .flip-card:hover .flip-card-front::after {
+        filter: blur(30px);
+        opacity: 0.8;
+    }
+
+    .flip-card:hover .flip-card-front::before {
+        transform: rotate(-90deg) scaleX(1.34) scaleY(0.77);
     }
 
     /* Estilo Verso */
@@ -57,16 +102,17 @@ st.markdown(
         background-color: #0f172a;
         color: white;
         transform: rotateY(180deg);
-        border: 1px solid #00b4d8;
+        border: 2px solid #00b4d8;
     }
 
-    .card-icon { font-size: 60px; margin-bottom: 15px; }
+    .card-icon { font-size: 60px; margin-bottom: 15px; z-index: 2; }
     
     .pbi-card-title { 
         font-size: 1.4rem; 
         font-weight: bold; 
         line-height: 1.3;
         margin-bottom: 15px;
+        z-index: 2;
     }
 
     .pbi-card-tag { 
@@ -75,6 +121,7 @@ st.markdown(
         font-weight: bold;
         text-transform: uppercase;
         letter-spacing: 1px;
+        z-index: 2;
     }
 
     .pbi-description {
@@ -87,18 +134,27 @@ st.markdown(
     .btn-acessar {
         background-color: #00b4d8;
         color: #111827 !important;
-        padding: 8px 20px;
+        padding: 10px 25px;
         border-radius: 8px;
         text-decoration: none;
         font-weight: bold;
         font-size: 0.9rem;
-    }
-
-    /* Ajuste para Colunas */
-    [data-testid="column"] {
-        padding: 0 10px !important;
+        transition: 0.3s;
     }
     
+    .btn-acessar:hover {
+        background-color: white;
+        transform: scale(1.05);
+    }
+
+    /* Delays de Animação */
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+    .delay-6 { animation-delay: 0.6s; }
+
     /* Estilo Artigos */
     .article-card {
         background-color: #111827;
@@ -112,6 +168,7 @@ st.markdown(
     .article-card:hover {
         background-color: #1a2233;
         transform: translateX(12px);
+        box-shadow: 0 5px 15px rgba(0, 180, 216, 0.2);
     }
     </style>
     """,
@@ -119,6 +176,7 @@ st.markdown(
 )
 
 st.markdown("<h1 style='text-align: center; font-size: 3rem;'>📊 Dashboards Estratégicos</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: #9ca3af;'>Soluções de BI transformando dados em decisões reais.</p>", unsafe_allow_html=True)
 st.write("")
 
 # --- DADOS DOS PROJETOS ---
@@ -133,7 +191,7 @@ pbi_projects = [
         "title": "📊 Vendas Meta vs Realizado", 
         "icon": "📈",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYTg4OTdkZDUtNmIwZS00NGE1LTk2MDktMzc1YjM3ZjViN2Q5IiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Dashboard de <b>Recrutamento e Seleção</b>: monitora vagas abertas, tempo de fechamento, funil de candidatos e custos por contratação."
+        "desc": "Dashboard focado em <b>Performance Comercial</b>: acompanhamento de metas em tempo real, ranking de vendedores e projeções."
     },
     {
         "title": "📦 Controle de Pedidos BNZ", 
@@ -151,7 +209,7 @@ pbi_projects = [
         "title": "👥 People Analytics (RH)", 
         "icon": "👥",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYmE2OGE3ODktZTUzMi00YTU2LTlkYmItYzUzY2UzNmJkMjAyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Dashboard de <b>Controle de Comissões</b>: detalha pagamentos por vendedor, metas atingidas e precisão no cálculo de incentivos."
+        "desc": "Dashboard de <b>Gestão de Capital Humano</b>: turnover, headcount, custos de contratação e indicadores de clima organizacional."
     },
     {
         "title": "🚀 Gestão de Negócios", 
@@ -165,11 +223,14 @@ pbi_projects = [
 for i in range(0, len(pbi_projects), 3):
     cols = st.columns(3)
     for j in range(3):
-        if i + j < len(pbi_projects):
-            p = pbi_projects[i + j]
+        idx = i + j
+        if idx < len(pbi_projects):
+            p = pbi_projects[idx]
+            # Adicionando a classe de delay sequencial
+            delay_class = f"delay-{idx + 1}"
             with cols[j]:
                 st.markdown(f"""
-                <div class="flip-card">
+                <div class="flip-card {delay_class}">
                     <div class="flip-card-inner">
                         <div class="flip-card-front">
                             <div class="card-icon">{p['icon']}</div>
@@ -177,9 +238,9 @@ for i in range(0, len(pbi_projects), 3):
                             <div class="pbi-card-tag">PASSE O MOUSE ↻</div>
                         </div>
                         <div class="flip-card-back">
-                            <div style="font-weight: bold; color: #00b4d8; margin-bottom: 10px;">DESCRIÇÃO</div>
+                            <div style="font-weight: bold; color: #00b4d8; margin-bottom: 10px;">PROJETO</div>
                             <div class="pbi-description">{p['desc']}</div>
-                            <a href="{p['url']}" target="_blank" class="btn-acessar">Abrir Dashboard ↗️</a>
+                            <a href="{p['url']}" target="_blank" class="btn-acessar">Visualizar ↗️</a>
                         </div>
                     </div>
                 </div>
