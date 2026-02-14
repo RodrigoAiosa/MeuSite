@@ -64,7 +64,6 @@ st.markdown(
     }
 
     /* --- NOVOS EFEITOS NOS CARDS --- */
-    /* Container pai para aplicar o efeito de desfoque nos irmãos */
     .cards-container {
         display: flex;
         justify-content: space-between;
@@ -78,16 +77,14 @@ st.markdown(
         height: 180px;
         perspective: 1000px;
         margin-bottom: 20px;
-        transition: transform 400ms, filter 400ms; /* Transição suave para zoom e blur */
+        transition: transform 400ms, filter 400ms;
     }
 
-    /* Efeito: Aumenta o card que está com o mouse em cima */
     .flip-card:hover {
         transform: scale(1.1);
         z-index: 10;
     }
 
-    /* Efeito: Desfoca e diminui os outros cards quando um estiver em hover */
     .cards-container:hover .flip-card:not(:hover) {
         filter: blur(8px);
         transform: scale(0.9);
@@ -148,6 +145,20 @@ st.markdown(
         font-size: 1.1em;
         color: #9ca3af;
     }
+
+    /* ESTILO PARA CARDS DE EXPERIÊNCIA (ESTÁTICOS) */
+    .exp-card {
+        background-color: #111827;
+        padding: 20px;
+        border-radius: 15px;
+        border-left: 5px solid #00b4d8;
+        height: 100%;
+        transition: 0.3s;
+    }
+    .exp-card:hover {
+        background-color: #1f2937;
+        transform: translateY(-5px);
+    }
     </style>
     """,
     unsafe_allow_html=True
@@ -173,10 +184,6 @@ st.write("")
 # --- CARDS COM CONTADOR E EFEITOS DE HOVER ---
 st.markdown("### ⭐ Experiência e Resultados")
 
-# Criamos placeholders para os cards dentro da lógica de animação
-# Para o efeito de "blur nos outros" funcionar no Streamlit, precisamos injetar o HTML em um único bloco ou garantir o container CSS.
-# Como o Streamlit usa iframes e divs próprias, vamos envolver os placeholders em uma div personalizada.
-
 card_placeholders = st.empty()
 
 back_texts = [
@@ -186,14 +193,12 @@ back_texts = [
     "Parceria contínua baseada em confiança e resultados reais."
 ]
 
-# Loop de animação dos números
 for i in range(0, 101, 5):
     val_exp = int(20 * i / 100)
     val_emp = int(450 * i / 100)
     val_proj = int(500 * i / 100)
     val_rec = int(87 * i / 100)
 
-    # Construindo o HTML de todos os cards juntos para respeitar o seletor CSS de "irmãos"
     html_cards = f"""
     <div class="cards-container">
         <div class="flip-card">
@@ -243,21 +248,41 @@ for i in range(0, 101, 5):
 
 st.markdown("---")
 
-# --- EXPERIÊNCIA DE MERCADO ---
+# --- EXPERIÊNCIA DE MERCADO (COM CARDS) ---
 st.subheader("🤝 Experiência de Mercado")
 st.write("Especialista em Análise de Dados e Business Intelligence, transformando dados brutos em decisões inteligentes.")
 
 col1, col2 = st.columns(2)
+
 with col1:
-    st.markdown("### 🔎 Análise Avançada e Automação")
-    st.write("Desenvolvimento de scripts Python e modelos em Excel para otimização de tempo.")
-    st.markdown("### 📊 Business Intelligence (BI)")
-    st.write("Criação de ecossistemas de dados com Power BI, DAX e M.")
+    st.markdown(
+        """
+        <div class="exp-card">
+            <h3 style="color: white; margin-bottom: 10px;">🔎 Análise Avançada e Automação</h3>
+            <p style="color: #9ca3af;">Desenvolvimento de scripts Python e modelos em Excel para otimização de tempo.</p>
+        </div>
+        <br>
+        <div class="exp-card">
+            <h3 style="color: white; margin-bottom: 10px;">📊 Business Intelligence (BI)</h3>
+            <p style="color: #9ca3af;">Criação de ecossistemas de dados com Power BI, DAX e M.</p>
+        </div>
+        """, unsafe_allow_html=True
+    )
+
 with col2:
-    st.markdown("### 🗄️ Gerenciamento de Dados")
-    st.write("Estruturação de bancos de dados SQL Server e fluxos de ETL eficientes.")
-    st.markdown("### 🎯 Minha Abordagem")
-    st.write("Foco total na dor do cliente e na geração de valor imediato.")
+    st.markdown(
+        """
+        <div class="exp-card">
+            <h3 style="color: white; margin-bottom: 10px;">🗄️ Gerenciamento de Dados</h3>
+            <p style="color: #9ca3af;">Estruturação de bancos de dados SQL Server e fluxos de ETL eficientes.</p>
+        </div>
+        <br>
+        <div class="exp-card">
+            <h3 style="color: white; margin-bottom: 10px;">🎯 Minha Abordagem</h3>
+            <p style="color: #9ca3af;">Foco total na dor do cliente e na geração de valor imediato.</p>
+        </div>
+        """, unsafe_allow_html=True
+    )
 
 st.write("")
 
