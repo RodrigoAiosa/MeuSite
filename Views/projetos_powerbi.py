@@ -161,6 +161,13 @@ st.markdown(
     div[data-testid="stHorizontalBlock"] {
         gap: 20px !important;
     }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+    .delay-6 { animation-delay: 0.6s; }
     </style>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -191,12 +198,14 @@ for i in range(0, len(pbi_projects), 3):
             
             clean_desc = p['desc'].replace("<b>", "").replace("</b>", "")
             
-            # --- MENSAGENS USANDO O LINK REAL DO PAINEL {p['url']} ---
+            # --- WHATSAPP: URL individual do painel ---
             wa_text = f"🚀 *{p['title']}*\n\n💡 {clean_desc}\n\n🔗 Confira o painel aqui: {p['url']}"
             wa_link = f"https://api.whatsapp.com/send?text={urllib.parse.quote(wa_text)}"
             
-            li_text = f"📊 Projeto Power BI: {p['title']}\n\n{clean_desc}\n\nAcesse o link completo do dashboard aqui: {p['url']}"
-            li_link = f"https://www.linkedin.com/feed/?shareActive=true&text={urllib.parse.quote(li_text)}"
+            # --- LINKEDIN: URL individual do painel ---
+            li_text = f"📊 Confira este Dashboard Estratégico: {p['title']}\n\n{clean_desc}\n\nLink direto:\n"
+            # O link do painel é concatenado após o texto para o LinkedIn puxar o preview
+            li_link = f"https://www.linkedin.com/feed/?shareActive=true&text={urllib.parse.quote(li_text)}%20{urllib.parse.quote(p['url'])}"
             
             with cols[j]:
                 st.markdown(f"""
