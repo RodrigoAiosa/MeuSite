@@ -69,38 +69,40 @@ st.markdown('<h1>🐍 <span class="highlight-blue">AI</span>osa Agente de IA</h1
 st.write("Aplicações web completas desenvolvidas para automação de processos e análise financeira.")
 st.markdown("---")
 
-# --- FUNÇÃO DE FORMATAÇÃO DE TEXTO ---
-def format_ai_response(text, project_name="Geral"):
-    # 1. Ajuste de tópicos: Garante que frases iniciadas com ✅ ou marcadores fiquem em novas linhas
-    # Adiciona uma quebra de linha antes de emojis de check ou marcadores de lista
-    formatted_text = re.sub(r'([.!?])\s*(✅|•|\*)', r'\1<br><br>\2', text)
+# --- FUNÇÃO DE TRATAMENTO DE TEXTO (A MÁGICA PARA OS TÓPICOS E LINK) ---
+def formatar_texto_ia(texto):
+    """
+    Esta função garante que:
+    1. Tópicos com ✅ ou marcadores comecem em novas linhas.
+    2. O número 11977019335 vire um link clicável do WhatsApp.
+    """
+    if not texto:
+        return ""
+
+    # 1. Garante que qualquer ✅ ou marcador de lista (• ou *) force uma quebra de linha
+    # Substituímos o emoji por ele mesmo precedido de duas quebras de linha
+    texto_formatado = re.sub(r'(✅|•|\*)', r'<br><br>\1', texto)
+
+    # 2. Criação do Hiperlink para o WhatsApp no número 11977019335
+    whatsapp_url = "https://wa.me/5511977019335?text=Olá Rodrigo, vim através do seu Agente de IA!"
+    link_html = f'<a href="{whatsapp_url}" target="_blank" class="wa-link">11 97701-9335</a>'
     
-    # 2. Hiperlink automático para o WhatsApp 11 97701-9335
-    phone_raw = "5511977019335"
-    msg = urllib.parse.quote(f"Olá Rodrigo, vim através do seu Agente de IA sobre o assunto: {project_name}")
-    wa_url = f"https://wa.me/{phone_raw}?text={msg}"
+    # Substitui o número bruto pelo link clicável
+    texto_formatado = re.sub(r'11\s?97701-?9335', link_html, texto_formatado)
     
-    # Substitui variações do número pelo link formatado
-    formatted_text = re.sub(
-        r'11\s?97701-?9335', 
-        f'<a href="{wa_url}" target="_blank" class="wa-link">11 97701-9335</a>', 
-        formatted_text
-    )
+    # Remove quebras de linha duplas excessivas que podem vir da IA
+    texto_formatado = texto_formatado.replace("<br><br><br>", "<br><br>")
     
-    return formatted_text
+    return texto_formatado
 
 # --- FUNÇÃO PARA RENDERIZAR APPS ---
-def render_python_app(title, description, url, custom_message="Olá Rodrigo!"):
-    # Formata a descrição antes de exibir
-    display_description = format_ai_response(description, title)
+def render_python_app(title, description, url):
+    # Aplicando a formatação na descrição da página
+    desc_formatada = formatar_texto_ia(description)
 
-    # Botão de Acesso
     st.markdown(f'<a href="{url}" target="_blank" class="project-button">{title} ↗️</a>', unsafe_allow_html=True)
+    st.markdown(f'<div class="project-description">{desc_formatada}</div>', unsafe_allow_html=True)
     
-    # Descrição formatada
-    st.markdown(f'<div class="project-description">{display_description}</div>', unsafe_allow_html=True)
-    
-    # Iframe do App
     clean_url = url.split('#')[0]
     embed_url = f"{clean_url}?embed=true"
     
@@ -123,9 +125,8 @@ def render_python_app(title, description, url, custom_message="Olá Rodrigo!"):
 # --- LISTA DE PROJETOS ---
 render_python_app(
     "🤖 <span class='highlight-blue'>AI</span>OSA — Assistente Virtual Inteligente",
-    "Assistente virtual desenvolvido por Rodrigo Aiosa. ✅ Treinamento 100% Personalizado. ✅ Suporte via WhatsApp: 11977019335. ✅ Material completo disponível.",
-    "https://aiosaassistente.streamlit.app/",
-    custom_message="Olá Rodrigo, quero saber mais sobre o AIOSA!"
+    "Assistente virtual desenvolvido por Rodrigo Aiosa. ✅ Treinamento 100% Personalizado ✅ Levantamento prévio das necessidades ✅ Suporte via WhatsApp: 11977019335",
+    "https://aiosaassistente.streamlit.app/"
 )
 
 exibir_rodape()
