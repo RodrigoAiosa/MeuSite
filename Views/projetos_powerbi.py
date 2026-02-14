@@ -199,16 +199,15 @@ for i in range(0, len(pbi_projects), 3):
         if idx < len(pbi_projects):
             p = pbi_projects[idx]
             
-            # Limpa tags HTML da descrição para o compartilhamento de texto puro
             clean_desc = p['desc'].replace("<b>", "").replace("</b>", "")
             
-            # Texto personalizado com a DESCRIÇÃO DO CARD incluída
-            raw_text = f"🚀 *{p['title']}*\n\n💡 {clean_desc}\n\n🔗 Confira o Dashboard completo aqui: {p['url']}\n\nAnalista: Rodrigo Aiosa"
-            safe_text = urllib.parse.quote(raw_text)
+            # Texto para o WhatsApp (com formatação Markdown do Zap)
+            wa_text = f"🚀 *{p['title']}*\n\n💡 {clean_desc}\n\n🔗 Confira: {p['url']}"
+            wa_link = f"https://api.whatsapp.com/send?text={urllib.parse.quote(wa_text)}"
             
-            # Links de Compartilhamento
-            wa_link = f"https://api.whatsapp.com/send?text={safe_text}"
-            li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['url'])}&summary={safe_text}"
+            # Texto para o LinkedIn (utilizando a URL de compartilhamento de feed para forçar o texto)
+            li_text = f"🚀 {p['title']}\n\n💡 {clean_desc}\n\nConfira o projeto completo no link abaixo!"
+            li_link = f"https://www.linkedin.com/feed/?shareActive=true&text={urllib.parse.quote(li_text)}%20{urllib.parse.quote(p['url'])}"
             
             with cols[j]:
                 st.markdown(f"""
