@@ -1,124 +1,188 @@
 import streamlit as st
+from utils import exibir_rodape, registrar_acesso
 import urllib.parse
 
-st.set_page_config(page_title="Projetos Power BI", layout="wide")
+# --- REGISTRO DE ACESSO ---
+registrar_acesso("Projetos Power BI")
 
-# ---------------- CSS ----------------
-st.markdown("""
-<style>
-.flip-card {
-    background-color: transparent;
-    width: 100%;
-    height: 320px;
-    perspective: 1000px;
-    margin-bottom: 25px;
-}
+# --- ESTILO CSS ---
+st.markdown(
+    """
+    <style>
+    .flip-card {
+        background-color: transparent;
+        width: 100%;
+        height: 420px;
+        perspective: 1000px;
+        margin-bottom: 20px; 
+        animation: fadeInUp 0.8s ease-out forwards;
+        opacity: 0;
+    }
 
-.flip-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.7s;
-    transform-style: preserve-3d;
-}
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 
-.flip-card:hover .flip-card-inner {
-    transform: rotateY(180deg);
-}
+    .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+    }
 
-.flip-card-front, .flip-card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 14px;
-    backface-visibility: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 18px;
-}
+    .flip-card:hover .flip-card-inner {
+        transform: rotateY(180deg);
+    }
 
-.flip-card-front {
-    background: #111827;
-    color: white;
-}
+    .flip-card-front, .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 25px;
+    }
 
-.flip-card-back {
-    background: #0f172a;
-    color: white;
-    transform: rotateY(180deg);
-}
+    .flip-card-front {
+        background-color: #111827;
+        color: white;
+        border: 1px solid #1f2937;
+    }
 
-.btn {
-    background: #00b4d8;
-    padding: 8px 18px;
-    border-radius: 8px;
-    text-decoration: none;
-    color: black !important;
-    font-weight: bold;
-    margin-top: 10px;
-}
-</style>
-""", unsafe_allow_html=True)
+    .flip-card-back {
+        background-color: #0f172a;
+        color: white;
+        transform: rotateY(180deg);
+        border: 2px solid #00b4d8;
+    }
 
-st.title("📊 Projetos Power BI")
-st.markdown("---")
+    .card-icon { font-size: 60px; margin-bottom: 15px; }
+    
+    .pbi-card-title { 
+        font-size: 1.4rem; 
+        font-weight: bold; 
+        margin-bottom: 15px;
+    }
 
-# ---------------- DADOS ----------------
-projects = [
-    {
-        "icon": "💳",
-        "title": "Relatório STONE",
-        "desc": "Dashboard interativo de Faturamento B2B com KPIs e evolução mensal.",
-        "url": "https://app.powerbi.com"
-    },
-    {
-        "icon": "📦",
-        "title": "Controle de Pedidos",
-        "desc": "Gestão de pedidos, status e acompanhamento operacional.",
-        "url": "https://app.powerbi.com"
-    },
-    {
-        "icon": "🎯",
-        "title": "Análise Estratégica",
-        "desc": "Indicadores executivos e acompanhamento de metas.",
-        "url": "https://app.powerbi.com"
-    },
+    .pbi-card-tag { 
+        font-size: 0.8rem; 
+        font-weight: 900;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 4px 12px;
+        border-radius: 20px;
+    }
+
+    .pbi-description {
+        font-size: 0.95rem;
+        color: #9ca3af;
+        line-height: 1.4;
+        margin-bottom: 15px;
+    }
+
+    .btn-acessar {
+        background-color: #00b4d8;
+        color: #111827 !important;
+        padding: 8px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 0.9rem;
+        display: inline-block;
+    }
+
+    .share-container {
+        display: flex;
+        gap: 15px;
+        margin-top: 10px;
+        align-items: center;
+    }
+    
+    .share-icon {
+        color: #9ca3af;
+        font-size: 1.4rem;
+        transition: 0.3s;
+        text-decoration: none;
+    }
+    
+    .share-icon:hover { transform: scale(1.2); }
+    .icon-li:hover { color: #0077b5; }
+    .icon-wa:hover { color: #25d366; }
+    </style>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    """,
+    unsafe_allow_html=True
+)
+
+st.markdown("<h1 style='text-align: center; font-size: 3rem;'>📊 Dashboards Estratégicos</h1>", unsafe_allow_html=True)
+st.write("")
+
+# --- DADOS DOS PROJETOS ---
+pbi_projects = [
+    {"title": "💳 Relatório STONE", "icon": "🏛️", "url": "https://app.powerbi.com/view?r=eyJrIjoiMmViN2ZlMWMtY2Q4My00NmNmLTg0NzAtZjEzMzliNzcwMWMyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Dashboard interativo de Faturamento B2B: monitora KPIs (Faturamento, Margem, Ticket Médio), evolução mensal e filtros regionais."},
+    {"title": "📊 Vendas Meta vs Realizado", "icon": "📈", "url": "https://app.powerbi.com/view?r=eyJrIjoiYTg4OTdkZDUtNmIwZS00NGE1LTk2MDktMzc1YjM3ZjViN2Q5IiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Dashboard de Recrutamento e Seleção."},
+    {"title": "📦 Controle de Pedidos BNZ", "icon": "📦", "url": "https://app.powerbi.com/view?r=eyJrIjoiODE4YmZkNDItNWQ0OC00YmUyLThiZTktOTlmN2E0NWM3NTljIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Dashboard de Gestão de Estoque."},
+    {"title": "🎯 Análise Dados Estratégica", "icon": "🎯", "url": "https://app.powerbi.com/view?r=eyJrIjoiM2ZhYjQ5YzItNTliMS00M2QxLWFhMmItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Controle de metas e vendas."},
+    {"title": "👥 People Analytics (RH)", "icon": "👥", "url": "https://app.powerbi.com/view?r=eyJrIjoiYmE2OGE3ODktZTUzMi00YTU2LTlkYmItYzUzY2UzNmJkMjAyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Controle de comissões."},
+    {"title": "🚀 Gestão de Negócios", "icon": "🚀", "url": "https://app.powerbi.com/view?r=eyJrIjoiYzNhNDFkNzEtZmVkNy00ODZkLTgyZDYtMWIzMDQ3YWU2ZjFiIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Controle de produção."}
 ]
 
-cols = st.columns(3)
+# --- RENDERIZAÇÃO ---
+for i in range(0, len(pbi_projects), 3):
+    cols = st.columns(3)
+    for j in range(3):
+        idx = i + j
+        if idx < len(pbi_projects):
+            p = pbi_projects[idx]
 
-for i, p in enumerate(projects):
-    with cols[i]:
-        html = f"""
-        <div class="flip-card">
-            <div class="flip-card-inner">
+            wa_text = f"🚀 *{p['title']}*\n\n💡 {p['desc']}\n\n🔗 Confira: {p['url']}"
+            wa_link = f"https://api.whatsapp.com/send?text={urllib.parse.quote(wa_text)}"
 
-                <div class="flip-card-front">
-                    <div style="font-size:55px;">{p['icon']}</div>
-                    <div style="font-weight:bold; margin-top:10px;">
-                        {p['title']}
-                    </div>
-                    <div style="margin-top:10px; font-size:0.85rem;">
-                        Passe o mouse ↻
+            # LINKEDIN — SOMENTE A URL DO CARD
+            li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['url'])}"
+
+            with cols[j]:
+                st.markdown(f"""
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+
+                        <div class="flip-card-front">
+                            <div class="card-icon">{p['icon']}</div>
+                            <div class="pbi-card-title">{p['title']}</div>
+                            <div class="pbi-card-tag">PASSE O MOUSE ↻</div>
+                        </div>
+
+                        <div class="flip-card-back">
+                            <div style="font-weight: bold; color: #00b4d8;">PROJETO</div>
+                            <div class="pbi-description">{p['desc']}</div>
+
+                            <a href="{p['url']}" target="_blank" class="btn-acessar">
+                                Abrir Dashboard ↗️
+                            </a>
+
+                            <div style="font-size: 0.8rem; color: #9ca3af;">Compartilhar:</div>
+
+                            <div class="share-container">
+                                <a href="{li_link}" target="_blank" class="share-icon icon-li">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
+                                <a href="{wa_link}" target="_blank" class="share-icon icon-wa">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            </div>
+
+                        </div>
+
                     </div>
                 </div>
-
-                <div class="flip-card-back">
-                    <div style="font-weight:bold;">DESCRIÇÃO</div>
-                    <div style="margin:10px 0; font-size:0.9rem;">
-                        {p['desc']}
-                    </div>
-                    <a href="{p['url']}" target="_blank" class="btn">
-                        Abrir Dashboard
-                    </a>
-                </div>
-
-            </div>
-        </div>
-        """
-        st.markdown(html, unsafe_allow_html=True)
+                """, unsafe_allow_html=True)
 
 st.markdown("---")
-st.caption("© 2026")
+exibir_rodape()
