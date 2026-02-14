@@ -223,7 +223,7 @@ for i in range(0, len(pbi_projects), 3):
                             <div class="pbi-card-tag">Ver Detalhes ↻</div>
                         </div>
                         <div class="flip-card-back">
-                            <div style="font-weight: 800; color: #00b4d8; margin-bottom: 10px; font-size: 0.8rem; letter-spacing: 2px;">INSIGHTS</div>
+                            <div style="font-weight: 800; color: #00b4d8; margin-bottom: 10px; font-size: 0.8rem; letter-spacing: 2px;">Projeto</div>
                             <div class="pbi-description">{p['desc']}</div>
                             <a href="{p['url']}" target="_blank" class="btn-acessar">
                                 Abrir Dashboard <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i>
@@ -241,3 +241,4 @@ for i in range(0, len(pbi_projects), 3):
                 </div>
                 """, unsafe_allow_html=True)
 exibir_rodape()
+
