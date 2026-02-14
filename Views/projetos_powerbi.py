@@ -199,11 +199,11 @@ for i in range(0, len(pbi_projects), 3):
             clean_desc = p['desc'].replace("<b>", "").replace("</b>", "")
             
             # --- WHATSAPP: URL individual do painel com descrição ---
-            wa_text = f"🚀 *{p['title']}*\n\n💡 {clean_desc}\n\n🔗 Confira o painel aqui:\n{p['url']}"
+            wa_text = f"🚀 {p['title']}\n\n💡 {clean_desc}\n\n🔗 Confira o painel aqui:\n{p['url']}"
             wa_link = f"https://api.whatsapp.com/send?text={urllib.parse.quote(wa_text)}"
             
-            # --- LINKEDIN: Texto com descrição + URL do Power BI ---
-            li_text = f"📊 {p['title']}\n\n{clean_desc}\n\n🔗 {p['url']}"
+            # --- LINKEDIN: Mesmo formato do WhatsApp ---
+            li_text = f"🚀 {p['title']}\n\n💡 {clean_desc}\n\n🔗 Confira o painel aqui:\n{p['url']}"
             li_link = f"https://www.linkedin.com/feed/?shareActive=true&text={urllib.parse.quote(li_text)}"
             
             with cols[j]:
