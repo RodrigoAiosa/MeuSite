@@ -8,7 +8,7 @@ registrar_acesso("Projetos Power BI")
 # --- CONFIGURAÇÃO DA PÁGINA ---
 st.set_page_config(page_title="Portfólio de Dashboards | Rodrigo Aiosa", layout="wide")
 
-# --- ESTILO CSS (UI/UX ADVANCED) ---
+# --- ESTILO CSS (UI/UX ADVANCED & MOBILE RESPONSIVE) ---
 st.markdown(
     """
     <style>
@@ -24,8 +24,10 @@ st.markdown(
         -webkit-text-fill-color: transparent;
         font-weight: 900;
         margin-bottom: 2rem;
+        text-align: center;
     }
 
+    /* Grid de Cards */
     .flip-card {
         background-color: transparent;
         width: 100%;
@@ -85,13 +87,11 @@ st.markdown(
         font-size: 1.5rem;
         font-weight: 700;
         margin-bottom: 15px;
-        letter-spacing: -0.5px;
     }
 
     .pbi-card-tag {
         font-size: 0.75rem;
         font-weight: 700;
-        text-transform: uppercase;
         background: #00b4d8;
         color: #111827;
         padding: 5px 15px;
@@ -113,14 +113,17 @@ st.markdown(
         text-decoration: none;
         font-weight: 800;
         font-size: 0.85rem;
-        transition: 0.3s;
         text-transform: uppercase;
     }
 
-    .btn-acessar:hover {
-        background: #ffffff;
-        transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(0, 180, 216, 0.3);
+    /* RESPONSIVIDADE MOBILE */
+    @media only screen and (max-width: 768px) {
+        .main-title { font-size: 2.2rem !important; }
+        .flip-card { height: 350px; margin-bottom: 20px; }
+        .card-icon { font-size: 50px; }
+        .pbi-card-title { font-size: 1.2rem; }
+        .pbi-description { font-size: 0.8rem; margin-bottom: 15px; }
+        /* No mobile, o hover pode ser difícil, então garantimos que o card seja tocável */
     }
 
     .share-container {
@@ -146,8 +149,8 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.markdown("<h1 class='main-title' style='text-align: center; font-size: 3.5rem;'>📊 Dashboards Estratégicos</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: #9ca3af; margin-top: -20px;'>Soluções de BI personalizadas para o seu negócio.</p>", unsafe_allow_html=True)
+st.markdown("<h1 class='main-title'>📊 Dashboards Estratégicos</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: #9ca3af; margin-top: -20px; margin-bottom: 40px;'>Soluções de BI personalizadas para o seu negócio.</p>", unsafe_allow_html=True)
 
 # --- DADOS DOS PROJETOS ---
 pbi_projects = [
@@ -195,9 +198,9 @@ pbi_projects = [
     }
 ]
 
-# --- RENDERIZAÇÃO ---
+# --- RENDERIZAÇÃO RESPONSIVA ---
 for i in range(0, len(pbi_projects), 3):
-    cols = st.columns(3)
+    cols = st.columns(3, gap="large") 
     for j in range(3):
         idx = i + j
         if idx < len(pbi_projects):
@@ -211,8 +214,6 @@ for i in range(0, len(pbi_projects), 3):
                 f"🔗 Link do Dashboard: {p['url']}"
             )
             wa_link = f"https://api.whatsapp.com/send?phone=5511977019335&text={urllib.parse.quote(wa_msg)}"
-            
-            # LINK LINKEDIN
             li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['url'])}"
 
             with cols[j]:
@@ -229,12 +230,8 @@ for i in range(0, len(pbi_projects), 3):
                             <div class="pbi-description">{p['desc']}</div>
                             <a href="{p['url']}" target="_blank" class="btn-acessar">Abrir Dashboard</a>
                             <div class="share-container">
-                                <a href="{li_link}" target="_blank" title="Compartilhar no LinkedIn" class="share-icon icon-li">
-                                    <i class="fab fa-linkedin"></i>
-                                </a>
-                                <a href="{wa_link}" target="_blank" title="Falar com Rodrigo" class="share-icon icon-wa">
-                                    <i class="fab fa-whatsapp"></i>
-                                </a>
+                                <a href="{li_link}" target="_blank" class="share-icon icon-li"><i class="fab fa-linkedin"></i></a>
+                                <a href="{wa_link}" target="_blank" class="share-icon icon-wa"><i class="fab fa-whatsapp"></i></a>
                             </div>
                         </div>
                     </div>
