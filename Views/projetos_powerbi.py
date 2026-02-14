@@ -97,7 +97,7 @@ st.markdown(
         font-size: 0.95rem;
         color: #9ca3af;
         line-height: 1.4;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
     }
     .btn-acessar {
         background-color: #00b4d8;
@@ -115,17 +115,22 @@ st.markdown(
         margin-top: 10px;
         align-items: center;
     }
-    
     .share-icon {
         color: #9ca3af;
         font-size: 1.4rem;
         transition: 0.3s;
         text-decoration: none;
     }
-    
     .share-icon:hover { transform: scale(1.2); }
     .icon-li:hover { color: #0077b5; }
     .icon-wa:hover { color: #25d366; }
+
+    .counter {
+        margin-bottom: 10px;
+        font-size: 0.85rem;
+        color: #00b4d8;
+        font-weight: bold;
+    }
     </style>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -133,7 +138,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# --- SEÇÃO ESTRATÉGICA (SILOGISMO) ---
+# --- SEÇÃO ESTRATÉGICA ---
 st.markdown(
     """
     <div class="hero-container">
@@ -157,48 +162,13 @@ st.write("")
 
 # --- DADOS DOS PROJETOS ---
 pbi_projects = [
-    {
-        "title": "💳 Relatório STONE",
-        "icon": "🏛️",
-        "url": "https://app.powerbi.com/view?r=eyJrIjoiMmViN2ZlMWMtY2Q4My00NmNmLTg0NzAtZjEzMzliNzcwMWMyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Dashboard interativo de Faturamento B2B: monitora KPIs (Faturamento, Margem, Ticket Médio), evolução mensal e filtros regionais."
-    },
-    {
-        "title": "📊 Vendas Meta vs Realizado",
-        "icon": "📈",
-        "url": "https://app.powerbi.com/view?r=eyJrIjoiYTg4OTdkZDUtNmIwZS00NGE1LTk2MDktMzc1YjM3ZjViN2Q5IiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Dashboard de Recrutamento e Seleção."
-    },
-    {
-        "title": "📦 Controle de Pedidos BNZ",
-        "icon": "📦",
-        "url": "https://app.powerbi.com/view?r=eyJrIjoiODE4YmZkNDItNWQ0OC00YmUyLThiZTktOTlmN2E0NWM3NTljIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Dashboard de Gestão de Estoque."
-    },
-    {
-        "title": "🎯 Análise Dados Estratégica",
-        "icon": "🎯",
-        "url": "https://app.powerbi.com/view?r=eyJrIjoiM2ZhYjQ5YzItNTliMS00M2QxLWFhMmItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Controle de metas e vendas."
-    },
-    {
-        "title": "👥 People Analytics (RH)",
-        "icon": "👥",
-        "url": "https://app.powerbi.com/view?r=eyJrIjoiYmE2OGE3ODktZTUzMi00YTU2LTlkYmItYzUzY2UzNmJkMjAyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Controle de comissões."
-    },
-    {
-        "title": "🚀 Gestão de Negócios - Relatório Borelli",
-        "icon": "🚀",
-        "url": "https://app.powerbi.com/view?r=eyJrIjoiYzNhNDFkNzEtZmVkNy00ODZkLTgyZDYtMWIzMDQ3YWU2ZjFiIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Controle de produção."
-    },
-     {
-        "title": "🏖️ Dashboard Financeiro — Beocean Resort",
-        "icon": "💰",
-        "url": "https://app.powerbi.com/view?r=eyJrIjoiY2VkZmU1MDMtNTgwZS00NTJmLWFhOTktYzM0YzMwZDE3OTE4IiwidCI6IjdjNTYzNjMxLTcyZGMtNDY1Ny05MTRkLWIyM2M5ZTI5OGVlMSJ9&pageName=ae6d1828240b25f04e49",
-        "desc": "Painel de gerenciamento financeiro do Beocean Resort, acompanhando receitas, despesas, fluxo de caixa e indicadores operacionais para suporte à tomada de decisão estratégica."
-    }
+    {"title":"💳 Relatório STONE","icon":"🏛️","url":"https://app.powerbi.com/view?r=eyJrIjoiMmViN2ZlMWMtY2Q4My00NmNmLTg0NzAtZjEzMzliNzcwMWMyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9","desc":"Dashboard interativo de Faturamento B2B.","views":128},
+    {"title":"📊 Vendas Meta vs Realizado","icon":"📈","url":"https://app.powerbi.com/view?r=eyJrIjoiYTg4OTdkZDUtNmIwZS00NGE1LTk2MDktMzc1YjM3ZjViN2Q5IiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9","desc":"Dashboard de Recrutamento e Seleção.","views":342},
+    {"title":"📦 Controle de Pedidos BNZ","icon":"📦","url":"https://app.powerbi.com/view?r=eyJrIjoiODE4YmZkNDItNWQ0OC00YmUyLThiZTktOTlmN2E0NWM3NTljIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9","desc":"Dashboard de Gestão de Estoque.","views":89},
+    {"title":"🎯 Análise Dados Estratégica","icon":"🎯","url":"https://app.powerbi.com/view?r=eyJrIjoiM2ZhYjQ5YzItNTliMS00M2QxLWFhMmItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9","desc":"Controle de metas e vendas.","views":215},
+    {"title":"👥 People Analytics (RH)","icon":"👥","url":"https://app.powerbi.com/view?r=eyJrIjoiYmE2OGE3ODktZTUzMi00YTU2LTlkYmItYzUzY2UzNmJkMjAyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9","desc":"Controle de comissões.","views":176},
+    {"title":"🚀 Gestão de Negócios - Relatório Borelli","icon":"🚀","url":"https://app.powerbi.com/view?r=eyJrIjoiYzNhNDFkNzEtZmVkNy00ODZkLTgyZDYtMWIzMDQ3YWU2ZjFiIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9","desc":"Controle de produção.","views":54},
+    {"title":"🏖️ Dashboard Financeiro — Beocean Resort","icon":"💰","url":"https://app.powerbi.com/view?r=eyJrIjoiY2VkZmU1MDMtNTgwZS00NTJmLWFhOTktYzM0YzMwZDE3OTE4IiwidCI6IjdjNTYzNjMxLTcyZGMtNDY1Ny05MTRkLWIyM2M5ZTI5OGVlMSJ9&pageName=ae6d1828240b25f04e49","desc":"Painel de gerenciamento financeiro do Beocean Resort.","views":203}
 ]
 
 # --- RENDERIZAÇÃO ---
@@ -209,11 +179,8 @@ for i in range(0, len(pbi_projects), 3):
         if idx < len(pbi_projects):
             p = pbi_projects[idx]
             
-            # Texto para WhatsApp (com descrição + link personalizado conforme as instruções salvas)
             wa_text = f"Olá Rodrigo! Gostaria de falar sobre o projeto 🚀 *{p['title']}* que vi no seu portfólio.\n\n💡 {p['desc']}\n\n🔗 Link: {p['url']}"
             wa_link = f"https://api.whatsapp.com/send?phone=5511977019335&text={urllib.parse.quote(wa_text)}"
-            
-            # LinkedIn: SOMENTE A URL
             li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['url'])}"
 
             with cols[j]:
@@ -228,6 +195,7 @@ for i in range(0, len(pbi_projects), 3):
                         <div class="flip-card-back">
                             <div style="font-weight: bold; color: #00b4d8;">PROJETO</div>
                             <div class="pbi-description">{p['desc']}</div>
+                            <div class="counter">👁️ {p['views']} visualizações</div>
                             <a href="{p['url']}" target="_blank" class="btn-acessar">
                                 Abrir Dashboard ↗️
                             </a>
@@ -245,8 +213,4 @@ for i in range(0, len(pbi_projects), 3):
                 </div>
                 """, unsafe_allow_html=True)
 
-# Removido st.markdown("---") conforme instrução de nunca mais usar
 exibir_rodape()
-
-
-
