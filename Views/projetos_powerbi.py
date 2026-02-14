@@ -18,7 +18,7 @@ st.markdown(
         font-family: 'Inter', sans-serif;
     }
 
-    /* Título Principal */
+    /* Título Principal com Gradiente */
     .main-title {
         background: linear-gradient(90deg, #00b4d8, #0077b5);
         -webkit-background-clip: text;
@@ -206,12 +206,12 @@ for i in range(0, len(pbi_projects), 3):
         if idx < len(pbi_projects):
             p = pbi_projects[idx]
             
-            # Texto para WhatsApp personalizado (Instrução do sistema aplicada)
-            wa_text = f"Olá Rodrigo! Gostaria de falar sobre o projeto: *{p['title']}*.\n\n🔗 Link do Dashboard: {p['url']}"
+            # Mensagem personalizada para WhatsApp (Conforme sua regra de 14-02-2026)
+            wa_text = f"Olá Rodrigo! Vi seu projeto *{p['title']}* e gostaria de conversar sobre uma solução similar."
             wa_link = f"https://api.whatsapp.com/send?phone=5511977019335&text={urllib.parse.quote(wa_text)}"
             
-            # Link para Reunião (Calendly/Agenda)
-            agenda_link = "https://calendly.com/rodrigoaiosa" # Substitua se necessário
+            # Link LinkedIn (Apenas URL para compartilhamento)
+            li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['url'])}"
 
             with cols[j]:
                 st.markdown(f"""
@@ -229,11 +229,11 @@ for i in range(0, len(pbi_projects), 3):
                                 Abrir Dashboard <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i>
                             </a>
                             <div class="share-container">
+                                <a href="{li_link}" target="_blank" title="Compartilhar no LinkedIn" class="share-icon icon-li">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
                                 <a href="{wa_link}" target="_blank" title="Falar no WhatsApp" class="share-icon icon-wa">
                                     <i class="fab fa-whatsapp"></i>
-                                </a>
-                                <a href="{agenda_link}" target="_blank" title="Agendar Reunião" class="share-icon">
-                                    <i class="fas fa-calendar-alt"></i>
                                 </a>
                             </div>
                         </div>
