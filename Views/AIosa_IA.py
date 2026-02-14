@@ -38,9 +38,8 @@ st.markdown(
         margin-bottom: 15px;
         padding-left: 5px;
         max-width: 800px;
-        line-height: 1.4;
+        line-height: 1.6;
     }
-    /* Estilo do link do WhatsApp no texto */
     .wa-link {
         color: #00b4d8 !important;
         text-decoration: none;
@@ -70,25 +69,38 @@ st.markdown('<h1>🐍 <span class="highlight-blue">AI</span>osa Agente de IA</h1
 st.write("Aplicações web completas desenvolvidas para automação de processos e análise financeira.")
 st.markdown("---")
 
-# --- FUNÇÃO PARA RENDERIZAR APPS COM LINK AUTOMÁTICO ---
-def render_python_app(title, description, url, custom_message="Olá Rodrigo!"):
-    # Preparação do link do WhatsApp
-    phone = "5511977019335"
-    safe_msg = urllib.parse.quote(custom_message)
-    wa_url = f"https://wa.me/{phone}?text={safe_msg}"
+# --- FUNÇÃO DE FORMATAÇÃO DE TEXTO ---
+def format_ai_response(text, project_name="Geral"):
+    # 1. Ajuste de tópicos: Garante que frases iniciadas com ✅ ou marcadores fiquem em novas linhas
+    # Adiciona uma quebra de linha antes de emojis de check ou marcadores de lista
+    formatted_text = re.sub(r'([.!?])\s*(✅|•|\*)', r'\1<br><br>\2', text)
     
-    # Substituição do número pelo hiperlink HTML
-    # O Regex garante que pegue o número independente de espaços ou formatos simples
-    link_html = f'<a href="{wa_url}" target="_blank" class="wa-link">11 97701-9335</a>'
-    display_description = re.sub(r'11\s?97701-?9335', link_html, description)
+    # 2. Hiperlink automático para o WhatsApp 11 97701-9335
+    phone_raw = "5511977019335"
+    msg = urllib.parse.quote(f"Olá Rodrigo, vim através do seu Agente de IA sobre o assunto: {project_name}")
+    wa_url = f"https://wa.me/{phone_raw}?text={msg}"
+    
+    # Substitui variações do número pelo link formatado
+    formatted_text = re.sub(
+        r'11\s?97701-?9335', 
+        f'<a href="{wa_url}" target="_blank" class="wa-link">11 97701-9335</a>', 
+        formatted_text
+    )
+    
+    return formatted_text
+
+# --- FUNÇÃO PARA RENDERIZAR APPS ---
+def render_python_app(title, description, url, custom_message="Olá Rodrigo!"):
+    # Formata a descrição antes de exibir
+    display_description = format_ai_response(description, title)
 
     # Botão de Acesso
     st.markdown(f'<a href="{url}" target="_blank" class="project-button">{title} ↗️</a>', unsafe_allow_html=True)
     
-    # Descrição (usando unsafe_allow_html para o link funcionar)
+    # Descrição formatada
     st.markdown(f'<div class="project-description">{display_description}</div>', unsafe_allow_html=True)
     
-    # Renderização do Iframe
+    # Iframe do App
     clean_url = url.split('#')[0]
     embed_url = f"{clean_url}?embed=true"
     
@@ -109,12 +121,11 @@ def render_python_app(title, description, url, custom_message="Olá Rodrigo!"):
     )
 
 # --- LISTA DE PROJETOS ---
-
 render_python_app(
     "🤖 <span class='highlight-blue'>AI</span>OSA — Assistente Virtual Inteligente",
-    "Assistente virtual desenvolvido por Rodrigo Aiosa. Para suporte ou orçamentos, fale comigo pelo WhatsApp: 11977019335",
+    "Assistente virtual desenvolvido por Rodrigo Aiosa. ✅ Treinamento 100% Personalizado. ✅ Suporte via WhatsApp: 11977019335. ✅ Material completo disponível.",
     "https://aiosaassistente.streamlit.app/",
-    custom_message="Olá Rodrigo, estou interessado no seu Agente de IA!"
+    custom_message="Olá Rodrigo, quero saber mais sobre o AIOSA!"
 )
 
 exibir_rodape()
