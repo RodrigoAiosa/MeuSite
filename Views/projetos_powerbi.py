@@ -183,7 +183,7 @@ pbi_projects = [
         "desc": "Visão estratégica de capital humano: controle de turnover, absenteísmo e evolução da folha."
     },
     {
-        "title": "🚀 Gestão de Negócios",
+        "title": "🚀 Gestão de Negócios - BORELLI",
         "icon": "🚀",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYzNhNDFkNzEtZmVkNy00ODZkLTgyZDYtMWIzMDQ3YWU2ZjFiIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
         "desc": "Ecossistema de inteligência empresarial para monitoramento de KPIs críticos e decisão estratégica."
@@ -228,3 +228,4 @@ with st.container():
                     """, unsafe_allow_html=True)
 
 exibir_rodape()
+
