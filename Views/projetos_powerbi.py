@@ -5,7 +5,7 @@ import urllib.parse
 # --- REGISTRO DE ACESSO ---
 registrar_acesso("Projetos Power BI")
 
-# --- ESTILO CSS ATUALIZADO ---
+# --- ESTILO CSS ---
 st.markdown(
     """
     <style>
@@ -15,7 +15,7 @@ st.markdown(
         width: 100%;
         height: 420px;
         perspective: 1000px;
-        margin-bottom: 20px; /* Ajuste para igualar o gap horizontal */
+        margin-bottom: 20px; /* Alinhado com o gap horizontal */
         animation: fadeInUp 0.8s ease-out forwards;
         opacity: 0;
     }
@@ -156,12 +156,11 @@ st.markdown(
     .icon-li:hover { color: #0077b5; }
     .icon-wa:hover { color: #25d366; }
 
-    /* Ajuste de espaçamento horizontal entre as colunas do Streamlit */
+    /* Ajuste de simetria de espaçamento */
     [data-testid="column"] {
         padding: 0 10px !important;
     }
     
-    /* Forçar gap consistente entre as colunas */
     div[data-testid="stHorizontalBlock"] {
         gap: 20px !important;
     }
@@ -194,16 +193,21 @@ pbi_projects = [
 ]
 
 # --- RENDERIZAÇÃO ---
-# O gap vertical (margin-bottom: 20px) agora casa com o gap horizontal (stHorizontalBlock gap: 20px)
 for i in range(0, len(pbi_projects), 3):
     cols = st.columns(3)
     for j in range(3):
         idx = i + j
         if idx < len(pbi_projects):
             p = pbi_projects[idx]
-            text_share = urllib.parse.quote(f"Confira este projeto de BI do Rodrigo Aiosa: {p['title']}\n{p['url']}")
-            wa_link = f"https://api.whatsapp.com/send?text={text_share}"
-            li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={p['url']}"
+            
+            # Texto personalizado compartilhado entre as redes
+            raw_text = f"Confira este projeto de BI do Rodrigo Aiosa: {p['title']}\n{p['url']}"
+            safe_text = urllib.parse.quote(raw_text)
+            
+            # Links de Compartilhamento
+            wa_link = f"https://api.whatsapp.com/send?text={safe_text}"
+            # No LinkedIn, usamos summary para tentar injetar o texto (o comportamento varia conforme a versão do LinkedIn, mas o link do dashboard é o principal)
+            li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['url'])}&summary={safe_text}"
             
             with cols[j]:
                 st.markdown(f"""
