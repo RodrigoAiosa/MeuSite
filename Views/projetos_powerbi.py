@@ -164,6 +164,12 @@ pbi_projects = [
         "desc": "Um painel completo que controla metas vs realizado para acompanhamento comercial preciso."
     },
     {
+        "title": "🏝️ Gestão Financeira Beocean",
+        "icon": "🏖️",
+        "url": "https://app.powerbi.com/view?r=eyJrIjoiY2VkZmU1MDMtNTgwZS00NTJmLWFhOTktYzM0YzMwZDE3OTE4IiwidCI6IjdjNTYzNjMxLTcyZGMtNDY1Ny05MTRkLWIyM2M5ZTI5OGVlMSJ9&pageName=ae6d1828240b25f04e49",
+        "desc": "Dashboard premium de gerenciamento financeiro para o setor hoteleiro, integrando controle de receitas, despesas e lucratividade."
+    },
+    {
         "title": "📦 Controle BNZ",
         "icon": "📦",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiODE4YmZkNDItNWQ0OC00YmUyLThiZTktOTlmN2E0NWM3NTljIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
@@ -182,7 +188,7 @@ pbi_projects = [
         "desc": "Visão estratégica de capital humano: controle de turnover, absenteísmo e evolução da folha de pagamento."
     },
     {
-        "title": "🚀 Gestão de Negócios - BORELLI",
+        "title": "🚀 Gestão de Negócios",
         "icon": "🚀",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYzNhNDFkNzEtZmVkNy00ODZkLTgyZDYtMWIzMDQ3YWU2ZjFiIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
         "desc": "Ecossistema de inteligência empresarial para monitoramento de KPIs críticos e suporte à tomada de decisão estratégica."
@@ -197,7 +203,7 @@ for i in range(0, len(pbi_projects), 3):
         if idx < len(pbi_projects):
             p = pbi_projects[idx]
             
-            # MENSAGEM WHATSAPP DINÂMICA COM NOVOS TÍTULOS E DESCRIÇÕES [cite: 2026-02-14]
+            # MENSAGEM WHATSAPP DINÂMICA [cite: 2026-02-14]
             wa_msg = (
                 f"Olá Rodrigo! 👋\n\n"
                 f"Gostaria de falar sobre o projeto: *{p['title']}*\n"
@@ -236,4 +242,3 @@ for i in range(0, len(pbi_projects), 3):
                 """, unsafe_allow_html=True)
 
 exibir_rodape()
-
