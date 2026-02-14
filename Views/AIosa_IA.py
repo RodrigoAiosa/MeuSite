@@ -1,9 +1,8 @@
 import streamlit as st
-from utils import exibir_rodape, registrar_acesso
-import urllib.parse
-import re
+from utils import exibir_rodape, registrar_acesso  # Importação mantida
 
 # --- REGISTRO DE ACESSO ---
+# Registra a entrada do usuário na página de Projetos Python
 registrar_acesso("🐍 AIosa Agente de IA")
 
 # --- ESTILO CSS ---
@@ -38,15 +37,7 @@ st.markdown(
         margin-bottom: 15px;
         padding-left: 5px;
         max-width: 800px;
-        line-height: 1.6;
-    }
-    .wa-link {
-        color: #00b4d8 !important;
-        text-decoration: none;
-        font-weight: bold;
-    }
-    .wa-link:hover {
-        text-decoration: underline;
+        line-height: 1.4;
     }
     .iframe-container {
         border: 2px solid #31333F;
@@ -55,6 +46,7 @@ st.markdown(
         margin-bottom: 60px;
         background-color: #f0f2f6;
     }
+    /* Estilo para o destaque azul nas iniciais */
     .highlight-blue {
         color: #00b4d8;
     }
@@ -63,49 +55,24 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Título customizado
+# Título customizado com "AI" em azul
 st.markdown('<h1>🐍 <span class="highlight-blue">AI</span>osa Agente de IA</h1>', unsafe_allow_html=True)
 
 st.write("Aplicações web completas desenvolvidas para automação de processos e análise financeira.")
 st.markdown("---")
 
-# --- FUNÇÃO DE TRATAMENTO DE TEXTO (A MÁGICA PARA OS TÓPICOS E LINK) ---
-def formatar_texto_ia(texto):
-    """
-    Esta função garante que:
-    1. Tópicos com ✅ ou marcadores comecem em novas linhas.
-    2. O número 11977019335 vire um link clicável do WhatsApp.
-    """
-    if not texto:
-        return ""
-
-    # 1. Garante que qualquer ✅ ou marcador de lista (• ou *) force uma quebra de linha
-    # Substituímos o emoji por ele mesmo precedido de duas quebras de linha
-    texto_formatado = re.sub(r'(✅|•|\*)', r'<br><br>\1', texto)
-
-    # 2. Criação do Hiperlink para o WhatsApp no número 11977019335
-    whatsapp_url = "https://wa.me/5511977019335?text=Olá Rodrigo, vim através do seu Agente de IA!"
-    link_html = f'<a href="{whatsapp_url}" target="_blank" class="wa-link">11 97701-9335</a>'
-    
-    # Substitui o número bruto pelo link clicável
-    texto_formatado = re.sub(r'11\s?97701-?9335', link_html, texto_formatado)
-    
-    # Remove quebras de linha duplas excessivas que podem vir da IA
-    texto_formatado = texto_formatado.replace("<br><br><br>", "<br><br>")
-    
-    return texto_formatado
-
-# --- FUNÇÃO PARA RENDERIZAR APPS ---
+# --- FUNÇÃO PARA RENDERIZAR APPS COM DESCRIÇÃO ---
 def render_python_app(title, description, url):
-    # Aplicando a formatação na descrição da página
-    desc_formatada = formatar_texto_ia(description)
-
+    # Botão para abrir em nova aba (essencial caso o iframe falhe)
     st.markdown(f'<a href="{url}" target="_blank" class="project-button">{title} ↗️</a>', unsafe_allow_html=True)
-    st.markdown(f'<div class="project-description">{desc_formatada}</div>', unsafe_allow_html=True)
+    # Descrição
+    st.markdown(f'<div class="project-description">{description}</div>', unsafe_allow_html=True)
     
+    # Limpeza da URL para o iframe (removendo âncoras que causam redirect loops)
     clean_url = url.split('#')[0]
     embed_url = f"{clean_url}?embed=true"
     
+    # App incorporado
     st.markdown(
         f"""
         <div class="iframe-container">
@@ -123,9 +90,13 @@ def render_python_app(title, description, url):
     )
 
 # --- LISTA DE PROJETOS ---
+
+# Projeto 
+# Removi a âncora da URL para evitar o erro de redirecionamento no iframe
+# Note que aqui também apliquei o destaque no título do projeto se desejar
 render_python_app(
     "🤖 <span class='highlight-blue'>AI</span>OSA — Assistente Virtual Inteligente",
-    "Assistente virtual desenvolvido por Rodrigo Aiosa. ✅ Treinamento 100% Personalizado ✅ Levantamento prévio das necessidades ✅ Suporte via WhatsApp: 11977019335",
+    "Assistente virtual desenvolvido por Rodrigo Aiosa.",
     "https://aiosaassistente.streamlit.app/"
 )
 
