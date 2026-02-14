@@ -63,7 +63,7 @@ st.markdown(
         margin-top: 10px;
     }
 
-    /* --- NOVOS EFEITOS NOS CARDS --- */
+    /* --- NOVOS EFEITOS NOS CARDS FLIP --- */
     .cards-container {
         display: flex;
         justify-content: space-between;
@@ -146,7 +146,18 @@ st.markdown(
         color: #9ca3af;
     }
 
-    /* ESTILO PARA CARDS DE EXPERIÊNCIA COM ANIMAÇÃO DE GLOW */
+    /* --- ESTILO PARA CARDS DE EXPERIÊNCIA COM ANIMAÇÃO DE ENTRADA --- */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
     .exp-card {
         background-color: #111827;
         padding: 25px;
@@ -157,6 +168,7 @@ st.markdown(
         cursor: default;
         position: relative;
         overflow: hidden;
+        animation: fadeInUp 0.8s ease-out forwards; /* Animação de entrada */
     }
     
     .exp-card:hover {
@@ -173,6 +185,13 @@ st.markdown(
     .exp-card:hover h3 {
         color: #00b4d8 !important;
     }
+
+    /* Delay para os cards aparecerem um após o outro */
+    .delay-1 { animation-delay: 0.2s; }
+    .delay-2 { animation-delay: 0.4s; }
+    .delay-3 { animation-delay: 0.6s; }
+    .delay-4 { animation-delay: 0.8s; }
+
     </style>
     """,
     unsafe_allow_html=True
@@ -271,12 +290,12 @@ col1, col2 = st.columns(2)
 with col1:
     st.markdown(
         """
-        <div class="exp-card">
+        <div class="exp-card delay-1">
             <h3 style="color: white; margin-bottom: 8px; font-size: 1.3em;">🔎 Análise Avançada e Automação</h3>
             <p style="color: #9ca3af; font-size: 1em;">Desenvolvimento de scripts Python e modelos em Excel para otimização de tempo e processos.</p>
         </div>
         <br>
-        <div class="exp-card">
+        <div class="exp-card delay-2">
             <h3 style="color: white; margin-bottom: 8px; font-size: 1.3em;">📊 Business Intelligence (BI)</h3>
             <p style="color: #9ca3af; font-size: 1em;">Criação de ecossistemas de dados robustos utilizando Power BI, Linguagem M e DAX.</p>
         </div>
@@ -286,12 +305,12 @@ with col1:
 with col2:
     st.markdown(
         """
-        <div class="exp-card">
+        <div class="exp-card delay-3">
             <h3 style="color: white; margin-bottom: 8px; font-size: 1.3em;">🗄️ Gerenciamento de Dados</h3>
             <p style="color: #9ca3af; font-size: 1em;">Estruturação de bancos de dados SQL Server e fluxos de ETL eficientes para alta performance.</p>
         </div>
         <br>
-        <div class="exp-card">
+        <div class="exp-card delay-4">
             <h3 style="color: white; margin-bottom: 8px; font-size: 1.3em;">🎯 Minha Abordagem</h3>
             <p style="color: #9ca3af; font-size: 1em;">Foco total na solução da dor do cliente, visando agilidade e a geração de valor imediato.</p>
         </div>
