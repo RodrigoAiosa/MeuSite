@@ -52,6 +52,7 @@ st.markdown(
         padding: 25px;
     }
 
+    /* --- ESTILO FRENTE --- */
     .flip-card-front {
         background-color: #111827;
         color: white;
@@ -110,6 +111,7 @@ st.markdown(
         border-radius: 20px;
     }
 
+    /* --- ESTILO VERSO --- */
     .flip-card-back {
         background-color: #0f172a;
         color: white;
@@ -199,13 +201,13 @@ for i in range(0, len(pbi_projects), 3):
             
             clean_desc = p['desc'].replace("<b>", "").replace("</b>", "")
             
-            # Texto para o WhatsApp (Mensagem personalizada com Título + Descrição + Link)
-            wa_text = f"Olá! Veja este projeto de Power BI:\n\n🚀 *{p['title']}*\n\n💡 {clean_desc}\n\n🔗 Acesse aqui: {p['url']}"
+            # --- WHATSAPP (Descrição incluída) ---
+            wa_text = f"🚀 *{p['title']}*\n\n💡 {clean_desc}\n\n🔗 Confira: {p['url']}"
             wa_link = f"https://api.whatsapp.com/send?text={urllib.parse.quote(wa_text)}"
             
-            # Texto para o LinkedIn
-            li_text = f"Confira este Dashboard Estratégico: {p['title']}. {clean_desc}"
-            li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['url'])}&summary={urllib.parse.quote(li_text)}"
+            # --- LINKEDIN (Forçando descrição via link de feed) ---
+            li_text = f"📊 Dashboard: {p['title']}\n\n{clean_desc}\n\nLink do projeto:"
+            li_link = f"https://www.linkedin.com/feed/?shareActive=true&text={urllib.parse.quote(li_text)}%20{urllib.parse.quote(p['url'])}"
             
             with cols[j]:
                 st.markdown(f"""
@@ -250,18 +252,5 @@ for art in artigos:
             </div>
         </a>
     """, unsafe_allow_html=True)
-
-# --- SEÇÃO DE CONTATO PERSONALIZADA ---
-st.markdown("### 📞 Vamos conversar?")
-whatsapp_contato = "https://api.whatsapp.com/send?phone=5511977019335&text=Ol%C3%A1%20Rodrigo,%20vi%20seus%20projetos%20de%20Power%20BI%20e%20gostaria%20de%20conversar!"
-agenda_link = "https://calendly.com/rodrigoaiosa" # Substitua pelo seu link real do Calendly se for diferente
-
-st.markdown(f"""
-    Gostou do que viu? Você pode entrar em contato diretamente ou agendar uma reunião:
-    
-    * [Falar no WhatsApp]( {whatsapp_contato} )
-    * [Agendar Reunião (Calendly)]( {agenda_link} )
-    * E-mail: rodrigoaiosa@gmail.com
-""")
 
 exibir_rodape()
