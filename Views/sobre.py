@@ -23,7 +23,7 @@ st.markdown(
 
     .profile-pic-border {
         position: relative;
-        width: 210px; /* Um pouco maior que a imagem */
+        width: 210px;
         height: 210px;
         background: #151515;
         display: flex;
@@ -34,7 +34,6 @@ st.markdown(
         box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     }
 
-    /* O gradiente que gira (Efeito igual ao do card do exemplo) */
     .profile-pic-border::before {
         content: '';
         position: absolute;
@@ -44,7 +43,6 @@ st.markdown(
         animation: rotate-border 4s linear infinite;
     }
 
-    /* A imagem sobreposta para esconder o centro do gradiente */
     .profile-pic-border img {
         width: 200px;
         height: 200px;
@@ -65,13 +63,35 @@ st.markdown(
         margin-top: 10px;
     }
 
-    /* EFEITO FLIP CARD */
+    /* --- NOVOS EFEITOS NOS CARDS --- */
+    /* Container pai para aplicar o efeito de desfoque nos irmãos */
+    .cards-container {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        width: 100%;
+    }
+
     .flip-card {
         background-color: transparent;
         width: 100%;
         height: 180px;
         perspective: 1000px;
         margin-bottom: 20px;
+        transition: transform 400ms, filter 400ms; /* Transição suave para zoom e blur */
+    }
+
+    /* Efeito: Aumenta o card que está com o mouse em cima */
+    .flip-card:hover {
+        transform: scale(1.1);
+        z-index: 10;
+    }
+
+    /* Efeito: Desfoca e diminui os outros cards quando um estiver em hover */
+    .cards-container:hover .flip-card:not(:hover) {
+        filter: blur(8px);
+        transform: scale(0.9);
+        opacity: 0.6;
     }
 
     .flip-card-inner {
@@ -92,7 +112,6 @@ st.markdown(
         position: absolute;
         width: 100%;
         height: 100%;
-        -webkit-backface-visibility: hidden;
         backface-visibility: hidden;
         border-radius: 18px;
         display: flex;
@@ -113,7 +132,7 @@ st.markdown(
         color: #111827;
         transform: rotateY(180deg);
         font-weight: bold;
-        font-size: 16px;
+        font-size: 15px;
         line-height: 1.4;
     }
 
@@ -129,28 +148,12 @@ st.markdown(
         font-size: 1.1em;
         color: #9ca3af;
     }
-
-    /* SOCIAL ICONS */
-    .social-icons {
-        display: flex;
-        justify-content: center;
-        gap: 25px;
-        margin-top: 20px;
-    }
-    .social-icons img {
-        width: 42px;
-        transition: transform 0.3s ease;
-        border-radius: 8px;
-    }
-    .social-icons img:hover { 
-        transform: scale(1.3) translateY(-5px); 
-    }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# --- CABEÇALHO COM FOTO ANIMADA ---
+# --- CABEÇALHO ---
 st.markdown(
     """
     <div class="profile-container">
@@ -167,15 +170,14 @@ st.markdown('<div style="text-align: center; font-size: 1.2em; color: #00b4d8; f
 
 st.write("")
 
-# --- CARDS COM CONTADOR ANIMADO E FLIP ---
+# --- CARDS COM CONTADOR E EFEITOS DE HOVER ---
 st.markdown("### ⭐ Experiência e Resultados")
 
-c1, c2, c3, c4 = st.columns(4)
+# Criamos placeholders para os cards dentro da lógica de animação
+# Para o efeito de "blur nos outros" funcionar no Streamlit, precisamos injetar o HTML em um único bloco ou garantir o container CSS.
+# Como o Streamlit usa iframes e divs próprias, vamos envolver os placeholders em uma div personalizada.
 
-p1 = c1.empty()
-p2 = c2.empty()
-p3 = c3.empty()
-p4 = c4.empty()
+card_placeholders = st.empty()
 
 back_texts = [
     "Expertise em automação de processos e análise preditiva.",
@@ -184,36 +186,60 @@ back_texts = [
     "Parceria contínua baseada em confiança e resultados reais."
 ]
 
+# Loop de animação dos números
 for i in range(0, 101, 5):
     val_exp = int(20 * i / 100)
     val_emp = int(450 * i / 100)
     val_proj = int(500 * i / 100)
     val_rec = int(87 * i / 100)
 
-    cards_data = [
-        (f"{val_exp}+", "Anos de experiência", "🏆", back_texts[0], p1),
-        (f"{val_emp}+", "Empresas atendidas", "🏢", back_texts[1], p2),
-        (f"{val_proj}+", "Projetos entregues", "📊", back_texts[2], p3),
-        (f"{val_rec}%", "Recompra de clientes", "🤝", back_texts[3], p4)
-    ]
-
-    for val, title, icon, back, placeholder in cards_data:
-        placeholder.markdown(f"""
+    # Construindo o HTML de todos os cards juntos para respeitar o seletor CSS de "irmãos"
+    html_cards = f"""
+    <div class="cards-container">
         <div class="flip-card">
             <div class="flip-card-inner">
                 <div class="flip-card-front">
-                    <div class="card-icon">{icon}</div>
-                    <div class="card-number">{val}</div>
-                    <div class="card-title">{title}</div>
+                    <div class="card-icon">🏆</div>
+                    <div class="card-number">{val_exp}+</div>
+                    <div class="card-title">Anos de experiência</div>
                 </div>
-                <div class="flip-card-back">
-                    {back}
-                </div>
+                <div class="flip-card-back">{back_texts[0]}</div>
             </div>
         </div>
-        """, unsafe_allow_html=True)
-
-    time.sleep(0.03)
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="card-icon">🏢</div>
+                    <div class="card-number">{val_emp}+</div>
+                    <div class="card-title">Empresas atendidas</div>
+                </div>
+                <div class="flip-card-back">{back_texts[1]}</div>
+            </div>
+        </div>
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="card-icon">📊</div>
+                    <div class="card-number">{val_proj}+</div>
+                    <div class="card-title">Projetos entregues</div>
+                </div>
+                <div class="flip-card-back">{back_texts[2]}</div>
+            </div>
+        </div>
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="card-icon">🤝</div>
+                    <div class="card-number">{val_rec}%</div>
+                    <div class="card-title">Recompra de clientes</div>
+                </div>
+                <div class="flip-card-back">{back_texts[3]}</div>
+            </div>
+        </div>
+    </div>
+    """
+    card_placeholders.markdown(html_cards, unsafe_allow_html=True)
+    time.sleep(0.02)
 
 st.markdown("---")
 
