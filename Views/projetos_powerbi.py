@@ -6,7 +6,7 @@ import urllib.parse
 registrar_acesso("Projetos Power BI")
 
 # --- CONFIGURAÇÃO DA PÁGINA ---
-st.set_page_config(page_title="Portfólio de Dashboards", layout="wide")
+st.set_page_config(page_title="Portfólio de Dashboards | Rodrigo Aiosa", layout="wide")
 
 # --- ESTILO CSS (UI/UX ADVANCED) ---
 st.markdown(
@@ -18,7 +18,6 @@ st.markdown(
         font-family: 'Inter', sans-serif;
     }
 
-    /* Título Principal com Gradiente */
     .main-title {
         background: linear-gradient(90deg, #00b4d8, #0077b5);
         -webkit-background-clip: text;
@@ -27,7 +26,6 @@ st.markdown(
         margin-bottom: 2rem;
     }
 
-    /* Container do Card */
     .flip-card {
         background-color: transparent;
         width: 100%;
@@ -65,13 +63,11 @@ st.markdown(
         border: 1px solid rgba(255,255,255,0.1);
     }
 
-    /* Estilo Front (Dark Glass) */
     .flip-card-front {
         background: rgba(17, 24, 39, 0.95);
         color: white;
     }
 
-    /* Estilo Back (Gradient Glow) */
     .flip-card-back {
         background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
         color: white;
@@ -100,7 +96,6 @@ st.markdown(
         color: #111827;
         padding: 5px 15px;
         border-radius: 50px;
-        box-shadow: 0 4px 15px rgba(0, 180, 216, 0.4);
     }
 
     .pbi-description {
@@ -110,7 +105,6 @@ st.markdown(
         margin-bottom: 25px;
     }
 
-    /* Botão Call to Action */
     .btn-acessar {
         background: #00b4d8;
         color: #111827 !important;
@@ -121,7 +115,6 @@ st.markdown(
         font-size: 0.85rem;
         transition: 0.3s;
         text-transform: uppercase;
-        border: none;
     }
 
     .btn-acessar:hover {
@@ -130,7 +123,6 @@ st.markdown(
         box-shadow: 0 10px 20px rgba(0, 180, 216, 0.3);
     }
 
-    /* Social Icons */
     .share-container {
         display: flex;
         gap: 20px;
@@ -155,8 +147,7 @@ st.markdown(
 )
 
 st.markdown("<h1 class='main-title' style='text-align: center; font-size: 3.5rem;'>📊 Dashboards Estratégicos</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: #9ca3af; margin-top: -20px;'>Soluções de Business Intelligence de alto impacto visual e analítico.</p>", unsafe_allow_html=True)
-st.write("")
+st.markdown("<p style='text-align: center; color: #9ca3af; margin-top: -20px;'>Soluções de BI personalizadas para o seu negócio.</p>", unsafe_allow_html=True)
 
 # --- DADOS DOS PROJETOS ---
 pbi_projects = [
@@ -181,7 +172,7 @@ pbi_projects = [
     {
         "title": "🎯 Análise Estratégica",
         "icon": "🎯",
-        "url": "https://app.powerbi.com/view?r=eyJrIjoiM2ZhYjQ5YzItNTliMS00M2QxLWFhMmItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
+        "url": "https://app.powerbi.com/view?r=eyJrIjoiM2ZhYjQ5YzItNTliMS00M2QxLWFhMmBeItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
         "desc": "Dashboard focado em performance de vendas e alcance de objetivos comerciais."
     },
     {
@@ -206,11 +197,16 @@ for i in range(0, len(pbi_projects), 3):
         if idx < len(pbi_projects):
             p = pbi_projects[idx]
             
-            # Mensagem personalizada para WhatsApp (Conforme sua regra de 14-02-2026)
-            wa_text = f"Olá Rodrigo! Vi seu projeto *{p['title']}* e gostaria de conversar sobre uma solução similar."
-            wa_link = f"https://api.whatsapp.com/send?phone=5511977019335&text={urllib.parse.quote(wa_text)}"
+            # TEXTO WHATSAPP: Agora inclui a descrição do projeto dinamicamente
+            wa_msg = (
+                f"Olá Rodrigo! 👋\n\n"
+                f"Gostaria de falar sobre o projeto: *{p['title']}*\n"
+                f"💡 *Descrição:* {p['desc']}\n\n"
+                f"🔗 Link do Dashboard: {p['url']}"
+            )
+            wa_link = f"https://api.whatsapp.com/send?phone=5511977019335&text={urllib.parse.quote(wa_msg)}"
             
-            # Link LinkedIn (Apenas URL para compartilhamento)
+            # LinkedIn Link
             li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['url'])}"
 
             with cols[j]:
@@ -223,16 +219,14 @@ for i in range(0, len(pbi_projects), 3):
                             <div class="pbi-card-tag">Ver Detalhes ↻</div>
                         </div>
                         <div class="flip-card-back">
-                            <div style="font-weight: 800; color: #00b4d8; margin-bottom: 10px; font-size: 0.8rem; letter-spacing: 2px;">Projeto</div>
+                            <div style="font-weight: 800; color: #00b4d8; margin-bottom: 10px; font-size: 0.8rem; letter-spacing: 2px;">DETALHES</div>
                             <div class="pbi-description">{p['desc']}</div>
-                            <a href="{p['url']}" target="_blank" class="btn-acessar">
-                                Abrir Dashboard <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i>
-                            </a>
+                            <a href="{p['url']}" target="_blank" class="btn-acessar">Abrir Dashboard</a>
                             <div class="share-container">
                                 <a href="{li_link}" target="_blank" title="Compartilhar no LinkedIn" class="share-icon icon-li">
                                     <i class="fab fa-linkedin"></i>
                                 </a>
-                                <a href="{wa_link}" target="_blank" title="Falar no WhatsApp" class="share-icon icon-wa">
+                                <a href="{wa_link}" target="_blank" title="Falar com Rodrigo" class="share-icon icon-wa">
                                     <i class="fab fa-whatsapp"></i>
                                 </a>
                             </div>
@@ -240,5 +234,6 @@ for i in range(0, len(pbi_projects), 3):
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
-exibir_rodape()
 
+st.markdown("---")
+exibir_rodape()
