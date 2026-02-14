@@ -146,18 +146,32 @@ st.markdown(
         color: #9ca3af;
     }
 
-    /* ESTILO PARA CARDS DE EXPERIÊNCIA (ESTÁTICOS) */
+    /* ESTILO PARA CARDS DE EXPERIÊNCIA COM ANIMAÇÃO DE GLOW */
     .exp-card {
         background-color: #111827;
-        padding: 20px;
+        padding: 25px;
         border-radius: 15px;
         border-left: 5px solid #00b4d8;
-        height: 100%;
-        transition: 0.3s;
+        height: 160px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        cursor: default;
+        position: relative;
+        overflow: hidden;
     }
+    
     .exp-card:hover {
+        transform: translateY(-10px);
         background-color: #1f2937;
-        transform: translateY(-5px);
+        box-shadow: 0 10px 30px -5px rgba(0, 180, 216, 0.4);
+        border-left: 8px solid #00b4d8;
+    }
+
+    .exp-card h3 {
+        transition: color 0.3s ease;
+    }
+
+    .exp-card:hover h3 {
+        color: #00b4d8 !important;
     }
     </style>
     """,
@@ -248,7 +262,7 @@ for i in range(0, 101, 5):
 
 st.markdown("---")
 
-# --- EXPERIÊNCIA DE MERCADO (COM CARDS) ---
+# --- EXPERIÊNCIA DE MERCADO (COM CARDS ANIMADOS) ---
 st.subheader("🤝 Experiência de Mercado")
 st.write("Especialista em Análise de Dados e Business Intelligence, transformando dados brutos em decisões inteligentes.")
 
@@ -258,13 +272,13 @@ with col1:
     st.markdown(
         """
         <div class="exp-card">
-            <h3 style="color: white; margin-bottom: 10px;">🔎 Análise Avançada e Automação</h3>
-            <p style="color: #9ca3af;">Desenvolvimento de scripts Python e modelos em Excel para otimização de tempo.</p>
+            <h3 style="color: white; margin-bottom: 8px; font-size: 1.3em;">🔎 Análise Avançada e Automação</h3>
+            <p style="color: #9ca3af; font-size: 1em;">Desenvolvimento de scripts Python e modelos em Excel para otimização de tempo e processos.</p>
         </div>
         <br>
         <div class="exp-card">
-            <h3 style="color: white; margin-bottom: 10px;">📊 Business Intelligence (BI)</h3>
-            <p style="color: #9ca3af;">Criação de ecossistemas de dados com Power BI, DAX e M.</p>
+            <h3 style="color: white; margin-bottom: 8px; font-size: 1.3em;">📊 Business Intelligence (BI)</h3>
+            <p style="color: #9ca3af; font-size: 1em;">Criação de ecossistemas de dados robustos utilizando Power BI, Linguagem M e DAX.</p>
         </div>
         """, unsafe_allow_html=True
     )
@@ -273,13 +287,13 @@ with col2:
     st.markdown(
         """
         <div class="exp-card">
-            <h3 style="color: white; margin-bottom: 10px;">🗄️ Gerenciamento de Dados</h3>
-            <p style="color: #9ca3af;">Estruturação de bancos de dados SQL Server e fluxos de ETL eficientes.</p>
+            <h3 style="color: white; margin-bottom: 8px; font-size: 1.3em;">🗄️ Gerenciamento de Dados</h3>
+            <p style="color: #9ca3af; font-size: 1em;">Estruturação de bancos de dados SQL Server e fluxos de ETL eficientes para alta performance.</p>
         </div>
         <br>
         <div class="exp-card">
-            <h3 style="color: white; margin-bottom: 10px;">🎯 Minha Abordagem</h3>
-            <p style="color: #9ca3af;">Foco total na dor do cliente e na geração de valor imediato.</p>
+            <h3 style="color: white; margin-bottom: 8px; font-size: 1.3em;">🎯 Minha Abordagem</h3>
+            <p style="color: #9ca3af; font-size: 1em;">Foco total na solução da dor do cliente, visando agilidade e a geração de valor imediato.</p>
         </div>
         """, unsafe_allow_html=True
     )
