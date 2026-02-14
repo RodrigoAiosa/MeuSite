@@ -6,9 +6,9 @@ import urllib.parse
 registrar_acesso("Projetos Power BI")
 
 # --- CONFIGURAÇÃO DA PÁGINA ---
-st.set_page_config(page_title="Consultoria & Dashboards | Rodrigo Aiosa", layout="wide")
+st.set_page_config(page_title="Rodrigo Aiosa | Business Intelligence", layout="wide")
 
-# --- ESTILO CSS (UI/UX ADVANCED) ---
+# --- ESTILO CSS PSICOLÓGICO (NEUROMARKETING) ---
 st.markdown(
     """
     <style>
@@ -18,59 +18,87 @@ st.markdown(
         font-family: 'Inter', sans-serif;
     }
 
-    /* SEÇÃO DE VENDAS (SILOGISMO) */
-    .sales-section {
+    /* SEÇÃO DE IMPACTO PSICOLÓGICO */
+    .hero-container {
         background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        padding: 50px 30px;
-        border-radius: 24px;
-        border: 1px solid rgba(0, 180, 216, 0.3);
-        margin-bottom: 50px;
-        text-align: center;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        padding: 60px 40px;
+        border-radius: 30px;
+        border: 2px solid #00b4d8;
+        margin-bottom: 40px;
+        box-shadow: 0 25px 50px -12px rgba(0, 180, 216, 0.5);
     }
 
-    .syllogism-box {
+    .neuro-title {
+        font-size: 3rem;
+        font-weight: 900;
+        color: white;
+        line-height: 1.1;
+        margin-bottom: 20px;
+    }
+
+    .neuro-subtitle {
+        color: #00b4d8;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 40px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .comparison-grid {
         display: flex;
-        justify-content: space-around;
+        gap: 30px;
+        margin-bottom: 40px;
         flex-wrap: wrap;
-        gap: 20px;
-        margin-top: 30px;
     }
 
-    .syllogism-item {
+    .comparison-card {
         flex: 1;
-        min-width: 250px;
+        min-width: 300px;
+        padding: 30px;
+        border-radius: 20px;
         background: rgba(255,255,255,0.03);
-        padding: 25px;
+    }
+
+    .card-caos { border-left: 5px solid #ef4444; }
+    .card-lucro { border-left: 5px solid #22c55e; background: rgba(34, 197, 94, 0.05); }
+
+    .btn-call-action {
+        background: #00b4d8;
+        color: #111827 !important;
+        padding: 20px 45px;
         border-radius: 15px;
-        border-left: 4px solid #00b4d8;
+        font-weight: 900;
+        font-size: 1.1rem;
+        text-decoration: none;
+        display: inline-block;
+        transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        text-transform: uppercase;
+        box-shadow: 0 10px 20px rgba(0, 180, 216, 0.3);
     }
 
-    .syllogism-item h4 { color: #00b4d8; margin-bottom: 10px; font-weight: 800; }
-    .syllogism-item p { color: #cbd5e1; font-size: 0.95rem; line-height: 1.5; }
-
-    /* GRID SYMMETRY CONTROL */
-    [data-testid="column"] {
-        padding: 0 16px !important;
+    .btn-call-action:hover {
+        transform: scale(1.05) translateY(-5px);
+        background: white;
+        box-shadow: 0 20px 30px rgba(0, 180, 216, 0.4);
     }
+
+    /* GRID SYMMETRY */
+    [data-testid="column"] { padding: 0 16px !important; }
 
     .flip-card {
-        background-color: transparent;
         width: 100%;
         height: 400px;
         perspective: 1000px;
         margin-bottom: 32px;
-        box-sizing: border-box;
     }
 
     .flip-card-inner {
         position: relative;
         width: 100%;
         height: 100%;
-        text-align: center;
-        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: transform 0.6s;
         transform-style: preserve-3d;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         border-radius: 20px;
     }
 
@@ -89,77 +117,54 @@ st.markdown(
         padding: 30px;
     }
 
-    .flip-card-front { background: rgba(17, 24, 39, 0.95); color: white; }
-    .flip-card-back {
-        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        color: white;
-        transform: rotateY(180deg);
-        border: 2px solid #00b4d8;
-    }
+    .flip-card-front { background: #111827; border: 1px solid rgba(255,255,255,0.1); }
+    .flip-card-back { background: #1e293b; transform: rotateY(180deg); border: 1px solid #00b4d8; }
 
-    .card-icon { font-size: 60px; margin-bottom: 15px; filter: drop-shadow(0 0 10px #00b4d8); }
-    .pbi-card-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
-    .pbi-description { font-size: 0.85rem; color: #cbd5e1; margin-bottom: 20px; }
-
-    .btn-cta {
-        background: #00b4d8;
-        color: #111827 !important;
-        padding: 15px 35px;
-        border-radius: 12px;
-        text-decoration: none;
-        font-weight: 900;
-        display: inline-block;
-        margin-top: 25px;
-        transition: 0.3s;
-        text-transform: uppercase;
-    }
-    .btn-cta:hover { transform: scale(1.05); background: #fff; }
-
-    @media only screen and (max-width: 768px) {
-        .flip-card { height: 380px; }
-        .syllogism-item { min-width: 100%; }
+    @media (max-width: 768px) {
+        .neuro-title { font-size: 2rem; }
+        .comparison-grid { flex-direction: column; }
     }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     """,
     unsafe_allow_html=True
 )
 
-# --- SEÇÃO DE VENDAS (SILOGISMO) ---
+# --- HEADER PSICOLÓGICO (CONVENCIMENTO) ---
 st.markdown(f"""
-<div class="sales-section">
-    <h2 style="color: white; font-weight: 900; font-size: 2.5rem; margin-bottom: 10px;">Transforme Dados em Lucro Real</h2>
-    <p style="color: #00b4d8; font-size: 1.1rem; font-weight: 600;">Consultoria e Treinamentos Especializados em Power BI</p>
+<div class="hero-container">
+    <div class="neuro-subtitle">O Silogismo do Sucesso</div>
+    <h1 class="neuro-title">Você não precisa de mais dados. <br>Você precisa de clareza.</h1>
     
-    <div class="syllogism-box">
-        <div class="syllogism-item">
-            <h4>💡 A Premissa</h4>
-            <p>Empresas que dominam seus dados crescem 3x mais rápido e reduzem custos operacionais em até 25%.</p>
+    <div class="comparison-grid">
+        <div class="comparison-card card-caos">
+            <h4 style="color:#ef4444;">❌ O Custo da Intuição</h4>
+            <p style="color:#cbd5e1; font-size:0.95rem;">Decisões baseadas no "achismo" geram desperdício financeiro, perda de tempo e cegueira sobre a saúde real do seu negócio.</p>
         </div>
-        <div class="syllogism-item">
-            <h4>📊 A Solução</h4>
-            <p>Minha metodologia de BI elimina a "cegueira gerencial", entregando painéis de alto impacto para decisões imediatas.</p>
-        </div>
-        <div class="syllogism-item">
-            <h4>🚀 O Resultado</h4>
-            <p>Ao unir sua expertise de negócio com minha engenharia de dados, sua empresa atinge um novo patamar de previsibilidade.</p>
+        <div class="comparison-card card-lucro">
+            <h4 style="color:#22c55e;">✅ A Precisão do BI</h4>
+            <p style="color:#cbd5e1; font-size:0.95rem;">Dashboards estratégicos transformam números em lucro, revelando gargalos e oportunidades que seus olhos não conseguem ver.</p>
         </div>
     </div>
-    <a href="https://api.whatsapp.com/send?phone=5511977019335&text=Olá Rodrigo! Vi seu portfólio e gostaria de agendar uma consultoria." target="_blank" class="btn-cta">Agendar Consultoria Estratégica</a>
+    
+    <div style="text-align:center;">
+        <p style="color:white; font-style:italic; margin-bottom:20px;">Se a sua empresa gera dados e você não os usa para lucrar, você está deixando dinheiro na mesa.</p>
+        <a href="https://api.whatsapp.com/send?phone=5511977019335&text=Olá Rodrigo! 👋 Quero transformar os dados da minha empresa em lucro. Podemos conversar sobre uma consultoria?" target="_blank" class="btn-call-action">Garantir meu Diagnóstico Gratuito</a>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
-# --- GRID DE PROJETOS ---
+# --- DADOS DOS DASHBOARDS ---
 pbi_projects = [
-    {"title": "💳 Relatório STONE", "icon": "🏛️", "url": "https://app.powerbi.com/view?r=eyJrIjoiMmViN2ZlMWMtY2Q4My00NmNmLTg0NzAtZjEzMzliNzcwMWMyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Análise de Faturamento B2B: monitoramento de KPIs, Margem e Ticket Médio por região."},
-    {"title": "📊 Vendas vs Realizado", "icon": "📈", "url": "https://app.powerbi.com/view?r=eyJrIjoiYTg4OTdkZDUtNmIwZS00NGE1LTk2MDktMzc1YjM3ZjViN2Q5IiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Controle de metas vs realizado para acompanhamento comercial preciso e dinâmico."},
-    {"title": "🏝️ Gestão Financeira Beocean", "icon": "🏖️", "url": "https://app.powerbi.com/view?r=eyJrIjoiY2VkZmU1MDMtNTgwZS00NTJmLWFhOTktYzM0YzMwZDE3OTE4IiwidCI6IjdjNTYzNjMxLTcyZGMtNDY1Ny05MTRkLWIyM2M5ZTI5OGVlMSJ9", "desc": "Dashboard premium hoteleiro: integração total de receitas, despesas e lucratividade líquida."},
-    {"title": "📦 Controle BNZ", "icon": "📦", "url": "https://app.powerbi.com/view?r=eyJrIjoiODE4YmZkNDItNWQ0OC00YmUyLThiZTktOTlmN2E0NWM3NTljIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Otimização de Supply Chain e Gestão de Estoque em tempo real para alta performance."},
-    {"title": "🎯 Dashboard OEE", "icon": "🎯", "url": "https://app.powerbi.com/view?r=eyJrIjoiM2ZhYjQ5YzItNTliMS00M2QxLWFhMmItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Eficiência Global Industrial: foco em Disponibilidade, Performance e Qualidade."},
-    {"title": "👥 Dashboard de RH", "icon": "👥", "url": "https://app.powerbi.com/view?r=eyJrIjoiYmE2OGE3ODktZTUzMi00YTU2LTlkYmItYzUzY2UzNmJkMjAyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Capital humano estratégico: controle de turnover, absenteísmo e evolução da folha."},
-    {"title": "🚀 Gestão de Negócios", "icon": "🚀", "url": "https://app.powerbi.com/view?r=eyJrIjoiYzNhNDFkNzEtZmVkNy00ODZkLTgyZDYtMWIzMDQ3YWU2ZjFiIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Inteligência empresarial 360º para monitoramento de KPIs e suporte à decisão."}
+    {"title": "💳 Relatório STONE", "icon": "🏛️", "url": "https://app.powerbi.com/view?r=eyJrIjoiMmViN2ZlMWMtY2Q4My00NmNmLTg0NzAtZjEzMzliNzcwMWMyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Monitoramento de KPIs de faturamento B2B e margem de contribuição."},
+    {"title": "📊 Vendas vs Realizado", "icon": "📈", "url": "https://app.powerbi.com/view?r=eyJrIjoiYTg4OTdkZDUtNmIwZS00NGE1LTk2MDktMzc1YjM3ZjViN2Q5IiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Controle absoluto de metas comerciais e performance de equipe."},
+    {"title": "🏝️ Financeiro Beocean", "icon": "🏖️", "url": "https://app.powerbi.com/view?r=eyJrIjoiY2VkZmU1MDMtNTgwZS00NTJmLWFhOTktYzM0YzMwZDE3OTE4IiwidCI6IjdjNTYzNjMxLTcyZGMtNDY1Ny05MTRkLWIyM2M5ZTI5OGVlMSJ9", "desc": "Gestão hoteleira premium: do fluxo de caixa à lucratividade líquida."},
+    {"title": "📦 Controle BNZ", "icon": "📦", "url": "https://app.powerbi.com/view?r=eyJrIjoiODE4YmZkNDItNWQ0OC00YmUyLThiZTktOTlmN2E0NWM3NTljIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Inteligência em suprimentos e redução drástica de perdas em estoque."},
+    {"title": "🎯 Dashboard OEE", "icon": "🎯", "url": "https://app.powerbi.com/view?r=eyJrIjoiM2ZhYjQ5YzItNTliMS00M2QxLWFhMmItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Eficiência industrial de ponta: disponibilidade e qualidade em tempo real."},
+    {"title": "👥 Dashboard de RH", "icon": "👥", "url": "https://app.powerbi.com/view?r=eyJrIjoiYmE2OGE3ODktZTUzMi00YTU2LTlkYmItYzUzY2UzNmJkMjAyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Análise de People Analytics para redução de turnover e custos de folha."},
+    {"title": "🚀 Gestão de Negócios", "icon": "🚀", "url": "https://app.powerbi.com/view?r=eyJrIjoiYzNhNDFkNzEtZmVkNy00ODZkLTgyZDYtMWIzMDQ3YWU2ZjFiIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Visão 360º para CEOs: todos os KPIs críticos em uma única tela."}
 ]
 
+# --- RENDERIZAÇÃO DA GRADE ---
 with st.container():
     for i in range(0, len(pbi_projects), 3):
         cols = st.columns(3) 
@@ -176,16 +181,16 @@ with st.container():
                     <div class="flip-card">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
-                                <div class="card-icon">{p['icon']}</div>
+                                <div style="font-size:50px; margin-bottom:15px;">{p['icon']}</div>
                                 <div class="pbi-card-title">{p['title']}</div>
-                                <div class="pbi-card-tag" style="font-size: 0.7rem; background:#00b4d8; padding:3px 10px; border-radius:50px; color:#111;">Ver Detalhes ↻</div>
+                                <div style="font-size:0.7rem; color:#00b4d8; letter-spacing:1px;">VER DETALHES ↻</div>
                             </div>
                             <div class="flip-card-back">
-                                <div class="pbi-description">{p['desc']}</div>
-                                <a href="{p['url']}" target="_blank" style="background:#00b4d8; color:#111; padding:10px 20px; border-radius:8px; text-decoration:none; font-weight:800; font-size:0.8rem;">ABRIR DASHBOARD</a>
-                                <div style="display:flex; gap:15px; margin-top:15px;">
-                                    <a href="{li_link}" target="_blank" style="color:#cbd5e1; font-size:1.2rem;"><i class="fab fa-linkedin"></i></a>
-                                    <a href="{wa_link}" target="_blank" style="color:#cbd5e1; font-size:1.2rem;"><i class="fab fa-whatsapp"></i></a>
+                                <p style="font-size:0.85rem; color:#cbd5e1; margin-bottom:20px;">{p['desc']}</p>
+                                <a href="{p['url']}" target="_blank" style="background:#00b4d8; color:#111; padding:10px 20px; border-radius:8px; text-decoration:none; font-weight:800; font-size:0.75rem;">ACESSAR PROJETO</a>
+                                <div style="display:flex; gap:15px; margin-top:20px;">
+                                    <a href="{li_link}" target="_blank" style="color:#cbd5e1;"><i class="fab fa-linkedin"></i></a>
+                                    <a href="{wa_link}" target="_blank" style="color:#cbd5e1;"><i class="fab fa-whatsapp"></i></a>
                                 </div>
                             </div>
                         </div>
