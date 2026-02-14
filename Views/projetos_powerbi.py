@@ -13,9 +13,9 @@ st.markdown(
     .flip-card {
         background-color: transparent;
         width: 100%;
-        height: 420px; /* Aumentado para comportar os ícones sociais */
+        height: 420px;
         perspective: 1000px;
-        margin-bottom: 40px;
+        margin-bottom: 20px; /* Ajuste para igualar o gap horizontal */
         animation: fadeInUp 0.8s ease-out forwards;
         opacity: 0;
     }
@@ -38,7 +38,6 @@ st.markdown(
         transform: rotateY(180deg);
     }
 
-    /* Lados Frontal e Traseiro */
     .flip-card-front, .flip-card-back {
         position: absolute;
         width: 100%;
@@ -53,7 +52,7 @@ st.markdown(
         padding: 25px;
     }
 
-    /* --- ESTILO FRENTE (Efeito Glow) --- */
+    /* --- ESTILO FRENTE --- */
     .flip-card-front {
         background-color: #111827;
         color: white;
@@ -100,7 +99,6 @@ st.markdown(
         z-index: 2;
     }
 
-    /* TEXTO PRETO SOLICITADO */
     .pbi-card-tag { 
         font-size: 0.8rem; 
         color: #000000; 
@@ -140,7 +138,6 @@ st.markdown(
         display: inline-block;
     }
 
-    /* Container de Redes Sociais */
     .share-container {
         display: flex;
         gap: 15px;
@@ -155,12 +152,19 @@ st.markdown(
         text-decoration: none;
     }
     
-    .share-icon:hover {
-        transform: scale(1.2);
-    }
-    
+    .share-icon:hover { transform: scale(1.2); }
     .icon-li:hover { color: #0077b5; }
     .icon-wa:hover { color: #25d366; }
+
+    /* Ajuste de espaçamento horizontal entre as colunas do Streamlit */
+    [data-testid="column"] {
+        padding: 0 10px !important;
+    }
+    
+    /* Forçar gap consistente entre as colunas */
+    div[data-testid="stHorizontalBlock"] {
+        gap: 20px !important;
+    }
 
     /* Delays */
     .delay-1 { animation-delay: 0.1s; }
@@ -169,18 +173,6 @@ st.markdown(
     .delay-4 { animation-delay: 0.4s; }
     .delay-5 { animation-delay: 0.5s; }
     .delay-6 { animation-delay: 0.6s; }
-
-    /* Artigos */
-    .article-card {
-        background-color: #111827;
-        padding: 30px;
-        border-radius: 15px;
-        border-left: 8px solid #00b4d8;
-        transition: all 0.3s ease;
-        margin-bottom: 20px;
-        text-decoration: none !important;
-    }
-    .article-card:hover { transform: translateX(12px); box-shadow: 0 5px 15px rgba(0, 180, 216, 0.2); }
     </style>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -193,53 +185,22 @@ st.write("")
 
 # --- DADOS DOS PROJETOS ---
 pbi_projects = [
-    {
-        "title": "💳 Relatório STONE", 
-        "icon": "🏛️",
-        "url": "https://app.powerbi.com/view?r=eyJrIjoiMmViN2ZlMWMtY2Q4My00NmNmLTg0NzAtZjEzMzliNzcwMWMyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Dashboard interativo de <b>Faturamento B2B</b>: monitora KPIs de faturamento e margem."
-    },
-    {
-        "title": "📊 Vendas Meta vs Realizado", 
-        "icon": "📈",
-        "url": "https://app.powerbi.com/view?r=eyJrIjoiYTg4OTdkZDUtNmIwZS00NGE1LTk2MDktMzc1YjM3ZjViN2Q5IiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Performance comercial e acompanhamento de metas em tempo real."
-    },
-    {
-        "title": "📦 Controle de Pedidos BNZ", 
-        "icon": "📦",
-        "url": "https://app.powerbi.com/view?r=eyJrIjoiODE4YmZkNDItNWQ0OC00YmUyLThiZTktOTlmN2E0NWM3NTljIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Gestão de estoque, giro de produtos e necessidade de reposição."
-    },
-    {
-        "title": "🎯 Análise Dados Estratégica", 
-        "icon": "🎯",
-        "url": "https://app.powerbi.com/view?r=eyJrIjoiM2ZhYjQ5YzItNTliMS00M2QxLWFhMmItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Faturamento real vs. orçado com análise de crescimento anual (YoY)."
-    },
-    {
-        "title": "👥 People Analytics (RH)", 
-        "icon": "👥",
-        "url": "https://app.powerbi.com/view?r=eyJrIjoiYmE2OGE3ODktZTUzMi00YTU2LTlkYmItYzUzY2UzNmJkMjAyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Indicadores de RH: turnover, headcount e custos de contratação."
-    },
-    {
-        "title": "🚀 Gestão de Negócios", 
-        "icon": "🚀",
-        "url": "https://app.powerbi.com/view?r=eyJrIjoiYzNhNDFkNzEtZmVkNy00ODZkLTgyZDYtMWIzMDQ3YWU2ZjFiIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Controle de produção, volume fabricado e eficiência operacional."
-    }
+    {"title": "💳 Relatório STONE", "icon": "🏛️", "url": "https://app.powerbi.com/view?r=eyJrIjoiMmViN2ZlMWMtY2Q4My00NmNmLTg0NzAtZjEzMzliNzcwMWMyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Dashboard interativo de <b>Faturamento B2B</b>."},
+    {"title": "📊 Vendas Meta vs Realizado", "icon": "📈", "url": "https://app.powerbi.com/view?r=eyJrIjoiYTg4OTdkZDUtNmIwZS00NGE1LTk2MDktMzc1YjM3ZjViN2Q5IiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Performance comercial e metas em tempo real."},
+    {"title": "📦 Controle de Pedidos BNZ", "icon": "📦", "url": "https://app.powerbi.com/view?r=eyJrIjoiODE4YmZkNDItNWQ0OC00YmUyLThiZTktOTlmN2E0NWM3NTljIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Gestão de estoque e giro de produtos."},
+    {"title": "🎯 Análise Dados Estratégica", "icon": "🎯", "url": "https://app.powerbi.com/view?r=eyJrIjoiM2ZhYjQ5YzItNTliMS00M2QxLWFhMmItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Faturamento real vs. orçado (YoY)."},
+    {"title": "👥 People Analytics (RH)", "icon": "👥", "url": "https://app.powerbi.com/view?r=eyJrIjoiYmE2OGE3ODktZTUzMi00YTU2LTlkYmItYzUzY2UzNmJkMjAyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Indicadores de RH: turnover e headcount."},
+    {"title": "🚀 Gestão de Negócios", "icon": "🚀", "url": "https://app.powerbi.com/view?r=eyJrIjoiYzNhNDFkNzEtZmVkNy00ODZkLTgyZDYtMWIzMDQ3YWU2ZjFiIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Controle de produção e eficiência operacional."}
 ]
 
 # --- RENDERIZAÇÃO ---
+# O gap vertical (margin-bottom: 20px) agora casa com o gap horizontal (stHorizontalBlock gap: 20px)
 for i in range(0, len(pbi_projects), 3):
     cols = st.columns(3)
     for j in range(3):
         idx = i + j
         if idx < len(pbi_projects):
             p = pbi_projects[idx]
-            
-            # Preparar links de compartilhamento
             text_share = urllib.parse.quote(f"Confira este projeto de BI do Rodrigo Aiosa: {p['title']}\n{p['url']}")
             wa_link = f"https://api.whatsapp.com/send?text={text_share}"
             li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={p['url']}"
@@ -281,7 +242,7 @@ artigos = [
 for art in artigos:
     st.markdown(f"""
         <a href="{art['url']}" target="_blank" style="text-decoration: none;">
-            <div class="article-card">
+            <div class="article-card" style="background-color: #111827; padding: 30px; border-radius: 15px; border-left: 8px solid #00b4d8; transition: all 0.3s ease; margin-bottom: 20px;">
                 <h4 style="color: white; margin: 0; font-weight: bold;">{art['titulo']}</h4>
                 <p style="color: #9ca3af; margin-top: 10px;">{art['desc']}</p>
             </div>
