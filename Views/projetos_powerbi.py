@@ -141,8 +141,8 @@ st.markdown(
         <div class="hero-text">
             <p><strong>A Lógica do Sucesso:</strong></p>
             <ol>
-                <li>Resultados extraordinários só são alcançados através de <span class="hero-highlight">metodologias validadas pelo tempo</span> (Premissa Maior).</li>
-                <li>Minha consultoria e mentoria sintetizam <span class="hero-highlight">+20 anos de campo</span> em estratégias aplicáveis (Premissa Menor).</li>
+                <li>Resultados extraordinários só são alcançados através de <span class="hero-highlight">metodologias validadas pelo tempo</span>.</li>
+                <li>Minha consultoria e mentoria sintetizam <span class="hero-highlight">+20 anos de campo</span> em estratégias aplicáveis.</li>
                 <li><strong>Logo,</strong> acelerar sua curva de aprendizado e seus lucros comigo não é uma opção, é a <span class="hero-highlight">consequência lógica da excelência.</span></li>
             </ol>
             <p>Não busque apenas dashboards. Busque a inteligência por trás deles.</p>
@@ -241,3 +241,4 @@ for i in range(0, len(pbi_projects), 3):
 
 # Removido st.markdown("---") conforme instrução de nunca mais usar
 exibir_rodape()
+
