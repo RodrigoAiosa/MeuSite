@@ -170,10 +170,10 @@ pbi_projects = [
         "desc": "Otimização de Supply Chain e Gestão de Estoque em tempo real."
     },
     {
-        "title": "🎯 Análise Estratégica",
+        "title": "🎯 Dashboard OEE",
         "icon": "🎯",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiM2ZhYjQ5YzItNTliMS00M2QxLWFhMmItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Dashboard focado em performance de vendas e alcance de objetivos comerciais."
+        "desc": "Análise de Eficiência Global (OEE) focada em Disponibilidade, Performance e Qualidade Industrial."
     },
     {
         "title": "👥 People Analytics",
