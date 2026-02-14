@@ -161,7 +161,7 @@ pbi_projects = [
         "title": "📊 Vendas vs Realizado",
         "icon": "📈",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYTg4OTdkZDUtNmIwZS00NGE1LTk2MDktMzc1YjM3ZjViN2Q5IiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Gestão estratégica de metas e funil de Recrutamento & Seleção (RH)."
+        "desc": "Um painel completo que controla metas vs realizado para acompanhamento comercial preciso."
     },
     {
         "title": "📦 Controle BNZ",
@@ -172,7 +172,7 @@ pbi_projects = [
     {
         "title": "🎯 Análise Estratégica",
         "icon": "🎯",
-        "url": "https://app.powerbi.com/view?r=eyJrIjoiM2ZhYjQ5YzItNTliMS00M2QxLWFhMmBeItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
+        "url": "https://app.powerbi.com/view?r=eyJrIjoiM2ZhYjQ5YzItNTliMS00M2QxLWFhMmItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
         "desc": "Dashboard focado em performance de vendas e alcance de objetivos comerciais."
     },
     {
@@ -197,7 +197,7 @@ for i in range(0, len(pbi_projects), 3):
         if idx < len(pbi_projects):
             p = pbi_projects[idx]
             
-            # TEXTO WHATSAPP: Agora inclui a descrição do projeto dinamicamente
+            # MENSAGEM WHATSAPP DINÂMICA
             wa_msg = (
                 f"Olá Rodrigo! 👋\n\n"
                 f"Gostaria de falar sobre o projeto: *{p['title']}*\n"
@@ -206,7 +206,7 @@ for i in range(0, len(pbi_projects), 3):
             )
             wa_link = f"https://api.whatsapp.com/send?phone=5511977019335&text={urllib.parse.quote(wa_msg)}"
             
-            # LinkedIn Link
+            # LINK LINKEDIN
             li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['url'])}"
 
             with cols[j]:
@@ -234,5 +234,5 @@ for i in range(0, len(pbi_projects), 3):
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
-exibir_rodape()
 
+exibir_rodape()
