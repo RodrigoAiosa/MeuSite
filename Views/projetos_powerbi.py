@@ -242,4 +242,3 @@ for i in range(0, len(pbi_projects), 3):
                 """, unsafe_allow_html=True)
 
 st.markdown("---")
-exibir_rodape()
