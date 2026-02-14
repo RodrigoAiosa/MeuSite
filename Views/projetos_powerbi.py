@@ -1,10 +1,11 @@
 import streamlit as st
 from utils import exibir_rodape, registrar_acesso
+import urllib.parse
 
 # --- REGISTRO DE ACESSO ---
 registrar_acesso("Projetos Power BI")
 
-# --- ESTILO CSS PARA FLIP CARDS COM EFEITO GLOW TRANSFORM ---
+# --- ESTILO CSS ATUALIZADO ---
 st.markdown(
     """
     <style>
@@ -12,7 +13,7 @@ st.markdown(
     .flip-card {
         background-color: transparent;
         width: 100%;
-        height: 380px;
+        height: 420px; /* Aumentado para comportar os ícones sociais */
         perspective: 1000px;
         margin-bottom: 40px;
         animation: fadeInUp 0.8s ease-out forwards;
@@ -52,7 +53,7 @@ st.markdown(
         padding: 25px;
     }
 
-    /* --- ESTILO FRENTE (Com Efeito Uiverse) --- */
+    /* --- ESTILO FRENTE (Efeito Glow) --- */
     .flip-card-front {
         background-color: #111827;
         color: white;
@@ -60,7 +61,6 @@ st.markdown(
         border: 1px solid #1f2937;
     }
 
-    /* Efeito de Gradiente por trás (Before) */
     .flip-card-front::before {
         content: '';
         position: absolute;
@@ -75,35 +75,20 @@ st.markdown(
         transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    /* Efeito de Brilho/Blur (After) */
     .flip-card-front::after {
         content: "";
         z-index: -1;
         position: absolute;
         inset: 0;
-        background: linear-gradient(-45deg, #e81cff 0%, #00b4d8 100% );
+        background: linear-gradient(-45deg, #fc00ff 0%, #00dbde 100% );
         transform: translate3d(0, 0, 0) scale(0.95);
         filter: blur(20px);
         opacity: 0.5;
         transition: all 0.6s;
     }
 
-    .flip-card:hover .flip-card-front::after {
-        filter: blur(30px);
-        opacity: 0.8;
-    }
-
-    .flip-card:hover .flip-card-front::before {
-        transform: rotate(-90deg) scaleX(1.34) scaleY(0.77);
-    }
-
-    /* Estilo Verso */
-    .flip-card-back {
-        background-color: #0f172a;
-        color: white;
-        transform: rotateY(180deg);
-        border: 2px solid #00b4d8;
-    }
+    .flip-card:hover .flip-card-front::after { filter: blur(30px); opacity: 0.8; }
+    .flip-card:hover .flip-card-front::before { transform: rotate(-90deg) scaleX(1.34) scaleY(0.77); }
 
     .card-icon { font-size: 60px; margin-bottom: 15px; z-index: 2; }
     
@@ -115,39 +100,69 @@ st.markdown(
         z-index: 2;
     }
 
+    /* TEXTO PRETO SOLICITADO */
     .pbi-card-tag { 
         font-size: 0.8rem; 
-        color: #00b4d8; 
-        font-weight: bold;
+        color: #000000; 
+        font-weight: 900;
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: 1.5px;
         z-index: 2;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 4px 12px;
+        border-radius: 20px;
+    }
+
+    /* --- ESTILO VERSO --- */
+    .flip-card-back {
+        background-color: #0f172a;
+        color: white;
+        transform: rotateY(180deg);
+        border: 2px solid #00b4d8;
     }
 
     .pbi-description {
-        font-size: 1rem;
+        font-size: 0.95rem;
         color: #9ca3af;
-        line-height: 1.5;
-        margin-bottom: 20px;
+        line-height: 1.4;
+        margin-bottom: 15px;
     }
 
     .btn-acessar {
         background-color: #00b4d8;
         color: #111827 !important;
-        padding: 10px 25px;
+        padding: 8px 20px;
         border-radius: 8px;
         text-decoration: none;
         font-weight: bold;
         font-size: 0.9rem;
-        transition: 0.3s;
-    }
-    
-    .btn-acessar:hover {
-        background-color: white;
-        transform: scale(1.05);
+        margin-bottom: 15px;
+        display: inline-block;
     }
 
-    /* Delays de Animação */
+    /* Container de Redes Sociais */
+    .share-container {
+        display: flex;
+        gap: 15px;
+        margin-top: 10px;
+        align-items: center;
+    }
+    
+    .share-icon {
+        color: #9ca3af;
+        font-size: 1.4rem;
+        transition: 0.3s;
+        text-decoration: none;
+    }
+    
+    .share-icon:hover {
+        transform: scale(1.2);
+    }
+    
+    .icon-li:hover { color: #0077b5; }
+    .icon-wa:hover { color: #25d366; }
+
+    /* Delays */
     .delay-1 { animation-delay: 0.1s; }
     .delay-2 { animation-delay: 0.2s; }
     .delay-3 { animation-delay: 0.3s; }
@@ -155,7 +170,7 @@ st.markdown(
     .delay-5 { animation-delay: 0.5s; }
     .delay-6 { animation-delay: 0.6s; }
 
-    /* Estilo Artigos */
+    /* Artigos */
     .article-card {
         background-color: #111827;
         padding: 30px;
@@ -165,18 +180,15 @@ st.markdown(
         margin-bottom: 20px;
         text-decoration: none !important;
     }
-    .article-card:hover {
-        background-color: #1a2233;
-        transform: translateX(12px);
-        box-shadow: 0 5px 15px rgba(0, 180, 216, 0.2);
-    }
+    .article-card:hover { transform: translateX(12px); box-shadow: 0 5px 15px rgba(0, 180, 216, 0.2); }
     </style>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     """,
     unsafe_allow_html=True
 )
 
 st.markdown("<h1 style='text-align: center; font-size: 3rem;'>📊 Dashboards Estratégicos</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: #9ca3af;'>Soluções de BI transformando dados em decisões reais.</p>", unsafe_allow_html=True)
 st.write("")
 
 # --- DADOS DOS PROJETOS ---
@@ -185,52 +197,56 @@ pbi_projects = [
         "title": "💳 Relatório STONE", 
         "icon": "🏛️",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiMmViN2ZlMWMtY2Q4My00NmNmLTg0NzAtZjEzMzliNzcwMWMyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Dashboard interativo de <b>Faturamento B2B</b>: monitora KPIs (Faturamento, Margem, Ticket Médio), evolução mensal e filtros regionais."
+        "desc": "Dashboard interativo de <b>Faturamento B2B</b>: monitora KPIs de faturamento e margem."
     },
     {
         "title": "📊 Vendas Meta vs Realizado", 
         "icon": "📈",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYTg4OTdkZDUtNmIwZS00NGE1LTk2MDktMzc1YjM3ZjViN2Q5IiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Dashboard focado em <b>Performance Comercial</b>: acompanhamento de metas em tempo real, ranking de vendedores e projeções."
+        "desc": "Performance comercial e acompanhamento de metas em tempo real."
     },
     {
         "title": "📦 Controle de Pedidos BNZ", 
         "icon": "📦",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiODE4YmZkNDItNWQ0OC00YmUyLThiZTktOTlmN2E0NWM3NTljIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Dashboard de <b>Gestão de Estoque</b>: controla níveis de inventário, giro de estoque, produtos obsoletos e necessidade de reposição."
+        "desc": "Gestão de estoque, giro de produtos e necessidade de reposição."
     },
     {
         "title": "🎯 Análise Dados Estratégica", 
         "icon": "🎯",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiM2ZhYjQ5YzItNTliMS00M2QxLWFhMmItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Dashboard de <b>Controle de Metas e Vendas</b>: faturamento real vs. orçado, performance de vendedores e crescimento anual (YoY)."
+        "desc": "Faturamento real vs. orçado com análise de crescimento anual (YoY)."
     },
     {
         "title": "👥 People Analytics (RH)", 
         "icon": "👥",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYmE2OGE3ODktZTUzMi00YTU2LTlkYmItYzUzY2UzNmJkMjAyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Dashboard de <b>Gestão de Capital Humano</b>: turnover, headcount, custos de contratação e indicadores de clima organizacional."
+        "desc": "Indicadores de RH: turnover, headcount e custos de contratação."
     },
     {
         "title": "🚀 Gestão de Negócios", 
         "icon": "🚀",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYzNhNDFkNzEtZmVkNy00ODZkLTgyZDYtMWIzMDQ3YWU2ZjFiIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Dashboard de <b>Controle de Produção</b>: monitora volume fabricado, refugo (perdas), eficiência por turno e tempo de máquina parada."
+        "desc": "Controle de produção, volume fabricado e eficiência operacional."
     }
 ]
 
-# --- RENDERIZAÇÃO DOS CARDS ---
+# --- RENDERIZAÇÃO ---
 for i in range(0, len(pbi_projects), 3):
     cols = st.columns(3)
     for j in range(3):
         idx = i + j
         if idx < len(pbi_projects):
             p = pbi_projects[idx]
-            # Adicionando a classe de delay sequencial
-            delay_class = f"delay-{idx + 1}"
+            
+            # Preparar links de compartilhamento
+            text_share = urllib.parse.quote(f"Confira este projeto de BI do Rodrigo Aiosa: {p['title']}\n{p['url']}")
+            wa_link = f"https://api.whatsapp.com/send?text={text_share}"
+            li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={p['url']}"
+            
             with cols[j]:
                 st.markdown(f"""
-                <div class="flip-card {delay_class}">
+                <div class="flip-card delay-{idx+1}">
                     <div class="flip-card-inner">
                         <div class="flip-card-front">
                             <div class="card-icon">{p['icon']}</div>
@@ -238,9 +254,14 @@ for i in range(0, len(pbi_projects), 3):
                             <div class="pbi-card-tag">PASSE O MOUSE ↻</div>
                         </div>
                         <div class="flip-card-back">
-                            <div style="font-weight: bold; color: #00b4d8; margin-bottom: 10px;">PROJETO</div>
+                            <div style="font-weight: bold; color: #00b4d8; margin-bottom: 8px;">PROJETO</div>
                             <div class="pbi-description">{p['desc']}</div>
-                            <a href="{p['url']}" target="_blank" class="btn-acessar">Visualizar ↗️</a>
+                            <a href="{p['url']}" target="_blank" class="btn-acessar">Abrir Dashboard ↗️</a>
+                            <div style="font-size: 0.8rem; color: #9ca3af; margin-top: 5px;">Compartilhar:</div>
+                            <div class="share-container">
+                                <a href="{li_link}" target="_blank" class="share-icon icon-li"><i class="fab fa-linkedin"></i></a>
+                                <a href="{wa_link}" target="_blank" class="share-icon icon-wa"><i class="fab fa-whatsapp"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
