@@ -2,29 +2,62 @@ import streamlit as st
 import time
 from utils import registrar_acesso, exibir_rodape
 
-# 1. CONFIGURAÇÃO DA PÁGINA (Deve ser obrigatoriamente o primeiro comando Streamlit)
+# 1. CONFIGURAÇÃO DA PÁGINA
 st.set_page_config(layout="wide", page_title="Portfolio | Rodrigo Aiosa")
 
-# 2. REGISTRO DE ACESSO (Chamado logo após a configuração inicial)
+# 2. REGISTRO DE ACESSO
 registrar_acesso("Sobre Mim")
 
-# --- ESTILO CSS GLOBAL (MANTIDO) ---
+# --- ESTILO CSS GLOBAL ATUALIZADO ---
 st.markdown(
     """
     <style>
-    .profile-pic {
+    /* Container da Foto com Efeito de Borda Animada */
+    .profile-container {
         display: flex;
         justify-content: center;
+        align-items: center;
         margin-top: -30px;
+        position: relative;
     }
 
-    .profile-pic img {
+    .profile-pic-border {
+        position: relative;
+        width: 210px; /* Um pouco maior que a imagem */
+        height: 210px;
+        background: #151515;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         border-radius: 50%;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+
+    /* O gradiente que gira (Efeito igual ao do card do exemplo) */
+    .profile-pic-border::before {
+        content: '';
+        position: absolute;
+        width: 150%;
+        height: 150%;
+        background: conic-gradient(transparent, #00b4d8, #00b4d8, transparent 40%);
+        animation: rotate-border 4s linear infinite;
+    }
+
+    /* A imagem sobreposta para esconder o centro do gradiente */
+    .profile-pic-border img {
         width: 200px;
         height: 200px;
+        border-radius: 50%;
         object-fit: cover;
-        border: 5px solid #00b4d8;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        z-index: 1;
+        background-color: #151515;
+        border: 2px solid #151515;
+    }
+
+    @keyframes rotate-border {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
 
     .main-title {
@@ -117,11 +150,15 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# --- CABEÇALHO ---
+# --- CABEÇALHO COM FOTO ANIMADA ---
 st.markdown(
-    '<div class="profile-pic">'
-    '<img src="https://media.licdn.com/dms/image/v2/D5603AQFTfyqJswUYwg/profile-displayphoto-scale_200_200/B56ZxDaPuZK4AY-/0/1770657482765?e=1772064000&v=beta&t=1PXFrPJTt5w46Y7NUTgqCQ3H2jjMmkE1QwFi-lwwwko">'
-    '</div>',
+    """
+    <div class="profile-container">
+        <div class="profile-pic-border">
+            <img src="https://media.licdn.com/dms/image/v2/D5603AQFTfyqJswUYwg/profile-displayphoto-scale_200_200/B56ZxDaPuZK4AY-/0/1770657482765?e=1772064000&v=beta&t=1PXFrPJTt5w46Y7NUTgqCQ3H2jjMmkE1QwFi-lwwwko">
+        </div>
+    </div>
+    """,
     unsafe_allow_html=True
 )
 
@@ -213,7 +250,6 @@ st.write("")
 
 col_img1, col_img2, col_img3 = st.columns([1, 8, 1])
 with col_img2:
-    # Atualizado para evitar avisos de versão antiga do Streamlit
     st.image("assets/clientes_atendidos.jpg", width=None, use_container_width=True)
     
 exibir_rodape()
