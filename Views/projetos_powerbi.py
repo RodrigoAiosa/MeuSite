@@ -8,7 +8,7 @@ registrar_acesso("Projetos Power BI")
 # --- CONFIGURAÇÃO DA PÁGINA ---
 st.set_page_config(page_title="Portfólio de Dashboards | Rodrigo Aiosa", layout="wide")
 
-# --- ESTILO CSS (UI/UX ADVANCED & MOBILE RESPONSIVE) ---
+# --- ESTILO CSS (UI/UX ADVANCED & SYMMETRIC GRID) ---
 st.markdown(
     """
     <style>
@@ -27,13 +27,18 @@ st.markdown(
         text-align: center;
     }
 
-    /* Grid de Cards */
+    /* GRID SYMMETRY CONTROL */
+    [data-testid="column"] {
+        padding: 0 16px !important; /* Metade do gap horizontal (16px + 16px = 32px) */
+    }
+
     .flip-card {
         background-color: transparent;
         width: 100%;
         height: 400px;
         perspective: 1000px;
-        margin-bottom: 30px;
+        margin-bottom: 32px; /* Distância Vertical idêntica à Horizontal */
+        box-sizing: border-box;
     }
 
     .flip-card-inner {
@@ -84,24 +89,15 @@ st.markdown(
     }
     
     .pbi-card-title {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         font-weight: 700;
         margin-bottom: 15px;
     }
 
-    .pbi-card-tag {
-        font-size: 0.75rem;
-        font-weight: 700;
-        background: #00b4d8;
-        color: #111827;
-        padding: 5px 15px;
-        border-radius: 50px;
-    }
-
     .pbi-description {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         color: #cbd5e1;
-        line-height: 1.6;
+        line-height: 1.5;
         margin-bottom: 25px;
     }
 
@@ -112,18 +108,14 @@ st.markdown(
         border-radius: 12px;
         text-decoration: none;
         font-weight: 800;
-        font-size: 0.85rem;
+        font-size: 0.8rem;
         text-transform: uppercase;
     }
 
-    /* RESPONSIVIDADE MOBILE */
+    /* RESPONSIVIDADE */
     @media only screen and (max-width: 768px) {
-        .main-title { font-size: 2.2rem !important; }
-        .flip-card { height: 350px; margin-bottom: 20px; }
-        .card-icon { font-size: 50px; }
-        .pbi-card-title { font-size: 1.2rem; }
-        .pbi-description { font-size: 0.8rem; margin-bottom: 15px; }
-        /* No mobile, o hover pode ser difícil, então garantimos que o card seja tocável */
+        [data-testid="column"] { padding: 0 !important; }
+        .flip-card { height: 380px; margin-bottom: 24px; }
     }
 
     .share-container {
@@ -170,72 +162,69 @@ pbi_projects = [
         "title": "🏝️ Gestão Financeira Beocean",
         "icon": "🏖️",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiY2VkZmU1MDMtNTgwZS00NTJmLWFhOTktYzM0YzMwZDE3OTE4IiwidCI6IjdjNTYzNjMxLTcyZGMtNDY1Ny05MTRkLWIyM2M5ZTI5OGVlMSJ9&pageName=ae6d1828240b25f04e49",
-        "desc": "Dashboard premium de gerenciamento financeiro para o setor hoteleiro, integrando controle de receitas, despesas e lucratividade."
+        "desc": "Dashboard premium de gerenciamento financeiro para o setor hoteleiro, integrando receitas e lucratividade."
     },
     {
         "title": "📦 Controle BNZ",
         "icon": "📦",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiODE4YmZkNDItNWQ0OC00YmUyLThiZTktOTlmN2E0NWM3NTljIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Otimização de Supply Chain e Gestão de Estoque em tempo real."
+        "desc": "Otimização de Supply Chain e Gestão de Estoque em tempo real para alta performance."
     },
     {
         "title": "🎯 Dashboard OEE",
         "icon": "🎯",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiM2ZhYjQ5YzItNTliMS00M2QxLWFhMmItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Análise de Eficiência Global (OEE) focada em Disponibilidade, Performance e Qualidade Industrial."
+        "desc": "Análise de Eficiência Global focada em Disponibilidade, Performance e Qualidade Industrial."
     },
     {
         "title": "👥 Dashboard de Recursos Humanos",
         "icon": "👥",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYmE2OGE3ODktZTUzMi00YTU2LTlkYmItYzUzY2UzNmJkMjAyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Visão estratégica de capital humano: controle de turnover, absenteísmo e evolução da folha de pagamento."
+        "desc": "Visão estratégica de capital humano: controle de turnover, absenteísmo e evolução da folha."
     },
     {
         "title": "🚀 Gestão de Negócios",
         "icon": "🚀",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYzNhNDFkNzEtZmVkNy00ODZkLTgyZDYtMWIzMDQ3YWU2ZjFiIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Ecossistema de inteligência empresarial para monitoramento de KPIs críticos e suporte à tomada de decisão estratégica."
+        "desc": "Ecossistema de inteligência empresarial para monitoramento de KPIs críticos e decisão estratégica."
     }
 ]
 
-# --- RENDERIZAÇÃO RESPONSIVA ---
-for i in range(0, len(pbi_projects), 3):
-    cols = st.columns(3, gap="large") 
-    for j in range(3):
-        idx = i + j
-        if idx < len(pbi_projects):
-            p = pbi_projects[idx]
-            
-            # MENSAGEM WHATSAPP DINÂMICA [cite: 2026-02-14]
-            wa_msg = (
-                f"Olá Rodrigo! 👋\n\n"
-                f"Gostaria de falar sobre o projeto: *{p['title']}*\n"
-                f"💡 *Descrição:* {p['desc']}\n\n"
-                f"🔗 Link do Dashboard: {p['url']}"
-            )
-            wa_link = f"https://api.whatsapp.com/send?phone=5511977019335&text={urllib.parse.quote(wa_msg)}"
-            li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['url'])}"
+# --- RENDERIZAÇÃO ---
+# O uso de st.container ajuda a isolar a grade e manter as margens controladas
+with st.container():
+    for i in range(0, len(pbi_projects), 3):
+        cols = st.columns(3) 
+        for j in range(3):
+            idx = i + j
+            if idx < len(pbi_projects):
+                p = pbi_projects[idx]
+                
+                # MENSAGEM WHATSAPP DINÂMICA
+                wa_msg = f"Olá Rodrigo! 👋\n\nGostaria de falar sobre o projeto: *{p['title']}*\n💡 *Descrição:* {p['desc']}\n\n🔗 Link: {p['url']}"
+                wa_link = f"https://api.whatsapp.com/send?phone=5511977019335&text={urllib.parse.quote(wa_msg)}"
+                li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['url'])}"
 
-            with cols[j]:
-                st.markdown(f"""
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="card-icon">{p['icon']}</div>
-                            <div class="pbi-card-title">{p['title']}</div>
-                            <div class="pbi-card-tag">Ver Detalhes ↻</div>
-                        </div>
-                        <div class="flip-card-back">
-                            <div style="font-weight: 800; color: #00b4d8; margin-bottom: 10px; font-size: 0.8rem; letter-spacing: 2px;">DETALHES</div>
-                            <div class="pbi-description">{p['desc']}</div>
-                            <a href="{p['url']}" target="_blank" class="btn-acessar">Abrir Dashboard</a>
-                            <div class="share-container">
-                                <a href="{li_link}" target="_blank" class="share-icon icon-li"><i class="fab fa-linkedin"></i></a>
-                                <a href="{wa_link}" target="_blank" class="share-icon icon-wa"><i class="fab fa-whatsapp"></i></a>
+                with cols[j]:
+                    st.markdown(f"""
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-icon">{p['icon']}</div>
+                                <div class="pbi-card-title">{p['title']}</div>
+                                <div class="pbi-card-tag">Ver Detalhes ↻</div>
+                            </div>
+                            <div class="flip-card-back">
+                                <div style="font-weight: 800; color: #00b4d8; margin-bottom: 10px; font-size: 0.7rem; letter-spacing: 2px;">DETALHES</div>
+                                <div class="pbi-description">{p['desc']}</div>
+                                <a href="{p['url']}" target="_blank" class="btn-acessar">Abrir Dashboard</a>
+                                <div class="share-container">
+                                    <a href="{li_link}" target="_blank" class="share-icon icon-li"><i class="fab fa-linkedin"></i></a>
+                                    <a href="{wa_link}" target="_blank" class="share-icon icon-wa"><i class="fab fa-whatsapp"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                """, unsafe_allow_html=True)
+                    """, unsafe_allow_html=True)
 
 exibir_rodape()
