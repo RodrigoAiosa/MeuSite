@@ -46,12 +46,18 @@ st.markdown(
         margin-bottom: 60px;
         background-color: #f0f2f6;
     }
+    /* Estilo para o destaque azul nas iniciais */
+    .highlight-blue {
+        color: #00b4d8;
+    }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-st.title("🐍 AIosa Agente de IA")
+# Título customizado com "AI" em azul
+st.markdown('<h1>🐍 <span class="highlight-blue">AI</span>osa Agente de IA</h1>', unsafe_allow_html=True)
+
 st.write("Aplicações web completas desenvolvidas para automação de processos e análise financeira.")
 st.markdown("---")
 
@@ -87,8 +93,9 @@ def render_python_app(title, description, url):
 
 # Projeto 
 # Removi a âncora da URL para evitar o erro de redirecionamento no iframe
+# Note que aqui também apliquei o destaque no título do projeto se desejar
 render_python_app(
-    "🤖 AIOSA — Assistente Virtual Inteligente",
+    "🤖 <span class='highlight-blue'>AI</span>OSA — Assistente Virtual Inteligente",
     "Assistente virtual desenvolvido por Rodrigo Aiosa.",
     "https://aiosaassistente.streamlit.app/"
 )
