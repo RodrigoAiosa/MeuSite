@@ -204,8 +204,8 @@ for i in range(0, len(pbi_projects), 3):
             
             # --- LINKEDIN: URL individual do painel com descrição ---
             li_title = p['title'].replace("💳", "").replace("📊", "").replace("📦", "").replace("🎯", "").replace("👥", "").replace("🚀", "").strip()
-            li_text = f"📊 Confira este Dashboard Estratégico: {li_title}\n\n{clean_desc}"
-            li_link = f"https://www.linkedin.com/feed/?shareActive=true&text={urllib.parse.quote(li_text + '\n\n🔗 ' + p['url'])}"
+            li_text = f"📊 Confira este Dashboard Estratégico: {li_title}\n\n{clean_desc}\n\n🔗 "
+            li_link = f"https://www.linkedin.com/feed/?shareActive=true&text={urllib.parse.quote(li_text)}{urllib.parse.quote(p['url'])}"
             
             with cols[j]:
                 st.markdown(f"""
