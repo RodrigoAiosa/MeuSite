@@ -52,7 +52,6 @@ st.markdown(
         padding: 25px;
     }
 
-    /* --- ESTILO FRENTE --- */
     .flip-card-front {
         background-color: #111827;
         color: white;
@@ -111,7 +110,6 @@ st.markdown(
         border-radius: 20px;
     }
 
-    /* --- ESTILO VERSO --- */
     .flip-card-back {
         background-color: #0f172a;
         color: white;
@@ -201,13 +199,13 @@ for i in range(0, len(pbi_projects), 3):
             
             clean_desc = p['desc'].replace("<b>", "").replace("</b>", "")
             
-            # --- WHATSAPP (Descrição incluída) ---
-            wa_text = f"🚀 *{p['title']}*\n\n💡 {clean_desc}\n\n🔗 Confira: {p['url']}"
+            # --- WHATSAPP (Link REAL do painel incluído) ---
+            wa_text = f"🚀 *{p['title']}*\n\n💡 {clean_desc}\n\n🔗 Confira o painel aqui: {p['url']}"
             wa_link = f"https://api.whatsapp.com/send?text={urllib.parse.quote(wa_text)}"
             
-            # --- LINKEDIN (Forçando descrição via link de feed) ---
-            li_text = f"📊 Dashboard: {p['title']}\n\n{clean_desc}\n\nLink do projeto:"
-            li_link = f"https://www.linkedin.com/feed/?shareActive=true&text={urllib.parse.quote(li_text)}%20{urllib.parse.quote(p['url'])}"
+            # --- LINKEDIN (Link REAL do painel incluído no texto) ---
+            li_text = f"📊 Dashboard: {p['title']}\n\n{clean_desc}\n\nLink do projeto: {p['url']}"
+            li_link = f"https://www.linkedin.com/feed/?shareActive=true&text={urllib.parse.quote(li_text)}"
             
             with cols[j]:
                 st.markdown(f"""
