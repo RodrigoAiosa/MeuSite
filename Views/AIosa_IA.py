@@ -1,8 +1,8 @@
 import streamlit as st
-from utils import exibir_rodape, registrar_acesso  # Importação mantida
+from utils import exibir_rodape, registrar_acesso
+import urllib.parse
 
 # --- REGISTRO DE ACESSO ---
-# Registra a entrada do usuário na página de Projetos Python
 registrar_acesso("🐍 AIosa Agente de IA")
 
 # --- ESTILO CSS ---
@@ -39,6 +39,14 @@ st.markdown(
         max-width: 800px;
         line-height: 1.4;
     }
+    .project-description a {
+        color: #00b4d8;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .project-description a:hover {
+        text-decoration: underline;
+    }
     .iframe-container {
         border: 2px solid #31333F;
         border-radius: 12px;
@@ -46,7 +54,6 @@ st.markdown(
         margin-bottom: 60px;
         background-color: #f0f2f6;
     }
-    /* Estilo para o destaque azul nas iniciais */
     .highlight-blue {
         color: #00b4d8;
     }
@@ -55,24 +62,38 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Título customizado com "AI" em azul
+# Título customizado
 st.markdown('<h1>🐍 <span class="highlight-blue">AI</span>osa Agente de IA</h1>', unsafe_allow_html=True)
 
 st.write("Aplicações web completas desenvolvidas para automação de processos e análise financeira.")
 st.markdown("---")
 
 # --- FUNÇÃO PARA RENDERIZAR APPS COM DESCRIÇÃO ---
-def render_python_app(title, description, url):
-    # Botão para abrir em nova aba (essencial caso o iframe falhe)
-    st.markdown(f'<a href="{url}" target="_blank" class="project-button">{title} ↗️</a>', unsafe_allow_html=True)
-    # Descrição
-    st.markdown(f'<div class="project-description">{description}</div>', unsafe_allow_html=True)
+def render_python_app(title, description, url, custom_message="Olá Rodrigo, vim através do seu portfólio!"):
+    # Gerar link do WhatsApp dinâmico
+    phone = "5511977019335"
+    encoded_msg = urllib.parse.quote(custom_message)
+    wa_link = f"https://wa.me/{phone}?text={encoded_msg}"
     
-    # Limpeza da URL para o iframe (removendo âncoras que causam redirect loops)
+    # Inserir hiperlink no texto da descrição se encontrar a palavra "WhatsApp" ou "Rodrigo Aiosa"
+    display_description = description.replace(
+        "11977019335", 
+        f'<a href="{wa_link}" target="_blank">11 97701-9335</a>'
+    ).replace(
+        "Rodrigo Aiosa",
+        f'<a href="{wa_link}" target="_blank">Rodrigo Aiosa</a>'
+    )
+
+    # Botão do projeto
+    st.markdown(f'<a href="{url}" target="_blank" class="project-button">{title} ↗️</a>', unsafe_allow_html=True)
+    
+    # Descrição com link funcional
+    st.markdown(f'<div class="project-description">{display_description}</div>', unsafe_allow_html=True)
+    
+    # Embed do App
     clean_url = url.split('#')[0]
     embed_url = f"{clean_url}?embed=true"
     
-    # App incorporado
     st.markdown(
         f"""
         <div class="iframe-container">
@@ -91,13 +112,12 @@ def render_python_app(title, description, url):
 
 # --- LISTA DE PROJETOS ---
 
-# Projeto 
-# Removi a âncora da URL para evitar o erro de redirecionamento no iframe
-# Note que aqui também apliquei o destaque no título do projeto se desejar
+# Projeto 1: AIOSA Assistente
 render_python_app(
     "🤖 <span class='highlight-blue'>AI</span>OSA — Assistente Virtual Inteligente",
-    "Assistente virtual desenvolvido por Rodrigo Aiosa.",
-    "https://aiosaassistente.streamlit.app/"
+    "Assistente virtual desenvolvido por Rodrigo Aiosa. Clique no nome ou no telefone 11977019335 para falar comigo.",
+    "https://aiosaassistente.streamlit.app/",
+    custom_message="Olá Rodrigo, gostaria de saber mais sobre o projeto AIOSA — Assistente Virtual!"
 )
 
 exibir_rodape()
