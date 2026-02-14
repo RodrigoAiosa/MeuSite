@@ -240,5 +240,4 @@ for i in range(0, len(pbi_projects), 3):
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
-
-st.markdown("---")
+exibir_rodape()
