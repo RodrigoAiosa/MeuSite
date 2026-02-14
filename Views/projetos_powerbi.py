@@ -52,6 +52,7 @@ st.markdown(
         padding: 25px;
     }
 
+    /* --- ESTILO FRENTE --- */
     .flip-card-front {
         background-color: #111827;
         color: white;
@@ -110,6 +111,7 @@ st.markdown(
         border-radius: 20px;
     }
 
+    /* --- ESTILO VERSO --- */
     .flip-card-back {
         background-color: #0f172a;
         color: white;
@@ -162,6 +164,7 @@ st.markdown(
         gap: 20px !important;
     }
 
+    /* Delays */
     .delay-1 { animation-delay: 0.1s; }
     .delay-2 { animation-delay: 0.2s; }
     .delay-3 { animation-delay: 0.3s; }
@@ -198,13 +201,13 @@ for i in range(0, len(pbi_projects), 3):
             
             clean_desc = p['desc'].replace("<b>", "").replace("</b>", "")
             
-            # --- WHATSAPP: URL individual do painel com descrição ---
-            wa_text = f"🚀 {p['title']}\n\n💡 {clean_desc}\n\n🔗 Confira o painel aqui:\n{p['url']}"
+            # Texto para o WhatsApp (com formatação Markdown do Zap)
+            wa_text = f"🚀 *{p['title']}*\n\n💡 {clean_desc}\n\n🔗 Confira: {p['url']}"
             wa_link = f"https://api.whatsapp.com/send?text={urllib.parse.quote(wa_text)}"
             
-            # --- LINKEDIN: Mesmo formato do WhatsApp ---
-            li_text = f"🚀 {p['title']}\n\n💡 {clean_desc}\n\n🔗 Confira o painel aqui:\n{p['url']}"
-            li_link = f"https://www.linkedin.com/feed/?shareActive=true&text={urllib.parse.quote(li_text)}"
+            # Texto para o LinkedIn (utilizando a URL de compartilhamento de feed para forçar o texto)
+            li_text = f"🚀 {p['title']}\n\n💡 {clean_desc}\n\nConfira o projeto completo no link abaixo!"
+            li_link = f"https://www.linkedin.com/feed/?shareActive=true&text={urllib.parse.quote(li_text)}%20{urllib.parse.quote(p['url'])}"
             
             with cols[j]:
                 st.markdown(f"""
@@ -251,3 +254,4 @@ for art in artigos:
     """, unsafe_allow_html=True)
 
 exibir_rodape()
+
