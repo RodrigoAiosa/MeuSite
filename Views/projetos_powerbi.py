@@ -188,7 +188,7 @@ pbi_projects = [
         "desc": "Controle de comissões."
     },
     {
-        "title": "🚀 Gestão de Negócios",
+        "title": "🚀 Gestão de Negócios - Relatório Borelli",
         "icon": "🚀",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYzNhNDFkNzEtZmVkNy00ODZkLTgyZDYtMWIzMDQ3YWU2ZjFiIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
         "desc": "Controle de produção."
@@ -241,4 +241,5 @@ for i in range(0, len(pbi_projects), 3):
 
 # Removido st.markdown("---") conforme instrução de nunca mais usar
 exibir_rodape()
+
 
