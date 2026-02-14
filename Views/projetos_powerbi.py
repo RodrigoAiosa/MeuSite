@@ -176,10 +176,10 @@ pbi_projects = [
         "desc": "Análise de Eficiência Global (OEE) focada em Disponibilidade, Performance e Qualidade Industrial."
     },
     {
-        "title": "👥 People Analytics",
+        "title": "👥 Dashboard de Recursos Humanos",
         "icon": "👥",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYmE2OGE3ODktZTUzMi00YTU2LTlkYmItYzUzY2UzNmJkMjAyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Gestão de talentos e controle automatizado de comissões de vendas."
+        "desc": "Visão estratégica de capital humano: controle de turnover, absenteísmo e evolução da folha de pagamento."
     },
     {
         "title": "🚀 Gestão de Negócios",
@@ -197,7 +197,7 @@ for i in range(0, len(pbi_projects), 3):
         if idx < len(pbi_projects):
             p = pbi_projects[idx]
             
-            # MENSAGEM WHATSAPP DINÂMICA
+            # MENSAGEM WHATSAPP DINÂMICA COM NOVOS TÍTULOS E DESCRIÇÕES [cite: 2026-02-14]
             wa_msg = (
                 f"Olá Rodrigo! 👋\n\n"
                 f"Gostaria de falar sobre o projeto: *{p['title']}*\n"
