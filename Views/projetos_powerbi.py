@@ -226,7 +226,8 @@ for i in range(0, len(pbi_projects), 3):
                             <div class="pbi-card-tag">PASSE O MOUSE ↻</div>
                         </div>
                         <div class="flip-card-back">
-                            <div style="font-weight: bold; color: #00b4d8; font-size: 1.2rem; margin-bottom: 20px;">PROJETO</div>
+                            <div style="font-weight: bold; color: #00b4d8;">PROJETO</div>
+                            <div class="pbi-description">{p['desc']}</div>
                             <a href="{p['url']}" target="_blank" class="btn-acessar">
                                 Abrir Dashboard ↗️
                             </a>
@@ -243,5 +244,5 @@ for i in range(0, len(pbi_projects), 3):
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
-exibir_rodape()
 
+exibir_rodape()
