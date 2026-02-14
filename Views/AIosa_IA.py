@@ -1,6 +1,7 @@
 import streamlit as st
 from utils import exibir_rodape, registrar_acesso
 import urllib.parse
+import re
 
 # --- REGISTRO DE ACESSO ---
 registrar_acesso("🐍 AIosa Agente de IA")
@@ -39,12 +40,13 @@ st.markdown(
         max-width: 800px;
         line-height: 1.4;
     }
-    .project-description a {
-        color: #00b4d8;
+    /* Estilo do link do WhatsApp no texto */
+    .wa-link {
+        color: #00b4d8 !important;
         text-decoration: none;
         font-weight: bold;
     }
-    .project-description a:hover {
+    .wa-link:hover {
         text-decoration: underline;
     }
     .iframe-container {
@@ -68,29 +70,25 @@ st.markdown('<h1>🐍 <span class="highlight-blue">AI</span>osa Agente de IA</h1
 st.write("Aplicações web completas desenvolvidas para automação de processos e análise financeira.")
 st.markdown("---")
 
-# --- FUNÇÃO PARA RENDERIZAR APPS COM DESCRIÇÃO ---
-def render_python_app(title, description, url, custom_message="Olá Rodrigo, vim através do seu portfólio!"):
-    # Gerar link do WhatsApp dinâmico
+# --- FUNÇÃO PARA RENDERIZAR APPS COM LINK AUTOMÁTICO ---
+def render_python_app(title, description, url, custom_message="Olá Rodrigo!"):
+    # Preparação do link do WhatsApp
     phone = "5511977019335"
-    encoded_msg = urllib.parse.quote(custom_message)
-    wa_link = f"https://wa.me/{phone}?text={encoded_msg}"
+    safe_msg = urllib.parse.quote(custom_message)
+    wa_url = f"https://wa.me/{phone}?text={safe_msg}"
     
-    # Inserir hiperlink no texto da descrição se encontrar a palavra "WhatsApp" ou "Rodrigo Aiosa"
-    display_description = description.replace(
-        "11977019335", 
-        f'<a href="{wa_link}" target="_blank">11 97701-9335</a>'
-    ).replace(
-        "Rodrigo Aiosa",
-        f'<a href="{wa_link}" target="_blank">Rodrigo Aiosa</a>'
-    )
+    # Substituição do número pelo hiperlink HTML
+    # O Regex garante que pegue o número independente de espaços ou formatos simples
+    link_html = f'<a href="{wa_url}" target="_blank" class="wa-link">11 97701-9335</a>'
+    display_description = re.sub(r'11\s?97701-?9335', link_html, description)
 
-    # Botão do projeto
+    # Botão de Acesso
     st.markdown(f'<a href="{url}" target="_blank" class="project-button">{title} ↗️</a>', unsafe_allow_html=True)
     
-    # Descrição com link funcional
+    # Descrição (usando unsafe_allow_html para o link funcionar)
     st.markdown(f'<div class="project-description">{display_description}</div>', unsafe_allow_html=True)
     
-    # Embed do App
+    # Renderização do Iframe
     clean_url = url.split('#')[0]
     embed_url = f"{clean_url}?embed=true"
     
@@ -112,12 +110,11 @@ def render_python_app(title, description, url, custom_message="Olá Rodrigo, vim
 
 # --- LISTA DE PROJETOS ---
 
-# Projeto 1: AIOSA Assistente
 render_python_app(
     "🤖 <span class='highlight-blue'>AI</span>OSA — Assistente Virtual Inteligente",
-    "Assistente virtual desenvolvido por Rodrigo Aiosa. Clique no nome ou no telefone 11977019335 para falar comigo.",
+    "Assistente virtual desenvolvido por Rodrigo Aiosa. Para suporte ou orçamentos, fale comigo pelo WhatsApp: 11977019335",
     "https://aiosaassistente.streamlit.app/",
-    custom_message="Olá Rodrigo, gostaria de saber mais sobre o projeto AIOSA — Assistente Virtual!"
+    custom_message="Olá Rodrigo, estou interessado no seu Agente de IA!"
 )
 
 exibir_rodape()
