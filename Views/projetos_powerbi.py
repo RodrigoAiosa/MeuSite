@@ -15,7 +15,7 @@ st.markdown(
         width: 100%;
         height: 420px;
         perspective: 1000px;
-        margin-bottom: 20px; /* Alinhado com o gap horizontal */
+        margin-bottom: 20px; 
         animation: fadeInUp 0.8s ease-out forwards;
         opacity: 0;
     }
@@ -156,7 +156,6 @@ st.markdown(
     .icon-li:hover { color: #0077b5; }
     .icon-wa:hover { color: #25d366; }
 
-    /* Ajuste de simetria de espaçamento */
     [data-testid="column"] {
         padding: 0 10px !important;
     }
@@ -184,12 +183,12 @@ st.write("")
 
 # --- DADOS DOS PROJETOS ---
 pbi_projects = [
-    {"title": "💳 Relatório STONE", "icon": "🏛️", "url": "https://app.powerbi.com/view?r=eyJrIjoiMmViN2ZlMWMtY2Q4My00NmNmLTg0NzAtZjEzMzliNzcwMWMyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Dashboard interativo de <b>Faturamento B2B</b>."},
-    {"title": "📊 Vendas Meta vs Realizado", "icon": "📈", "url": "https://app.powerbi.com/view?r=eyJrIjoiYTg4OTdkZDUtNmIwZS00NGE1LTk2MDktMzc1YjM3ZjViN2Q5IiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Performance comercial e metas em tempo real."},
-    {"title": "📦 Controle de Pedidos BNZ", "icon": "📦", "url": "https://app.powerbi.com/view?r=eyJrIjoiODE4YmZkNDItNWQ0OC00YmUyLThiZTktOTlmN2E0NWM3NTljIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Gestão de estoque e giro de produtos."},
-    {"title": "🎯 Análise Dados Estratégica", "icon": "🎯", "url": "https://app.powerbi.com/view?r=eyJrIjoiM2ZhYjQ5YzItNTliMS00M2QxLWFhMmItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Faturamento real vs. orçado (YoY)."},
-    {"title": "👥 People Analytics (RH)", "icon": "👥", "url": "https://app.powerbi.com/view?r=eyJrIjoiYmE2OGE3ODktZTUzMi00YTU2LTlkYmItYzUzY2UzNmJkMjAyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Indicadores de RH: turnover e headcount."},
-    {"title": "🚀 Gestão de Negócios", "icon": "🚀", "url": "https://app.powerbi.com/view?r=eyJrIjoiYzNhNDFkNzEtZmVkNy00ODZkLTgyZDYtMWIzMDQ3YWU2ZjFiIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Controle de produção e eficiência operacional."}
+    {"title": "💳 Relatório STONE", "icon": "🏛️", "url": "https://app.powerbi.com/view?r=eyJrIjoiMmViN2ZlMWMtY2Q4My00NmNmLTg0NzAtZjEzMzliNzcwMWMyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Dashboard interativo de Faturamento B2B: monitora KPIs (Faturamento, Margem, Ticket Médio), evolução mensal e filtros regionais."},
+    {"title": "📊 Vendas Meta vs Realizado", "icon": "📈", "url": "https://app.powerbi.com/view?r=eyJrIjoiYTg4OTdkZDUtNmIwZS00NGE1LTk2MDktMzc1YjM3ZjViN2Q5IiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Dashboard de Recrutamento e Seleção: monitora vagas abertas, tempo de fechamento, funil de candidatos e custos por contratação."},
+    {"title": "📦 Controle de Pedidos BNZ", "icon": "📦", "url": "https://app.powerbi.com/view?r=eyJrIjoiODE4YmZkNDItNWQ0OC00YmUyLThiZTktOTlmN2E0NWM3NTljIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Dashboard de Gestão de Estoque: controla níveis de inventário, giro de estoque, produtos obsoletos e necessidade de reposição."},
+    {"title": "🎯 Análise Dados Estratégica", "icon": "🎯", "url": "https://app.powerbi.com/view?r=eyJrIjoiM2ZhYjQ5YzItNTliMS00M2QxLWFhMmItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Dashboard de Controle de Metas e Vendas: faturamento real vs. orçado, performance de vendedores e crescimento anual (YoY)."},
+    {"title": "👥 People Analytics (RH)", "icon": "👥", "url": "https://app.powerbi.com/view?r=eyJrIjoiYmE2OGE3ODktZTUzMi00YTU2LTlkYmItYzUzY2UzNmJkMjAyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Dashboard de Controle de Comissões: detalha pagamentos por vendedor, metas atingidas e precisão no cálculo de incentivos."},
+    {"title": "🚀 Gestão de Negócios", "icon": "🚀", "url": "https://app.powerbi.com/view?r=eyJrIjoiYzNhNDFkNzEtZmVkNy00ODZkLTgyZDYtMWIzMDQ3YWU2ZjFiIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", "desc": "Dashboard de Controle de Produção: monitora volume fabricado, refugo (perdas), eficiência por turno e tempo de máquina parada."}
 ]
 
 # --- RENDERIZAÇÃO ---
@@ -200,13 +199,15 @@ for i in range(0, len(pbi_projects), 3):
         if idx < len(pbi_projects):
             p = pbi_projects[idx]
             
-            # Texto personalizado compartilhado entre as redes
-            raw_text = f"Confira este projeto de BI do Rodrigo Aiosa: {p['title']}\n{p['url']}"
+            # Limpa tags HTML da descrição para o compartilhamento de texto puro
+            clean_desc = p['desc'].replace("<b>", "").replace("</b>", "")
+            
+            # Texto personalizado com a DESCRIÇÃO DO CARD incluída
+            raw_text = f"🚀 *{p['title']}*\n\n💡 {clean_desc}\n\n🔗 Confira o Dashboard completo aqui: {p['url']}\n\nAnalista: Rodrigo Aiosa"
             safe_text = urllib.parse.quote(raw_text)
             
             # Links de Compartilhamento
             wa_link = f"https://api.whatsapp.com/send?text={safe_text}"
-            # No LinkedIn, usamos summary para tentar injetar o texto (o comportamento varia conforme a versão do LinkedIn, mas o link do dashboard é o principal)
             li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['url'])}&summary={safe_text}"
             
             with cols[j]:
