@@ -192,6 +192,12 @@ pbi_projects = [
         "icon": "🚀",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYzNhNDFkNzEtZmVkNy00ODZkLTgyZDYtMWIzMDQ3YWU2ZjFiIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
         "desc": "Controle de produção."
+    },
+     {
+        "title": "🏖️ Dashboard Financeiro — Beocean Resort",
+        "icon": "💰",
+        "url": "https://app.powerbi.com/view?r=eyJrIjoiY2VkZmU1MDMtNTgwZS00NTJmLWFhOTktYzM0YzMwZDE3OTE4IiwidCI6IjdjNTYzNjMxLTcyZGMtNDY1Ny05MTRkLWIyM2M5ZTI5OGVlMSJ9&pageName=ae6d1828240b25f04e49",
+        "desc": "Painel de gerenciamento financeiro do Beocean Resort, acompanhando receitas, despesas, fluxo de caixa e indicadores operacionais para suporte à tomada de decisão estratégica."
     }
 ]
 
@@ -241,5 +247,6 @@ for i in range(0, len(pbi_projects), 3):
 
 # Removido st.markdown("---") conforme instrução de nunca mais usar
 exibir_rodape()
+
 
 
