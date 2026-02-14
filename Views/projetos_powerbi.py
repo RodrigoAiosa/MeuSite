@@ -202,8 +202,9 @@ for i in range(0, len(pbi_projects), 3):
             wa_text = f"🚀 *{p['title']}*\n\n💡 {clean_desc}\n\n🔗 Confira o painel aqui:\n{p['url']}"
             wa_link = f"https://api.whatsapp.com/send?text={urllib.parse.quote(wa_text)}"
             
-            # --- LINKEDIN: Usar o endpoint de compartilhamento que pega a URL do Power BI ---
-            li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['url'])}"
+            # --- LINKEDIN: Compartilhar com descrição e URL do Power BI ---
+            li_summary = f"📊 {p['title']}\n\n{clean_desc}"
+            li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['url'])}&summary={urllib.parse.quote(li_summary)}"
             
             with cols[j]:
                 st.markdown(f"""
