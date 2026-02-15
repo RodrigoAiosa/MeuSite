@@ -10,13 +10,6 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# ================= META TAGS SEO =================
-st.markdown("""
-<meta name="description" content="Cursos práticos de Power BI, SQL e Excel voltados ao mercado corporativo. Aprenda modelagem de dados, dashboards e análise estratégica.">
-<meta name="keywords" content="Curso Power BI, Curso SQL, Curso Excel, Análise de Dados, Dashboard, Business Intelligence">
-<meta name="author" content="Seu Nome">
-""", unsafe_allow_html=True)
-
 # ================= CAMINHO PARA UTILS =================
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 try:
@@ -47,11 +40,9 @@ def carregar_estilo():
 
 carregar_estilo()
 
-# ================= FUNÇÃO PARA CARREGAR IMAGENS =================
-@st.cache_data
-def carregar_imagem(caminho):
-    caminho_absoluto = os.path.join(os.path.dirname(__file__), "assets", caminho)
-    return caminho_absoluto
+# ================= FUNÇÃO PARA PEGAR CAMINHO ABSOLUTO =================
+def caminho_imagem(nome_arquivo):
+    return os.path.join(os.path.dirname(__file__), "assets", nome_arquivo)
 
 # ================= HERO =================
 st.markdown("""
@@ -95,10 +86,14 @@ with c3:
 st.markdown("---")
 
 # ================= FUNÇÃO PARA EXIBIR CURSO =================
-def exibir_curso(titulo, descricao, imagem, link, conteudo_programatico):
+def exibir_curso(titulo, descricao, nome_imagem, link, conteudo_programatico):
     col1, col2 = st.columns([1, 2], gap="large")
     with col1:
-        st.image(carregar_imagem(imagem), use_column_width=True)
+        caminho = caminho_imagem(nome_imagem)
+        if os.path.exists(caminho):
+            st.image(caminho, use_column_width=True)
+        else:
+            st.warning(f"Imagem não encontrada: {nome_imagem}")
     with col2:
         st.header(titulo)
         st.write(descricao)
