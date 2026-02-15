@@ -87,8 +87,5 @@ with col6:
     )
     st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/EEb9ADQ")
 
-st.markdown("---")
-
-# 3. EXIBIÇÃO DO RODAPÉ
-
 exibir_rodape()
+
