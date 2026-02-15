@@ -103,6 +103,26 @@ st.markdown("<div class='subtitle'>Uma seleção das soluções desenvolvidas ut
 # --- PROJETOS ---
 projects = [
 
+     {
+        "title": "🚀 Automação em Alta Velocidade: Gerando Mil Arquivos em 30 Segundos com Python ⚡",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7250105059819040768",
+    },
+
+     {
+        "title": "🎰💎A Perigosa Armadilha dos Jogos de Azar: Caça-Níqueis Manipulados 🎰💎",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7248134736940818432",
+    },
+
+     {
+        "title": "🐍🐍Automação de Processos em Python: Extraindo Dados de 344 PDFs para Excel com Precisão e Eficiência🐍🐍",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7258568013845585920",
+    },
+
+    {
+        "title": "🔵 Criei 15 medidas em DAX com um ÚNICO CLIQUE!",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7340413603101011969",
+    },
+
     {
         "title": "🚀 Preenchimento Automático: Eficiência Total com Automação Inteligente 💡",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7368611651706617856",
@@ -198,6 +218,10 @@ projects = [
     {
         "title": "❤️ O dia em que a IA me ajudou como PAI",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7420842332155142144",
+    },
+     {
+        "title": "🚀 A Revolução na Produtividade do BI: Conheça a Nova Guia que Transforma Análises em Resultados!",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7276209357732659200",
     }
 ]
 
@@ -219,6 +243,7 @@ for i in range(0, len(projects), 3):
 
 # --- RODAPÉ ---
 exibir_rodape()
+
 
 
 
