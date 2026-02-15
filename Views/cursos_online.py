@@ -2,8 +2,12 @@ import streamlit as st
 import os
 import sys
 
-# 1. RESOLVENDO O CAMINHO DO MÓDULO UTILS
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+# ---------------- BASE PATH SEGURO ----------------
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ASSETS_DIR = os.path.join(BASE_DIR, "assets")
+
+# ---------------- IMPORT UTILS ----------------
+sys.path.append(BASE_DIR)
 
 try:
     from utils import exibir_rodape, registrar_acesso
@@ -16,8 +20,6 @@ registrar_acesso("Cursos Online")
 # ---------------- ESTILO PREMIUM ----------------
 st.markdown("""
 <style>
-
-/* HERO */
 .hero {
     background: linear-gradient(135deg, #0f172a, #1e293b);
     padding: 60px;
@@ -26,55 +28,39 @@ st.markdown("""
     color: white;
     margin-bottom: 40px;
 }
-
-/* SECTION TITLE */
 .section-title {
     font-size: 32px;
     font-weight: 700;
     margin-top: 40px;
     margin-bottom: 20px;
 }
-
-/* FEATURE CARDS */
 .feature-card {
     background: #111827;
     padding: 25px;
     border-radius: 16px;
     border: 1px solid rgba(255,255,255,0.08);
     min-height: 140px;
-
     opacity: 0;
     transform: translateY(20px);
     animation: fadeUp 0.7s ease forwards;
 }
-
 .card1 { animation-delay: 0.1s; }
 .card2 { animation-delay: 0.3s; }
 .card3 { animation-delay: 0.5s; }
-
 @keyframes fadeUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    to { opacity: 1; transform: translateY(0); }
 }
-
 .feature-card:hover {
     transform: translateY(-6px);
     border: 1px solid rgba(59,130,246,0.6);
     box-shadow: 0 0 18px rgba(59,130,246,0.35);
 }
-
 .feature-title {
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 10px;
 }
-
-.feature-text {
-    color: #cbd5e1;
-}
-
+.feature-text { color: #cbd5e1; }
 .stLinkButton a {
     background-color: #2563eb !important;
     color: white !important;
@@ -82,7 +68,6 @@ st.markdown("""
     border-radius: 10px !important;
     font-weight: 700 !important;
 }
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -104,7 +89,7 @@ with c1:
     <div class="feature-card card1">
         <div class="feature-title">🧠 Clareza</div>
         <div class="feature-text">
-        Aprenda exatamente o que o mercado exige, eliminando conteúdos irrelevantes.
+        Aprenda exatamente o que o mercado exige.
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -114,7 +99,7 @@ with c2:
     <div class="feature-card card2">
         <div class="feature-title">💼 Aplicação real</div>
         <div class="feature-text">
-        Treinamentos construídos com base em problemas reais do ambiente corporativo.
+        Conteúdo baseado em problemas reais do ambiente corporativo.
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -124,46 +109,39 @@ with c3:
     <div class="feature-card card3">
         <div class="feature-title">📈 Valorização profissional</div>
         <div class="feature-text">
-        Dominar dados aumenta sua relevância dentro de qualquer empresa.
+        Dominar dados aumenta sua relevância na empresa.
         </div>
     </div>
     """, unsafe_allow_html=True)
 
 st.markdown("---")
-
-# ---------------- CURSOS ----------------
 st.markdown('<div class="section-title">Treinamentos disponíveis</div>', unsafe_allow_html=True)
 
 # ================= POWER BI =================
 col1, col2 = st.columns([1, 2], gap="large")
 
 with col1:
-    img_pbi = os.path.join("assets", "fundamentos_power_bi.png")
-    st.image(img_pbi, width="stretch")
+    st.image(os.path.join(ASSETS_DIR, "fundamentos_power_bi.png"), use_container_width=True)
 
 with col2:
     st.header("Fundamento Power BI")
     st.write("""
-    O Power BI deixou de ser um diferencial e se tornou uma habilidade essencial
-    para profissionais que participam de decisões estratégicas.
-
-    Neste treinamento, você aprende a transformar dados brutos em dashboards
-    profissionais e indicadores claros para tomada de decisão.
+    Transforme dados brutos em dashboards profissionais e indicadores estratégicos.
     """)
     st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/DFeDsQV")
 
     with st.expander("📚 Ver conteúdo programático"):
         st.markdown("""
-        1. Introdução ao Power BI e Mentalidade Analítica  
-        2. Importação e Conexão com Diferentes Fontes de Dados (Power Query) 
-        3. Tratamento e Transformação de Dados (Power Query)  
-        4. Modelagem de Dados Profissional (Power Pivot)
-        5. Fundamentos de DAX (Power Pivot) 
-        6. Indicadores e KPIs Estratégicos  
-        7. Criação de Dashboards Interativos  
+        1. Introdução ao Power BI  
+        2. Power Query (Tratamento de Dados)  
+        3. Modelagem de Dados (Modelo Estrela)  
+        4. Relacionamentos entre Tabelas  
+        5. Fundamentos de DAX  
+        6. Medidas e KPIs  
+        7. Dashboards Interativos  
         8. Storytelling com Dados  
         9. Publicação no Power BI Service  
-        10. Projeto Final Aplicado ao Mercado  
+        10. Projeto Final Aplicado  
         """)
 
 st.markdown("")
@@ -172,29 +150,27 @@ st.markdown("")
 col3, col4 = st.columns([1, 2], gap="large")
 
 with col3:
-    img_sql = os.path.join("assets", "SQL_Fundamentos.png")
-    st.image(img_sql, width="stretch")
+    st.image(os.path.join(ASSETS_DIR, "SQL_Fundamentos.jpg"), use_container_width=True)
 
 with col4:
     st.header("SQL Fundamentos")
     st.write("""
-    SQL é a linguagem que conecta profissionais diretamente aos dados das empresas.
     Desenvolva autonomia analítica e capacidade de extrair informações estratégicas.
     """)
     st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/ivdojL8")
 
     with st.expander("📚 Ver conteúdo programático"):
         st.markdown("""
-        1. Introdução a Bancos de Dados e SQL  
-        2. Consultas com SELECT  
+        1. Conceitos de Banco de Dados  
+        2. SELECT, WHERE e ORDER BY  
         3. Funções Agregadas  
-        4. Joins na Prática  
-        5. Subqueries e Views  
-        6. Funções Condicionais  
-        7. Análise de Dados com SQL  
-        8. Otimização de Consultas  
-        9. Modelagem Relacional  
-        10. Projeto Final Corporativo  
+        4. GROUP BY e HAVING  
+        5. INNER JOIN, LEFT JOIN  
+        6. Subqueries  
+        7. Views  
+        8. Manipulação de Datas  
+        9. Otimização de Consultas  
+        10. Projeto Final com Base Corporativa  
         """)
 
 st.markdown("")
@@ -203,28 +179,26 @@ st.markdown("")
 col5, col6 = st.columns([1, 2], gap="large")
 
 with col5:
-    img_excel = os.path.join("assets", "excel_para_negocios.png")
-    st.image(img_excel, width="stretch")
+    st.image(os.path.join(ASSETS_DIR, "excel_para_negocios.png"), use_container_width=True)
 
 with col6:
     st.header("Excel Essencial Para Negócios")
     st.write("""
-    Excel aplicado ao mundo corporativo, automação de tarefas e análises confiáveis
-    para profissionais que querem se destacar.
+    Excel aplicado ao mundo corporativo, automação e análises estratégicas.
     """)
     st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/EEb9ADQ")
 
     with st.expander("📚 Ver conteúdo programático"):
         st.markdown("""
-        1. Fundamentos do Excel Corporativo (Objeto Tabela)
-        2. Fórmulas DAX
-        3. Tabelas Inteligentes  
+        1. Fundamentos do Excel Corporativo  
+        2. Fórmulas Essenciais  
+        3. PROCV e PROCX  
         4. Tabelas Dinâmicas  
         5. Dashboards no Excel  
-        6. Automação (Power Query)
+        6. Formatação Condicional  
         7. Indicadores Financeiros  
-        8. Conceitos de B.I.
-        9. Automações com Power Query 
+        8. Power Query no Excel  
+        9. Introdução a Macros  
         10. Projeto Final Aplicado  
         """)
 
@@ -239,4 +213,3 @@ st.success(
 )
 
 exibir_rodape()
-
