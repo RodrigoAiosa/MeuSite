@@ -230,7 +230,7 @@ for i in range(0, len(pbi_projects), 3):
             p = pbi_projects[idx]
             
             # WhatsApp link personalizado conforme instrução
-            wa_text = f"Olá Rodrigo! Gostaria de falar sobre o projeto 🚀 *{p['title']}* que vi no seu portfólio.\n\n💡 {p['desc']}\n\n🔗 Link: {p['url']}"
+            wa_text = f"{p['title']}* que vi no seu portfólio.\n\n💡 {p['desc']}\n\n🔗 Link: {p['url']}"
             wa_link = f"https://api.whatsapp.com/send?text={urllib.parse.quote(wa_text)}"
 
             # LinkedIn link
@@ -266,4 +266,5 @@ for i in range(0, len(pbi_projects), 3):
                 """, unsafe_allow_html=True)
 
 exibir_rodape()
+
 
