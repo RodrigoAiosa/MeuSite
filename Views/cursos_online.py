@@ -3,16 +3,16 @@ import os
 import sys
 from utils import exibir_rodape, registrar_acesso
 
+# --- REGISTRO DE ACESSO ---
 registrar_acesso("Cursos Online")
 
+# 1. RESOLVENDO O CAMINHO DO MÓDULO UTILS
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 try:
-    from utils import exibir_rodape, registrar_acesso 
+    from utils import exibir_rodape, registrar_acesso
 except ImportError:
     st.error("Erro: O arquivo 'utils.py' não foi encontrado na pasta raiz.")
-
-registrar_acesso("Cursos Online")
 
 # ---------------- ESTILO PREMIUM (SEM ALTERAR FUNDO) ----------------
 st.markdown("""
@@ -36,14 +36,6 @@ st.markdown("""
 .hero p {
     font-size: 20px;
     color: #e2e8f0;
-}
-
-/* CARD */
-.card {
-    background: white;
-    padding: 25px;
-    border-radius: 18px;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
 }
 
 /* CTA BUTTON */
@@ -74,29 +66,37 @@ st.markdown("""
 # ---------------- HERO SECTION ----------------
 st.markdown("""
 <div class="hero">
-<h1>Domine as habilidades mais valorizadas do mercado</h1>
-<p>Power BI • SQL • Excel aplicados ao mundo real</p>
+<h1>Habilidades que transformam profissionais comuns em profissionais indispensáveis</h1>
+<p>Power BI • SQL • Excel aplicados ao mundo real dos negócios</p>
 </div>
 """, unsafe_allow_html=True)
 
-st.link_button("🚀 Começar agora", "https://pay.kiwify.com.br/DFeDsQV")
-
-st.markdown("---")
-
 # ---------------- PROPOSTA DE VALOR ----------------
-st.markdown('<div class="section-title">Por que aprender comigo?</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-title">Formação orientada ao mercado</div>', unsafe_allow_html=True)
 
 c1, c2, c3 = st.columns(3)
 
-c1.markdown("### 🎯 Direto ao ponto\nConteúdo prático e aplicável no trabalho.")
-c2.markdown("### 📊 Foco no mercado\nHabilidades que empresas realmente usam.")
-c3.markdown("### 🚀 Evolução rápida\nAprenda mais rápido do que em cursos tradicionais.")
+c1.markdown(
+    "### 🧠 Clareza\n"
+    "Aprenda exatamente o que o mercado exige, eliminando conteúdos irrelevantes."
+)
+
+c2.markdown(
+    "### 💼 Aplicação real\n"
+    "Treinamentos construídos com base em problemas reais do ambiente corporativo."
+)
+
+c3.markdown(
+    "### 📈 Valorização profissional\n"
+    "Dominar dados aumenta sua relevância dentro de qualquer empresa."
+)
 
 st.markdown("---")
 
 # ---------------- CURSOS ----------------
-st.markdown('<div class="section-title">Cursos disponíveis</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-title">Treinamentos disponíveis</div>', unsafe_allow_html=True)
 
+# --- POWER BI ---
 col1, col2 = st.columns([1, 2], gap="large")
 
 with col1:
@@ -105,11 +105,22 @@ with col1:
 
 with col2:
     st.header("Fundamento Power BI")
-    st.write("Aprenda Power BI do zero e construa dashboards profissionais.")
-    st.link_button("Ver curso", "https://pay.kiwify.com.br/DFeDsQV")
+    st.write(
+        """
+        O Power BI deixou de ser um diferencial e se tornou uma habilidade essencial
+        para profissionais que participam de decisões estratégicas.
+
+        Neste treinamento, você aprende a transformar dados brutos em dashboards
+        profissionais e indicadores claros para tomada de decisão.
+
+        Não é apenas sobre aprender a ferramenta — é sobre desenvolver pensamento analítico.
+        """
+    )
+    st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/DFeDsQV")
 
 st.markdown("")
 
+# --- SQL ---
 col3, col4 = st.columns([1, 2], gap="large")
 
 with col3:
@@ -118,11 +129,22 @@ with col3:
 
 with col4:
     st.header("SQL Fundamentos")
-    st.write("Domine consultas SQL e análise de dados.")
-    st.link_button("Ver curso", "https://pay.kiwify.com.br/ivdojL8")
+    st.write(
+        """
+        SQL é a linguagem que conecta profissionais diretamente aos dados das empresas.
+
+        Este treinamento desenvolve a capacidade de consultar, analisar e extrair
+        informações estratégicas de bases de dados reais.
+
+        Profissionais que dominam SQL conquistam autonomia analítica
+        e se tornam muito mais valiosos para o negócio.
+        """
+    )
+    st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/ivdojL8")
 
 st.markdown("")
 
+# --- EXCEL ---
 col5, col6 = st.columns([1, 2], gap="large")
 
 with col5:
@@ -131,26 +153,30 @@ with col5:
 
 with col6:
     st.header("Excel Essencial Para Negócios")
-    st.write("Excel aplicado ao mundo corporativo.")
-    st.link_button("Ver curso", "https://pay.kiwify.com.br/EEb9ADQ")
+    st.write(
+        """
+        Excel continua sendo uma das ferramentas mais utilizadas no ambiente corporativo,
+        mas poucos profissionais sabem utilizá-lo de forma estratégica.
+
+        Neste treinamento, você aprende Excel aplicado ao mundo dos negócios,
+        automação de tarefas e construção de análises confiáveis.
+
+        A diferença entre usar Excel e dominar Excel
+        é o que separa operadores de profissionais estratégicos.
+        """
+    )
+    st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/EEb9ADQ")
 
 st.markdown("---")
 
 # ---------------- GARANTIA ----------------
-st.markdown('<div class="section-title">Garantia</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-title">Compromisso com a qualidade</div>', unsafe_allow_html=True)
 
-st.success("✅ 7 dias de garantia incondicional. Se não gostar, devolvemos seu dinheiro.")
-
-st.markdown("---")
-
-# ---------------- CTA FINAL ----------------
-st.markdown("""
-<div class="hero">
-<h1>Comece hoje sua evolução profissional</h1>
-<p>Invista em você e destaque-se no mercado.</p>
-</div>
-""", unsafe_allow_html=True)
-
-st.link_button("🔥 Quero começar agora", "https://pay.kiwify.com.br/DFeDsQV")
+st.success(
+    """
+    Você pode testar o treinamento com tranquilidade.
+    Caso não perceba valor real no conteúdo, o reembolso é garantido dentro do prazo da plataforma.
+    """
+)
 
 exibir_rodape()
