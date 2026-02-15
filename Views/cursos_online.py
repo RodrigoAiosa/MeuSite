@@ -2,11 +2,15 @@ import streamlit as st
 import os
 import sys
 
-# ---------------- BASE PATH SEGURO ----------------
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# =========================================================
+# 🔹 BASE PATH (considerando que este arquivo está em Views/)
+# =========================================================
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ASSETS_DIR = os.path.join(BASE_DIR, "assets")
 
-# ---------------- IMPORT UTILS ----------------
+# =========================================================
+# 🔹 IMPORT UTILS
+# =========================================================
 sys.path.append(BASE_DIR)
 
 try:
@@ -14,10 +18,24 @@ try:
 except ImportError:
     st.error("Erro: O arquivo 'utils.py' não foi encontrado na pasta raiz.")
 
-# --- REGISTRO DE ACESSO ---
+# =========================================================
+# 🔹 REGISTRO DE ACESSO
+# =========================================================
 registrar_acesso("Cursos Online")
 
-# ---------------- ESTILO PREMIUM ----------------
+# =========================================================
+# 🔹 FUNÇÃO SEGURA PARA EXIBIR IMAGEM
+# =========================================================
+def carregar_imagem(nome_arquivo):
+    caminho = os.path.join(ASSETS_DIR, nome_arquivo)
+    if os.path.exists(caminho):
+        st.image(caminho, use_container_width=True)
+    else:
+        st.warning(f"Imagem não encontrada: {nome_arquivo}")
+
+# =========================================================
+# 🔹 ESTILO PREMIUM
+# =========================================================
 st.markdown("""
 <style>
 .hero {
@@ -71,7 +89,9 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------- HERO ----------------
+# =========================================================
+# 🔹 HERO
+# =========================================================
 st.markdown("""
 <div class="hero">
 <h1>Habilidades que transformam profissionais comuns em profissionais indispensáveis</h1>
@@ -79,7 +99,9 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ---------------- PROPOSTA DE VALOR ----------------
+# =========================================================
+# 🔹 PROPOSTA DE VALOR
+# =========================================================
 st.markdown('<div class="section-title">Formação orientada ao mercado</div>', unsafe_allow_html=True)
 
 c1, c2, c3 = st.columns(3)
@@ -115,13 +137,17 @@ with c3:
     """, unsafe_allow_html=True)
 
 st.markdown("---")
+
+# =========================================================
+# 🔹 CURSOS
+# =========================================================
 st.markdown('<div class="section-title">Treinamentos disponíveis</div>', unsafe_allow_html=True)
 
 # ================= POWER BI =================
 col1, col2 = st.columns([1, 2], gap="large")
 
 with col1:
-    st.image(os.path.join(ASSETS_DIR, "fundamentos_power_bi.png"), use_container_width=True)
+    carregar_imagem("fundamentos_power_bi.png")
 
 with col2:
     st.header("Fundamento Power BI")
@@ -150,7 +176,7 @@ st.markdown("")
 col3, col4 = st.columns([1, 2], gap="large")
 
 with col3:
-    st.image(os.path.join(ASSETS_DIR, "SQL_Fundamentos.jpg"), use_container_width=True)
+    carregar_imagem("SQL_Fundamentos.jpg")
 
 with col4:
     st.header("SQL Fundamentos")
@@ -165,12 +191,12 @@ with col4:
         2. SELECT, WHERE e ORDER BY  
         3. Funções Agregadas  
         4. GROUP BY e HAVING  
-        5. INNER JOIN, LEFT JOIN  
+        5. INNER JOIN e LEFT JOIN  
         6. Subqueries  
         7. Views  
         8. Manipulação de Datas  
         9. Otimização de Consultas  
-        10. Projeto Final com Base Corporativa  
+        10. Projeto Final Corporativo  
         """)
 
 st.markdown("")
@@ -179,7 +205,7 @@ st.markdown("")
 col5, col6 = st.columns([1, 2], gap="large")
 
 with col5:
-    st.image(os.path.join(ASSETS_DIR, "excel_para_negocios.png"), use_container_width=True)
+    carregar_imagem("excel_para_negocios.png")
 
 with col6:
     st.header("Excel Essencial Para Negócios")
@@ -204,7 +230,9 @@ with col6:
 
 st.markdown("---")
 
-# ---------------- GARANTIA ----------------
+# =========================================================
+# 🔹 GARANTIA
+# =========================================================
 st.markdown('<div class="section-title">Compromisso com a qualidade</div>', unsafe_allow_html=True)
 
 st.success(
