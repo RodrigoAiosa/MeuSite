@@ -177,6 +177,21 @@ st.write("")
 
 # --- DADOS DOS PROJETOS ---
 pbi_projects = [
+
+    {
+    "title": "💹 DRE Estratégico — Análise Financeira",
+    "icon": "📊",
+    "url": "https://app.powerbi.com/view?r=eyJrIjoiOWE0ZmU3ZTMtYzAyYi00NDE1LTg3YWItYjcxZTE2ZWI2OWRjIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9&disablecdnExpiration=1766386882",
+    "desc": "Dashboard financeiro focado no acompanhamento detalhado do DRE, com análises vertical e horizontal que permitem avaliar a composição de receitas, custos e despesas ao longo do tempo. A solução oferece insights estratégicos sobre rentabilidade, margens e tendências financeiras, apoiando gestores na tomada de decisões mais precisas e alinhadas aos objetivos corporativos."
+    },
+
+    {
+    "title": "🏦 Monitoramento de Vagas — Bradesco",
+    "icon": "📋",
+    "url": "https://app.powerbi.com/view?r=eyJrIjoiMjQxN2Q4NGYtNWRmNy00NWVjLWE4YmQtNWMyNWYwNGYyZDUzIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
+    "desc": "Dashboard estratégico para acompanhamento de vagas abertas no site oficial do Bradesco, oferecendo visão consolidada por área, localização, tipo de vaga e volume de oportunidades ativas. A solução permite identificar tendências de contratação, mapear demandas por perfil profissional e apoiar decisões estratégicas de recrutamento com base em dados atualizados do mercado bancário."
+    },
+
     {
         "title": "💳 Relatório STONE",
         "icon": "🏛️",
@@ -266,6 +281,7 @@ for i in range(0, len(pbi_projects), 3):
                 """, unsafe_allow_html=True)
 
 exibir_rodape()
+
 
 
 
