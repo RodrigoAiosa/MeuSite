@@ -1,154 +1,146 @@
 import streamlit as st
-from utils import exibir_rodape, registrar_acesso  # Importação atualizada
+from utils import exibir_rodape, registrar_acesso
 
-# --- REGISTRO DE ACESSO ---
-# Registra a entrada do usuário na vitrine de projetos
-registrar_acesso("Vitrine de Projetos (Landing Page)")
-
-# --- ESTILO CSS PARA LANDING PAGE ---
-st.markdown(
-    """
-    <style>
-    /* Container dos Cards */
-    .main-project-container {
-        padding: 20px 0px;
-    }
-    
-    /* Card do Projeto */
-    .project-card {
-        background-color: #111827;
-        border: 1px solid #1f2937;
-        border-radius: 15px;
-        padding: 15px;
-        margin-bottom: 30px;
-        transition: transform 0.3s ease, border 0.3s ease;
-        height: 420px; /* Altura fixa para manter o grid uniforme */
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-    
-    .project-card:hover {
-        transform: translateY(-10px);
-        border: 1px solid #00b4d8;
-        box-shadow: 0 10px 30px rgba(0, 180, 216, 0.2);
-    }
-    
-    /* Título do Projeto */
-    .project-title {
-        color: #ffffff;
-        font-size: 1.1rem;
-        font-weight: bold;
-        margin: 15px 0 10px 0;
-        line-height: 1.4;
-        min-height: 60px; /* Garante que títulos longos não quebrem o layout */
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-    
-    /* Imagem do Projeto */
-    .project-image-container {
-        width: 100%;
-        height: 200px;
-        overflow: hidden;
-        border-radius: 10px;
-    }
-    
-    .project-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-    }
-    
-    .project-card:hover .project-image {
-        transform: scale(1.1);
-    }
-    
-    /* Botão/Link Estilizado */
-    .view-button {
-        background-color: transparent;
-        color: #00b4d8;
-        border: 1px solid #00b4d8;
-        padding: 8px 15px;
-        border-radius: 8px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 0.9rem;
-        font-weight: bold;
-        transition: all 0.3s;
-        margin-top: 10px;
-    }
-    
-    .view-button:hover {
-        background-color: #00b4d8;
-        color: #111827;
-        text-decoration: none;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
+# --- CONFIGURAÇÃO DA PÁGINA ---
+st.set_page_config(
+    page_title="Portfólio de Projetos",
+    page_icon="🚀",
+    layout="wide"
 )
 
-# --- TÍTULO DA SEÇÃO ---
-st.markdown("<h1 style='text-align: center; color: white;'>🚀 Portfólio de Projetos</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: #9ca3af;'>Uma seleção das soluções desenvolvidas utilizando Python, BI e Inteligência Artificial.</p>", unsafe_allow_html=True)
-st.write("")
-st.write("")
+# --- REGISTRO DE ACESSO ---
+registrar_acesso("Vitrine de Projetos")
 
-# --- DEFINIÇÃO DOS DADOS DOS PROJETOS ---
+# --- CSS GLASSMORPHISM ---
+st.markdown("""
+<style>
+
+/* Fundo com gradiente moderno */
+[data-testid="stAppViewContainer"] {
+    background: linear-gradient(135deg, #0f172a, #0b1120);
+    color: white;
+}
+
+/* Container principal */
+.main-project-container {
+    padding: 40px 0px;
+}
+
+/* Card Glass */
+.project-card {
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 30px 20px;
+    margin-bottom: 30px;
+    transition: all 0.35s ease;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Hover elegante */
+.project-card:hover {
+    transform: translateY(-8px);
+    border: 1px solid rgba(0, 180, 216, 0.6);
+    box-shadow: 0 20px 40px rgba(0, 180, 216, 0.15);
+}
+
+/* Título */
+.project-title {
+    color: #ffffff;
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+/* Botão Glass */
+.view-button {
+    background: rgba(0, 180, 216, 0.1);
+    color: #00b4d8;
+    border: 1px solid rgba(0, 180, 216, 0.4);
+    padding: 10px 15px;
+    border-radius: 10px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.view-button:hover {
+    background: #00b4d8;
+    color: #0f172a;
+    text-decoration: none;
+}
+
+/* Título principal */
+.main-title {
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #9ca3af;
+    margin-bottom: 50px;
+    font-size: 1rem;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+# --- TÍTULO ---
+st.markdown("<div class='main-title'>🚀 Portfólio de Projetos</div>", unsafe_allow_html=True)
+st.markdown("<div class='subtitle'>Uma seleção das soluções desenvolvidas utilizando Python, BI e Inteligência Artificial.</div>", unsafe_allow_html=True)
+
+# --- PROJETOS ---
 projects = [
     {
         "title": "🎈 Domando a Web: Automatizando a Coleta de Dados",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7396548688942231552",
-        "img": "https://media.licdn.com/dms/image/v2/D5605AQG_O4aWEEr-TA/feedshare-thumbnail_720_1280/B56ZqXRlDZJUA0-/0/1763474559478?e=1771120800&v=beta&t=CcUM7AgRyDg2-fNTDZ9IkforQ6O5Hw3eD2Hf1XkZkKI"
     },
     {
-        "title": "💡 Chega de Sofrer Enviando Currículo na Mão – Automatize AGORA<<",
+        "title": "💡 Chega de Sofrer Enviando Currículo na Mão – Automatize AGORA",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7401302855799828480",
-        "img": "https://media.licdn.com/dms/image/v2/D5605AQFOzpwPAE77QQ/videocover-low/B56Zra1qRCHkBQ-/0/1764608093688?e=1771120800&v=beta&t=dvUGvY1ixWmBZtZA3rUTFEfpeVfSyLbmvmeuZBPQEIA"
     },
     {
-        "title": " 🚀 Por que este script muda a forma de olhar para o mercado de trabalho",
+        "title": "🚀 Por que este script muda a forma de olhar para o mercado de trabalho",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7417316742781399040",
-        "img": "https://media.licdn.com/dms/image/v2/D5605AQGx_Pu_f5S1eQ/feedshare-thumbnail_720_1280/B56Zu.aQJFIsA4-/0/1768426111860?e=1771120800&v=beta&t=7PWQR4yv97hNkBjtscb_lI5QTVvfNdhxbQ8f1hjpgi4"
     },
     {
         "title": "🏛️ O Fim da Era Manual: Dashboard Automático",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7425547898580328449",
-        "img": "https://media.licdn.com/dms/image/v2/D5605AQEZjyr3_u48-w/feedshare-thumbnail_720_1280/B56ZwzYaHOK4A4-/0/1770388562694?e=1771030800&v=beta&t=ylHtVPZgzEbyzEqvBv0v9-hHF0x4ZEpn-k8ktPDilXg"
     },
     {
         "title": "📊 Análise Pro: Sistemas de Amortização",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7425612242248835073/",
-        "img": "https://media.licdn.com/dms/image/v2/D5622AQF74taisme4XA/feedshare-shrink_480/B56Zw0S_FZHIAs-/0/1770403918426?e=1772064000&v=beta&t=eqFjQKekX8rYQATeRIhy2uruedxVjRL29Oo7Xt97Ogw"
     },
     {
         "title": "📍 Ciência por trás da Prospecção de Alta Performance",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7425188593134026752",
-        "img": "https://media.licdn.com/dms/image/v2/D5605AQEYmI4B2ByfGw/feedshare-thumbnail_720_1280/B56ZwuRowKK8A4-/0/1770302901551?e=1771030800&v=beta&t=DxCLIdRDCnXLMcadvJwW6zhWXMXZl6PoIm-PzzZM0fY"
     },
     {
         "title": "🚗 Contagem de Veículos em Tempo Real (Visão Computacional)",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7422736985196371969",
-        "img": "https://media.licdn.com/dms/image/v2/D5605AQHKj124qT0VeA/feedshare-thumbnail_720_1280/B56ZwLb66MIUA8-/0/1769718394777?e=1771030800&v=beta&t=Ytd5H0Ctowz9PYkim4wpahKxudojH9-kkiY5HLmd_2s"
     },
     {
         "title": "💡 Pedra, Papel e Tesoura com Inteligência Artificial",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7422420309632303104",
-        "img": "https://media.licdn.com/dms/image/v2/D5605AQEnOdzL023RyA/feedshare-thumbnail_720_1280/B56ZwG76crJoA4-/0/1769642895486?e=1771030800&v=beta&t=lA5YIEjUivMZFCCnFPOY6CG3Iinb6N6GFD0nXls-UzI"
     },
     {
         "title": "❤️ O dia em que a IA me ajudou como PAI",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7420842332155142144",
-        "img": "https://media.licdn.com/dms/image/v2/D5605AQGGIbt2tD1Weg/feedshare-thumbnail_720_1280/B56ZvEub9nHAA4-/0/1768532066431?e=1771030800&v=beta&t=Cr22rY2M1p6TEYvf7fC36OJ-oaRFkCtBXEvcijBX450"
     }
 ]
 
-# --- RENDERIZAÇÃO DO GRID DE CARDS ---
+# --- GRID RESPONSIVO ---
 for i in range(0, len(projects), 3):
     cols = st.columns(3)
     for j in range(3):
@@ -157,14 +149,12 @@ for i in range(0, len(projects), 3):
             with cols[j]:
                 st.markdown(f"""
                 <div class="project-card">
-                    <div>
-                        <div class="project-image-container">
-                            <img src="{project['img']}" class="project-image">
-                        </div>
-                        <h3 class="project-title">{project['title']}</h3>
-                    </div>
-                    <a href="{project['link']}" target="_blank" class="view-button">Ver Demonstração</a>
+                    <div class="project-title">{project['title']}</div>
+                    <a href="{project['link']}" target="_blank" class="view-button">
+                        Ver Demonstração
+                    </a>
                 </div>
                 """, unsafe_allow_html=True)
-exibir_rodape()
 
+# --- RODAPÉ ---
+exibir_rodape()
