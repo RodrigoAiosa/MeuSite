@@ -161,46 +161,45 @@ pbi_projects = [
         "title": "💳 Relatório STONE",
         "icon": "🏛️",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiMmViN2ZlMWMtY2Q4My00NmNmLTg0NzAtZjEzMzliNzcwMWMyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Dashboard interativo de Faturamento B2B: monitora KPIs (Faturamento, Margem, Ticket Médio), evolução mensal e filtros regionais."
+        "desc": "Solução avançada para monitoramento de faturamento B2B, consolidando KPIs essenciais como Margem de Contribuição e Ticket Médio. O dashboard permite uma análise granular da evolução mensal e performance por filtros regionais, facilitando a identificação de gargalos operacionais e oportunidades de expansão no setor financeiro."
     },
     {
         "title": "📊 Vendas Meta vs Realizado",
         "icon": "📈",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYTg4OTdkZDUtNmIwZS00NGE1LTk2MDktMzc1YjM3ZjViN2Q5IiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Dashboard de Recrutamento e Seleção."
+        "desc": "Focado na gestão de Recrutamento e Seleção, este painel transforma dados brutos em inteligência estratégica. Acompanhe o funil de contratação, tempo médio de fechamento de vagas e eficiência dos canais de recrutamento, permitindo que o RH atue de forma preditiva na composição das equipes e no alcance das metas corporativas."
     },
     {
         "title": "📦 Controle de Pedidos BNZ",
         "icon": "📦",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiODE4YmZkNDItNWQ0OC00YmUyLThiZTktOTlmN2E0NWM3NTljIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Dashboard de Gestão de Estoque."
+        "desc": "Sistema de gestão de estoque inteligente que oferece visibilidade total sobre o fluxo de mercadorias. O dashboard monitora níveis de inventário, giro de produtos e status de pedidos em tempo real, auxiliando na prevenção de rupturas e no otimização logística para garantir que o suprimento atenda à demanda com precisão."
     },
     {
         "title": "🎯 Análise Dados Estratégica",
         "icon": "🎯",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiM2ZhYjQ5YzItNTliMS00M2QxLWFhMmItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Controle de metas e vendas."
+        "desc": "Painel voltado para a alta gestão, focado no controle rigoroso de metas e performance de vendas. Através de visualizações dinâmicas, é possível confrontar o planejado vs. realizado, analisar tendências de mercado e ajustar táticas comerciais rapidamente para garantir o atingimento dos objetivos estratégicos da organização."
     },
     {
         "title": "👥 People Analytics (RH)",
         "icon": "👥",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYmE2OGE3ODktZTUzMi00YTU2LTlkYmItYzUzY2UzNmJkMjAyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Controle de comissões."
+        "desc": "Especializado na gestão de remuneração variável, este dashboard automatiza o controle de comissões e bonificações. A ferramenta garante transparência e precisão nos cálculos, correlacionando o desempenho individual com os pagamentos efetuados, reduzindo erros operacionais e aumentando a motivação da força de vendas."
     },
     {
         "title": "🚀 Gestão de Negócios - Relatório Borelli",
         "icon": "🚀",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYzNhNDFkNzEtZmVkNy00ODZkLTgyZDYtMWIzMDQ3YWU2ZjFiIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Controle de produção."
+        "desc": "Dashboard focado na eficiência fabril e controle de produção. Monitora o ciclo produtivo completo, desde a entrada de insumos até o produto final, destacando índices de produtividade, desperdícios e ocupação de capacidade. Ideal para gestores que buscam otimizar processos e reduzir custos operacionais na indústria."
     },
-     {
+    {
         "title": "🏖️ Dashboard Financeiro — Beocean Resort",
         "icon": "💰",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiY2VkZmU1MDMtNTgwZS00NTJmLWFhOTktYzM0YzMwZDE3OTE4IiwidCI6IjdjNTYzNjMxLTcyZGMtNDY1Ny05MTRkLWIyM2M5ZTI5OGVlMSJ9&pageName=ae6d1828240b25f04e49",
-        "desc": "Painel de gerenciamento financeiro do Beocean Resort, acompanhando receitas, despesas, fluxo de caixa e indicadores operacionais para suporte à tomada de decisão estratégica."
+        "desc": "Painel de controle financeiro integral para o setor de hotelaria. Oferece uma visão clara do fluxo de caixa, receitas por categoria e despesas operacionais. Com indicadores de saúde financeira atualizados, permite uma gestão de tesouraria mais segura e decisões baseadas em dados para maximizar a rentabilidade do resort."
     }
 ]
-
 # --- RENDERIZAÇÃO ---
 for i in range(0, len(pbi_projects), 3):
     cols = st.columns(3)
@@ -246,3 +245,4 @@ for i in range(0, len(pbi_projects), 3):
                 """, unsafe_allow_html=True)
 
 exibir_rodape()
+
