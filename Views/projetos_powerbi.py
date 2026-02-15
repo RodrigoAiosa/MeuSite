@@ -5,7 +5,7 @@ import urllib.parse
 # --- REGISTRO DE ACESSO ---
 registrar_acesso("Projetos Power BI")
 
-# --- ESTILO CSS ---
+# --- ESTILO CSS ATUALIZADO ---
 st.markdown(
     """
     <style>
@@ -32,6 +32,8 @@ st.markdown(
         color: #00b4d8;
         font-weight: bold;
     }
+    
+    /* Efeito do Card */
     .flip-card {
         background-color: transparent;
         width: 100%;
@@ -78,7 +80,25 @@ st.markdown(
         color: white;
         transform: rotateY(180deg);
         border: 2px solid #00b4d8;
+        overflow: hidden;
     }
+    
+    /* Efeito de revelação da descrição no Back do Card */
+    .pbi-description {
+        font-size: 0.95rem;
+        color: #9ca3af;
+        line-height: 1.4;
+        margin-bottom: 15px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease-in-out;
+        transition-delay: 0.3s; /* Espera o card virar um pouco */
+    }
+    .flip-card:hover .pbi-description {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
     .card-icon { font-size: 60px; margin-bottom: 15px; }
     
     .pbi-card-title {
@@ -93,12 +113,6 @@ st.markdown(
         padding: 4px 12px;
         border-radius: 20px;
     }
-    .pbi-description {
-        font-size: 0.95rem;
-        color: #9ca3af;
-        line-height: 1.4;
-        margin-bottom: 15px;
-    }
     .btn-acessar {
         background-color: #00b4d8;
         color: #111827 !important;
@@ -108,6 +122,12 @@ st.markdown(
         font-weight: bold;
         font-size: 0.9rem;
         display: inline-block;
+        opacity: 0;
+        transition: 0.5s;
+        transition-delay: 0.5s;
+    }
+    .flip-card:hover .btn-acessar {
+        opacity: 1;
     }
     .share-container {
         display: flex;
@@ -200,6 +220,7 @@ pbi_projects = [
         "desc": "Painel de controle financeiro integral para o setor de hotelaria. Oferece uma visão clara do fluxo de caixa, receitas por categoria e despesas operacionais. Com indicadores de saúde financeira atualizados, permite uma gestão de tesouraria mais segura e decisões baseadas em dados para maximizar a rentabilidade do resort."
     }
 ]
+
 # --- RENDERIZAÇÃO ---
 for i in range(0, len(pbi_projects), 3):
     cols = st.columns(3)
@@ -208,11 +229,11 @@ for i in range(0, len(pbi_projects), 3):
         if idx < len(pbi_projects):
             p = pbi_projects[idx]
             
-            # Texto para WhatsApp (com descrição + link personalizado conforme as instruções salvas)
+            # WhatsApp link personalizado conforme instrução
             wa_text = f"Olá Rodrigo! Gostaria de falar sobre o projeto 🚀 *{p['title']}* que vi no seu portfólio.\n\n💡 {p['desc']}\n\n🔗 Link: {p['url']}"
             wa_link = f"https://api.whatsapp.com/send?phone=5511977019335&text={urllib.parse.quote(wa_text)}"
             
-            # LinkedIn: SOMENTE A URL
+            # LinkedIn link
             li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['url'])}"
 
             with cols[j]:
@@ -225,7 +246,7 @@ for i in range(0, len(pbi_projects), 3):
                             <div class="pbi-card-tag">PASSE O MOUSE ↻</div>
                         </div>
                         <div class="flip-card-back">
-                            <div style="font-weight: bold; color: #00b4d8;">PROJETO</div>
+                            <div style="font-weight: bold; color: #00b4d8; margin-bottom: 5px;">PROJETO</div>
                             <div class="pbi-description">{p['desc']}</div>
                             <a href="{p['url']}" target="_blank" class="btn-acessar">
                                 Abrir Dashboard ↗️
@@ -245,4 +266,3 @@ for i in range(0, len(pbi_projects), 3):
                 """, unsafe_allow_html=True)
 
 exibir_rodape()
-
