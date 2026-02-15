@@ -114,7 +114,7 @@ projects = [
     },
 
      {
-        "title": "🐍🐍Automação de Processos em Python: Extraindo Dados de 344 PDFs para Excel com Precisão e Eficiência🐍🐍",
+        "title": "🐍🐍Automação de Processos em Python: Extraindo Dados de 344 PDFs para Excel com Precisão e Eficiência",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7258568013845585920",
     },
 
@@ -243,6 +243,7 @@ for i in range(0, len(projects), 3):
 
 # --- RODAPÉ ---
 exibir_rodape()
+
 
 
 
