@@ -3,8 +3,10 @@ import os
 import sys
 from utils import exibir_rodape, registrar_acesso
 
+# --- REGISTRO DE ACESSO ---
 registrar_acesso("Cursos Online")
 
+# 1. RESOLVENDO O CAMINHO DO MÓDULO UTILS
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 try:
@@ -12,26 +14,18 @@ try:
 except ImportError:
     st.error("Erro: O arquivo 'utils.py' não foi encontrado na pasta raiz.")
 
-# ---------------- ESTILO GLOBAL PREMIUM ----------------
+# ---------------- ESTILO PREMIUM ----------------
 st.markdown("""
 <style>
 
-/* HERO COM GRADIENTE ANIMADO */
+/* HERO */
 .hero {
-    background: linear-gradient(270deg, #0f172a, #1e293b, #0f172a);
-    background-size: 400% 400%;
-    animation: gradientMove 10s ease infinite;
-    padding: 70px;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    padding: 60px;
     border-radius: 20px;
     text-align: center;
     color: white;
     margin-bottom: 40px;
-}
-
-@keyframes gradientMove {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
 }
 
 /* SECTION TITLE */
@@ -48,25 +42,33 @@ st.markdown("""
     padding: 25px;
     border-radius: 16px;
     border: 1px solid rgba(255,255,255,0.08);
+    min-height: 140px;
+
     opacity: 0;
     transform: translateY(20px);
     animation: fadeUp 0.7s ease forwards;
 }
 
+/* Delay para efeito em sequência */
 .card1 { animation-delay: 0.1s; }
 .card2 { animation-delay: 0.3s; }
 .card3 { animation-delay: 0.5s; }
 
 @keyframes fadeUp {
-    to { opacity: 1; transform: translateY(0); }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
+/* Glow hover */
 .feature-card:hover {
     transform: translateY(-6px);
     border: 1px solid rgba(59,130,246,0.6);
-    box-shadow: 0 0 20px rgba(59,130,246,0.35);
+    box-shadow: 0 0 18px rgba(59,130,246,0.35);
 }
 
+/* TEXT */
 .feature-title {
     font-size: 20px;
     font-weight: 700;
@@ -77,34 +79,13 @@ st.markdown("""
     color: #cbd5e1;
 }
 
-/* COURSE CARDS */
-.course-card {
-    background: #0b1220;
-    padding: 25px;
-    border-radius: 18px;
-    border: 1px solid rgba(255,255,255,0.05);
-    transition: 0.3s;
-    animation: fadeUp 0.6s ease;
-}
-
-.course-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 25px rgba(59,130,246,0.25);
-}
-
-/* BOTÕES COM MICROINTERAÇÃO */
+/* BOTÕES */
 .stLinkButton a {
-    background: linear-gradient(90deg,#2563eb,#3b82f6);
+    background-color: #2563eb !important;
     color: white !important;
     padding: 14px 26px !important;
     border-radius: 10px !important;
     font-weight: 700 !important;
-    transition: 0.2s;
-}
-
-.stLinkButton a:hover {
-    transform: scale(1.06);
-    box-shadow: 0 6px 20px rgba(37,99,235,0.4);
 }
 
 </style>
@@ -128,7 +109,7 @@ with c1:
     <div class="feature-card card1">
         <div class="feature-title">🧠 Clareza</div>
         <div class="feature-text">
-        Aprenda exatamente o que o mercado exige.
+        Aprenda exatamente o que o mercado exige, eliminando conteúdos irrelevantes.
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -138,7 +119,7 @@ with c2:
     <div class="feature-card card2">
         <div class="feature-title">💼 Aplicação real</div>
         <div class="feature-text">
-        Conteúdo baseado em problemas reais de empresas.
+        Treinamentos construídos com base em problemas reais do ambiente corporativo.
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -148,7 +129,7 @@ with c3:
     <div class="feature-card card3">
         <div class="feature-title">📈 Valorização profissional</div>
         <div class="feature-text">
-        Profissionais orientados por dados são mais valorizados.
+        Dominar dados aumenta sua relevância dentro de qualquer empresa.
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -166,11 +147,19 @@ with col1:
     st.image(img_pbi, width="stretch")
 
 with col2:
-    st.markdown('<div class="course-card">', unsafe_allow_html=True)
     st.header("Fundamento Power BI")
-    st.write("Transforme dados em dashboards e indicadores estratégicos.")
+    st.write(
+        """
+        O Power BI deixou de ser um diferencial e se tornou uma habilidade essencial
+        para profissionais que participam de decisões estratégicas.
+
+        Neste treinamento, você aprende a transformar dados brutos em dashboards
+        profissionais e indicadores claros para tomada de decisão.
+        """
+    )
     st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/DFeDsQV")
-    st.markdown('</div>', unsafe_allow_html=True)
+
+st.markdown("")
 
 # --- SQL ---
 col3, col4 = st.columns([1, 2], gap="large")
@@ -180,11 +169,16 @@ with col3:
     st.image(img_sql, width="stretch")
 
 with col4:
-    st.markdown('<div class="course-card">', unsafe_allow_html=True)
     st.header("SQL Fundamentos")
-    st.write("Extraia informações estratégicas diretamente das bases de dados.")
+    st.write(
+        """
+        SQL é a linguagem que conecta profissionais diretamente aos dados das empresas.
+        Desenvolva autonomia analítica e capacidade de extrair informações estratégicas.
+        """
+    )
     st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/ivdojL8")
-    st.markdown('</div>', unsafe_allow_html=True)
+
+st.markdown("")
 
 # --- EXCEL ---
 col5, col6 = st.columns([1, 2], gap="large")
@@ -194,11 +188,14 @@ with col5:
     st.image(img_excel, width="stretch")
 
 with col6:
-    st.markdown('<div class="course-card">', unsafe_allow_html=True)
     st.header("Excel Essencial Para Negócios")
-    st.write("Automação, análise e produtividade no ambiente corporativo.")
+    st.write(
+        """
+        Excel aplicado ao mundo corporativo, automação de tarefas e análises confiáveis
+        para profissionais que querem se destacar.
+        """
+    )
     st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/EEb9ADQ")
-    st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown("---")
 
