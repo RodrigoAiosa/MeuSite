@@ -14,13 +14,9 @@ except ImportError:
 
 registrar_acesso("Cursos Online")
 
-# ---------------- ESTILO PREMIUM ----------------
+# ---------------- ESTILO PREMIUM (SEM ALTERAR FUNDO) ----------------
 st.markdown("""
 <style>
-
-.stApp {
-    background-color: #f8fafc;
-}
 
 /* HERO */
 .hero {
@@ -54,7 +50,7 @@ st.markdown("""
 .stLinkButton a {
     background-color: #2563eb !important;
     color: white !important;
-    padding: 14px 24px !important;
+    padding: 14px 26px !important;
     border-radius: 10px !important;
     font-weight: 700 !important;
 }
@@ -68,14 +64,8 @@ st.markdown("""
 .section-title {
     font-size: 32px;
     font-weight: 700;
-    margin-top: 30px;
-}
-
-.testimonial {
-    background: white;
-    padding: 20px;
-    border-radius: 14px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    margin-top: 40px;
+    margin-bottom: 20px;
 }
 
 </style>
@@ -89,7 +79,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-st.link_button("Começar agora", "https://pay.kiwify.com.br/DFeDsQV")
+st.link_button("🚀 Começar agora", "https://pay.kiwify.com.br/DFeDsQV")
 
 st.markdown("---")
 
@@ -115,9 +105,7 @@ with col1:
 
 with col2:
     st.header("Fundamento Power BI")
-    st.write(
-        "Aprenda Power BI do zero e construa dashboards profissionais."
-    )
+    st.write("Aprenda Power BI do zero e construa dashboards profissionais.")
     st.link_button("Ver curso", "https://pay.kiwify.com.br/DFeDsQV")
 
 st.markdown("")
@@ -148,41 +136,10 @@ with col6:
 
 st.markdown("---")
 
-# ---------------- PROVA SOCIAL ----------------
-st.markdown('<div class="section-title">O que alunos dizem</div>', unsafe_allow_html=True)
-
-t1, t2, t3 = st.columns(3)
-
-t1.markdown("""
-<div class="testimonial">
-"Didática excelente e muito prática."
-<br><br>
-<b>Aluno</b>
-</div>
-""", unsafe_allow_html=True)
-
-t2.markdown("""
-<div class="testimonial">
-"Consegui aplicar no trabalho na primeira semana."
-<br><br>
-<b>Aluno</b>
-</div>
-""", unsafe_allow_html=True)
-
-t3.markdown("""
-<div class="testimonial">
-"Um dos cursos mais objetivos que já fiz."
-<br><br>
-<b>Aluno</b>
-</div>
-""", unsafe_allow_html=True)
-
-st.markdown("---")
-
 # ---------------- GARANTIA ----------------
 st.markdown('<div class="section-title">Garantia</div>', unsafe_allow_html=True)
 
-st.info("7 dias de garantia incondicional. Se não gostar, devolvemos seu dinheiro.")
+st.success("✅ 7 dias de garantia incondicional. Se não gostar, devolvemos seu dinheiro.")
 
 st.markdown("---")
 
@@ -194,6 +151,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-st.link_button("Quero começar agora", "https://pay.kiwify.com.br/DFeDsQV")
+st.link_button("🔥 Quero começar agora", "https://pay.kiwify.com.br/DFeDsQV")
 
 exibir_rodape()
