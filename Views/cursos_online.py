@@ -1,94 +1,134 @@
 import streamlit as st
 import os
 import sys
-from utils import exibir_rodape, registrar_acesso
 
-# --- REGISTRO DE ACESSO REMOVIDO PARA NÃO SUJAR A PLANILHA ---
-registrar_acesso("Cursos Online")
+# 1. CONFIGURAÇÃO DA PÁGINA (Deve ser o primeiro comando Streamlit)
+st.set_page_config(page_title="Cursos Online | Rodrigo Aiosa", page_icon="🎓", layout="wide")
 
-# 1. RESOLVENDO O CAMINHO DO MÓDULO UTILS
+# Resolvendo caminho do módulo utils
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 try:
-    # Importação atualizada para incluir registrar_acesso
-    from utils import exibir_rodape, registrar_acesso 
+    from utils import exibir_rodape, registrar_acesso
 except ImportError:
-    st.error("Erro: O arquivo 'utils.py' não foi encontrado na pasta raiz.")
+    st.error("Erro: O arquivo 'utils.py' não foi encontrado.")
 
-# --- REGISTRO DE ACESSO ---
-# Esta chamada envia os dados para a planilha via utils.py
-registrar_acesso("Cursos Online")
+# Registro de acesso
+registrar_acesso("Página de Cursos")
 
-# 2. CONFIGURAÇÃO VISUAL DA PÁGINA
-st.title("🎓 Meus Cursos Online")
-st.write("Aprimore suas habilidades com treinamentos práticos e focados no mercado.")
-st.markdown("---")
+# 2. ESTILIZAÇÃO CUSTOMIZADA (CSS) - O segredo do UX/UI
+st.markdown("""
+    <style>
+    /* Estilização dos botões para maior conversão */
+    div.stButton > button:first-child {
+        background-color: #FF8C00;
+        color: white;
+        border-radius: 8px;
+        padding: 0.6rem 2rem;
+        font-weight: bold;
+        border: none;
+        transition: 0.3s;
+    }
+    div.stButton > button:first-child:hover {
+        background-color: #e67e00;
+        transform: scale(1.05);
+    }
+    
+    /* Títulos e Subtítulos */
+    .main-title {
+        font-size: 3rem !important;
+        font-weight: 800;
+        color: #1E3A8A;
+        margin-bottom: 0;
+    }
+    .subtitle {
+        font-size: 1.2rem;
+        color: #4B5563;
+        margin-bottom: 2rem;
+    }
+    .highlight {
+        color: #1E3A8A;
+        font-weight: bold;
+    }
+    
+    /* Card de Curso */
+    .course-card {
+        background-color: #F3F4F6;
+        padding: 20px;
+        border-radius: 15px;
+        border-left: 5px solid #1E3A8A;
+    }
+    </style>
+""", unsafe_allow_stdio=False)
 
-# --- CURSO 1: FUNDAMENTO POWER BI ---
-col1, col2 = st.columns([1, 2], gap="large")
+# 3. HERO SECTION (Psicologia: Foco no Resultado)
+st.markdown('<p class="main-title">Acelere sua Carreira com Dados</p>', unsafe_allow_html=True)
+st.markdown('<p class="subtitle">Treinamentos práticos para quem não tem tempo a perder e busca o topo do mercado.</p>', unsafe_allow_html=True)
 
-with col1:
-    img_pbi = os.path.join("assets", "fundamentos_power_bi.png")
-    # Atualizado para width='stretch' conforme as novas diretrizes do Streamlit
-    st.image(img_pbi, width="stretch")
+# 4. BOTÕES DE CONTATO RÁPIDO (Gatilho de Confiança)
+col_c1, col_c2, _ = st.columns([1, 1, 2])
+with col_c1:
+    # Mensagem personalizada conforme solicitado
+    msg_wa = "Olá Rodrigo! Vi seus cursos no site e gostaria de tirar algumas dúvidas sobre qual o melhor para meu momento profissional."
+    link_wa = f"https://wa.me/5511977019335?text={msg_wa.replace(' ', '%20')}"
+    st.link_button("💬 Falar com Especialista", link_wa, use_container_width=True)
+with col_c2:
+    st.link_button("📅 Agendar Reunião", "https://calendly.com/rodrigoaiosa", use_container_width=True)
 
-with col2:
-    st.header("Fundamento Power BI")
-    st.write(
-        """
-        Se entender dados é essencial e o Power BI é a ferramenta ideal para isso, 
-        então dominar o Power BI é fundamental. No treinamento **Fundamento Power BI**, 
-        você aprende do zero a criar análises visuais, importar, transformar e relacionar 
-        dados de forma lógica e estratégica. Se você busca decisões mais inteligentes, 
-        esse é o primeiro passo.
-        """
-    )
-    st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/DFeDsQV")
+st.write("") # Espaçador
 
-st.markdown("---")
+# --- LISTAGEM DE CURSOS ---
 
-# --- CURSO 2: SQL FUNDAMENTOS ---
-col3, col4 = st.columns([1, 2], gap="large")
+def render_curso(titulo, descricao, imagem, link, preco_destaque=""):
+    st.markdown(f"### {titulo}")
+    col_img, col_txt = st.columns([1, 2], gap="large")
+    
+    with col_img:
+        img_path = os.path.join("assets", imagem)
+        if os.path.exists(img_path):
+            st.image(img_path, use_container_width=True)
+        else:
+            st.warning(f"Imagem {imagem} não encontrada.")
+            
+    with col_txt:
+        st.markdown(f"""
+        <div class="course-card">
+            {descricao}
+            <br><br>
+            <span style="color: #1E3A8A; font-weight: bold; font-size: 1.1rem;">🚀 Invista no seu futuro hoje.</span>
+        </div>
+        """, unsafe_allow_html=True)
+        st.write("")
+        st.link_button(f"👉 Quero me inscrever no {titulo}", link)
 
-with col3:
-    img_sql = os.path.join("assets", "SQL_Fundamentos.png")
-    st.image(img_sql, width="stretch")
+# --- CURSO 1: POWER BI ---
+render_curso(
+    "Fundamento Power BI",
+    "Transforme dados brutos em <b>dashboards estratégicos</b>. Aprenda a pensar como um analista e domine a ferramenta líder do mercado. Ideal para quem quer sair do 'acho' para o 'tenho certeza'.",
+    "fundamentos_power_bi.png",
+    "https://pay.kiwify.com.br/DFeDsQV"
+)
 
-with col4:
-    st.header("SQL Fundamentos")
-    st.write(
-        """
-        Se dados são essenciais para decisões e SQL é a linguagem dos dados, 
-        então dominar SQL é essencial para decisões inteligentes. No curso **Fundamentos SQL**, 
-        you aprende desde o básico até consultas avançadas, com foco prático e direto ao ponto. 
-        Ideal para quem quer entender, manipular e extrair valor real de bases de dados. 
-        Lógica simples: quer analisar? Aprenda SQL.
-        """
-    )
-    st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/ivdojL8")
+st.divider()
 
-st.markdown("---")
+# --- CURSO 2: SQL ---
+render_curso(
+    "SQL Fundamentos",
+    "A linguagem universal dos dados. Pare de depender de planilhas lentas e aprenda a <b>extrair inteligência diretamente da fonte</b>. O curso vai do zero absoluto até consultas complexas de forma lógica.",
+    "SQL_Fundamentos.png",
+    "https://pay.kiwify.com.br/ivdojL8"
+)
 
-# --- CURSO 3: EXCEL ESSENCIAL PARA NEGÓCIOS ---
-col5, col6 = st.columns([1, 2], gap="large")
+st.divider()
 
-with col5:
-    img_excel = os.path.join("assets", "excel_para_negocios.png")
-    st.image(img_excel, width="stretch")
+# --- CURSO 3: EXCEL ---
+render_curso(
+    "Excel Essencial Para Negócios",
+    "Não é apenas sobre fórmulas, é sobre <b>solução de problemas</b>. Domine as funções que as empresas realmente usam e ganhe horas de produtividade no seu dia a dia profissional.",
+    "excel_para_negocios.png",
+    "https://pay.kiwify.com.br/EEb9ADQ"
+)
 
-with col6:
-    st.header("Excel Essencial Para Negócios")
-    st.write(
-        """
-        Todo profissional que domina Excel se destaca no mercado. 
-        Meu treinamento ensina **Excel de forma prática e aplicada**, única no mercado. 
-        Logo, quem faz meu treinamento conquista vantagem real e imediata na carreira.
-        """
-    )
-    st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/EEb9ADQ")
-
-st.markdown("---")
-
-# 3. EXIBIÇÃO DO RODAPÉ
-
+# 5. RODAPÉ FINAL
+st.write("")
 exibir_rodape()
