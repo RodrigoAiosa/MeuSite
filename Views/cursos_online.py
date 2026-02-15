@@ -1,10 +1,6 @@
 import streamlit as st
 import os
 import sys
-from utils import exibir_rodape, registrar_acesso
-
-# --- REGISTRO DE ACESSO ---
-registrar_acesso("Cursos Online")
 
 # 1. RESOLVENDO O CAMINHO DO MÓDULO UTILS
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -13,6 +9,9 @@ try:
     from utils import exibir_rodape, registrar_acesso
 except ImportError:
     st.error("Erro: O arquivo 'utils.py' não foi encontrado na pasta raiz.")
+
+# --- REGISTRO DE ACESSO ---
+registrar_acesso("Cursos Online")
 
 # ---------------- ESTILO PREMIUM ----------------
 st.markdown("""
@@ -49,7 +48,6 @@ st.markdown("""
     animation: fadeUp 0.7s ease forwards;
 }
 
-/* Delay para efeito em sequência */
 .card1 { animation-delay: 0.1s; }
 .card2 { animation-delay: 0.3s; }
 .card3 { animation-delay: 0.5s; }
@@ -61,14 +59,12 @@ st.markdown("""
     }
 }
 
-/* Glow hover */
 .feature-card:hover {
     transform: translateY(-6px);
     border: 1px solid rgba(59,130,246,0.6);
     box-shadow: 0 0 18px rgba(59,130,246,0.35);
 }
 
-/* TEXT */
 .feature-title {
     font-size: 20px;
     font-weight: 700;
@@ -79,7 +75,6 @@ st.markdown("""
     color: #cbd5e1;
 }
 
-/* BOTÕES */
 .stLinkButton a {
     background-color: #2563eb !important;
     color: white !important;
@@ -139,7 +134,7 @@ st.markdown("---")
 # ---------------- CURSOS ----------------
 st.markdown('<div class="section-title">Treinamentos disponíveis</div>', unsafe_allow_html=True)
 
-# --- POWER BI ---
+# ================= POWER BI =================
 col1, col2 = st.columns([1, 2], gap="large")
 
 with col1:
@@ -148,20 +143,32 @@ with col1:
 
 with col2:
     st.header("Fundamento Power BI")
-    st.write(
-        """
-        O Power BI deixou de ser um diferencial e se tornou uma habilidade essencial
-        para profissionais que participam de decisões estratégicas.
+    st.write("""
+    O Power BI deixou de ser um diferencial e se tornou uma habilidade essencial
+    para profissionais que participam de decisões estratégicas.
 
-        Neste treinamento, você aprende a transformar dados brutos em dashboards
-        profissionais e indicadores claros para tomada de decisão.
-        """
-    )
+    Neste treinamento, você aprende a transformar dados brutos em dashboards
+    profissionais e indicadores claros para tomada de decisão.
+    """)
     st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/DFeDsQV")
+
+    with st.expander("📚 Ver conteúdo programático"):
+        st.markdown("""
+        1. Introdução ao Power BI e Mentalidade Analítica  
+        2. Importação e Conexão com Diferentes Fontes de Dados  
+        3. Tratamento e Transformação de Dados (Power Query)  
+        4. Modelagem de Dados Profissional  
+        5. Fundamentos de DAX  
+        6. Indicadores e KPIs Estratégicos  
+        7. Criação de Dashboards Interativos  
+        8. Storytelling com Dados  
+        9. Publicação no Power BI Service  
+        10. Projeto Final Aplicado ao Mercado  
+        """)
 
 st.markdown("")
 
-# --- SQL ---
+# ================= SQL =================
 col3, col4 = st.columns([1, 2], gap="large")
 
 with col3:
@@ -170,17 +177,29 @@ with col3:
 
 with col4:
     st.header("SQL Fundamentos")
-    st.write(
-        """
-        SQL é a linguagem que conecta profissionais diretamente aos dados das empresas.
-        Desenvolva autonomia analítica e capacidade de extrair informações estratégicas.
-        """
-    )
+    st.write("""
+    SQL é a linguagem que conecta profissionais diretamente aos dados das empresas.
+    Desenvolva autonomia analítica e capacidade de extrair informações estratégicas.
+    """)
     st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/ivdojL8")
+
+    with st.expander("📚 Ver conteúdo programático"):
+        st.markdown("""
+        1. Introdução a Bancos de Dados e SQL  
+        2. Consultas com SELECT  
+        3. Funções Agregadas  
+        4. Joins na Prática  
+        5. Subqueries e Views  
+        6. Funções Condicionais  
+        7. Análise de Dados com SQL  
+        8. Otimização de Consultas  
+        9. Modelagem Relacional  
+        10. Projeto Final Corporativo  
+        """)
 
 st.markdown("")
 
-# --- EXCEL ---
+# ================= EXCEL =================
 col5, col6 = st.columns([1, 2], gap="large")
 
 with col5:
@@ -189,13 +208,25 @@ with col5:
 
 with col6:
     st.header("Excel Essencial Para Negócios")
-    st.write(
-        """
-        Excel aplicado ao mundo corporativo, automação de tarefas e análises confiáveis
-        para profissionais que querem se destacar.
-        """
-    )
+    st.write("""
+    Excel aplicado ao mundo corporativo, automação de tarefas e análises confiáveis
+    para profissionais que querem se destacar.
+    """)
     st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/EEb9ADQ")
+
+    with st.expander("📚 Ver conteúdo programático"):
+        st.markdown("""
+        1. Fundamentos do Excel Corporativo  
+        2. Fórmulas Essenciais (SE, PROCV, PROCX, SOMASES, etc.)  
+        3. Tabelas Inteligentes  
+        4. Tabelas Dinâmicas  
+        5. Dashboards no Excel  
+        6. Automação e Formatação Condicional  
+        7. Indicadores Financeiros  
+        8. Power Query no Excel  
+        9. Noções de Macros  
+        10. Projeto Final Aplicado  
+        """)
 
 st.markdown("---")
 
