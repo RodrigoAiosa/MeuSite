@@ -97,4 +97,114 @@ st.markdown("""
 <h1>Habilidades que transformam profissionais comuns em profissionais indispensáveis</h1>
 <p>Power BI • SQL • Excel aplicados ao mundo real dos negócios</p>
 </div>
-""", unsafe_allow_html=T
+""", unsafe_allow_html=True)
+
+# ---------------- PROPOSTA DE VALOR ----------------
+st.markdown('<div class="section-title">Formação orientada ao mercado</div>', unsafe_allow_html=True)
+
+c1, c2, c3 = st.columns(3)
+
+with c1:
+    st.markdown("""
+    <div class="feature-card card1">
+        <div class="feature-title">🧠 Clareza</div>
+        <div class="feature-text">
+        Aprenda exatamente o que o mercado exige, eliminando conteúdos irrelevantes.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with c2:
+    st.markdown("""
+    <div class="feature-card card2">
+        <div class="feature-title">💼 Aplicação real</div>
+        <div class="feature-text">
+        Treinamentos construídos com base em problemas reais do ambiente corporativo.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with c3:
+    st.markdown("""
+    <div class="feature-card card3">
+        <div class="feature-title">📈 Valorização profissional</div>
+        <div class="feature-text">
+        Dominar dados aumenta sua relevância dentro de qualquer empresa.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+st.markdown("---")
+
+# ---------------- CURSOS ----------------
+st.markdown('<div class="section-title">Treinamentos disponíveis</div>', unsafe_allow_html=True)
+
+# --- POWER BI ---
+col1, col2 = st.columns([1, 2], gap="large")
+
+with col1:
+    img_pbi = os.path.join("assets", "fundamentos_power_bi.png")
+    st.image(img_pbi, width="stretch")
+
+with col2:
+    st.header("Fundamento Power BI")
+    st.write(
+        """
+        O Power BI deixou de ser um diferencial e se tornou uma habilidade essencial
+        para profissionais que participam de decisões estratégicas.
+
+        Neste treinamento, você aprende a transformar dados brutos em dashboards
+        profissionais e indicadores claros para tomada de decisão.
+        """
+    )
+    st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/DFeDsQV")
+
+st.markdown("")
+
+# --- SQL ---
+col3, col4 = st.columns([1, 2], gap="large")
+
+with col3:
+    img_sql = os.path.join("assets", "SQL_Fundamentos.png")
+    st.image(img_sql, width="stretch")
+
+with col4:
+    st.header("SQL Fundamentos")
+    st.write(
+        """
+        SQL é a linguagem que conecta profissionais diretamente aos dados das empresas.
+        Desenvolva autonomia analítica e capacidade de extrair informações estratégicas.
+        """
+    )
+    st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/ivdojL8")
+
+st.markdown("")
+
+# --- EXCEL ---
+col5, col6 = st.columns([1, 2], gap="large")
+
+with col5:
+    img_excel = os.path.join("assets", "excel_para_negocios.png")
+    st.image(img_excel, width="stretch")
+
+with col6:
+    st.header("Excel Essencial Para Negócios")
+    st.write(
+        """
+        Excel aplicado ao mundo corporativo, automação de tarefas e análises confiáveis
+        para profissionais que querem se destacar.
+        """
+    )
+    st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/EEb9ADQ")
+
+st.markdown("---")
+
+# ---------------- GARANTIA ----------------
+st.markdown('<div class="section-title">Compromisso com a qualidade</div>', unsafe_allow_html=True)
+
+st.success(
+    "Você pode testar o treinamento com tranquilidade. "
+    "Caso não perceba valor real no conteúdo, o reembolso é garantido."
+)
+
+exibir_rodape()
