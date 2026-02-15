@@ -10,14 +10,71 @@ registrar_acesso("Cursos Online")
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 try:
-    # Importação atualizada para incluir registrar_acesso
     from utils import exibir_rodape, registrar_acesso 
 except ImportError:
     st.error("Erro: O arquivo 'utils.py' não foi encontrado na pasta raiz.")
 
 # --- REGISTRO DE ACESSO ---
-# Esta chamada envia os dados para a planilha via utils.py
 registrar_acesso("Cursos Online")
+
+# ---------------- ESTILO VISUAL ----------------
+st.markdown("""
+<style>
+
+/* Fundo geral */
+.stApp {
+    background-color: #f8fafc;
+}
+
+/* Título principal */
+h1 {
+    color: #0f172a;
+    font-weight: 700;
+}
+
+/* Subtítulo */
+p {
+    font-size: 18px;
+    color: #334155;
+}
+
+/* Cards dos cursos */
+[data-testid="column"] {
+    background-color: white;
+    padding: 22px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* Títulos dos cursos */
+h2 {
+    color: #0f172a;
+    font-weight: 700;
+}
+
+/* Botões */
+.stLinkButton a {
+    background-color: #2563eb !important;
+    color: white !important;
+    padding: 12px 22px !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+}
+
+.stLinkButton a:hover {
+    background-color: #1d4ed8 !important;
+    transform: scale(1.02);
+}
+
+/* Linha divisória */
+hr {
+    margin-top: 35px;
+    margin-bottom: 35px;
+}
+
+</style>
+""", unsafe_allow_html=True)
 
 # 2. CONFIGURAÇÃO VISUAL DA PÁGINA
 st.title("🎓 Meus Cursos Online")
@@ -29,7 +86,6 @@ col1, col2 = st.columns([1, 2], gap="large")
 
 with col1:
     img_pbi = os.path.join("assets", "fundamentos_power_bi.png")
-    # Atualizado para width='stretch' conforme as novas diretrizes do Streamlit
     st.image(img_pbi, width="stretch")
 
 with col2:
@@ -60,7 +116,7 @@ with col4:
         """
         Se dados são essenciais para decisões e SQL é a linguagem dos dados, 
         então dominar SQL é essencial para decisões inteligentes. No curso **Fundamentos SQL**, 
-        you aprende desde o básico até consultas avançadas, com foco prático e direto ao ponto. 
+        você aprende desde o básico até consultas avançadas, com foco prático e direto ao ponto. 
         Ideal para quem quer entender, manipular e extrair valor real de bases de dados. 
         Lógica simples: quer analisar? Aprenda SQL.
         """
@@ -88,4 +144,3 @@ with col6:
     st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/EEb9ADQ")
 
 exibir_rodape()
-
