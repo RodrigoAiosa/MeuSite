@@ -104,6 +104,16 @@ st.markdown("<div class='subtitle'>Uma seleção das soluções desenvolvidas ut
 projects = [
 
     {
+        "title": "🚀 Da Geração de Dados ao Preenchimento Automático: Eficiência Total com Automação Inteligente 💡",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7368611651706617856",
+    },
+
+    {
+        "title": "🦉 Python + ACCESS + HTML + CSS",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7363944902973411332",
+    },
+
+    {
         "title": "💡 A espinha dorsal do B.I. começa no Power Query💡",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7380426662678650882",
     },
@@ -209,4 +219,5 @@ for i in range(0, len(projects), 3):
 
 # --- RODAPÉ ---
 exibir_rodape()
+
 
