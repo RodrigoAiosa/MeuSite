@@ -102,6 +102,57 @@ st.markdown("<div class='subtitle'>Uma seleção das soluções desenvolvidas ut
 
 # --- PROJETOS ---
 projects = [
+
+    {
+        "title": "💡 A espinha dorsal do B.I. começa no Power Query💡",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7380426662678650882",
+    },
+    
+    {
+        "title": "⏳ De horas de trabalho para SEGUNDOS de execução: como a automação transforma dados em poder 🚀",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7378444187920359424",
+    },
+
+    {
+        "title": "🔎 Documentar no Power BI nunca foi tão fácil: tudo em um único clique!",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7376613833274003457",
+    },
+
+    {
+        "title": "🚀 Web Scraping com Python: dados certos, do jeito certo.",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7384454430533787648",
+    },
+
+    {
+        "title": "✅ Pare de Perder Horas: Descubra Como a Automação Revoluciona a Coleta de Dados✅",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7387300096381595649",
+    },
+
+    {
+        "title": "🎈Criando o clássico jogo TETRIS com python e usando I.A. para jogar",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7401703226657406976",
+    },
+    
+    {
+        "title": "🚀 Técnicas avançadas em BI: conectando relatórios ao banco de dados com performance",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7406927292955865088",
+    },
+
+    {
+        "title": "🧠 Por que conhecer as tabelas e seus relacionamentos é vital em qualquer projeto de BI?",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7415581668649877504",
+    },
+
+    {
+        "title": "🚗 Contagem de veículos em tempo real: um projeto prático de visão computacional com Python",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7422736985196371969",
+    },
+    
+    {
+        "title": "🚗💡 Evoluindo o Sistema de Contagem de Veículos: Agora com Áreas Personalizadas",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7423354824370470912",
+    },
+    
     {
         "title": "🎈 Domando a Web: Automatizando a Coleta de Dados",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7396548688942231552",
@@ -158,3 +209,4 @@ for i in range(0, len(projects), 3):
 
 # --- RODAPÉ ---
 exibir_rodape()
+
