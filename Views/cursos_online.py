@@ -14,7 +14,7 @@ try:
 except ImportError:
     st.error("Erro: O arquivo 'utils.py' não foi encontrado na pasta raiz.")
 
-# ---------------- ESTILO PREMIUM (SEM ALTERAR FUNDO) ----------------
+# ---------------- ESTILO PREMIUM ----------------
 st.markdown("""
 <style>
 
@@ -28,30 +28,6 @@ st.markdown("""
     margin-bottom: 40px;
 }
 
-.hero h1 {
-    font-size: 42px;
-    font-weight: 800;
-}
-
-.hero p {
-    font-size: 20px;
-    color: #e2e8f0;
-}
-
-/* CTA BUTTON */
-.stLinkButton a {
-    background-color: #2563eb !important;
-    color: white !important;
-    padding: 14px 26px !important;
-    border-radius: 10px !important;
-    font-weight: 700 !important;
-}
-
-.stLinkButton a:hover {
-    background-color: #1d4ed8 !important;
-    transform: scale(1.03);
-}
-
 /* SECTION TITLE */
 .section-title {
     font-size: 32px;
@@ -60,10 +36,44 @@ st.markdown("""
     margin-bottom: 20px;
 }
 
+/* FEATURE CARDS */
+.feature-card {
+    background: #111827;
+    padding: 25px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+    min-height: 140px;
+    transition: 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    border: 1px solid rgba(255,255,255,0.18);
+}
+
+.feature-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.feature-text {
+    color: #cbd5e1;
+}
+
+/* BOTÕES */
+.stLinkButton a {
+    background-color: #2563eb !important;
+    color: white !important;
+    padding: 14px 26px !important;
+    border-radius: 10px !important;
+    font-weight: 700 !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------- HERO SECTION ----------------
+# ---------------- HERO ----------------
 st.markdown("""
 <div class="hero">
 <h1>Habilidades que transformam profissionais comuns em profissionais indispensáveis</h1>
@@ -76,20 +86,35 @@ st.markdown('<div class="section-title">Formação orientada ao mercado</div>', 
 
 c1, c2, c3 = st.columns(3)
 
-c1.markdown(
-    "### 🧠 Clareza\n"
-    "Aprenda exatamente o que o mercado exige, eliminando conteúdos irrelevantes."
-)
+with c1:
+    st.markdown("""
+    <div class="feature-card">
+        <div class="feature-title">🧠 Clareza</div>
+        <div class="feature-text">
+        Aprenda exatamente o que o mercado exige, eliminando conteúdos irrelevantes.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
-c2.markdown(
-    "### 💼 Aplicação real\n"
-    "Treinamentos construídos com base em problemas reais do ambiente corporativo."
-)
+with c2:
+    st.markdown("""
+    <div class="feature-card">
+        <div class="feature-title">💼 Aplicação real</div>
+        <div class="feature-text">
+        Treinamentos construídos com base em problemas reais do ambiente corporativo.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
-c3.markdown(
-    "### 📈 Valorização profissional\n"
-    "Dominar dados aumenta sua relevância dentro de qualquer empresa."
-)
+with c3:
+    st.markdown("""
+    <div class="feature-card">
+        <div class="feature-title">📈 Valorização profissional</div>
+        <div class="feature-text">
+        Dominar dados aumenta sua relevância dentro de qualquer empresa.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 st.markdown("---")
 
@@ -112,8 +137,6 @@ with col2:
 
         Neste treinamento, você aprende a transformar dados brutos em dashboards
         profissionais e indicadores claros para tomada de decisão.
-
-        Não é apenas sobre aprender a ferramenta — é sobre desenvolver pensamento analítico.
         """
     )
     st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/DFeDsQV")
@@ -132,12 +155,7 @@ with col4:
     st.write(
         """
         SQL é a linguagem que conecta profissionais diretamente aos dados das empresas.
-
-        Este treinamento desenvolve a capacidade de consultar, analisar e extrair
-        informações estratégicas de bases de dados reais.
-
-        Profissionais que dominam SQL conquistam autonomia analítica
-        e se tornam muito mais valiosos para o negócio.
+        Desenvolva autonomia analítica e capacidade de extrair informações estratégicas.
         """
     )
     st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/ivdojL8")
@@ -155,14 +173,8 @@ with col6:
     st.header("Excel Essencial Para Negócios")
     st.write(
         """
-        Excel continua sendo uma das ferramentas mais utilizadas no ambiente corporativo,
-        mas poucos profissionais sabem utilizá-lo de forma estratégica.
-
-        Neste treinamento, você aprende Excel aplicado ao mundo dos negócios,
-        automação de tarefas e construção de análises confiáveis.
-
-        A diferença entre usar Excel e dominar Excel
-        é o que separa operadores de profissionais estratégicos.
+        Excel aplicado ao mundo corporativo, automação de tarefas e análises confiáveis
+        para profissionais que querem se destacar.
         """
     )
     st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/EEb9ADQ")
@@ -173,10 +185,8 @@ st.markdown("---")
 st.markdown('<div class="section-title">Compromisso com a qualidade</div>', unsafe_allow_html=True)
 
 st.success(
-    """
-    Você pode testar o treinamento com tranquilidade.
-    Caso não perceba valor real no conteúdo, o reembolso é garantido dentro do prazo da plataforma.
-    """
+    "Você pode testar o treinamento com tranquilidade. "
+    "Caso não perceba valor real no conteúdo, o reembolso é garantido."
 )
 
 exibir_rodape()
