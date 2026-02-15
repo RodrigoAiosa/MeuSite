@@ -155,10 +155,10 @@ with col2:
     with st.expander("📚 Ver conteúdo programático"):
         st.markdown("""
         1. Introdução ao Power BI e Mentalidade Analítica  
-        2. Importação e Conexão com Diferentes Fontes de Dados  
+        2. Importação e Conexão com Diferentes Fontes de Dados (Power Query) 
         3. Tratamento e Transformação de Dados (Power Query)  
-        4. Modelagem de Dados Profissional  
-        5. Fundamentos de DAX  
+        4. Modelagem de Dados Profissional (Power Pivot)
+        5. Fundamentos de DAX (Power Pivot) 
         6. Indicadores e KPIs Estratégicos  
         7. Criação de Dashboards Interativos  
         8. Storytelling com Dados  
@@ -216,15 +216,15 @@ with col6:
 
     with st.expander("📚 Ver conteúdo programático"):
         st.markdown("""
-        1. Fundamentos do Excel Corporativo  
-        2. Fórmulas Essenciais (SE, PROCV, PROCX, SOMASES, etc.)  
+        1. Fundamentos do Excel Corporativo (Objeto Tabela)
+        2. Fórmulas DAX
         3. Tabelas Inteligentes  
         4. Tabelas Dinâmicas  
         5. Dashboards no Excel  
-        6. Automação e Formatação Condicional  
+        6. Automação (Power Query)
         7. Indicadores Financeiros  
-        8. Power Query no Excel  
-        9. Noções de Macros  
+        8. Conceitos de B.I.
+        9. Automações com Power Query 
         10. Projeto Final Aplicado  
         """)
 
@@ -239,3 +239,4 @@ st.success(
 )
 
 exibir_rodape()
+
