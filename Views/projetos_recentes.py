@@ -104,7 +104,7 @@ st.markdown("<div class='subtitle'>Uma seleção das soluções desenvolvidas ut
 projects = [
 
     {
-        "title": "🚀 Da Geração de Dados ao Preenchimento Automático: Eficiência Total com Automação Inteligente 💡",
+        "title": "🚀 Preenchimento Automático: Eficiência Total com Automação Inteligente 💡",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7368611651706617856",
     },
 
@@ -219,5 +219,6 @@ for i in range(0, len(projects), 3):
 
 # --- RODAPÉ ---
 exibir_rodape()
+
 
 
