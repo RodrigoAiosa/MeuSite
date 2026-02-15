@@ -3,7 +3,7 @@ from utils import exibir_rodape, registrar_acesso
 
 # --- CONFIGURAÇÃO DA PÁGINA ---
 st.set_page_config(
-    page_title="Portfólio de Projetos",
+    page_title="Projetos Recentes",
     page_icon="🚀",
     layout="wide"
 )
@@ -219,6 +219,7 @@ for i in range(0, len(projects), 3):
 
 # --- RODAPÉ ---
 exibir_rodape()
+
 
 
 
