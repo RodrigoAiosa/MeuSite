@@ -22,7 +22,6 @@ st.markdown(
 
 st.title("🏆 Cases de Sucesso")
 st.write("Confira os resultados da nossa Mentoria Estratégica.")
-st.markdown("---")
 
 slides = ["Slide6.JPG", "Slide8.JPG", "Slide9.JPG", "Slide10.JPG", "Slide11.JPG", "Slide12.JPG", "Slide13.JPG", "Slide14.JPG"]
 
@@ -35,5 +34,6 @@ for slide in slides:
         st.warning(f"Imagem não encontrada: {slide}")
 
 exibir_rodape()
+
 
 
