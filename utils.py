@@ -116,3 +116,44 @@ def salvar_formulario_contato(dados):
         sheet.append_row(dados)
         return True
     except: return False
+
+def registrar_clique_botao(nome_botao):
+    """
+    Registra cliques de botões na planilha Relatorio_Acessos_Site.
+    Coluna K = Botao
+    Coluna L = Contagem
+    """
+    try:
+        creds = obter_credenciais()
+        if not creds:
+            return
+
+        client = gspread.authorize(creds)
+        sheet = client.open("Relatorio_Acessos_Site").sheet1
+
+        # Lê colunas K e L
+        botoes = sheet.col_values(11)  # Coluna K
+        contagens = sheet.col_values(12)  # Coluna L
+
+        # Remove header se existir
+        if botoes and botoes[0].lower() == "botao":
+            botoes = botoes[1:]
+            contagens = contagens[1:]
+            offset = 2
+        else:
+            offset = 1
+
+        # Procura botão
+        for i, botao in enumerate(botoes):
+            if botao == nome_botao:
+                linha = i + offset
+                valor_atual = int(contagens[i]) if i < len(contagens) and contagens[i].isdigit() else 0
+                sheet.update_cell(linha, 12, valor_atual + 1)
+                return
+
+        # Se não existir, cria nova linha
+        sheet.append_row([""] * 10 + [nome_botao, 1])
+
+    except Exception as e:
+        print(f"Erro ao registrar clique: {e}")
+
