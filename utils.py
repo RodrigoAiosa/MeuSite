@@ -1,16 +1,22 @@
 import streamlit as st
 import os
+import sys
 
 # =========================================================
-# 🔹 BASE PATH
+# 🔹 BASE PATH (considerando que este arquivo está em Views/)
 # =========================================================
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ASSETS_DIR = os.path.join(BASE_DIR, "assets")
 
 # =========================================================
-# 🔹 IMPORT UTILS (IMPORT DIRETO DA RAIZ)
+# 🔹 IMPORT UTILS
 # =========================================================
-from utils import exibir_rodape, registrar_acesso, registrar_clique_botao
+sys.path.append(BASE_DIR)
+
+try:
+    from utils import exibir_rodape, registrar_acesso
+except ImportError:
+    st.error("Erro: O arquivo 'utils.py' não foi encontrado na pasta raiz.")
 
 # =========================================================
 # 🔹 REGISTRO DE ACESSO
@@ -59,27 +65,20 @@ st.markdown("""
 .card1 { animation-delay: 0.1s; }
 .card2 { animation-delay: 0.3s; }
 .card3 { animation-delay: 0.5s; }
-
 @keyframes fadeUp {
     to { opacity: 1; transform: translateY(0); }
 }
-
 .feature-card:hover {
     transform: translateY(-6px);
     border: 1px solid rgba(59,130,246,0.6);
     box-shadow: 0 0 18px rgba(59,130,246,0.35);
 }
-
 .feature-title {
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 10px;
 }
-
-.feature-text { 
-    color: #cbd5e1; 
-}
-
+.feature-text { color: #cbd5e1; }
 .stLinkButton a {
     background-color: #2563eb !important;
     color: white !important;
@@ -152,10 +151,10 @@ with col1:
 
 with col2:
     st.header("Fundamento Power BI")
-    st.write("Transforme dados brutos em dashboards profissionais e indicadores estratégicos.")
-
-    if st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/DFeDsQV"):
-        registrar_clique_botao("Curso Power BI")
+    st.write("""
+    Transforme dados brutos em dashboards profissionais e indicadores estratégicos.
+    """)
+    st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/DFeDsQV")
 
     with st.expander("📚 Ver conteúdo programático"):
         st.markdown("""
@@ -181,10 +180,10 @@ with col3:
 
 with col4:
     st.header("SQL Fundamentos")
-    st.write("Desenvolva autonomia analítica e capacidade de extrair informações estratégicas.")
-
-    if st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/ivdojL8"):
-        registrar_clique_botao("Curso SQL")
+    st.write("""
+    Desenvolva autonomia analítica e capacidade de extrair informações estratégicas.
+    """)
+    st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/ivdojL8")
 
     with st.expander("📚 Ver conteúdo programático"):
         st.markdown("""
@@ -210,10 +209,10 @@ with col5:
 
 with col6:
     st.header("Excel Essencial Para Negócios")
-    st.write("Excel aplicado ao mundo corporativo, automação e análises estratégicas.")
-
-    if st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/EEb9ADQ"):
-        registrar_clique_botao("Curso Excel")
+    st.write("""
+    Excel aplicado ao mundo corporativo, automação e análises estratégicas.
+    """)
+    st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/EEb9ADQ")
 
     with st.expander("📚 Ver conteúdo programático"):
         st.markdown("""
@@ -241,7 +240,4 @@ st.success(
     "Caso não perceba valor real no conteúdo, o reembolso é garantido."
 )
 
-# =========================================================
-# 🔹 RODAPÉ
-# =========================================================
 exibir_rodape()
