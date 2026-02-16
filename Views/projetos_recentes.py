@@ -104,6 +104,11 @@ st.markdown("<div class='subtitle'>Uma seleção das soluções desenvolvidas ut
 projects = [
 
      {
+        "title": "📊 Automatizei o cálculo de custo de funcionários e o resultado é impressionante!",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7429183442157989888",
+    },
+
+     {
         "title": "✅Solução para Extração de Dados de PDFs: ''Movimentação de Pintos e Matrizes''",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7232036572035002371",
     },
@@ -248,6 +253,7 @@ for i in range(0, len(projects), 3):
 
 # --- RODAPÉ ---
 exibir_rodape()
+
 
 
 
