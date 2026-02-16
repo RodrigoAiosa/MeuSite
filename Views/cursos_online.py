@@ -14,7 +14,7 @@ ASSETS_DIR = os.path.join(BASE_DIR, "assets")
 sys.path.append(BASE_DIR)
 
 try:
-    from utils import exibir_rodape, registrar_acesso, registrar_clique_botao
+    from utils import exibir_rodape, registrar_acesso
 except ImportError:
     st.error("Erro: O arquivo 'utils.py' não foi encontrado na pasta raiz.")
 
@@ -151,10 +151,10 @@ with col1:
 
 with col2:
     st.header("Fundamento Power BI")
-    st.write("Transforme dados brutos em dashboards profissionais e indicadores estratégicos.")
-
-    if st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/DFeDsQV"):
-        registrar_clique_botao("Curso Power BI")
+    st.write("""
+    Transforme dados brutos em dashboards profissionais e indicadores estratégicos.
+    """)
+    st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/DFeDsQV")
 
     with st.expander("📚 Ver conteúdo programático"):
         st.markdown("""
@@ -180,10 +180,10 @@ with col3:
 
 with col4:
     st.header("SQL Fundamentos")
-    st.write("Desenvolva autonomia analítica e capacidade de extrair informações estratégicas.")
-
-    if st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/ivdojL8"):
-        registrar_clique_botao("Curso SQL")
+    st.write("""
+    Desenvolva autonomia analítica e capacidade de extrair informações estratégicas.
+    """)
+    st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/ivdojL8")
 
     with st.expander("📚 Ver conteúdo programático"):
         st.markdown("""
@@ -209,10 +209,10 @@ with col5:
 
 with col6:
     st.header("Excel Essencial Para Negócios")
-    st.write("Excel aplicado ao mundo corporativo, automação e análises estratégicas.")
-
-    if st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/EEb9ADQ"):
-        registrar_clique_botao("Curso Excel")
+    st.write("""
+    Excel aplicado ao mundo corporativo, automação e análises estratégicas.
+    """)
+    st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/EEb9ADQ")
 
     with st.expander("📚 Ver conteúdo programático"):
         st.markdown("""
