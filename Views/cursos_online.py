@@ -227,9 +227,8 @@ with col6:
         9. Introdução a Macros  
         10. Projeto Final Aplicado  
         """)
-
-st.markdown('<div class="section-title">Compromisso com a qualidade</div>', unsafe_allow_html=True)
-
+        
 exibir_rodape()
+
 
 
