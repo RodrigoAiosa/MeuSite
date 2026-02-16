@@ -21,10 +21,6 @@ st.markdown("""
     color: white;
 }
 
-.main-project-container {
-    padding: 40px 0px;
-}
-
 .project-card {
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -34,7 +30,7 @@ st.markdown("""
     padding: 30px 20px;
     margin-bottom: 30px;
     transition: all 0.35s ease;
-    min-height: 200px;
+    min-height: 210px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -82,13 +78,19 @@ st.markdown("""
 }
 
 .share-icon {
-    font-size: 20px;
-    text-decoration: none;
-    transition: transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
+    transition: all 0.2s ease;
 }
 
 .share-icon:hover {
-    transform: scale(1.2);
+    transform: scale(1.15);
+    background: rgba(255,255,255,0.1);
 }
 
 .main-title {
@@ -151,8 +153,19 @@ for i in range(0, len(projects), 3):
                     </a>
 
                     <div class="share-container">
-                        <a href="{linkedin_share}" target="_blank" class="share-icon">💼</a>
-                        <a href="{whatsapp_share}" target="_blank" class="share-icon">🟢</a>
+
+                        <a href="{linkedin_share}" target="_blank" class="share-icon" title="Compartilhar no LinkedIn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#0A66C2" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.025-3.037-1.851-3.037-1.853 0-2.136 1.446-2.136 2.939v5.667H9.351V9h3.414v1.561h.049c.476-.9 1.637-1.849 3.37-1.849 3.601 0 4.267 2.368 4.267 5.455v6.285z"/>
+                            </svg>
+                        </a>
+
+                        <a href="{whatsapp_share}" target="_blank" class="share-icon" title="Compartilhar no WhatsApp">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#25D366" viewBox="0 0 24 24">
+                                <path d="M12.07 21.9h-.01a9.9 9.9 0 0 1-5.05-1.39l-.36-.21-3.64.95.97-3.55-.24-.37a9.9 9.9 0 0 1-1.52-5.3c0-5.49 4.46-9.96 9.95-9.96 5.49 0 9.96 4.47 9.96 9.96s-4.47 9.95-9.96 9.95z"/>
+                            </svg>
+                        </a>
+
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
