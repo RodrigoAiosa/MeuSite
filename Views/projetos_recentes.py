@@ -102,9 +102,8 @@ for idx, p in enumerate(projects):
     # Link de compartilhamento do LinkedIn (URL específica do projeto)
     li_share_url = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['link'])}"
     
-    # Mensagem de WhatsApp Personalizada (conforme solicitado)
-    # Link do calendário incluído na conversa caso o usuário queira marcar reunião
-    wa_msg = f"Olá Rodrigo! Vi seu projeto '{p['title']}' no seu portfólio. Gostaria de conversar sobre como aplicar isso, ou talvez agendar uma reunião: https://calendly.com/rodrigoaiosa"
+    # Mensagem de WhatsApp Personalizada (sem links de calendário)
+    wa_msg = f"Olá Rodrigo! Vi seu projeto '{p['title']}' no seu portfólio e gostaria de conversar sobre ele."
     wa_link = f"https://wa.me/5511977019335?text={urllib.parse.quote(wa_msg)}"
     
     with cols[idx % 3]:
@@ -115,7 +114,7 @@ for idx, p in enumerate(projects):
             f'<div><a href="{p["link"]}" target="_blank" class="view-button">Ver Demonstração</a></div>'
             f'<div class="share-container">'
             f'<a href="{li_share_url}" target="_blank" class="share-icon icon-li" title="Compartilhar no LinkedIn"><i class="fab fa-linkedin"></i></a>'
-            f'<a href="{wa_link}" target="_blank" class="share-icon icon-wa" title="Falar com Rodrigo no WhatsApp"><i class="fab fa-whatsapp"></i></a>'
+            f'<a href="{wa_link}" target="_blank" class="share-icon icon-wa" title="Falar no WhatsApp"><i class="fab fa-whatsapp"></i></a>'
             f'</div></div>'
         )
         st.markdown(card_html, unsafe_allow_html=True)
