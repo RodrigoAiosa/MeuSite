@@ -12,6 +12,7 @@ registrar_acesso("Vitrine de Projetos")
 st.markdown("""
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
+    /* Estilização dos Cards */
     .project-card {
         background: #111827;
         border-radius: 18px;
@@ -52,17 +53,11 @@ st.markdown("""
         font-size: 0.9rem;
         display: inline-block;
         margin-bottom: 15px;
-        transition: 0.3s;
-    }
-    
-    .view-button:hover {
-        background-color: #0096b4 !important;
-        transform: scale(1.05);
     }
 
     .share-container {
         display: flex;
-        gap: 15px;
+        gap: 20px;
         justify-content: center;
         border-top: 1px solid #1f2937;
         padding-top: 15px;
@@ -77,7 +72,6 @@ st.markdown("""
 
     .icon-li:hover { color: #0077b5 !important; }
     .icon-wa:hover { color: #25d366 !important; }
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -105,36 +99,26 @@ projects = [
 cols = st.columns(3)
 
 for idx, p in enumerate(projects):
-    # Link de compartilhamento do LinkedIn apontando para a URL DO PROJETO (p['link'])
+    # Link de compartilhamento do LinkedIn (URL específica do projeto)
     li_share_url = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['link'])}"
     
-    # Mensagem personalizada para o seu WhatsApp (conforme solicitado)
-    wa_msg = f"Olá Rodrigo! Vi seu projeto '{p['title']}' no portfólio e gostaria de saber mais."
+    # Mensagem de WhatsApp Personalizada (conforme solicitado)
+    # Link do calendário incluído na conversa caso o usuário queira marcar reunião
+    wa_msg = f"Olá Rodrigo! Vi seu projeto '{p['title']}' no seu portfólio. Gostaria de conversar sobre como aplicar isso, ou talvez agendar uma reunião: https://calendly.com/rodrigoaiosa"
     wa_link = f"https://wa.me/5511977019335?text={urllib.parse.quote(wa_msg)}"
     
     with cols[idx % 3]:
-        st.markdown(f"""
-            <div class="project-card">
-                <div class="project-title">
-                    {p['title']}
-                </div>
-                
-                <div>
-                    <a href="{p['link']}" target="_blank" class="view-button">
-                        Ver Demonstração
-                    </a>
-                </div>
-
-                <div class="share-container">
-                    <a href="{li_share_url}" target="_blank" class="share-icon icon-li" title="Compartilhar projeto no LinkedIn">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                    <a href="{wa_link}" target="_blank" class="share-icon icon-wa" title="Conversar sobre este projeto">
-                        <i class="fab fa-whatsapp"></i>
-                    </a>
-                </div>
-            </div>
-        """, unsafe_allow_html=True)
+        # Construção do HTML em bloco único para evitar erro de renderização do Streamlit
+        card_html = (
+            f'<div class="project-card">'
+            f'<div class="project-title">{p["title"]}</div>'
+            f'<div><a href="{p["link"]}" target="_blank" class="view-button">Ver Demonstração</a></div>'
+            f'<div class="share-container">'
+            f'<a href="{li_share_url}" target="_blank" class="share-icon icon-li" title="Compartilhar no LinkedIn"><i class="fab fa-linkedin"></i></a>'
+            f'<a href="{wa_link}" target="_blank" class="share-icon icon-wa" title="Falar com Rodrigo no WhatsApp"><i class="fab fa-whatsapp"></i></a>'
+            f'</div></div>'
+        )
+        st.markdown(card_html, unsafe_allow_html=True)
 
 # --- RODAPÉ ---
 exibir_rodape()
