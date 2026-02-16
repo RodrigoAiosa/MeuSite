@@ -12,11 +12,6 @@ registrar_acesso("Vitrine de Projetos")
 st.markdown("""
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
-    /* Resetando estilos de link do Streamlit que podem interferir */
-    .stMarkdown a {
-        text-decoration: none;
-    }
-
     .project-card {
         background: #111827;
         border-radius: 18px;
@@ -25,10 +20,10 @@ st.markdown("""
         margin-bottom: 20px;
         text-align: center;
         transition: 0.3s;
-        min-height: 250px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        min-height: 280px;
     }
 
     .project-card:hover {
@@ -41,6 +36,10 @@ st.markdown("""
         font-weight: bold;
         color: white;
         margin-bottom: 20px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .view-button {
@@ -52,26 +51,33 @@ st.markdown("""
         font-weight: bold;
         font-size: 0.9rem;
         display: inline-block;
-        margin: 15px auto;
-        width: fit-content;
+        margin-bottom: 15px;
+        transition: 0.3s;
+    }
+    
+    .view-button:hover {
+        background-color: #0096b4 !important;
+        transform: scale(1.05);
     }
 
     .share-container {
         display: flex;
-        gap: 20px;
+        gap: 15px;
         justify-content: center;
-        margin-top: 10px;
+        border-top: 1px solid #1f2937;
+        padding-top: 15px;
     }
 
     .share-icon {
         color: #9ca3af !important;
-        font-size: 1.6rem;
+        font-size: 1.5rem;
         transition: 0.3s;
         text-decoration: none !important;
     }
 
     .icon-li:hover { color: #0077b5 !important; }
     .icon-wa:hover { color: #25d366 !important; }
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -97,13 +103,14 @@ projects = [
 
 # --- GRID ---
 cols = st.columns(3)
+
 for idx, p in enumerate(projects):
-    # Mensagem personalizada para WhatsApp baseada no título do projeto
-    wa_text = f"Olá Rodrigo! Vi seu projeto '{p['title']}' e gostaria de conversar sobre ele."
-    wa_link = f"https://wa.me/5511977019335?text={urllib.parse.quote(wa_text)}"
+    # Link de compartilhamento do LinkedIn apontando para a URL DO PROJETO (p['link'])
+    li_share_url = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['link'])}"
     
-    # Link de compartilhamento no LinkedIn
-    li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['link'])}"
+    # Mensagem personalizada para o seu WhatsApp (conforme solicitado)
+    wa_msg = f"Olá Rodrigo! Vi seu projeto '{p['title']}' no portfólio e gostaria de saber mais."
+    wa_link = f"https://wa.me/5511977019335?text={urllib.parse.quote(wa_msg)}"
     
     with cols[idx % 3]:
         st.markdown(f"""
@@ -111,16 +118,18 @@ for idx, p in enumerate(projects):
                 <div class="project-title">
                     {p['title']}
                 </div>
+                
                 <div>
                     <a href="{p['link']}" target="_blank" class="view-button">
                         Ver Demonstração
                     </a>
                 </div>
+
                 <div class="share-container">
-                    <a href="{li_link}" target="_blank" class="share-icon icon-li" title="Compartilhar no LinkedIn">
+                    <a href="{li_share_url}" target="_blank" class="share-icon icon-li" title="Compartilhar projeto no LinkedIn">
                         <i class="fab fa-linkedin"></i>
                     </a>
-                    <a href="{wa_link}" target="_blank" class="share-icon icon-wa" title="Falar no WhatsApp">
+                    <a href="{wa_link}" target="_blank" class="share-icon icon-wa" title="Conversar sobre este projeto">
                         <i class="fab fa-whatsapp"></i>
                     </a>
                 </div>
