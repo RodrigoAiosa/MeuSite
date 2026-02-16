@@ -12,7 +12,6 @@ registrar_acesso("Vitrine de Projetos")
 st.markdown("""
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
-    /* Estilização dos Cards */
     .project-card {
         background: #111827;
         border-radius: 18px;
@@ -99,24 +98,23 @@ projects = [
 cols = st.columns(3)
 
 for idx, p in enumerate(projects):
-    # Link de compartilhamento do LinkedIn (URL específica do projeto)
+    # Para o LinkedIn, vamos usar apenas a URL do conteúdo
     li_share_url = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['link'])}"
     
-    # Mensagem de WhatsApp Personalizada (sem links de calendário)
+    # WhatsApp com mensagem personalizada
     wa_msg = f"Olá Rodrigo! Vi seu projeto '{p['title']}' no seu portfólio e gostaria de conversar sobre ele."
     wa_link = f"https://wa.me/5511977019335?text={urllib.parse.quote(wa_msg)}"
     
     with cols[idx % 3]:
-        # Construção do HTML em bloco único para evitar erro de renderização do Streamlit
-        card_html = (
-            f'<div class="project-card">'
-            f'<div class="project-title">{p["title"]}</div>'
-            f'<div><a href="{p["link"]}" target="_blank" class="view-button">Ver Demonstração</a></div>'
-            f'<div class="share-container">'
-            f'<a href="{li_share_url}" target="_blank" class="share-icon icon-li" title="Compartilhar no LinkedIn"><i class="fab fa-linkedin"></i></a>'
-            f'<a href="{wa_link}" target="_blank" class="share-icon icon-wa" title="Falar no WhatsApp"><i class="fab fa-whatsapp"></i></a>'
-            f'</div></div>'
-        )
+        # Criamos o HTML concatenando strings curtas para forçar o Streamlit a renderizar corretamente
+        card_html = "<div class='project-card'>"
+        card_html += f"<div class='project-title'>{p['title']}</div>"
+        card_html += f"<div><a href='{p['link']}' target='_blank' class='view-button'>Ver Demonstração</a></div>"
+        card_html += "<div class='share-container'>"
+        card_html += f"<a href='{li_share_url}' target='_blank' class='share-icon icon-li'><i class='fab fa-linkedin'></i></a>"
+        card_html += f"<a href='{wa_link}' target='_blank' class='share-icon icon-wa'><i class='fab fa-whatsapp'></i></a>"
+        card_html += "</div></div>"
+        
         st.markdown(card_html, unsafe_allow_html=True)
 
 # --- RODAPÉ ---
