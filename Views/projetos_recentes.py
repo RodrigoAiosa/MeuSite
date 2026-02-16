@@ -220,7 +220,8 @@ for idx, p in enumerate(projects):
     li_share_url = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['link'])}"
     
     # WhatsApp com mensagem personalizada
-    wa_msg = f"Olá Rodrigo! Vi seu projeto '{p['title']}' no seu portfólio e gostaria de conversar sobre ele."
+    wa_msg = f"Olá Rodrigo! Vi seu projeto '{p['title']}' no seu portfólio e gostaria de conversar sobre ele. O projeto é: https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['link'])}"
+    
     wa_link = f"https://wa.me/5511977019335?text={urllib.parse.quote(wa_msg)}"
     
     with cols[idx % 3]:
@@ -237,5 +238,6 @@ for idx, p in enumerate(projects):
 
 # --- RODAPÉ ---
 exibir_rodape()
+
 
 
