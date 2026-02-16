@@ -1,5 +1,6 @@
 import streamlit as st
 from utils import exibir_rodape, registrar_acesso
+import urllib.parse
 
 # --- CONFIGURAÇÃO DA PÁGINA ---
 st.set_page_config(
@@ -15,18 +16,15 @@ registrar_acesso("Vitrine de Projetos")
 st.markdown("""
 <style>
 
-/* Fundo com gradiente moderno */
 [data-testid="stAppViewContainer"] {
     background: linear-gradient(135deg, #0f172a, #0b1120);
     color: white;
 }
 
-/* Container principal */
 .main-project-container {
     padding: 40px 0px;
 }
 
-/* Card Glass */
 .project-card {
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -36,20 +34,18 @@ st.markdown("""
     padding: 30px 20px;
     margin-bottom: 30px;
     transition: all 0.35s ease;
-    min-height: 180px;
+    min-height: 200px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-/* Hover elegante */
 .project-card:hover {
     transform: translateY(-8px);
     border: 1px solid rgba(0, 180, 216, 0.6);
     box-shadow: 0 20px 40px rgba(0, 180, 216, 0.15);
 }
 
-/* Título */
 .project-title {
     color: #ffffff;
     font-size: 1.15rem;
@@ -58,7 +54,6 @@ st.markdown("""
     line-height: 1.5;
 }
 
-/* Botão Glass */
 .view-button {
     background: rgba(0, 180, 216, 0.1);
     color: #00b4d8;
@@ -70,15 +65,32 @@ st.markdown("""
     font-size: 0.9rem;
     font-weight: 600;
     transition: all 0.3s ease;
+    display: block;
+    margin-bottom: 12px;
 }
 
 .view-button:hover {
     background: #00b4d8;
     color: #0f172a;
-    text-decoration: none;
 }
 
-/* Título principal */
+.share-container {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 8px;
+}
+
+.share-icon {
+    font-size: 20px;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+}
+
+.share-icon:hover {
+    transform: scale(1.2);
+}
+
 .main-title {
     text-align: center;
     font-size: 2.2rem;
@@ -102,137 +114,18 @@ st.markdown("<div class='subtitle'>Uma seleção das soluções desenvolvidas ut
 
 # --- PROJETOS ---
 projects = [
-
-     {
+    {
         "title": "📊 Automatizei o cálculo de custo de funcionários e o resultado é impressionante!",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7429183442157989888",
     },
-
-     {
-        "title": "✅Solução para Extração de Dados de PDFs: ''Movimentação de Pintos e Matrizes''",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7232036572035002371",
-    },
-
-     {
+    {
         "title": "🚀 Automação em Alta Velocidade: Gerando Mil Arquivos em 30 Segundos com Python ⚡",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7250105059819040768",
     },
-
-     {
-        "title": "🎰💎A Perigosa Armadilha dos Jogos de Azar: Caça-Níqueis Manipulados 🎰💎",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7248134736940818432",
-    },
-
-     {
-        "title": "🐍🐍Automação de Processos em Python: Extraindo Dados de 344 PDFs para Excel com Precisão e Eficiência",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7258568013845585920",
-    },
-
-    {
-        "title": "🔵 Criei 15 medidas em DAX com um ÚNICO CLIQUE!",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7340413603101011969",
-    },
-
-    {
-        "title": "🚀 Preenchimento Automático: Eficiência Total com Automação Inteligente 💡",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7368611651706617856",
-    },
-
-    {
-        "title": "🦉 Python + ACCESS + HTML + CSS",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7363944902973411332",
-    },
-
-    {
-        "title": "💡 A espinha dorsal do B.I. começa no Power Query💡",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7380426662678650882",
-    },
-    
-    {
-        "title": "⏳ De horas de trabalho para SEGUNDOS de execução: como a automação transforma dados em poder 🚀",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7378444187920359424",
-    },
-
-    {
-        "title": "🔎 Documentar no Power BI nunca foi tão fácil: tudo em um único clique!",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7376613833274003457",
-    },
-
-    {
-        "title": "🚀 Web Scraping com Python: dados certos, do jeito certo.",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7384454430533787648",
-    },
-
-    {
-        "title": "✅ Pare de Perder Horas: Descubra Como a Automação Revoluciona a Coleta de Dados✅",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7387300096381595649",
-    },
-
     {
         "title": "🎈Criando o clássico jogo TETRIS com python e usando I.A. para jogar",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7401703226657406976",
     },
-    
-    {
-        "title": "🚀 Técnicas avançadas em BI: conectando relatórios ao banco de dados com performance",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7406927292955865088",
-    },
-
-    {
-        "title": "🧠 Por que conhecer as tabelas e seus relacionamentos é vital em qualquer projeto de BI?",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7415581668649877504",
-    },
-
-    {
-        "title": "🚗 Contagem de veículos em tempo real: um projeto prático de visão computacional com Python",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7422736985196371969",
-    },
-    
-    {
-        "title": "🚗💡 Evoluindo o Sistema de Contagem de Veículos: Agora com Áreas Personalizadas",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7423354824370470912",
-    },
-    
-    {
-        "title": "🎈 Domando a Web: Automatizando a Coleta de Dados",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7396548688942231552",
-    },
-    {
-        "title": "💡 Chega de Sofrer Enviando Currículo na Mão – Automatize AGORA",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7401302855799828480",
-    },
-    {
-        "title": "🚀 Por que este script muda a forma de olhar para o mercado de trabalho",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7417316742781399040",
-    },
-    {
-        "title": "🏛️ O Fim da Era Manual: Dashboard Automático",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7425547898580328449",
-    },
-    {
-        "title": "📊 Análise Pro: Sistemas de Amortização",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7425612242248835073/",
-    },
-    {
-        "title": "📍 Ciência por trás da Prospecção de Alta Performance",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7425188593134026752",
-    },
-    {
-        "title": "🚗 Contagem de Veículos em Tempo Real (Visão Computacional)",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7422736985196371969",
-    },
-    {
-        "title": "💡 Pedra, Papel e Tesoura com Inteligência Artificial",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7422420309632303104",
-    },
-    {
-        "title": "❤️ O dia em que a IA me ajudou como PAI",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7420842332155142144",
-    },
-     {
-        "title": "🚀 A Revolução na Produtividade do BI: Conheça a Nova Guia que Transforma Análises em Resultados!",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7276209357732659200",
-    }
 ]
 
 # --- GRID RESPONSIVO ---
@@ -241,26 +134,28 @@ for i in range(0, len(projects), 3):
     for j in range(3):
         if i + j < len(projects):
             project = projects[i + j]
+
+            link_encoded = urllib.parse.quote(project["link"])
+            text_encoded = urllib.parse.quote(project["title"] + " " + project["link"])
+
+            linkedin_share = f"https://www.linkedin.com/sharing/share-offsite/?url={link_encoded}"
+            whatsapp_share = f"https://wa.me/?text={text_encoded}"
+
             with cols[j]:
                 st.markdown(f"""
                 <div class="project-card">
                     <div class="project-title">{project['title']}</div>
+
                     <a href="{project['link']}" target="_blank" class="view-button">
                         Ver Demonstração
                     </a>
+
+                    <div class="share-container">
+                        <a href="{linkedin_share}" target="_blank" class="share-icon">💼</a>
+                        <a href="{whatsapp_share}" target="_blank" class="share-icon">🟢</a>
+                    </div>
                 </div>
                 """, unsafe_allow_html=True)
 
 # --- RODAPÉ ---
 exibir_rodape()
-
-
-
-
-
-
-
-
-
-
-
