@@ -80,20 +80,133 @@ st.write("")
 
 # --- PROJETOS ---
 projects = [
-    {
-        "title": "📊 Automatizei o cálculo de custo de funcionários",
-        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7429183442157989888",
+
+     {
+        "title": "✅Solução para Extração de Dados de PDFs: ''Movimentação de Pintos e Matrizes''",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7232036572035002371",
     },
-    {
-        "title": "🚀 Gerando mil arquivos em segundos com Python",
+
+     {
+        "title": "🚀 Automação em Alta Velocidade: Gerando Mil Arquivos em 30 Segundos com Python ⚡",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7250105059819040768",
     },
+
+     {
+        "title": "🎰💎A Perigosa Armadilha dos Jogos de Azar: Caça-Níqueis Manipulados 🎰💎",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7248134736940818432",
+    },
+
+     {
+        "title": "🐍🐍Automação de Processos em Python: Extraindo Dados de 344 PDFs para Excel com Precisão e Eficiência",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7258568013845585920",
+    },
+
     {
-        "title": "🎮 Tetris com IA em Python",
+        "title": "🔵 Criei 15 medidas em DAX com um ÚNICO CLIQUE!",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7340413603101011969",
+    },
+
+    {
+        "title": "🚀 Preenchimento Automático: Eficiência Total com Automação Inteligente 💡",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7368611651706617856",
+    },
+
+    {
+        "title": "🦉 Python + ACCESS + HTML + CSS",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7363944902973411332",
+    },
+
+    {
+        "title": "💡 A espinha dorsal do B.I. começa no Power Query💡",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7380426662678650882",
+    },
+    
+    {
+        "title": "⏳ De horas de trabalho para SEGUNDOS de execução: como a automação transforma dados em poder 🚀",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7378444187920359424",
+    },
+
+    {
+        "title": "🔎 Documentar no Power BI nunca foi tão fácil: tudo em um único clique!",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7376613833274003457",
+    },
+
+    {
+        "title": "🚀 Web Scraping com Python: dados certos, do jeito certo.",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7384454430533787648",
+    },
+
+    {
+        "title": "✅ Pare de Perder Horas: Descubra Como a Automação Revoluciona a Coleta de Dados✅",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7387300096381595649",
+    },
+
+    {
+        "title": "🎈Criando o clássico jogo TETRIS com python e usando I.A. para jogar",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7401703226657406976",
+    },
+    
+    {
+        "title": "🚀 Técnicas avançadas em BI: conectando relatórios ao banco de dados com performance",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7406927292955865088",
+    },
+
+    {
+        "title": "🧠 Por que conhecer as tabelas e seus relacionamentos é vital em qualquer projeto de BI?",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7415581668649877504",
+    },
+
+    {
+        "title": "🚗 Contagem de veículos em tempo real: um projeto prático de visão computacional com Python",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7422736985196371969",
+    },
+    
+    {
+        "title": "🚗💡 Evoluindo o Sistema de Contagem de Veículos: Agora com Áreas Personalizadas",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7423354824370470912",
+    },
+    
+    {
+        "title": "🎈 Domando a Web: Automatizando a Coleta de Dados",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7396548688942231552",
+    },
+    {
+        "title": "💡 Chega de Sofrer Enviando Currículo na Mão – Automatize AGORA",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7401302855799828480",
+    },
+    {
+        "title": "🚀 Por que este script muda a forma de olhar para o mercado de trabalho",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7417316742781399040",
+    },
+    {
+        "title": "🏛️ O Fim da Era Manual: Dashboard Automático",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7425547898580328449",
+    },
+    {
+        "title": "📊 Análise Pro: Sistemas de Amortização",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7425612242248835073/",
+    },
+    {
+        "title": "📍 Ciência por trás da Prospecção de Alta Performance",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7425188593134026752",
+    },
+    {
+        "title": "🚗 Contagem de Veículos em Tempo Real (Visão Computacional)",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7422736985196371969",
+    },
+    {
+        "title": "💡 Pedra, Papel e Tesoura com Inteligência Artificial",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7422420309632303104",
+    },
+    {
+        "title": "❤️ O dia em que a IA me ajudou como PAI",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7420842332155142144",
+    },
+     {
+        "title": "🚀 A Revolução na Produtividade do BI: Conheça a Nova Guia que Transforma Análises em Resultados!",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7276209357732659200",
     }
 ]
-
 # --- GRID ---
 cols = st.columns(3)
 
@@ -119,3 +232,4 @@ for idx, p in enumerate(projects):
 
 # --- RODAPÉ ---
 exibir_rodape()
+
