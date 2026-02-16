@@ -29,11 +29,11 @@ for slide in slides:
     caminho_img = os.path.join("assets", slide)
     if os.path.exists(caminho_img):
         st.image(caminho_img, use_container_width=True)
-        st.markdown("***")
     else:
         st.warning(f"Imagem não encontrada: {slide}")
 
 exibir_rodape()
+
 
 
 
