@@ -96,6 +96,15 @@ render_python_app(
     "https://calculadora-preco-venda.streamlit.app/"
 )
 
+
+
+# Projeto 16/02/2026 00:38 
+# render_python_app(
+#     "📝 Análise de Custo: CLT",
+#     "Pare de errar nos cálculos trabalhistas! Calcule com precisão todos os custos de CLT e PJ, compare regimes, descubra a margem real de lucro por funcionário e processe equipes inteiras. Gere relatórios profissionais em segundos. Grátis e fácil de usar!",
+#     "https://rhexpert.streamlit.app/"
+# )
+
 # # Projeto 
 # render_python_app(
 #     "⚖️ Calculadora de Viabilidade de Leilão Profissional",
@@ -126,6 +135,7 @@ render_python_app(
 
 
 exibir_rodape()
+
 
 
 
