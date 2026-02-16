@@ -235,9 +235,5 @@ st.markdown("---")
 # =========================================================
 st.markdown('<div class="section-title">Compromisso com a qualidade</div>', unsafe_allow_html=True)
 
-st.success(
-    "Você pode testar o treinamento com tranquilidade. "
-    "Caso não perceba valor real no conteúdo, o reembolso é garantido."
-)
-
 exibir_rodape()
+
