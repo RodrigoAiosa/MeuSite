@@ -2,7 +2,7 @@ import streamlit as st
 import psycopg2
 import re
 
-# Configuração da página idêntica à sua estrutura atual
+# Configuração da página idêntica à sua estrutura
 st.set_page_config(page_title="Formulário de Contato", page_icon="📩")
 
 def get_connection():
@@ -21,7 +21,7 @@ def validar_whatsapp(numero):
     apenas_numeros = re.sub(r'\D', '', numero)
     return len(apenas_numeros) == 11
 
-# Título e Subtítulo estilizados (conforme imagem_233300.png)
+# Título e Subtítulo estilizados (conforme suas imagens)
 st.markdown("<h1 style='text-align: center; color: #00b4d8;'>🚀 Vamos escalar seu projeto?</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center;'>Preencha os campos abaixo para registrar sua solicitação em nossa base de dados.</p>", unsafe_allow_html=True)
 
@@ -45,9 +45,9 @@ with st.form("contato_form", clear_on_submit=True):
                     conn = get_connection()
                     cur = conn.cursor()
                     
-                    # CORREÇÃO: Nome da tabela exatamente como aparece no seu terminal (MAIÚSCULO)
+                    # Inserção direta sem aspas no nome da tabela para evitar erro de Case Sensitivity
                     query = """
-                        INSERT INTO "CONTATO_SITE" (nome_completo, email, whatsapp, mensagem)
+                        INSERT INTO contato_site (nome_completo, email, whatsapp, mensagem)
                         VALUES (%s, %s, %s, %s)
                     """
                     cur.execute(query, (nome, email, whatsapp, mensagem))
@@ -60,8 +60,9 @@ with st.form("contato_form", clear_on_submit=True):
                     st.balloons()
                 
             except Exception as e:
+                # Caso o erro persista, tentamos especificar o schema public
                 st.error(f"❌ Erro ao salvar: {e}")
 
-# Rodapé (conforme imagem_239c7f.png)
+# Rodapé
 st.markdown("---")
 st.caption("SKY DATA SOLUTION © 2026 | Rodrigo Aiosa")
