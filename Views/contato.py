@@ -4,7 +4,7 @@ import urllib.parse
 from datetime import datetime
 from utils import exibir_rodape, salvar_formulario_contato, registrar_acesso
 
-# Registro de acesso para controle interno
+# Registro de acesso para controle interno no CRUD Aiven
 registrar_acesso("Contato")
 
 def validar_email(email):
@@ -13,39 +13,40 @@ def validar_email(email):
     return re.search(regex, email)
 
 def gerar_link_whatsapp(nome, mensagem_usuario):
-    # Mensagem personalizada conforme a regra de negócio
-    texto = f"Olá Rodrigo! Meu nome é {nome}. Gostaria de falar sobre: {mensagem_usuario}"
+    # Mensagem personalizada baseada no pedido do usuário
+    texto = f"Olá Rodrigo! Meu nome é {nome}. Gostaria de conversar sobre: {mensagem_usuario}"
     texto_encoded = urllib.parse.quote(texto)
     # Seu WhatsApp: 11977019335
     return f"https://wa.me/5511977019335?text={texto_encoded}"
 
 def main():
+    # Título estilizado conforme o padrão visual da página
     st.markdown("<h1 style='text-align: center; color: #00b4d8;'>🚀 Vamos escalar seu projeto?</h1>", unsafe_allow_html=True)
     
-    # Banner informativo (conforme o print enviado)
-    st.info("📅 **Deseja marcar uma reunião ou falar sobre um projeto?** Use o formulário abaixo ou me chame diretamente.")
+    # Banner informativo - Substituindo Calendly por contato direto
+    st.info("📅 **Deseja marcar uma reunião ou falar sobre um projeto?** Preencha o formulário abaixo para registrar seu interesse e me chame no WhatsApp.")
 
-    with st.form("form_contato", clear_on_submit=True):
+    with st.form("form_contato_aiven", clear_on_submit=True):
         nome = st.text_input("👤 Nome Completo")
         email = st.text_input("📧 E-mail Profissional")
         whatsapp_contato = st.text_input("📱 Seu WhatsApp (11 números)")
-        mensagem = st.text_area("💬 Como posso te ajudar? (Ex: Quero marcar uma reunião, comprar um serviço...)")
+        mensagem = st.text_area("💬 Como posso te ajudar? (Ex: Quero marcar uma reunião, orçamento, etc.)")
         
-        enviar = st.form_submit_button("Enviar Mensagem e Abrir Conversa")
+        enviar = st.form_submit_button("Enviar Dados e Abrir WhatsApp")
 
         if enviar:
-            # Validações rigorosas
+            # Validações antes de processar
             if len(nome.strip()) < 5:
                 st.error("Por favor, insira seu nome completo.")
             elif not validar_email(email.lower()):
-                st.error("E-mail profissional inválido.")
+                st.error("Por favor, utilize um e-mail válido.")
             elif not (whatsapp_contato.isdigit() and len(whatsapp_contato) == 11):
-                st.error("WhatsApp deve ter 11 dígitos (DDD + número).")
+                st.error("WhatsApp inválido. Use o formato: 11999999999.")
             elif not mensagem.strip():
-                st.error("Por favor, descreva como posso te ajudar.")
+                st.error("A mensagem não pode estar vazia.")
             else:
-                with st.spinner("Salvando dados e preparando contato..."):
-                    # Preparação dos dados para salvar (Preservando existentes)
+                with st.spinner("Integrando dados ao CRUD Aiven..."):
+                    # Preparação da lista de dados para salvar e preservar histórico
                     dados_lista = [
                         datetime.now().strftime("%d/%m/%Y %H:%M:%S"), 
                         nome, 
@@ -54,30 +55,31 @@ def main():
                         mensagem
                     ]
                     
-                    # Chamada da função para salvar no banco de dados/planilha
+                    # Salva no banco de dados via utils
                     sucesso = salvar_formulario_contato(dados_lista)
                     
                     if sucesso:
                         st.balloons()
-                        st.success("Dados registrados com sucesso!")
+                        st.success("Dados salvos com sucesso no sistema!")
                         
-                        # Geração do hiperlink personalizado do WhatsApp
+                        # Link dinâmico do WhatsApp
                         link_wa = gerar_link_whatsapp(nome, mensagem)
                         
-                        # Exibição do link de reunião/contato (substituindo Calendly)
+                        # Bloco de Call to Action para Reunião/WhatsApp
                         st.markdown(f"""
-                            <div style="text-align: center; padding: 20px; border: 2px solid #00b4d8; border-radius: 10px; background-color: #0e1117;">
-                                <h3 style="color: #00b4d8;">✅ Tudo pronto!</h3>
-                                <p>Clique no botão abaixo para agendar nossa reunião ou iniciar a conversa:</p>
-                                <a href="{link_wa}" target="_blank" style="background-color: #25d366; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block; transition: 0.3s;">
-                                    🚀 Falar com Rodrigo no WhatsApp
+                            <div style="text-align: center; padding: 25px; border: 2px solid #00b4d8; border-radius: 15px; background-color: #0e1117; margin-top: 20px;">
+                                <h3 style="color: #00b4d8; margin-bottom: 15px;">✅ Registro Concluído!</h3>
+                                <p style="font-size: 1.1em;">Agora, clique no botão abaixo para <b>confirmar nossa reunião</b> e iniciar o atendimento:</p>
+                                <a href="{link_wa}" target="_blank" style="background-color: #25d366; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; box-shadow: 0px 4px 15px rgba(37, 211, 102, 0.3);">
+                                    💬 Iniciar Conversa Agora
                                 </a>
                             </div>
                         """, unsafe_allow_html=True)
                     else:
-                        st.error("Houve um erro ao salvar os dados. Verifique a conexão com o banco.")
+                        st.error("Erro ao conectar com o banco de dados Aiven. Verifique suas credenciais.")
 
 if __name__ == "__main__":
     main()
 
+# Rodapé padrão do projeto
 exibir_rodape()
