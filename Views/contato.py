@@ -2,7 +2,7 @@ import streamlit as st
 import psycopg2
 import re
 
-# Configuração da página
+# Configuração da página conforme sua imagem de referência
 st.set_page_config(page_title="Formulário de Contato", page_icon="📩")
 
 def get_connection():
@@ -19,6 +19,7 @@ def validar_whatsapp(numero):
     apenas_numeros = re.sub(r'\D', '', numero)
     return len(apenas_numeros) == 11
 
+# Título e Subtítulo conforme imagem 233300.png
 st.markdown("<h1 style='text-align: center; color: #00b4d8;'>🚀 Vamos escalar seu projeto?</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center;'>Preencha os campos abaixo para registrar sua solicitação em nossa base de dados.</p>", unsafe_allow_html=True)
 
@@ -34,15 +35,15 @@ with st.form("contato_form", clear_on_submit=True):
         if not nome or not email or not whatsapp or not mensagem:
             st.error("⚠️ Por favor, preencha todos os campos.")
         elif not validar_whatsapp(whatsapp):
-            st.error("⚠️ O WhatsApp deve conter exatamente 11 números.")
+            st.error("⚠️ O WhatsApp deve conter 11 números.")
         else:
             try:
                 conn = get_connection()
                 cur = conn.cursor()
                 
-                # USANDO ASPAS DUPLAS E MAIÚSCULAS CONFORME SEU TERMINAL
+                # A MUDANÇA ESTÁ AQUI: Forçando o schema public e nome minúsculo
                 query = """
-                    INSERT INTO "CONTATO_SITE" (nome_completo, email, whatsapp, mensagem)
+                    INSERT INTO public.contato_site (nome_completo, email, whatsapp, mensagem)
                     VALUES (%s, %s, %s, %s)
                 """
                 cur.execute(query, (nome, email, whatsapp, mensagem))
@@ -55,6 +56,7 @@ with st.form("contato_form", clear_on_submit=True):
                 st.balloons()
                 
             except Exception as e:
+                # Se ainda der erro, o log vai nos mostrar se é permissão ou nome
                 st.error(f"❌ Erro ao salvar: {e}")
 
 st.markdown("---")
