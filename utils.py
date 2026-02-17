@@ -52,9 +52,10 @@ def calcular_duracao_texto():
     return f"{minutos:02d}:{segundos:02d}"
 
 def registrar_acesso(nome_pagina, acao="Visualização"):
-    """Registra o acesso no Google Sheets (por sessão) e no PostgreSQL (todo acesso)."""
+    """Registra o acesso inicial (hit) no Google Sheets e no PostgreSQL."""
     try:
         inicializar_estado()
+        st.session_state["pagina_atual"] = nome_pagina # Salva para o UPDATE posterior
         
         # Coleta de metadados
         headers = st.context.headers
@@ -79,14 +80,14 @@ def registrar_acesso(nome_pagina, acao="Visualização"):
             except Exception as e_gs:
                 print(f"Erro Google Sheets: {e_gs}")
 
-        # --- 2. REGISTRO NO POSTGRESQL (AIVEN) - Sempre registra o hit ---
+        # --- 2. REGISTRO NO POSTGRESQL (AIVEN) ---
         registrar_acesso_db(agora, sid, dispositivo, navegador, ip, nome_pagina, acao)
 
     except Exception as e:
         print(f"Erro geral no registro: {e}")
 
 def registrar_acesso_db(data_hora, session_id, dispositivo, navegador, ip, pagina, acao):
-    """Função para conexão e insert no BD PostgreSQL da Aiven."""
+    """Insere o registro inicial no BD PostgreSQL."""
     try:
         conn = psycopg2.connect(
             host="pg-2e2874e2-rodrigoaiosa-skydatasoluction.l.aivencloud.com",
@@ -110,8 +111,42 @@ def registrar_acesso_db(data_hora, session_id, dispositivo, navegador, ip, pagin
     except Exception as e:
         print(f"Erro ao salvar no PostgreSQL: {e}")
 
+def atualizar_duracao_db():
+    """Faz o UPDATE da duração real no PostgreSQL."""
+    try:
+        tempo_real = calcular_duracao_texto()
+        sid = st.session_state.get("session_id")
+        pagina = st.session_state.get("pagina_atual")
+
+        conn = psycopg2.connect(
+            host="pg-2e2874e2-rodrigoaiosa-skydatasoluction.l.aivencloud.com",
+            database="defaultdb",
+            user="avnadmin",
+            password=st.secrets.get("DB_PASSWORD", "AVNS_LlZukuJoh_0Kbj0dhvK"),
+            port="13191",
+            sslmode="require",
+            connect_timeout=5
+        )
+        cur = conn.cursor()
+        # Atualiza a duração do registro mais recente desta sessão nesta página
+        query = """
+            UPDATE controle_acesso_site 
+            SET duracao = %s 
+            WHERE id_acesso = (
+                SELECT id_acesso FROM controle_acesso_site 
+                WHERE session_id = %s AND pagina = %s 
+                ORDER BY data_hora DESC LIMIT 1
+            )
+        """
+        cur.execute(query, (tempo_real, sid, pagina))
+        conn.commit()
+        cur.close()
+        conn.close()
+    except Exception as e:
+        print(f"Erro ao atualizar duração no BD: {e}")
+
 def atualizar_duracao_na_planilha():
-    """Atualiza a duração na planilha para monitorar retenção."""
+    """Atualiza a duração na planilha Google."""
     linha = st.session_state.get("ultima_linha_acesso")
     if linha:
         try:
@@ -124,8 +159,9 @@ def atualizar_duracao_na_planilha():
             pass
 
 def exibir_rodape():
-    """Exibe o rodapé e tenta atualizar a duração do acesso."""
+    """Exibe o rodapé e atualiza as durações em todas as fontes de dados."""
     atualizar_duracao_na_planilha()
+    atualizar_duracao_db() # Agora o SQL recebe o tempo real aqui
     st.markdown(
         f"""
         <hr style='border: 0.5px solid rgba(255, 255, 255, 0.1); margin-top: 50px;'>
@@ -143,15 +179,15 @@ def gerar_link_whatsapp(nome_cliente, servico="Consultoria"):
     return f"https://wa.me/11977019335?text={texto_url}"
 
 def salvar_formulario_contato(dados):
-    """Salva os dados de contato no Sheets e gera o link de retorno."""
+    """Salva os dados de contato e atualiza durações."""
     try:
         atualizar_duracao_na_planilha()
+        atualizar_duracao_db()
         creds = obter_credenciais()
         if creds:
             sheet = gspread.authorize(creds).open_by_key("1JXVHEK4qjj4CJUdfaapKjBxl_WFmBDFHMJyIItxfchU").sheet1
             sheet.append_row(dados)
             
-            # Link personalizado para o sucesso do formulário
             whatsapp_link = gerar_link_whatsapp(dados[0], dados[2] if len(dados)>2 else "Data Intelligence")
             st.success(f"Dados enviados com sucesso!")
             st.markdown(f"[Falar comigo agora no WhatsApp]({whatsapp_link})")
