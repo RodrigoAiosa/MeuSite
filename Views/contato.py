@@ -43,7 +43,7 @@ with st.form("contato_form", clear_on_submit=True):
                 
                 # A MUDANÇA ESTÁ AQUI: Forçando o schema public e nome minúsculo
                 query = """
-                    INSERT INTO public.contato_site (nome_completo, email, whatsapp, mensagem)
+                    INSERT INTO public.contato_form_site (nome_completo, email, whatsapp, mensagem)
                     VALUES (%s, %s, %s, %s)
                 """
                 cur.execute(query, (nome, email, whatsapp, mensagem))
@@ -61,3 +61,4 @@ with st.form("contato_form", clear_on_submit=True):
 
 st.markdown("---")
 st.caption("SKY DATA SOLUTION © 2026 | Rodrigo Aiosa")
+
