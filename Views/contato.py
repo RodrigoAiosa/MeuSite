@@ -1,12 +1,13 @@
 import streamlit as st
 import psycopg2
 import re
+from datetime import datetime
 
-# Configuração da página
+# Configuração da página idêntica às suas imagens
 st.set_page_config(page_title="Formulário de Contato", page_icon="📩")
 
-# Função de Conexão (Utilizando os Secrets configurados no Streamlit Cloud)
 def get_connection():
+    # Usa os segredos configurados no Streamlit Cloud
     return psycopg2.connect(
         host=st.secrets["DB_HOST"],
         port=st.secrets["DB_PORT"],
@@ -17,11 +18,11 @@ def get_connection():
     )
 
 def validar_whatsapp(numero):
-    # Remove caracteres não numéricos e valida os 11 dígitos
+    # Mantém apenas números e valida 11 dígitos
     apenas_numeros = re.sub(r'\D', '', numero)
     return len(apenas_numeros) == 11
 
-# Título e Instruções
+# Título e Subtítulo conforme imagem de referência
 st.markdown("<h1 style='text-align: center; color: #00b4d8;'>🚀 Vamos escalar seu projeto?</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center;'>Preencha os campos abaixo para registrar sua solicitação em nossa base de dados.</p>", unsafe_allow_html=True)
 
@@ -29,26 +30,26 @@ st.markdown("<p style='text-align: center;'>Preencha os campos abaixo para regis
 with st.form("contato_form", clear_on_submit=True):
     nome = st.text_input("👤 Nome Completo", placeholder="Digite seu nome aqui...")
     email = st.text_input("📧 E-mail Profissional", placeholder="exemplo@email.com")
-    whatsapp = st.text_input("📱 WhatsApp", placeholder="11999999999", max_chars=11, help="Digite apenas os 11 números (DDD + número)")
+    whatsapp = st.text_input("📱 WhatsApp", placeholder="11999999999", max_chars=11)
     mensagem = st.text_area("💬 Sua Mensagem", placeholder="Como podemos ajudar?")
     
     submit_button = st.form_submit_button("Enviar Mensagem")
 
     if submit_button:
-        # Validações de campos obrigatórios
         if not nome or not email or not whatsapp or not mensagem:
             st.error("⚠️ Por favor, preencha todos os campos.")
         elif not validar_whatsapp(whatsapp):
             st.error("⚠️ O WhatsApp deve conter exatamente 11 números (ex: 11977019335).")
         else:
             try:
-                with st.spinner("Salvando dados no banco Aiven..."):
+                with st.spinner("Conectando ao banco Aiven..."):
                     conn = get_connection()
                     cur = conn.cursor()
                     
-                    # SQL de Inserção na tabela contato_site
+                    # SQL de Inserção com aspas duplas para evitar erro de 'relation does not exist'
+                    # Ajustado para as colunas mostradas no seu terminal local
                     query = """
-                        INSERT INTO contato_site (nome_completo, email, whatsapp, mensagem)
+                        INSERT INTO "contato_site" (nome_completo, email, whatsapp, mensagem)
                         VALUES (%s, %s, %s, %s)
                     """
                     cur.execute(query, (nome, email, whatsapp, mensagem))
@@ -61,8 +62,9 @@ with st.form("contato_form", clear_on_submit=True):
                     st.balloons()
                 
             except Exception as e:
-                st.error(f"❌ Ocorreu um erro ao salvar: {e}")
+                # Exibe o erro técnico para diagnóstico caso persista
+                st.error(f"❌ Erro ao salvar: {e}")
 
-# Rodapé simples
+# Rodapé personalizado
 st.markdown("---")
 st.caption("SKY DATA SOLUTION © 2026 | Rodrigo Aiosa")
