@@ -1,6 +1,7 @@
 import streamlit as st
 import gspread
 import uuid
+import psycopg2 # Importante: adicione psycopg2-binary ao seu requirements.txt
 import streamlit.components.v1 as components
 from google.oauth2.service_account import Credentials
 from datetime import datetime, timedelta, timezone
@@ -51,60 +52,86 @@ def calcular_duracao_texto():
     return f"{minutos:02d}:{segundos:02d}"
 
 def registrar_acesso(nome_pagina, acao="Visualização"):
-    """Cria uma nova linha apenas se for o primeiro carregamento da sessão."""
+    """Registra no Google Sheets e agora também no PostgreSQL."""
     try:
-        # Garante que as variáveis existem
         inicializar_estado()
         
+        # 1. Registro no Google Sheets (Mantido como solicitado)
         creds = obter_credenciais()
-        if not creds: return
-        
-        client = gspread.authorize(creds)
-        sheet = client.open_by_key("1TCx1sTDaPsygvh-FvzalJ3JlBKJBOTbfoD-7CZmhCVI").sheet1
-        
-        # SÓ CRIA LINHA SE AINDA NÃO HOUVER UMA REGISTRADA NESTA SESSÃO
-        if st.session_state["ultima_linha_acesso"] is None:
-            headers = st.context.headers
-            ua = headers.get("User-Agent", "").lower()
-            ip = headers.get("X-Forwarded-For", "Privado").split(",")[0]
-            dispositivo = "iPhone" if "iphone" in ua else "Android" if "android" in ua else "PC"
+        if creds:
+            client = gspread.authorize(creds)
+            sheet = client.open_by_key("1TCx1sTDaPsygvh-FvzalJ3JlBKJBOTbfoD-7CZmhCVI").sheet1
             
-            agora_str = st.session_state["entrada_pagina"].strftime("%d/%m/%Y %H:%M:%S")
-            
-            nova_linha = [
-                agora_str, st.session_id if hasattr(st, "session_id") else st.session_state["session_id"], 
-                dispositivo, "SO", "Navegador", ip, "Direto", 
-                nome_pagina, acao, "00:00"
-            ]
-            
-            # Adiciona ao final da planilha
-            sheet.append_row(nova_linha)
-            
-            # Descobrir qual linha foi inserida para atualizar depois
-            # Nota: append_row não retorna o índice, então pegamos a última
-            st.session_state["ultima_linha_acesso"] = len(sheet.col_values(1))
+            if st.session_state["ultima_linha_acesso"] is None:
+                headers = st.context.headers
+                ua = headers.get("User-Agent", "").lower()
+                ip = headers.get("X-Forwarded-For", "Privado").split(",")[0]
+                dispositivo = "iPhone" if "iphone" in ua else "Android" if "android" in ua else "PC"
+                agora_str = st.session_state["entrada_pagina"].strftime("%d/%m/%Y %H:%M:%S")
+                
+                nova_linha = [
+                    agora_str, st.session_state["session_id"], 
+                    dispositivo, "SO", "Navegador", ip, "Direto", 
+                    nome_pagina, acao, "00:00"
+                ]
+                sheet.append_row(nova_linha)
+                st.session_state["ultima_linha_acesso"] = len(sheet.col_values(1))
+
+        # 2. CHAMADA PARA O BANCO DE DADOS POSTGRESQL
+        registrar_acesso_db(nome_pagina, acao)
+
     except Exception as e:
         print(f"Erro ao registrar: {e}")
 
+def registrar_acesso_db(nome_pagina, acao):
+    """Nova função para salvar os dados de acesso no PostgreSQL da Aiven."""
+    try:
+        # Dados extraídos da sua imagem (Aiven)
+        # Recomendável colocar estas strings no st.secrets por segurança
+        conn = psycopg2.connect(
+            host="pg-2e2874e2-rodrigoaiosa-skydatasoluction.l.aivencloud.com",
+            database="defaultdb",
+            user="avnadmin",
+            password=st.secrets.get("DB_PASSWORD", "AVNS_LlZukuJoh_0Kbj0dhvK"),
+            port="13191",
+            sslmode="require"
+        )
+        cur = conn.cursor()
+
+        headers = st.context.headers
+        ua = headers.get("User-Agent", "").lower()
+        ip = headers.get("X-Forwarded-For", "Privado").split(",")[0]
+        dispositivo = "iPhone" if "iphone" in ua else "Android" if "android" in ua else "PC"
+        agora = st.session_state["entrada_pagina"]
+
+        # Comando SQL para inserir dados
+        query = """
+            INSERT INTO controle_acesso_site 
+            (data_hora, session_id, dispositivo, ip, pagina, acao) 
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """
+        cur.execute(query, (agora, st.session_state["session_id"], dispositivo, ip, nome_pagina, acao))
+        
+        conn.commit()
+        cur.close()
+        conn.close()
+    except Exception as e:
+        print(f"Erro ao salvar no Banco de Dados: {e}")
+
 def atualizar_duracao_na_planilha():
     """Atualiza a célula de duração da linha atual com segurança."""
-    # O uso de .get evita o KeyError se a chave ainda não existir
     linha = st.session_state.get("ultima_linha_acesso")
-    
     if linha:
         try:
             creds = obter_credenciais()
             client = gspread.authorize(creds)
             sheet = client.open_by_key("1TCx1sTDaPsygvh-FvzalJ3JlBKJBOTbfoD-7CZmhCVI").sheet1
-            
             tempo_duracao = calcular_duracao_texto()
-            # Coluna 10 (J)
             sheet.update_cell(linha, 10, tempo_duracao)
         except:
             pass
 
 def exibir_rodape():
-    # Atualiza a duração sem quebrar se a linha ainda não existir
     atualizar_duracao_na_planilha()
     st.markdown("<hr style='border: 0.5px solid rgba(255, 255, 255, 0.1); margin-top: 50px;'><div style='text-align:center; color:gray; font-size: 0.8rem; padding-bottom: 20px;'>SKY DATA SOLUTION © 2026 | Rodrigo Aiosa</div>", unsafe_allow_html=True)
 
