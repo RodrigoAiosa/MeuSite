@@ -1,14 +1,16 @@
 import streamlit as st
 import time
-from utils import registrar_acesso, exibir_rodape
+# Importando as novas funções que conversam com o BD_SKYDATA
+from utils import registrar_acesso_db, exibir_rodape
 
 # 1. CONFIGURAÇÃO DA PÁGINA
 st.set_page_config(layout="wide", page_title="Portfolio | Rodrigo Aiosa")
 
-# 2. REGISTRO DE ACESSO
-registrar_acesso("Sobre Mim")
+# 2. REGISTRO DE ACESSO NO BANCO DE DADOS (PostgreSQL)
+# Agora usando a função que grava no BD_SKYDATA com horário de Brasília
+registrar_acesso_db("Sobre Mim")
 
-# --- ESTILO CSS GLOBAL ATUALIZADO ---
+# --- ESTILO CSS GLOBAL ---
 st.markdown(
     """
     <style>
@@ -168,7 +170,7 @@ st.markdown(
         cursor: default;
         position: relative;
         overflow: hidden;
-        animation: fadeInUp 0.8s ease-out forwards; /* Animação de entrada */
+        animation: fadeInUp 0.8s ease-out forwards;
     }
     
     .exp-card:hover {
@@ -178,20 +180,10 @@ st.markdown(
         border-left: 8px solid #00b4d8;
     }
 
-    .exp-card h3 {
-        transition: color 0.3s ease;
-    }
-
-    .exp-card:hover h3 {
-        color: #00b4d8 !important;
-    }
-
-    /* Delay para os cards aparecerem um após o outro */
     .delay-1 { animation-delay: 0.2s; }
     .delay-2 { animation-delay: 0.4s; }
     .delay-3 { animation-delay: 0.6s; }
     .delay-4 { animation-delay: 0.8s; }
-
     </style>
     """,
     unsafe_allow_html=True
@@ -214,11 +206,10 @@ st.markdown('<div style="text-align: center; font-size: 1.2em; color: #00b4d8; f
 
 st.write("")
 
-# --- CARDS COM CONTADOR E EFEITOS DE HOVER ---
+# --- CARDS COM CONTADOR ---
 st.markdown("### ⭐ Experiência e Resultados")
 
 card_placeholders = st.empty()
-
 back_texts = [
     "Expertise em automação de processos e análise preditiva.",
     "Soluções personalizadas para grandes players do mercado.",
@@ -226,7 +217,7 @@ back_texts = [
     "Parceria contínua baseada em confiança e resultados reais."
 ]
 
-for i in range(0, 101, 5):
+for i in range(0, 101, 10):
     val_exp = int(20 * i / 100)
     val_emp = int(450 * i / 100)
     val_proj = int(500 * i / 100)
@@ -277,11 +268,11 @@ for i in range(0, 101, 5):
     </div>
     """
     card_placeholders.markdown(html_cards, unsafe_allow_html=True)
-    time.sleep(0.02)
+    time.sleep(0.01)
 
 st.markdown("---")
 
-# --- EXPERIÊNCIA DE MERCADO (COM CARDS ANIMADOS) ---
+# --- EXPERIÊNCIA DE MERCADO ---
 st.subheader("🤝 Experiência de Mercado")
 st.write("Especialista em Análise de Dados e Business Intelligence, transformando dados brutos em decisões inteligentes.")
 
@@ -319,7 +310,7 @@ with col2:
 
 st.write("")
 
-# --- SEÇÃO DE CLIENTES CENTRALIZADA ---
+# --- SEÇÃO DE CLIENTES ---
 st.markdown(
     """
     <div class="centered-text">
@@ -335,5 +326,7 @@ st.write("")
 col_img1, col_img2, col_img3 = st.columns([1, 8, 1])
 with col_img2:
     st.image("assets/clientes_atendidos.jpg", width=None, use_container_width=True)
-    
+
+# --- RODAPÉ E ATUALIZAÇÃO DE DURAÇÃO ---
+# Esta função já chama o atualizar_duracao_db() internamente conforme configuramos no utils.py
 exibir_rodape()
