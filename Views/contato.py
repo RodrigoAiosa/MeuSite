@@ -1,13 +1,12 @@
 import streamlit as st
 import psycopg2
 import re
-from datetime import datetime
 
-# Configuração da página idêntica às suas imagens
+# Configuração da página idêntica à sua estrutura atual
 st.set_page_config(page_title="Formulário de Contato", page_icon="📩")
 
 def get_connection():
-    # Usa os segredos configurados no Streamlit Cloud
+    # Conecta usando os Secrets do Streamlit Cloud
     return psycopg2.connect(
         host=st.secrets["DB_HOST"],
         port=st.secrets["DB_PORT"],
@@ -22,7 +21,7 @@ def validar_whatsapp(numero):
     apenas_numeros = re.sub(r'\D', '', numero)
     return len(apenas_numeros) == 11
 
-# Título e Subtítulo conforme imagem de referência
+# Título e Subtítulo estilizados (conforme imagem_233300.png)
 st.markdown("<h1 style='text-align: center; color: #00b4d8;'>🚀 Vamos escalar seu projeto?</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center;'>Preencha os campos abaixo para registrar sua solicitação em nossa base de dados.</p>", unsafe_allow_html=True)
 
@@ -39,17 +38,16 @@ with st.form("contato_form", clear_on_submit=True):
         if not nome or not email or not whatsapp or not mensagem:
             st.error("⚠️ Por favor, preencha todos os campos.")
         elif not validar_whatsapp(whatsapp):
-            st.error("⚠️ O WhatsApp deve conter exatamente 11 números (ex: 11977019335).")
+            st.error("⚠️ O WhatsApp deve conter exatamente 11 números.")
         else:
             try:
                 with st.spinner("Conectando ao banco Aiven..."):
                     conn = get_connection()
                     cur = conn.cursor()
                     
-                    # SQL de Inserção com aspas duplas para evitar erro de 'relation does not exist'
-                    # Ajustado para as colunas mostradas no seu terminal local
+                    # CORREÇÃO: Nome da tabela exatamente como aparece no seu terminal (MAIÚSCULO)
                     query = """
-                        INSERT INTO "contato_site" (nome_completo, email, whatsapp, mensagem)
+                        INSERT INTO "CONTATO_SITE" (nome_completo, email, whatsapp, mensagem)
                         VALUES (%s, %s, %s, %s)
                     """
                     cur.execute(query, (nome, email, whatsapp, mensagem))
@@ -58,13 +56,12 @@ with st.form("contato_form", clear_on_submit=True):
                     cur.close()
                     conn.close()
                     
-                    st.success("✅ Mensagem enviada com sucesso! Logo entraremos em contato.")
+                    st.success("✅ Mensagem enviada com sucesso!")
                     st.balloons()
                 
             except Exception as e:
-                # Exibe o erro técnico para diagnóstico caso persista
                 st.error(f"❌ Erro ao salvar: {e}")
 
-# Rodapé personalizado
+# Rodapé (conforme imagem_239c7f.png)
 st.markdown("---")
 st.caption("SKY DATA SOLUTION © 2026 | Rodrigo Aiosa")
