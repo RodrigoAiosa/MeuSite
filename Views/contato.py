@@ -2,11 +2,10 @@ import streamlit as st
 import psycopg2
 import re
 
-# Configuração da página idêntica à sua estrutura
+# Configuração da página
 st.set_page_config(page_title="Formulário de Contato", page_icon="📩")
 
 def get_connection():
-    # Conecta usando os Secrets do Streamlit Cloud
     return psycopg2.connect(
         host=st.secrets["DB_HOST"],
         port=st.secrets["DB_PORT"],
@@ -17,15 +16,12 @@ def get_connection():
     )
 
 def validar_whatsapp(numero):
-    # Mantém apenas números e valida 11 dígitos
     apenas_numeros = re.sub(r'\D', '', numero)
     return len(apenas_numeros) == 11
 
-# Título e Subtítulo estilizados (conforme suas imagens)
 st.markdown("<h1 style='text-align: center; color: #00b4d8;'>🚀 Vamos escalar seu projeto?</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center;'>Preencha os campos abaixo para registrar sua solicitação em nossa base de dados.</p>", unsafe_allow_html=True)
 
-# Formulário de Cadastro
 with st.form("contato_form", clear_on_submit=True):
     nome = st.text_input("👤 Nome Completo", placeholder="Digite seu nome aqui...")
     email = st.text_input("📧 E-mail Profissional", placeholder="exemplo@email.com")
@@ -38,31 +34,29 @@ with st.form("contato_form", clear_on_submit=True):
         if not nome or not email or not whatsapp or not mensagem:
             st.error("⚠️ Por favor, preencha todos os campos.")
         elif not validar_whatsapp(whatsapp):
-            st.error("⚠️ O WhatsApp deve conter exatamente 11 números.")
+            st.error("⚠️ O WhatsApp deve conter 11 números.")
         else:
             try:
-                with st.spinner("Conectando ao banco Aiven..."):
-                    conn = get_connection()
-                    cur = conn.cursor()
-                    
-                    # Inserção direta sem aspas no nome da tabela para evitar erro de Case Sensitivity
-                    query = """
-                        INSERT INTO contato_site (nome_completo, email, whatsapp, mensagem)
-                        VALUES (%s, %s, %s, %s)
-                    """
-                    cur.execute(query, (nome, email, whatsapp, mensagem))
-                    
-                    conn.commit()
-                    cur.close()
-                    conn.close()
-                    
-                    st.success("✅ Mensagem enviada com sucesso!")
-                    st.balloons()
+                conn = get_connection()
+                cur = conn.cursor()
+                
+                # Tente usar public.contato_site se o erro persistir
+                query = """
+                    INSERT INTO public.contato_site (nome_completo, email, whatsapp, mensagem)
+                    VALUES (%s, %s, %s, %s)
+                """
+                cur.execute(query, (nome, email, whatsapp, mensagem))
+                
+                conn.commit()
+                cur.close()
+                conn.close()
+                
+                st.success("✅ Mensagem enviada com sucesso!")
+                st.balloons()
                 
             except Exception as e:
-                # Caso o erro persista, tentamos especificar o schema public
+                # Esse erro vai te dizer exatamente o que o Postgres está vendo
                 st.error(f"❌ Erro ao salvar: {e}")
 
-# Rodapé
 st.markdown("---")
 st.caption("SKY DATA SOLUTION © 2026 | Rodrigo Aiosa")
