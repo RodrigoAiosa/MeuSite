@@ -1,20 +1,28 @@
 import streamlit as st
 import time
-# Importando as novas funções que conversam com o BD_SKYDATA
-from utils import registrar_acesso_db, exibir_rodape
+import sys
+import os
+
+# --- AJUSTE DE CAMINHO ---
+# Como sobre.py está em 'Views/', subimos um nível para encontrar 'utils.py' na raiz
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+try:
+    from utils import registrar_acesso_db, exibir_rodape
+except ImportError:
+    st.error("Erro técnico: Não foi possível localizar as ferramentas de banco de dados.")
 
 # 1. CONFIGURAÇÃO DA PÁGINA
 st.set_page_config(layout="wide", page_title="Portfolio | Rodrigo Aiosa")
 
-# 2. REGISTRO DE ACESSO NO BANCO DE DADOS (PostgreSQL)
-# Agora usando a função que grava no BD_SKYDATA com horário de Brasília
+# 2. REGISTRO DE ACESSO (PostgreSQL Aiven)
+# Esta função utiliza o 'defaultdb' configurado no seu secrets.toml
 registrar_acesso_db("Sobre Mim")
 
 # --- ESTILO CSS GLOBAL ---
 st.markdown(
     """
     <style>
-    /* Container da Foto com Efeito de Borda Animada */
     .profile-container {
         display: flex;
         justify-content: center;
@@ -65,7 +73,7 @@ st.markdown(
         margin-top: 10px;
     }
 
-    /* --- NOVOS EFEITOS NOS CARDS FLIP --- */
+    /* CARDS FLIP */
     .cards-container {
         display: flex;
         justify-content: space-between;
@@ -82,10 +90,7 @@ st.markdown(
         transition: transform 400ms, filter 400ms;
     }
 
-    .flip-card:hover {
-        transform: scale(1.1);
-        z-index: 10;
-    }
+    .flip-card:hover { transform: scale(1.1); z-index: 10; }
 
     .cards-container:hover .flip-card:not(:hover) {
         filter: blur(8px);
@@ -103,9 +108,7 @@ st.markdown(
         cursor: pointer;
     }
 
-    .flip-card:hover .flip-card-inner {
-        transform: rotateY(180deg);
-    }
+    .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
 
     .flip-card-front, .flip-card-back {
         position: absolute;
@@ -121,75 +124,40 @@ st.markdown(
         border: 1px solid #1f2937;
     }
 
-    .flip-card-front {
-        background-color: #111827;
-        color: white;
-    }
-
+    .flip-card-front { background-color: #111827; color: white; }
     .flip-card-back {
         background-color: #00b4d8;
         color: #111827;
         transform: rotateY(180deg);
         font-weight: bold;
         font-size: 15px;
-        line-height: 1.4;
     }
 
     .card-icon { font-size:28px; margin-bottom:5px; }
     .card-number { font-size:26px; font-weight:bold; color:#00b4d8; }
     .card-title { font-size:14px; color:#9ca3af; }
 
-    /* TEXTO CENTRALIZADO */
-    .centered-text {
-        text-align: center;
-        max-width: 900px;
-        margin: 0 auto;
-        font-size: 1.1em;
-        color: #9ca3af;
-    }
-
-    /* --- ESTILO PARA CARDS DE EXPERIÊNCIA COM ANIMAÇÃO DE ENTRADA --- */
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
+    /* EXPERIÊNCIA CARDS */
     .exp-card {
         background-color: #111827;
         padding: 25px;
         border-radius: 15px;
         border-left: 5px solid #00b4d8;
         height: 160px;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        cursor: default;
-        position: relative;
-        overflow: hidden;
-        animation: fadeInUp 0.8s ease-out forwards;
+        transition: all 0.4s ease;
     }
     
     .exp-card:hover {
         transform: translateY(-10px);
         background-color: #1f2937;
         box-shadow: 0 10px 30px -5px rgba(0, 180, 216, 0.4);
-        border-left: 8px solid #00b4d8;
     }
-
-    .delay-1 { animation-delay: 0.2s; }
-    .delay-2 { animation-delay: 0.4s; }
-    .delay-3 { animation-delay: 0.6s; }
-    .delay-4 { animation-delay: 0.8s; }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# --- CABEÇALHO ---
+# --- CONTEÚDO VISUAL ---
 st.markdown(
     """
     <div class="profile-container">
@@ -202,69 +170,22 @@ st.markdown(
 )
 
 st.markdown('<h1 class="main-title">Rodrigo Aiosa</h1>', unsafe_allow_html=True)
-st.markdown('<div style="text-align: center; font-size: 1.2em; color: #00b4d8; font-weight: bold;">Python | Excel | Power BI | ETL | SQL SERVER | Linguagem M | DAX</div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: center; color: #00b4d8; font-weight: bold;">Python | Excel | Power BI | ETL | SQL SERVER</div>', unsafe_allow_html=True)
 
 st.write("")
 
-# --- CARDS COM CONTADOR ---
+# --- CONTADORES ANIMADOS ---
 st.markdown("### ⭐ Experiência e Resultados")
-
 card_placeholders = st.empty()
-back_texts = [
-    "Expertise em automação de processos e análise preditiva.",
-    "Soluções personalizadas para grandes players do mercado.",
-    "Dashboards estratégicos focados em KPIs de alto nível.",
-    "Parceria contínua baseada em confiança e resultados reais."
-]
 
 for i in range(0, 101, 10):
-    val_exp = int(20 * i / 100)
-    val_emp = int(450 * i / 100)
-    val_proj = int(500 * i / 100)
-    val_rec = int(87 * i / 100)
-
+    v_exp, v_emp, v_proj, v_rec = int(20*i/100), int(450*i/100), int(500*i/100), int(87*i/100)
     html_cards = f"""
     <div class="cards-container">
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="card-icon">🏆</div>
-                    <div class="card-number">{val_exp}+</div>
-                    <div class="card-title">Anos de experiência</div>
-                </div>
-                <div class="flip-card-back">{back_texts[0]}</div>
-            </div>
-        </div>
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="card-icon">🏢</div>
-                    <div class="card-number">{val_emp}+</div>
-                    <div class="card-title">Empresas atendidas</div>
-                </div>
-                <div class="flip-card-back">{back_texts[1]}</div>
-            </div>
-        </div>
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="card-icon">📊</div>
-                    <div class="card-number">{val_proj}+</div>
-                    <div class="card-title">Projetos entregues</div>
-                </div>
-                <div class="flip-card-back">{back_texts[2]}</div>
-            </div>
-        </div>
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="card-icon">🤝</div>
-                    <div class="card-number">{val_rec}%</div>
-                    <div class="card-title">Recompra de clientes</div>
-                </div>
-                <div class="flip-card-back">{back_texts[3]}</div>
-            </div>
-        </div>
+        <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front">🏆<br>{v_exp}+<br>Anos</div><div class="flip-card-back">Especialista em Automação</div></div></div>
+        <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front">🏢<br>{v_emp}+<br>Empresas</div><div class="flip-card-back">Soluções Corporativas</div></div></div>
+        <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front">📊<br>{v_proj}+<br>Projetos</div><div class="flip-card-back">Dashboards de Alto Nível</div></div></div>
+        <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front">🤝<br>{v_rec}%<br>Retenção</div><div class="flip-card-back">Confiança e Resultados</div></div></div>
     </div>
     """
     card_placeholders.markdown(html_cards, unsafe_allow_html=True)
@@ -273,60 +194,16 @@ for i in range(0, 101, 10):
 st.markdown("---")
 
 # --- EXPERIÊNCIA DE MERCADO ---
-st.subheader("🤝 Experiência de Mercado")
-st.write("Especialista em Análise de Dados e Business Intelligence, transformando dados brutos em decisões inteligentes.")
-
 col1, col2 = st.columns(2)
-
 with col1:
-    st.markdown(
-        """
-        <div class="exp-card delay-1">
-            <h3 style="color: white; margin-bottom: 8px; font-size: 1.3em;">🔎 Análise Avançada e Automação</h3>
-            <p style="color: #9ca3af; font-size: 1em;">Desenvolvimento de scripts Python e modelos em Excel para otimização de tempo e processos.</p>
-        </div>
-        <br>
-        <div class="exp-card delay-2">
-            <h3 style="color: white; margin-bottom: 8px; font-size: 1.3em;">📊 Business Intelligence (BI)</h3>
-            <p style="color: #9ca3af; font-size: 1em;">Criação de ecossistemas de dados robustos utilizando Power BI, Linguagem M e DAX.</p>
-        </div>
-        """, unsafe_allow_html=True
-    )
-
+    st.markdown('<div class="exp-card"><h3>🔎 Análise e Automação</h3><p>Scripts Python e modelos Excel para otimização.</p></div>', unsafe_allow_html=True)
 with col2:
-    st.markdown(
-        """
-        <div class="exp-card delay-3">
-            <h3 style="color: white; margin-bottom: 8px; font-size: 1.3em;">🗄️ Gerenciamento de Dados</h3>
-            <p style="color: #9ca3af; font-size: 1em;">Estruturação de bancos de dados SQL Server e fluxos de ETL eficientes para alta performance.</p>
-        </div>
-        <br>
-        <div class="exp-card delay-4">
-            <h3 style="color: white; margin-bottom: 8px; font-size: 1.3em;">🎯 Minha Abordagem</h3>
-            <p style="color: #9ca3af; font-size: 1em;">Foco total na solução da dor do cliente, visando agilidade e a geração de valor imediato.</p>
-        </div>
-        """, unsafe_allow_html=True
-    )
+    st.markdown('<div class="exp-card"><h3>📊 Power BI e DAX</h3><p>Ecossistemas de dados robustos e estratégicos.</p></div>', unsafe_allow_html=True)
 
 st.write("")
-
-# --- SEÇÃO DE CLIENTES ---
-st.markdown(
-    """
-    <div class="centered-text">
-        <p><strong>Clientes em Destaque:</strong></p>
-        <p>Cimed, Unimed Seguros, Ouro Safra, Kraft Heinz, Loggi, Usina Santa Terezinha, Megavig, Lowell e BSS Blindagens.</p>
-    </div>
-    """, 
-    unsafe_allow_html=True
-)
-
-st.write("")
-
 col_img1, col_img2, col_img3 = st.columns([1, 8, 1])
 with col_img2:
-    st.image("assets/clientes_atendidos.jpg", width=None, use_container_width=True)
+    st.image("assets/clientes_atendidos.jpg", use_container_width=True)
 
-# --- RODAPÉ E ATUALIZAÇÃO DE DURAÇÃO ---
-# Esta função já chama o atualizar_duracao_db() internamente conforme configuramos no utils.py
+# --- RODAPÉ ---
 exibir_rodape()
