@@ -81,12 +81,18 @@ def render_python_app(title, description, url):
 
 # Projeto
 render_python_app(
+    "🦉Calculadora ROI de Automação",
+    "Calculadora que estima o Retorno sobre Investimento (ROI) de projetos de automação, comparando custos, economia de tempo e ganhos financeiros para apoiar decisões estratégicas.",
+    "https://rodrigoaiosa-rio-automacao.hf.space"
+)
+
+
+# Projeto
+render_python_app(
     "💼 APP S.O.S. MULHER",
     "Em 2025, dados publicados pelo Ministério da Justiça e Segurança Pública apontam que foram registrados 1.518 feminicídios, a maior marca já registrada até o momento.",
     "https://sosmulher.streamlit.app/"
 )
-
-
 
 # Projeto
 render_python_app(
@@ -134,6 +140,7 @@ render_python_app(
 
 
 exibir_rodape()
+
 
 
 
