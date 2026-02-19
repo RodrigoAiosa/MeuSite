@@ -39,7 +39,6 @@ st.markdown(
         max-width: 800px;
         line-height: 1.4;
     }
-    /* Estilização para o container do componente oficial */
     .stIFrame {
         border: 2px solid #31333F;
         border-radius: 12px;
@@ -54,30 +53,32 @@ st.markdown(
 st.title("🐍 Projetos em Python")
 st.write("Aplicações web completas desenvolvidas para automação de processos e análise financeira.")
 
-# --- FUNÇÃO ATUALIZADA PARA MELHOR COMPATIBILIDADE ---
-def render_python_app(title, description, url):
-    # Botão de Título
+# --- FUNÇÃO PARA RENDERIZAR APPS ---
+def render_python_app(title, description, url, is_hf=False):
+    # Botão
     st.markdown(f'<a href="{url}" target="_blank" class="project-button">{title} ↗️</a>', unsafe_allow_html=True)
     
     # Descrição
     st.markdown(f'<div class="project-description">{description}</div>', unsafe_allow_html=True)
     
-    # Renderização via componente oficial do Streamlit (mais seguro para embeds)
-    # Adicionamos ?embed=true para o Hugging Face entender que é um iframe
-    embed_url = f"{url}?embed=true" if "hf.space" in url else url
-    
-    try:
-        components.iframe(embed_url, height=700, scrolling=True)
-    except:
-        st.warning("Ocorreu um problema ao carregar o app incorporado. Clique no botão acima para acessar diretamente.")
+    # Ajuste de URL para Hugging Face (Embed Link)
+    if is_hf:
+        # Converte o link do space para o formato de embed aceito pelo HF
+        iframe_url = "https://hf.space/embed/rodrigoaiosa/rio-automacao/main"
+    else:
+        iframe_url = url
+
+    # Renderização
+    components.iframe(iframe_url, height=700, scrolling=True)
 
 # --- LISTA DE PROJETOS ---
 
-# Projeto Novo: Calculadora ROI
+# Projeto: Calculadora ROI (Hugging Face com link de Embed)
 render_python_app(
     "🦉 Calculadora ROI de Automação",
     "Calculadora que estima o Retorno sobre Investimento (ROI) de projetos de automação, comparando custos e ganhos financeiros.",
-    "https://rodrigoaiosa-rio-automacao.hf.space"
+    "https://rodrigoaiosa-rio-automacao.hf.space",
+    is_hf=True
 )
 
 # Projeto: SOS Mulher
