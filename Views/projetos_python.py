@@ -53,7 +53,6 @@ st.markdown(
 
 st.title("🐍 Projetos em Python")
 st.write("Aplicações web completas desenvolvidas para automação de processos e análise financeira.")
-st.markdown("---")
 
 # --- FUNÇÃO PARA RENDERIZAR APPS COM DESCRIÇÃO ---
 def render_python_app(title, description, url):
@@ -81,11 +80,10 @@ def render_python_app(title, description, url):
 
 # Projeto
 render_python_app(
-    "🦉Calculadora ROI de Automação",
+    "🦉 Calculadora ROI de Automação",
     "Calculadora que estima o Retorno sobre Investimento (ROI) de projetos de automação, comparando custos, economia de tempo e ganhos financeiros para apoiar decisões estratégicas.",
     "https://rodrigoaiosa-rio-automacao.hf.space"
 )
-
 
 # Projeto
 render_python_app(
@@ -101,20 +99,18 @@ render_python_app(
     "https://calculadora-preco-venda.streamlit.app/"
 )
 
-
-
 # Projeto 16/02/2026 00:38 
 # render_python_app(
-#     "📝 Análise de Custo: CLT",
-#     "Pare de errar nos cálculos trabalhistas! Calcule com precisão todos os custos de CLT e PJ, compare regimes, descubra a margem real de lucro por funcionário e processe equipes inteiras. Gere relatórios profissionais em segundos. Grátis e fácil de usar!",
-#     "https://rhexpert.streamlit.app/"
+#      "📝 Análise de Custo: CLT",
+#      "Pare de errar nos cálculos trabalhistas! Calcule com precisão todos os custos de CLT e PJ, compare regimes, descubra a margem real de lucro por funcionário e processe equipes inteiras. Gere relatórios profissionais em segundos. Grátis e fácil de usar!",
+#      "https://rhexpert.streamlit.app/"
 # )
 
 # # Projeto 
 # render_python_app(
-#     "⚖️ Calculadora de Viabilidade de Leilão Profissional",
-#     "Ferramenta estratégica para investidores imobiliários. Calcula automaticamente impostos (ITBI), custos cartoriais, comissões de leiloeiro e margem de lucro líquida para arrematações seguras.",
-#     "https://calculadoraleilao.streamlit.app/"
+#      "⚖️ Calculadora de Viabilidade de Leilão Profissional",
+#      "Ferramenta estratégica para investidores imobiliários. Calcula automaticamente impostos (ITBI), custos cartoriais, comissões de leiloeiro e margem de lucro líquida para arrematações seguras.",
+#      "https://calculadoraleilao.streamlit.app/"
 # )
 
 # Projeto 
@@ -126,24 +122,16 @@ render_python_app(
 
 # # Projeto 
 # render_python_app(
-#     "📊 Análise Pro: Sistemas de Amortização",
-#     "Simulador financeiro avançado que compara os sistemas SAC e PRICE. Ideal para análise de financiamentos de longo prazo, permitindo visualizar a evolução do saldo devedor e economia com amortizações antecipadas.",
-#     "https://guiadaamortizacao.streamlit.app/"
+#      "📊 Análise Pro: Sistemas de Amortização",
+#      "Simulador financeiro avançado que compara os sistemas SAC e PRICE. Ideal para análise de financiamentos de longo prazo, permitindo visualizar a evolução do saldo devedor e economia com amortizações antecipadas.",
+#      "https://guiadaamortizacao.streamlit.app/"
 # )
 
 # Projeto 
 render_python_app(
-    "☕ Gestão de Custos: Açúcar 💵Como eliminei mais de R$ 25 mil por ano em desperdício só no café.",
+    "☕ Gestão de Custos: Açúcar 💵 Como eliminei mais de R$ 25 mil por ano em desperdício só no café.",
     "Aplicação voltada para qualquer empresa. Sabe aquela economia que ninguém vê? Aquela que parece pequena… até que você coloca os números na mesa?",
     "https://economiacafe.streamlit.app/"
 )
 
-
 exibir_rodape()
-
-
-
-
-
-
-
