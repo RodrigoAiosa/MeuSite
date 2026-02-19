@@ -2,7 +2,6 @@ import streamlit as st
 from utils import exibir_rodape, registrar_acesso  # Importação atualizada
 
 # --- REGISTRO DE ACESSO ---
-# Registra a entrada do usuário na página de Projetos Python
 registrar_acesso("Projetos Python")
 
 # --- ESTILO CSS ---
@@ -65,7 +64,7 @@ def render_python_app(title, description, url):
         f"""
         <div class="iframe-container">
             <iframe 
-                src="{url}?embed=true" 
+                src="{url}" 
                 width="100%" 
                 height="700" 
                 frameborder="0" 
@@ -78,56 +77,43 @@ def render_python_app(title, description, url):
 
 # --- LISTA DE PROJETOS ---
 
-# Projeto
+# Projeto: Calculadora ROI (Hugging Face)
 render_python_app(
     "🦉 Calculadora ROI de Automação",
     "Calculadora que estima o Retorno sobre Investimento (ROI) de projetos de automação, comparando custos, economia de tempo e ganhos financeiros para apoiar decisões estratégicas.",
     "https://rodrigoaiosa-rio-automacao.hf.space"
 )
 
-# Projeto
+# Projeto: SOS Mulher
 render_python_app(
     "💼 APP S.O.S. MULHER",
     "Em 2025, dados publicados pelo Ministério da Justiça e Segurança Pública apontam que foram registrados 1.518 feminicídios, a maior marca já registrada até o momento.",
     "https://sosmulher.streamlit.app/"
 )
 
-# Projeto
+# Projeto: Precificador MEI
 render_python_app(
     "💼 Precificador Profissional para MEI",
     "Calculadora profissional de precificação para MEI que ajuda a definir o preço de venda com base em custos, impostos, comissões e margem de lucro. Inclui markup automático, ponto de equilíbrio, gráficos financeiros e exportação de relatórios em Excel.",
     "https://calculadora-preco-venda.streamlit.app/"
 )
 
+# --- PROJETOS ARQUIVADOS/COMENTADOS ---
 # Projeto 16/02/2026 00:38 
 # render_python_app(
 #      "📝 Análise de Custo: CLT",
-#      "Pare de errar nos cálculos trabalhistas! Calcule com precisão todos os custos de CLT e PJ, compare regimes, descubra a margem real de lucro por funcionário e processe equipes inteiras. Gere relatórios profissionais em segundos. Grátis e fácil de usar!",
+#      "Pare de errar nos cálculos trabalhistas!...",
 #      "https://rhexpert.streamlit.app/"
 # )
 
-# # Projeto 
-# render_python_app(
-#      "⚖️ Calculadora de Viabilidade de Leilão Profissional",
-#      "Ferramenta estratégica para investidores imobiliários. Calcula automaticamente impostos (ITBI), custos cartoriais, comissões de leiloeiro e margem de lucro líquida para arrematações seguras.",
-#      "https://calculadoraleilao.streamlit.app/"
-# )
-
-# Projeto 
+# Projeto: Google Maps Leads
 render_python_app(
     "📍 Extrator de Dados - Google Maps",
-    "Solução de automação para prospecção B2B. Extrai informações públicas diretamente do Google Maps, como nomes, telefones e localizações, facilitando a geração de listas de leads qualificadas.",
+    "Solução de automação para prospecção B2B. Extrai informações públicas diretamente do Google Maps, como nomes, telefones e localizações.",
     "https://gerarlead.streamlit.app/"
 )
 
-# # Projeto 
-# render_python_app(
-#      "📊 Análise Pro: Sistemas de Amortização",
-#      "Simulador financeiro avançado que compara os sistemas SAC e PRICE. Ideal para análise de financiamentos de longo prazo, permitindo visualizar a evolução do saldo devedor e economia com amortizações antecipadas.",
-#      "https://guiadaamortizacao.streamlit.app/"
-# )
-
-# Projeto 
+# Projeto: Economia Café
 render_python_app(
     "☕ Gestão de Custos: Açúcar 💵 Como eliminei mais de R$ 25 mil por ano em desperdício só no café.",
     "Aplicação voltada para qualquer empresa. Sabe aquela economia que ninguém vê? Aquela que parece pequena… até que você coloca os números na mesa?",
