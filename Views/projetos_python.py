@@ -80,6 +80,15 @@ def render_python_app(title, description, url):
 # --- LISTA DE PROJETOS ---
 
 
+
+# Projeto
+render_python_app(
+    "Calculadora ROI de Automação",
+    "APP Calculadora ROI de Automação que estima ganhos financeiros com automação de processos, comparando custos atuais, investimento e economia projetada. Gere indicadores claros, payback e aumento de produtividade para apoiar decisões estratégicas com base em dados.",
+    "https://rodrigoaiosa-rio-automacao.hf.space"
+)
+
+
 # Projeto
 render_python_app(
     "💼 APP SOS MULHER",
@@ -135,6 +144,7 @@ render_python_app(
 
 
 exibir_rodape()
+
 
 
 
