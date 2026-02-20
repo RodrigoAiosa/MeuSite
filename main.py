@@ -8,12 +8,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- LÓGICA DE BYPASS PARA CRON-JOB ---
-# Verifica se a URL contém ?cron=true para evitar redirecionamentos de sessão
-query_params = st.query_params
-is_cron = query_params.get("cron") == "true"
-
-# --- ESTILO CSS ATUALIZADO ---
+# --- ESTILO CSS ATUALIZADO (Sem o estilo do contador) ---
 st.markdown("""
     <style>
     [data-testid="stSidebar"] {
@@ -76,22 +71,15 @@ navigation_dict = {
 
 pg = st.navigation(navigation_dict)
 
-# --- LÓGICA DE REGISTRO ---
+# --- LÓGICA DE REGISTRO (Apenas backend, sem exibição) ---
 try:
-    if is_cron:
-        registrar_acesso("Cron-Job Keep Alive")
-    else:
-        registrar_acesso(pg.title)
+    registrar_acesso(pg.title)
 except Exception:
     pass
-
-# Se for acesso do Cron, encerra a execução aqui para economizar recursos
-if is_cron:
-    st.write("Keep-alive ativo.")
-    st.stop()
 
 # --- SIDEBAR LIMPA ---
 with st.sidebar:
     st.markdown("<div style='margin-top: 15px;'></div>", unsafe_allow_html=True)
+    # O bloco HTML do contador (visitor-container-box) foi removido daqui.
 
 pg.run()
