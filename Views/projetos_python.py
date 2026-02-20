@@ -77,7 +77,7 @@ def render_python_app(title, description, url, is_hf=False):
 render_python_app(
     "🦉 Calculadora ROI de Automação",
     "Calculadora que estima o Retorno sobre Investimento (ROI) de projetos de automação, comparando custos e ganhos financeiros.",
-    "https://rodrigoaiosa-rio-automacao.hf.space",
+    "https://hf.space/embed/rodrigoaiosa/rio-automacao/main",
     is_hf=True
 )
 
@@ -110,3 +110,4 @@ render_python_app(
 )
 
 exibir_rodape()
+
