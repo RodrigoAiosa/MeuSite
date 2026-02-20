@@ -48,29 +48,14 @@ st.title("🐍 Projetos em Python")
 st.write("Aplicações web completas desenvolvidas para automação de processos e análise financeira.")
 
 # --- FUNÇÃO PARA RENDERIZAR APPS ---
-def render_python_app(title, description, url):
-    # Botão de Título
-    st.markdown(f'<a href="{url}" target="_blank" class="project-button">{title} ↗️</a>', unsafe_allow_html=True)
+def render_python_app(title, description, main_url, embed_url):
+    # Botão de Título (leva para a URL principal)
+    st.markdown(f'<a href="{main_url}" target="_blank" class="project-button">{title} ↗️</a>', unsafe_allow_html=True)
     
     # Descrição
     st.markdown(f'<div class="project-description">{description}</div>', unsafe_allow_html=True)
     
-    # Lógica de conversão de URL para Embed (Tratamento Anti-Erro 404)
-    embed_url = url
-    
-    if "huggingface.co/spaces/" in url:
-        # Pega a parte 'usuario/repositorio', força minúsculo e troca '_' por '-'
-        # Isso evita o erro 404 da imagem porque o servidor HF só aceita URLs minúsculas e hifenizadas
-        path = url.split("spaces/")[1].lower().strip("/")
-        user, repo = path.split("/")
-        repo_clean = repo.replace("_", "-")
-        embed_url = f"https://{user}-{repo_clean}.hf.space"
-            
-    elif "streamlit.app" in url:
-        # Garante que não haja barras duplas e anexa o parâmetro de embed
-        embed_url = f"{url.rstrip('/')}/?embed=true"
-
-    # Renderização via HTML
+    # Renderização do Iframe usando a URL de embed específica
     components.html(
         f"""
         <iframe
@@ -86,41 +71,47 @@ def render_python_app(title, description, url):
         height=720,
     )
 
-# --- LISTA DE PROJETOS ---
+# --- LISTA DE PROJETOS COM URLs TRATADAS ---
 
-# 1. Projeto Hugging Face (Corrigido para evitar o 404 da imagem)
+# 1. Calculadora ROI (Hugging Face)
+# A URL de embed DEVE ser minúscula e com hífen no lugar de underline para evitar o 404
 render_python_app(
     "🦉 Calculadora ROI de Automação",
     "Calculadora que estima o Retorno sobre Investimento (ROI) de projetos de automação.",
-    "https://huggingface.co/spaces/rodrigoaiosa/RIO_AUTOMACAO"
+    "https://huggingface.co/spaces/rodrigoaiosa/RIO_AUTOMACAO",
+    "https://rodrigoaiosa-rio-automacao.hf.space"
 )
 
-# 2. Projeto SOS Mulher (Corrigido para evitar loop de redirecionamento)
+# 2. APP S.O.S. MULHER (Streamlit Cloud)
 render_python_app(
     "💼 APP S.O.S. MULHER",
     "Em 2025, dados registrados apontam a maior marca de feminicídios até o momento.",
-    "https://sosmulher.streamlit.app/"
+    "https://sosmulher.streamlit.app/",
+    "https://sosmulher.streamlit.app/?embed=true"
 )
 
-# 3. Projeto Precificador MEI
+# 3. Precificador MEI
 render_python_app(
     "💼 Precificador Profissional para MEI",
     "Calculadora de precificação que ajuda a definir o preço de venda com base em custos.",
-    "https://calculadora-preco-venda.streamlit.app/"
+    "https://calculadora-preco-venda.streamlit.app/",
+    "https://calculadora-preco-venda.streamlit.app/?embed=true"
 )
 
-# 4. Projeto Google Maps
+# 4. Extrator Google Maps
 render_python_app(
     "📍 Extrator de Dados - Google Maps",
     "Extrai informações públicas diretamente do Google Maps para geração de leads.",
-    "https://gerarlead.streamlit.app/"
+    "https://gerarlead.streamlit.app/",
+    "https://gerarlead.streamlit.app/?embed=true"
 )
 
-# 5. Projeto Economia Café
+# 5. Gestão de Custos: Café
 render_python_app(
     "☕ Gestão de Custos: Açúcar",
     "Aplicação voltada para eliminação de desperdícios e economia visível.",
-    "https://economiacafe.streamlit.app/"
+    "https://economiacafe.streamlit.app/",
+    "https://economiacafe.streamlit.app/?embed=true"
 )
 
 exibir_rodape()
