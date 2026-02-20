@@ -55,21 +55,22 @@ def render_python_app(title, description, url):
     # Descrição
     st.markdown(f'<div class="project-description">{description}</div>', unsafe_allow_html=True)
     
-    # Lógica de conversão de URL para Embed corrigida
+    # Lógica de conversão de URL para Embed (Tratamento Anti-Erro 404)
     embed_url = url
     
     if "huggingface.co/spaces/" in url:
-        # Extrai user e repo e força minúsculo para evitar Erro 404
-        # Ex: rodrigoaiosa/RIO_AUTOMACAO -> rodrigoaiosa-rio-automacao.hf.space
-        path = url.split("spaces/")[1]
+        # Pega a parte 'usuario/repositorio', força minúsculo e troca '_' por '-'
+        # Isso evita o erro 404 da imagem porque o servidor HF só aceita URLs minúsculas e hifenizadas
+        path = url.split("spaces/")[1].lower().strip("/")
         user, repo = path.split("/")
-        embed_url = f"https://{user.lower()}-{repo.lower().replace('_', '-')}.hf.space"
+        repo_clean = repo.replace("_", "-")
+        embed_url = f"https://{user}-{repo_clean}.hf.space"
             
     elif "streamlit.app" in url:
-        # Adiciona embed=true e limpa barras extras
+        # Garante que não haja barras duplas e anexa o parâmetro de embed
         embed_url = f"{url.rstrip('/')}/?embed=true"
 
-    # Renderização
+    # Renderização via HTML
     components.html(
         f"""
         <iframe
@@ -87,14 +88,14 @@ def render_python_app(title, description, url):
 
 # --- LISTA DE PROJETOS ---
 
-# 1. Projeto Hugging Face (Agora com tratamento para minúsculas)
+# 1. Projeto Hugging Face (Corrigido para evitar o 404 da imagem)
 render_python_app(
     "🦉 Calculadora ROI de Automação",
     "Calculadora que estima o Retorno sobre Investimento (ROI) de projetos de automação.",
     "https://huggingface.co/spaces/rodrigoaiosa/RIO_AUTOMACAO"
 )
 
-# 2. Projeto SOS Mulher
+# 2. Projeto SOS Mulher (Corrigido para evitar loop de redirecionamento)
 render_python_app(
     "💼 APP S.O.S. MULHER",
     "Em 2025, dados registrados apontam a maior marca de feminicídios até o momento.",
