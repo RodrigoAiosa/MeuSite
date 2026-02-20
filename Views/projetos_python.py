@@ -54,31 +54,26 @@ st.title("🐍 Projetos em Python")
 st.write("Aplicações web completas desenvolvidas para automação de processos e análise financeira.")
 
 # --- FUNÇÃO PARA RENDERIZAR APPS ---
-def render_python_app(title, description, url, is_hf=False):
-    # Botão
+def render_python_app(title, description, url, embed_url=None):
+    # Botão (sempre aponta para a URL original/pública)
     st.markdown(f'<a href="{url}" target="_blank" class="project-button">{title} ↗️</a>', unsafe_allow_html=True)
     
     # Descrição
     st.markdown(f'<div class="project-description">{description}</div>', unsafe_allow_html=True)
     
-    # Ajuste de URL para Hugging Face (Embed Link)
-    if is_hf:
-        # Converte o link do space para o formato de embed aceito pelo HF
-        iframe_url = "https://hf.space/embed/rodrigoaiosa/rio-automacao/main"
-    else:
-        iframe_url = url
-
-    # Renderização
-    components.iframe(iframe_url, height=700, scrolling=True)
+    # Renderização do Iframe (usa a embed_url se fornecida, senão usa a url normal)
+    target_url = embed_url if embed_url else url
+    components.iframe(target_url, height=700, scrolling=True)
 
 # --- LISTA DE PROJETOS ---
 
-# Projeto: Calculadora ROI (Hugging Face com link de Embed)
+# Projeto: Calculadora ROI (Hugging Face)
+# Usando o link de EMBED correto para o iframe funcionar
 render_python_app(
     "🦉 Calculadora ROI de Automação",
     "Calculadora que estima o Retorno sobre Investimento (ROI) de projetos de automação, comparando custos e ganhos financeiros.",
     "https://huggingface.co/spaces/rodrigoaiosa/RIO_AUTOMACAO",
-    is_hf=True
+    embed_url="https://hf.space/embed/rodrigoaiosa/RIO_AUTOMACAO/main"
 )
 
 # Projeto: SOS Mulher
@@ -110,5 +105,3 @@ render_python_app(
 )
 
 exibir_rodape()
-
-
