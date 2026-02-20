@@ -55,25 +55,21 @@ def render_python_app(title, description, url):
     # Descrição
     st.markdown(f'<div class="project-description">{description}</div>', unsafe_allow_html=True)
     
-    # Lógica de conversão de URL para Embed (Tratamento de Segurança)
+    # Lógica de conversão de URL para Embed corrigida
     embed_url = url
     
     if "huggingface.co/spaces/" in url:
-        # Converte a URL do Space para o link direto de embed que permite conexão
-        # Ex: https://huggingface.co/spaces/rodrigoaiosa/RIO_AUTOMACAO -> https://rodrigoaiosa-rio-automacao.hf.space
-        base_url = url.replace("https://huggingface.co/spaces/", "")
-        user_repo = base_url.split('/')
-        if len(user_repo) >= 2:
-            user = user_repo[0]
-            repo = user_repo[1]
-            embed_url = f"https://{user}-{repo.replace('_', '-')}.hf.space"
+        # Extrai user e repo e força minúsculo para evitar Erro 404
+        # Ex: rodrigoaiosa/RIO_AUTOMACAO -> rodrigoaiosa-rio-automacao.hf.space
+        path = url.split("spaces/")[1]
+        user, repo = path.split("/")
+        embed_url = f"https://{user.lower()}-{repo.lower().replace('_', '-')}.hf.space"
             
     elif "streamlit.app" in url:
-        # Adiciona o parâmetro embed para evitar loops de redirecionamento no Streamlit Cloud
-        if "?embed=true" not in url:
-            embed_url = f"{url.rstrip('/')}/?embed=true"
+        # Adiciona embed=true e limpa barras extras
+        embed_url = f"{url.rstrip('/')}/?embed=true"
 
-    # Renderização via HTML para maior compatibilidade com permissões de iframe
+    # Renderização
     components.html(
         f"""
         <iframe
@@ -91,7 +87,7 @@ def render_python_app(title, description, url):
 
 # --- LISTA DE PROJETOS ---
 
-# 1. Projeto Hugging Face
+# 1. Projeto Hugging Face (Agora com tratamento para minúsculas)
 render_python_app(
     "🦉 Calculadora ROI de Automação",
     "Calculadora que estima o Retorno sobre Investimento (ROI) de projetos de automação.",
