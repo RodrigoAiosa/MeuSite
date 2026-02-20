@@ -39,12 +39,6 @@ st.markdown(
         max-width: 800px;
         line-height: 1.4;
     }
-    .stIFrame {
-        border: 2px solid #31333F;
-        border-radius: 12px;
-        overflow: hidden;
-        margin-bottom: 40px;
-    }
     </style>
     """,
     unsafe_allow_html=True
@@ -54,51 +48,70 @@ st.title("🐍 Projetos em Python")
 st.write("Aplicações web completas desenvolvidas para automação de processos e análise financeira.")
 
 # --- FUNÇÃO PARA RENDERIZAR APPS ---
-def render_python_app(title, description, url):
+def render_python_app(title, description, url, is_hf=False):
     # Botão de Título
     st.markdown(f'<a href="{url}" target="_blank" class="project-button">{title} ↗️</a>', unsafe_allow_html=True)
     
     # Descrição
     st.markdown(f'<div class="project-description">{description}</div>', unsafe_allow_html=True)
     
-    # Renderização do Iframe
-    # Para o Hugging Face, tentamos o link direto que você mostrou na imagem
-    components.iframe(url, height=700, scrolling=True)
+    if is_hf:
+        # LINK DE EMBED FORÇADO PARA HUGGING FACE
+        # Este formato contorna as proteções de segurança do navegador
+        hf_embed_url = "https://hf.space/embed/rodrigoaiosa/RIO_AUTOMACAO/+"
+        components.html(
+            f"""
+            <iframe
+                src="{hf_embed_url}"
+                frameborder="0"
+                width="100%"
+                height="700"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                style="border: 2px solid #31333F; border-radius: 12px;"
+            ></iframe>
+            """,
+            height=720,
+        )
+    else:
+        # Para outros apps (Streamlit Cloud), o iframe padrão funciona
+        components.iframe(url, height=700, scrolling=True)
 
 # --- LISTA DE PROJETOS ---
 
-# Projeto: Calculadora ROI (Link direto da sua imagem)
+# 1. Projeto Hugging Face (O que estava dando erro)
 render_python_app(
     "🦉 Calculadora ROI de Automação",
-    "Calculadora que estima o Retorno sobre Investimento (ROI) de projetos de automação, comparando custos e ganhos financeiros.",
-    "https://rodrigoaiosa-rio-automacao.hf.space"
+    "Calculadora que estima o Retorno sobre Investimento (ROI) de projetos de automação.",
+    "https://huggingface.co/spaces/rodrigoaiosa/RIO_AUTOMACAO",
+    is_hf=True
 )
 
-# Projeto: SOS Mulher
+# 2. Projeto SOS Mulher
 render_python_app(
     "💼 APP S.O.S. MULHER",
-    "Em 2025, dados publicados pelo Ministério da Justiça e Segurança Pública apontam que foram registrados 1.518 feminicídios.",
+    "Em 2025, dados registrados apontam a maior marca de feminicídios até o momento.",
     "https://sosmulher.streamlit.app/"
 )
 
-# Projeto: Precificador MEI
+# 3. Projeto Precificador MEI
 render_python_app(
     "💼 Precificador Profissional para MEI",
-    "Calculadora profissional de precificação para MEI que ajuda a definir o preço de venda com base em custos e margens.",
+    "Calculadora de precificação que ajuda a definir o preço de venda com base em custos.",
     "https://calculadora-preco-venda.streamlit.app/"
 )
 
-# Projeto: Google Maps Leads
+# 4. Projeto Google Maps
 render_python_app(
     "📍 Extrator de Dados - Google Maps",
-    "Solução de automação para prospecção B2B. Extrai informações públicas diretamente do Google Maps.",
+    "Extrai informações públicas diretamente do Google Maps para geração de leads.",
     "https://gerarlead.streamlit.app/"
 )
 
-# Projeto: Economia Café
+# 5. Projeto Economia Café
 render_python_app(
     "☕ Gestão de Custos: Açúcar",
-    "Sabe aquela economia que ninguém vê? Aquela que parece pequena… até que você coloca os números na mesa?",
+    "Aplicação voltada para eliminação de desperdícios e economia visível.",
     "https://economiacafe.streamlit.app/"
 )
 
