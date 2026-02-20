@@ -48,25 +48,36 @@ st.title("🐍 Projetos em Python")
 st.write("Aplicações web completas desenvolvidas para automação de processos e análise financeira.")
 
 # --- FUNÇÃO PARA RENDERIZAR APPS ---
-def render_python_app(title, description, url, embed_url=None, is_hf=False):
+def render_python_app(title, description, url):
     # Botão de Título
     st.markdown(f'<a href="{url}" target="_blank" class="project-button">{title} ↗️</a>', unsafe_allow_html=True)
     
     # Descrição
     st.markdown(f'<div class="project-description">{description}</div>', unsafe_allow_html=True)
     
-    # Define qual URL usar no iframe
-    # Para Streamlit Cloud, o formato ideal de embed é: https://share.streamlit.io/sua-url/?embed=true
-    final_embed_url = embed_url if embed_url else url
-    if not is_hf and "?embed=true" not in final_embed_url:
-        if "streamlit.app" in final_embed_url:
-             # Converte a URL padrão do Streamlit para o formato de embed que evita o loop de redirecionamento
-             final_embed_url = final_embed_url.replace(".streamlit.app/", ".streamlit.app/?embed=true")
+    # Lógica de conversão de URL para Embed (Tratamento de Segurança)
+    embed_url = url
+    
+    if "huggingface.co/spaces/" in url:
+        # Converte a URL do Space para o link direto de embed que permite conexão
+        # Ex: https://huggingface.co/spaces/rodrigoaiosa/RIO_AUTOMACAO -> https://rodrigoaiosa-rio-automacao.hf.space
+        base_url = url.replace("https://huggingface.co/spaces/", "")
+        user_repo = base_url.split('/')
+        if len(user_repo) >= 2:
+            user = user_repo[0]
+            repo = user_repo[1]
+            embed_url = f"https://{user}-{repo.replace('_', '-')}.hf.space"
+            
+    elif "streamlit.app" in url:
+        # Adiciona o parâmetro embed para evitar loops de redirecionamento no Streamlit Cloud
+        if "?embed=true" not in url:
+            embed_url = f"{url.rstrip('/')}/?embed=true"
 
+    # Renderização via HTML para maior compatibilidade com permissões de iframe
     components.html(
         f"""
         <iframe
-            src="{final_embed_url}"
+            src="{embed_url}"
             frameborder="0"
             width="100%"
             height="700"
@@ -84,12 +95,10 @@ def render_python_app(title, description, url, embed_url=None, is_hf=False):
 render_python_app(
     "🦉 Calculadora ROI de Automação",
     "Calculadora que estima o Retorno sobre Investimento (ROI) de projetos de automação.",
-    "https://huggingface.co/spaces/rodrigoaiosa/RIO_AUTOMACAO",
-    embed_url="https://hf.space/embed/rodrigoaiosa/RIO_AUTOMACAO/+",
-    is_hf=True
+    "https://huggingface.co/spaces/rodrigoaiosa/RIO_AUTOMACAO"
 )
 
-# 2. Projeto SOS Mulher (Corrigido para evitar o loop de redirecionamento)
+# 2. Projeto SOS Mulher
 render_python_app(
     "💼 APP S.O.S. MULHER",
     "Em 2025, dados registrados apontam a maior marca de feminicídios até o momento.",
