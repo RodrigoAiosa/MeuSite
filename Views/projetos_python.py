@@ -48,46 +48,48 @@ st.title("🐍 Projetos em Python")
 st.write("Aplicações web completas desenvolvidas para automação de processos e análise financeira.")
 
 # --- FUNÇÃO PARA RENDERIZAR APPS ---
-def render_python_app(title, description, url, is_hf=False):
+def render_python_app(title, description, url, embed_url=None, is_hf=False):
     # Botão de Título
     st.markdown(f'<a href="{url}" target="_blank" class="project-button">{title} ↗️</a>', unsafe_allow_html=True)
     
     # Descrição
     st.markdown(f'<div class="project-description">{description}</div>', unsafe_allow_html=True)
     
-    if is_hf:
-        # LINK DE EMBED FORÇADO PARA HUGGING FACE
-        # Este formato contorna as proteções de segurança do navegador
-        hf_embed_url = "https://hf.space/embed/rodrigoaiosa/RIO_AUTOMACAO/+"
-        components.html(
-            f"""
-            <iframe
-                src="{hf_embed_url}"
-                frameborder="0"
-                width="100%"
-                height="700"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-                style="border: 2px solid #31333F; border-radius: 12px;"
-            ></iframe>
-            """,
-            height=720,
-        )
-    else:
-        # Para outros apps (Streamlit Cloud), o iframe padrão funciona
-        components.iframe(url, height=700, scrolling=True)
+    # Define qual URL usar no iframe
+    # Para Streamlit Cloud, o formato ideal de embed é: https://share.streamlit.io/sua-url/?embed=true
+    final_embed_url = embed_url if embed_url else url
+    if not is_hf and "?embed=true" not in final_embed_url:
+        if "streamlit.app" in final_embed_url:
+             # Converte a URL padrão do Streamlit para o formato de embed que evita o loop de redirecionamento
+             final_embed_url = final_embed_url.replace(".streamlit.app/", ".streamlit.app/?embed=true")
+
+    components.html(
+        f"""
+        <iframe
+            src="{final_embed_url}"
+            frameborder="0"
+            width="100%"
+            height="700"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            style="border: 2px solid #31333F; border-radius: 12px;"
+        ></iframe>
+        """,
+        height=720,
+    )
 
 # --- LISTA DE PROJETOS ---
 
-# 1. Projeto Hugging Face (O que estava dando erro)
+# 1. Projeto Hugging Face
 render_python_app(
     "🦉 Calculadora ROI de Automação",
     "Calculadora que estima o Retorno sobre Investimento (ROI) de projetos de automação.",
     "https://huggingface.co/spaces/rodrigoaiosa/RIO_AUTOMACAO",
+    embed_url="https://hf.space/embed/rodrigoaiosa/RIO_AUTOMACAO/+",
     is_hf=True
 )
 
-# 2. Projeto SOS Mulher
+# 2. Projeto SOS Mulher (Corrigido para evitar o loop de redirecionamento)
 render_python_app(
     "💼 APP S.O.S. MULHER",
     "Em 2025, dados registrados apontam a maior marca de feminicídios até o momento.",
