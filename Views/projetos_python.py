@@ -91,7 +91,7 @@ render_python_app(
 render_python_app(
     "💼 Precificador Profissional para MEI",
     "Calculadora de precificação que ajuda a definir o preço de venda com base em custos.",
-    "https://rodrigoaiosa-extrair-dados-google-maps.hf.space"
+    "https://rodrigoaiosa-precificador-profissional-mei.hf.space"
 )
 
 # 4. Extrator Google Maps
@@ -109,6 +109,7 @@ render_python_app(
 )
 
 exibir_rodape()
+
 
 
 
