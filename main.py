@@ -84,7 +84,7 @@ projeto_powerbi_page = st.Page(page="Views/projetos_powerbi.py", title="Projetos
 treinamento_empresa_page = st.Page(page="Views/treinamento_empresa.py", title="Para Empresas", icon="📋")
 cursos_online_page = st.Page(page="Views/cursos_online.py", title="Cursos Online", icon="🛜")
 contato = st.Page(page="Views/contato.py", title="Contato", icon="📧")
-AIOSAIA = st.Page(page="Views/AIosa_IA.py", title="AIOSA IA", icon="✅")
+AIOSAIA = st.Page(page="Views/AIosa_IA.py", title="AIOSA IA", icon="⚛️")
 
 # --- NAVEGAÇÃO ---
 navigation_dict = {
@@ -109,6 +109,7 @@ with st.sidebar:
     st.markdown("<div style='margin-top: 15px;'></div>", unsafe_allow_html=True)
 
 pg.run()
+
 
 
 
