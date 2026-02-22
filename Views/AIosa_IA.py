@@ -3,7 +3,7 @@ from utils import exibir_rodape, registrar_acesso  # Importação mantida
 
 # --- REGISTRO DE ACESSO ---
 # Registra a entrada do usuário na página de Projetos Python
-registrar_acesso("🐍 AIosa Agente de IA")
+registrar_acesso("🦉 AIosa Agente de IA")
 
 # --- ESTILO CSS ---
 st.markdown(
