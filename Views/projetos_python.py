@@ -73,6 +73,14 @@ def render_python_app(title, description, embed_url):
 
 # --- LISTA DE PROJETOS ---
 
+
+# 1. 🗺️ CrimeMap BR — Segurança Pública
+render_python_app(
+    "🗺️ CrimeMap BR — Segurança Pública",
+    "Dashboard interativo de criminalidade com dados abertos oficiais do Rio de Janeiro. Permite explorar, comparar e visualizar ocorrências criminais por município, tipo de crime e período de tempo.",
+    "https://rodrigoaiosa-crimemap.hf.space"
+)
+
 # 1. Calculadora ROI (Link exato fornecido)
 render_python_app(
     "🦉 Calculadora ROI de Automação",
@@ -109,6 +117,7 @@ render_python_app(
 )
 
 exibir_rodape()
+
 
 
 
