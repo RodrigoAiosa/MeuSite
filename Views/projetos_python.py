@@ -98,7 +98,7 @@ render_python_app(
 render_python_app(
     "📍 Extrator de Dados - Google Maps",
     "Extrai informações públicas diretamente do Google Maps para geração de leads.",
-    "https://gerarlead.streamlit.app/?embed=true"
+    "https://rodrigoaiosa-extrair-dados-googlemaps.hf.space"
 )
 
 # 5. Gestão de Custos: Café
@@ -109,6 +109,7 @@ render_python_app(
 )
 
 exibir_rodape()
+
 
 
 
