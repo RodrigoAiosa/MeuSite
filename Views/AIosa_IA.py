@@ -97,7 +97,7 @@ def render_python_app(title, description, url):
 render_python_app(
     "🤖 <span class='highlight-blue'>AI</span>OSA — Assistente Virtual Inteligente",
     "Assistente virtual desenvolvido por Rodrigo Aiosa.",
-    "https://aiosaassistente.streamlit.app/"
+    "https://huggingface.co/spaces/rodrigoaiosa/aiosa-assistente-ia"
 )
 
 exibir_rodape()
