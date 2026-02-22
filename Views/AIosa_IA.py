@@ -56,7 +56,7 @@ st.markdown(
 )
 
 # Título customizado com "AI" em azul
-st.markdown('<h1>🐍 <span class="highlight-blue">AI</span>osa Agente de IA</h1>', unsafe_allow_html=True)
+st.markdown('<h1>🦉 <span class="highlight-blue">AI</span>osa Agente de IA</h1>', unsafe_allow_html=True)
 
 st.write("Aplicações web completas desenvolvidas para automação de processos e análise financeira.")
 st.markdown("---")
