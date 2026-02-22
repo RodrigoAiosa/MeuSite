@@ -82,6 +82,11 @@ st.write("")
 projects = [
 
      {
+        "title": "🌌 Quando o Python encontra a curvatura do Espaço-Tempo.",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7430806899744432128",
+    },
+
+     {
         "title": "📊 Automatizei o cálculo de custo de funcionários e o resultado é impressionante!",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7429183442157989888",
     },
@@ -238,6 +243,7 @@ for idx, p in enumerate(projects):
 
 # --- RODAPÉ ---
 exibir_rodape()
+
 
 
 
