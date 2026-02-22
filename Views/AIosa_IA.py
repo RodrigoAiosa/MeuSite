@@ -95,7 +95,7 @@ def render_python_app(title, description, url):
 # Removi a âncora da URL para evitar o erro de redirecionamento no iframe
 # Note que aqui também apliquei o destaque no título do projeto se desejar
 render_python_app(
-    "🤖 <span class='highlight-blue'>AI</span>OSA — Assistente Virtual Inteligente",
+    "🦉<span class='highlight-blue'>AI</span>OSA — Assistente Virtual Inteligente",
     "Assistente virtual desenvolvido por Rodrigo Aiosa.",
     "https://rodrigoaiosa-aiosa-assistente-ia.hf.space"
 )
