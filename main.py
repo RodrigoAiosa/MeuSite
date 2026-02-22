@@ -77,14 +77,14 @@ st.markdown("""
 
 # --- DEFINIÇÃO DAS PÁGINAS ---
 sobre_page = st.Page(page="Views/sobre.py", title="Sobre Mim", icon="🦉", default=True)
-projeto_recente_page = st.Page(page="Views/projetos_recentes.py", title="Projeto Recente", icon=":material/history:")
-cases_sucesso_page = st.Page(page="Views/cases_sucesso.py", title="Cases de Sucesso", icon=":material/emoji_events:")
-projeto_python_page = st.Page(page="Views/projetos_python.py", title="Projetos Python", icon=":material/code:")
-projeto_powerbi_page = st.Page(page="Views/projetos_powerbi.py", title="Projetos Power BI", icon=":material/bar_chart:")
-treinamento_empresa_page = st.Page(page="Views/treinamento_empresa.py", title="Para Empresas", icon=":material/school:")
-cursos_online_page = st.Page(page="Views/cursos_online.py", title="Cursos Online", icon=":material/local_library:")
-contato = st.Page(page="Views/contato.py", title="Contato", icon=":material/alternate_email:")
-AIOSAIA = st.Page(page="Views/AIosa_IA.py", title="AIOSA IA", icon=":material/smart_toy:")
+projeto_recente_page = st.Page(page="Views/projetos_recentes.py", title="Projeto Recente", icon="🗂️")
+cases_sucesso_page = st.Page(page="Views/cases_sucesso.py", title="Cases de Sucesso", icon="🏆")
+projeto_python_page = st.Page(page="Views/projetos_python.py", title="Projetos Python", icon="🚧")
+projeto_powerbi_page = st.Page(page="Views/projetos_powerbi.py", title="Projetos Power BI", icon="📊")
+treinamento_empresa_page = st.Page(page="Views/treinamento_empresa.py", title="Para Empresas", icon="📋")
+cursos_online_page = st.Page(page="Views/cursos_online.py", title="Cursos Online", icon="🛜")
+contato = st.Page(page="Views/contato.py", title="Contato", icon="📧")
+AIOSAIA = st.Page(page="Views/AIosa_IA.py", title="AIOSA IA", icon="🤖")
 
 # --- NAVEGAÇÃO ---
 navigation_dict = {
@@ -109,4 +109,5 @@ with st.sidebar:
     st.markdown("<div style='margin-top: 15px;'></div>", unsafe_allow_html=True)
 
 pg.run()
+
 
