@@ -84,7 +84,7 @@ render_python_app(
 render_python_app(
     "💼 APP S.O.S. MULHER",
     "Em 2025, dados registrados apontam a maior marca de feminicídios até o momento.",
-    "https://sosmulher.streamlit.app/?embed=true"
+    "https://rodrigoaiosa-help-mulher.hf.space"
 )
 
 # 3. Precificador MEI
@@ -109,3 +109,4 @@ render_python_app(
 )
 
 exibir_rodape()
+
