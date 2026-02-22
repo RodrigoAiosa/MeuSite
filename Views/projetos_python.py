@@ -87,12 +87,12 @@ render_python_app(
     "https://rodrigoaiosa-help-mulher.hf.space"
 )
 
-# # 3. Precificador MEI
-# render_python_app(
-#     "💼 Precificador Profissional para MEI",
-#     "Calculadora de precificação que ajuda a definir o preço de venda com base em custos.",
-#     "https://calculadora-preco-venda.streamlit.app/?embed=true"
-# )
+# 3. Precificador MEI
+render_python_app(
+    "💼 Precificador Profissional para MEI",
+    "Calculadora de precificação que ajuda a definir o preço de venda com base em custos.",
+    "https://rodrigoaiosa-extrair-dados-google-maps.hf.space"
+)
 
 # 4. Extrator Google Maps
 render_python_app(
@@ -109,5 +109,6 @@ render_python_app(
 )
 
 exibir_rodape()
+
 
 
