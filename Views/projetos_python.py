@@ -105,10 +105,11 @@ render_python_app(
 render_python_app(
     "☕ Gestão de Custos: Açúcar",
     "Aplicação voltada para eliminação de desperdícios e economia visível.",
-    "https://economiacafe.streamlit.app/?embed=true"
+    "https://rodrigoaiosa-calcular-custo-acucar.hf.space"
 )
 
 exibir_rodape()
+
 
 
 
