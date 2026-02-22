@@ -154,7 +154,7 @@ with col2:
     st.write("""
     Transforme dados brutos em dashboards profissionais e indicadores estratégicos.
     """)
-    st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/DFeDsQV")
+    st.link_button("Comprar", "https://pay.kiwify.com.br/DFeDsQV")
 
     with st.expander("📚 Ver conteúdo programático"):
         st.markdown("""
@@ -183,7 +183,7 @@ with col4:
     st.write("""
     Desenvolva autonomia analítica e capacidade de extrair informações estratégicas.
     """)
-    st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/ivdojL8")
+    st.link_button("Comprar", "https://pay.kiwify.com.br/ivdojL8")
 
     with st.expander("📚 Ver conteúdo programático"):
         st.markdown("""
@@ -212,7 +212,7 @@ with col6:
     st.write("""
     Excel aplicado ao mundo corporativo, automação e análises estratégicas.
     """)
-    st.link_button("Saiba mais sobre o curso", "https://pay.kiwify.com.br/EEb9ADQ")
+    st.link_button("Comprar", "https://pay.kiwify.com.br/EEb9ADQ")
 
     with st.expander("📚 Ver conteúdo programático"):
         st.markdown("""
@@ -229,6 +229,7 @@ with col6:
         """)
         
 exibir_rodape()
+
 
 
 
