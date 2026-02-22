@@ -4,7 +4,7 @@ from utils import registrar_acesso, exibir_rodape
 # 1. Configuração da página
 st.set_page_config(
     page_title="Portfólio Rodrigo Aiosa", 
-    page_icon="📊", 
+    page_icon="🦉", 
     layout="wide"
 )
 
@@ -76,7 +76,7 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # --- DEFINIÇÃO DAS PÁGINAS ---
-sobre_page = st.Page(page="Views/sobre.py", title="Sobre Mim", icon="🦉", default=True)
+sobre_page = st.Page(page="Views/sobre.py", title="Sobre Mim", icon="📝", default=True)
 projeto_recente_page = st.Page(page="Views/projetos_recentes.py", title="Projeto Recente", icon="🗂️")
 cases_sucesso_page = st.Page(page="Views/cases_sucesso.py", title="Cases de Sucesso", icon="🏆")
 projeto_python_page = st.Page(page="Views/projetos_python.py", title="Projetos Python", icon="🚧")
@@ -109,5 +109,6 @@ with st.sidebar:
     st.markdown("<div style='margin-top: 15px;'></div>", unsafe_allow_html=True)
 
 pg.run()
+
 
 
