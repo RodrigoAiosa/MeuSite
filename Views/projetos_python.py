@@ -5,135 +5,131 @@ from utils import exibir_rodape, registrar_acesso
 # --- REGISTRO DE ACESSO ---
 registrar_acesso("Projetos Python")
 
+# --- CONFIG PÁGINA ---
+st.set_page_config(layout="wide")
+
 # --- ESTILO CSS ---
-st.markdown(
-    """
-    <style>
-    .project-button {
-        display: inline-block;
-        background-color: #262730;
-        color: #00b4d8 !important;
-        font-size: 1.2rem;
-        font-weight: bold;
-        padding: 12px 20px;
-        margin-bottom: 5px;
-        border-radius: 10px;
-        text-decoration: none;
-        transition: transform 0.3s, box-shadow 0.3s;
-        border: 1px solid rgba(0, 180, 216, 0.2);
-        width: 100%;
-        max-width: 800px;
-        cursor: pointer;
-        text-align: left;
-    }
-    .project-button:hover {
-        transform: scale(1.01);
-        box-shadow: 0 8px 16px rgba(0, 180, 216, 0.3);
-        border-color: #00b4d8;
-    }
-    .project-description {
-        color: #ffffff;
-        font-size: 0.95rem;
-        margin-bottom: 15px;
-        padding-left: 5px;
-        max-width: 800px;
-        line-height: 1.4;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+st.markdown("""
+<style>
+.project-card {
+    background-color: #1E1F25;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(0, 180, 216, 0.15);
+}
+
+.project-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #00b4d8;
+    margin-bottom: 8px;
+}
+
+.project-description {
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.project-button {
+    display: inline-block;
+    background-color: #262730;
+    color: #00b4d8 !important;
+    font-weight: bold;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.3s;
+    border: 1px solid rgba(0, 180, 216, 0.3);
+}
+
+.project-button:hover {
+    background-color: #00b4d8;
+    color: black !important;
+}
+</style>
+""", unsafe_allow_html=True)
 
 st.title("🐍 Projetos em Python")
-st.write("Aplicações web completas desenvolvidas para automação de processos e análise financeira.")
+st.write("Aplicações web completas desenvolvidas para automação, análise de dados e soluções inteligentes.")
 
-# --- FUNÇÃO PARA RENDERIZAR APPS ---
-def render_python_app(title, description, embed_url):
-    # Botão de Título
-    st.markdown(f'<a href="{embed_url}" target="_blank" class="project-button">{title} ↗️</a>', unsafe_allow_html=True)
-    
-    # Descrição
-    st.markdown(f'<div class="project-description">{description}</div>', unsafe_allow_html=True)
-    
-    # Iframe direto com a URL funcional
-    components.html(
-        f"""
-        <iframe
-            src="{embed_url}"
-            frameborder="0"
-            width="100%"
-            height="700"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-            style="border: 2px solid #31333F; border-radius: 12px;"
-        ></iframe>
-        """,
-        height=720,
+# --- LISTA DE PROJETOS (ESTRUTURA ESCALÁVEL) ---
+projects = [
+    {
+        "title": "🔍 Onde no mundo está o hacker das queries?",
+        "description": "Inspirado em Carmen Sandiego, um jogo investigativo para treinar SQL de forma gamificada.",
+        "url": "https://jogo-sql-sandiego.streamlit.app",
+        "embed": False  # 🚨 Streamlit Cloud não permite iframe
+    },
+    {
+        "title": "🗺️ CrimeMap BR — Segurança Pública",
+        "description": "Dashboard interativo de criminalidade com dados abertos oficiais do RJ.",
+        "url": "https://rodrigoaiosa-crimemap.hf.space",
+        "embed": True
+    },
+    {
+        "title": "🦉 Calculadora ROI de Automação",
+        "description": "Calculadora que estima o Retorno sobre Investimento (ROI) de projetos de automação.",
+        "url": "https://rodrigoaiosa-roi-automacao.hf.space",
+        "embed": True
+    },
+    {
+        "title": "💼 APP S.O.S. MULHER",
+        "description": "Aplicação voltada à conscientização e apoio.",
+        "url": "https://rodrigoaiosa-help-mulher.hf.space",
+        "embed": True
+    },
+    {
+        "title": "💼 Precificador Profissional para MEI",
+        "description": "Calculadora inteligente de precificação baseada em custos.",
+        "url": "https://rodrigoaiosa-precificador-profissional-mei.hf.space",
+        "embed": True
+    },
+    {
+        "title": "📍 Extrator de Dados - Google Maps",
+        "description": "Extrai informações públicas para geração de leads.",
+        "url": "https://rodrigoaiosa-extrair-dados-googlemaps.hf.space",
+        "embed": True
+    },
+    {
+        "title": "☕ Gestão de Custos: Açúcar",
+        "description": "Aplicação voltada para eliminação de desperdícios e redução de custos.",
+        "url": "https://rodrigoaiosa-calcular-custo-acucar.hf.space",
+        "embed": True
+    }
+]
+
+# --- FUNÇÃO DE RENDERIZAÇÃO ---
+def render_project(project):
+    st.markdown('<div class="project-card">', unsafe_allow_html=True)
+
+    st.markdown(f'<div class="project-title">{project["title"]}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="project-description">{project["description"]}</div>', unsafe_allow_html=True)
+
+    st.markdown(
+        f'<a href="{project["url"]}" target="_blank" class="project-button">Abrir Aplicação ↗</a>',
+        unsafe_allow_html=True
     )
 
-# --- LISTA DE PROJETOS ---
+    if project["embed"]:
+        components.html(
+            f"""
+            <iframe
+                src="{project["url"]}"
+                width="100%"
+                height="650"
+                style="margin-top:20px; border-radius: 12px; border: 1px solid #31333F;"
+            ></iframe>
+            """,
+            height=680,
+        )
+
+    st.markdown('</div>', unsafe_allow_html=True)
 
 
-# 1. 🗺️ CrimeMap BR — Segurança Pública
-render_python_app(
-    "🔍 Onde no mundo está o hacker das queries?",
-    "Quem cresceu jogando Carmen Sandiego sabe a adrenalina que era seguir pistas pelo mundo. Decidi trazer esse conceito para o universo de dados e estou desenvolvendo o SQL Detective! 🕵️‍♂️💻",
-    "https://jogo-sql-sandiego.streamlit.app",
-     "embed"=False
-)
-
-
-# 1. 🗺️ CrimeMap BR — Segurança Pública
-render_python_app(
-    "🗺️ CrimeMap BR — Segurança Pública",
-    "Dashboard interativo de criminalidade com dados abertos oficiais do Rio de Janeiro. Permite explorar, comparar e visualizar ocorrências criminais por município, tipo de crime e período de tempo.",
-    "https://rodrigoaiosa-crimemap.hf.space"
-)
-
-# 1. Calculadora ROI (Link exato fornecido)
-render_python_app(
-    "🦉 Calculadora ROI de Automação",
-    "Calculadora que estima o Retorno sobre Investimento (ROI) de projetos de automação.",
-    "https://rodrigoaiosa-roi-automacao.hf.space"
-)
-
-# 2. APP S.O.S. MULHER
-render_python_app(
-    "💼 APP S.O.S. MULHER",
-    "Em 2025, dados registrados apontam a maior marca de feminicídios até o momento.",
-    "https://rodrigoaiosa-help-mulher.hf.space"
-)
-
-# 3. Precificador MEI
-render_python_app(
-    "💼 Precificador Profissional para MEI",
-    "Calculadora de precificação que ajuda a definir o preço de venda com base em custos.",
-    "https://rodrigoaiosa-precificador-profissional-mei.hf.space"
-)
-
-# 4. Extrator Google Maps
-render_python_app(
-    "📍 Extrator de Dados - Google Maps",
-    "Extrai informações públicas diretamente do Google Maps para geração de leads.",
-    "https://rodrigoaiosa-extrair-dados-googlemaps.hf.space"
-)
-
-# 5. Gestão de Custos: Café
-render_python_app(
-    "☕ Gestão de Custos: Açúcar",
-    "Aplicação voltada para eliminação de desperdícios e economia visível.",
-    "https://rodrigoaiosa-calcular-custo-acucar.hf.space"
-)
+# --- RENDERIZA TODOS ---
+for project in projects:
+    render_project(project)
 
 exibir_rodape()
-
-
-
-
-
-
-
-
-
-
-
