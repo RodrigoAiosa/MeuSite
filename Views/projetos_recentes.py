@@ -87,7 +87,7 @@ projects = [
     },
 
      {
-        "title": "🔍 Onde no mundo está o hacker das queries?",
+        "title": "🔍 JOGO - CARMEN SANDIEGO SQL - Onde no mundo está o hacker das queries?",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7431706970145067010",
     },
 
@@ -253,6 +253,7 @@ for idx, p in enumerate(projects):
 
 # --- RODAPÉ ---
 exibir_rodape()
+
 
 
 
