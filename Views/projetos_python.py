@@ -79,7 +79,7 @@ render_python_app(
     "🔍 Onde no mundo está o hacker das queries?",
     "Quem cresceu jogando Carmen Sandiego sabe a adrenalina que era seguir pistas pelo mundo. Decidi trazer esse conceito para o universo de dados e estou desenvolvendo o SQL Detective! 🕵️‍♂️💻",
     "https://jogo-sql-sandiego.streamlit.app",
-     embed=False
+     "embed"=False
 )
 
 
@@ -126,6 +126,7 @@ render_python_app(
 )
 
 exibir_rodape()
+
 
 
 
