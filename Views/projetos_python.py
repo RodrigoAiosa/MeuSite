@@ -1,5 +1,3 @@
-Views/projetos_python.py
-
 import streamlit as st
 import streamlit.components.v1 as components
 from utils import exibir_rodape, registrar_acesso
@@ -75,6 +73,7 @@ def render_python_app(title, description, embed_url):
 
 # --- LISTA DE PROJETOS ---
 
+
 # 1. 🗺️ CrimeMap BR — Segurança Pública
 render_python_app(
     "🗺️ CrimeMap BR — Segurança Pública",
@@ -118,4 +117,3 @@ render_python_app(
 )
 
 exibir_rodape()
-
