@@ -75,15 +75,6 @@ def render_python_app(title, description, embed_url):
 
 # --- LISTA DE PROJETOS ---
 
-
-# 1. 🗺️ CrimeMap BR — Segurança Pública
-render_python_app(
-    "🔍 Onde no mundo está o hacker das queries?",
-    "Quem cresceu jogando Carmen Sandiego sabe a adrenalina que era seguir pistas pelo mundo. Decidi trazer esse conceito para o universo de dados e estou desenvolvendo o SQL Detective! 🕵️‍♂️💻",
-    "https://jogo-sql-sandiego.streamlit.app"
-)
-
-
 # 1. 🗺️ CrimeMap BR — Segurança Pública
 render_python_app(
     "🗺️ CrimeMap BR — Segurança Pública",
@@ -127,3 +118,4 @@ render_python_app(
 )
 
 exibir_rodape()
+
