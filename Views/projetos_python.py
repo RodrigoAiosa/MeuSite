@@ -76,6 +76,14 @@ def render_python_app(title, description, embed_url):
 
 # 1. 🗺️ CrimeMap BR — Segurança Pública
 render_python_app(
+    "🔍 Onde no mundo está o hacker das queries?",
+    "Quem cresceu jogando Carmen Sandiego sabe a adrenalina que era seguir pistas pelo mundo. Decidi trazer esse conceito para o universo de dados e estou desenvolvendo o SQL Detective! 🕵️‍♂️💻",
+    "https://jogo-sql-sandiego.streamlit.app"
+)
+
+
+# 1. 🗺️ CrimeMap BR — Segurança Pública
+render_python_app(
     "🗺️ CrimeMap BR — Segurança Pública",
     "Dashboard interativo de criminalidade com dados abertos oficiais do Rio de Janeiro. Permite explorar, comparar e visualizar ocorrências criminais por município, tipo de crime e período de tempo.",
     "https://rodrigoaiosa-crimemap.hf.space"
@@ -117,6 +125,7 @@ render_python_app(
 )
 
 exibir_rodape()
+
 
 
 
