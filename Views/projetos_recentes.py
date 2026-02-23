@@ -82,6 +82,16 @@ st.write("")
 projects = [
 
      {
+        "title": "🚀 Diferencial Técnico: Automação com .BAT para Estruturação de Projetos Python",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7431804073559097345",
+    },
+
+     {
+        "title": "🔍 Onde no mundo está o hacker das queries?",
+        "link": "https://www.linkedin.com/feed/update/urn:li:activity:7431706970145067010",
+    },
+
+     {
         "title": "🌌 Quando o Python encontra a curvatura do Espaço-Tempo.",
         "link": "https://www.linkedin.com/feed/update/urn:li:activity:7430806899744432128",
     },
@@ -243,6 +253,7 @@ for idx, p in enumerate(projects):
 
 # --- RODAPÉ ---
 exibir_rodape()
+
 
 
 
