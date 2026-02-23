@@ -60,7 +60,7 @@ projects = [
         "title": "🔍 Onde no mundo está o hacker das queries?",
         "description": "Inspirado em Carmen Sandiego, um jogo investigativo para treinar SQL de forma gamificada.",
         "url": "https://jogo-sql-sandiego.streamlit.app",
-        "embed": False  # 🚨 Streamlit Cloud não permite iframe
+        "embed": True  # 🚨 Streamlit Cloud não permite iframe
     },
     {
         "title": "🗺️ CrimeMap BR — Segurança Pública",
@@ -133,3 +133,4 @@ for project in projects:
     render_project(project)
 
 exibir_rodape()
+
