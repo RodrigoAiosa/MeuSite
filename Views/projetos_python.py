@@ -1,129 +1,162 @@
 import streamlit as st
-import streamlit.components.v1 as components
 from utils import exibir_rodape, registrar_acesso
 
-# --- REGISTRO DE ACESSO ---
+# --------------------------------------------------
+# REGISTRO DE ACESSO
+# --------------------------------------------------
 registrar_acesso("Projetos Python")
 
-# --- ESTILO CSS ---
+# --------------------------------------------------
+# CONFIGURAÇÃO DA PÁGINA
+# --------------------------------------------------
+st.set_page_config(
+    page_title="Projetos em Python | Rodrigo Aiosa",
+    page_icon="🐍",
+    layout="wide"
+)
+
+# --------------------------------------------------
+# ESTILO PREMIUM (PORTFÓLIO SaaS)
+# --------------------------------------------------
+st.markdown("""
+<style>
+
+.main {
+    background-color: #0E1117;
+}
+
+h1 {
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+.subtitle {
+    color: #9CA3AF;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+}
+
+.project-card {
+    background-color: #111827;
+    padding: 25px;
+    border-radius: 16px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: all 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-3px);
+    border: 1px solid #00b4d8;
+    box-shadow: 0 10px 25px rgba(0, 180, 216, 0.15);
+}
+
+.project-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.project-description {
+    color: #D1D5DB;
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.project-button {
+    display: inline-block;
+    background-color: #00b4d8;
+    color: #0E1117 !important;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.project-button:hover {
+    background-color: #0096c7;
+}
+
+.section-divider {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+# --------------------------------------------------
+# HEADER
+# --------------------------------------------------
+st.title("🐍 Projetos em Python")
+
 st.markdown(
-    """
-    <style>
-    .project-button {
-        display: inline-block;
-        background-color: #262730;
-        color: #00b4d8 !important;
-        font-size: 1.2rem;
-        font-weight: bold;
-        padding: 12px 20px;
-        margin-bottom: 5px;
-        border-radius: 10px;
-        text-decoration: none;
-        transition: transform 0.3s, box-shadow 0.3s;
-        border: 1px solid rgba(0, 180, 216, 0.2);
-        width: 100%;
-        max-width: 800px;
-        cursor: pointer;
-        text-align: left;
-    }
-    .project-button:hover {
-        transform: scale(1.01);
-        box-shadow: 0 8px 16px rgba(0, 180, 216, 0.3);
-        border-color: #00b4d8;
-    }
-    .project-description {
-        color: #ffffff;
-        font-size: 0.95rem;
-        margin-bottom: 15px;
-        padding-left: 5px;
-        max-width: 800px;
-        line-height: 1.4;
-    }
-    </style>
-    """,
+    '<div class="subtitle">Aplicações web completas desenvolvidas para automação, análise financeira e Business Intelligence.</div>',
     unsafe_allow_html=True
 )
 
-st.title("🐍 Projetos em Python")
-st.write("Aplicações web completas desenvolvidas para automação de processos e análise financeira.")
+st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
 
-# --- FUNÇÃO PARA RENDERIZAR APPS ---
-def render_python_app(title, description, embed_url):
-    # Botão de Título
-    st.markdown(f'<a href="{embed_url}" target="_blank" class="project-button">{title} ↗️</a>', unsafe_allow_html=True)
-    
-    # Descrição
-    st.markdown(f'<div class="project-description">{description}</div>', unsafe_allow_html=True)
-    
-    # Iframe direto com a URL funcional
-    components.html(
-        f"""
-        <iframe
-            src="{embed_url}"
-            frameborder="0"
-            width="100%"
-            height="700"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-            style="border: 2px solid #31333F; border-radius: 12px;"
-        ></iframe>
-        """,
-        height=720,
-    )
+# --------------------------------------------------
+# FUNÇÃO PARA RENDERIZAR PROJETOS (SEM IFRAME)
+# --------------------------------------------------
+def render_python_app(title, description, url):
+    st.markdown(f"""
+    <div class="project-card">
+        <div class="project-title">{title}</div>
+        <div class="project-description">{description}</div>
+        <a href="{url}" target="_blank" class="project-button">
+            Abrir Aplicação ↗
+        </a>
+    </div>
+    """, unsafe_allow_html=True)
 
-# --- LISTA DE PROJETOS ---
+# --------------------------------------------------
+# LISTA DE PROJETOS
+# --------------------------------------------------
 
-
-
-# 1.🚀 Nunca mais perca tempo criando dados fictícios para estudar BI
 render_python_app(
-    "🚀 Nunca mais perca tempo criando dados fictícios para estudar BI",
-    "Gere tabelas fato e dimensões realistas em segundos e foque no que realmente importa: análise, modelagem e insights.",
+    "🚀 BI Data Generator PRO",
+    "Nunca mais perca tempo criando dados fictícios para estudar BI. Gere automaticamente tabela fato e dimensões no modelo estrela com sazonalidade real, pronta para Power BI, Tableau ou SQL.",
     "https://bi-data-generator.streamlit.app"
 )
 
-# 1. 🗺️ CrimeMap BR — Segurança Pública
 render_python_app(
     "🗺️ CrimeMap BR — Segurança Pública",
-    "Dashboard interativo de criminalidade com dados abertos oficiais do Rio de Janeiro. Permite explorar, comparar e visualizar ocorrências criminais por município, tipo de crime e período de tempo.",
+    "Dashboard interativo com dados abertos oficiais do Rio de Janeiro. Explore ocorrências criminais por município, tipo e período.",
     "https://rodrigoaiosa-crimemap.hf.space"
 )
 
-# 1. Calculadora ROI (Link exato fornecido)
 render_python_app(
     "🦉 Calculadora ROI de Automação",
-    "Calculadora que estima o Retorno sobre Investimento (ROI) de projetos de automação.",
+    "Ferramenta estratégica para estimar o Retorno sobre Investimento (ROI) de projetos de automação empresarial.",
     "https://rodrigoaiosa-roi-automacao.hf.space"
 )
 
-# 2. APP S.O.S. MULHER
 render_python_app(
     "💼 APP S.O.S. MULHER",
-    "Em 2025, dados registrados apontam a maior marca de feminicídios até o momento.",
+    "Aplicação voltada à conscientização e análise de dados relacionados à violência contra a mulher no Brasil.",
     "https://rodrigoaiosa-help-mulher.hf.space"
 )
 
-# 3. Precificador MEI
 render_python_app(
     "💼 Precificador Profissional para MEI",
-    "Calculadora de precificação que ajuda a definir o preço de venda com base em custos.",
+    "Calculadora inteligente de precificação para microempreendedores baseada em custos reais e margem desejada.",
     "https://rodrigoaiosa-precificador-profissional-mei.hf.space"
 )
 
-# 4. Extrator Google Maps
 render_python_app(
     "📍 Extrator de Dados - Google Maps",
-    "Extrai informações públicas diretamente do Google Maps para geração de leads.",
+    "Ferramenta para extração estruturada de dados públicos do Google Maps para geração de leads.",
     "https://rodrigoaiosa-extrair-dados-googlemaps.hf.space"
 )
 
-# # 5. Gestão de Custos: Café
-# render_python_app(
-#     "☕ Gestão de Custos: Açúcar",
-#     "Aplicação voltada para eliminação de desperdícios e economia visível.",
-#     "https://rodrigoaiosa-calcular-custo-acucar.hf.space"
-# )
+# --------------------------------------------------
+# RODAPÉ
+# --------------------------------------------------
+st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
 
 exibir_rodape()
-
-
