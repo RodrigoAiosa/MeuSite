@@ -109,11 +109,12 @@ render_python_app(
     "https://rodrigoaiosa-extrair-dados-googlemaps.hf.space"
 )
 
-# 5. Gestão de Custos: Café
-render_python_app(
-    "☕ Gestão de Custos: Açúcar",
-    "Aplicação voltada para eliminação de desperdícios e economia visível.",
-    "https://rodrigoaiosa-calcular-custo-acucar.hf.space"
-)
+# # 5. Gestão de Custos: Café
+# render_python_app(
+#     "☕ Gestão de Custos: Açúcar",
+#     "Aplicação voltada para eliminação de desperdícios e economia visível.",
+#     "https://rodrigoaiosa-calcular-custo-acucar.hf.space"
+# )
 
 exibir_rodape()
+
