@@ -74,6 +74,14 @@ def render_python_app(title, description, embed_url):
 # --- LISTA DE PROJETOS ---
 
 
+
+# 1.🚀 Nunca mais perca tempo criando dados fictícios para estudar BI
+render_python_app(
+    "🚀 Nunca mais perca tempo criando dados fictícios para estudar BI",
+    "Gere tabelas fato e dimensões realistas em segundos e foque no que realmente importa: análise, modelagem e insights.",
+    "https://bi-data-generator.streamlit.app"
+)
+
 # 1. 🗺️ CrimeMap BR — Segurança Pública
 render_python_app(
     "🗺️ CrimeMap BR — Segurança Pública",
@@ -117,4 +125,5 @@ render_python_app(
 # )
 
 exibir_rodape()
+
 
