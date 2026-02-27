@@ -202,7 +202,7 @@ st.markdown(
     """
     <div class="profile-container">
         <div class="profile-pic-border">
-            <img src="https://raw.githubusercontent.com/RodrigoAiosa/MeuSite/refs/heads/main/assets/EU.jpg?token=GHSAT0AAAAAADVRZJO5IXDQNBIKVA4VUT6A2NA6WKQ">
+            <img src="<img src="https://raw.githubusercontent.com/RodrigoAiosa/MeuSite/main/assets/EU.jpg">">
         </div>
     </div>
     """,
@@ -337,4 +337,5 @@ with col_img2:
     st.image("assets/clientes_atendidos.jpg", width=None, use_container_width=True)
     
 exibir_rodape()
+
 
