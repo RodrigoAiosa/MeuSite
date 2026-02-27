@@ -202,7 +202,7 @@ st.markdown(
     """
     <div class="profile-container">
         <div class="profile-pic-border">
-            <img src="https://media.licdn.com/dms/image/v2/D5603AQFTfyqJswUYwg/profile-displayphoto-scale_200_200/B56ZxDaPuZK4AY-/0/1770657482765?e=1772064000&v=beta&t=1PXFrPJTt5w46Y7NUTgqCQ3H2jjMmkE1QwFi-lwwwko">
+            <img src="https://raw.githubusercontent.com/RodrigoAiosa/MeuSite/refs/heads/main/assets/EU.jpg?token=GHSAT0AAAAAADVRZJO5IXDQNBIKVA4VUT6A2NA6WKQ">
         </div>
     </div>
     """,
@@ -337,3 +337,4 @@ with col_img2:
     st.image("assets/clientes_atendidos.jpg", width=None, use_container_width=True)
     
 exibir_rodape()
+
