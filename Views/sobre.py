@@ -1,5 +1,6 @@
 import streamlit as st
 import time
+import base64
 from utils import registrar_acesso, exibir_rodape
 
 # 1. CONFIGURAÇÃO DA PÁGINA
@@ -7,6 +8,13 @@ st.set_page_config(layout="wide", page_title="Portfolio | Rodrigo Aiosa")
 
 # 2. REGISTRO DE ACESSO
 registrar_acesso("Sobre Mim")
+
+# 3. FUNÇÃO PARA CARREGAR IMAGEM EM BASE64
+def img_to_base64(path):
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
+img_b64 = img_to_base64("assets/EU.jpg")
 
 # --- ESTILO CSS GLOBAL ATUALIZADO ---
 st.markdown(
@@ -168,9 +176,9 @@ st.markdown(
         cursor: default;
         position: relative;
         overflow: hidden;
-        animation: fadeInUp 0.8s ease-out forwards; /* Animação de entrada */
+        animation: fadeInUp 0.8s ease-out forwards;
     }
-    
+
     .exp-card:hover {
         transform: translateY(-10px);
         background-color: #1f2937;
@@ -199,10 +207,10 @@ st.markdown(
 
 # --- CABEÇALHO ---
 st.markdown(
-    """
+    f"""
     <div class="profile-container">
         <div class="profile-pic-border">
-            <img src="<img src="https://raw.githubusercontent.com/RodrigoAiosa/MeuSite/main/assets/EU.jpg">
+            <img src="data:image/jpeg;base64,{img_b64}">
         </div>
     </div>
     """,
@@ -326,7 +334,7 @@ st.markdown(
         <p><strong>Clientes em Destaque:</strong></p>
         <p>Cimed, Unimed Seguros, Ouro Safra, Kraft Heinz, Loggi, Usina Santa Terezinha, Megavig, Lowell e BSS Blindagens.</p>
     </div>
-    """, 
+    """,
     unsafe_allow_html=True
 )
 
@@ -335,8 +343,5 @@ st.write("")
 col_img1, col_img2, col_img3 = st.columns([1, 8, 1])
 with col_img2:
     st.image("assets/clientes_atendidos.jpg", width=None, use_container_width=True)
-    
+
 exibir_rodape()
-
-
-
