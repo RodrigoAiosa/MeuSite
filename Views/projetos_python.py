@@ -119,7 +119,7 @@ def render_python_app(title, description, url):
 # --------------------------------------------------
 
 render_python_app(
-    "🎓 O cursinho que o Brasil não pode pagar — eu construí de graça",
+    "🎓 O cursinho que o Brasil não pode pagar; eu construí de graça",
     "Nunca mais perca tempo criando dados fictícios para estudar BI. Gere automaticamente tabela fato e dimensões no modelo estrela com sazonalidade real, pronta para Power BI, Tableau ou SQL.",
     "https://bi-data-generator.streamlit.app"
 )
@@ -166,5 +166,6 @@ render_python_app(
 st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
 
 exibir_rodape()
+
 
 
