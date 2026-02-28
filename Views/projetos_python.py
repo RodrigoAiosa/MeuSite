@@ -121,13 +121,13 @@ def render_python_app(title, description, url):
 render_python_app(
     "🎓 O cursinho que o Brasil não pode pagar; eu construí de graça",
     "Nunca mais perca tempo criando dados fictícios para estudar BI. Gere automaticamente tabela fato e dimensões no modelo estrela com sazonalidade real, pronta para Power BI, Tableau ou SQL.",
-    "https://bi-data-generator.streamlit.app"
+    "https://enem-simulador.streamlit.app/"
 )
 
 render_python_app(
     "🚀 BI Data Generator PRO",
     "Construí uma ferramenta que analisa seu desempenho no ENEM por área, explica cada resposta e aponta onde focar. Open source, gratuito, acessível a qualquer estudante com internet.",
-    "https://enem-simulador.streamlit.app/"
+     "https://bi-data-generator.streamlit.app"
 )
 
 render_python_app(
@@ -166,6 +166,7 @@ render_python_app(
 st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
 
 exibir_rodape()
+
 
 
 
