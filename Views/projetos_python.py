@@ -118,10 +118,17 @@ def render_python_app(title, description, url):
 # LISTA DE PROJETOS
 # --------------------------------------------------
 
+
 render_python_app(
-    "🎓 O cursinho que o Brasil não pode pagar; eu construí de graça",
-    "Nunca mais perca tempo criando dados fictícios para estudar BI. Gere automaticamente tabela fato e dimensões no modelo estrela com sazonalidade real, pronta para Power BI, Tableau ou SQL.",
+    "🎓 O cursinho que o Brasil não pode pagar — eu construí de graça",
+    "Construí um simulador do ENEM gratuito com Python + Streamlit. E quero te contar por que isso importa",
     "https://enem-simulador.streamlit.app/"
+)
+
+render_python_app(
+    "✈️ Criei um simulado GRATUITO do ITA com questões reais de 2021 a 2025",
+    "Questões reais, gabarito comentado, cronômetro. Sem cadastro. Sem pagar nada, porque o sonho não pode depender do bolso",
+    "https://simulador-ita.streamlit.app/"
 )
 
 render_python_app(
@@ -166,6 +173,7 @@ render_python_app(
 st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
 
 exibir_rodape()
+
 
 
 
