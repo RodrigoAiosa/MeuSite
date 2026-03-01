@@ -126,6 +126,13 @@ render_python_app(
 )
 
 render_python_app(
+    "🎓 Simulador FUVEST",
+    "Construí um simulador da FUVEST gratuito com Python + Streamlit. E quero te contar por que isso importa.",
+    "https://simulador-fuvest.streamlit.app/"
+)
+
+
+render_python_app(
     "✈️ Criei um simulado GRATUITO do ITA com questões reais de 2021 a 2025",
     "Questões reais, gabarito comentado, cronômetro. Sem cadastro. Sem pagar nada, porque o sonho não pode depender do bolso",
     "https://simulador-ita.streamlit.app/"
@@ -173,6 +180,7 @@ render_python_app(
 st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
 
 exibir_rodape()
+
 
 
 
