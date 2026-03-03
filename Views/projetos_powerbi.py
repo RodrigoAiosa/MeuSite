@@ -178,6 +178,14 @@ st.write("")
 # --- DADOS DOS PROJETOS ---
 pbi_projects = [
 
+
+    {
+    "title": "Portal da Transparência - Ilheus",
+    "icon": "📈",
+    "url": "https://app.powerbi.com/view?r=eyJrIjoiYTM2ZWFlM2QtOTc2NC00NDQ2LTg2ZTctOGY5Nzc4YTk2YWM1IiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9&pageName=6a9e62a06ecb8db6c215",
+    "desc": "Meu dashboard em Power BI do Portal da Transparência de Ilhéus transforma dados públicos em informação clara e estratégica. Com visualizações interativas, é possível acompanhar receitas, despesas e indicadores em tempo real, fortalecendo o controle social e apoiando decisões mais conscientes e transparentes."
+    },
+
     {
     "title": "💹 DRE Estratégico — Análise Financeira",
     "icon": "📊",
@@ -281,6 +289,7 @@ for i in range(0, len(pbi_projects), 3):
                 """, unsafe_allow_html=True)
 
 exibir_rodape()
+
 
 
 
