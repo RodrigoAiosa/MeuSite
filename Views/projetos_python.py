@@ -85,6 +85,33 @@ h1 {
     border-top: 1px solid rgba(255,255,255,0.05);
 }
 
+/* Estilo da barra de pesquisa */
+div[data-testid="stTextInput"] input {
+    background-color: #111827 !important;
+    color: #ffffff !important;
+    border: 1px solid #00b4d8 !important;
+    border-radius: 12px !important;
+    padding: 12px 20px !important;
+    font-size: 1rem !important;
+}
+div[data-testid="stTextInput"] input::placeholder {
+    color: #6b7280 !important;
+}
+div[data-testid="stTextInput"] input:focus {
+    box-shadow: 0 0 0 2px rgba(0, 180, 216, 0.3) !important;
+    border-color: #00b4d8 !important;
+}
+.search-result-count {
+    text-align: center;
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+.search-result-count span {
+    color: #00b4d8;
+    font-weight: bold;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -101,78 +128,120 @@ st.markdown(
 st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
 
 # --------------------------------------------------
-# FUNÇÃO PARA RENDERIZAR PROJETOS (SEM IFRAME)
+# BARRA DE PESQUISA
 # --------------------------------------------------
-def render_python_app(title, description, url):
-    st.markdown(f"""
-    <div class="project-card">
-        <div class="project-title">{title}</div>
-        <div class="project-description">{description}</div>
-        <a href="{url}" target="_blank" class="project-button">
-            Abrir Aplicação ↗
-        </a>
-    </div>
-    """, unsafe_allow_html=True)
+st.markdown(
+    "<p style='text-align:center; color:#9ca3af; font-size:1rem; margin-bottom:6px;'>🔍 Filtre os projetos pelo nome ou descrição</p>",
+    unsafe_allow_html=True
+)
+
+col_s1, col_s2, col_s3 = st.columns([1, 2, 1])
+with col_s2:
+    search_query = st.text_input(
+        label="Pesquisar projeto",
+        placeholder="Ex: ENEM, ROI, mapas...",
+        key="search_python",
+        label_visibility="collapsed"
+    )
+
+st.write("")
 
 # --------------------------------------------------
 # LISTA DE PROJETOS
 # --------------------------------------------------
+python_projects = [
+    {
+        "title": "🎓 O cursinho que o Brasil não pode pagar — eu construí de graça",
+        "desc": "Construí um simulador do ENEM gratuito com Python + Streamlit. E quero te contar por que isso importa",
+        "url": "https://enem-simulador.streamlit.app/"
+    },
+    {
+        "title": "🎓 Simulador FUVEST",
+        "desc": "Construí um simulador da FUVEST gratuito com Python + Streamlit. E quero te contar por que isso importa.",
+        "url": "https://simulador-fuvest.streamlit.app/"
+    },
+    {
+        "title": "✈️ Criei um simulado GRATUITO do ITA com questões reais de 2021 a 2025",
+        "desc": "Questões reais, gabarito comentado, cronômetro. Sem cadastro. Sem pagar nada, porque o sonho não pode depender do bolso",
+        "url": "https://simulador-ita.streamlit.app/"
+    },
+    {
+        "title": "🚀 BI Data Generator PRO",
+        "desc": "Construí uma ferramenta que analisa seu desempenho no ENEM por área, explica cada resposta e aponta onde focar. Open source, gratuito, acessível a qualquer estudante com internet.",
+        "url": "https://bi-data-generator.streamlit.app"
+    },
+    {
+        "title": "🗺️ CrimeMap BR — Segurança Pública",
+        "desc": "Dashboard interativo com dados abertos oficiais do Rio de Janeiro. Explore ocorrências criminais por município, tipo e período.",
+        "url": "https://rodrigoaiosa-crimemap.hf.space"
+    },
+    {
+        "title": "🦉 Calculadora ROI de Automação",
+        "desc": "Ferramenta estratégica para estimar o Retorno sobre Investimento (ROI) de projetos de automação empresarial.",
+        "url": "https://rodrigoaiosa-roi-automacao.hf.space"
+    },
+    {
+        "title": "💼 APP S.O.S. MULHER",
+        "desc": "Aplicação voltada à conscientização e análise de dados relacionados à violência contra a mulher no Brasil.",
+        "url": "https://rodrigoaiosa-help-mulher.hf.space"
+    },
+    {
+        "title": "💼 Precificador Profissional para MEI",
+        "desc": "Calculadora inteligente de precificação para microempreendedores baseada em custos reais e margem desejada.",
+        "url": "https://rodrigoaiosa-precificador-profissional-mei.hf.space"
+    },
+    {
+        "title": "📍 Extrator de Dados - Google Maps",
+        "desc": "Ferramenta para extração estruturada de dados públicos do Google Maps para geração de leads.",
+        "url": "https://rodrigoaiosa-extrair-dados-googlemaps.hf.space"
+    },
+]
 
+# --------------------------------------------------
+# FILTRO DE PESQUISA
+# --------------------------------------------------
+if search_query:
+    filtered_projects = [
+        p for p in python_projects
+        if search_query.lower() in p["title"].lower() or search_query.lower() in p["desc"].lower()
+    ]
+    total = len(filtered_projects)
+    label = "resultado" if total == 1 else "resultados"
+    st.markdown(
+        f"<div class='search-result-count'>🔎 <span>{total}</span> {label} para <span>\"{search_query}\"</span></div>",
+        unsafe_allow_html=True
+    )
+else:
+    filtered_projects = python_projects
 
-render_python_app(
-    "🎓 O cursinho que o Brasil não pode pagar — eu construí de graça",
-    "Construí um simulador do ENEM gratuito com Python + Streamlit. E quero te contar por que isso importa",
-    "https://enem-simulador.streamlit.app/"
-)
+# --------------------------------------------------
+# MENSAGEM QUANDO NÃO HÁ RESULTADOS
+# --------------------------------------------------
+if not filtered_projects:
+    st.markdown(
+        """
+        <div style='text-align:center; padding: 60px 20px; color: #6b7280;'>
+            <div style='font-size: 3rem;'>🔍</div>
+            <div style='font-size: 1.2rem; margin-top: 10px;'>Nenhum projeto encontrado.</div>
+            <div style='font-size: 0.95rem; margin-top: 5px;'>Tente outro termo de pesquisa.</div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
-render_python_app(
-    "🎓 Simulador FUVEST",
-    "Construí um simulador da FUVEST gratuito com Python + Streamlit. E quero te contar por que isso importa.",
-    "https://simulador-fuvest.streamlit.app/"
-)
-
-
-render_python_app(
-    "✈️ Criei um simulado GRATUITO do ITA com questões reais de 2021 a 2025",
-    "Questões reais, gabarito comentado, cronômetro. Sem cadastro. Sem pagar nada, porque o sonho não pode depender do bolso",
-    "https://simulador-ita.streamlit.app/"
-)
-
-render_python_app(
-    "🚀 BI Data Generator PRO",
-    "Construí uma ferramenta que analisa seu desempenho no ENEM por área, explica cada resposta e aponta onde focar. Open source, gratuito, acessível a qualquer estudante com internet.",
-     "https://bi-data-generator.streamlit.app"
-)
-
-render_python_app(
-    "🗺️ CrimeMap BR — Segurança Pública",
-    "Dashboard interativo com dados abertos oficiais do Rio de Janeiro. Explore ocorrências criminais por município, tipo e período.",
-    "https://rodrigoaiosa-crimemap.hf.space"
-)
-
-render_python_app(
-    "🦉 Calculadora ROI de Automação",
-    "Ferramenta estratégica para estimar o Retorno sobre Investimento (ROI) de projetos de automação empresarial.",
-    "https://rodrigoaiosa-roi-automacao.hf.space"
-)
-
-render_python_app(
-    "💼 APP S.O.S. MULHER",
-    "Aplicação voltada à conscientização e análise de dados relacionados à violência contra a mulher no Brasil.",
-    "https://rodrigoaiosa-help-mulher.hf.space"
-)
-
-render_python_app(
-    "💼 Precificador Profissional para MEI",
-    "Calculadora inteligente de precificação para microempreendedores baseada em custos reais e margem desejada.",
-    "https://rodrigoaiosa-precificador-profissional-mei.hf.space"
-)
-
-render_python_app(
-    "📍 Extrator de Dados - Google Maps",
-    "Ferramenta para extração estruturada de dados públicos do Google Maps para geração de leads.",
-    "https://rodrigoaiosa-extrair-dados-googlemaps.hf.space"
-)
+# --------------------------------------------------
+# RENDERIZAÇÃO DOS CARDS
+# --------------------------------------------------
+for p in filtered_projects:
+    st.markdown(f"""
+    <div class="project-card">
+        <div class="project-title">{p['title']}</div>
+        <div class="project-description">{p['desc']}</div>
+        <a href="{p['url']}" target="_blank" class="project-button">
+            Abrir Aplicação ↗
+        </a>
+    </div>
+    """, unsafe_allow_html=True)
 
 # --------------------------------------------------
 # RODAPÉ
@@ -180,10 +249,3 @@ render_python_app(
 st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
 
 exibir_rodape()
-
-
-
-
-
-
-
