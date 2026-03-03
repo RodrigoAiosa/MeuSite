@@ -92,7 +92,7 @@ st.markdown(
         opacity: 0;
         transform: translateY(20px);
         transition: all 0.5s ease-in-out;
-        transition-delay: 0.3s; /* Espera o card virar um pouco */
+        transition-delay: 0.3s;
     }
     .flip-card:hover .pbi-description {
         opacity: 1;
@@ -146,6 +146,33 @@ st.markdown(
     .share-icon:hover { transform: scale(1.2); }
     .icon-li:hover { color: #0077b5; }
     .icon-wa:hover { color: #25d366; }
+
+    /* Estilo da barra de pesquisa */
+    div[data-testid="stTextInput"] input {
+        background-color: #111827 !important;
+        color: #ffffff !important;
+        border: 1px solid #00b4d8 !important;
+        border-radius: 12px !important;
+        padding: 12px 20px !important;
+        font-size: 1rem !important;
+    }
+    div[data-testid="stTextInput"] input::placeholder {
+        color: #6b7280 !important;
+    }
+    div[data-testid="stTextInput"] input:focus {
+        box-shadow: 0 0 0 2px rgba(0, 180, 216, 0.3) !important;
+        border-color: #00b4d8 !important;
+    }
+    .search-result-count {
+        text-align: center;
+        color: #6b7280;
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+    }
+    .search-result-count span {
+        color: #00b4d8;
+        font-weight: bold;
+    }
     </style>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -175,31 +202,37 @@ st.markdown(
 st.markdown("<h1 style='text-align: center; font-size: 3rem;'>📊 Dashboards Estratégicos</h1>", unsafe_allow_html=True)
 st.write("")
 
+# --- BARRA DE PESQUISA ---
+col_s1, col_s2, col_s3 = st.columns([1, 2, 1])
+with col_s2:
+    search_query = st.text_input(
+        label="",
+        placeholder="🔍  Pesquisar dashboard...",
+        key="search_pbi"
+    )
+
+st.write("")
+
 # --- DADOS DOS PROJETOS ---
 pbi_projects = [
-
-
     {
-    "title": "Portal da Transparência - Ilheus",
-    "icon": "📈",
-    "url": "https://app.powerbi.com/view?r=eyJrIjoiYTM2ZWFlM2QtOTc2NC00NDQ2LTg2ZTctOGY5Nzc4YTk2YWM1IiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9&pageName=6a9e62a06ecb8db6c215",
-    "desc": "Meu dashboard em Power BI do Portal da Transparência de Ilhéus transforma dados públicos em informação clara e estratégica. Com visualizações interativas, é possível acompanhar receitas, despesas e indicadores em tempo real, fortalecendo o controle social e apoiando decisões mais conscientes e transparentes."
+        "title": "Portal da Transparência - Ilheus",
+        "icon": "📈",
+        "url": "https://app.powerbi.com/view?r=eyJrIjoiYTM2ZWFlM2QtOTc2NC00NDQ2LTg2ZTctOGY5Nzc4YTk2YWM1IiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9&pageName=6a9e62a06ecb8db6c215",
+        "desc": "Meu dashboard em Power BI do Portal da Transparência de Ilhéus transforma dados públicos em informação clara e estratégica. Com visualizações interativas, é possível acompanhar receitas, despesas e indicadores em tempo real, fortalecendo o controle social e apoiando decisões mais conscientes e transparentes."
     },
-
     {
-    "title": "💹 DRE Estratégico — Análise Financeira",
-    "icon": "📊",
-    "url": "https://app.powerbi.com/view?r=eyJrIjoiOWE0ZmU3ZTMtYzAyYi00NDE1LTg3YWItYjcxZTE2ZWI2OWRjIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9&disablecdnExpiration=1766386882",
-    "desc": "Dashboard financeiro focado no acompanhamento detalhado do DRE, com análises vertical e horizontal que permitem avaliar a composição de receitas, custos e despesas ao longo do tempo. A solução oferece insights estratégicos sobre rentabilidade, margens e tendências financeiras, apoiando gestores na tomada de decisões mais precisas e alinhadas aos objetivos corporativos."
+        "title": "💹 DRE Estratégico — Análise Financeira",
+        "icon": "📊",
+        "url": "https://app.powerbi.com/view?r=eyJrIjoiOWE0ZmU3ZTMtYzAyYi00NDE1LTg3YWItYjcxZTE2ZWI2OWRjIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9&disablecdnExpiration=1766386882",
+        "desc": "Dashboard financeiro focado no acompanhamento detalhado do DRE, com análises vertical e horizontal que permitem avaliar a composição de receitas, custos e despesas ao longo do tempo. A solução oferece insights estratégicos sobre rentabilidade, margens e tendências financeiras, apoiando gestores na tomada de decisões mais precisas e alinhadas aos objetivos corporativos."
     },
-
     {
-    "title": "🏦 Monitoramento de Vagas — Bradesco",
-    "icon": "📋",
-    "url": "https://app.powerbi.com/view?r=eyJrIjoiMjQxN2Q4NGYtNWRmNy00NWVjLWE4YmQtNWMyNWYwNGYyZDUzIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
-    "desc": "Dashboard estratégico para acompanhamento de vagas abertas no site oficial do Bradesco, oferecendo visão consolidada por área, localização, tipo de vaga e volume de oportunidades ativas. A solução permite identificar tendências de contratação, mapear demandas por perfil profissional e apoiar decisões estratégicas de recrutamento com base em dados atualizados do mercado bancário."
+        "title": "🏦 Monitoramento de Vagas — Bradesco",
+        "icon": "📋",
+        "url": "https://app.powerbi.com/view?r=eyJrIjoiMjQxN2Q4NGYtNWRmNy00NWVjLWE4YmQtNWMyNWYwNGYyZDUzIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
+        "desc": "Dashboard estratégico para acompanhamento de vagas abertas no site oficial do Bradesco, oferecendo visão consolidada por área, localização, tipo de vaga e volume de oportunidades ativas. A solução permite identificar tendências de contratação, mapear demandas por perfil profissional e apoiar decisões estratégicas de recrutamento com base em dados atualizados do mercado bancário."
     },
-
     {
         "title": "💳 Relatório STONE",
         "icon": "🏛️",
@@ -244,19 +277,44 @@ pbi_projects = [
     }
 ]
 
+# --- FILTRO DE PESQUISA ---
+if search_query:
+    filtered_projects = [
+        p for p in pbi_projects
+        if search_query.lower() in p["title"].lower() or search_query.lower() in p["desc"].lower()
+    ]
+    total = len(filtered_projects)
+    label = "resultado" if total == 1 else "resultados"
+    st.markdown(
+        f"<div class='search-result-count'>🔎 <span>{total}</span> {label} para <span>\"{search_query}\"</span></div>",
+        unsafe_allow_html=True
+    )
+else:
+    filtered_projects = pbi_projects
+
+# --- MENSAGEM QUANDO NÃO HÁ RESULTADOS ---
+if not filtered_projects:
+    st.markdown(
+        """
+        <div style='text-align:center; padding: 60px 20px; color: #6b7280;'>
+            <div style='font-size: 3rem;'>🔍</div>
+            <div style='font-size: 1.2rem; margin-top: 10px;'>Nenhum dashboard encontrado.</div>
+            <div style='font-size: 0.95rem; margin-top: 5px;'>Tente outro termo de pesquisa.</div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
 # --- RENDERIZAÇÃO ---
-for i in range(0, len(pbi_projects), 3):
+for i in range(0, len(filtered_projects), 3):
     cols = st.columns(3)
     for j in range(3):
         idx = i + j
-        if idx < len(pbi_projects):
-            p = pbi_projects[idx]
+        if idx < len(filtered_projects):
+            p = filtered_projects[idx]
             
-            # WhatsApp link personalizado conforme instrução
             wa_text = f"{p['title']}* que vi no seu portfólio.\n\n💡 {p['desc']}\n\n🔗 Link: {p['url']}"
             wa_link = f"https://wa.me/?text={urllib.parse.quote(wa_text)}"
-
-            # LinkedIn link
             li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['url'])}"
 
             with cols[j]:
@@ -289,8 +347,3 @@ for i in range(0, len(pbi_projects), 3):
                 """, unsafe_allow_html=True)
 
 exibir_rodape()
-
-
-
-
-
