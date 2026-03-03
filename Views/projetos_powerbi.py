@@ -199,16 +199,22 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# --- BARRA DE PESQUISA ---
 st.markdown("<h1 style='text-align: center; font-size: 3rem;'>📊 Dashboards Estratégicos</h1>", unsafe_allow_html=True)
 st.write("")
 
-# --- BARRA DE PESQUISA ---
+st.markdown(
+    "<p style='text-align:center; color:#9ca3af; font-size:1rem; margin-bottom:6px;'>🔍 Filtre os painéis pelo nome ou descrição</p>",
+    unsafe_allow_html=True
+)
+
 col_s1, col_s2, col_s3 = st.columns([1, 2, 1])
 with col_s2:
     search_query = st.text_input(
-        label="",
-        placeholder="🔍  Pesquisar dashboard...",
-        key="search_pbi"
+        label="Pesquisar dashboard",
+        placeholder="Ex: financeiro, RH, Stone...",
+        key="search_pbi",
+        label_visibility="collapsed"
     )
 
 st.write("")
