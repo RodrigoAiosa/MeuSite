@@ -200,7 +200,231 @@ st.markdown(
     .delay-3 { animation-delay: 0.6s; }
     .delay-4 { animation-delay: 0.8s; }
 
+    /* --- POPUP DE PROMOÇÃO --- */
+    .promo-popup-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.75);
+        z-index: 9998;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(4px);
+    }
+
+    .promo-popup-overlay.active {
+        display: flex;
+    }
+
+    .promo-popup-box {
+        background: linear-gradient(170deg, #1c0a00, #2d1200, #1a0800);
+        border: 4px solid #c8860a;
+        box-shadow: 0 0 0 2px #7a4e00, 0 0 60px rgba(200,134,10,0.5);
+        border-radius: 12px;
+        padding: 36px 40px;
+        max-width: 480px;
+        width: 90%;
+        position: relative;
+        text-align: center;
+        z-index: 9999;
+        animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes popIn {
+        from { opacity: 0; transform: scale(0.8); }
+        to   { opacity: 1; transform: scale(1); }
+    }
+
+    .promo-popup-close {
+        position: absolute;
+        top: 12px; right: 16px;
+        background: none;
+        border: none;
+        color: #c8860a;
+        font-size: 22px;
+        cursor: pointer;
+        line-height: 1;
+    }
+
+    .promo-popup-close:hover { color: #fff; }
+
+    .promo-popup-eyebrow {
+        font-family: 'Bebas Neue', 'Oswald', sans-serif;
+        font-size: 12px;
+        letter-spacing: 6px;
+        color: #c8860a;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+    }
+
+    .promo-popup-title {
+        font-family: 'Bebas Neue', 'Oswald', sans-serif;
+        font-size: 28px;
+        color: #f5d060;
+        text-shadow: 2px 2px 0 #7a3a00;
+        letter-spacing: 1px;
+        line-height: 1.1;
+        margin-bottom: 6px;
+    }
+
+    .promo-popup-subtitle {
+        font-size: 14px;
+        color: #9ca3af;
+        margin-bottom: 20px;
+    }
+
+    .promo-popup-prices {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 16px;
+    }
+
+    .promo-popup-from {
+        font-family: 'Oswald', sans-serif;
+        font-size: 20px;
+        color: #6a4a2a;
+        text-decoration: line-through;
+        text-decoration-color: #ff4422;
+        text-decoration-thickness: 2px;
+    }
+
+    .promo-popup-arrow {
+        font-size: 20px;
+        color: #ff6b2b;
+    }
+
+    .promo-popup-to {
+        font-family: 'Bebas Neue', 'Oswald', sans-serif;
+        font-size: 44px;
+        color: #f5d060;
+        text-shadow: 3px 3px 0 #7a3a00;
+        line-height: 1;
+    }
+
+    .promo-popup-badge {
+        display: inline-block;
+        background: #ff4422;
+        color: #fff;
+        font-size: 12px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        padding: 4px 14px;
+        border-radius: 3px;
+        margin-bottom: 22px;
+        box-shadow: 0 2px 10px rgba(255,68,34,0.5);
+    }
+
+    .promo-popup-btn {
+        display: block;
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, #d4910e, #f5a623, #d4910e);
+        color: #1a0800;
+        font-family: 'Bebas Neue', 'Oswald', sans-serif;
+        font-size: 18px;
+        letter-spacing: 3px;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 4px;
+        box-shadow: 0 5px 0 #7a4e00, 0 8px 20px rgba(0,0,0,0.5);
+        transition: all 0.15s ease;
+        text-transform: uppercase;
+        border: none;
+        cursor: pointer;
+    }
+
+    .promo-popup-btn:hover {
+        background: linear-gradient(135deg, #e5a020, #ffc040, #e5a020);
+        transform: translateY(-2px);
+        box-shadow: 0 7px 0 #7a4e00, 0 12px 24px rgba(0,0,0,0.5);
+        color: #1a0800;
+        text-decoration: none;
+    }
+
+    /* --- BOTÃO FLUTUANTE DE PROMOÇÃO --- */
+    .promo-float-btn {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 9997;
+        background: linear-gradient(135deg, #d4910e, #f5a623, #d4910e);
+        color: #1a0800 !important;
+        font-family: 'Bebas Neue', 'Oswald', sans-serif;
+        font-size: 14px;
+        letter-spacing: 2px;
+        padding: 14px 22px;
+        border-radius: 50px;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 0 #7a4e00, 0 6px 24px rgba(200,134,10,0.6);
+        text-transform: uppercase;
+        text-decoration: none !important;
+        animation: floatPulse 2s ease-in-out infinite;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .promo-float-btn:hover {
+        background: linear-gradient(135deg, #e5a020, #ffc040, #e5a020);
+        transform: translateY(-3px) scale(1.04);
+        box-shadow: 0 6px 0 #7a4e00, 0 10px 30px rgba(200,134,10,0.7);
+    }
+
+    @keyframes floatPulse {
+        0%, 100% { box-shadow: 0 4px 0 #7a4e00, 0 6px 24px rgba(200,134,10,0.6); }
+        50%       { box-shadow: 0 4px 0 #7a4e00, 0 6px 36px rgba(200,134,10,0.9); }
+    }
+
     </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# --- POPUP HTML + BOTÃO FLUTUANTE ---
+st.markdown(
+    """
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- OVERLAY DO POPUP -->
+    <div class="promo-popup-overlay" id="promoOverlay">
+        <div class="promo-popup-box">
+            <button class="promo-popup-close" onclick="closePromo()">✕</button>
+            <div class="promo-popup-eyebrow">✦ Oferta por Tempo Limitado ✦</div>
+            <div class="promo-popup-title">Kit Completo de<br>Dados & Análise</div>
+            <div class="promo-popup-subtitle">Power BI · SQL Fundamentos · Excel Essencial</div>
+            <div class="promo-popup-prices">
+                <span class="promo-popup-from">R$ 991,00</span>
+                <span class="promo-popup-arrow">→</span>
+                <span class="promo-popup-to">R$ 497,00</span>
+            </div>
+            <div class="promo-popup-badge">🔥 Mais de 49% OFF</div><br>
+            <a href="https://rodrigoaiosa.github.io/MeuSite/Views/promo_bundle.html"
+               target="_blank" class="promo-popup-btn">
+                ▶ Ver Oferta Completa
+            </a>
+        </div>
+    </div>
+
+    <!-- BOTÃO FLUTUANTE -->
+    <button class="promo-float-btn" onclick="openPromo()">
+        🔥 Promoção Treinamento Online
+    </button>
+
+    <script>
+        function openPromo() {
+            document.getElementById('promoOverlay').classList.add('active');
+        }
+        function closePromo() {
+            document.getElementById('promoOverlay').classList.remove('active');
+        }
+        // Fechar clicando fora do box
+        document.getElementById('promoOverlay').addEventListener('click', function(e) {
+            if (e.target === this) closePromo();
+        });
+    </script>
     """,
     unsafe_allow_html=True
 )
