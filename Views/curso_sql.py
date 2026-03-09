@@ -468,38 +468,41 @@ init_session_state()
 
 def screen_name():
     """Tela de cadastro de nome completo"""
-    col1, col2, col3 = st.columns([1, 2, 1])
+    name_container = st.container()
     
-    with col2:
-        st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
-        st.markdown("# 🎓")
-        st.markdown("</div>", unsafe_allow_html=True)
+    with name_container:
+        col1, col2, col3 = st.columns([1, 2, 1])
         
-        st.markdown('<p class="main-title">SQL Academy</p>', unsafe_allow_html=True)
-        st.markdown('<p class="subtitle">Domine a Linguagem de Dados</p>', unsafe_allow_html=True)
-        
-        st.markdown("---")
-        
-        full_name = st.text_input(
-            "NOME COMPLETO",
-            placeholder="Digite seu nome completo",
-            key="name_input"
-        )
-        
-        if st.button("Começar →", use_container_width=True, type="primary"):
-            if full_name.strip():
-                st.session_state.full_name = full_name.strip()
-                st.session_state.stage = 'level'
-                st.rerun()
-        
-        st.markdown("---")
-        st.markdown("""
-        <div style='text-align: center; color: #93c5fd; font-size: 0.9rem;'>
-            <p>✓ 3 Níveis de Dificuldade</p>
-            <p>✓ 15 Questões Totais</p>
-            <p>✓ Resultado Final com Pontuação</p>
-        </div>
-        """, unsafe_allow_html=True)
+        with col2:
+            st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
+            st.markdown("# 🎓")
+            st.markdown("</div>", unsafe_allow_html=True)
+            
+            st.markdown('<p class="main-title">SQL Academy</p>', unsafe_allow_html=True)
+            st.markdown('<p class="subtitle">Domine a Linguagem de Dados</p>', unsafe_allow_html=True)
+            
+            st.markdown("---")
+            
+            full_name = st.text_input(
+                "NOME COMPLETO",
+                placeholder="Digite seu nome completo",
+                key="name_input"
+            )
+            
+            if st.button("Começar →", use_container_width=True, type="primary"):
+                if full_name.strip():
+                    st.session_state.full_name = full_name.strip()
+                    st.session_state.stage = 'level'
+                    st.rerun()
+            
+            st.markdown("---")
+            st.markdown("""
+            <div style='text-align: center; color: #93c5fd; font-size: 0.9rem;'>
+                <p>✓ 3 Níveis de Dificuldade</p>
+                <p>✓ 15 Questões Totais</p>
+                <p>✓ Resultado Final com Pontuação</p>
+            </div>
+            """, unsafe_allow_html=True)
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # TELA 2: SELEÇÃO DE NÍVEL
@@ -507,38 +510,41 @@ def screen_name():
 
 def screen_level():
     """Tela de seleção de nível de dificuldade"""
-    st.markdown(f'<h1 style="text-align: center; color: white;">Bem-vindo, {st.session_state.full_name}!</h1>', unsafe_allow_html=True)
-    st.markdown('<p class="subtitle">Escolha seu nível de dificuldade</p>', unsafe_allow_html=True)
+    header_container = st.container()
+    with header_container:
+        st.markdown(f'<h1 style="text-align: center; color: white;">Bem-vindo, {st.session_state.full_name}!</h1>', unsafe_allow_html=True)
+        st.markdown('<p class="subtitle">Escolha seu nível de dificuldade</p>', unsafe_allow_html=True)
+        st.markdown("---")
     
-    st.markdown("---")
-    
-    col1, col2, col3 = st.columns(3)
-    
-    levels = [
-        {'key': 'básico', 'title': 'BÁSICO', 'icon': '📚', 'desc': 'Fundamentos de SQL', 'col': col1},
-        {'key': 'intermediário', 'title': 'INTERMEDIÁRIO', 'icon': '⚡', 'desc': 'Consultas Avançadas', 'col': col2},
-        {'key': 'avançado', 'title': 'AVANÇADO', 'icon': '🚀', 'desc': 'Otimização & Performance', 'col': col3}
-    ]
-    
-    for level in levels:
-        with level['col']:
-            st.markdown(f"""
-            <div class="level-card">
-                <div class="level-icon">{level['icon']}</div>
-                <div class="level-title">{level['title']}</div>
-                <div class="level-desc">{level['desc']}</div>
-                <div style='color: #fcd34d; font-size: 0.8rem;'>5 questões</div>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            if st.button(f"Começar {level['title']}", use_container_width=True, key=f"btn_{level['key']}"):
-                st.session_state.selected_level = level['key']
-                st.session_state.current_question = 0
-                st.session_state.score = 0
-                st.session_state.answers = []
-                st.session_state.show_result = False
-                st.session_state.stage = 'quiz'
-                st.rerun()
+    levels_container = st.container()
+    with levels_container:
+        col1, col2, col3 = st.columns(3)
+        
+        levels = [
+            {'key': 'básico', 'title': 'BÁSICO', 'icon': '📚', 'desc': 'Fundamentos de SQL', 'col': col1},
+            {'key': 'intermediário', 'title': 'INTERMEDIÁRIO', 'icon': '⚡', 'desc': 'Consultas Avançadas', 'col': col2},
+            {'key': 'avançado', 'title': 'AVANÇADO', 'icon': '🚀', 'desc': 'Otimização & Performance', 'col': col3}
+        ]
+        
+        for level in levels:
+            with level['col']:
+                st.markdown(f"""
+                <div class="level-card">
+                    <div class="level-icon">{level['icon']}</div>
+                    <div class="level-title">{level['title']}</div>
+                    <div class="level-desc">{level['desc']}</div>
+                    <div style='color: #fcd34d; font-size: 0.8rem;'>5 questões</div>
+                </div>
+                """, unsafe_allow_html=True)
+                
+                if st.button(f"Começar {level['title']}", use_container_width=True, key=f"btn_{level['key']}"):
+                    st.session_state.selected_level = level['key']
+                    st.session_state.current_question = 0
+                    st.session_state.score = 0
+                    st.session_state.answers = []
+                    st.session_state.show_result = False
+                    st.session_state.stage = 'quiz'
+                    st.rerun()
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # TELA 3: QUIZ
@@ -550,31 +556,37 @@ def screen_quiz():
     question_data = quiz[st.session_state.current_question]
     total_questions = len(quiz)
     
-    progress = (st.session_state.current_question + 1) / total_questions
-    st.progress(progress)
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown(f"<p style='color: #93c5fd; font-size: 0.9rem;'>Questão {st.session_state.current_question + 1} de {total_questions}</p>", unsafe_allow_html=True)
-    with col2:
-        st.markdown(f"<p style='text-align: right; color: #fcd34d; font-weight: 600;'>{st.session_state.score} pontos</p>", unsafe_allow_html=True)
+    # Container para progresso (não pisca)
+    progress_container = st.container()
+    with progress_container:
+        progress = (st.session_state.current_question + 1) / total_questions
+        st.progress(progress)
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            st.text(f"Questão {st.session_state.current_question + 1} de {total_questions}")
+        with col2:
+            st.text(f"📊 {st.session_state.score} pontos")
     
     st.markdown("---")
     
-    st.markdown(f"""
-    <div class="explanation-box">
-        <div class="explanation-title">{question_data['title']}</div>
-        <div class="explanation-text">{question_data['explanation']}</div>
-    </div>
-    """, unsafe_allow_html=True)
+    # Container para explicação
+    explanation_container = st.container()
+    with explanation_container:
+        st.markdown(f"""
+        <div class="explanation-box">
+            <div class="explanation-title">{question_data['title']}</div>
+            <div class="explanation-text">{question_data['explanation']}</div>
+        </div>
+        """, unsafe_allow_html=True)
     
     st.markdown(f"<h3 style='color: white;'>{question_data['question']}</h3>", unsafe_allow_html=True)
-    
     st.markdown("---")
     
-    for idx, option in enumerate(question_data['options']):
-        col1, col2 = st.columns([0.05, 0.95])
-        with col2:
+    # Container para opções
+    options_container = st.container()
+    with options_container:
+        for idx, option in enumerate(question_data['options']):
             if st.button(
                 f"{chr(65 + idx)}. {option}",
                 use_container_width=True,
@@ -592,31 +604,35 @@ def screen_quiz():
                 
                 if is_correct:
                     st.session_state.score += 1
-                
-                st.rerun()
     
     st.markdown("---")
     
+    # Container para resultado
     if st.session_state.show_result:
-        question_data = quiz[st.session_state.current_question]
-        answer_data = st.session_state.answers[-1]
-        
-        if answer_data['correct']:
-            st.success("✅ Resposta correta!")
-        else:
-            st.error(f"❌ Resposta incorreta! A resposta correta é: **{chr(65 + question_data['correct'])}. {question_data['options'][question_data['correct']]}**")
-        
-        st.markdown("---")
-        
-        if st.session_state.current_question + 1 < total_questions:
-            if st.button("Próxima Questão →", use_container_width=True, type="primary"):
-                st.session_state.current_question += 1
-                st.session_state.show_result = False
-                st.rerun()
-        else:
-            if st.button("Ver Resultado", use_container_width=True, type="primary"):
-                st.session_state.stage = 'results'
-                st.rerun()
+        result_container = st.container()
+        with result_container:
+            question_data = quiz[st.session_state.current_question]
+            answer_data = st.session_state.answers[-1]
+            
+            if answer_data['correct']:
+                st.success("✅ Resposta correta!")
+            else:
+                st.error(f"❌ Resposta incorreta! A resposta correta é: **{chr(65 + question_data['correct'])}. {question_data['options'][question_data['correct']]}**")
+            
+            st.markdown("---")
+            
+            # Botões de navegação
+            col_next, col_empty = st.columns([1, 4])
+            with col_next:
+                if st.session_state.current_question + 1 < total_questions:
+                    if st.button("Próxima →", use_container_width=True, type="primary"):
+                        st.session_state.current_question += 1
+                        st.session_state.show_result = False
+                        st.rerun()
+                else:
+                    if st.button("Ver Resultado", use_container_width=True, type="primary"):
+                        st.session_state.stage = 'results'
+                        st.rerun()
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # TELA 4: RESULTADO FINAL
@@ -643,23 +659,35 @@ def screen_results():
         icon = "💪"
         title = "Tente Novamente!"
     
-    st.markdown(f"""
-    <div class="result-box">
-        <div class="result-icon">{icon}</div>
-        <div class="result-title">{title}</div>
-        <div class="result-score">{st.session_state.score}/{len(quiz)}</div>
-        <div class="result-percentage">{percentage:.0f}%</div>
-        
-        <div class="result-details">
-            <p><strong>Nível:</strong> {st.session_state.selected_level.upper()}</p>
-            <p><strong>Questões Certas:</strong> {st.session_state.score} de {len(quiz)}</p>
-            <p><strong>Taxa de Acerto:</strong> {percentage:.1f}%</p>
+    # Container para resultado (não pisca)
+    result_container = st.container()
+    with result_container:
+        st.markdown(f"""
+        <div class="result-box">
+            <div class="result-icon">{icon}</div>
+            <div class="result-title">{title}</div>
+            <div class="result-score">{st.session_state.score}/{len(quiz)}</div>
+            <div class="result-percentage">{percentage:.0f}%</div>
         </div>
-    </div>
-    """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
+        
+        # Detalhes em colunas (sem HTML que pisca)
+        st.markdown("---")
+        
+        detail_col1, detail_col2, detail_col3 = st.columns(3)
+        
+        with detail_col1:
+            st.metric(label="Nível", value=st.session_state.selected_level.upper())
+        
+        with detail_col2:
+            st.metric(label="Questões Certas", value=f"{st.session_state.score}/{len(quiz)}")
+        
+        with detail_col3:
+            st.metric(label="Taxa de Acerto", value=f"{percentage:.1f}%")
     
     st.markdown("---")
     
+    # Botões
     col1, col2 = st.columns(2)
     
     with col1:
