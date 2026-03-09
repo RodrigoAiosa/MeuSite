@@ -373,7 +373,7 @@ st.markdown("""
 </p>
 """, unsafe_allow_html=True)
 
-# st.divider()
+st.divider()
 
 # --- DATABASE DE PRÁTICAS SQL ---
 sql_practices = [
@@ -1136,13 +1136,25 @@ if selected_difficulty != "Todas":
 st.divider()
 
 st.markdown(f"""
-<div style="text-align: center; margin: 30px 0;">
-    <p style="font-size: 1.1rem; color: #cbd5e1;">
-        <span style="color: var(--accent); font-weight: 700;">📌 {len(filtered_practices)}</span> 
-        de 
-        <span style="color: var(--accent); font-weight: 700;">{len(sql_practices)}</span> 
-        práticas
-    </p>
+<div style="display: flex; justify-content: center; align-items: center; margin: 40px 0;">
+    <div style="
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.05) 100%);
+        border: 2px solid var(--accent);
+        border-radius: 12px;
+        padding: 25px 50px;
+        text-align: center;
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+    ">
+        <p style="
+            font-size: 1.4rem;
+            color: var(--accent);
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 1px;
+        ">
+            📌 {len(filtered_practices)} de {len(sql_practices)} práticas
+        </p>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -1324,6 +1336,10 @@ with col_info:
 
 st.divider()
 
+# --- DESAFIOS SQL ---
+st.markdown('<h2 class="section-header">🎯 Desafios SQL</h2>', unsafe_allow_html=True)
+st.markdown('<p style="color: #cbd5e1; margin-bottom: 30px;">Complete os desafios abaixo e teste seus conhecimentos!</p>', unsafe_allow_html=True)
+
 challenges = [
     {
         "numero": 1,
@@ -1390,5 +1406,20 @@ for idx, challenge in enumerate(challenges):
         with st.expander("✅ Ver Resposta"):
             st.code(challenge['resposta'], language='sql')
             st.success("Compare sua resposta com esta solução!")
+
+st.divider()
+
+# --- FOOTER ---
+st.markdown("""
+<div style="text-align: center; padding: 40px 0; border-top: 1px solid var(--border); color: #cbd5e1;">
+    <p style="margin-bottom: 10px; font-size: 0.95rem;">
+        <span style="color: var(--accent); font-weight: 600;">SQL - Melhores Práticas</span> 
+        • Criado por Rodrigo Aiosa
+    </p>
+    <p style="font-size: 0.85rem; color: #94a3b8;">
+        Transforme seus dados em vantagem competitiva com SQL estratégico
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
 exibir_rodape()
