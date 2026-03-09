@@ -1395,6 +1395,4 @@ for idx, challenge in enumerate(challenges):
             st.code(challenge['resposta'], language='sql')
             st.success("Compare sua resposta com esta solução!")
 
-st.divider()
-
 exibir_rodape()
