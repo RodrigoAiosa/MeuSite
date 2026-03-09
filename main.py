@@ -85,12 +85,13 @@ treinamento_empresa_page = st.Page(page="Views/treinamento_empresa.py", title="P
 cursos_online_page = st.Page(page="Views/cursos_online.py", title="Cursos Online", icon="🛜")
 contato = st.Page(page="Views/contato.py", title="Contato", icon="📧")
 AIOSAIA = st.Page(page="Views/AIosa_IA.py", title="AIOSA IA", icon="⚛️")
+projetos_sql = st.Page(page="Views/projetos_sql.py", title="Projetos SQL", icon="⚛️")
 
 # --- NAVEGAÇÃO ---
 navigation_dict = {
     "Informações": [sobre_page, projeto_recente_page],
     "Resultados": [cases_sucesso_page],
-    "Portifólio": [projeto_python_page, projeto_powerbi_page],
+    "Portifólio": [projeto_python_page, projeto_powerbi_page, projetos_sql],
     "Treinamentos": [treinamento_empresa_page, cursos_online_page],
     "Entre em contato": [contato],
     "Assistente IA": [AIOSAIA]
@@ -109,6 +110,7 @@ with st.sidebar:
     st.markdown("<div style='margin-top: 15px;'></div>", unsafe_allow_html=True)
 
 pg.run()
+
 
 
 
