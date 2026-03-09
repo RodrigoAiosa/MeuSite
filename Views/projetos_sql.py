@@ -750,4 +750,196 @@ st.divider()
 
 st.info("💡 **Essas práticas são apenas o começo.** Consultoria em SQL estratégico para transformar seus dados em vantagem competitiva.")
 
+st.divider()
+
+# --- SEÇÃO ESCOLHA SQL ---
+st.header("✏️ Escolha SQL - Editor Interativo")
+st.markdown("Teste suas queries SQL em tempo real. Escolha um exemplo ou escreva a sua própria!")
+
+# --- EXEMPLOS PRÉ-DEFINIDOS ---
+sql_templates = {
+    "SELECT Básico": "SELECT * FROM usuarios LIMIT 10;",
+    "WHERE Filtro": "SELECT id, nome, email FROM usuarios WHERE ativo = true;",
+    "COUNT Agregação": "SELECT COUNT(*) AS total_usuarios FROM usuarios;",
+    "GROUP BY": "SELECT categoria, COUNT(*) AS total FROM produtos GROUP BY categoria;",
+    "JOIN Tabelas": "SELECT u.nome, v.valor FROM usuarios u INNER JOIN vendas v ON u.id = v.usuario_id LIMIT 5;",
+    "ORDER BY": "SELECT id, nome, created_at FROM usuarios ORDER BY created_at DESC LIMIT 10;",
+    "SUM com CASE": "SELECT usuario_id, SUM(CASE WHEN status = 'pago' THEN valor ELSE 0 END) AS total_pago FROM vendas GROUP BY usuario_id;",
+    "LEFT JOIN": "SELECT u.id, u.nome, COUNT(v.id) AS total_vendas FROM usuarios u LEFT JOIN vendas v ON u.id = v.usuario_id GROUP BY u.id, u.nome;",
+    "DISTINCT": "SELECT DISTINCT categoria FROM produtos ORDER BY categoria;",
+    "BETWEEN": "SELECT * FROM vendas WHERE data BETWEEN '2024-01-01' AND '2024-03-31';",
+    "IN Clause": "SELECT * FROM usuarios WHERE id IN (1, 2, 3, 4, 5);",
+    "LIKE Pattern": "SELECT * FROM usuarios WHERE email LIKE '%@gmail.com';",
+}
+
+# --- LAYOUT ---
+col_template, col_editor = st.columns([1, 2])
+
+with col_template:
+    st.subheader("📚 Templates")
+    selected_template = st.selectbox(
+        "Escolha um exemplo:",
+        ["Escrever Manual"] + list(sql_templates.keys()),
+        key="template_select"
+    )
+    
+    if selected_template != "Escrever Manual":
+        template_query = sql_templates[selected_template]
+    else:
+        template_query = ""
+
+with col_editor:
+    st.subheader("📝 Editor SQL")
+    user_query = st.text_area(
+        "Escreva sua query SQL:",
+        value=template_query,
+        height=150,
+        key="sql_editor",
+        placeholder="SELECT * FROM usuarios;"
+    )
+
+st.divider()
+
+# --- SEÇÃO DE RESULTADO ---
+col_result, col_info = st.columns([2, 1])
+
+with col_result:
+    st.subheader("📊 Resultado da Query")
+    
+    if user_query.strip():
+        # Simular execução com dataset de exemplo
+        try:
+            # Dataset de exemplo em memória
+            import pandas as pd
+            
+            # Dados exemplo
+            usuarios_df = pd.DataFrame({
+                'id': [1, 2, 3, 4, 5],
+                'nome': ['Alice Silva', 'Bob Santos', 'Carlos Oliveira', 'Diana Costa', 'Eduardo Pereira'],
+                'email': ['alice@gmail.com', 'bob@gmail.com', 'carlos@hotmail.com', 'diana@gmail.com', 'edu@outlook.com'],
+                'ativo': [True, True, False, True, True],
+                'created_at': ['2023-01-15', '2023-02-20', '2023-03-10', '2023-04-05', '2023-05-12'],
+                'categoria': ['Premium', 'Standard', 'Premium', 'Free', 'Standard']
+            })
+            
+            vendas_df = pd.DataFrame({
+                'id': [1, 2, 3, 4, 5, 6],
+                'usuario_id': [1, 2, 1, 3, 2, 5],
+                'valor': [150.00, 200.00, 75.50, 300.00, 120.00, 450.00],
+                'status': ['pago', 'pago', 'pendente', 'pago', 'cancelado', 'pago'],
+                'data': ['2024-01-10', '2024-01-15', '2024-02-01', '2024-02-10', '2024-02-15', '2024-03-01']
+            })
+            
+            produtos_df = pd.DataFrame({
+                'id': [1, 2, 3, 4],
+                'nome': ['Produto A', 'Produto B', 'Produto C', 'Produto D'],
+                'categoria': ['Eletrônicos', 'Eletrônicos', 'Livros', 'Livros'],
+                'preco': [99.99, 199.99, 29.99, 49.99]
+            })
+            
+            # Simular query (para fins de demo, mostrar dataset relevante)
+            query_lower = user_query.lower()
+            
+            if 'usuarios' in query_lower and 'vendas' in query_lower:
+                result = usuarios_df.merge(vendas_df, left_on='id', right_on='usuario_id', how='inner').head(10)
+            elif 'vendas' in query_lower and 'group by' in query_lower:
+                result = vendas_df.groupby('usuario_id').agg({'valor': 'sum', 'id': 'count'}).reset_index()
+                result.columns = ['usuario_id', 'total_valor', 'total_vendas']
+            elif 'usuarios' in query_lower and 'count' in query_lower:
+                result = pd.DataFrame({'total_usuarios': [len(usuarios_df)]})
+            elif 'distinct' in query_lower and 'categoria' in query_lower:
+                result = pd.DataFrame({'categoria': produtos_df['categoria'].unique()})
+            elif 'usuarios' in query_lower:
+                result = usuarios_df.head(10)
+            elif 'vendas' in query_lower:
+                result = vendas_df.head(10)
+            elif 'produtos' in query_lower:
+                result = produtos_df.head(10)
+            else:
+                result = usuarios_df.head(10)
+            
+            st.dataframe(result, use_container_width=True)
+            st.success(f"✅ Query executada com sucesso! {len(result)} registros retornados.")
+            
+        except Exception as e:
+            st.error(f"❌ Erro ao executar query: {str(e)}")
+    else:
+        st.info("📝 Escreva uma query SQL no editor para ver o resultado!")
+
+with col_info:
+    st.subheader("ℹ️ Dicas")
+    st.markdown("""
+    **Tabelas disponíveis:**
+    - `usuarios` (id, nome, email, ativo, created_at, categoria)
+    - `vendas` (id, usuario_id, valor, status, data)
+    - `produtos` (id, nome, categoria, preco)
+    
+    **Comandos SQL:**
+    - SELECT
+    - WHERE
+    - JOIN
+    - GROUP BY
+    - ORDER BY
+    - LIMIT
+    - DISTINCT
+    - CASE WHEN
+    
+    **Bom treino!** 🎯
+    """)
+
+st.divider()
+
+# --- DESAFIOS SQL ---
+st.header("🎯 Desafios SQL")
+st.markdown("Complete os desafios abaixo para praticar suas habilidades!")
+
+challenges = [
+    {
+        "numero": 1,
+        "titulo": "Contar Usuários Ativos",
+        "descricao": "Quantos usuários estão com status ativo?",
+        "dica": "Use COUNT(*) com WHERE ativo = true",
+        "resposta": "SELECT COUNT(*) AS total_ativos FROM usuarios WHERE ativo = true;"
+    },
+    {
+        "numero": 2,
+        "titulo": "Total de Vendas Pagas",
+        "descricao": "Qual é o valor total de vendas com status 'pago'?",
+        "dica": "Use SUM(valor) com WHERE status = 'pago'",
+        "resposta": "SELECT SUM(valor) AS total_pago FROM vendas WHERE status = 'pago';"
+    },
+    {
+        "numero": 3,
+        "titulo": "Usuários com Mais Vendas",
+        "descricao": "Qual usuário tem mais vendas associadas?",
+        "dica": "Use GROUP BY usuario_id com COUNT(*)",
+        "resposta": "SELECT usuario_id, COUNT(*) AS total_vendas FROM vendas GROUP BY usuario_id ORDER BY total_vendas DESC LIMIT 1;"
+    },
+    {
+        "numero": 4,
+        "titulo": "Email de Usuários Premium",
+        "descricao": "Quais são os emails dos usuários da categoria Premium?",
+        "dica": "Use WHERE categoria = 'Premium'",
+        "resposta": "SELECT email FROM usuarios WHERE categoria = 'Premium';"
+    },
+    {
+        "numero": 5,
+        "titulo": "Produtos por Categoria",
+        "descricao": "Quantos produtos existem em cada categoria?",
+        "dica": "Use GROUP BY categoria com COUNT(*)",
+        "resposta": "SELECT categoria, COUNT(*) AS total_produtos FROM produtos GROUP BY categoria;"
+    },
+]
+
+for challenge in challenges:
+    with st.expander(f"🎯 Desafio {challenge['numero']}: {challenge['titulo']}"):
+        st.write(f"**Descrição:** {challenge['descricao']}")
+        st.write(f"**Dica:** {challenge['dica']}")
+        
+        with st.expander("Ver Resposta"):
+            st.code(challenge['resposta'], language='sql')
+            st.success("Compare sua resposta com esta solução!")
+
+st.divider()
+
 exibir_rodape()
