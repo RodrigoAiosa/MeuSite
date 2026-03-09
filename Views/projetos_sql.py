@@ -772,77 +772,64 @@ with col_output:
     
     # Criar função de formatação SQL
     def formatar_sql(sql):
-        """Formata e identica SQL"""
+        """Formata e identica SQL corretamente"""
         if not sql.strip():
             return ""
         
+        import re
+        
+        # Converter para maiúsculas para keywords
+        sql = sql.strip()
+        
         # Keywords que devem estar em nova linha
-        keywords_newline = ['SELECT', 'FROM', 'WHERE', 'JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'INNER JOIN', 
-                           'OUTER JOIN', 'ON', 'GROUP BY', 'ORDER BY', 'HAVING', 'LIMIT', 
-                           'OFFSET', 'UNION', 'CASE', 'WHEN', 'THEN', 'ELSE', 'END', 
-                           'WITH', 'AS', 'INSERT', 'UPDATE', 'DELETE', 'CREATE', 'DROP',
-                           'ALTER', 'BEGIN', 'COMMIT', 'ROLLBACK', 'AND', 'OR']
+        keywords = ['SELECT', 'FROM', 'WHERE', 'JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'INNER JOIN', 
+                   'OUTER JOIN', 'ON', 'GROUP BY', 'ORDER BY', 'HAVING', 'LIMIT', 'OFFSET', 
+                   'UNION', 'AND', 'OR']
         
-        # Converter para maiúsculas para detecção
-        sql_upper = sql.upper()
-        
-        # Substituir múltiplos espaços por um
-        sql = ' '.join(sql.split())
-        
-        result = []
-        indent_level = 0
-        i = 0
-        current_word = ""
-        
-        while i < len(sql):
-            char = sql[i]
-            
-            if char.isalnum() or char == '_':
-                current_word += char
+        # Adicionar quebras de linha antes dos keywords principais
+        for keyword in keywords:
+            # Pattern para encontrar o keyword como palavra completa
+            pattern = r'\b' + keyword + r'\b'
+            if keyword in ['ON', 'AND', 'OR']:
+                sql = re.sub(pattern, '\n' + keyword, sql, flags=re.IGNORECASE)
             else:
-                if current_word:
-                    word_upper = current_word.upper()
-                    
-                    if word_upper in keywords_newline:
-                        # Reduzir indent para certos keywords
-                        if word_upper in ['WHERE', 'GROUP BY', 'ORDER BY', 'HAVING', 'LIMIT', 'OFFSET', 'UNION']:
-                            indent_level = max(0, indent_level - 1)
-                        
-                        if result and result[-1].strip():
-                            result.append('\n' + '  ' * indent_level)
-                        else:
-                            if result:
-                                result[-1] = '\n' + '  ' * indent_level
-                        
-                        result.append(current_word)
-                        
-                        if word_upper in ['SELECT', 'FROM', 'WHERE', 'JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'INNER JOIN', 'GROUP BY', 'ORDER BY']:
-                            indent_level += 1
-                    else:
-                        result.append(current_word)
-                    
-                    current_word = ""
-                
-                if char == '(':
-                    result.append('(')
-                    indent_level += 1
-                elif char == ')':
-                    indent_level = max(0, indent_level - 1)
-                    result.append(')')
-                elif char == ',':
-                    result.append(',\n' + '  ' * indent_level)
-                elif char == ';':
-                    result.append(';')
-                elif char != ' ':
-                    result.append(char)
+                sql = re.sub(pattern, '\n' + keyword, sql, flags=re.IGNORECASE)
+        
+        # Dividir por linhas
+        lines = sql.split('\n')
+        formatted_lines = []
+        
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
             
-            i += 1
+            # Identar baseado no keyword
+            line_upper = line.upper()
+            
+            if line_upper.startswith('SELECT'):
+                formatted_lines.append(line)
+            elif line_upper.startswith('FROM'):
+                formatted_lines.append(line)
+            elif line_upper.startswith('JOIN') or line_upper.startswith('LEFT JOIN') or line_upper.startswith('RIGHT JOIN') or line_upper.startswith('INNER JOIN'):
+                formatted_lines.append(line)
+            elif line_upper.startswith('ON'):
+                formatted_lines.append('  ' + line)
+            elif line_upper.startswith('WHERE'):
+                formatted_lines.append(line)
+            elif line_upper.startswith('AND') or line_upper.startswith('OR'):
+                formatted_lines.append('  ' + line)
+            elif line_upper.startswith('GROUP BY') or line_upper.startswith('ORDER BY'):
+                formatted_lines.append(line)
+            elif line_upper.startswith('LIMIT') or line_upper.startswith('OFFSET'):
+                formatted_lines.append(line)
+            elif line_upper.startswith('UNION'):
+                formatted_lines.append(line)
+            else:
+                # Colunas do SELECT
+                formatted_lines.append('  ' + line)
         
-        if current_word:
-            result.append(current_word)
-        
-        formatted = ''.join(result).strip()
-        return formatted
+        return '\n'.join(formatted_lines)
     
     # Botão de formatação
     if st.button("🎨 Formatar SQL", key="btn_format", use_container_width=True):
