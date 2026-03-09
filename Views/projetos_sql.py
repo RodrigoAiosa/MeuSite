@@ -5,28 +5,373 @@ from utils import exibir_rodape, registrar_acesso
 st.set_page_config(
     page_title="SQL - Melhores Práticas | Rodrigo Aiosa",
     page_icon="🗄️",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="collapsed"
 )
 
 # --- REGISTRO DE ACESSO ---
 registrar_acesso("SQL - Melhores Práticas")
 
-# --- TÍTULO ---
-st.title("🗄️ SQL - Melhores Práticas")
-st.markdown("Estratégias avançadas para queries eficientes, escaláveis e precisas")
+# --- CUSTOM CSS - Design Profissional com Autoridade ---
+st.markdown("""
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    :root {
+        --primary: #0F172A;
+        --secondary: #1E293B;
+        --accent: #D4AF37;
+        --text-light: #E2E8F0;
+        --text-dark: #0F172A;
+        --border: #334155;
+    }
+    
+    body {
+        background: linear-gradient(135deg, #0F172A 0%, #1a2744 100%);
+        color: var(--text-light);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .main {
+        background: linear-gradient(135deg, #0F172A 0%, #1a2744 100%);
+    }
+    
+    .stApp {
+        background: linear-gradient(135deg, #0F172A 0%, #1a2744 100%);
+    }
+    
+    /* Header Hero */
+    .hero-section {
+        background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+        border-bottom: 2px solid var(--accent);
+        padding: 60px 0;
+        margin-bottom: 50px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+    
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 700;
+        color: var(--text-light);
+        margin-bottom: 15px;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        position: relative;
+        z-index: 1;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.3rem;
+        color: var(--accent);
+        margin-bottom: 30px;
+        font-weight: 500;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .hero-description {
+        font-size: 1.1rem;
+        color: #cbd5e1;
+        line-height: 1.6;
+        max-width: 600px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    /* Stats Cards */
+    .stats-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+        margin: 60px 0;
+    }
+    
+    .stat-card {
+        background: linear-gradient(135deg, #1E293B 0%, #334155 100%);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 40px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    .stat-card:hover {
+        border-color: var(--accent);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
+    }
+    
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent), transparent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .stat-card:hover::before {
+        opacity: 1;
+    }
+    
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--accent);
+        margin-bottom: 10px;
+    }
+    
+    .stat-label {
+        font-size: 1rem;
+        color: #cbd5e1;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .stat-sublabel {
+        font-size: 0.85rem;
+        color: #94a3b8;
+        margin-top: 8px;
+    }
+    
+    /* Section Headers */
+    .section-header {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--text-light);
+        margin: 60px 0 40px 0;
+        padding-bottom: 20px;
+        border-bottom: 2px solid var(--accent);
+        position: relative;
+    }
+    
+    .section-header::before {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: var(--accent);
+    }
+    
+    /* Expander Cards */
+    .stExpander {
+        background-color: #1E293B !important;
+        border: 1px solid var(--border) !important;
+        border-radius: 8px !important;
+    }
+    
+    .stExpander > div {
+        border-color: var(--border) !important;
+    }
+    
+    .stExpander [data-testid="stExpanderToggleButton"] {
+        color: var(--accent) !important;
+        font-weight: 600;
+    }
+    
+    /* Code Blocks */
+    .stCode {
+        background-color: #0F172A !important;
+        border: 1px solid var(--border) !important;
+        border-radius: 8px !important;
+    }
+    
+    code {
+        color: #60a5fa !important;
+        background: transparent !important;
+    }
+    
+    /* Info/Warning Boxes */
+    .stInfo {
+        background-color: rgba(212, 175, 55, 0.1) !important;
+        border: 1px solid var(--accent) !important;
+        border-radius: 8px !important;
+        padding: 20px !important;
+    }
+    
+    .stSuccess {
+        background-color: rgba(34, 197, 94, 0.1) !important;
+        border: 1px solid #22c55e !important;
+        border-radius: 8px !important;
+    }
+    
+    .stError {
+        background-color: rgba(239, 68, 68, 0.1) !important;
+        border: 1px solid #ef4444 !important;
+        border-radius: 8px !important;
+    }
+    
+    /* Divider */
+    hr {
+        border-color: var(--border) !important;
+        margin: 50px 0 !important;
+    }
+    
+    /* Selectbox & Input */
+    .stSelectbox > div > div {
+        background-color: #1E293B !important;
+        border: 1px solid var(--border) !important;
+        color: var(--text-light) !important;
+    }
+    
+    .stTextArea > div > div {
+        background-color: #1E293B !important;
+        border: 1px solid var(--border) !important;
+        color: var(--text-light) !important;
+    }
+    
+    /* Filter Section */
+    .filter-section {
+        background: linear-gradient(135deg, #1E293B 0%, #334155 100%);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 30px;
+        margin: 40px 0;
+    }
+    
+    /* Editor Section */
+    .editor-section {
+        background: linear-gradient(135deg, #1E293B 0%, #334155 100%);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 30px;
+        margin: 40px 0;
+    }
+    
+    .editor-title {
+        font-size: 1.5rem;
+        color: var(--accent);
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+    
+    /* Challenges Section */
+    .challenges-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        margin: 40px 0;
+    }
+    
+    /* Metrics */
+    .metric-box {
+        background: linear-gradient(135deg, #1E293B 0%, #334155 100%);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+    }
+    
+    .metric-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--accent);
+    }
+    
+    .metric-label {
+        color: #cbd5e1;
+        font-weight: 600;
+        margin-top: 10px;
+    }
+    
+    /* Hover Effects */
+    a {
+        color: var(--accent) !important;
+        transition: all 0.3s ease;
+    }
+    
+    a:hover {
+        text-decoration: underline;
+        filter: brightness(1.2);
+    }
+    
+    /* Footer */
+    footer {
+        border-top: 1px solid var(--border);
+        padding-top: 40px;
+        margin-top: 60px;
+    }
+</style>
+""", unsafe_allow_html=True)
 
-st.divider()
+# --- HERO SECTION ---
+st.markdown("""
+<div class="hero-section">
+    <h1 class="hero-title">🗄️ SQL - Melhores Práticas</h1>
+    <p class="hero-subtitle">Domine SQL Estratégico</p>
+    <p class="hero-description">
+        Estratégias avançadas para queries eficientes, escaláveis e precisas. 
+        Transforme seus dados em vantagem competitiva com 60+ práticas documentadas.
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
-# --- INTRODUÇÃO ---
-st.header("💡 Por que SQL estratégico importa?")
-col1, col2, col3 = st.columns(3)
-col1.metric("Práticas", "16", "documentadas")
-col2.metric("Categorias", "5", "de conhecimento")
-col3.metric("Impacto", "∞", "aplicações reais")
+# --- STATS SECTION ---
+st.markdown('<h2 class="section-header">📊 Números que Falam</h2>', unsafe_allow_html=True)
+
+col1, col2, col3 = st.columns(3, gap="medium")
+
+with col1:
+    st.markdown("""
+    <div class="stat-card">
+        <div class="stat-number">60+</div>
+        <div class="stat-label">Práticas SQL</div>
+        <div class="stat-sublabel">Documentadas e Testadas</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col2:
+    st.markdown("""
+    <div class="stat-card">
+        <div class="stat-number">5</div>
+        <div class="stat-label">Categorias</div>
+        <div class="stat-sublabel">De Conhecimento Essencial</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col3:
+    st.markdown("""
+    <div class="stat-card">
+        <div class="stat-number">3</div>
+        <div class="stat-label">Níveis</div>
+        <div class="stat-sublabel">Iniciante, Intermediário, Avançado</div>
+    </div>
+    """, unsafe_allow_html=True)
 
 st.markdown("""
-Queries eficientes são a base de dashboards que escalam. Boas práticas em SQL reduzem tempo de processamento e amplificam a precisão das análises.
-""")
+<p style="text-align: center; color: #cbd5e1; margin: 40px 0; font-size: 1.1rem; line-height: 1.8;">
+    Queries eficientes são a base de dashboards que escalam. 
+    Boas práticas em SQL reduzem tempo de processamento e amplificam a precisão das análises.
+    <br><br>
+    <span style="color: var(--accent); font-weight: 600;">
+    Este é um guia completo para transformar você em um especialista SQL.
+    </span>
+</p>
+""", unsafe_allow_html=True)
 
 st.divider()
 
@@ -759,18 +1104,24 @@ sql_practices = [
     },
 ]
 
-# --- FILTROS ---
-st.header("🔎 Filtrar Práticas")
+st.divider()
 
-col1, col2 = st.columns(2)
+# --- FILTROS SECTION ---
+st.markdown('<h2 class="section-header">🔎 Filtrar Práticas</h2>', unsafe_allow_html=True)
+
+st.markdown('<div class="filter-section">', unsafe_allow_html=True)
+
+col1, col2, col_space = st.columns([1.5, 1.5, 1])
 
 with col1:
     categorias = ["Todas"] + sorted(list(set([p["category"] for p in sql_practices])))
-    selected_category = st.selectbox("Categoria", categorias, key="category_filter")
+    selected_category = st.selectbox("📂 Categoria", categorias, key="category_filter")
 
 with col2:
     dificuldades = ["Todas", "Iniciante", "Intermediário", "Avançado"]
-    selected_difficulty = st.selectbox("Nível de Dificuldade", dificuldades, key="difficulty_filter")
+    selected_difficulty = st.selectbox("📈 Nível de Dificuldade", dificuldades, key="difficulty_filter")
+
+st.markdown('</div>', unsafe_allow_html=True)
 
 # --- APLICAR FILTROS ---
 filtered_practices = sql_practices
@@ -783,7 +1134,18 @@ if selected_difficulty != "Todas":
 
 # --- RENDERIZAR PRÁTICAS ---
 st.divider()
-st.write(f"📌 Mostrando **{len(filtered_practices)}** de **{len(sql_practices)}** práticas")
+
+st.markdown(f"""
+<div style="text-align: center; margin: 30px 0;">
+    <p style="font-size: 1.1rem; color: #cbd5e1;">
+        <span style="color: var(--accent); font-weight: 700;">📌 {len(filtered_practices)}</span> 
+        de 
+        <span style="color: var(--accent); font-weight: 700;">{len(sql_practices)}</span> 
+        práticas
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
 st.divider()
 
 for idx, practice in enumerate(filtered_practices, 1):
@@ -807,15 +1169,21 @@ for idx, practice in enumerate(filtered_practices, 1):
         st.code(practice['good_query'], language='sql')
         st.info(f"💡 {practice.get('explanation', 'Esta é a abordagem recomendada para melhor performance e legibilidade.')}")
 
+st.markdown("""
+<div style="background: linear-gradient(135deg, #1E293B 0%, #334155 100%); border: 1px solid var(--border); border-radius: 12px; padding: 30px; margin: 40px 0;">
+    <p style="color: var(--accent); font-weight: 600; font-size: 1.1rem; margin-bottom: 10px;">💡 Essas práticas são apenas o começo</p>
+    <p style="color: #cbd5e1; font-size: 0.95rem;">
+        Consultoria em SQL estratégico para transformar seus dados em vantagem competitiva. 
+        Combine essas técnicas para criar queries que impressionam.
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
 st.divider()
 
-st.info("💡 **Essas práticas são apenas o começo.** Consultoria em SQL estratégico para transformar seus dados em vantagem competitiva.")
-
-st.divider()
-
-# --- SEÇÃO ESCOLHA SQL ---
-st.header("✏️ Escolha SQL - Editor Interativo")
-st.markdown("Teste suas queries SQL em tempo real. Escolha um exemplo ou escreva a sua própria!")
+# --- SEÇÃO EDITOR SQL ---
+st.markdown('<h2 class="section-header">✏️ Editor SQL Interativo</h2>', unsafe_allow_html=True)
+st.markdown('<p style="color: #cbd5e1; margin-bottom: 30px;">Teste suas queries SQL em tempo real. Escolha um template ou escreva a sua própria query!</p>', unsafe_allow_html=True)
 
 # --- EXEMPLOS PRÉ-DEFINIDOS ---
 sql_templates = {
@@ -833,15 +1201,18 @@ sql_templates = {
     "LIKE Pattern": "SELECT * FROM usuarios WHERE email LIKE '%@gmail.com';",
 }
 
+st.markdown('<div class="editor-section">', unsafe_allow_html=True)
+
 # --- LAYOUT ---
-col_template, col_editor = st.columns([1, 2])
+col_template, col_editor = st.columns([1, 2], gap="large")
 
 with col_template:
-    st.subheader("📚 Templates")
+    st.markdown('<p class="editor-title">📚 Templates</p>', unsafe_allow_html=True)
     selected_template = st.selectbox(
         "Escolha um exemplo:",
         ["Escrever Manual"] + list(sql_templates.keys()),
-        key="template_select"
+        key="template_select",
+        label_visibility="collapsed"
     )
     
     if selected_template != "Escrever Manual":
@@ -850,30 +1221,32 @@ with col_template:
         template_query = ""
 
 with col_editor:
-    st.subheader("📝 Editor SQL")
+    st.markdown('<p class="editor-title">📝 Seu SQL</p>', unsafe_allow_html=True)
     user_query = st.text_area(
         "Escreva sua query SQL:",
         value=template_query,
         height=150,
         key="sql_editor",
-        placeholder="SELECT * FROM usuarios;"
+        placeholder="SELECT * FROM usuarios;",
+        label_visibility="collapsed"
     )
+
+st.markdown('</div>', unsafe_allow_html=True)
 
 st.divider()
 
 # --- SEÇÃO DE RESULTADO ---
-col_result, col_info = st.columns([2, 1])
+st.markdown('<h2 class="section-header">📊 Resultado da Query</h2>', unsafe_allow_html=True)
+
+col_result, col_info = st.columns([2, 1], gap="large")
 
 with col_result:
-    st.subheader("📊 Resultado da Query")
+    st.markdown('<div style="background: linear-gradient(135deg, #1E293B 0%, #334155 100%); border: 1px solid var(--border); border-radius: 8px; padding: 20px;">', unsafe_allow_html=True)
     
     if user_query.strip():
-        # Simular execução com dataset de exemplo
         try:
-            # Dataset de exemplo em memória
             import pandas as pd
             
-            # Dados exemplo
             usuarios_df = pd.DataFrame({
                 'id': [1, 2, 3, 4, 5],
                 'nome': ['Alice Silva', 'Bob Santos', 'Carlos Oliveira', 'Diana Costa', 'Eduardo Pereira'],
@@ -898,7 +1271,6 @@ with col_result:
                 'preco': [99.99, 199.99, 29.99, 49.99]
             })
             
-            # Simular query (para fins de demo, mostrar dataset relevante)
             query_lower = user_query.lower()
             
             if 'usuarios' in query_lower and 'vendas' in query_lower:
@@ -925,34 +1297,36 @@ with col_result:
         except Exception as e:
             st.error(f"❌ Erro ao executar query: {str(e)}")
     else:
-        st.info("📝 Escreva uma query SQL no editor para ver o resultado!")
+        st.markdown("""
+        <div style="text-align: center; padding: 40px; color: #94a3b8;">
+            <p style="font-size: 1rem;">📝 Escreva uma query SQL no editor para ver o resultado</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.markdown('</div>', unsafe_allow_html=True)
 
 with col_info:
-    st.subheader("ℹ️ Dicas")
     st.markdown("""
-    **Tabelas disponíveis:**
-    - `usuarios` (id, nome, email, ativo, created_at, categoria)
-    - `vendas` (id, usuario_id, valor, status, data)
-    - `produtos` (id, nome, categoria, preco)
-    
-    **Comandos SQL:**
-    - SELECT
-    - WHERE
-    - JOIN
-    - GROUP BY
-    - ORDER BY
-    - LIMIT
-    - DISTINCT
-    - CASE WHEN
-    
-    **Bom treino!** 🎯
-    """)
+    <div style="background: linear-gradient(135deg, #1E293B 0%, #334155 100%); border: 1px solid var(--border); border-radius: 8px; padding: 20px;">
+        <p style="color: var(--accent); font-weight: 600; margin-bottom: 15px; font-size: 1rem;">ℹ️ Tabelas & Dicas</p>
+        <p style="color: #cbd5e1; font-size: 0.85rem; line-height: 1.6; margin-bottom: 15px;">
+            <strong>usuarios:</strong> id, nome, email, ativo, created_at, categoria
+            <br><br>
+            <strong>vendas:</strong> id, usuario_id, valor, status, data
+            <br><br>
+            <strong>produtos:</strong> id, nome, categoria, preco
+        </p>
+        <p style="color: #cbd5e1; font-size: 0.85rem; font-style: italic; border-top: 1px solid var(--border); padding-top: 15px;">
+            💡 Teste SELECT, WHERE, JOIN, GROUP BY, LIMIT e mais!
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
 st.divider()
 
 # --- DESAFIOS SQL ---
-st.header("🎯 Desafios SQL")
-st.markdown("Complete os desafios abaixo para praticar suas habilidades!")
+st.markdown('<h2 class="section-header">🎯 Desafios SQL</h2>', unsafe_allow_html=True)
+st.markdown('<p style="color: #cbd5e1; margin-bottom: 30px;">Complete os desafios abaixo e teste seus conhecimentos!</p>', unsafe_allow_html=True)
 
 challenges = [
     {
@@ -992,15 +1366,50 @@ challenges = [
     },
 ]
 
-for challenge in challenges:
-    with st.expander(f"🎯 Desafio {challenge['numero']}: {challenge['titulo']}"):
-        st.write(f"**Descrição:** {challenge['descricao']}")
-        st.write(f"**Dica:** {challenge['dica']}")
+st.markdown('<div class="challenges-container">', unsafe_allow_html=True)
+
+col1, col2 = st.columns(2, gap="large")
+
+challenge_cols = [col1, col2] * 3
+
+for idx, challenge in enumerate(challenges):
+    with challenge_cols[idx]:
+        st.markdown(f"""
+        <div style="background: linear-gradient(135deg, #1E293B 0%, #334155 100%); border: 1px solid var(--border); border-radius: 8px; padding: 20px;">
+            <p style="color: var(--accent); font-weight: 700; font-size: 1.1rem; margin-bottom: 10px;">
+                🎯 Desafio {challenge['numero']}
+            </p>
+            <p style="color: var(--text-light); font-weight: 600; margin-bottom: 8px;">
+                {challenge['titulo']}
+            </p>
+            <p style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 12px; line-height: 1.5;">
+                {challenge['descricao']}
+            </p>
+            <p style="color: #94a3b8; font-size: 0.85rem; border-top: 1px solid var(--border); padding-top: 10px;">
+                💡 <strong>Dica:</strong> {challenge['dica']}
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
         
-        with st.expander("Ver Resposta"):
+        with st.expander("Ver Resposta", key=f"challenge_{challenge['numero']}"):
             st.code(challenge['resposta'], language='sql')
-            st.success("Compare sua resposta com esta solução!")
+            st.success("✅ Compare sua resposta com esta solução!")
+
+st.markdown('</div>', unsafe_allow_html=True)
 
 st.divider()
+
+# --- FOOTER ---
+st.markdown("""
+<div style="text-align: center; padding: 40px 0; border-top: 1px solid var(--border); color: #cbd5e1;">
+    <p style="margin-bottom: 10px; font-size: 0.95rem;">
+        <span style="color: var(--accent); font-weight: 600;">SQL - Melhores Práticas</span> 
+        • Criado por Rodrigo Aiosa
+    </p>
+    <p style="font-size: 0.85rem; color: #94a3b8;">
+        Transforme seus dados em vantagem competitiva com SQL estratégico
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
 exibir_rodape()
