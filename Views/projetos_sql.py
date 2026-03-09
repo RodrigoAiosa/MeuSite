@@ -1135,29 +1135,6 @@ if selected_difficulty != "Todas":
 # --- RENDERIZAR PRÁTICAS ---
 st.divider()
 
-st.markdown(f"""
-<div style="display: flex; justify-content: center; align-items: center; margin: 40px 0;">
-    <div style="
-        background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.05) 100%);
-        border: 2px solid var(--accent);
-        border-radius: 12px;
-        padding: 25px 50px;
-        text-align: center;
-        box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
-    ">
-        <p style="
-            font-size: 1.4rem;
-            color: var(--accent);
-            font-weight: 700;
-            margin: 0;
-            letter-spacing: 1px;
-        ">
-            📌 {len(filtered_practices)} de {len(sql_practices)} práticas
-        </p>
-    </div>
-</div>
-""", unsafe_allow_html=True)
-
 st.divider()
 
 for idx, practice in enumerate(filtered_practices, 1):
