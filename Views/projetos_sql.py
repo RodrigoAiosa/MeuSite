@@ -5,212 +5,30 @@ from utils import exibir_rodape, registrar_acesso
 st.set_page_config(
     page_title="SQL - Melhores Práticas | Rodrigo Aiosa",
     page_icon="🗄️",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    layout="wide"
 )
 
 # --- REGISTRO DE ACESSO ---
 registrar_acesso("SQL - Melhores Práticas")
 
-# --- ESTILO CSS ---
-st.markdown(
-    """
-    <style>
-    .hero-container {
-        background: linear-gradient(135deg, #111827 0%, #0f172a 100%);
-        padding: 40px;
-        border-radius: 20px;
-        border-left: 5px solid #10b981;
-        margin-bottom: 40px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    }
-    .hero-title {
-        font-size: 2.2rem;
-        font-weight: 800;
-        color: #ffffff;
-        margin-bottom: 15px;
-    }
-    .hero-text {
-        font-size: 1.1rem;
-        color: #9ca3af;
-        line-height: 1.6;
-    }
-    .hero-highlight {
-        color: #10b981;
-        font-weight: bold;
-    }
-    .practice-card {
-        background-color: #111827;
-        border: 1px solid #1f2937;
-        border-radius: 12px;
-        padding: 25px;
-        margin-bottom: 20px;
-        transition: all 0.3s ease;
-    }
-    .practice-card:hover {
-        border-color: #10b981;
-        box-shadow: 0 8px 20px rgba(16, 185, 129, 0.15);
-    }
-    .practice-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 15px;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-    .practice-icon {
-        font-size: 2rem;
-    }
-    .practice-title {
-        font-size: 1.3rem;
-        font-weight: bold;
-        color: #ffffff;
-        flex-grow: 1;
-    }
-    .practice-difficulty {
-        font-size: 0.75rem;
-        font-weight: 900;
-        padding: 4px 12px;
-        border-radius: 20px;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-    .difficulty-iniciante {
-        background-color: rgba(34, 197, 94, 0.2);
-        color: #22c55e;
-    }
-    .difficulty-intermediario {
-        background-color: rgba(245, 158, 11, 0.2);
-        color: #f59e0b;
-    }
-    .difficulty-avancado {
-        background-color: rgba(239, 68, 68, 0.2);
-        color: #ef4444;
-    }
-    .practice-description {
-        color: #9ca3af;
-        font-size: 0.95rem;
-        line-height: 1.6;
-        margin-bottom: 15px;
-    }
-    .practice-category {
-        display: inline-block;
-        background-color: rgba(16, 185, 129, 0.15);
-        color: #10b981;
-        padding: 4px 10px;
-        border-radius: 6px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        margin-right: 8px;
-    }
-    .code-block {
-        background-color: #0f172a;
-        border-left: 3px solid #10b981;
-        padding: 15px;
-        border-radius: 8px;
-        margin-top: 15px;
-        overflow-x: auto;
-    }
-    .code-text {
-        color: #d1d5db;
-        font-family: monospace;
-        font-size: 0.9rem;
-        line-height: 1.5;
-        white-space: pre-wrap;
-        word-break: break-word;
-    }
-    .practice-benefit {
-        background-color: rgba(16, 185, 129, 0.08);
-        border-left: 3px solid #10b981;
-        padding: 12px;
-        border-radius: 6px;
-        margin-top: 15px;
-        color: #d1d5db;
-        font-size: 0.9rem;
-    }
-    .benefit-title {
-        color: #10b981;
-        font-weight: 700;
-        margin-bottom: 5px;
-    }
-    .stats-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 15px;
-        margin-bottom: 30px;
-    }
-    .stat-box {
-        background-color: #111827;
-        border: 1px solid #1f2937;
-        padding: 20px;
-        border-radius: 12px;
-        text-align: center;
-    }
-    .stat-number {
-        font-size: 2rem;
-        font-weight: 800;
-        color: #10b981;
-    }
-    .stat-label {
-        color: #9ca3af;
-        font-size: 0.85rem;
-        margin-top: 5px;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+# --- TÍTULO ---
+st.title("🗄️ SQL - Melhores Práticas")
+st.markdown("Estratégias avançadas para queries eficientes, escaláveis e precisas")
 
-# --- SEÇÃO ESTRATÉGICA ---
-st.markdown(
-    """
-    <div class="hero-container">
-        <div class="hero-title">🗄️ SQL: A Fundação da Inteligência de Dados</div>
-        <div class="hero-text">
-            <p><strong>Dados bem estruturados geram insights poderosos:</strong></p>
-            <ol>
-                <li>Queries eficientes são a base de <span class="hero-highlight">dashboards que escalam</span>.</li>
-                <li>Boas práticas em SQL reduzem tempo de processamento e <span class="hero-highlight">amplificam a precisão das análises</span>.</li>
-                <li><strong>Logo,</strong> dominar SQL estratégico é <span class="hero-highlight">não negociável para analistas e gestores de dados</span>.</li>
-            </ol>
-            <p>Conhecimento é poder. Dados transformados em ação. 🚀</p>
-        </div>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+st.divider()
 
-# --- TITLE ---
-st.markdown("<h1 style='text-align: center; font-size: 3rem;'>🗄️ SQL - Melhores Práticas</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: #9ca3af; font-size: 1.05rem;'>Estratégias avançadas para queries eficientes, escaláveis e precisas</p>", unsafe_allow_html=True)
+# --- INTRODUÇÃO ---
+st.header("💡 Por que SQL estratégico importa?")
+col1, col2, col3 = st.columns(3)
+col1.metric("Práticas", "16", "documentadas")
+col2.metric("Categorias", "5", "de conhecimento")
+col3.metric("Impacto", "∞", "aplicações reais")
 
-st.write("")
+st.markdown("""
+Queries eficientes são a base de dashboards que escalam. Boas práticas em SQL reduzem tempo de processamento e amplificam a precisão das análises.
+""")
 
-# --- STATS ---
-st.markdown(
-    """
-    <div class="stats-container">
-        <div class="stat-box">
-            <div class="stat-number">16</div>
-            <div class="stat-label">Práticas Documentadas</div>
-        </div>
-        <div class="stat-box">
-            <div class="stat-number">3</div>
-            <div class="stat-label">Níveis de Dificuldade</div>
-        </div>
-        <div class="stat-box">
-            <div class="stat-number">5</div>
-            <div class="stat-label">Categorias</div>
-        </div>
-        <div class="stat-box">
-            <div class="stat-number">∞</div>
-            <div class="stat-label">Aplicações Reais</div>
-        </div>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+st.divider()
 
 # --- DATABASE DE PRÁTICAS SQL ---
 sql_practices = [
@@ -392,18 +210,16 @@ sql_practices = [
     }
 ]
 
-st.write("")
-
 # --- FILTROS ---
-st.markdown("<h3 style='color: #ffffff;'>🔎 Filtrar Práticas</h3>", unsafe_allow_html=True)
+st.header("🔎 Filtrar Práticas")
 
-col_cat, col_dif = st.columns(2)
+col1, col2 = st.columns(2)
 
-with col_cat:
+with col1:
     categorias = ["Todas"] + sorted(list(set([p["category"] for p in sql_practices])))
     selected_category = st.selectbox("Categoria", categorias, key="category_filter")
 
-with col_dif:
+with col2:
     dificuldades = ["Todas", "Iniciante", "Intermediário", "Avançado"]
     selected_difficulty = st.selectbox("Nível de Dificuldade", dificuldades, key="difficulty_filter")
 
@@ -416,70 +232,33 @@ if selected_category != "Todas":
 if selected_difficulty != "Todas":
     filtered_practices = [p for p in filtered_practices if p["difficulty"] == selected_difficulty]
 
-# --- RENDERIZAR CARDS ---
-st.write("")
-st.markdown(f"<p style='color: #9ca3af;'>📌 Mostrando <span style='color: #10b981; font-weight: bold;'>{len(filtered_practices)}</span> de {len(sql_practices)} práticas</p>", unsafe_allow_html=True)
-st.write("")
+# --- RENDERIZAR PRÁTICAS ---
+st.divider()
+st.write(f"📌 Mostrando **{len(filtered_practices)}** de **{len(sql_practices)}** práticas")
+st.divider()
 
-for practice in filtered_practices:
-    difficulty_class = "difficulty-iniciante" if practice["difficulty"] == "Iniciante" else \
-                       "difficulty-intermediario" if practice["difficulty"] == "Intermediário" else \
-                       "difficulty-avancado"
-    
-    st.markdown(
-        f"""
-        <div class="practice-card">
-            <div class="practice-header">
-                <div class="practice-icon">{practice['icon']}</div>
-                <div class="practice-title">{practice['title']}</div>
-                <div class="practice-difficulty {difficulty_class}">{practice['difficulty']}</div>
-            </div>
-            
-            <div class="practice-category">{practice['category']}</div>
-            
-            <div class="practice-description">{practice['description']}</div>
-            
-            <div style="background-color: #0f172a; padding: 15px; border-radius: 8px; margin-top: 15px;">
-                <div style="color: #9ca3af; font-size: 0.85rem; margin-bottom: 10px; font-weight: 600;">CONTEXTO:</div>
-                <div style="color: #d1d5db; font-size: 0.9rem; line-height: 1.5;">{practice['context']}</div>
-            </div>
-            
-            <div style="color: #10b981; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; margin-top: 15px; margin-bottom: 10px;">Evitar:</div>
-            <div class="code-block">
-                <div class="code-text">{practice['bad_query']}</div>
-            </div>
-            
-            <div style="color: #10b981; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; margin-top: 15px; margin-bottom: 10px;">Fazer:</div>
-            <div class="code-block">
-                <div class="code-text">{practice['good_query']}</div>
-            </div>
-            
-            <div class="practice-benefit">
-                <div class="benefit-title">Beneficio:</div>
-                <div>{practice['benefit']}</div>
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+for idx, practice in enumerate(filtered_practices, 1):
+    with st.expander(f"{practice['icon']} {practice['title']} — {practice['difficulty']}", expanded=False):
+        col1, col2 = st.columns([1, 1])
+        
+        with col1:
+            st.write(f"**Categoria:** {practice['category']}")
+            st.write(f"**Descrição:** {practice['description']}")
+            st.write(f"**Contexto:** {practice['context']}")
+        
+        with col2:
+            st.write(f"**Benefício:** {practice['benefit']}")
+        
+        st.divider()
+        
+        st.write("❌ **EVITAR:**")
+        st.code(practice['bad_query'], language='sql')
+        
+        st.write("✅ **FAZER:**")
+        st.code(practice['good_query'], language='sql')
 
-# --- SEÇÃO FINAL ---
-st.write("")
-st.markdown(
-    """
-    <div style='background-color: #111827; border: 1px solid #10b981; border-radius: 12px; padding: 25px; text-align: center;'>
-        <div style='font-size: 1.3rem; font-weight: 700; color: #ffffff; margin-bottom: 10px;'>Quer Levar Suas Queries para o Proximo Nivel?</div>
-        <div style='color: #9ca3af; font-size: 0.95rem; line-height: 1.6;'>
-            Consultoria em SQL estrategico para transformar dados em vantagem competitiva.
-        </div>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+st.divider()
 
-st.write("")
+st.info("💡 **Essas práticas são apenas o começo.** Consultoria em SQL estratégico para transformar seus dados em vantagem competitiva.")
 
-try:
-    exibir_rodape()
-except Exception as e:
-    print(f"Erro ao exibir rodape: {e}")
+exibir_rodape()
