@@ -1366,36 +1366,35 @@ challenges = [
     },
 ]
 
-st.markdown('<div class="challenges-container">', unsafe_allow_html=True)
+st.markdown('<h2 class="section-header">🎯 Desafios SQL</h2>', unsafe_allow_html=True)
+st.markdown('<p style="color: #cbd5e1; margin-bottom: 30px;">Complete os desafios abaixo e teste seus conhecimentos!</p>', unsafe_allow_html=True)
 
 col1, col2 = st.columns(2, gap="large")
-
 challenge_cols = [col1, col2] * 3
 
 for idx, challenge in enumerate(challenges):
     with challenge_cols[idx]:
-        st.markdown(f"""
-        <div style="background: linear-gradient(135deg, #1E293B 0%, #334155 100%); border: 1px solid var(--border); border-radius: 8px; padding: 20px;">
-            <p style="color: var(--accent); font-weight: 700; font-size: 1.1rem; margin-bottom: 10px;">
-                🎯 Desafio {challenge['numero']}
-            </p>
-            <p style="color: var(--text-light); font-weight: 600; margin-bottom: 8px;">
-                {challenge['titulo']}
-            </p>
-            <p style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 12px; line-height: 1.5;">
-                {challenge['descricao']}
-            </p>
-            <p style="color: #94a3b8; font-size: 0.85rem; border-top: 1px solid var(--border); padding-top: 10px;">
-                💡 <strong>Dica:</strong> {challenge['dica']}
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        with st.expander("Ver Resposta", key=f"challenge_{challenge['numero']}"):
-            st.code(challenge['resposta'], language='sql')
-            st.success("✅ Compare sua resposta com esta solução!")
-
-st.markdown('</div>', unsafe_allow_html=True)
+        with st.container():
+            st.markdown(f"""
+            <div style="background: linear-gradient(135deg, #1E293B 0%, #334155 100%); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 15px;">
+                <p style="color: var(--accent); font-weight: 700; font-size: 1.1rem; margin-bottom: 10px;">
+                    🎯 Desafio {challenge['numero']}
+                </p>
+                <p style="color: var(--text-light); font-weight: 600; margin-bottom: 8px;">
+                    {challenge['titulo']}
+                </p>
+                <p style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 12px; line-height: 1.5;">
+                    {challenge['descricao']}
+                </p>
+                <p style="color: #94a3b8; font-size: 0.85rem; border-top: 1px solid var(--border); padding-top: 10px;">
+                    💡 <strong>Dica:</strong> {challenge['dica']}
+                </p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            with st.expander("✅ Ver Resposta", key=f"challenge_{challenge['numero']}"):
+                st.code(challenge['resposta'], language='sql')
+                st.success("Compare sua resposta com esta solução!")
 
 st.divider()
 
