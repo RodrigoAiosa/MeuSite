@@ -1,26 +1,16 @@
 import streamlit as st
-try:
-    from utils import exibir_rodape, registrar_acesso
-except ImportError:
-    # Fallback se utils.py não estiver disponível
-    def registrar_acesso(pagina):
-        pass
-    def exibir_rodape():
-        st.markdown(
-            """
-            <hr style='border: 0.5px solid rgba(255, 255, 255, 0.1); margin-top: 50px;'>
-            <div style='text-align:center; color:gray; font-size: 0.8rem; padding-bottom: 20px;'>
-                SKY DATA SOLUTION © 2026 | Rodrigo Aiosa
-            </div>
-            """, 
-            unsafe_allow_html=True
-        )
+from utils import exibir_rodape, registrar_acesso
+
+# --- CONFIGURAÇÃO DE PÁGINA ---
+st.set_page_config(
+    page_title="SQL - Melhores Práticas | Rodrigo Aiosa",
+    page_icon="🗄️",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
 # --- REGISTRO DE ACESSO ---
-try:
-    registrar_acesso("SQL - Melhores Práticas")
-except Exception as e:
-    print(f"Aviso: Rastreamento desativado - {e}")
+registrar_acesso("SQL - Melhores Práticas")
 
 # --- ESTILO CSS ---
 st.markdown(
@@ -550,12 +540,4 @@ st.write("")
 try:
     exibir_rodape()
 except Exception as e:
-    st.markdown(
-        f"""
-        <hr style='border: 0.5px solid rgba(255, 255, 255, 0.1); margin-top: 50px;'>
-        <div style='text-align:center; color:gray; font-size: 0.8rem; padding-bottom: 20px;'>
-            SKY DATA SOLUTION © 2026 | Rodrigo Aiosa
-        </div>
-        """, 
-        unsafe_allow_html=True
-    )
+    print(f"Erro ao exibir rodapé: {e}")
