@@ -10,24 +10,214 @@
 ║  Author: SQL Academy Team                                                      ║
 ║  Version: 1.0.0                                                                ║
 ║  License: MIT                                                                  ║
+║                                                                                ║
+║  Construído com: Streamlit                                                     ║
 ╚════════════════════════════════════════════════════════════════════════════════╝
 """
 
-from flask import Flask, render_template_string, request, jsonify, session
+import streamlit as st
 from datetime import datetime
-from functools import wraps
-import json
-import os
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# CONFIGURAÇÃO DO APLICATIVO
+# CONFIGURAÇÃO DA PÁGINA
 # ═══════════════════════════════════════════════════════════════════════════════
 
-app = Flask(__name__)
-app.secret_key = 'sql_academy_secret_key_2024'
+st.set_page_config(
+    page_title="SQL Academy - Treinamento em SQL",
+    page_icon="🎓",
+    layout="centered",
+    initial_sidebar_state="collapsed"
+)
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# DATABASE DE QUIZ
+# CSS CUSTOMIZADO
+# ═══════════════════════════════════════════════════════════════════════════════
+
+st.markdown("""
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500&display=swap');
+    
+    * {
+        font-family: 'Lora', serif;
+    }
+    
+    .playfair {
+        font-family: 'Playfair Display', serif;
+    }
+    
+    body {
+        background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0c4a6e 100%);
+    }
+    
+    .main {
+        padding-top: 2rem;
+    }
+    
+    /* Estilos de Título Principal */
+    .main-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 3rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #fbbf24 0%, #fcd34d 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .subtitle {
+        text-align: center;
+        color: #93c5fd;
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+    }
+    
+    /* Cards de Nível */
+    .level-card {
+        padding: 2rem;
+        border-radius: 1rem;
+        border: 2px solid rgba(251, 191, 36, 0.3);
+        text-align: center;
+        transition: all 0.3s ease;
+        background: rgba(30, 58, 138, 0.2);
+        margin: 1rem 0;
+    }
+    
+    .level-card:hover {
+        border-color: #fbbf24;
+        background: rgba(30, 58, 138, 0.3);
+        transform: translateY(-5px);
+    }
+    
+    .level-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .level-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: #fcd34d;
+    }
+    
+    .level-desc {
+        color: #93c5fd;
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+    }
+    
+    /* Explicação */
+    .explanation-box {
+        background: rgba(30, 58, 138, 0.3);
+        border-left: 4px solid #fbbf24;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .explanation-title {
+        font-family: 'Playfair Display', serif;
+        color: #fcd34d;
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    
+    .explanation-text {
+        color: #93c5fd;
+        line-height: 1.6;
+    }
+    
+    /* Progresso */
+    .progress-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        color: #93c5fd;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+    
+    /* Resultado */
+    .result-box {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 1rem;
+        padding: 2rem;
+        text-align: center;
+        margin: 2rem 0;
+    }
+    
+    .result-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        animation: bounce 0.6s ease;
+    }
+    
+    .result-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 2rem;
+        color: white;
+        margin-bottom: 1rem;
+        font-weight: 700;
+    }
+    
+    .result-score {
+        font-size: 3rem;
+        color: #fcd34d;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    
+    .result-percentage {
+        font-size: 1.5rem;
+        color: #93c5fd;
+        margin-bottom: 1.5rem;
+    }
+    
+    .result-details {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: 0.5rem;
+        padding: 1rem;
+        color: #93c5fd;
+    }
+    
+    .result-details p {
+        margin: 0.5rem 0;
+    }
+    
+    .stButton > button {
+        width: 100%;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        font-family: 'Lora', serif;
+        transition: all 0.3s ease;
+        border: none;
+        font-size: 1rem;
+    }
+    
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+    }
+    
+    @media (max-width: 768px) {
+        .main-title {
+            font-size: 2rem;
+        }
+        
+        .result-score {
+            font-size: 2.5rem;
+        }
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# BANCO DE DADOS DE QUIZ
 # ═══════════════════════════════════════════════════════════════════════════════
 
 QUIZZES = {
@@ -250,907 +440,264 @@ QUIZZES = {
 }
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# TEMPLATE HTML PRINCIPAL
+# INICIALIZAÇÃO DO ESTADO DA SESSÃO
 # ═══════════════════════════════════════════════════════════════════════════════
 
-HTML_TEMPLATE = '''
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SQL Academy - Plataforma de Treinamento</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Lora', serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0c4a6e 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .playfair {
-            font-family: 'Playfair Display', serif;
-        }
-
-        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-        /* TELA 1: CADASTRO                                         */
-        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-
-        #screen-name {
-            width: 100%;
-            max-width: 500px;
-            animation: slideIn 0.6s ease;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .logo {
-            display: inline-block;
-            background: linear-gradient(135deg, #fbbf24 0%, #fcd34d 100%);
-            padding: 20px;
-            border-radius: 50%;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(251, 191, 36, 0.3);
-        }
-
-        .logo svg {
-            width: 50px;
-            height: 50px;
-            color: #1e3a8a;
-        }
-
-        .header h1 {
-            font-size: 48px;
-            color: white;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .header p {
-            font-size: 18px;
-            color: #93c5fd;
-        }
-
-        .form-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-        }
-
-        .form-group {
-            margin-bottom: 30px;
-        }
-
-        label {
-            display: block;
-            color: white;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(147, 197, 253, 0.3);
-            border-radius: 10px;
-            color: white;
-            font-size: 16px;
-            font-family: 'Lora', serif;
-            transition: all 0.3s;
-        }
-
-        input[type="text"]::placeholder {
-            color: #93c5fd;
-        }
-
-        input[type="text"]:focus {
-            outline: none;
-            border-color: #fbbf24;
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
-        }
-
-        .btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #fbbf24 0%, #fcd34d 100%);
-            color: #1e3a8a;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-family: 'Lora', serif;
-        }
-
-        .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4);
-        }
-
-        .features {
-            margin-top: 40px;
-            text-align: center;
-            color: #93c5fd;
-            font-size: 14px;
-            line-height: 2;
-        }
-
-        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-        /* TELA 2: SELEÇÃO DE NÍVEL                                 */
-        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-
-        #screen-level {
-            width: 100%;
-            max-width: 1000px;
-            animation: slideIn 0.6s ease;
-        }
-
-        .level-header h1 {
-            font-size: 42px;
-            color: white;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        .level-header p {
-            text-align: center;
-            color: #93c5fd;
-            font-size: 16px;
-            margin-bottom: 50px;
-        }
-
-        .levels-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-bottom: 20px;
-        }
-
-        .level-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(147, 197, 253, 0.3);
-            border-radius: 15px;
-            padding: 40px 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .level-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #fbbf24, transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .level-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.15);
-            border-color: #fbbf24;
-        }
-
-        .level-card:hover::before {
-            opacity: 1;
-        }
-
-        .level-icon {
-            font-size: 48px;
-            margin-bottom: 15px;
-        }
-
-        .level-card h3 {
-            font-size: 24px;
-            color: white;
-            margin-bottom: 5px;
-            font-weight: 700;
-        }
-
-        .level-card p {
-            color: #93c5fd;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        .level-badge {
-            display: inline-block;
-            background: rgba(251, 191, 36, 0.2);
-            color: #fcd34d;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-        /* TELA 3: QUIZ                                             */
-        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-
-        #screen-quiz {
-            width: 100%;
-            max-width: 800px;
-            animation: slideIn 0.6s ease;
-        }
-
-        .progress-bar {
-            margin-bottom: 30px;
-        }
-
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            color: #93c5fd;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .progress-fill {
-            width: 100%;
-            height: 8px;
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress-bar-inner {
-            height: 100%;
-            background: linear-gradient(90deg, #fbbf24, #fcd34d);
-            border-radius: 10px;
-            transition: width 0.5s ease;
-        }
-
-        .quiz-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
-        }
-
-        .explanation {
-            background: rgba(30, 58, 138, 0.3);
-            border-left: 4px solid #fbbf24;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-
-        .explanation h2 {
-            color: white;
-            font-size: 22px;
-            margin-bottom: 10px;
-        }
-
-        .explanation p {
-            color: #93c5fd;
-            line-height: 1.6;
-        }
-
-        .question-title {
-            font-size: 20px;
-            color: white;
-            margin-bottom: 25px;
-            font-weight: 500;
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 30px;
-        }
-
-        .option-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(147, 197, 253, 0.3);
-            border-radius: 10px;
-            padding: 15px 20px;
-            text-align: left;
-            color: #93c5fd;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'Lora', serif;
-            font-size: 15px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .option-btn:hover:not(:disabled) {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: #fbbf24;
-            transform: translateX(10px);
-        }
-
-        .option-btn:disabled {
-            cursor: not-allowed;
-        }
-
-        .option-btn.correct {
-            background: rgba(34, 197, 94, 0.2);
-            border-color: #22c55e;
-            color: #86efac;
-        }
-
-        .option-btn.incorrect {
-            background: rgba(239, 68, 68, 0.2);
-            border-color: #ef4444;
-            color: #fca5a5;
-        }
-
-        .option-icon {
-            margin-left: 10px;
-        }
-
-        .next-btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #fbbf24 0%, #fcd34d 100%);
-            color: #1e3a8a;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'Lora', serif;
-        }
-
-        .next-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4);
-        }
-
-        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-        /* TELA 4: RESULTADO FINAL                                  */
-        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-
-        #screen-results {
-            width: 100%;
-            max-width: 600px;
-            text-align: center;
-            animation: slideIn 0.6s ease;
-        }
-
-        .results-icon {
-            font-size: 80px;
-            margin-bottom: 30px;
-            animation: bounce 0.6s ease;
-        }
-
-        .results-title {
-            font-size: 36px;
-            color: white;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        .results-box {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 30px;
-        }
-
-        .results-text {
-            color: #93c5fd;
-            font-size: 16px;
-            margin-bottom: 15px;
-        }
-
-        .results-text strong {
-            color: #fcd34d;
-            font-weight: 600;
-        }
-
-        .results-score {
-            font-size: 56px;
-            color: #fcd34d;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-
-        .results-percentage {
-            color: #93c5fd;
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
-        .results-details {
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 25px;
-        }
-
-        .results-details p {
-            color: #93c5fd;
-            font-size: 14px;
-            margin: 10px 0;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .header h1 { font-size: 36px; }
-            .cert-title { font-size: 36px; }
-            .cert-name { font-size: 28px; }
-            .levels-grid { grid-template-columns: 1fr; }
-            .cert-score { flex-direction: column; gap: 30px; }
-            .cert-footer { flex-direction: column; gap: 30px; align-items: center; }
-            .cert-content { padding: 40px 20px; }
-        }
-
-        @media print {
-            body {
-                background: white;
-            }
-            .cert-buttons {
-                display: none;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- TELA 1: CADASTRO DE NOME -->
-    <div id="screen-name">
-        <div class="header">
-            <div class="logo">
-                <svg fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
-                    <path fill-rule="evenodd" d="M3 8.5a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0zm5-2a2 2 0 10-4 0 2 2 0 004 0z"/>
-                </svg>
-            </div>
-            <h1 class="playfair">SQL Academy</h1>
-            <p>Domine a Linguagem de Dados</p>
-        </div>
-
-        <div class="form-container">
-            <form id="name-form" onsubmit="submitName(event)">
-                <div class="form-group">
-                    <label for="full-name">NOME COMPLETO</label>
-                    <input type="text" id="full-name" placeholder="Digite seu nome completo" required>
-                </div>
-                <button type="submit" class="btn">
-                    Começar
-                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                    </svg>
-                </button>
-            </form>
-        </div>
-
-        <div class="features">
+def init_session_state():
+    """Inicializar variáveis de estado da sessão"""
+    if 'stage' not in st.session_state:
+        st.session_state.stage = 'name'
+    if 'full_name' not in st.session_state:
+        st.session_state.full_name = ''
+    if 'selected_level' not in st.session_state:
+        st.session_state.selected_level = None
+    if 'current_question' not in st.session_state:
+        st.session_state.current_question = 0
+    if 'score' not in st.session_state:
+        st.session_state.score = 0
+    if 'answers' not in st.session_state:
+        st.session_state.answers = []
+    if 'show_result' not in st.session_state:
+        st.session_state.show_result = False
+
+init_session_state()
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TELA 1: CADASTRO DE NOME
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def screen_name():
+    """Tela de cadastro de nome completo"""
+    col1, col2, col3 = st.columns([1, 2, 1])
+    
+    with col2:
+        st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
+        st.markdown("# 🎓")
+        st.markdown("</div>", unsafe_allow_html=True)
+        
+        st.markdown('<p class="main-title">SQL Academy</p>', unsafe_allow_html=True)
+        st.markdown('<p class="subtitle">Domine a Linguagem de Dados</p>', unsafe_allow_html=True)
+        
+        st.markdown("---")
+        
+        full_name = st.text_input(
+            "NOME COMPLETO",
+            placeholder="Digite seu nome completo",
+            key="name_input"
+        )
+        
+        if st.button("Começar →", use_container_width=True, type="primary"):
+            if full_name.strip():
+                st.session_state.full_name = full_name.strip()
+                st.session_state.stage = 'level'
+                st.rerun()
+        
+        st.markdown("---")
+        st.markdown("""
+        <div style='text-align: center; color: #93c5fd; font-size: 0.9rem;'>
             <p>✓ 3 Níveis de Dificuldade</p>
             <p>✓ 15 Questões Totais</p>
-            <p>✓ Certificado ao Final</p>
+            <p>✓ Resultado Final com Pontuação</p>
         </div>
+        """, unsafe_allow_html=True)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TELA 2: SELEÇÃO DE NÍVEL
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def screen_level():
+    """Tela de seleção de nível de dificuldade"""
+    st.markdown(f'<h1 style="text-align: center; color: white;">Bem-vindo, {st.session_state.full_name}!</h1>', unsafe_allow_html=True)
+    st.markdown('<p class="subtitle">Escolha seu nível de dificuldade</p>', unsafe_allow_html=True)
+    
+    st.markdown("---")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    levels = [
+        {'key': 'básico', 'title': 'BÁSICO', 'icon': '📚', 'desc': 'Fundamentos de SQL', 'col': col1},
+        {'key': 'intermediário', 'title': 'INTERMEDIÁRIO', 'icon': '⚡', 'desc': 'Consultas Avançadas', 'col': col2},
+        {'key': 'avançado', 'title': 'AVANÇADO', 'icon': '🚀', 'desc': 'Otimização & Performance', 'col': col3}
+    ]
+    
+    for level in levels:
+        with level['col']:
+            st.markdown(f"""
+            <div class="level-card">
+                <div class="level-icon">{level['icon']}</div>
+                <div class="level-title">{level['title']}</div>
+                <div class="level-desc">{level['desc']}</div>
+                <div style='color: #fcd34d; font-size: 0.8rem;'>5 questões</div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            if st.button(f"Começar {level['title']}", use_container_width=True, key=f"btn_{level['key']}"):
+                st.session_state.selected_level = level['key']
+                st.session_state.current_question = 0
+                st.session_state.score = 0
+                st.session_state.answers = []
+                st.session_state.show_result = False
+                st.session_state.stage = 'quiz'
+                st.rerun()
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TELA 3: QUIZ
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def screen_quiz():
+    """Tela do quiz com questões"""
+    quiz = QUIZZES[st.session_state.selected_level]
+    question_data = quiz[st.session_state.current_question]
+    total_questions = len(quiz)
+    
+    progress = (st.session_state.current_question + 1) / total_questions
+    st.progress(progress)
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown(f"<p style='color: #93c5fd; font-size: 0.9rem;'>Questão {st.session_state.current_question + 1} de {total_questions}</p>", unsafe_allow_html=True)
+    with col2:
+        st.markdown(f"<p style='text-align: right; color: #fcd34d; font-weight: 600;'>{st.session_state.score} pontos</p>", unsafe_allow_html=True)
+    
+    st.markdown("---")
+    
+    st.markdown(f"""
+    <div class="explanation-box">
+        <div class="explanation-title">{question_data['title']}</div>
+        <div class="explanation-text">{question_data['explanation']}</div>
     </div>
-
-    <!-- TELA 2: SELEÇÃO DE NÍVEL -->
-    <div id="screen-level" class="hidden">
-        <div class="level-header">
-            <h1 class="playfair" id="welcome-name">Bem-vindo!</h1>
-            <p>Escolha seu nível de dificuldade</p>
-        </div>
-
-        <div class="levels-grid">
-            <button class="level-card" onclick="selectLevel('básico')">
-                <div class="level-icon">📚</div>
-                <h3>BÁSICO</h3>
-                <p>Fundamentos de SQL</p>
-                <span class="level-badge">5 questões</span>
-            </button>
-
-            <button class="level-card" onclick="selectLevel('intermediário')">
-                <div class="level-icon">⚡</div>
-                <h3>INTERMEDIÁRIO</h3>
-                <p>Consultas Avançadas</p>
-                <span class="level-badge">5 questões</span>
-            </button>
-
-            <button class="level-card" onclick="selectLevel('avançado')">
-                <div class="level-icon">🚀</div>
-                <h3>AVANÇADO</h3>
-                <p>Otimização & Performance</p>
-                <span class="level-badge">5 questões</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- TELA 3: QUIZ -->
-    <div id="screen-quiz" class="hidden">
-        <div class="progress-bar">
-            <div class="progress-info">
-                <span id="question-counter">Questão 1 de 5</span>
-                <span id="score-display">0 pontos</span>
-            </div>
-            <div class="progress-fill">
-                <div class="progress-bar-inner" id="progress-fill" style="width: 0%"></div>
-            </div>
-        </div>
-
-        <div class="quiz-container">
-            <div class="explanation">
-                <h2 id="explanation-title">Título</h2>
-                <p id="explanation-text">Explicação</p>
-            </div>
-
-            <div class="question-title" id="question-text">Pergunta?</div>
-
-            <div class="options" id="options-container">
-                <!-- Opções serão adicionadas por JavaScript -->
-            </div>
-
-            <button class="next-btn hidden" id="next-btn" onclick="nextQuestion()">
-                Próxima Questão →
-            </button>
-        </div>
-    </div>
-
-    <!-- TELA 4: RESULTADO FINAL -->
-    <div id="screen-results" class="hidden">
-        <div class="results-icon" id="results-icon">🎉</div>
-        <h1 class="results-title" id="results-title">Quiz Concluído!</h1>
-
-        <div class="results-box">
-            <p class="results-text">Você completou o treinamento de <strong id="results-level">NÍVEL</strong></p>
-            <div class="results-score" id="results-score">0/5</div>
-            <div class="results-percentage" id="results-percentage">0%</div>
-
-            <div class="results-details">
-                <p><strong>Questões Certas:</strong> <span id="results-correct">0</span> de <span id="results-total">5</span></p>
-                <p><strong>Taxa de Acerto:</strong> <span id="results-percent">0</span>%</p>
-            </div>
-        </div>
-
-        <button class="btn" onclick="resetApp()">← Tentar Outro Nível</button>
-    </div>
-
-    <script>
-        // ═════════════════════════════════════════════════════════════════════
-        // VARIÁVEIS GLOBAIS
-        // ═════════════════════════════════════════════════════════════════════
-
-        const quizData = {{ quiz_data | safe }};
+    """, unsafe_allow_html=True)
+    
+    st.markdown(f"<h3 style='color: white;'>{question_data['question']}</h3>", unsafe_allow_html=True)
+    
+    st.markdown("---")
+    
+    for idx, option in enumerate(question_data['options']):
+        col1, col2 = st.columns([0.05, 0.95])
+        with col2:
+            if st.button(
+                f"{chr(65 + idx)}. {option}",
+                use_container_width=True,
+                key=f"option_{st.session_state.current_question}_{idx}",
+                disabled=st.session_state.show_result
+            ):
+                st.session_state.show_result = True
+                is_correct = idx == question_data['correct']
+                
+                st.session_state.answers.append({
+                    'question': st.session_state.current_question,
+                    'selected': idx,
+                    'correct': is_correct
+                })
+                
+                if is_correct:
+                    st.session_state.score += 1
+                
+                st.rerun()
+    
+    st.markdown("---")
+    
+    if st.session_state.show_result:
+        question_data = quiz[st.session_state.current_question]
+        answer_data = st.session_state.answers[-1]
         
-        let appState = {
-            fullName: '',
-            selectedLevel: null,
-            currentQuestion: 0,
-            score: 0,
-            answers: [],
-            showResult: false
-        };
-
-        // ═════════════════════════════════════════════════════════════════════
-        // FUNÇÃO: TELA 1 - CADASTRO
-        // ═════════════════════════════════════════════════════════════════════
-
-        function submitName(event) {
-            event.preventDefault();
-            const nameInput = document.getElementById('full-name');
-            const fullName = nameInput.value.trim();
-
-            if (fullName) {
-                appState.fullName = fullName;
-                document.getElementById('welcome-name').textContent = `Bem-vindo, ${fullName}!`;
-                showScreen('level');
-            }
-        }
-
-        // ═════════════════════════════════════════════════════════════════════
-        // FUNÇÃO: TELA 2 - SELEÇÃO DE NÍVEL
-        // ═════════════════════════════════════════════════════════════════════
-
-        function selectLevel(level) {
-            appState.selectedLevel = level;
-            appState.currentQuestion = 0;
-            appState.score = 0;
-            appState.answers = [];
-            appState.showResult = false;
-            
-            loadQuestion();
-            showScreen('quiz');
-        }
-
-        // ═════════════════════════════════════════════════════════════════════
-        // FUNÇÃO: TELA 3 - QUIZ
-        // ═════════════════════════════════════════════════════════════════════
-
-        function loadQuestion() {
-            const quiz = quizData[appState.selectedLevel];
-            const question = quiz[appState.currentQuestion];
-            const totalQuestions = quiz.length;
-
-            // Atualizar informações
-            document.getElementById('question-counter').textContent = 
-                `Questão ${appState.currentQuestion + 1} de ${totalQuestions}`;
-            document.getElementById('score-display').textContent = 
-                `${appState.score} pontos`;
-
-            // Progresso
-            const progress = ((appState.currentQuestion + 1) / totalQuestions) * 100;
-            document.getElementById('progress-fill').style.width = progress + '%';
-
-            // Explicação
-            document.getElementById('explanation-title').textContent = question.title;
-            document.getElementById('explanation-text').textContent = question.explanation;
-
-            // Pergunta
-            document.getElementById('question-text').textContent = question.question;
-
-            // Opções
-            const optionsContainer = document.getElementById('options-container');
-            optionsContainer.innerHTML = '';
-
-            question.options.forEach((option, index) => {
-                const btn = document.createElement('button');
-                btn.className = 'option-btn';
-                btn.textContent = String.fromCharCode(65 + index) + '. ' + option;
-                btn.onclick = () => selectAnswer(index);
-                btn.id = `option-${index}`;
-                optionsContainer.appendChild(btn);
-            });
-
-            // Esconder botão de próximo
-            document.getElementById('next-btn').classList.add('hidden');
-        }
-
-        function selectAnswer(index) {
-            if (appState.showResult) return;
-
-            const quiz = quizData[appState.selectedLevel];
-            const question = quiz[appState.currentQuestion];
-            const isCorrect = index === question.correct;
-
-            // Mostrar feedback
-            const correctBtn = document.getElementById(`option-${question.correct}`);
-            const selectedBtn = document.getElementById(`option-${index}`);
-
-            correctBtn.classList.add('correct');
-            correctBtn.disabled = true;
-
-            if (!isCorrect) {
-                selectedBtn.classList.add('incorrect');
-            }
-
-            // Desabilitar todas as opções
-            for (let i = 0; i < question.options.length; i++) {
-                document.getElementById(`option-${i}`).disabled = true;
-            }
-
-            // Atualizar estado
-            appState.answers.push({ question: appState.currentQuestion, selected: index, correct: isCorrect });
-            if (isCorrect) {
-                appState.score++;
-                document.getElementById('score-display').textContent = `${appState.score} pontos`;
-            }
-
-            appState.showResult = true;
-
-            // Mostrar botão de próximo
-            document.getElementById('next-btn').classList.remove('hidden');
-        }
-
-        function nextQuestion() {
-            const quiz = quizData[appState.selectedLevel];
-            
-            if (appState.currentQuestion + 1 < quiz.length) {
-                appState.currentQuestion++;
-                appState.showResult = false;
-                loadQuestion();
-            } else {
-                // Fim do quiz - mostrar resultados
-                showResults();
-                showScreen('results');
-            }
-        }
-
-        // ═════════════════════════════════════════════════════════════════════
-        // FUNÇÃO: TELA 4 - RESULTADO FINAL
-        // ═════════════════════════════════════════════════════════════════════
-
-        function showResults() {
-            const quiz = quizData[appState.selectedLevel];
-            const percentage = Math.round((appState.score / quiz.length) * 100);
-
-            // Atualizar ícone e título baseado no desempenho
-            const icon = document.getElementById('results-icon');
-            const title = document.getElementById('results-title');
-
-            if (percentage >= 90) {
-                icon.textContent = '🏆';
-                title.textContent = 'Excelente Desempenho!';
-            } else if (percentage >= 80) {
-                icon.textContent = '👏';
-                title.textContent = 'Muito Bom!';
-            } else if (percentage >= 70) {
-                icon.textContent = '✅';
-                title.textContent = 'Aprovado!';
-            } else if (percentage >= 50) {
-                icon.textContent = '📚';
-                title.textContent = 'Pode Melhorar!';
-            } else {
-                icon.textContent = '💪';
-                title.textContent = 'Tente Novamente!';
-            }
-
-            // Atualizar dados
-            document.getElementById('results-level').textContent = appState.selectedLevel.toUpperCase();
-            document.getElementById('results-score').textContent = `${appState.score}/${quiz.length}`;
-            document.getElementById('results-percentage').textContent = percentage + '%';
-            document.getElementById('results-correct').textContent = appState.score;
-            document.getElementById('results-total').textContent = quiz.length;
-            document.getElementById('results-percent').textContent = percentage;
-        }
-
-        // ═════════════════════════════════════════════════════════════════════
-        // FUNÇÕES AUXILIARES
-        // ═════════════════════════════════════════════════════════════════════
-
-        function showScreen(screenName) {
-            document.getElementById('screen-name').classList.add('hidden');
-            document.getElementById('screen-level').classList.add('hidden');
-            document.getElementById('screen-quiz').classList.add('hidden');
-            document.getElementById('screen-results').classList.add('hidden');
-
-            document.getElementById(`screen-${screenName}`).classList.remove('hidden');
-        }
-
-        function resetApp() {
-            appState = {
-                fullName: '',
-                selectedLevel: null,
-                currentQuestion: 0,
-                score: 0,
-                answers: [],
-                showResult: false
-            };
-            document.getElementById('full-name').value = '';
-            showScreen('name');
-        }
-    </script>
-</body>
-</html>
-'''
+        if answer_data['correct']:
+            st.success("✅ Resposta correta!")
+        else:
+            st.error(f"❌ Resposta incorreta! A resposta correta é: **{chr(65 + question_data['correct'])}. {question_data['options'][question_data['correct']]}**")
+        
+        st.markdown("---")
+        
+        if st.session_state.current_question + 1 < total_questions:
+            if st.button("Próxima Questão →", use_container_width=True, type="primary"):
+                st.session_state.current_question += 1
+                st.session_state.show_result = False
+                st.rerun()
+        else:
+            if st.button("Ver Resultado", use_container_width=True, type="primary"):
+                st.session_state.stage = 'results'
+                st.rerun()
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# ROTAS FLASK
+# TELA 4: RESULTADO FINAL
 # ═══════════════════════════════════════════════════════════════════════════════
 
-@app.route('/')
-def index():
-    """Rota principal - renderiza a página HTML com o quiz"""
-    return render_template_string(HTML_TEMPLATE, quiz_data=json.dumps(QUIZZES))
-
-@app.route('/api/quiz/<level>')
-def get_quiz(level):
-    """API para obter quiz de um nível específico"""
-    if level in QUIZZES:
-        return jsonify(QUIZZES[level])
-    return jsonify({'error': 'Nível não encontrado'}), 404
-
-@app.route('/api/submit', methods=['POST'])
-def submit_quiz():
-    """API para submeter respostas do quiz"""
-    data = request.json
-    level = data.get('level')
-    answers = data.get('answers')
+def screen_results():
+    """Tela de resultado final"""
+    quiz = QUIZZES[st.session_state.selected_level]
+    percentage = (st.session_state.score / len(quiz)) * 100
     
-    if not level or not answers or level not in QUIZZES:
-        return jsonify({'error': 'Dados inválidos'}), 400
+    if percentage >= 90:
+        icon = "🏆"
+        title = "Excelente Desempenho!"
+    elif percentage >= 80:
+        icon = "👏"
+        title = "Muito Bom!"
+    elif percentage >= 70:
+        icon = "✅"
+        title = "Aprovado!"
+    elif percentage >= 50:
+        icon = "📚"
+        title = "Pode Melhorar!"
+    else:
+        icon = "💪"
+        title = "Tente Novamente!"
     
-    quiz = QUIZZES[level]
-    score = 0
+    st.markdown(f"""
+    <div class="result-box">
+        <div class="result-icon">{icon}</div>
+        <div class="result-title">{title}</div>
+        <div class="result-score">{st.session_state.score}/{len(quiz)}</div>
+        <div class="result-percentage">{percentage:.0f}%</div>
+        
+        <div class="result-details">
+            <p><strong>Nível:</strong> {st.session_state.selected_level.upper()}</p>
+            <p><strong>Questões Certas:</strong> {st.session_state.score} de {len(quiz)}</p>
+            <p><strong>Taxa de Acerto:</strong> {percentage:.1f}%</p>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
     
-    for answer in answers:
-        if answer.get('correct'):
-            score += 1
+    st.markdown("---")
     
-    percentage = (score / len(quiz)) * 100
-    passed = percentage >= 70
+    col1, col2 = st.columns(2)
     
-    return jsonify({
-        'score': score,
-        'total': len(quiz),
-        'percentage': round(percentage, 2),
-        'passed': passed,
-        'timestamp': datetime.now().isoformat()
-    })
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# INFORMAÇÕES ADICIONAIS
-# ═══════════════════════════════════════════════════════════════════════════════
-
-def print_welcome():
-    """Imprime mensagem de boas-vindas"""
-    print("""
-    ╔════════════════════════════════════════════════════════════════════════════════╗
-    ║                                                                                ║
-    ║                        🎓 SQL ACADEMY - WELCOME 🎓                             ║
-    ║                                                                                ║
-    ║  Plataforma completa de treinamento em SQL com:                               ║
-    ║  ✓ 3 Níveis de Dificuldade (Básico, Intermediário, Avançado)                  ║
-    ║  ✓ 15 Questões Totais (5 por nível)                                           ║
-    ║  ✓ Sistema de Progresso em Tempo Real                                         ║
-    ║  ✓ Resultado Final com Pontuação Detalhada                                    ║
-    ║  ✓ Interface Responsiva e Intuitiva                                           ║
-    ║                                                                                ║
-    ║  Para iniciar:                                                                ║
-    ║  1. Instale as dependências: pip install flask                                ║
-    ║  2. Execute o script: python cursos_sql.py                                    ║
-    ║  3. Abra o navegador em: http://localhost:5000                                ║
-    ║                                                                                ║
-    ║  Você será redirecionado para a plataforma de treinamento!                    ║
-    ║                                                                                ║
-    ╚════════════════════════════════════════════════════════════════════════════════╝
-    """)
+    with col1:
+        if st.button("← Tentar Outro Nível", use_container_width=True):
+            st.session_state.stage = 'level'
+            st.session_state.selected_level = None
+            st.session_state.current_question = 0
+            st.session_state.score = 0
+            st.session_state.answers = []
+            st.session_state.show_result = False
+            st.rerun()
+    
+    with col2:
+        if st.button("🔄 Reiniciar Tudo", use_container_width=True):
+            st.session_state.stage = 'name'
+            st.session_state.full_name = ''
+            st.session_state.selected_level = None
+            st.session_state.current_question = 0
+            st.session_state.score = 0
+            st.session_state.answers = []
+            st.session_state.show_result = False
+            st.rerun()
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# PONTO DE ENTRADA
+# RENDERIZAÇÃO PRINCIPAL
 # ═══════════════════════════════════════════════════════════════════════════════
 
-if __name__ == '__main__':
-    print_welcome()
+def main():
+    """Função principal que controla o fluxo da aplicação"""
     
-    # Configurar e iniciar o servidor Flask
-    app.run(
-        debug=True,
-        host='localhost',
-        port=5000,
-        use_reloader=True
-    )
+    if st.session_state.stage == 'name':
+        screen_name()
+    elif st.session_state.stage == 'level':
+        screen_level()
+    elif st.session_state.stage == 'quiz':
+        screen_quiz()
+    elif st.session_state.stage == 'results':
+        screen_results()
+
+if __name__ == "__main__":
+    main()
