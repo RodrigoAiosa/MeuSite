@@ -1133,7 +1133,6 @@ if selected_difficulty != "Todas":
     filtered_practices = [p for p in filtered_practices if p["difficulty"] == selected_difficulty]
 
 # --- RENDERIZAR PRÁTICAS ---
-st.divider()
 
 st.divider()
 
