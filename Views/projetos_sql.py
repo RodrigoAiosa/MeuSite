@@ -373,7 +373,7 @@ st.markdown("""
 </p>
 """, unsafe_allow_html=True)
 
-st.divider()
+# st.divider()
 
 # --- DATABASE DE PRÁTICAS SQL ---
 sql_practices = [
@@ -1104,7 +1104,7 @@ sql_practices = [
     },
 ]
 
-st.divider()
+# st.divider()
 
 # --- FILTROS SECTION ---
 st.markdown('<h2 class="section-header">🔎 Filtrar Práticas</h2>', unsafe_allow_html=True)
