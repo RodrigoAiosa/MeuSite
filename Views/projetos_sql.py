@@ -1,9 +1,26 @@
 import streamlit as st
-from utils import exibir_rodape, registrar_acesso
-import urllib.parse
+try:
+    from utils import exibir_rodape, registrar_acesso
+except ImportError:
+    # Fallback se utils.py não estiver disponível
+    def registrar_acesso(pagina):
+        pass
+    def exibir_rodape():
+        st.markdown(
+            """
+            <hr style='border: 0.5px solid rgba(255, 255, 255, 0.1); margin-top: 50px;'>
+            <div style='text-align:center; color:gray; font-size: 0.8rem; padding-bottom: 20px;'>
+                SKY DATA SOLUTION © 2026 | Rodrigo Aiosa
+            </div>
+            """, 
+            unsafe_allow_html=True
+        )
 
 # --- REGISTRO DE ACESSO ---
-registrar_acesso("SQL - Melhores Práticas")
+try:
+    registrar_acesso("SQL - Melhores Práticas")
+except Exception as e:
+    print(f"Aviso: Rastreamento desativado - {e}")
 
 # --- ESTILO CSS ---
 st.markdown(
@@ -154,36 +171,6 @@ st.markdown(
         margin-bottom: 5px;
     }
     
-    /* Tabs de Categorias */
-    .category-tabs {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 30px;
-        flex-wrap: wrap;
-    }
-    
-    .category-tab {
-        background-color: #111827;
-        color: #9ca3af;
-        padding: 10px 20px;
-        border-radius: 8px;
-        border: 1px solid #1f2937;
-        cursor: pointer;
-        transition: all 0.3s;
-        font-weight: 600;
-    }
-    
-    .category-tab:hover {
-        border-color: #10b981;
-        color: #10b981;
-    }
-    
-    .category-tab.active {
-        background-color: #10b981;
-        color: #111827;
-        border-color: #10b981;
-    }
-    
     /* Stats Counter */
     .stats-container {
         display: grid;
@@ -210,126 +197,6 @@ st.markdown(
         color: #9ca3af;
         font-size: 0.85rem;
         margin-top: 5px;
-    }
-    
-    /* Botões de Ação */
-    .action-buttons {
-        display: flex;
-        gap: 10px;
-        margin-top: 15px;
-        flex-wrap: wrap;
-    }
-    
-    .btn-sql {
-        background-color: #10b981;
-        color: #111827;
-        padding: 8px 16px;
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 0.85rem;
-        display: inline-block;
-        transition: all 0.3s;
-        border: none;
-        cursor: pointer;
-    }
-    
-    .btn-sql:hover {
-        background-color: #059669;
-        transform: scale(1.05);
-    }
-    
-    .btn-secondary {
-        background-color: #1f2937;
-        color: #9ca3af;
-        padding: 8px 16px;
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 0.85rem;
-        display: inline-block;
-        transition: all 0.3s;
-        border: 1px solid #374151;
-    }
-    
-    .btn-secondary:hover {
-        border-color: #10b981;
-        color: #10b981;
-    }
-    
-    /* Seção Comparativa */
-    .comparison-section {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-        margin-top: 15px;
-    }
-    
-    .comparison-item {
-        padding: 15px;
-        border-radius: 8px;
-    }
-    
-    .comparison-bad {
-        background-color: rgba(239, 68, 68, 0.1);
-        border-left: 3px solid #ef4444;
-    }
-    
-    .comparison-good {
-        background-color: rgba(16, 185, 129, 0.1);
-        border-left: 3px solid #10b981;
-    }
-    
-    .comparison-label {
-        font-weight: 700;
-        margin-bottom: 10px;
-        font-size: 0.9rem;
-    }
-    
-    .comparison-bad .comparison-label {
-        color: #ef4444;
-    }
-    
-    .comparison-good .comparison-label {
-        color: #10b981;
-    }
-    
-    .comparison-code {
-        color: #d1d5db;
-        font-family: 'Courier New', monospace;
-        font-size: 0.8rem;
-        line-height: 1.4;
-        white-space: pre-wrap;
-    }
-
-    /* Filtro de Dificuldade */
-    .filter-container {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 20px;
-        flex-wrap: wrap;
-    }
-    
-    .filter-btn {
-        background-color: transparent;
-        border: 1px solid #374151;
-        color: #9ca3af;
-        padding: 8px 16px;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: all 0.3s;
-        font-size: 0.9rem;
-    }
-    
-    .filter-btn:hover {
-        border-color: #10b981;
-        color: #10b981;
-    }
-    
-    .filter-btn.active {
-        background-color: #10b981;
-        color: #111827;
-        border-color: #10b981;
     }
     </style>
     
@@ -368,7 +235,7 @@ st.markdown(
     """
     <div class="stats-container">
         <div class="stat-box">
-            <div class="stat-number">15+</div>
+            <div class="stat-number">16</div>
             <div class="stat-label">Práticas Documentadas</div>
         </div>
         <div class="stat-box">
@@ -680,4 +547,15 @@ st.markdown(
 
 st.write("")
 
-exibir_rodape()
+try:
+    exibir_rodape()
+except Exception as e:
+    st.markdown(
+        f"""
+        <hr style='border: 0.5px solid rgba(255, 255, 255, 0.1); margin-top: 50px;'>
+        <div style='text-align:center; color:gray; font-size: 0.8rem; padding-bottom: 20px;'>
+            SKY DATA SOLUTION © 2026 | Rodrigo Aiosa
+        </div>
+        """, 
+        unsafe_allow_html=True
+    )
