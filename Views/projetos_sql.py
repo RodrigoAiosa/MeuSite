@@ -1397,17 +1397,4 @@ for idx, challenge in enumerate(challenges):
 
 st.divider()
 
-# --- FOOTER ---
-st.markdown("""
-<div style="text-align: center; padding: 40px 0; border-top: 1px solid var(--border); color: #cbd5e1;">
-    <p style="margin-bottom: 10px; font-size: 0.95rem;">
-        <span style="color: var(--accent); font-weight: 600;">SQL - Melhores Práticas</span> 
-        • Criado por Rodrigo Aiosa
-    </p>
-    <p style="font-size: 0.85rem; color: #94a3b8;">
-        Transforme seus dados em vantagem competitiva com SQL estratégico
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
 exibir_rodape()
