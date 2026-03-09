@@ -94,10 +94,10 @@ sql_practices = [
         "category": "Performance",
         "difficulty": "Iniciante",
         "description": "Filtre antes de juntar tabelas.",
-        "bad_query": "SELECT * FROM vendas v JOIN usuarios u ON v.usuario_id = u.id WHERE v.ano = 2024;",
-        "good_query": "SELECT * FROM vendas v JOIN usuarios u ON v.usuario_id = u.id WHERE v.ano = 2024;",
-        "benefit": "Reduz volume processado.",
-        "context": "Boas práticas de query."
+        "bad_query": "SELECT v.id, v.valor, u.nome, p.nome FROM vendas v JOIN usuarios u ON v.usuario_id = u.id JOIN produtos p ON v.produto_id = p.id WHERE v.ano = 2024;",
+        "good_query": "SELECT v.id, v.valor, u.nome, p.nome FROM vendas v WHERE v.ano = 2024 JOIN usuarios u ON v.usuario_id = u.id JOIN produtos p ON v.produto_id = p.id;",
+        "benefit": "Reduz volume antes dos JOINs. Menos linhas para processar.",
+        "context": "Filtre na tabela principal ANTES de fazer JOINs."
     },
     {
         "icon": "🔤",
