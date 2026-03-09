@@ -1324,10 +1324,6 @@ with col_info:
 
 st.divider()
 
-# --- DESAFIOS SQL ---
-st.markdown('<h2 class="section-header">🎯 Desafios SQL</h2>', unsafe_allow_html=True)
-st.markdown('<p style="color: #cbd5e1; margin-bottom: 30px;">Complete os desafios abaixo e teste seus conhecimentos!</p>', unsafe_allow_html=True)
-
 challenges = [
     {
         "numero": 1,
