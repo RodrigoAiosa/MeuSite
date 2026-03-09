@@ -752,7 +752,158 @@ st.info("💡 **Essas práticas são apenas o começo.** Consultoria em SQL estr
 
 st.divider()
 
-# --- SEÇÃO ESCOLHA SQL ---
+# --- SEÇÃO SQL FORMATTER ---
+st.header("🎨 SQL Formatter - Formate Suas Queries")
+st.markdown("Cole seu SQL desorganizado e deixe bonito e indentado!")
+
+col_input, col_output = st.columns(2)
+
+with col_input:
+    st.subheader("📝 Input (Cole seu SQL)")
+    sql_input = st.text_area(
+        "Seu SQL aqui:",
+        height=200,
+        placeholder="Paste seu SQL desorganizado...",
+        key="sql_formatter_input"
+    )
+
+with col_output:
+    st.subheader("✨ Output (SQL Formatado)")
+    
+    # Criar função de formatação SQL
+    def formatar_sql(sql):
+        """Formata e identica SQL"""
+        if not sql.strip():
+            return ""
+        
+        # Keywords que devem estar em nova linha
+        keywords_newline = ['SELECT', 'FROM', 'WHERE', 'JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'INNER JOIN', 
+                           'OUTER JOIN', 'ON', 'GROUP BY', 'ORDER BY', 'HAVING', 'LIMIT', 
+                           'OFFSET', 'UNION', 'CASE', 'WHEN', 'THEN', 'ELSE', 'END', 
+                           'WITH', 'AS', 'INSERT', 'UPDATE', 'DELETE', 'CREATE', 'DROP',
+                           'ALTER', 'BEGIN', 'COMMIT', 'ROLLBACK', 'AND', 'OR']
+        
+        # Converter para maiúsculas para detecção
+        sql_upper = sql.upper()
+        
+        # Substituir múltiplos espaços por um
+        sql = ' '.join(sql.split())
+        
+        result = []
+        indent_level = 0
+        i = 0
+        current_word = ""
+        
+        while i < len(sql):
+            char = sql[i]
+            
+            if char.isalnum() or char == '_':
+                current_word += char
+            else:
+                if current_word:
+                    word_upper = current_word.upper()
+                    
+                    if word_upper in keywords_newline:
+                        # Reduzir indent para certos keywords
+                        if word_upper in ['WHERE', 'GROUP BY', 'ORDER BY', 'HAVING', 'LIMIT', 'OFFSET', 'UNION']:
+                            indent_level = max(0, indent_level - 1)
+                        
+                        if result and result[-1].strip():
+                            result.append('\n' + '  ' * indent_level)
+                        else:
+                            if result:
+                                result[-1] = '\n' + '  ' * indent_level
+                        
+                        result.append(current_word)
+                        
+                        if word_upper in ['SELECT', 'FROM', 'WHERE', 'JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'INNER JOIN', 'GROUP BY', 'ORDER BY']:
+                            indent_level += 1
+                    else:
+                        result.append(current_word)
+                    
+                    current_word = ""
+                
+                if char == '(':
+                    result.append('(')
+                    indent_level += 1
+                elif char == ')':
+                    indent_level = max(0, indent_level - 1)
+                    result.append(')')
+                elif char == ',':
+                    result.append(',\n' + '  ' * indent_level)
+                elif char == ';':
+                    result.append(';')
+                elif char != ' ':
+                    result.append(char)
+            
+            i += 1
+        
+        if current_word:
+            result.append(current_word)
+        
+        formatted = ''.join(result).strip()
+        return formatted
+    
+    # Botão de formatação
+    if st.button("🎨 Formatar SQL", key="btn_format", use_container_width=True):
+        if sql_input.strip():
+            formatted_sql = formatar_sql(sql_input)
+            st.session_state.formatted_sql = formatted_sql
+        else:
+            st.warning("Cole um SQL para formatar!")
+    
+    # Mostrar resultado
+    if 'formatted_sql' in st.session_state:
+        st.code(st.session_state.formatted_sql, language='sql')
+        
+        # Botão para copiar
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("📋 Copiar", key="btn_copy"):
+                st.success("Copiado para a área de transferência!")
+        
+        with col2:
+            if st.button("🔄 Limpar", key="btn_clear"):
+                if 'formatted_sql' in st.session_state:
+                    del st.session_state.formatted_sql
+                st.rerun()
+    else:
+        st.info("Clique em 'Formatar SQL' para ver o resultado aqui!")
+
+st.divider()
+
+# --- DICAS DE FORMATAÇÃO ---
+with st.expander("💡 Dicas de Formatação SQL"):
+    st.markdown("""
+    **Boas práticas de formatação:**
+    
+    ✅ **Keywords em MAIÚSCULAS** - SELECT, FROM, WHERE, etc
+    ✅ **Cada cláusula em nova linha** - SELECT / FROM / WHERE separadas
+    ✅ **Indentação consistente** - 2 espaços por nível
+    ✅ **Vírgulas no fim** - SELECT col1, col2, (vírgula no col1)
+    ✅ **Aliases claros** - u para usuarios, v para vendas
+    ✅ **Comentários úteis** - Explique queries complexas
+    
+    **Exemplo antes:**
+    ```sql
+    select u.id,u.nome,v.valor from usuarios u join vendas v on u.id=v.usuario_id where v.ano=2024 order by v.valor desc limit 10
+    ```
+    
+    **Exemplo depois:**
+    ```sql
+    SELECT
+      u.id,
+      u.nome,
+      v.valor
+    FROM usuarios u
+    JOIN vendas v ON u.id = v.usuario_id
+    WHERE v.ano = 2024
+    ORDER BY v.valor DESC
+    LIMIT 10
+    ```
+    """)
+
+st.divider()
 st.header("✏️ Escolha SQL - Editor Interativo")
 st.markdown("Teste suas queries SQL em tempo real. Escolha um exemplo ou escreva a sua própria!")
 
