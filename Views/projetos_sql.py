@@ -778,56 +778,64 @@ with col_output:
         
         import re
         
-        # Converter para maiúsculas para keywords
         sql = sql.strip()
         
-        # Keywords que devem estar em nova linha
-        keywords = ['SELECT', 'FROM', 'WHERE', 'JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'INNER JOIN', 
-                   'OUTER JOIN', 'ON', 'GROUP BY', 'ORDER BY', 'HAVING', 'LIMIT', 'OFFSET', 
-                   'UNION', 'AND', 'OR']
+        # Keywords principais que iniciam novas linhas (sem indentação)
+        main_keywords = ['CREATE', 'ALTER', 'SELECT', 'FROM', 'WHERE', 'GROUP BY', 'ORDER BY', 'LIMIT', 'OFFSET', 'UNION', 'GO']
         
-        # Adicionar quebras de linha antes dos keywords principais
-        for keyword in keywords:
-            # Pattern para encontrar o keyword como palavra completa
+        # Keywords secundários (com indentação)
+        join_keywords = ['INNER JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'FULL OUTER JOIN', 'CROSS JOIN', 'JOIN']
+        
+        # Substituir múltiplos espaços
+        sql = ' '.join(sql.split())
+        
+        # Adicionar quebras de linha antes dos main keywords
+        for keyword in main_keywords:
             pattern = r'\b' + keyword + r'\b'
-            if keyword in ['ON', 'AND', 'OR']:
-                sql = re.sub(pattern, '\n' + keyword, sql, flags=re.IGNORECASE)
-            else:
-                sql = re.sub(pattern, '\n' + keyword, sql, flags=re.IGNORECASE)
+            sql = re.sub(pattern, '\n' + keyword, sql, flags=re.IGNORECASE)
+        
+        # Adicionar quebras antes de JOIN keywords
+        for keyword in join_keywords:
+            pattern = r'\b' + keyword + r'\b'
+            sql = re.sub(pattern, '\nINNER JOIN' if 'INNER' in keyword.upper() else '\n' + keyword, sql, flags=re.IGNORECASE)
+        
+        # Adicionar quebras antes de ON e AND
+        sql = re.sub(r'\bON\b', '\n  ON', sql, flags=re.IGNORECASE)
+        sql = re.sub(r'\bAND\b', '\n  AND', sql, flags=re.IGNORECASE)
         
         # Dividir por linhas
         lines = sql.split('\n')
         formatted_lines = []
+        in_select = False
         
         for line in lines:
             line = line.strip()
             if not line:
                 continue
             
-            # Identar baseado no keyword
             line_upper = line.upper()
             
+            # Detectar se estamos dentro de SELECT
             if line_upper.startswith('SELECT'):
+                in_select = True
                 formatted_lines.append(line)
-            elif line_upper.startswith('FROM'):
+            elif any(line_upper.startswith(kw) for kw in main_keywords if kw != 'SELECT'):
+                in_select = False
                 formatted_lines.append(line)
-            elif line_upper.startswith('JOIN') or line_upper.startswith('LEFT JOIN') or line_upper.startswith('RIGHT JOIN') or line_upper.startswith('INNER JOIN'):
+            elif line_upper.startswith('INNER JOIN') or line_upper.startswith('JOIN') or line_upper.startswith('LEFT JOIN') or line_upper.startswith('RIGHT JOIN'):
+                # JOINs sem indentação
                 formatted_lines.append(line)
             elif line_upper.startswith('ON'):
+                # ON com indentação
                 formatted_lines.append('  ' + line)
-            elif line_upper.startswith('WHERE'):
-                formatted_lines.append(line)
-            elif line_upper.startswith('AND') or line_upper.startswith('OR'):
+            elif line_upper.startswith('AND'):
+                # AND com indentação
                 formatted_lines.append('  ' + line)
-            elif line_upper.startswith('GROUP BY') or line_upper.startswith('ORDER BY'):
-                formatted_lines.append(line)
-            elif line_upper.startswith('LIMIT') or line_upper.startswith('OFFSET'):
-                formatted_lines.append(line)
-            elif line_upper.startswith('UNION'):
-                formatted_lines.append(line)
+            elif in_select and not line_upper.startswith(('FROM', 'WHERE', 'GROUP', 'ORDER', 'LIMIT', 'OFFSET', 'UNION')):
+                # Colunas do SELECT com indentação
+                formatted_lines.append('  ' + line)
             else:
-                # Colunas do SELECT
-                formatted_lines.append('  ' + line)
+                formatted_lines.append(line)
         
         return '\n'.join(formatted_lines)
     
