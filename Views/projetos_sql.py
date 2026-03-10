@@ -38,10 +38,9 @@ if 'selected_difficulty' not in st.session_state:
     st.session_state.selected_difficulty = "Todas"
 
 # --- INICIALIZAR DATABASE EM MEMÓRIA ---
-@st.cache_resource
 def init_database():
-    """Inicializa banco de dados SQLite em memória com dados de exemplo"""
-    conn = sqlite3.connect(':memory:')
+    """Cria um banco de dados SQLite em memória com dados de exemplo"""
+    conn = sqlite3.connect(':memory:', check_same_thread=False)
     
     # Criar tabela usuarios
     usuarios_df = pd.DataFrame({
@@ -75,7 +74,7 @@ def init_database():
     
     return conn
 
-def execute_query(query, conn):
+def execute_query(query):
     """Executa query SQL e retorna resultado como DataFrame"""
     try:
         # Limpar a query
@@ -83,8 +82,13 @@ def execute_query(query, conn):
         if not query:
             return None, "❌ Escreva uma query SQL primeiro!"
         
+        # Criar conexão nova para cada execução
+        conn = init_database()
+        
         # Executar query
         df = pd.read_sql_query(query, conn)
+        conn.close()
+        
         return df, f"✅ Query executada com sucesso! {len(df)} registros retornados."
     
     except sqlite3.OperationalError as e:
@@ -695,9 +699,6 @@ st.markdown('</div>', unsafe_allow_html=True)
 st.markdown('<h2 class="section-header">✏️ Editor SQL Interativo</h2>', unsafe_allow_html=True)
 st.markdown('<p style="color: #cbd5e1; margin-bottom: 30px;">Teste suas queries SQL em tempo real. O banco contém as tabelas: usuarios, vendas e produtos.</p>', unsafe_allow_html=True)
 
-# Inicializar conexão
-conn = init_database()
-
 # --- EXEMPLOS PRÉ-DEFINIDOS ---
 sql_templates = {
     "SELECT Básico": "SELECT * FROM produtos LIMIT 10;",
@@ -758,7 +759,7 @@ with col_result:
     
     if user_query.strip():
         # Executar query com banco real
-        result_df, message = execute_query(user_query, conn)
+        result_df, message = execute_query(user_query)
         
         # Exibir mensagem de status
         if "✅" in message:
