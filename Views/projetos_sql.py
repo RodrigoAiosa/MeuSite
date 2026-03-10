@@ -1522,8 +1522,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-st.divider()
-
 # --- SEÇÃO EDITOR SQL ---
 st.markdown('<h2 class="section-header">✏️ Editor SQL Interativo</h2>', unsafe_allow_html=True)
 st.markdown('<p style="color: #cbd5e1; margin-bottom: 30px;">Teste suas queries SQL em tempo real. Escolha um template ou escreva a sua própria query!</p>', unsafe_allow_html=True)
