@@ -1281,8 +1281,6 @@ sql_practices = [
     },
 ]
 
-st.divider()
-
 # --- FILTROS SECTION ---
 st.markdown('<h2 class="section-header">🔎 Filtrar Práticas</h2>', unsafe_allow_html=True)
 
