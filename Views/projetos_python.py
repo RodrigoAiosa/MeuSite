@@ -74,6 +74,7 @@ h1, h2, h3, h4, p, span, div, a, li {
     color: #f0f4ff;
     margin: 0 auto 20px;
     max-width: 720px;
+    text-align: center;
 }
 
 .hero-title .accent {
@@ -90,6 +91,7 @@ h1, h2, h3, h4, p, span, div, a, li {
     max-width: 560px;
     margin: 0 auto 48px;
     line-height: 1.7;
+    text-align: center;
 }
 
 .hero-stats {
