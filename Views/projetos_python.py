@@ -37,7 +37,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 
 [data-testid="stHeader"] { background: transparent !important; }
 
-section[data-testid="stSidebar"] { background-color: #080d18 !important; }
+
 
 h1, h2, h3, h4, p, span, div, a, li {
     font-family: 'DM Sans', sans-serif !important;
