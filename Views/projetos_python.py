@@ -16,122 +16,348 @@ st.set_page_config(
 )
 
 # --------------------------------------------------
-# ESTILO PREMIUM (PORTFÓLIO SaaS)
+# ESTILO LANDING PAGE
 # --------------------------------------------------
 st.markdown("""
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
 
-.main {
-    background-color: #0E1117;
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, .main, [data-testid="stAppViewContainer"] {
+    background-color: #060912 !important;
 }
 
-h1 {
-    font-weight: 600;
-    letter-spacing: -0.5px;
+[data-testid="stAppViewContainer"] {
+    background-color: #060912 !important;
+    background-image:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0,180,216,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 80% 60%, rgba(0,100,180,0.07) 0%, transparent 50%);
 }
 
-.subtitle {
-    color: #9CA3AF;
-    font-size: 1.1rem;
-    margin-bottom: 30px;
+[data-testid="stHeader"] { background: transparent !important; }
+
+section[data-testid="stSidebar"] { background-color: #080d18 !important; }
+
+h1, h2, h3, h4, p, span, div, a, li {
+    font-family: 'DM Sans', sans-serif !important;
 }
 
-.project-card {
-    background-color: #111827;
-    padding: 25px;
-    border-radius: 16px;
-    margin-bottom: 25px;
-    border: 1px solid rgba(255,255,255,0.05);
-    transition: all 0.3s ease;
+/* ── HERO ── */
+.hero-wrapper {
+    text-align: center;
+    padding: 80px 20px 50px;
+    position: relative;
 }
 
-.project-card:hover {
-    transform: translateY(-3px);
-    border: 1px solid #00b4d8;
-    box-shadow: 0 10px 25px rgba(0, 180, 216, 0.15);
-}
-
-.project-title {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: 8px;
-}
-
-.project-description {
-    color: #D1D5DB;
-    font-size: 0.95rem;
-    margin-bottom: 15px;
-    line-height: 1.5;
-}
-
-.project-button {
+.hero-badge {
     display: inline-block;
-    background-color: #00b4d8;
-    color: #0E1117 !important;
-    font-weight: 600;
-    padding: 10px 18px;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: 0.3s;
+    font-family: 'Syne', sans-serif !important;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #00b4d8;
+    border: 1px solid rgba(0,180,216,0.35);
+    background: rgba(0,180,216,0.07);
+    padding: 6px 18px;
+    border-radius: 100px;
+    margin-bottom: 28px;
 }
 
-.project-button:hover {
-    background-color: #0096c7;
+.hero-title {
+    font-family: 'Syne', sans-serif !important;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    color: #f0f4ff;
+    margin: 0 auto 20px;
+    max-width: 720px;
 }
 
-.section-divider {
-    margin-top: 40px;
-    margin-bottom: 40px;
-    border-top: 1px solid rgba(255,255,255,0.05);
+.hero-title .accent {
+    background: linear-gradient(135deg, #00b4d8 0%, #48cae4 50%, #90e0ef 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-/* Estilo da barra de pesquisa */
+.hero-subtitle {
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: #7b8ba8;
+    max-width: 560px;
+    margin: 0 auto 48px;
+    line-height: 1.7;
+}
+
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    flex-wrap: wrap;
+    margin-bottom: 60px;
+}
+
+.hero-stat {
+    text-align: center;
+}
+
+.hero-stat-number {
+    font-family: 'Syne', sans-serif !important;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #00b4d8;
+    display: block;
+    line-height: 1;
+}
+
+.hero-stat-label {
+    font-size: 0.78rem;
+    color: #4a5568;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 6px;
+    display: block;
+}
+
+.hero-divider {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,180,216,0.3), transparent);
+}
+
+/* ── SEARCH ── */
+.search-label {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #4a5568;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+
 div[data-testid="stTextInput"] input {
-    background-color: #111827 !important;
-    color: #ffffff !important;
-    border: 1px solid #00b4d8 !important;
-    border-radius: 12px !important;
-    padding: 12px 20px !important;
-    font-size: 1rem !important;
+    background-color: rgba(255,255,255,0.03) !important;
+    color: #e2e8f0 !important;
+    border: 1px solid rgba(0,180,216,0.25) !important;
+    border-radius: 14px !important;
+    padding: 14px 22px !important;
+    font-size: 0.95rem !important;
+    font-family: 'DM Sans', sans-serif !important;
+    transition: all 0.3s ease !important;
 }
 div[data-testid="stTextInput"] input::placeholder {
-    color: #6b7280 !important;
+    color: #2d3748 !important;
 }
 div[data-testid="stTextInput"] input:focus {
-    box-shadow: 0 0 0 2px rgba(0, 180, 216, 0.3) !important;
-    border-color: #00b4d8 !important;
+    box-shadow: 0 0 0 3px rgba(0,180,216,0.15) !important;
+    border-color: rgba(0,180,216,0.6) !important;
+    background-color: rgba(0,180,216,0.04) !important;
 }
+
 .search-result-count {
     text-align: center;
-    color: #6b7280;
-    font-size: 0.9rem;
-    margin-bottom: 20px;
+    color: #4a5568;
+    font-size: 0.88rem;
+    margin: 14px 0 28px;
 }
 .search-result-count span {
     color: #00b4d8;
-    font-weight: bold;
+    font-weight: 600;
 }
+
+/* ── SECTION LABEL ── */
+.section-label {
+    font-family: 'Syne', sans-serif !important;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #2d3748;
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+/* ── PROJECT CARDS ── */
+.project-card {
+    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
+    padding: 30px 32px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,180,216,0.4), transparent);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(0,180,216,0.2);
+    box-shadow:
+        0 20px 40px rgba(0,0,0,0.4),
+        0 0 0 1px rgba(0,180,216,0.1),
+        inset 0 1px 0 rgba(0,180,216,0.1);
+    background: linear-gradient(145deg, rgba(0,180,216,0.04) 0%, rgba(0,0,0,0.25) 100%);
+}
+
+.project-card:hover::before {
+    opacity: 1;
+}
+
+.project-card-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.project-card-content {
+    flex: 1;
+}
+
+.project-title {
+    font-family: 'Syne', sans-serif !important;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    margin-bottom: 10px;
+    line-height: 1.35;
+    letter-spacing: -0.3px;
+}
+
+.project-description {
+    color: #4a5568;
+    font-size: 0.9rem;
+    font-weight: 300;
+    line-height: 1.65;
+    margin: 0;
+}
+
+.project-btn-wrap {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.project-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,180,216,0.1);
+    color: #00b4d8 !important;
+    font-family: 'Syne', sans-serif !important;
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.5px;
+    padding: 11px 20px;
+    border-radius: 12px;
+    text-decoration: none !important;
+    border: 1px solid rgba(0,180,216,0.25);
+    white-space: nowrap;
+    transition: all 0.3s ease;
+}
+
+.project-button:hover {
+    background: rgba(0,180,216,0.18);
+    border-color: rgba(0,180,216,0.5);
+    transform: translateX(3px);
+    box-shadow: 0 4px 20px rgba(0,180,216,0.2);
+}
+
+.project-button .arrow {
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.project-button:hover .arrow {
+    transform: translateX(3px);
+}
+
+/* ── EMPTY STATE ── */
+.empty-state {
+    text-align: center;
+    padding: 80px 20px;
+    color: #2d3748;
+}
+.empty-state-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+.empty-state-title {
+    font-family: 'Syne', sans-serif !important;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 8px;
+}
+.empty-state-sub {
+    font-size: 0.88rem;
+    color: #1a202c;
+}
+
+/* ── FOOTER SPACER ── */
+.footer-spacer {
+    height: 60px;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #060912; }
+::-webkit-scrollbar-thumb { background: rgba(0,180,216,0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,180,216,0.4); }
 
 </style>
 """, unsafe_allow_html=True)
 
 # --------------------------------------------------
-# HEADER
+# HERO
 # --------------------------------------------------
-st.title("🐍 Projetos em Python")
-
-st.markdown(
-    '<div class="subtitle">Aplicações web completas desenvolvidas para automação, análise financeira e Business Intelligence.</div>',
-    unsafe_allow_html=True
-)
-
-st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+st.markdown("""
+<div class="hero-wrapper">
+    <div class="hero-badge">⚡ Portfólio Python</div>
+    <h1 class="hero-title">
+        Aplicações que <span class="accent">resolvem problemas</span><br>reais com código
+    </h1>
+    <p class="hero-subtitle">
+        Automação, análise financeira e Business Intelligence — ferramentas construídas para impactar.
+    </p>
+    <div class="hero-stats">
+        <div class="hero-stat">
+            <span class="hero-stat-number">9</span>
+            <span class="hero-stat-label">Projetos</span>
+        </div>
+        <div class="hero-stat">
+            <span class="hero-stat-number">100%</span>
+            <span class="hero-stat-label">Open Access</span>
+        </div>
+        <div class="hero-stat">
+            <span class="hero-stat-number">∞</span>
+            <span class="hero-stat-label">Impacto</span>
+        </div>
+    </div>
+    <div class="hero-divider"></div>
+</div>
+""", unsafe_allow_html=True)
 
 # --------------------------------------------------
 # BARRA DE PESQUISA
 # --------------------------------------------------
 st.markdown(
-    "<p style='text-align:center; color:#9ca3af; font-size:1rem; margin-bottom:6px;'>🔍 Filtre os projetos pelo nome ou descrição</p>",
+    "<p class='search-label'>🔍 Filtre os projetos pelo nome ou descrição</p>",
     unsafe_allow_html=True
 )
 
@@ -220,14 +446,20 @@ else:
 if not filtered_projects:
     st.markdown(
         """
-        <div style='text-align:center; padding: 60px 20px; color: #6b7280;'>
-            <div style='font-size: 3rem;'>🔍</div>
-            <div style='font-size: 1.2rem; margin-top: 10px;'>Nenhum projeto encontrado.</div>
-            <div style='font-size: 0.95rem; margin-top: 5px;'>Tente outro termo de pesquisa.</div>
+        <div class="empty-state">
+            <div class="empty-state-icon">🔍</div>
+            <div class="empty-state-title">Nenhum projeto encontrado.</div>
+            <div class="empty-state-sub">Tente outro termo de pesquisa.</div>
         </div>
         """,
         unsafe_allow_html=True
     )
+
+# --------------------------------------------------
+# SECTION LABEL
+# --------------------------------------------------
+if filtered_projects:
+    st.markdown('<div class="section-label">— Projetos em destaque —</div>', unsafe_allow_html=True)
 
 # --------------------------------------------------
 # RENDERIZAÇÃO DOS CARDS
@@ -235,12 +467,20 @@ if not filtered_projects:
 for p in filtered_projects:
     st.markdown(f"""
     <div class="project-card">
-        <div class="project-title">{p['title']}</div>
-        <div class="project-description">{p['desc']}</div>
-        <a href="{p['url']}" target="_blank" class="project-button">
-            Abrir Aplicação ↗
-        </a>
+        <div class="project-card-inner">
+            <div class="project-card-content">
+                <div class="project-title">{p['title']}</div>
+                <p class="project-description">{p['desc']}</p>
+            </div>
+            <div class="project-btn-wrap">
+                <a href="{p['url']}" target="_blank" class="project-button">
+                    Abrir <span class="arrow">→</span>
+                </a>
+            </div>
+        </div>
     </div>
     """, unsafe_allow_html=True)
+
+st.markdown('<div class="footer-spacer"></div>', unsafe_allow_html=True)
 
 exibir_rodape()
