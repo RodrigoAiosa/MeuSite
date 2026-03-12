@@ -43,11 +43,26 @@ h1, h2, h3, h4, p, span, div, a, li {
     font-family: 'DM Sans', sans-serif !important;
 }
 
+/* ── FORÇA CENTRALIZAÇÃO NO CONTAINER DO STREAMLIT ── */
+[data-testid="stMarkdownContainer"] {
+    width: 100% !important;
+}
+
+.block-container {
+    max-width: 100% !important;
+    padding-left: 4rem !important;
+    padding-right: 4rem !important;
+}
+
 /* ── HERO ── */
 .hero-wrapper {
     text-align: center;
     padding: 80px 20px 50px;
     position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .hero-badge {
