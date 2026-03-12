@@ -39,10 +39,7 @@ if 'selected_difficulty' not in st.session_state:
 
 # --- INICIALIZAR DATABASE EM MEMÓRIA ---
 def init_database():
-    """Cria um banco de dados SQLite em memória com dados de exemplo"""
     conn = sqlite3.connect(':memory:', check_same_thread=False)
-    
-    # Criar tabela usuarios
     usuarios_df = pd.DataFrame({
         'id': [1, 2, 3, 4, 5],
         'nome': ['Alice Silva', 'Bob Santos', 'Carlos Oliveira', 'Diana Costa', 'Eduardo Pereira'],
@@ -52,8 +49,6 @@ def init_database():
         'categoria': ['Premium', 'Standard', 'Premium', 'Free', 'Standard']
     })
     usuarios_df.to_sql('usuarios', conn, index=False, if_exists='replace')
-    
-    # Criar tabela vendas
     vendas_df = pd.DataFrame({
         'id': [1, 2, 3, 4, 5, 6],
         'usuario_id': [1, 2, 1, 3, 2, 5],
@@ -62,8 +57,6 @@ def init_database():
         'data': ['2024-01-10', '2024-01-15', '2024-02-01', '2024-02-10', '2024-02-15', '2024-03-01']
     })
     vendas_df.to_sql('vendas', conn, index=False, if_exists='replace')
-    
-    # Criar tabela produtos
     produtos_df = pd.DataFrame({
         'id': [1, 2, 3, 4],
         'nome': ['Produto A', 'Produto B', 'Produto C', 'Produto D'],
@@ -71,428 +64,447 @@ def init_database():
         'preco': [99.99, 199.99, 29.99, 49.99]
     })
     produtos_df.to_sql('produtos', conn, index=False, if_exists='replace')
-    
     return conn
 
 def execute_query(query):
-    """Executa query SQL e retorna resultado como DataFrame"""
     try:
-        # Limpar a query
         query = query.strip()
         if not query:
             return None, "❌ Escreva uma query SQL primeiro!"
-        
-        # Criar conexão nova para cada execução
         conn = init_database()
-        
-        # Executar query
         df = pd.read_sql_query(query, conn)
         conn.close()
-        
         return df, f"✅ Query executada com sucesso! {len(df)} registros retornados."
-    
     except sqlite3.OperationalError as e:
         return None, f"❌ Erro SQL: {str(e)}"
     except Exception as e:
         return None, f"❌ Erro: {str(e)}"
 
-# --- CUSTOM CSS - Design Profissional com Autoridade ---
+# ── DESIGN LANDING PAGE ──
 st.markdown("""
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-    
-    :root {
-        --primary: #0F172A;
-        --secondary: #1E293B;
-        --accent: #D4AF37;
-        --text-light: #E2E8F0;
-        --text-dark: #0F172A;
-        --border: #334155;
-    }
-    
-    body {
-        background: linear-gradient(135deg, #0F172A 0%, #1a2744 100%);
-        color: var(--text-light);
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    
-    .main {
-        background: linear-gradient(135deg, #0F172A 0%, #1a2744 100%);
-    }
-    
-    .stApp {
-        background: linear-gradient(135deg, #0F172A 0%, #1a2744 100%);
-    }
-    
-    /* Header Hero */
-    .hero-section {
-        background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
-        border-bottom: 2px solid var(--accent);
-        padding: 60px 0;
-        margin-bottom: 50px;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .hero-section::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        right: -10%;
-        width: 600px;
-        height: 600px;
-        background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
-        border-radius: 50%;
-        pointer-events: none;
-    }
-    
-    .hero-title {
-        font-size: 3.5rem;
-        font-weight: 700;
-        color: var(--text-light);
-        margin-bottom: 15px;
-        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        position: relative;
-        z-index: 1;
-    }
-    
-    .hero-subtitle {
-        font-size: 1.3rem;
-        color: var(--accent);
-        margin-bottom: 30px;
-        font-weight: 500;
-        position: relative;
-        z-index: 1;
-    }
-    
-    .hero-description {
-        font-size: 1.1rem;
-        color: #cbd5e1;
-        line-height: 1.6;
-        max-width: 600px;
-        position: relative;
-        z-index: 1;
-    }
-    
-    /* Stats Cards */
-    .stats-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 25px;
-        margin: 60px 0;
-    }
-    
-    .stat-card {
-        background: linear-gradient(135deg, #1E293B 0%, #334155 100%);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 40px;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-        transition: all 0.3s ease;
-    }
-    
-    .stat-card:hover {
-        border-color: var(--accent);
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
-    }
-    
-    .stat-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, var(--accent), transparent);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-    
-    .stat-card:hover::before {
-        opacity: 1;
-    }
-    
-    .stat-number {
-        font-size: 3rem;
-        font-weight: 700;
-        color: var(--accent);
-        margin-bottom: 10px;
-    }
-    
-    .stat-label {
-        font-size: 1rem;
-        color: #cbd5e1;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-    
-    .stat-sublabel {
-        font-size: 0.85rem;
-        color: #94a3b8;
-        margin-top: 8px;
-    }
-    
-    /* Section Headers */
-    .section-header {
-        font-size: 2.2rem;
-        font-weight: 700;
-        color: var(--text-light);
-        margin: 60px 0 40px 0;
-        padding-bottom: 20px;
-        border-bottom: 2px solid var(--accent);
-        position: relative;
-    }
-    
-    .section-header::before {
-        content: '';
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 60px;
-        height: 3px;
-        background: var(--accent);
-    }
-    
-    /* Expander Cards */
-    .stExpander {
-        background-color: #1E293B !important;
-        border: 1px solid var(--border) !important;
-        border-radius: 8px !important;
-    }
-    
-    .stExpander > div {
-        border-color: var(--border) !important;
-    }
-    
-    .stExpander [data-testid="stExpanderToggleButton"] {
-        color: var(--accent) !important;
-        font-weight: 600;
-    }
-    
-    /* Code Blocks */
-    .stCode {
-        background-color: #0F172A !important;
-        border: 1px solid var(--border) !important;
-        border-radius: 8px !important;
-    }
-    
-    code {
-        color: #60a5fa !important;
-        background: transparent !important;
-    }
-    
-    /* Info/Warning Boxes */
-    .stInfo {
-        background-color: rgba(212, 175, 55, 0.1) !important;
-        border: 1px solid var(--accent) !important;
-        border-radius: 8px !important;
-        padding: 20px !important;
-    }
-    
-    .stSuccess {
-        background-color: rgba(34, 197, 94, 0.1) !important;
-        border: 1px solid #22c55e !important;
-        border-radius: 8px !important;
-    }
-    
-    .stError {
-        background-color: rgba(239, 68, 68, 0.1) !important;
-        border: 1px solid #ef4444 !important;
-        border-radius: 8px !important;
-    }
-    
-    /* Divider */
-    hr {
-        border-color: var(--border) !important;
-        margin: 50px 0 !important;
-    }
-    
-    /* Selectbox & Input */
-    .stSelectbox > div > div {
-        background-color: #1E293B !important;
-        border: 1px solid var(--border) !important;
-        color: var(--text-light) !important;
-    }
-    
-    .stTextArea > div > div {
-        background-color: #1E293B !important;
-        border: 1px solid var(--border) !important;
-        color: var(--text-light) !important;
-    }
-    
-    /* Filter Section */
-    .filter-section {
-        background: linear-gradient(135deg, #1E293B 0%, #334155 100%);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 30px;
-        margin: 40px 0;
-    }
-    
-    /* Editor Section */
-    .editor-section {
-        background: linear-gradient(135deg, #1E293B 0%, #334155 100%);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 30px;
-        margin: 40px 0;
-    }
-    
-    .editor-title {
-        font-size: 1.5rem;
-        color: var(--accent);
-        font-weight: 600;
-        margin-bottom: 20px;
-    }
-    
-    /* Challenges Section */
-    .challenges-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 20px;
-        margin: 40px 0;
-    }
-    
-    /* Metrics */
-    .metric-box {
-        background: linear-gradient(135deg, #1E293B 0%, #334155 100%);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 20px;
-        text-align: center;
-    }
-    
-    .metric-value {
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: var(--accent);
-    }
-    
-    .metric-label {
-        color: #cbd5e1;
-        font-weight: 600;
-        margin-top: 10px;
-    }
-    
-    /* Hover Effects */
-    a {
-        color: var(--accent) !important;
-        transition: all 0.3s ease;
-    }
-    
-    a:hover {
-        text-decoration: underline;
-        filter: brightness(1.2);
-    }
-    
-    /* Footer */
-    footer {
-        border-top: 1px solid var(--border);
-        padding-top: 40px;
-        margin-top: 60px;
-    }
-    
-    /* Favorites & Notes */
-    .favorite-btn {
-        display: inline-block;
-        cursor: pointer;
-        font-size: 1.2rem;
-        transition: all 0.2s;
-    }
-    
-    .favorite-btn:hover {
-        transform: scale(1.2);
-    }
-    
-    /* Search Box */
-    .search-container {
-        margin-bottom: 20px;
-    }
-    
-    /* Progress Bar */
-    .progress-container {
-        background: linear-gradient(135deg, #1E293B 0%, #334155 100%);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 20px;
-        margin: 20px 0;
-    }
-    
-    .progress-bar {
-        width: 100%;
-        height: 10px;
-        background: var(--border);
-        border-radius: 5px;
-        overflow: hidden;
-        margin: 10px 0;
-    }
-    
-    .progress-fill {
-        height: 100%;
-        background: linear-gradient(90deg, var(--accent), #60a5fa);
-        transition: width 0.3s ease;
-    }
-    
-    /* Gamification */
-    .points-badge {
-        background: linear-gradient(135deg, var(--accent), #fbbf24);
-        color: var(--text-dark);
-        padding: 8px 16px;
-        border-radius: 20px;
-        font-weight: 700;
-        font-size: 0.9rem;
-        display: inline-block;
-        margin: 5px;
-    }
-    
-    .streak-badge {
-        background: linear-gradient(135deg, #ef4444, #dc2626);
-        color: white;
-        padding: 8px 16px;
-        border-radius: 20px;
-        font-weight: 700;
-        font-size: 0.9rem;
-        display: inline-block;
-        margin: 5px;
-    }
-    
-    /* Notes */
-    .notes-container {
-        background: linear-gradient(135deg, #1E293B 0%, #334155 100%);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 15px;
-        margin: 10px 0;
-        border-left: 4px solid var(--accent);
-    }
-    
-    /* Badges */
-    .badge {
-        display: inline-block;
-        background: var(--accent);
-        color: var(--text-dark);
-        padding: 5px 10px;
-        border-radius: 5px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        margin: 3px;
-    }
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, .main, [data-testid="stAppViewContainer"] {
+    background-color: #060912 !important;
+}
+
+[data-testid="stAppViewContainer"] {
+    background-color: #060912 !important;
+    background-image:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0,180,216,0.10) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 80% 60%, rgba(0,100,180,0.06) 0%, transparent 50%);
+}
+
+[data-testid="stHeader"] { background: transparent !important; }
+
+/* Fonte apenas no conteúdo principal */
+.main h1, .main h2, .main h3, .main h4,
+.main p, .main a, .main li,
+[data-testid="stAppViewContainer"] div:not([data-testid="stSidebar"]) {
+    font-family: 'DM Sans', sans-serif !important;
+}
+
+/* Preserva ícones Material do Streamlit */
+.material-symbols-rounded,
+.material-icons,
+[data-testid*="Collapse"] span,
+[data-testid*="collapse"] span {
+    font-family: 'Material Symbols Rounded', 'Material Icons' !important;
+}
+
+[data-testid="stMarkdownContainer"] { width: 100% !important; }
+.block-container {
+    max-width: 100% !important;
+    padding-left: 4rem !important;
+    padding-right: 4rem !important;
+}
+
+/* ── HERO ── */
+.hero-wrapper {
+    text-align: center;
+    padding: 80px 20px 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero-badge {
+    display: inline-block;
+    font-family: 'Syne', sans-serif !important;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #00b4d8;
+    border: 1px solid rgba(0,180,216,0.35);
+    background: rgba(0,180,216,0.07);
+    padding: 6px 18px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+}
+
+.hero-title {
+    font-family: 'Syne', sans-serif !important;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    color: #f0f4ff;
+    margin: 0 auto 20px;
+    max-width: 760px;
+    text-align: center;
+}
+
+.hero-title .accent {
+    background: linear-gradient(135deg, #00b4d8 0%, #48cae4 50%, #90e0ef 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle {
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: #7b8ba8;
+    max-width: 560px;
+    margin: 0 auto 48px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    flex-wrap: wrap;
+    margin-bottom: 60px;
+}
+
+.hero-stat { text-align: center; }
+
+.hero-stat-number {
+    font-family: 'Syne', sans-serif !important;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #00b4d8;
+    display: block;
+    line-height: 1;
+}
+
+.hero-stat-label {
+    font-size: 0.78rem;
+    color: #4a5568;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 6px;
+    display: block;
+}
+
+.hero-divider {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,180,216,0.3), transparent);
+}
+
+/* ── SECTION HEADERS ── */
+.section-header {
+    font-family: 'Syne', sans-serif !important;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #f0f4ff;
+    margin: 50px 0 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(0,180,216,0.2);
+    letter-spacing: -0.5px;
+    position: relative;
+}
+
+.section-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 48px;
+    height: 2px;
+    background: #00b4d8;
+}
+
+/* ── PROGRESS BAR ── */
+.progress-container {
+    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 28px 32px;
+    margin: 0 0 40px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 100px;
+    overflow: hidden;
+    margin: 12px 0;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00b4d8, #48cae4);
+    border-radius: 100px;
+    transition: width 0.4s ease;
+}
+
+/* ── STAT CARDS ── */
+.stat-card {
+    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 36px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,180,216,0.5), transparent);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(0,180,216,0.2);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,180,216,0.1);
+}
+
+.stat-card:hover::before { opacity: 1; }
+
+.stat-number {
+    font-family: 'Syne', sans-serif !important;
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: #00b4d8;
+    margin-bottom: 10px;
+    line-height: 1;
+}
+
+.stat-label {
+    font-family: 'Syne', sans-serif !important;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.stat-sublabel {
+    font-size: 0.82rem;
+    color: #4a5568;
+    margin-top: 8px;
+    font-weight: 300;
+}
+
+/* ── FILTER / EDITOR SECTIONS ── */
+.filter-section,
+.editor-section {
+    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 30px 32px;
+    margin: 20px 0 32px;
+}
+
+.editor-title {
+    font-family: 'Syne', sans-serif !important;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #00b4d8;
+    margin-bottom: 14px;
+}
+
+/* ── METRIC BOX ── */
+.metric-box {
+    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 16px;
+    padding: 22px;
+    text-align: center;
+}
+
+.metric-value {
+    font-family: 'Syne', sans-serif !important;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #00b4d8;
+}
+
+.metric-label {
+    color: #7b8ba8;
+    font-weight: 400;
+    margin-top: 8px;
+    font-size: 0.88rem;
+}
+
+/* ── BADGES ── */
+.points-badge {
+    background: linear-gradient(135deg, #00b4d8, #48cae4);
+    color: #060912;
+    padding: 7px 16px;
+    border-radius: 100px;
+    font-family: 'Syne', sans-serif !important;
+    font-weight: 700;
+    font-size: 0.82rem;
+    display: inline-block;
+    margin: 4px;
+    letter-spacing: 0.5px;
+}
+
+.streak-badge {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    padding: 7px 16px;
+    border-radius: 100px;
+    font-family: 'Syne', sans-serif !important;
+    font-weight: 700;
+    font-size: 0.82rem;
+    display: inline-block;
+    margin: 4px;
+    letter-spacing: 0.5px;
+}
+
+.badge {
+    display: inline-block;
+    background: rgba(0,180,216,0.12);
+    color: #00b4d8;
+    border: 1px solid rgba(0,180,216,0.25);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin: 3px;
+}
+
+/* ── NOTES ── */
+.notes-container {
+    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-left: 3px solid #00b4d8;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 10px 0;
+}
+
+/* ── EXPANDERS ── */
+.stExpander {
+    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%) !important;
+    border: 1px solid rgba(255,255,255,0.05) !important;
+    border-radius: 14px !important;
+    margin-bottom: 10px !important;
+}
+
+.stExpander [data-testid="stExpanderToggleButton"] {
+    color: #e2e8f0 !important;
+    font-weight: 600;
+}
+
+/* ── CODE BLOCKS ── */
+.stCode {
+    background-color: #0a0f1e !important;
+    border: 1px solid rgba(0,180,216,0.15) !important;
+    border-radius: 10px !important;
+}
+
+code { color: #48cae4 !important; background: transparent !important; }
+
+/* ── INPUTS & SELECTS ── */
+.stSelectbox > div > div {
+    background: rgba(255,255,255,0.03) !important;
+    border: 1px solid rgba(0,180,216,0.2) !important;
+    color: #e2e8f0 !important;
+    border-radius: 12px !important;
+}
+
+.stTextArea > div > div {
+    background: rgba(255,255,255,0.03) !important;
+    border: 1px solid rgba(0,180,216,0.2) !important;
+    color: #e2e8f0 !important;
+    border-radius: 12px !important;
+}
+
+div[data-testid="stTextInput"] input {
+    background-color: rgba(255,255,255,0.03) !important;
+    color: #e2e8f0 !important;
+    border: 1px solid rgba(0,180,216,0.25) !important;
+    border-radius: 14px !important;
+    padding: 14px 22px !important;
+    font-size: 0.95rem !important;
+    font-family: 'DM Sans', sans-serif !important;
+}
+
+div[data-testid="stTextInput"] input::placeholder { color: #2d3748 !important; }
+div[data-testid="stTextInput"] input:focus {
+    box-shadow: 0 0 0 3px rgba(0,180,216,0.15) !important;
+    border-color: rgba(0,180,216,0.6) !important;
+}
+
+/* ── STATUS MESSAGES ── */
+.stInfo {
+    background: rgba(0,180,216,0.07) !important;
+    border: 1px solid rgba(0,180,216,0.25) !important;
+    border-radius: 12px !important;
+}
+
+.stSuccess {
+    background: rgba(34,197,94,0.07) !important;
+    border: 1px solid rgba(34,197,94,0.3) !important;
+    border-radius: 12px !important;
+}
+
+.stError {
+    background: rgba(239,68,68,0.07) !important;
+    border: 1px solid rgba(239,68,68,0.3) !important;
+    border-radius: 12px !important;
+}
+
+/* ── DIVIDER ── */
+hr {
+    border: none !important;
+    border-top: 1px solid rgba(255,255,255,0.05) !important;
+    margin: 40px 0 !important;
+}
+
+/* ── SIDEBAR ── (sem interferência nos ícones) ── */
+a { color: #00b4d8 !important; transition: all 0.3s ease; }
+a:hover { filter: brightness(1.2); }
+
+.footer-spacer { height: 60px; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #060912; }
+::-webkit-scrollbar-thumb { background: rgba(0,180,216,0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,180,216,0.4); }
+
 </style>
 """, unsafe_allow_html=True)
 
 # --- SIDEBAR NAVIGATION ---
 st.sidebar.markdown("""
-<div style="text-align: center; padding: 20px 0; border-bottom: 2px solid var(--accent);">
-    <h1 style="font-size: 1.8rem; color: var(--accent); margin: 0;">📊 SQL Pro</h1>
-    <p style="color: #cbd5e1; font-size: 0.9rem; margin-top: 5px;">Domine SQL em 60 práticas</p>
+<div style="text-align: center; padding: 20px 0; border-bottom: 1px solid rgba(0,180,216,0.2);">
+    <h1 style="font-family:'Syne',sans-serif; font-size: 1.6rem; color: #00b4d8; margin: 0; font-weight:800; letter-spacing:-0.5px;">🗄️ SQL Pro</h1>
+    <p style="color: #4a5568; font-size: 0.82rem; margin-top: 6px; letter-spacing:1px; text-transform:uppercase;">Domine SQL em 60 práticas</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -500,17 +512,17 @@ st.sidebar.markdown("""
 col1, col2 = st.sidebar.columns(2)
 with col1:
     st.markdown(f"""
-    <div style="background: linear-gradient(135deg, #1E293B 0%, #334155 100%); border: 1px solid var(--border); border-radius: 8px; padding: 15px; text-align: center;">
-        <p style="color: var(--accent); font-weight: 700; font-size: 1.5rem; margin: 0;">⭐ {st.session_state.user_points}</p>
-        <p style="color: #cbd5e1; font-size: 0.8rem; margin: 5px 0;">Pontos</p>
+    <div style="background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%); border: 1px solid rgba(255,255,255,0.05); border-radius: 14px; padding: 16px; text-align: center;">
+        <p style="font-family:'Syne',sans-serif; color: #00b4d8; font-weight: 800; font-size: 1.4rem; margin: 0;">⭐ {st.session_state.user_points}</p>
+        <p style="color: #4a5568; font-size: 0.75rem; margin: 5px 0; text-transform:uppercase; letter-spacing:1px;">Pontos</p>
     </div>
     """, unsafe_allow_html=True)
 
 with col2:
     st.markdown(f"""
-    <div style="background: linear-gradient(135deg, #1E293B 0%, #334155 100%); border: 1px solid var(--border); border-radius: 8px; padding: 15px; text-align: center;">
-        <p style="color: var(--accent); font-weight: 700; font-size: 1.5rem; margin: 0;">🔥 {st.session_state.daily_streak}</p>
-        <p style="color: #cbd5e1; font-size: 0.8rem; margin: 5px 0;">Streak</p>
+    <div style="background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%); border: 1px solid rgba(255,255,255,0.05); border-radius: 14px; padding: 16px; text-align: center;">
+        <p style="font-family:'Syne',sans-serif; color: #00b4d8; font-weight: 800; font-size: 1.4rem; margin: 0;">🔥 {st.session_state.daily_streak}</p>
+        <p style="color: #4a5568; font-size: 0.75rem; margin: 5px 0; text-transform:uppercase; letter-spacing:1px;">Streak</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -537,14 +549,31 @@ st.session_state.search_query = search_query.lower()
 # --- ARMAZENAR MENU SELECIONADO ---
 st.session_state.current_menu = menu
 
+# ── HERO ──
 st.markdown("""
-<div class="hero-section">
-    <h1 class="hero-title">🗄️ SQL - Melhores Práticas</h1>
-    <p class="hero-subtitle">Domine SQL Estratégico</p>
-    <p class="hero-description">
-        Estratégias avançadas para queries eficientes, escaláveis e precisas. 
-        Transforme seus dados em vantagem competitiva com 60+ práticas documentadas.
+<div class="hero-wrapper">
+    <div class="hero-badge">🗄️ SQL Pro</div>
+    <h1 class="hero-title">
+        Melhores Práticas SQL para <span class="accent">queries que escalam</span>
+    </h1>
+    <p class="hero-subtitle">
+        Estratégias avançadas para queries eficientes, escaláveis e precisas. Transforme dados em vantagem competitiva.
     </p>
+    <div class="hero-stats">
+        <div class="hero-stat">
+            <span class="hero-stat-number">60+</span>
+            <span class="hero-stat-label">Práticas</span>
+        </div>
+        <div class="hero-stat">
+            <span class="hero-stat-number">5</span>
+            <span class="hero-stat-label">Categorias</span>
+        </div>
+        <div class="hero-stat">
+            <span class="hero-stat-number">3</span>
+            <span class="hero-stat-label">Níveis</span>
+        </div>
+    </div>
+    <div class="hero-divider"></div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -555,15 +584,15 @@ progress_percent = (learned_count / total_practices) * 100
 
 st.markdown(f"""
 <div class="progress-container">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-        <p style="color: #cbd5e1; font-weight: 600; margin: 0;">🎓 Seu Progresso</p>
-        <p style="color: var(--accent); font-weight: 700; margin: 0;">{learned_count}/{total_practices}</p>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <p style="font-family:'Syne',sans-serif; color: #e2e8f0; font-weight: 700; font-size:0.85rem; letter-spacing:1.5px; text-transform:uppercase; margin: 0;">🎓 Seu Progresso</p>
+        <p style="font-family:'Syne',sans-serif; color: #00b4d8; font-weight: 800; font-size:1.1rem; margin: 0;">{learned_count}/{total_practices}</p>
     </div>
     <div class="progress-bar">
         <div class="progress-fill" style="width: {progress_percent}%"></div>
     </div>
-    <p style="color: #94a3b8; font-size: 0.85rem; margin: 10px 0;">
-        {'🏆 Parabéns! Você completou todas as práticas!' if learned_count == total_practices else f'Continue! Faltam {total_practices - learned_count} práticas'}
+    <p style="color: #4a5568; font-size: 0.82rem; margin: 10px 0 0; font-weight:300;">
+        {'🏆 Parabéns! Você completou todas as práticas!' if learned_count == total_practices else f'Continue! Faltam {total_practices - learned_count} práticas para completar o guia.'}
     </p>
 </div>
 """, unsafe_allow_html=True)
@@ -601,11 +630,11 @@ with col3:
     """, unsafe_allow_html=True)
 
 st.markdown("""
-<p style="text-align: center; color: #cbd5e1; margin: 40px 0; font-size: 1.1rem; line-height: 1.8;">
+<p style="text-align: center; color: #4a5568; margin: 40px 0; font-size: 1rem; line-height: 1.8; max-width:660px; margin-left:auto; margin-right:auto;">
     Queries eficientes são a base de dashboards que escalam. 
     Boas práticas em SQL reduzem tempo de processamento e amplificam a precisão das análises.
     <br><br>
-    <span style="color: var(--accent); font-weight: 600;">
+    <span style="color: #00b4d8; font-weight: 600;">
     Este é um guia completo para transformar você em um especialista SQL.
     </span>
 </p>
@@ -615,7 +644,6 @@ st.divider()
 
 # --- DATABASE DE PRÁTICAS SQL ---
 sql_practices = [
-    # INICIANTE (20+)
     {
         "icon": "🔍",
         "title": "Evitar SELECT *",
@@ -697,7 +725,7 @@ st.markdown('</div>', unsafe_allow_html=True)
 
 # --- SEÇÃO EDITOR SQL COM BANCO REAL ---
 st.markdown('<h2 class="section-header">✏️ Editor SQL Interativo</h2>', unsafe_allow_html=True)
-st.markdown('<p style="color: #cbd5e1; margin-bottom: 30px;">Teste suas queries SQL em tempo real. O banco contém as tabelas: usuarios, vendas e produtos.</p>', unsafe_allow_html=True)
+st.markdown('<p style="color: #4a5568; margin-bottom: 30px; font-weight:300;">Teste suas queries SQL em tempo real. O banco contém as tabelas: <span style="color:#00b4d8;">usuarios</span>, <span style="color:#00b4d8;">vendas</span> e <span style="color:#00b4d8;">produtos</span>.</p>', unsafe_allow_html=True)
 
 # --- EXEMPLOS PRÉ-DEFINIDOS ---
 sql_templates = {
@@ -717,7 +745,6 @@ sql_templates = {
 
 st.markdown('<div class="editor-section">', unsafe_allow_html=True)
 
-# --- LAYOUT ---
 col_template, col_editor = st.columns([1, 2], gap="large")
 
 with col_template:
@@ -728,7 +755,6 @@ with col_template:
         key="template_select",
         label_visibility="collapsed"
     )
-    
     if selected_template != "Escrever Manual":
         template_query = sql_templates[selected_template]
     else:
@@ -755,13 +781,9 @@ st.markdown('<h2 class="section-header">📊 Resultado da Query</h2>', unsafe_al
 col_result, col_info = st.columns([2, 1], gap="large")
 
 with col_result:
-    st.markdown('<div style="background: linear-gradient(135deg, #1E293B 0%, #334155 100%); border: 1px solid var(--border); border-radius: 8px; padding: 20px;">', unsafe_allow_html=True)
-    
+    st.markdown('<div style="background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 24px;">', unsafe_allow_html=True)
     if user_query.strip():
-        # Executar query com banco real
         result_df, message = execute_query(user_query)
-        
-        # Exibir mensagem de status
         if "✅" in message:
             st.success(message)
             if result_df is not None and len(result_df) > 0:
@@ -772,25 +794,24 @@ with col_result:
             st.error(message)
     else:
         st.markdown("""
-        <div style="text-align: center; padding: 40px; color: #94a3b8;">
+        <div style="text-align: center; padding: 40px; color: #2d3748;">
             <p style="font-size: 1rem;">📝 Escreva uma query SQL no editor para ver o resultado</p>
         </div>
         """, unsafe_allow_html=True)
-    
     st.markdown('</div>', unsafe_allow_html=True)
 
 with col_info:
     st.markdown("""
-    <div style="background: linear-gradient(135deg, #1E293B 0%, #334155 100%); border: 1px solid var(--border); border-radius: 8px; padding: 20px;">
-        <p style="color: var(--accent); font-weight: 600; margin-bottom: 15px; font-size: 1rem;">ℹ️ Tabelas & Dicas</p>
-        <p style="color: #cbd5e1; font-size: 0.85rem; line-height: 1.6; margin-bottom: 15px;">
-            <strong>usuarios:</strong> id, nome, email, ativo, created_at, categoria
+    <div style="background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 24px;">
+        <p style="font-family:'Syne',sans-serif; color: #00b4d8; font-weight: 700; font-size:0.8rem; letter-spacing:1.5px; text-transform:uppercase; margin-bottom: 16px;">ℹ️ Tabelas & Dicas</p>
+        <p style="color: #4a5568; font-size: 0.85rem; line-height: 1.8; margin-bottom: 16px; font-weight:300;">
+            <span style="color:#e2e8f0; font-weight:600;">usuarios:</span> id, nome, email, ativo, created_at, categoria
             <br><br>
-            <strong>vendas:</strong> id, usuario_id, valor, status, data
+            <span style="color:#e2e8f0; font-weight:600;">vendas:</span> id, usuario_id, valor, status, data
             <br><br>
-            <strong>produtos:</strong> id, nome, categoria, preco
+            <span style="color:#e2e8f0; font-weight:600;">produtos:</span> id, nome, categoria, preco
         </p>
-        <p style="color: #cbd5e1; font-size: 0.85rem; font-style: italic; border-top: 1px solid var(--border); padding-top: 15px;">
+        <p style="color: #2d3748; font-size: 0.82rem; font-weight:300; border-top: 1px solid rgba(255,255,255,0.04); padding-top: 14px;">
             💡 Teste SELECT, WHERE, JOIN, GROUP BY, LIMIT e mais!
         </p>
     </div>
@@ -800,13 +821,14 @@ st.divider()
 
 # --- FOOTER ---
 st.markdown("""
-<div style="text-align: center; padding: 40px 0; border-top: 1px solid var(--border); color: #cbd5e1;">
-    <p style="margin-bottom: 10px; font-size: 0.95rem;">
-        <span style="color: var(--accent); font-weight: 600;">SQL - Melhores Práticas</span> 
-        • Criado por Rodrigo Aiosa
+<div style="text-align: center; padding: 40px 0; border-top: 1px solid rgba(255,255,255,0.04); color: #2d3748;">
+    <p style="margin-bottom: 10px; font-size: 0.92rem;">
+        <span style="font-family:'Syne',sans-serif; color: #00b4d8; font-weight: 700;">SQL - Melhores Práticas</span> 
+        &nbsp;•&nbsp; Criado por Rodrigo Aiosa
     </p>
-    <p style="font-size: 0.85rem; color: #94a3b8;">
+    <p style="font-size: 0.82rem; font-weight:300;">
         Transforme seus dados em vantagem competitiva com SQL estratégico
     </p>
 </div>
+<div class="footer-spacer"></div>
 """, unsafe_allow_html=True)
