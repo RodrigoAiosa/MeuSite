@@ -243,9 +243,4 @@ for p in filtered_projects:
     </div>
     """, unsafe_allow_html=True)
 
-# --------------------------------------------------
-# RODAPÉ
-# --------------------------------------------------
-st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
-
 exibir_rodape()
