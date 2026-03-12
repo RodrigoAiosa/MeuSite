@@ -773,7 +773,7 @@ with col_editor:
 
 st.markdown('</div>', unsafe_allow_html=True)
 
-st.divider()
+# st.divider()
 
 # --- SEÇÃO DE RESULTADO COM EXECUTOR REAL ---
 st.markdown('<h2 class="section-header">📊 Resultado da Query</h2>', unsafe_allow_html=True)
