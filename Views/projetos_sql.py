@@ -640,7 +640,7 @@ st.markdown("""
 </p>
 """, unsafe_allow_html=True)
 
-st.divider()
+# st.divider()
 
 # --- DATABASE DE PRÁTICAS SQL ---
 sql_practices = [
