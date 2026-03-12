@@ -39,8 +39,19 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 
 
 
-h1, h2, h3, h4, p, span, div, a, li {
+/* Aplica fonte customizada apenas no conteúdo principal, nunca na sidebar */
+.main h1, .main h2, .main h3, .main h4,
+.main p, .main a, .main li,
+[data-testid="stAppViewContainer"] div:not([data-testid="stSidebar"]) {
     font-family: 'DM Sans', sans-serif !important;
+}
+
+/* Garante que ícones Material do Streamlit não sejam afetados */
+.material-symbols-rounded,
+.material-icons,
+[data-testid*="Collapse"] span,
+[data-testid*="collapse"] span {
+    font-family: 'Material Symbols Rounded', 'Material Icons' !important;
 }
 
 /* ── FORÇA CENTRALIZAÇÃO NO CONTAINER DO STREAMLIT ── */
