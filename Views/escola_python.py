@@ -352,16 +352,6 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     margin: 3px;
 }
 
-/* ── NOTES ── */
-.notes-container {
-    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
-    border: 1px solid rgba(255,255,255,0.05);
-    border-left: 3px solid #a78bfa;
-    border-radius: 12px;
-    padding: 16px 20px;
-    margin: 10px 0;
-}
-
 /* ── EXPANDERS ── */
 .stExpander {
     background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%) !important;
@@ -397,22 +387,6 @@ code { color: #c4b5fd !important; background: transparent !important; }
     border: 1px solid rgba(167,139,250,0.2) !important;
     color: #e2e8f0 !important;
     border-radius: 12px !important;
-}
-
-div[data-testid="stTextInput"] input {
-    background-color: rgba(255,255,255,0.03) !important;
-    color: #e2e8f0 !important;
-    border: 1px solid rgba(167,139,250,0.25) !important;
-    border-radius: 14px !important;
-    padding: 14px 22px !important;
-    font-size: 0.95rem !important;
-    font-family: 'DM Sans', sans-serif !important;
-}
-
-div[data-testid="stTextInput"] input::placeholder { color: #2d3748 !important; }
-div[data-testid="stTextInput"] input:focus {
-    box-shadow: 0 0 0 3px rgba(167,139,250,0.15) !important;
-    border-color: rgba(167,139,250,0.6) !important;
 }
 
 /* ── STATUS MESSAGES ── */
@@ -458,11 +432,10 @@ a:hover { filter: brightness(1.2); }
 st.sidebar.markdown("""
 <div style="text-align: center; padding: 20px 0; border-bottom: 1px solid rgba(167,139,250,0.2);">
     <h1 style="font-family:'Syne',sans-serif; font-size: 1.6rem; color: #a78bfa; margin: 0; font-weight:800; letter-spacing:-0.5px;">🐍 Python Pro</h1>
-    <p style="color: #4a5568; font-size: 0.82rem; margin-top: 6px; letter-spacing:1px; text-transform:uppercase;">Melhores Práticas em 60 Lições</p>
+    <p style="color: #4a5568; font-size: 0.82rem; margin-top: 6px; letter-spacing:1px; text-transform:uppercase;">60 Melhores Práticas</p>
 </div>
 """, unsafe_allow_html=True)
 
-# --- SIDEBAR STATS ---
 col1, col2 = st.sidebar.columns(2)
 with col1:
     st.markdown(f"""
@@ -480,39 +453,26 @@ with col2:
     </div>
     """, unsafe_allow_html=True)
 
-# --- SIDEBAR MENU ---
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 📚 Navegação")
-
 menu = st.sidebar.radio(
     "Escolha uma seção:",
-    ["📖 Todas as Práticas", "⭐ Meus Favoritos", "✅ Já Aprendi", "🏆 Progresso", "🎯 Desafios"],
+    ["📖 Todas as Práticas", "⭐ Meus Favoritos", "✅ Já Aprendi", "🏆 Progresso"],
     label_visibility="collapsed"
 )
 
-# --- SEARCH FUNCTIONALITY ---
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 🔍 Buscar")
-search_query = st.sidebar.text_input(
-    "Buscar práticas:",
-    placeholder="Digite aqui...",
-    label_visibility="collapsed"
-)
+search_query = st.sidebar.text_input("Buscar práticas:", placeholder="Digite aqui...", label_visibility="collapsed")
 st.session_state.search_query = search_query.lower()
-
-# --- ARMAZENAR MENU SELECIONADO ---
 st.session_state.current_menu = menu
 
 # ── HERO ──
 st.markdown("""
 <div class="hero-wrapper">
     <div class="hero-badge">🐍 Python Pro</div>
-    <h1 class="hero-title">
-        Melhores Práticas Python para <span class="accent">código que escala</span>
-    </h1>
-    <p class="hero-subtitle">
-        Padrões avançados, otimizações e design patterns. Transforme seu código Python em produção robusta e mantível.
-    </p>
+    <h1 class="hero-title">Melhores Práticas Python para <span class="accent">código que escala</span></h1>
+    <p class="hero-subtitle">Padrões avançados, otimizações e design patterns. Transforme seu código Python em produção robusta.</p>
     <div class="hero-stats">
         <div class="hero-stat">
             <span class="hero-stat-number">60+</span>
@@ -531,7 +491,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# --- PROGRESSO VISUAL (SEMPRE VISÍVEL) ---
 total_practices = 60
 learned_count = len(st.session_state.learned)
 progress_percent = (learned_count / total_practices) * 100
@@ -546,271 +505,101 @@ st.markdown(f"""
         <div class="progress-fill" style="width: {progress_percent}%"></div>
     </div>
     <p style="color: #4a5568; font-size: 0.82rem; margin: 10px 0 0; font-weight:300;">
-        {'🏆 Parabéns! Você completou todas as práticas!' if learned_count == total_practices else f'Continue! Faltam {total_practices - learned_count} práticas para completar o guia.'}
+        {'🏆 Parabéns! Você completou todas as práticas!' if learned_count == total_practices else f'Continue! Faltam {total_practices - learned_count} práticas.'}
     </p>
 </div>
 """, unsafe_allow_html=True)
 
 # --- STATS SECTION ---
 st.markdown('<h2 class="section-header">📊 Números que Falam</h2>', unsafe_allow_html=True)
-
 col1, col2, col3 = st.columns(3, gap="medium")
 
 with col1:
-    st.markdown("""
-    <div class="stat-card">
-        <div class="stat-number">60+</div>
-        <div class="stat-label">Práticas Python</div>
-        <div class="stat-sublabel">Documentadas e Testadas</div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("""<div class="stat-card"><div class="stat-number">60+</div><div class="stat-label">Práticas Python</div><div class="stat-sublabel">Documentadas e Testadas</div></div>""", unsafe_allow_html=True)
 
 with col2:
-    st.markdown("""
-    <div class="stat-card">
-        <div class="stat-number">6</div>
-        <div class="stat-label">Categorias</div>
-        <div class="stat-sublabel">De Conhecimento Essencial</div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("""<div class="stat-card"><div class="stat-number">6</div><div class="stat-label">Categorias</div><div class="stat-sublabel">De Conhecimento Essencial</div></div>""", unsafe_allow_html=True)
 
 with col3:
-    st.markdown("""
-    <div class="stat-card">
-        <div class="stat-number">3</div>
-        <div class="stat-label">Níveis</div>
-        <div class="stat-sublabel">Iniciante, Intermediário, Avançado</div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("""<div class="stat-card"><div class="stat-number">3</div><div class="stat-label">Níveis</div><div class="stat-sublabel">Iniciante, Intermediário, Avançado</div></div>""", unsafe_allow_html=True)
 
-st.markdown("""
-<p style="text-align: center; color: #4a5568; margin: 40px 0; font-size: 1rem; line-height: 1.8; max-width:660px; margin-left:auto; margin-right:auto;">
-    Código Python escalável começa com melhores práticas. 
-    Padrões robustos reduzem bugs, melhoram performance e facilitam manutenção.
-    <br><br>
-    <span style="color: #a78bfa; font-weight: 600;">
-    Este é um guia completo para transformar você em um especialista Python.
-    </span>
-</p>
-""", unsafe_allow_html=True)
-
-# --- DATABASE DE PRÁTICAS PYTHON ---
-python_practices = [
-    {
-        "icon": "📚",
-        "title": "Usar Type Hints",
-        "category": "Qualidade & Manutenção",
-        "difficulty": "Iniciante",
-        "description": "Especifique tipos de argumentos e retorno.",
-        "bad_code": "def calcular_total(items):\n    return sum(item['valor'] for item in items)",
-        "good_code": "from typing import List, Dict\n\ndef calcular_total(\n    items: List[Dict[str, float]]\n) -> float:\n    \"\"\"Calcula o total de valores.\"\"\"\n    return sum(item['valor'] for item in items)",
-        "benefit": "Detecta erros em tempo de desenvolvimento.",
-        "context": "Type hints são obrigatórios em código Python profissional.",
-        "explanation": "Type hints melhoram a legibilidade e permitem que IDEs ofereçam autocomplete e detecção de erros antes da execução."
-    },
-    {
-        "icon": "🔐",
-        "title": "List Comprehension",
-        "category": "Performance & Elegância",
-        "difficulty": "Iniciante",
-        "description": "Prefira list comprehension a loops tradicionais.",
-        "bad_code": "numeros = [1, 2, 3, 4, 5]\npares = []\nfor num in numeros:\n    if num % 2 == 0:\n        pares.append(num * 2)",
-        "good_code": "numeros = [1, 2, 3, 4, 5]\n\n# List comprehension - mais legível e rápida\npares = [num * 2 for num in numeros if num % 2 == 0]",
-        "benefit": "30-40% mais rápido e mais Pythônico.",
-        "context": "O jeito 'Pythônico' de trabalhar com listas.",
-        "explanation": "List comprehension é otimizada em C e executa mais rapidamente que loops com append, além de ser mais legível."
-    },
-    {
-        "icon": "✅",
-        "title": "Context Managers (with)",
-        "category": "Segurança & Manutenção",
-        "difficulty": "Intermediário",
-        "description": "Use with para gerenciar recursos automaticamente.",
-        "bad_code": "f = open('dados.txt', 'r')\nconteudo = f.read()\nf.close()  # Pode ser esquecido se houver exceção",
-        "good_code": "# Context manager garante fechamento\nwith open('dados.txt', 'r') as f:\n    conteudo = f.read()\n    # Arquivo é fechado automaticamente",
-        "benefit": "Evita vazamento de recursos.",
-        "context": "Crítico para I/O, banco de dados, conexões.",
-        "explanation": "Context managers garantem que recursos sejam liberados mesmo se uma exceção ocorrer durante a execução."
-    },
-    {
-        "icon": "🎯",
-        "title": "Evitar Global Mutable State",
-        "category": "Qualidade & Manutenção",
-        "difficulty": "Intermediário",
-        "description": "Não use variáveis globais mutáveis.",
-        "bad_code": "# EVITAR\ncache = {}\n\ndef processar(chave, valor):\n    global cache  # Difícil de testar e rastrear\n    cache[chave] = valor\n    return cache",
-        "good_code": "# PREFERIR\ndef processar(chave: str, valor: Any, \n             cache: Dict) -> Dict:\n    \"\"\"Passa cache como argumento.\"\"\"\n    cache[chave] = valor\n    return cache\n\n# Uso\ncache = {}\nresultado = processar('key', 'value', cache)",
-        "benefit": "Código testável e previsível.",
-        "context": "Facilita testes unitários e debugging.",
-        "explanation": "Variáveis globais mutáveis criam dependências ocultas que tornam o código difícil de testar e rastrear."
-    },
-    {
-        "icon": "🚀",
-        "title": "Generator Expressions",
-        "category": "Performance & Elegância",
-        "difficulty": "Intermediário",
-        "description": "Use generators para dados grandes.",
-        "bad_code": "# Carrega TODA a lista em memória\nquadrados = [x**2 for x in range(1000000)]\nfor q in quadrados:\n    print(q)",
-        "good_code": "# Generator - um item por vez\nquadrados = (x**2 for x in range(1000000))\nfor q in quadrados:\n    print(q)  # Memória constante",
-        "benefit": "Reduz consumo de memória em 90%+.",
-        "context": "Essencial para dados grandes ou infinitos.",
-        "explanation": "Generators produzem valores sob demanda (lazy evaluation) em vez de criar toda a sequência na memória."
-    },
-    {
-        "icon": "🔍",
-        "title": "Usar f-strings",
-        "category": "Elegância & Legibilidade",
-        "difficulty": "Iniciante",
-        "description": "f-strings são mais legíveis e rápidas.",
-        "bad_code": "nome = 'Alice'\nidade = 30\n\n# Antigo\nmensagem = 'Olá, ' + nome + '. Você tem ' + str(idade) + ' anos'\n\n# Format antigo\nmensagem = 'Olá, {}. Você tem {} anos'.format(nome, idade)",
-        "good_code": "nome = 'Alice'\nidade = 30\n\n# f-string - clara e rápida\nmensagem = f'Olá, {nome}. Você tem {idade} anos'\n\n# Com expressões\nprox_idade = f'Próximo ano terá {idade + 1} anos'",
-        "benefit": "20% mais rápido que format().",
-        "context": "Python 3.6+ - use sempre.",
-        "explanation": "f-strings são otimizadas em tempo de compilação e permitem expressões complexas diretamente na string."
-    },
-]
-
-# --- FILTROS SECTION ---
+# --- FILTROS ---
 st.markdown('<h2 class="section-header">🔎 Filtrar Práticas</h2>', unsafe_allow_html=True)
-
 st.markdown('<div class="filter-section">', unsafe_allow_html=True)
 
-col1, col2, col_space = st.columns([1.5, 1.5, 1])
-
+col1, col2 = st.columns([1.5, 1.5])
 with col1:
-    categorias = ["Todas"] + sorted(list(set([p["category"] for p in python_practices])))
-    selected_category = st.selectbox("📂 Categoria", categorias, key="category_filter")
+    selected_category = st.selectbox("📂 Categoria", ["Todas", "Qualidade & Manutenção", "Performance & Elegância", "Elegância & Legibilidade", "Segurança & Manutenção", "Performance & Otimização", "Arquitetura & Avançado", "Concorrência & Performance", "Arquitetura & Design", "Qualidade & Testes", "Modernização & Legibilidade", "Elegância & Reutilização", "Elegância & Encapsulamento", "Elegância & Flexibilidade", "Programação Funcional"], key="category_filter")
 
 with col2:
-    dificuldades = ["Todas", "Iniciante", "Intermediário", "Avançado"]
-    selected_difficulty = st.selectbox("📈 Nível de Dificuldade", dificuldades, key="difficulty_filter")
+    selected_difficulty = st.selectbox("📈 Nível de Dificuldade", ["Todas", "Iniciante", "Intermediário", "Avançado"], key="difficulty_filter")
 
 st.markdown('</div>', unsafe_allow_html=True)
 
-# --- SEÇÃO EDITOR PYTHON ---
-st.markdown('<h2 class="section-header">✏️ Editor Python Interativo</h2>', unsafe_allow_html=True)
-st.markdown('<p style="color: #4a5568; margin-bottom: 30px; font-weight:300;">Teste suas funções Python em tempo real. Execute código Python seguro e veja o resultado instantaneamente.</p>', unsafe_allow_html=True)
-
-# --- EXEMPLOS PRÉ-DEFINIDOS ---
-python_templates = {
-    "Hello World": "# Seu primeiro programa\nmessage = 'Hello, World!'\nprint(message)",
-    "Soma de Lista": "numeros = [1, 2, 3, 4, 5]\ntotal = sum(numeros)\nprint(f'Total: {total}')",
-    "List Comprehension": "numeros = range(1, 11)\npares = [n for n in numeros if n % 2 == 0]\nprint(f'Pares: {pares}')",
-    "Dicionário": "pessoa = {'nome': 'Alice', 'idade': 30}\nprint(f\"{pessoa['nome']} tem {pessoa['idade']} anos\")",
-    "Função com Type Hints": "def saudar(nome: str) -> str:\n    return f'Olá, {nome}!'\n\nprint(saudar('Python'))",
-    "Try/Except": "try:\n    resultado = 10 / int('abc')\nexcept ValueError:\n    print('Erro: valor inválido')\nexcept ZeroDivisionError:\n    print('Erro: divisão por zero')",
-    "Lambda": "numeros = [1, 2, 3, 4, 5]\nquadrados = list(map(lambda x: x**2, numeros))\nprint(quadrados)",
-    "Generator": "def contar(n):\n    for i in range(n):\n        yield i\n\nfor num in contar(5):\n    print(num)",
-    "f-string": "nome = 'Alice'\nidade = 30\nprint(f'{nome} tem {idade} anos')",
-    "Dictionary Comprehension": "numeros = [1, 2, 3, 4]\nsquares = {n: n**2 for n in numeros}\nprint(squares)",
-    "Unpacking": "dados = [1, 2, 3]\na, b, c = dados\nprint(f'a={a}, b={b}, c={c}')",
-    "With Statement": "# Simulando arquivo\ndata = {'teste': 'valor'}\nprint('Simulação de context manager')",
-}
-
-st.markdown('<div class="editor-section">', unsafe_allow_html=True)
-
-col_template, col_editor = st.columns([1, 2], gap="large")
-
-with col_template:
-    st.markdown('<p class="editor-title">📚 Templates</p>', unsafe_allow_html=True)
-    selected_template = st.selectbox(
-        "Escolha um exemplo:",
-        ["Escrever Manual"] + list(python_templates.keys()),
-        key="template_select",
-        label_visibility="collapsed"
-    )
-    if selected_template != "Escrever Manual":
-        template_code = python_templates[selected_template]
-    else:
-        template_code = ""
-
-with col_editor:
-    st.markdown('<p class="editor-title">🐍 Seu Python</p>', unsafe_allow_html=True)
-    user_code = st.text_area(
-        "Escreva seu código Python:",
-        value=template_code,
-        height=200,
-        key="python_editor",
-        placeholder="print('Hello, World!')",
-        label_visibility="collapsed"
-    )
-
-st.markdown('</div>', unsafe_allow_html=True)
-
-# --- EXECUTOR DE CÓDIGO ---
-def execute_python(code):
-    """Executa código Python de forma segura."""
-    try:
-        if not code.strip():
-            return None, "❌ Escreva um código Python primeiro!"
-        
-        # Captura output
-        import sys
-        from io import StringIO
-        
-        old_stdout = sys.stdout
-        sys.stdout = StringIO()
-        
-        # Executa com timeout
-        try:
-            exec(code, {"__builtins__": __builtins__})
-            output = sys.stdout.getvalue()
-            sys.stdout = old_stdout
-            
-            if not output:
-                return "✅ Código executado com sucesso! (sem output)", "✅"
-            return output, "✅"
-        except Exception as e:
-            sys.stdout = old_stdout
-            return f"❌ Erro: {type(e).__name__}: {str(e)}", "❌"
-            
-    except Exception as e:
-        return f"❌ Erro ao executar: {str(e)}", "❌"
-
-# --- SEÇÃO DE RESULTADO ---
-st.markdown('<h2 class="section-header">📊 Resultado da Execução</h2>', unsafe_allow_html=True)
-
-col_result, col_info = st.columns([2, 1], gap="large")
-
-with col_result:
-    st.markdown('<div style="background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 24px;">', unsafe_allow_html=True)
-    if user_code.strip():
-        output, status = execute_python(user_code)
-        if status == "✅":
-            st.success("✅ Código executado com sucesso!")
-            st.code(output if output != "✅ Código executado com sucesso! (sem output)" else "", language="text")
-        else:
-            st.error("❌ Erro na execução")
-            st.code(output, language="text")
-    else:
-        st.markdown("""
-        <div style="text-align: center; padding: 40px; color: #2d3748;">
-            <p style="font-size: 1rem;">📝 Escreva um código Python no editor para ver o resultado</p>
-        </div>
-        """, unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
-
-with col_info:
-    st.markdown("""
-    <div style="background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 24px;">
-        <p style="font-family:'Syne',sans-serif; color: #a78bfa; font-weight: 700; font-size:0.8rem; letter-spacing:1.5px; text-transform:uppercase; margin-bottom: 16px;">ℹ️ Dicas & Atalhos</p>
-        <p style="color: #4a5568; font-size: 0.85rem; line-height: 1.8; margin-bottom: 16px; font-weight:300;">
-            <span style="color:#e2e8f0; font-weight:600;">Funcionalidades:</span>
-            <br>• Exécute Python puro
-            <br>• Use print() para output
-            <br>• Importe bibliotecas padrão
-            <br>• Type hints opcionais
-        </p>
-        <p style="color: #2d3748; font-size: 0.82rem; font-weight:300; border-top: 1px solid rgba(255,255,255,0.04); padding-top: 14px;">
-            💡 Selecione templates para aprender padrões Python!
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-
-st.divider()
-
-# --- PRÁTICAS LISTADAS ---
-st.markdown('<h2 class="section-header">📖 Melhores Práticas Python</h2>', unsafe_allow_html=True)
+# --- DATABASE DE PRÁTICAS (60 itens) ---
+python_practices = [
+    # INICIANTE (20)
+    {"icon": "📚", "title": "Usar Type Hints", "category": "Qualidade & Manutenção", "difficulty": "Iniciante", "description": "Especifique tipos de argumentos e retorno.", "bad_code": "def calcular_total(items):\n    return sum(item['valor'] for item in items)", "good_code": "from typing import List, Dict\n\ndef calcular_total(items: List[Dict[str, float]]) -> float:\n    return sum(item['valor'] for item in items)", "benefit": "Detecta erros em tempo de desenvolvimento.", "context": "Type hints são obrigatórios em código profissional.", "explanation": "Type hints melhoram legibilidade e oferecem autocomplete em IDEs."},
+    {"icon": "🔐", "title": "List Comprehension", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "Prefira list comprehension a loops tradicionais.", "bad_code": "pares = []\nfor num in [1,2,3,4,5]:\n    if num % 2 == 0:\n        pares.append(num * 2)", "good_code": "pares = [num * 2 for num in [1,2,3,4,5] if num % 2 == 0]", "benefit": "30-40% mais rápido.", "context": "O jeito Pythônico.", "explanation": "Otimizada em C, executa mais rápido que loops com append."},
+    {"icon": "🔍", "title": "Usar f-strings", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "f-strings são mais legíveis e rápidas.", "bad_code": "nome = 'Alice'\nidade = 30\nmsg = 'Olá, ' + nome + '. Você tem ' + str(idade) + ' anos'", "good_code": "nome = 'Alice'\nidade = 30\nmsg = f'Olá, {nome}. Você tem {idade} anos'", "benefit": "20% mais rápido.", "context": "Python 3.6+", "explanation": "Otimizadas em tempo de compilação."},
+    {"icon": "📋", "title": "Usar Docstrings", "category": "Qualidade & Manutenção", "difficulty": "Iniciante", "description": "Documente funções com docstrings.", "bad_code": "def calcular_idade(ano_nascimento):\n    return 2024 - ano_nascimento", "good_code": "def calcular_idade(ano_nascimento: int) -> int:\n    \"\"\"Calcula a idade de uma pessoa.\n    \n    Args:\n        ano_nascimento: Ano de nascimento\n    Returns:\n        Idade em anos\n    \"\"\"", "benefit": "Facilita manutenção.", "context": "PEP 257.", "explanation": "Acessíveis via help() e documentação automática."},
+    {"icon": "✅", "title": "Usar Dicionários em vez de Variáveis", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "Agrupe dados relacionados em dicionários.", "bad_code": "pessoa_nome = 'Alice'\npessoa_idade = 30\npessoa_email = 'alice@gmail.com'", "good_code": "pessoa = {\n    'nome': 'Alice',\n    'idade': 30,\n    'email': 'alice@gmail.com'\n}", "benefit": "Código organizado.", "context": "Estruturação de dados.", "explanation": "Agrupa dados logicamente, reduzindo variáveis."},
+    {"icon": "🎯", "title": "Usar enumerate()", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "Use enumerate para acessar índice e valor.", "bad_code": "for i in range(len(nomes)):\n    print(f'{i}: {nomes[i]}')", "good_code": "for i, nome in enumerate(nomes):\n    print(f'{i}: {nome}')", "benefit": "Mais legível.", "context": "Loop sobre sequências.", "explanation": "Otimizado e evita erros de indexação."},
+    {"icon": "🔄", "title": "Usar zip()", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "Use zip para combinar múltiplas iteráveis.", "bad_code": "for i in range(len(nomes)):\n    print(f'{nomes[i]} - {idades[i]}')", "good_code": "for nome, idade in zip(nomes, idades):\n    print(f'{nome} - {idade}')", "benefit": "Mais seguro.", "context": "Iteração múltipla.", "explanation": "Mais eficiente que indexação."},
+    {"icon": "🛡️", "title": "Try/Except Específicos", "category": "Qualidade & Manutenção", "difficulty": "Iniciante", "description": "Capture exceções específicas.", "bad_code": "try:\n    valor = int('abc')\nexcept:\n    print('Erro')", "good_code": "try:\n    valor = int('abc')\nexcept ValueError:\n    print('Erro: valor inválido')", "benefit": "Precisão no tratamento.", "context": "Debugging.", "explanation": "Capturar específico evita silenciar bugs."},
+    {"icon": "🔑", "title": "Usar dict.get()", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "Use get() para acessar dicionários com segurança.", "bad_code": "if 'timeout' in config:\n    timeout = config['timeout']\nelse:\n    timeout = 30", "good_code": "timeout = config.get('timeout', 30)", "benefit": "Mais limpo.", "context": "Acesso seguro.", "explanation": "Retorna padrão se chave não existir."},
+    {"icon": "📦", "title": "Usar setdefault()", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "setdefault() define e retorna valor.", "bad_code": "if 'python' not in categorias:\n    categorias['python'] = []\ncategorias['python'].append('best-practices')", "good_code": "categorias.setdefault('python', []).append('best-practices')", "benefit": "Uma linha.", "context": "Dicionários aninhados.", "explanation": "Combina verificação e atribuição."},
+    {"icon": "⚡", "title": "Usar all() e any()", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "Use all() para verificar se todos são verdadeiros.", "bad_code": "resultado = True\nfor item in lista:\n    if not item:\n        resultado = False", "good_code": "resultado = all(lista)\nqualquer = any(lista)", "benefit": "Mais legível.", "context": "Validações lógicas.", "explanation": "Implementadas em C, mais rápidas."},
+    {"icon": "🔓", "title": "Context Managers (with)", "category": "Segurança & Manutenção", "difficulty": "Iniciante", "description": "Use with para gerenciar recursos.", "bad_code": "f = open('dados.txt', 'r')\nconteudo = f.read()\nf.close()", "good_code": "with open('dados.txt', 'r') as f:\n    conteudo = f.read()", "benefit": "Fechamento garantido.", "context": "I/O, BD.", "explanation": "Garante cleanup automático."},
+    {"icon": "🎓", "title": "isinstance() vs type()", "category": "Qualidade & Manutenção", "difficulty": "Iniciante", "description": "isinstance() é melhor que type().", "bad_code": "if type(valor) == str:\n    print('É string')", "good_code": "if isinstance(valor, str):\n    print('É string')", "benefit": "Respeita herança.", "context": "Verificação de tipos.", "explanation": "Funciona com subclasses."},
+    {"icon": "🔀", "title": "sorted() vs sort()", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "sorted() retorna nova lista.", "bad_code": "numeros = [3, 1, 4]\nnumeros.sort()", "good_code": "numeros = [3, 1, 4]\nordenados = sorted(numeros)", "benefit": "Original intacto.", "context": "Manipulação.", "explanation": "Mais funcional, sem efeitos."},
+    {"icon": "🔍", "title": "in vs count()", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "in é mais rápido que count() > 0.", "bad_code": "if lista.count(3) > 0:\n    print('Existe')", "good_code": "if 3 in lista:\n    print('Existe')", "benefit": "3x mais rápido.", "context": "Verificação.", "explanation": "Sem criar contador."},
+    {"icon": "💾", "title": "defaultdict", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "defaultdict inicializa valores automaticamente.", "bad_code": "palavras = {}\nfor p in ['python', 'python']:\n    if p not in palavras:\n        palavras[p] = 0\n    palavras[p] += 1", "good_code": "from collections import defaultdict\npedras = defaultdict(int)\nfor p in ['python', 'python']:\n    pedras[p] += 1", "benefit": "Código limpo.", "context": "Contadores.", "explanation": "Cria valores padrão automaticamente."},
+    {"icon": "🎪", "title": "String methods vs regex", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "String methods são mais simples que regex simples.", "bad_code": "import re\nif re.search(r'mundo', texto):\n    print('Encontrado')", "good_code": "if 'mundo' in texto:\n    print('Encontrado')", "benefit": "10x mais rápido.", "context": "Buscas simples.", "explanation": "Otimizadas em C."},
+    {"icon": "🚀", "title": "Evitar Variáveis Globais", "category": "Qualidade & Manutenção", "difficulty": "Iniciante", "description": "Passe dados como argumentos.", "bad_code": "contador = 0\ndef incrementar():\n    global contador\n    contador += 1", "good_code": "def incrementar(contador: int) -> int:\n    return contador + 1", "benefit": "Testável.", "context": "Testes.", "explanation": "Evita dependências ocultas."},
+    {"icon": "⚙️", "title": "Constants em UPPERCASE", "category": "Qualidade & Manutenção", "difficulty": "Iniciante", "description": "Constantes devem ser em UPPERCASE.", "bad_code": "max_retries = 5\ntimeout = 30", "good_code": "MAX_RETRIES = 5\nTIMEOUT = 30", "benefit": "Indica constantes.", "context": "PEP 8.", "explanation": "Sinaliza não modificação."},
+    
+    # INTERMEDIÁRIO (20)
+    {"icon": "✅", "title": "Context Managers Customizados", "category": "Segurança & Manutenção", "difficulty": "Intermediário", "description": "Customize context managers.", "bad_code": "lock.acquire()\ntry:\n    processar()\nfinally:\n    lock.release()", "good_code": "class LockCtx:\n    def __enter__(self):\n        self.lock.acquire()\n    def __exit__(self, *args):\n        self.lock.release()\nwith LockCtx():\n    processar()", "benefit": "Reutilizável.", "context": "Locks, transações.", "explanation": "Implementa __enter__ e __exit__."},
+    {"icon": "🎯", "title": "Evitar Global Mutable State", "category": "Qualidade & Manutenção", "difficulty": "Intermediário", "description": "Não use variáveis globais mutáveis.", "bad_code": "cache = {}\ndef processar(chave):\n    global cache\n    cache[chave] = valor", "good_code": "def processar(chave: str, cache: Dict) -> Dict:\n    cache[chave] = valor\n    return cache", "benefit": "Testável.", "context": "Testes unitários.", "explanation": "Passa estado como argumento."},
+    {"icon": "🚀", "title": "Generator Expressions", "category": "Performance & Elegância", "difficulty": "Intermediário", "description": "Use generators para dados grandes.", "bad_code": "quadrados = [x**2 for x in range(1000000)]\nfor q in quadrados:\n    processar(q)", "good_code": "quadrados = (x**2 for x in range(1000000))\nfor q in quadrados:\n    processar(q)", "benefit": "90% menos memória.", "context": "Dados grandes.", "explanation": "Lazy evaluation sob demanda."},
+    {"icon": "🔗", "title": "Usar Decorators", "category": "Elegância & Reutilização", "difficulty": "Intermediário", "description": "Decorators adicionam comportamento.", "bad_code": "def f1():\n    inicio = time.time()\n    resultado = calc()\n    print(time.time() - inicio)\n    return resultado", "good_code": "@timing\ndef f1():\n    return calc()\n\ndef timing(func):\n    def wrapper(*args):\n        inicio = time.time()\n        resultado = func(*args)\n        print(time.time() - inicio)\n        return resultado\n    return wrapper", "benefit": "Reutilização.", "context": "Logging, cache.", "explanation": "Encapsula lógica transversal."},
+    {"icon": "⚡", "title": "Usar @property", "category": "Elegância & Encapsulamento", "difficulty": "Intermediário", "description": "@property cria getters Pythônicos.", "bad_code": "class Pessoa:\n    def get_nome(self):\n        return self._nome\n    def set_nome(self, valor):\n        self._nome = valor", "good_code": "class Pessoa:\n    @property\n    def nome(self):\n        return self._nome\n    @nome.setter\n    def nome(self, valor):\n        self._nome = valor", "benefit": "Sintaxe natural.", "context": "Encapsulamento.", "explanation": "Permite p.nome = 'valor' em vez de set_nome."},
+    {"icon": "🔐", "title": "namedtuple para Estruturas", "category": "Elegância & Performance", "difficulty": "Intermediário", "description": "namedtuple é mais leve que classes.", "bad_code": "class Ponto:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y", "good_code": "from collections import namedtuple\nPonto = namedtuple('Ponto', ['x', 'y'])\np = Ponto(1, 2)", "benefit": "Menos código.", "context": "Estruturas imutáveis.", "explanation": "Classes otimizadas para dados."},
+    {"icon": "🎪", "title": "Map, Filter, Reduce", "category": "Elegância & Programação Funcional", "difficulty": "Intermediário", "description": "Alternativa funcional a loops.", "bad_code": "quadrados = []\nfor n in [1,2,3]:\n    quadrados.append(n**2)", "good_code": "quadrados = list(map(lambda x: x**2, [1,2,3]))\n# Ou melhor:\nquadrados = [x**2 for x in [1,2,3]]", "benefit": "Estilo funcional.", "context": "Transformações.", "explanation": "List comprehension é geralmente melhor."},
+    {"icon": "🔄", "title": "functools.lru_cache", "category": "Performance & Otimização", "difficulty": "Intermediário", "description": "Cache automático de resultados.", "bad_code": "def fibonacci(n):\n    if n < 2: return n\n    return fibonacci(n-1) + fibonacci(n-2)", "good_code": "from functools import lru_cache\n\n@lru_cache(maxsize=128)\ndef fibonacci(n):\n    if n < 2: return n\n    return fibonacci(n-1) + fibonacci(n-2)", "benefit": "1000x mais rápido.", "context": "Recursão.", "explanation": "Evita recalcular resultados."},
+    {"icon": "📊", "title": "*args e **kwargs", "category": "Elegância & Flexibilidade", "difficulty": "Intermediário", "description": "*args e **kwargs para argumentos variáveis.", "bad_code": "def func(a, b, c=None, d=None):\n    print(a, b, c, d)", "good_code": "def func(a, b, *args, **kwargs):\n    print(a, b)\n    print(args)\n    print(kwargs)", "benefit": "Funções flexíveis.", "context": "APIs.", "explanation": "*args em tupla, **kwargs em dict."},
+    {"icon": "🎯", "title": "isinstance com Múltiplos Tipos", "category": "Qualidade & Manutenção", "difficulty": "Intermediário", "description": "isinstance pode verificar múltiplos tipos.", "bad_code": "if type(v) == int or type(v) == float:\n    print('Número')", "good_code": "if isinstance(v, (int, float)):\n    print('Número')", "benefit": "Mais conciso.", "context": "Verificação.", "explanation": "Com tupla de tipos."},
+    {"icon": "🔗", "title": "pathlib vs os.path", "category": "Modernização & Legibilidade", "difficulty": "Intermediário", "description": "pathlib é mais moderno.", "bad_code": "import os\narq = os.path.join('dados', 'arquivo.txt')\nif os.path.exists(arq):\n    conteudo = open(arq).read()", "good_code": "from pathlib import Path\narq = Path('dados') / 'arquivo.txt'\nif arq.exists():\n    conteudo = arq.read_text()", "benefit": "Orientado a objetos.", "context": "Caminhos.", "explanation": "Mais moderno e portável."},
+    {"icon": "🎨", "title": "f-strings Avançadas", "category": "Elegância & Legibilidade", "difficulty": "Intermediário", "description": "f-strings com formatação.", "bad_code": "print(f'Preço: ${preco}')\nprint(f'Total: ${preco * quantidade}')", "good_code": "print(f'Preço: ${preco:.2f}')\nprint(f'Total: ${preco * quantidade:>10.2f}')", "benefit": "Precisão.", "context": "Exibição.", "explanation": "Especificadores de formato."},
+    {"icon": "🔐", "title": "dataclasses", "category": "Modernização & Elegância", "difficulty": "Intermediário", "description": "dataclasses automatizam boilerplate.", "bad_code": "class Pessoa:\n    def __init__(self, nome, idade):\n        self.nome = nome\n        self.idade = idade", "good_code": "from dataclasses import dataclass\n\n@dataclass\nclass Pessoa:\n    nome: str\n    idade: int", "benefit": "Menos boilerplate.", "context": "Classes simples.", "explanation": "Cria __init__, __repr__, __eq__ automaticamente."},
+    {"icon": "🎯", "title": "assertRaises em Testes", "category": "Qualidade & Testes", "difficulty": "Intermediário", "description": "Teste que funções levantam exceções.", "bad_code": "try:\n    dividir(10, 0)\nexcept ZeroDivisionError:\n    print('Correto')", "good_code": "import unittest\n\nclass TestDividir(unittest.TestCase):\n    def test_divisao(self):\n        with self.assertRaises(ZeroDivisionError):\n            dividir(10, 0)", "benefit": "Testes claros.", "context": "Testes unitários.", "explanation": "Formaliza teste de exceções."},
+    {"icon": "🚀", "title": "Dict e Set Comprehensions", "category": "Elegância & Performance", "difficulty": "Intermediário", "description": "Dict e set comprehensions.", "bad_code": "quadrados_dict = {}\nfor n in [1,2,3]:\n    quadrados_dict[n] = n**2", "good_code": "numeros = [1,2,3]\nquadrados_dict = {n: n**2 for n in numeros}\nunicos = {x % 2 for x in numeros}", "benefit": "Conciso.", "context": "Transformação.", "explanation": "Mesma performance que list comprehensions."},
+    {"icon": "⚙️", "title": "itertools para Combinações", "category": "Performance & Elegância", "difficulty": "Intermediário", "description": "itertools para permutações.", "bad_code": "combos = []\nfor i in range(len(itens)):\n    for j in range(i+1, len(itens)):\n        combos.append((itens[i], itens[j]))", "good_code": "from itertools import combinations\ncombos = list(combinations([1,2,3], 2))", "benefit": "Simples.", "context": "Combinações.", "explanation": "Implementado em C."},
+    {"icon": "🔗", "title": "super() em Herança", "category": "Elegância & Manutenção", "difficulty": "Intermediário", "description": "super() chama método da classe pai.", "bad_code": "class Cachorro(Animal):\n    def falar(self):\n        Animal.falar(self)\n        print('Au!')", "good_code": "class Cachorro(Animal):\n    def falar(self):\n        super().falar()\n        print('Au!')", "benefit": "Funciona com MRO.", "context": "Herança múltipla.", "explanation": "Respeita Method Resolution Order."},
+    {"icon": "🎨", "title": "Comprehension Aninhada", "category": "Elegância & Performance", "difficulty": "Intermediário", "description": "Comprehensions podem ser aninhadas.", "bad_code": "matriz = []\nfor i in range(3):\n    linha = []\n    for j in range(3):\n        linha.append(i * j)\n    matriz.append(linha)", "good_code": "matriz = [[i*j for j in range(3)] for i in range(3)]", "benefit": "Conciso.", "context": "Transformação.", "explanation": "Legível quando bem estruturada."},
+    
+    # AVANÇADO (20)
+    {"icon": "🎯", "title": "Slots em Classes", "category": "Performance & Otimização", "difficulty": "Avançado", "description": "__slots__ reduz consumo de memória.", "bad_code": "class Ponto:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y", "good_code": "class Ponto:\n    __slots__ = ['x', 'y']\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y", "benefit": "50% menos memória.", "context": "Milhões de objetos.", "explanation": "Sem __dict__, menos overhead."},
+    {"icon": "🔐", "title": "Metaclasses", "category": "Arquitetura & Avançado", "difficulty": "Avançado", "description": "Metaclasses controlam criação de classes.", "bad_code": "class Singleton:\n    _instance = None\n    def __new__(cls):\n        if cls._instance is None:\n            cls._instance = super().__new__(cls)\n        return cls._instance", "good_code": "class SingletonMeta(type):\n    _instances = {}\n    def __call__(cls, *args):\n        if cls not in cls._instances:\n            cls._instances[cls] = super().__call__(*args)\n        return cls._instances[cls]", "benefit": "Padrões reutilizáveis.", "context": "Framework patterns.", "explanation": "Classe de classes."},
+    {"icon": "⚡", "title": "Typing Avançado (Protocol)", "category": "Qualidade & Manutenção", "difficulty": "Avançado", "description": "Protocol define interfaces.", "bad_code": "def processar(obj):\n    return obj.processar()", "good_code": "from typing import Protocol\n\nclass Processavel(Protocol):\n    def processar(self) -> str: ...\n\ndef processar(obj: Processavel) -> str:\n    return obj.processar()", "benefit": "Type checking.", "context": "Estrutural subtyping.", "explanation": "Structural subtyping sem herança."},
+    {"icon": "🔗", "title": "ABC (Abstract Base Classes)", "category": "Arquitetura & Design", "difficulty": "Avançado", "description": "ABC define interfaces obrigatórias.", "bad_code": "class Database:\n    def conectar(self): pass", "good_code": "from abc import ABC, abstractmethod\n\nclass Database(ABC):\n    @abstractmethod\n    def conectar(self): pass", "benefit": "Força implementação.", "context": "Frameworks.", "explanation": "Torna métodos obrigatórios."},
+    {"icon": "🎪", "title": "Async/Await", "category": "Concorrência & Performance", "difficulty": "Avançado", "description": "Programação assíncrona.", "bad_code": "for url in urls:\n    response = requests.get(url)  # Bloqueia", "good_code": "async def fetch(session, url):\n    async with session.get(url) as r:\n        return await r.text()\n\nasync def main():\n    async with aiohttp.ClientSession() as s:\n        tasks = [fetch(s, u) for u in urls]\n        results = await asyncio.gather(*tasks)", "benefit": "1000x mais rápido.", "context": "Web scraping.", "explanation": "I/O sem threads."},
+    {"icon": "🔐", "title": "Descriptors", "category": "Elegância & Avançado", "difficulty": "Avançado", "description": "Descriptors controlam acesso a atributos.", "bad_code": "class Pessoa:\n    def __init__(self, idade):\n        if not (0 <= idade <= 150):\n            raise ValueError()\n        self.idade = idade", "good_code": "class ValidadorIdade:\n    def __get__(self, obj, objtype=None):\n        return obj._idade if obj else self\n    def __set__(self, obj, value):\n        if not (0 <= value <= 150):\n            raise ValueError()\n        obj._idade = value\n\nclass Pessoa:\n    idade = ValidadorIdade()", "benefit": "Validação automática.", "context": "ORM.", "explanation": "Intercepta acesso a atributos."},
+    {"icon": "📊", "title": "__getattr__ Dinâmico", "category": "Elegância & Flexibilidade", "difficulty": "Avançado", "description": "__getattr__ para atributos dinâmicos.", "bad_code": "class Config:\n    def __init__(self, data):\n        self.data = data\n    def get(self, key, default=None):\n        return self.data.get(key, default)", "good_code": "class Config:\n    def __init__(self, data):\n        self.data = data\n    def __getattr__(self, key):\n        return self.data.get(key)\n\nconfig = Config({'debug': True})\nprint(config.debug)", "benefit": "API Pythônica.", "context": "ORMs.", "explanation": "Chamado quando atributo não existe."},
+    {"icon": "🎪", "title": "Mixin Classes", "category": "Arquitetura & Reutilização", "difficulty": "Avançado", "description": "Mixins adicionam funcionalidade.", "bad_code": "class Cachorro:\n    def latir(self): return 'Au!'\n\nclass Gato:\n    def miar(self): return 'Miau!'", "good_code": "class ComFoto:\n    def tirar_foto(self): return 'Foto'\n\nclass Cachorro(ComFoto):\n    def latir(self): return 'Au!'\n\nclass Gato(ComFoto):\n    def miar(self): return 'Miau!'", "benefit": "Reutilização.", "context": "Design patterns.", "explanation": "Classes que fornecem métodos reutilizáveis."},
+    {"icon": "⚙️", "title": "__call__ para Callables", "category": "Elegância & Padrões", "difficulty": "Avançado", "description": "__call__ torna objetos chamáveis.", "bad_code": "class Multiplicador:\n    def __init__(self, fator):\n        self.fator = fator\n    def multiplicar(self, valor):\n        return valor * self.fator", "good_code": "class Multiplicador:\n    def __init__(self, fator):\n        self.fator = fator\n    def __call__(self, valor):\n        return valor * self.fator\n\nmult3 = Multiplicador(3)\nresultado = mult3(5)", "benefit": "Sintaxe natural.", "context": "Decorators.", "explanation": "Permite usar objetos como funções."},
+    {"icon": "🔗", "title": "Composition vs Herança", "category": "Arquitetura & Design", "difficulty": "Avançado", "description": "Composição é mais flexível.", "bad_code": "class Automovel(Veiculo): pass\nclass Bicicleta(Veiculo): pass", "good_code": "class Motor:\n    def ligar(self): pass\n\nclass Automovel:\n    def __init__(self):\n        self.motor = Motor()", "benefit": "Flexível.", "context": "Design.", "explanation": "Has-a é melhor que is-a."},
+    {"icon": "🚀", "title": "Cython para Performance", "category": "Performance & Otimização", "difficulty": "Avançado", "description": "Cython compila Python para C.", "bad_code": "def contar_pares(nums):\n    return sum(1 for n in nums if n % 2 == 0)", "good_code": "# cdef int count_pairs(list nums):\n#     cdef int count = 0\n#     for n in nums:\n#         if n % 2 == 0:\n#             count += 1\n#     return count", "benefit": "100x mais rápido.", "context": "Loops críticos.", "explanation": "Compila para C com type hints."},
+    {"icon": "📊", "title": "Profiling com cProfile", "category": "Performance & Debugging", "difficulty": "Avançado", "description": "Identifique gargalos.", "bad_code": "import time\ninicio = time.time()\nfuncao_lenta()\nprint(f'Tempo: {time.time() - inicio}')", "good_code": "import cProfile\nimport pstats\n\ncProfile.run('funcao_lenta()', 'stats')\np = pstats.Stats('stats')\np.sort_stats('cumulative').print_stats(10)", "benefit": "Identifica gargalo real.", "context": "Otimização.", "explanation": "Mostra chamadas e tempo."},
+    {"icon": "🔐", "title": "Memory Profiling", "category": "Performance & Debugging", "difficulty": "Avançado", "description": "Identifique vazamentos.", "bad_code": "lista_grande = [x for x in range(1000000)]", "good_code": "# python -m memory_profiler script.py\n# @profile\n# def funcao():\n#     lista = [x for x in range(100000)]", "benefit": "Identifica vazamentos.", "context": "Otimização.", "explanation": "Memória por linha."},
+    {"icon": "🎯", "title": "Logging vs Print", "category": "Qualidade & Produção", "difficulty": "Avançado", "description": "logging é melhor em produção.", "bad_code": "print('Começando...')\nprint(f'Dados: {dados}')", "good_code": "import logging\nlogger = logging.getLogger(__name__)\n\nlogger.info('Começando...')\nlogger.debug(f'Dados: {dados}')", "benefit": "Configurável.", "context": "Produção.", "explanation": "Níveis e handlers configuráveis."},
+    {"icon": "🔗", "title": "Pytest vs unittest", "category": "Qualidade & Testes", "difficulty": "Avançado", "description": "pytest é mais poderoso.", "bad_code": "class TestFuncao(unittest.TestCase):\n    def test_resultado(self):\n        self.assertEqual(funcao(2, 3), 5)", "good_code": "def test_resultado():\n    assert funcao(2, 3) == 5\n\ndef test_erro():\n    with pytest.raises(ValueError):\n        funcao('a', 'b')", "benefit": "Sintaxe simples.", "context": "Testes.", "explanation": "Assertions e fixtures."},
+    {"icon": "📦", "title": "mypy para Type Checking", "category": "Qualidade & Manutenção", "difficulty": "Avançado", "description": "mypy valida type hints.", "bad_code": "def somar(a: int, b: int) -> int:\n    return a + b\n\nresultado = somar('2', '3')", "good_code": "# mypy script.py\n# Detecta: Argument has incompatible type\nresultado = somar('2', '3')", "benefit": "Erros antes da execução.", "context": "CI/CD.", "explanation": "Validação estática."},
+    {"icon": "🚀", "title": "Dependency Injection", "category": "Arquitetura & Manutenção", "difficulty": "Avançado", "description": "Injetar dependências.", "bad_code": "class Servico:\n    def __init__(self):\n        self.db = Database()\n    def processar(self):\n        self.db.query()", "good_code": "class Servico:\n    def __init__(self, db: Database):\n        self.db = db\n    def processar(self):\n        self.db.query()\n\ndb = Database()\nservico = Servico(db)", "benefit": "Testável.", "context": "Arquitetura.", "explanation": "Desacoplado e testável."},
+    {"icon": "🎨", "title": "Context Managers __enter__/__exit__", "category": "Arquitetura & Elegância", "difficulty": "Avançado", "description": "Customize com __enter__ e __exit__.", "bad_code": "def processar(transacao):\n    transacao.begin()\n    try:\n        sql.execute()\n    finally:\n        transacao.commit()", "good_code": "class Transacao:\n    def __enter__(self):\n        self.begin()\n        return self\n    def __exit__(self, *args):\n        self.commit()\n\nwith Transacao() as t:\n    sql.execute()", "benefit": "Reutilizável.", "context": "Transações.", "explanation": "Cleanup garantido."},
+    {"icon": "⚡", "title": "Lazy Properties", "category": "Performance & Elegância", "difficulty": "Avançado", "description": "Calcular atributos sob demanda.", "bad_code": "class Dados:\n    def __init__(self):\n        self.resultado = self.calcular_pesado()", "good_code": "class Dados:\n    @functools.cached_property\n    def resultado(self):\n        return self.calcular_pesado()", "benefit": "Calcula apenas se usado.", "context": "Performance.", "explanation": "Caching automático."},
+]
 
 # Filtrar práticas
 filtered_practices = python_practices
@@ -821,7 +610,10 @@ if selected_difficulty != "Todas":
 if st.session_state.search_query:
     filtered_practices = [p for p in filtered_practices if st.session_state.search_query in p["title"].lower()]
 
-# Mostrar práticas
+# --- PRÁTICAS LISTADAS ---
+st.markdown('<h2 class="section-header">📖 Melhores Práticas Python</h2>', unsafe_allow_html=True)
+st.markdown(f'<p style="color: #4a5568; margin-bottom: 20px;">Mostrando {len(filtered_practices)} de {len(python_practices)} práticas</p>', unsafe_allow_html=True)
+
 for idx, practice in enumerate(filtered_practices):
     with st.expander(f"{practice['icon']} {practice['title']} — {practice['difficulty']}", expanded=False):
         col1, col2 = st.columns([2, 1])
@@ -833,14 +625,15 @@ for idx, practice in enumerate(filtered_practices):
             st.markdown(f"**💡 Contexto:** {practice['context']}")
             
         with col2:
-            if st.button(f"⭐ Favoritar", key=f"fav_{idx}"):
+            if st.button(f"⭐ Favoritar", key=f"fav_{idx}_{practice['title']}"):
                 st.session_state.favorites.add(idx)
                 st.session_state.user_points += 5
-            if st.button(f"✅ Marcar como Aprendida", key=f"learn_{idx}"):
+                st.rerun()
+            if st.button(f"✅ Aprendida", key=f"learn_{idx}_{practice['title']}"):
                 st.session_state.learned.add(idx)
                 st.session_state.user_points += 10
+                st.rerun()
         
-        # Código
         st.markdown("**❌ Evitar (Bad Practice):**")
         st.code(practice["bad_code"], language="python")
         
@@ -862,5 +655,5 @@ st.markdown("""
         Transforme seu código Python em produção robusta e escalável
     </p>
 </div>
-<div class="footer-spacer"></div>
+<div style="height: 60px;"></div>
 """, unsafe_allow_html=True)
