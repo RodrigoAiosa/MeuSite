@@ -86,6 +86,7 @@ cursos_online_page = st.Page(page="Views/cursos_online.py", title="Cursos Online
 contato = st.Page(page="Views/contato.py", title="Contato", icon="📧")
 AIOSAIA = st.Page(page="Views/AIosa_IA.py", title="AIOSA IA", icon="⚛️")
 escola_sql = st.Page(page="Views/escola_sql.py", title="Escola SQL", icon="⚛️")
+escola_python = st.Page(page="Views/escola_python.py", title="Escola Python", icon="⚛️")
 #curso_sql = st.Page(page="Views/curso_sql.py", title="Curso SQL gratuíto", icon="📋")
 
 
@@ -93,7 +94,7 @@ escola_sql = st.Page(page="Views/escola_sql.py", title="Escola SQL", icon="⚛�
 navigation_dict = {
     "Informações": [sobre_page, projeto_recente_page],
     "Resultados": [cases_sucesso_page],
-    "Portifólio": [projeto_python_page, projeto_powerbi_page, escola_sql],
+    "Portifólio": [projeto_python_page, projeto_powerbi_page, escola_sql, escola_python],
     "Treinamentos": [treinamento_empresa_page, cursos_online_page],
     "Entre em contato": [contato],
     "Assistente IA": [AIOSAIA]
