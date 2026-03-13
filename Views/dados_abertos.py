@@ -652,38 +652,30 @@ for dataset in filtered_datasets:
             help=f"Download {dataset['title']}"
         ):
             try:
-                import requests
+                # URL direta para download
+                download_url = dataset['url']
                 
-                # Headers para simular um navegador
+                # Headers simples
                 headers = {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
                 }
                 
-                # Fazer requisição para o arquivo
-                response = requests.get(
-                    dataset['url'], 
-                    timeout=30, 
-                    allow_redirects=True,
-                    headers=headers,
-                    verify=True
-                )
-                response.raise_for_status()
+                # Fazer download
+                response = requests.get(download_url, headers=headers, timeout=60, allow_redirects=True, verify=False)
                 
-                st.download_button(
-                    label="✓ Pronto",
-                    data=response.content,
-                    file_name=dataset['file_name'],
-                    mime="application/octet-stream",
-                    key=f"download_btn_{dataset['title']}"
-                )
-            except requests.exceptions.Timeout:
-                st.error(f"❌ Timeout ao baixar. Tente novamente em alguns segundos.")
-            except requests.exceptions.ConnectionError:
-                st.error(f"❌ Erro de conexão. Verifique sua internet.")
-            except requests.exceptions.HTTPError as e:
-                st.error(f"❌ Erro HTTP {e.response.status_code}: Arquivo não encontrado ou acesso negado.")
+                if response.status_code == 200:
+                    st.download_button(
+                        label="✓ Clique para baixar",
+                        data=response.content,
+                        file_name=dataset['file_name'],
+                        mime="application/octet-stream",
+                        key=f"btn_{dataset['file_name']}"
+                    )
+                else:
+                    st.error(f"❌ Erro: Arquivo não encontrado (Status {response.status_code})")
+                    
             except Exception as e:
-                st.error(f"❌ Erro ao baixar: {str(e)}")
+                st.error(f"❌ Erro ao processar download")
     
     st.write("")
 
