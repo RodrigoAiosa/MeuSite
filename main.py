@@ -93,7 +93,7 @@ escola_sql = st.Page(page="Views/escola_sql.py", title="Escola SQL", icon="⚛�
 navigation_dict = {
     "Informações": [sobre_page, projeto_recente_page],
     "Resultados": [cases_sucesso_page],
-    "Portifólio": [projeto_python_page, projeto_powerbi_page, projetos_sql],
+    "Portifólio": [projeto_python_page, projeto_powerbi_page, escola_sql],
     "Treinamentos": [treinamento_empresa_page, cursos_online_page],
     "Entre em contato": [contato],
     "Assistente IA": [AIOSAIA]
