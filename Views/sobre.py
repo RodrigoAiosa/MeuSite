@@ -142,6 +142,19 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     opacity: 0.5;
 }
 
+/* Impede deslocamento vertical ao fazer flip */
+.flip-card,
+.flip-card-inner,
+.flip-card-front,
+.flip-card-back {
+    transform-origin: center center !important;
+}
+
+.flip-card {
+    isolation: isolate;
+    will-change: transform;
+}
+
 .flip-card-inner {
     position: relative;
     width: 100%;
