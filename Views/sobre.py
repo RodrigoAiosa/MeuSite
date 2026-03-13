@@ -142,51 +142,34 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     opacity: 0.5;
 }
 
-/* Impede deslocamento vertical ao fazer flip */
-.flip-card,
-.flip-card-inner,
-.flip-card-front,
-.flip-card-back {
-    transform-origin: center center !important;
-}
-
-.flip-card {
-    isolation: isolate;
-    will-change: transform;
-}
-
 .flip-card-inner {
     position: relative;
     width: 100%;
     height: 100%;
     text-align: center;
-    transition: transform 0.6s;
-    transform-style: preserve-3d;
     cursor: pointer;
 }
 
-.flip-card:hover .flip-card-inner {
-    transform: rotateY(180deg);
-}
-
+/* Sem flip — frente e verso sobrepostos, verso aparece no hover via opacity */
 .flip-card-front, .flip-card-back {
     position: absolute;
+    top: 0; left: 0;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden;
     border-radius: 18px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 20px;
+    transition: opacity 0.4s ease;
 }
 
 .flip-card-front {
     background: linear-gradient(145deg, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.25) 100%);
     border: 1px solid rgba(255,255,255,0.05);
     color: #f0f4ff;
-    position: relative;
+    opacity: 1;
     overflow: hidden;
 }
 
@@ -199,15 +182,18 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 }
 
 .flip-card-back {
-    background: linear-gradient(135deg, rgba(0,180,216,0.15) 0%, rgba(0,100,180,0.2) 100%);
+    background: linear-gradient(135deg, rgba(0,180,216,0.15) 0%, rgba(0,100,180,0.25) 100%);
     border: 1px solid rgba(0,180,216,0.35);
     color: #e2e8f0;
-    transform: rotateY(180deg);
     font-size: 0.88rem;
     font-weight: 400;
     line-height: 1.65;
     backdrop-filter: blur(8px);
+    opacity: 0;
 }
+
+.flip-card:hover .flip-card-front { opacity: 0; }
+.flip-card:hover .flip-card-back  { opacity: 1; }
 
 .card-icon  { font-size: 26px; margin-bottom: 6px; }
 .card-number {
