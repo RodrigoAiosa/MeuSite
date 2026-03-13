@@ -639,35 +639,35 @@ for dataset in filtered_datasets:
     
     with col2:
         if st.button(
-            "⬇️ CSV",
+            "⬇️ Download",
             key=f"download_csv_{dataset['title']}",
             use_container_width=True,
-            help=f"Download {dataset['title']} em CSV"
+            help=f"Download {dataset['title']}"
         ):
             try:
-                import openpyxl
-                import xlrd
+                import requests
                 
-                # Detectar tipo de arquivo pela extensão
+                # Fazer requisição para o arquivo
+                response = requests.get(dataset['url'], timeout=30)
+                response.raise_for_status()
+                
+                # Determinar extensão do arquivo original
                 file_url = dataset['url']
                 if file_url.endswith('.xls'):
-                    df = pd.read_excel(file_url, engine='xlrd')
+                    file_ext = 'xls'
+                    mime_type = 'application/vnd.ms-excel'
                 elif file_url.endswith('.xlsx'):
-                    df = pd.read_excel(file_url, engine='openpyxl')
-                elif file_url.endswith('.csv'):
-                    df = pd.read_csv(file_url)
+                    file_ext = 'xlsx'
+                    mime_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                 else:
-                    df = pd.read_excel(file_url)
-                
-                csv_buffer = BytesIO()
-                df.to_csv(csv_buffer, index=False, encoding='utf-8')
-                csv_buffer.seek(0)
+                    file_ext = 'csv'
+                    mime_type = 'text/csv'
                 
                 st.download_button(
                     label="✓ Pronto",
-                    data=csv_buffer.getvalue(),
-                    file_name=f"{dataset['file_name']}.csv",
-                    mime="text/csv",
+                    data=response.content,
+                    file_name=f"{dataset['file_name']}.{file_ext}",
+                    mime=mime_type,
                     key=f"download_btn_{dataset['title']}"
                 )
             except Exception as e:
@@ -681,18 +681,23 @@ for dataset in filtered_datasets:
             help=f"Visualizar {dataset['title']}"
         ):
             try:
-                import openpyxl
-                import xlrd
+                import requests
+                from io import BytesIO
                 
                 file_url = dataset['url']
-                if file_url.endswith('.xls'):
-                    df = pd.read_excel(file_url, engine='xlrd')
-                elif file_url.endswith('.xlsx'):
-                    df = pd.read_excel(file_url, engine='openpyxl')
-                elif file_url.endswith('.csv'):
-                    df = pd.read_csv(file_url)
-                else:
-                    df = pd.read_excel(file_url)
+                response = requests.get(file_url, timeout=30)
+                response.raise_for_status()
+                
+                # Tentar ler com pandas
+                file_buffer = BytesIO(response.content)
+                
+                try:
+                    # Tentar como Excel primeiro
+                    df = pd.read_excel(file_buffer)
+                except:
+                    # Se falhar, tentar como CSV
+                    file_buffer.seek(0)
+                    df = pd.read_csv(file_buffer)
                 
                 st.write(f"**Preview de {dataset['title']}**")
                 st.dataframe(df.head(10), use_container_width=True)
