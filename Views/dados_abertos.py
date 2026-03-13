@@ -645,37 +645,20 @@ for dataset in filtered_datasets:
         """, unsafe_allow_html=True)
     
     with col2:
-        if st.button(
-            "⬇️ Download",
-            key=f"download_{dataset['title']}",
-            use_container_width=True,
-            help=f"Download {dataset['title']}"
-        ):
-            try:
-                # URL direta para download
-                download_url = dataset['url']
-                
-                # Headers simples
-                headers = {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-                }
-                
-                # Fazer download
-                response = requests.get(download_url, headers=headers, timeout=60, allow_redirects=True, verify=False)
-                
-                if response.status_code == 200:
-                    st.download_button(
-                        label="✓ Clique para baixar",
-                        data=response.content,
-                        file_name=dataset['file_name'],
-                        mime="application/octet-stream",
-                        key=f"btn_{dataset['file_name']}"
-                    )
-                else:
-                    st.error(f"❌ Erro: Arquivo não encontrado (Status {response.status_code})")
-                    
-            except Exception as e:
-                st.error(f"❌ Erro ao processar download")
+        st.download_button(
+            label="⬇️ Download",
+            data=requests.get(
+                dataset['url'],
+                headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'},
+                timeout=60,
+                allow_redirects=True,
+                verify=False
+            ).content,
+            file_name=dataset['file_name'],
+            mime="application/octet-stream",
+            key=f"download_{dataset['file_name']}",
+            use_container_width=True
+        )
     
     st.write("")
 
