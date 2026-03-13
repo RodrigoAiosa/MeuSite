@@ -699,8 +699,36 @@ for dataset in filtered_datasets:
                     file_buffer.seek(0)
                     df = pd.read_csv(file_buffer)
                 
-                st.write(f"**Preview de {dataset['title']}**")
-                st.dataframe(df.head(10), use_container_width=True)
+                # Criar modal com os dados
+                with st.expander(f"📋 Preview - {dataset['title']}", expanded=True):
+                    st.markdown(f"""
+                    <div style="
+                        background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
+                        padding: 20px;
+                        border-radius: 12px;
+                        border: 1px solid rgba(0,180,216,0.2);
+                    ">
+                        <p style="color: #7b8ba8; margin-bottom: 15px; font-size: 0.9rem;">
+                            Mostrando <span style="color: #00b4d8; font-weight: 600;">10 primeiras linhas</span> de <span style="color: #00b4d8; font-weight: 600;">{df.shape[0]:,} linhas</span>
+                        </p>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    
+                    st.dataframe(
+                        df.head(10),
+                        use_container_width=True,
+                        height=400
+                    )
+                    
+                    # Mostrar informações adicionais
+                    col_info1, col_info2, col_info3 = st.columns(3)
+                    with col_info1:
+                        st.metric("Total de Linhas", f"{df.shape[0]:,}")
+                    with col_info2:
+                        st.metric("Total de Colunas", df.shape[1])
+                    with col_info3:
+                        st.metric("Colunas", ", ".join(df.columns[:3]) + "...")
+                    
             except Exception as e:
                 st.error(f"Erro ao carregar preview: {str(e)}")
     
