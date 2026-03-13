@@ -16,235 +16,304 @@ def img_to_base64(path):
 
 img_b64 = img_to_base64("assets/EU.jpg")
 
-# --- ESTILO CSS GLOBAL ATUALIZADO ---
-st.markdown(
-    """
-    <style>
-    /* Container da Foto com Efeito de Borda Animada */
-    .profile-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: -30px;
-        position: relative;
-    }
+# --- ESTILO LANDING PAGE ---
+st.markdown("""
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=Bebas+Neue&display=swap');
 
-    .profile-pic-border {
-        position: relative;
-        width: 210px;
-        height: 210px;
-        background: #151515;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50%;
-        overflow: hidden;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    }
+*, *::before, *::after { box-sizing: border-box; }
 
-    .profile-pic-border::before {
-        content: '';
-        position: absolute;
-        width: 150%;
-        height: 150%;
-        background: conic-gradient(transparent, #00b4d8, #00b4d8, transparent 40%);
-        animation: rotate-border 4s linear infinite;
-    }
+html, body, .main, [data-testid="stAppViewContainer"] {
+    background-color: #060912 !important;
+}
 
-    .profile-pic-border img {
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        object-fit: cover;
-        z-index: 1;
-        background-color: #151515;
-        border: 2px solid #151515;
-    }
+[data-testid="stAppViewContainer"] {
+    background-color: #060912 !important;
+    background-image:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0,180,216,0.10) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 80% 60%, rgba(0,100,180,0.06) 0%, transparent 50%);
+}
 
-    @keyframes rotate-border {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
+[data-testid="stHeader"] { background: transparent !important; }
 
-    .main-title {
-        text-align: center;
-        margin-top: 10px;
-    }
+/* Fonte apenas no conteúdo principal */
+.main h1, .main h2, .main h3, .main h4,
+.main p, .main a, .main li,
+[data-testid="stAppViewContainer"] div:not([data-testid="stSidebar"]) {
+    font-family: 'DM Sans', sans-serif !important;
+}
 
-    /* --- NOVOS EFEITOS NOS CARDS FLIP --- */
-    .cards-container {
-        display: flex;
-        justify-content: space-between;
-        gap: 15px;
-        width: 100%;
-    }
+/* Preserva ícones Material do Streamlit */
+.material-symbols-rounded,
+.material-icons,
+[data-testid*="Collapse"] span,
+[data-testid*="collapse"] span {
+    font-family: 'Material Symbols Rounded', 'Material Icons' !important;
+}
 
-    .flip-card {
-        background-color: transparent;
-        width: 100%;
-        height: 180px;
-        perspective: 1000px;
-        margin-bottom: 20px;
-        transition: transform 400ms, filter 400ms;
-    }
+[data-testid="stMarkdownContainer"] { width: 100% !important; }
+.block-container {
+    max-width: 100% !important;
+    padding-left: 4rem !important;
+    padding-right: 4rem !important;
+}
 
-    .flip-card:hover {
-        transform: scale(1.1);
-        z-index: 10;
-    }
+/* ── PROFILE PHOTO ── */
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    position: relative;
+}
 
-    .cards-container:hover .flip-card:not(:hover) {
-        filter: blur(8px);
-        transform: scale(0.9);
-        opacity: 0.6;
-    }
+.profile-pic-border {
+    position: relative;
+    width: 210px;
+    height: 210px;
+    background: #060912;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 30px rgba(0,180,216,0.2);
+}
 
-    .flip-card-inner {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        text-align: center;
-        transition: transform 0.6s;
-        transform-style: preserve-3d;
-        cursor: pointer;
-    }
+.profile-pic-border::before {
+    content: '';
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    background: conic-gradient(transparent, #00b4d8, #48cae4, transparent 40%);
+    animation: rotate-border 4s linear infinite;
+}
 
-    .flip-card:hover .flip-card-inner {
-        transform: rotateY(180deg);
-    }
+.profile-pic-border img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 1;
+    background-color: #060912;
+    border: 3px solid #060912;
+}
 
-    .flip-card-front, .flip-card-back {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        backface-visibility: hidden;
-        border-radius: 18px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-        border: 1px solid #1f2937;
-    }
+@keyframes rotate-border {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
-    .flip-card-front {
-        background-color: #111827;
-        color: white;
-    }
+.main-title {
+    font-family: 'Syne', sans-serif !important;
+    text-align: center;
+    font-size: clamp(2rem, 4vw, 3rem) !important;
+    font-weight: 800 !important;
+    letter-spacing: -1.5px !important;
+    color: #f0f4ff !important;
+    margin-top: 12px !important;
+    margin-bottom: 8px !important;
+}
 
-    .flip-card-back {
-        background-color: #00b4d8;
-        color: #111827;
-        transform: rotateY(180deg);
-        font-weight: bold;
-        font-size: 15px;
-        line-height: 1.4;
-    }
+/* ── CARDS CONTAINER (FLIP) ── */
+.cards-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+}
 
-    .card-icon { font-size:28px; margin-bottom:5px; }
-    .card-number { font-size:26px; font-weight:bold; color:#00b4d8; }
-    .card-title { font-size:14px; color:#9ca3af; }
+.flip-card {
+    background-color: transparent;
+    width: 100%;
+    height: 180px;
+    perspective: 1000px;
+    margin-bottom: 20px;
+    transition: transform 400ms, filter 400ms;
+}
 
-    /* TEXTO CENTRALIZADO */
-    .centered-text {
-        text-align: center;
-        max-width: 900px;
-        margin: 0 auto;
-        font-size: 1.1em;
-        color: #9ca3af;
-    }
+.flip-card:hover {
+    transform: scale(1.08);
+    z-index: 10;
+}
 
-    /* --- ESTILO PARA CARDS DE EXPERIÊNCIA COM ANIMAÇÃO DE ENTRADA --- */
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
+.cards-container:hover .flip-card:not(:hover) {
+    filter: blur(6px);
+    transform: scale(0.92);
+    opacity: 0.5;
+}
 
-    .exp-card {
-        background-color: #111827;
-        padding: 25px;
-        border-radius: 15px;
-        border-left: 5px solid #00b4d8;
-        height: 160px;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        cursor: default;
-        position: relative;
-        overflow: hidden;
-        animation: fadeInUp 0.8s ease-out forwards;
-    }
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    cursor: pointer;
+}
 
-    .exp-card:hover {
-        transform: translateY(-10px);
-        background-color: #1f2937;
-        box-shadow: 0 10px 30px -5px rgba(0, 180, 216, 0.4);
-        border-left: 8px solid #00b4d8;
-    }
+.flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
 
-    .exp-card h3 {
-        transition: color 0.3s ease;
-    }
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
 
-    .exp-card:hover h3 {
-        color: #00b4d8 !important;
-    }
+.flip-card-front {
+    background: linear-gradient(145deg, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.25) 100%);
+    border: 1px solid rgba(255,255,255,0.05);
+    color: #f0f4ff;
+    position: relative;
+    overflow: hidden;
+}
 
-    /* Delay para os cards aparecerem um após o outro */
-    .delay-1 { animation-delay: 0.2s; }
-    .delay-2 { animation-delay: 0.4s; }
-    .delay-3 { animation-delay: 0.6s; }
-    .delay-4 { animation-delay: 0.8s; }
+.flip-card-front::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,180,216,0.4), transparent);
+}
 
-    /* --- BOTÃO FLUTUANTE DE PROMOÇÃO --- */
-    .promo-float-btn {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        z-index: 9997;
-        background: linear-gradient(135deg, #d4910e, #f5a623, #d4910e);
-        color: #1a0800 !important;
-        font-family: 'Bebas Neue', 'Oswald', sans-serif;
-        font-size: 14px;
-        letter-spacing: 2px;
-        padding: 14px 22px;
-        border-radius: 50px;
-        border: none;
-        cursor: pointer;
-        box-shadow: 0 4px 0 #7a4e00, 0 6px 24px rgba(200,134,10,0.6);
-        text-transform: uppercase;
-        text-decoration: none !important;
-        animation: floatPulse 2s ease-in-out infinite;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
+.flip-card-back {
+    background: linear-gradient(135deg, rgba(0,180,216,0.15) 0%, rgba(0,100,180,0.2) 100%);
+    border: 1px solid rgba(0,180,216,0.35);
+    color: #e2e8f0;
+    transform: rotateY(180deg);
+    font-size: 0.88rem;
+    font-weight: 400;
+    line-height: 1.65;
+    backdrop-filter: blur(8px);
+}
 
-    .promo-float-btn:hover {
-        background: linear-gradient(135deg, #e5a020, #ffc040, #e5a020);
-        transform: translateY(-3px) scale(1.04);
-        box-shadow: 0 6px 0 #7a4e00, 0 10px 30px rgba(200,134,10,0.7);
-    }
+.card-icon  { font-size: 26px; margin-bottom: 6px; }
+.card-number {
+    font-family: 'Syne', sans-serif !important;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #00b4d8;
+    line-height: 1;
+}
+.card-title {
+    font-size: 0.78rem;
+    color: #4a5568;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 5px;
+}
 
-    @keyframes floatPulse {
-        0%, 100% { box-shadow: 0 4px 0 #7a4e00, 0 6px 24px rgba(200,134,10,0.6); }
-        50%       { box-shadow: 0 4px 0 #7a4e00, 0 6px 36px rgba(200,134,10,0.9); }
-    }
+/* ── CENTERED TEXT ── */
+.centered-text {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+    font-size: 1rem;
+    color: #4a5568;
+    line-height: 1.8;
+    font-weight: 300;
+}
 
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+/* ── EXP CARDS ── */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.exp-card {
+    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.25) 100%);
+    padding: 26px 28px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.05);
+    border-left: 3px solid #00b4d8;
+    height: 160px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.exp-card:hover {
+    transform: translateY(-8px);
+    border-left: 4px solid #00b4d8;
+    border-color: rgba(0,180,216,0.25);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,180,216,0.1);
+}
+
+.exp-card h3 { transition: color 0.3s ease; }
+.exp-card:hover h3 { color: #00b4d8 !important; }
+
+.delay-1 { animation-delay: 0.2s; }
+.delay-2 { animation-delay: 0.4s; }
+.delay-3 { animation-delay: 0.6s; }
+.delay-4 { animation-delay: 0.8s; }
+
+/* ── FLOATING CTA BUTTON ── */
+.promo-float-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 9997;
+    background: linear-gradient(135deg, #d4910e, #f5a623, #d4910e);
+    color: #1a0800 !important;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 2px;
+    padding: 14px 22px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #7a4e00, 0 6px 24px rgba(200,134,10,0.5);
+    text-transform: uppercase;
+    text-decoration: none !important;
+    animation: floatPulse 2s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.promo-float-btn:hover {
+    background: linear-gradient(135deg, #e5a020, #ffc040, #e5a020);
+    transform: translateY(-3px) scale(1.04);
+    box-shadow: 0 6px 0 #7a4e00, 0 10px 30px rgba(200,134,10,0.7);
+}
+
+@keyframes floatPulse {
+    0%, 100% { box-shadow: 0 4px 0 #7a4e00, 0 6px 24px rgba(200,134,10,0.5); }
+    50%       { box-shadow: 0 4px 0 #7a4e00, 0 6px 36px rgba(200,134,10,0.85); }
+}
+
+hr {
+    border: none !important;
+    border-top: 1px solid rgba(255,255,255,0.05) !important;
+    margin: 40px 0 !important;
+}
+
+.footer-spacer { height: 60px; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #060912; }
+::-webkit-scrollbar-thumb { background: rgba(0,180,216,0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,180,216,0.4); }
+
+</style>
+""", unsafe_allow_html=True)
 
 # --- BOTÃO FLUTUANTE ---
 st.markdown(
     """
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
-
     <!-- BOTÃO FLUTUANTE -->
     <a href="https://rodrigoaiosa.github.io/promocao_curso_online/" target="_blank" class="promo-float-btn">
         🔥 Promoção Treinamento Online
@@ -266,12 +335,18 @@ st.markdown(
 )
 
 st.markdown('<h1 class="main-title">Rodrigo Aiosa</h1>', unsafe_allow_html=True)
-st.markdown('<div style="text-align: center; font-size: 1.2em; color: #00b4d8; font-weight: bold;">Python | Excel | Power BI | ETL | SQL SERVER | Linguagem M | DAX</div>', unsafe_allow_html=True)
+st.markdown(
+    '<div style="text-align:center; font-family:\'Syne\',sans-serif; font-size:0.8rem; color:#00b4d8; font-weight:700; letter-spacing:3px; text-transform:uppercase; margin-bottom:8px;">Python &nbsp;|&nbsp; Excel &nbsp;|&nbsp; Power BI &nbsp;|&nbsp; ETL &nbsp;|&nbsp; SQL SERVER &nbsp;|&nbsp; Linguagem M &nbsp;|&nbsp; DAX</div>',
+    unsafe_allow_html=True
+)
 
 st.write("")
 
 # --- CARDS COM CONTADOR E EFEITOS DE HOVER ---
-st.markdown("### ⭐ Experiência e Resultados")
+st.markdown(
+    '<p style="font-family:\'Syne\',sans-serif; font-size:1.1rem; font-weight:800; color:#e2e8f0; letter-spacing:-0.3px;">⭐ Experiência e Resultados</p>',
+    unsafe_allow_html=True
+)
 
 card_placeholders = st.empty()
 
@@ -283,10 +358,10 @@ back_texts = [
 ]
 
 for i in range(0, 101, 5):
-    val_exp = int(20 * i / 100)
-    val_emp = int(450 * i / 100)
+    val_exp  = int(20  * i / 100)
+    val_emp  = int(450 * i / 100)
     val_proj = int(500 * i / 100)
-    val_rec = int(87 * i / 100)
+    val_rec  = int(87  * i / 100)
 
     html_cards = f"""
     <div class="cards-container">
@@ -337,7 +412,7 @@ for i in range(0, 101, 5):
 
 st.markdown("---")
 
-# --- EXPERIÊNCIA DE MERCADO (COM CARDS ANIMADOS) ---
+# --- EXPERIÊNCIA DE MERCADO ---
 st.subheader("🤝 Experiência de Mercado")
 st.write("Especialista em Análise de Dados e Business Intelligence, transformando dados brutos em decisões inteligentes.")
 
@@ -347,13 +422,13 @@ with col1:
     st.markdown(
         """
         <div class="exp-card delay-1">
-            <h3 style="color: white; margin-bottom: 8px; font-size: 1.3em;">🔎 Análise Avançada e Automação</h3>
-            <p style="color: #9ca3af; font-size: 1em;">Desenvolvimento de scripts Python e modelos em Excel para otimização de tempo e processos.</p>
+            <h3 style="color:#e2e8f0; margin-bottom:8px; font-family:'Syne',sans-serif; font-size:1.05rem; font-weight:700; letter-spacing:-0.3px;">🔎 Análise Avançada e Automação</h3>
+            <p style="color:#4a5568; font-size:0.9rem; font-weight:300; line-height:1.65;">Desenvolvimento de scripts Python e modelos em Excel para otimização de tempo e processos.</p>
         </div>
         <br>
         <div class="exp-card delay-2">
-            <h3 style="color: white; margin-bottom: 8px; font-size: 1.3em;">📊 Business Intelligence (BI)</h3>
-            <p style="color: #9ca3af; font-size: 1em;">Criação de ecossistemas de dados robustos utilizando Power BI, Linguagem M e DAX.</p>
+            <h3 style="color:#e2e8f0; margin-bottom:8px; font-family:'Syne',sans-serif; font-size:1.05rem; font-weight:700; letter-spacing:-0.3px;">📊 Business Intelligence (BI)</h3>
+            <p style="color:#4a5568; font-size:0.9rem; font-weight:300; line-height:1.65;">Criação de ecossistemas de dados robustos utilizando Power BI, Linguagem M e DAX.</p>
         </div>
         """, unsafe_allow_html=True
     )
@@ -362,24 +437,24 @@ with col2:
     st.markdown(
         """
         <div class="exp-card delay-3">
-            <h3 style="color: white; margin-bottom: 8px; font-size: 1.3em;">🗄️ Gerenciamento de Dados</h3>
-            <p style="color: #9ca3af; font-size: 1em;">Estruturação de bancos de dados SQL Server e fluxos de ETL eficientes para alta performance.</p>
+            <h3 style="color:#e2e8f0; margin-bottom:8px; font-family:'Syne',sans-serif; font-size:1.05rem; font-weight:700; letter-spacing:-0.3px;">🗄️ Gerenciamento de Dados</h3>
+            <p style="color:#4a5568; font-size:0.9rem; font-weight:300; line-height:1.65;">Estruturação de bancos de dados SQL Server e fluxos de ETL eficientes para alta performance.</p>
         </div>
         <br>
         <div class="exp-card delay-4">
-            <h3 style="color: white; margin-bottom: 8px; font-size: 1.3em;">🎯 Minha Abordagem</h3>
-            <p style="color: #9ca3af; font-size: 1em;">Foco total na solução da dor do cliente, visando agilidade e a geração de valor imediato.</p>
+            <h3 style="color:#e2e8f0; margin-bottom:8px; font-family:'Syne',sans-serif; font-size:1.05rem; font-weight:700; letter-spacing:-0.3px;">🎯 Minha Abordagem</h3>
+            <p style="color:#4a5568; font-size:0.9rem; font-weight:300; line-height:1.65;">Foco total na solução da dor do cliente, visando agilidade e a geração de valor imediato.</p>
         </div>
         """, unsafe_allow_html=True
     )
 
 st.write("")
 
-# --- SEÇÃO DE CLIENTES CENTRALIZADA ---
+# --- SEÇÃO DE CLIENTES ---
 st.markdown(
     """
     <div class="centered-text">
-        <p><strong>Clientes em Destaque:</strong></p>
+        <p style="color:#e2e8f0; font-weight:600; margin-bottom:8px;">Clientes em Destaque:</p>
         <p>Cimed, Unimed Seguros, Ouro Safra, Kraft Heinz, Loggi, Usina Santa Terezinha, Megavig, Lowell e BSS Blindagens.</p>
     </div>
     """,
@@ -391,5 +466,7 @@ st.write("")
 col_img1, col_img2, col_img3 = st.columns([1, 8, 1])
 with col_img2:
     st.image("assets/clientes_atendidos.jpg", width=None, use_container_width=True)
+
+st.markdown('<div class="footer-spacer"></div>', unsafe_allow_html=True)
 
 exibir_rodape()
