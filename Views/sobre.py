@@ -134,13 +134,11 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 }
 
 .flip-card:hover {
-    transform: scale(1.08);
     z-index: 10;
 }
 
 .cards-container:hover .flip-card:not(:hover) {
     filter: blur(6px);
-    transform: scale(0.92);
     opacity: 0.5;
 }
 
