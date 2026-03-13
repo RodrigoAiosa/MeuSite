@@ -548,40 +548,15 @@ st.write("")
 categories = sorted(list(set([d["category"] for d in datasets])))
 categories_with_all = ["Todas"] + categories
 
-st.markdown(
-    "<p class='search-label' style='text-align: center; margin-bottom: 16px;'>Filtrar por categoria:</p>",
-    unsafe_allow_html=True
-)
-
-# CSS para centralizar o radio button
-st.markdown("""
-<style>
-div[data-testid="stRadio"] {
-    display: flex !important;
-    justify-content: center !important;
-}
-
-div[data-testid="stRadio"] > label {
-    display: flex !important;
-    justify-content: center !important;
-    width: 100% !important;
-}
-
-div[data-testid="stRadio"] > label > div {
-    display: flex !important;
-    justify-content: center !important;
-    width: 100% !important;
-}
-</style>
-""", unsafe_allow_html=True)
-
-selected_category = st.radio(
-    "Categoria",
-    categories_with_all,
-    horizontal=True,
-    label_visibility="collapsed",
-    key="category_filter"
-)
+col_s1, col_s2, col_s3 = st.columns([1, 2, 1])
+with col_s2:
+    selected_category = st.selectbox(
+        label="Filtrar por categoria",
+        options=categories_with_all,
+        index=0,
+        label_visibility="collapsed",
+        key="category_filter"
+    )
 
 st.write("")
 
