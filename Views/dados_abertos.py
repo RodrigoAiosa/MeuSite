@@ -647,8 +647,19 @@ for dataset in filtered_datasets:
             try:
                 import requests
                 
+                # Headers para simular um navegador
+                headers = {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                }
+                
                 # Fazer requisição para o arquivo
-                response = requests.get(dataset['url'], timeout=30, allow_redirects=True)
+                response = requests.get(
+                    dataset['url'], 
+                    timeout=30, 
+                    allow_redirects=True,
+                    headers=headers,
+                    verify=True
+                )
                 response.raise_for_status()
                 
                 st.download_button(
@@ -658,6 +669,12 @@ for dataset in filtered_datasets:
                     mime="application/octet-stream",
                     key=f"download_btn_{dataset['title']}"
                 )
+            except requests.exceptions.Timeout:
+                st.error(f"❌ Timeout ao baixar. Tente novamente em alguns segundos.")
+            except requests.exceptions.ConnectionError:
+                st.error(f"❌ Erro de conexão. Verifique sua internet.")
+            except requests.exceptions.HTTPError as e:
+                st.error(f"❌ Erro HTTP {e.response.status_code}: Arquivo não encontrado ou acesso negado.")
             except Exception as e:
                 st.error(f"❌ Erro ao baixar: {str(e)}")
     
