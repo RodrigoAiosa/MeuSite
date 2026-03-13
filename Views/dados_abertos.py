@@ -548,9 +548,13 @@ st.write("")
 categories = sorted(list(set([d["category"] for d in datasets])))
 categories_with_all = ["Todas"] + categories
 
+st.markdown(
+    "<p class='search-label' style='text-align: center; margin-bottom: 16px;'>Filtrar por categoria:</p>",
+    unsafe_allow_html=True
+)
+
 col_c1, col_c2, col_c3 = st.columns([1, 5, 1])
 with col_c2:
-    st.markdown("<p class='search-label'>Filtrar por categoria:</p>", unsafe_allow_html=True)
     selected_category = st.radio(
         "Categoria",
         categories_with_all,
