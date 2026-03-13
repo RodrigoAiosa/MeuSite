@@ -85,7 +85,7 @@ treinamento_empresa_page = st.Page(page="Views/treinamento_empresa.py", title="P
 cursos_online_page = st.Page(page="Views/cursos_online.py", title="Cursos Online", icon="🛜")
 contato = st.Page(page="Views/contato.py", title="Contato", icon="📧")
 AIOSAIA = st.Page(page="Views/AIosa_IA.py", title="AIOSA IA", icon="⚛️")
-projetos_sql = st.Page(page="Views/projetos_sql.py", title="Projetos SQL", icon="⚛️")
+escola_sql = st.Page(page="Views/escola_sql.py", title="Escola SQL", icon="⚛️")
 #curso_sql = st.Page(page="Views/curso_sql.py", title="Curso SQL gratuíto", icon="📋")
 
 
