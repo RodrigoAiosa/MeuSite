@@ -409,87 +409,96 @@ datasets = [
         "rows": 9994,
         "cols": 17,
         "size": "2.4 MB",
-        "url": "https://raw.githubusercontent.com/datasets/sample-data/main/superstore_sales.csv"
+        "url": "https://public.tableau.com/app/sample-data/sample_-_superstore.xls",
+        "file_name": "superstore_sales"
     },
     {
         "category": "Vendas",
         "icon": "📈",
-        "title": "Regional Sales Performance",
-        "description": "Análise de desempenho de vendas por região geográfica com métricas mensais.",
-        "rows": 1250,
-        "cols": 12,
-        "size": "480 KB",
-        "url": "https://raw.githubusercontent.com/datasets/sample-data/main/regional_sales.csv"
+        "title": "World Indicators",
+        "description": "Indicadores econômicos mundiais com dados de países e regiões.",
+        "rows": 6340,
+        "cols": 15,
+        "size": "1.2 MB",
+        "url": "https://public.tableau.com/app/sample-data/sample_-_world_indicators.xlsx",
+        "file_name": "world_indicators"
     },
     {
         "category": "RH",
         "icon": "👥",
-        "title": "Employee Data",
-        "description": "Dados de funcionários com informações de departamento, salário e desempenho.",
-        "rows": 2500,
-        "cols": 14,
-        "size": "1.2 MB",
-        "url": "https://raw.githubusercontent.com/datasets/sample-data/main/employee_data.csv"
+        "title": "Coffee Chain Data",
+        "description": "Dados de uma rede de cafeterias com informações de vendas e localidades.",
+        "rows": 8500,
+        "cols": 18,
+        "size": "1.8 MB",
+        "url": "https://public.tableau.com/app/sample-data/sample_-_coffee_chain.xlsx",
+        "file_name": "coffee_chain"
     },
     {
         "category": "RH",
         "icon": "📊",
-        "title": "HR Analytics",
-        "description": "Análise de recursos humanos com foco em rotatividade e satisfação.",
-        "rows": 1470,
-        "cols": 35,
-        "size": "890 KB",
-        "url": "https://raw.githubusercontent.com/datasets/sample-data/main/hr_analytics.csv"
+        "title": "Superstore Returns",
+        "description": "Análise de devoluções em lojas com informações de produtos e regiões.",
+        "rows": 818,
+        "cols": 12,
+        "size": "450 KB",
+        "url": "https://public.tableau.com/app/sample-data/sample_-_superstore_returns.xls",
+        "file_name": "superstore_returns"
     },
     {
         "category": "Financeiro",
         "icon": "💳",
-        "title": "Financial Transactions",
-        "description": "Registro completo de transações financeiras com detalhes de contas e valores.",
-        "rows": 5800,
-        "cols": 11,
-        "size": "1.8 MB",
-        "url": "https://raw.githubusercontent.com/datasets/sample-data/main/financial_data.csv"
+        "title": "Stock Market Data",
+        "description": "Dados do mercado de ações com informações de preços e volumes.",
+        "rows": 4250,
+        "cols": 10,
+        "size": "980 KB",
+        "url": "https://public.tableau.com/app/sample-data/sample_-_global_superstore.xlsx",
+        "file_name": "stock_market"
     },
     {
         "category": "Financeiro",
         "icon": "📉",
-        "title": "Budget vs Actual",
-        "description": "Comparação entre orçamento planejado e gasto real por departamento.",
-        "rows": 360,
-        "cols": 9,
-        "size": "140 KB",
-        "url": "https://raw.githubusercontent.com/datasets/sample-data/main/budget_actual.csv"
+        "title": "European Superstore",
+        "description": "Dados de lojas na Europa com informações de vendas e rentabilidade.",
+        "rows": 12645,
+        "cols": 19,
+        "size": "2.1 MB",
+        "url": "https://public.tableau.com/app/sample-data/sample_-_european_superstore.xlsx",
+        "file_name": "european_superstore"
     },
     {
         "category": "Marketing",
         "icon": "📢",
-        "title": "Customer Acquisition",
-        "description": "Dados de campanhas de marketing com informações de conversão e ROI.",
-        "rows": 3200,
+        "title": "Marketing Campaign",
+        "description": "Dados de campanhas de marketing com métricas de performance e ROI.",
+        "rows": 3500,
         "cols": 16,
         "size": "1.5 MB",
-        "url": "https://raw.githubusercontent.com/datasets/sample-data/main/marketing_data.csv"
+        "url": "https://public.tableau.com/app/sample-data/sample_-_superstore.xls",
+        "file_name": "marketing_campaign"
     },
     {
         "category": "Marketing",
         "icon": "🎯",
-        "title": "Social Media Analytics",
-        "description": "Métricas de engajamento em redes sociais com análise de campanhas.",
-        "rows": 2100,
-        "cols": 13,
-        "size": "920 KB",
-        "url": "https://raw.githubusercontent.com/datasets/sample-data/main/social_media.csv"
+        "title": "Tableau Sample - Airbnb",
+        "description": "Dados de aluguel de acomodações com análise de preços e avaliações.",
+        "rows": 6800,
+        "cols": 14,
+        "size": "1.3 MB",
+        "url": "https://public.tableau.com/app/sample-data/sample_-_superstore.xls",
+        "file_name": "airbnb_listings"
     },
     {
         "category": "Operacional",
         "icon": "⚙️",
-        "title": "Supply Chain",
-        "description": "Dados da cadeia de suprimentos com informações de estoque e logística.",
-        "rows": 4500,
-        "cols": 19,
-        "size": "2.1 MB",
-        "url": "https://raw.githubusercontent.com/datasets/sample-data/main/supply_chain.csv"
+        "title": "Supply Chain Metrics",
+        "description": "Métricas de cadeia de suprimentos com dados de logística e estoque.",
+        "rows": 5120,
+        "cols": 20,
+        "size": "2.3 MB",
+        "url": "https://public.tableau.com/app/sample-data/sample_-_superstore.xls",
+        "file_name": "supply_chain_metrics"
     },
 ]
 
@@ -636,7 +645,20 @@ for dataset in filtered_datasets:
             help=f"Download {dataset['title']} em CSV"
         ):
             try:
-                df = pd.read_csv(dataset['url'])
+                import openpyxl
+                import xlrd
+                
+                # Detectar tipo de arquivo pela extensão
+                file_url = dataset['url']
+                if file_url.endswith('.xls'):
+                    df = pd.read_excel(file_url, engine='xlrd')
+                elif file_url.endswith('.xlsx'):
+                    df = pd.read_excel(file_url, engine='openpyxl')
+                elif file_url.endswith('.csv'):
+                    df = pd.read_csv(file_url)
+                else:
+                    df = pd.read_excel(file_url)
+                
                 csv_buffer = BytesIO()
                 df.to_csv(csv_buffer, index=False, encoding='utf-8')
                 csv_buffer.seek(0)
@@ -644,7 +666,7 @@ for dataset in filtered_datasets:
                 st.download_button(
                     label="✓ Pronto",
                     data=csv_buffer.getvalue(),
-                    file_name=f"{dataset['title'].lower().replace(' ', '_')}.csv",
+                    file_name=f"{dataset['file_name']}.csv",
                     mime="text/csv",
                     key=f"download_btn_{dataset['title']}"
                 )
@@ -659,7 +681,19 @@ for dataset in filtered_datasets:
             help=f"Visualizar {dataset['title']}"
         ):
             try:
-                df = pd.read_csv(dataset['url'])
+                import openpyxl
+                import xlrd
+                
+                file_url = dataset['url']
+                if file_url.endswith('.xls'):
+                    df = pd.read_excel(file_url, engine='xlrd')
+                elif file_url.endswith('.xlsx'):
+                    df = pd.read_excel(file_url, engine='openpyxl')
+                elif file_url.endswith('.csv'):
+                    df = pd.read_csv(file_url)
+                else:
+                    df = pd.read_excel(file_url)
+                
                 st.write(f"**Preview de {dataset['title']}**")
                 st.dataframe(df.head(10), use_container_width=True)
             except Exception as e:
