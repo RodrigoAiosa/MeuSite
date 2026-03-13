@@ -1,6 +1,8 @@
 import streamlit as st
 import sys
 from io import StringIO
+from datetime import datetime
+import json
 
 st.set_page_config(
     page_title="Python - Melhores Práticas Pro",
@@ -15,8 +17,93 @@ if 'python_learned' not in st.session_state:
     st.session_state.python_learned = set()
 if 'python_points' not in st.session_state:
     st.session_state.python_points = 0
+if 'python_level' not in st.session_state:
+    st.session_state.python_level = 1
+if 'python_xp' not in st.session_state:
+    st.session_state.python_xp = 0
+if 'python_badges' not in st.session_state:
+    st.session_state.python_badges = set()
+if 'python_challenges_completed' not in st.session_state:
+    st.session_state.python_challenges_completed = set()
+if 'python_streak' not in st.session_state:
+    st.session_state.python_streak = 0
+if 'python_last_session' not in st.session_state:
+    st.session_state.python_last_session = None
 
-# --- DESIGN ---
+# --- SISTEMA DE NÍVEIS (LEVELING UP) ---
+MASTERY_LEVELS = {
+    1: {"title": "🥉 Python Padawan", "icon": "🥉", "xp_required": 0, "color": "#CD7F32", "theme": "bronze"},
+    2: {"title": "🥈 Code Ninja", "icon": "🥈", "xp_required": 250, "color": "#C0C0C0", "theme": "silver"},
+    3: {"title": "🥇 Python Master", "icon": "🥇", "xp_required": 750, "color": "#FFD700", "theme": "gold"},
+    4: {"title": "💎 Arquiteto Python", "icon": "💎", "xp_required": 1500, "color": "#00D9FF", "color_rgb": "rgb(0, 217, 255)", "theme": "diamond"},
+    5: {"title": "🏆 Pythonista Elite", "icon": "🏆", "xp_required": 2500, "color": "#FF1493", "theme": "legendary"},
+}
+
+BADGES = {
+    "first_steps": {"icon": "👣", "title": "Primeiros Passos", "description": "Completou a 1ª prática", "condition": lambda p: p >= 1},
+    "ten_practices": {"icon": "🔟", "title": "Persistência", "description": "Completou 10 práticas", "condition": lambda p: p >= 10},
+    "twenty_practices": {"icon": "2️⃣0️⃣", "title": "Veterano", "description": "Completou 20 práticas", "condition": lambda p: p >= 20},
+    "beginner_master": {"icon": "📚", "title": "Mestre Iniciante", "description": "Completou todas as práticas Iniciante", "condition": lambda p: p >= 20},
+    "code_ninja": {"icon": "🥷", "title": "Código Ninja", "description": "Completou 5 práticas Intermediário", "condition": lambda p: p >= 5},
+    "advanced_warrior": {"icon": "⚔️", "title": "Guerreiro Avançado", "description": "Completou 5 práticas Avançado", "condition": lambda p: p >= 5},
+    "speed_demon": {"icon": "⚡", "title": "Demônio da Velocidade", "description": "Executou 50 scripts no editor", "condition": lambda p: p >= 50},
+    "favorite_collector": {"icon": "⭐", "title": "Colecionador", "description": "Favoritou 10 práticas", "condition": lambda p: p >= 10},
+    "perfect_streak": {"icon": "🔥", "title": "Em Chamas", "description": "7 dias seguidos aprendendo", "condition": lambda p: p >= 7},
+    "code_master": {"icon": "👑", "title": "Rei do Código", "description": "1000+ pontos conquistados", "condition": lambda p: p >= 1000},
+}
+
+CHALLENGES = [
+    {
+        "id": "challenge_1",
+        "title": "Mestre de List Comprehension",
+        "difficulty": "Intermediário",
+        "xp_reward": 100,
+        "description": "Complete 3 práticas sobre List Comprehension",
+        "target": 3,
+        "type": "practices",
+        "practice_filter": "List Comprehension"
+    },
+    {
+        "id": "challenge_2",
+        "title": "Decorador Profissional",
+        "difficulty": "Avançado",
+        "xp_reward": 150,
+        "description": "Complete 2 práticas sobre Decorators",
+        "target": 2,
+        "type": "practices",
+        "practice_filter": "Decorators"
+    },
+    {
+        "id": "challenge_3",
+        "title": "Editor Speedrunner",
+        "difficulty": "Iniciante",
+        "xp_reward": 50,
+        "description": "Execute 20 scripts no editor interativo",
+        "target": 20,
+        "type": "editor_runs"
+    },
+    {
+        "id": "challenge_4",
+        "title": "Colecionador de Estrelas",
+        "difficulty": "Iniciante",
+        "xp_reward": 75,
+        "description": "Favoritou 5 práticas",
+        "target": 5,
+        "type": "favorites"
+    },
+    {
+        "id": "challenge_5",
+        "title": "Generador de Poder",
+        "difficulty": "Avançado",
+        "xp_reward": 200,
+        "description": "Complete todas as práticas sobre Generators",
+        "target": 3,
+        "type": "practices",
+        "practice_filter": "Generator"
+    },
+]
+
+# --- DESIGN AVANÇADO ---
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
@@ -69,6 +156,125 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     font-size: 0.9rem;
 }
 
+.level-badge {
+    background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.3) 100%);
+    border: 2px solid;
+    border-radius: 20px;
+    padding: 15px 30px;
+    text-align: center;
+    margin: 10px 0;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.level-bronze {
+    border-color: #CD7F32;
+    color: #CD7F32;
+    box-shadow: 0 0 20px rgba(205, 127, 50, 0.3);
+}
+
+.level-silver {
+    border-color: #C0C0C0;
+    color: #C0C0C0;
+    box-shadow: 0 0 20px rgba(192, 192, 192, 0.3);
+}
+
+.level-gold {
+    border-color: #FFD700;
+    color: #FFD700;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.level-diamond {
+    border-color: #00D9FF;
+    color: #00D9FF;
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+}
+
+.level-legendary {
+    border-color: #FF1493;
+    color: #FF1493;
+    box-shadow: 0 0 20px rgba(255, 20, 147, 0.5);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 20px rgba(255, 20, 147, 0.5); }
+    50% { box-shadow: 0 0 40px rgba(255, 20, 147, 0.8); }
+    100% { box-shadow: 0 0 20px rgba(255, 20, 147, 0.5); }
+}
+
+.xp-bar {
+    background: linear-gradient(90deg, rgba(167,139,250,0.2), rgba(167,139,250,0.5));
+    border-radius: 10px;
+    height: 25px;
+    border: 1px solid rgba(167,139,250,0.3);
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.xp-progress {
+    background: linear-gradient(90deg, #a78bfa, #7c3aed);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+.badge-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.badge {
+    background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.3) 100%);
+    border: 1px solid rgba(167,139,250,0.2);
+    border-radius: 10px;
+    padding: 10px 15px;
+    text-align: center;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.badge:hover {
+    transform: scale(1.1);
+    border-color: #a78bfa;
+    box-shadow: 0 0 15px rgba(167,139,250,0.3);
+}
+
+.badge-locked {
+    opacity: 0.3;
+}
+
+.challenge-box {
+    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
+    border: 1px solid rgba(167,139,250,0.2);
+    border-radius: 12px;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+.challenge-completed {
+    border-color: #22c55e;
+    background: linear-gradient(145deg, rgba(34,197,94,0.1) 0%, rgba(0,0,0,0.2) 100%);
+}
+
+.streak-fire {
+    font-size: 2rem;
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
 .code-editor {
     background-color: #1a1a2e !important;
     border: 1px solid rgba(167,139,250,0.2) !important;
@@ -111,38 +317,120 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     white-space: pre-wrap;
     word-wrap: break-word;
 }
+
+.achievement-pop {
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 </style>
 """, unsafe_allow_html=True)
 
-# --- HEADER ---
-st.markdown('<h1 style="text-align: center; color: #a78bfa; font-family: Syne, sans-serif;">🐍 Python - Melhores Práticas</h1>', unsafe_allow_html=True)
+# --- FUNÇÕES AUXILIARES ---
+def get_current_level(xp):
+    """Retorna o nível baseado no XP"""
+    for level in sorted(MASTERY_LEVELS.keys(), reverse=True):
+        if xp >= MASTERY_LEVELS[level]["xp_required"]:
+            return level
+    return 1
 
-# --- STATS NA SIDEBAR ---
-col1, col2 = st.columns(2)
+def get_xp_for_next_level(current_level):
+    """Retorna XP necessário para próximo nível"""
+    if current_level >= 5:
+        return MASTERY_LEVELS[5]["xp_required"] + 1000
+    return MASTERY_LEVELS[current_level + 1]["xp_required"]
+
+def get_xp_progress(xp, current_level):
+    """Retorna progresso em % para próximo nível"""
+    current_level_xp = MASTERY_LEVELS[current_level]["xp_required"]
+    next_level_xp = get_xp_for_next_level(current_level)
+    
+    progress = ((xp - current_level_xp) / (next_level_xp - current_level_xp)) * 100
+    return min(100, max(0, progress))
+
+def check_badges(learned_count, favorites_count, editor_runs, points):
+    """Verifica quais badges foram conquistados"""
+    new_badges = set()
+    
+    if learned_count >= 1:
+        new_badges.add("first_steps")
+    if learned_count >= 10:
+        new_badges.add("ten_practices")
+    if learned_count >= 20:
+        new_badges.add("twenty_practices")
+    if favorites_count >= 10:
+        new_badges.add("favorite_collector")
+    if points >= 1000:
+        new_badges.add("code_master")
+    
+    return new_badges
+
+def get_level_color_class(level):
+    """Retorna a classe CSS cor para o nível"""
+    colors = {
+        1: "level-bronze",
+        2: "level-silver",
+        3: "level-gold",
+        4: "level-diamond",
+        5: "level-legendary"
+    }
+    return colors.get(level, "level-bronze")
+
+# --- HEADER PRINCIPAL ---
+col1, col2, col3 = st.columns([2, 3, 2])
+
 with col1:
-    st.markdown(f"""
-    <div class="stat-box">
-        <div class="stat-number">⭐ {st.session_state.python_points}</div>
-        <div class="stat-label">Pontos</div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(f'<h1 style="text-align: center; color: #a78bfa; font-family: Syne, sans-serif;">🐍 Python Pro</h1>', unsafe_allow_html=True)
 
 with col2:
-    st.markdown(f"""
-    <div class="stat-box">
-        <div class="stat-number">✅ {len(st.session_state.python_learned)}</div>
-        <div class="stat-label">Aprendidas</div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown('<h3 style="text-align: center; color: #7c3aed;">Jornada de Maestria</h3>', unsafe_allow_html=True)
 
-# --- TABS: Práticas vs Editor ---
-tab1, tab2 = st.tabs(["📚 Práticas Python", "✏️ Editor Interativo"])
+with col3:
+    st.markdown(f'<h1 style="text-align: center; font-size: 2rem;">⭐ {st.session_state.python_points} pontos</h1>', unsafe_allow_html=True)
+
+# --- BARRA DE NÍVEL ---
+current_level = get_current_level(st.session_state.python_xp)
+current_xp = st.session_state.python_xp
+level_info = MASTERY_LEVELS[current_level]
+
+st.markdown(f'<div class="level-badge {get_level_color_class(current_level)}">{level_info["icon"]} {level_info["title"]}</div>', unsafe_allow_html=True)
+
+# XP Progress
+xp_progress = get_xp_progress(current_xp, current_level)
+next_level_xp = get_xp_for_next_level(current_level)
+current_level_xp = MASTERY_LEVELS[current_level]["xp_required"]
+
+progress_text = f"XP: {current_xp - current_level_xp} / {next_level_xp - current_level_xp}"
+
+st.markdown(f"""
+<div class="xp-bar">
+    <div class="xp-progress" style="width: {xp_progress}%;">
+        {progress_text if xp_progress > 20 else ""}
+    </div>
+</div>
+<p style="text-align: center; color: #7b8ba8; font-size: 0.9rem;">{progress_text}</p>
+""", unsafe_allow_html=True)
+
+# Streak
+if st.session_state.python_streak > 0:
+    st.markdown(f'<p style="text-align: center; font-size: 1.3rem;"><span class="streak-fire">🔥</span> {st.session_state.python_streak} dias em sequência!</p>', unsafe_allow_html=True)
+
+# --- TABS PRINCIPAIS ---
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["📚 Práticas", "✏️ Editor", "🎯 Desafios", "🏆 Badges", "📊 Perfil"])
 
 # ============================================================================
 # TAB 1: PRÁTICAS PYTHON
 # ============================================================================
 with tab1:
-    # --- FILTROS ---
     st.markdown('<h3 class="section-header">🔎 Filtrar Práticas</h3>', unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
@@ -155,7 +443,7 @@ with tab1:
     with col2:
         search = st.text_input("🔍 Buscar prática", key="python_search")
 
-    # --- DATABASE DE PRÁTICAS (60) ---
+    # DATABASE DE PRÁTICAS (60)
     python_practices = [
         # INICIANTE (20)
         {"icon": "📚", "title": "Usar Type Hints", "category": "Qualidade & Manutenção", "difficulty": "Iniciante", "description": "Especifique tipos de argumentos e retorno.", "bad_code": "def calcular_total(items):\n    return sum(item['valor'] for item in items)", "good_code": "from typing import List, Dict\n\ndef calcular_total(items: List[Dict[str, float]]) -> float:\n    return sum(item['valor'] for item in items)", "benefit": "Detecta erros em tempo de desenvolvimento.", "explanation": "Type hints melhoram legibilidade e oferecem autocomplete."},
@@ -233,7 +521,10 @@ with tab1:
     st.markdown(f'**Mostrando {len(filtered)} de {len(python_practices)} práticas**')
 
     for idx, p in enumerate(filtered):
-        with st.expander(f"{p['icon']} {p['title']} — {p['difficulty']}", expanded=False):
+        is_learned = idx in st.session_state.python_learned
+        is_favorite = idx in st.session_state.python_favorites
+        
+        with st.expander(f"{p['icon']} {p['title']} — {p['difficulty']}" + (" ✅" if is_learned else "") + (" ⭐" if is_favorite else ""), expanded=False):
             col1, col2 = st.columns([3, 1])
             
             with col1:
@@ -242,13 +533,19 @@ with tab1:
                 st.markdown(f"**Categoria:** `{p['category']}`")
                 
             with col2:
+                xp_gain = 10 if not is_favorite else 0
                 if st.button(f"⭐ Favoritar", key=f"fav_{idx}"):
                     st.session_state.python_favorites.add(idx)
                     st.session_state.python_points += 5
+                    st.session_state.python_xp += 5
                     st.rerun()
+                    
+                xp_gain = 25 if not is_learned else 0
                 if st.button(f"✅ Aprendida", key=f"learn_{idx}"):
                     st.session_state.python_learned.add(idx)
-                    st.session_state.python_points += 10
+                    st.session_state.python_points += 25
+                    st.session_state.python_xp += 25
+                    st.session_state.python_level = get_current_level(st.session_state.python_xp)
                     st.rerun()
             
             st.markdown("**❌ Evitar:**")
@@ -258,9 +555,6 @@ with tab1:
             st.code(p["good_code"], language="python")
             
             st.markdown(f"**Explicação:** {p['explanation']}")
-
-    st.divider()
-    st.markdown("Continuaremos adicionando mais práticas em breve! 🚀")
 
 # ============================================================================
 # TAB 2: EDITOR INTERATIVO
@@ -302,12 +596,16 @@ with tab2:
     col1, col2, col3 = st.columns([2, 2, 2])
     with col1:
         run_button = st.button("▶️ RUN", use_container_width=True)
-    with col2:
-        st.button("📋 Limpar", use_container_width=True, key="clear_button", on_click=lambda: None)
+    
+    if 'editor_runs' not in st.session_state:
+        st.session_state.editor_runs = 0
     
     # Executar código
     if run_button and code_input.strip():
         st.markdown("**Resultado:**")
+        st.session_state.editor_runs += 1
+        st.session_state.python_xp += 5
+        st.session_state.python_points += 5
         
         try:
             # Capturar output
@@ -325,7 +623,7 @@ with tab2:
             # Exibir resultado
             if output:
                 st.markdown(f"""
-                <div class="success-box">
+                <div class="success-box achievement-pop">
 {output}</div>
                 """, unsafe_allow_html=True)
             else:
@@ -352,28 +650,154 @@ with tab2:
     - **Templates:** Use os botões acima para inserir exemplos rápidos
     - **Print:** Use `print()` para ver resultados
     - **Erros:** Os erros serão exibidos em vermelho
-    - **Módulos:** Você pode usar módulos padrão do Python (time, random, math, etc)
-    - **Variáveis:** As variáveis definidas continuam disponíveis entre execuções
+    - **XP:** Ganhe +5 XP cada vez que executa um script
+    - **Streak:** Execute código todo dia para manter a sequência!
+    """)
+
+# ============================================================================
+# TAB 3: DESAFIOS
+# ============================================================================
+with tab3:
+    st.markdown('<h3 class="section-header">🎯 Desafios Semanais</h3>', unsafe_allow_html=True)
+    st.markdown("Complete desafios para ganhar XP e subir de nível!")
     
-    ### 📚 Exemplos Rápidos
+    for challenge in CHALLENGES:
+        is_completed = challenge["id"] in st.session_state.python_challenges_completed
+        
+        col1, col2 = st.columns([4, 1])
+        
+        with col1:
+            status = "✅ Completo" if is_completed else f"🎯 {challenge['difficulty']}"
+            st.markdown(f"""
+            <div class="challenge-box {'challenge-completed' if is_completed else ''}">
+                <h4>{challenge['title']} {status}</h4>
+                <p>{challenge['description']}</p>
+                <p><strong>Recompensa:</strong> +{challenge['xp_reward']} XP</p>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with col2:
+            if not is_completed:
+                if st.button(f"Marcar ✓", key=f"challenge_{challenge['id']}"):
+                    st.session_state.python_challenges_completed.add(challenge["id"])
+                    st.session_state.python_xp += challenge["xp_reward"]
+                    st.session_state.python_points += challenge["xp_reward"]
+                    st.session_state.python_level = get_current_level(st.session_state.python_xp)
+                    st.rerun()
+
+# ============================================================================
+# TAB 4: BADGES
+# ============================================================================
+with tab4:
+    st.markdown('<h3 class="section-header">🏆 Suas Conquistas</h3>', unsafe_allow_html=True)
     
-    **Operações Matemáticas:**
-    ```python
-    print(2 + 3)
-    print(10 / 2)
-    print(2 ** 8)
-    ```
+    learned_count = len(st.session_state.python_learned)
+    favorites_count = len(st.session_state.python_favorites)
     
-    **Strings:**
-    ```python
-    nome = "Python"
-    print(f"Olá, {nome}!")
-    ```
+    current_badges = check_badges(learned_count, favorites_count, st.session_state.editor_runs, st.session_state.python_points)
+    st.session_state.python_badges = current_badges
     
-    **Listas:**
-    ```python
-    lista = [1, 2, 3, 4, 5]
-    print(sum(lista))
-    print([x*2 for x in lista])
-    ```
+    st.markdown(f"""
+    ### 📊 Estatísticas
+    - **Práticas Aprendidas:** {learned_count}/60
+    - **Práticas Favoritadas:** {favorites_count}
+    - **Scripts Executados:** {st.session_state.editor_runs}
+    - **Pontos Totais:** {st.session_state.python_points}
+    - **XP Total:** {st.session_state.python_xp}
+    """)
+    
+    st.markdown("### 🎖️ Badges Desbloqueados")
+    
+    unlocked = []
+    locked = []
+    
+    for badge_id, badge_info in BADGES.items():
+        if badge_id in st.session_state.python_badges:
+            unlocked.append((badge_id, badge_info))
+        else:
+            locked.append((badge_id, badge_info))
+    
+    # Mostrar desbloqueados
+    if unlocked:
+        cols = st.columns(5)
+        for idx, (badge_id, badge_info) in enumerate(unlocked):
+            with cols[idx % 5]:
+                st.markdown(f"""
+                <div class="badge">
+                    {badge_info['icon']}<br>
+                    <small><b>{badge_info['title']}</b></small>
+                </div>
+                """, unsafe_allow_html=True)
+    
+    # Mostrar bloqueados
+    st.markdown("### 🔒 Badges Bloqueados")
+    if locked:
+        cols = st.columns(5)
+        for idx, (badge_id, badge_info) in enumerate(locked):
+            with cols[idx % 5]:
+                st.markdown(f"""
+                <div class="badge badge-locked">
+                    {badge_info['icon']}<br>
+                    <small>{badge_info['title']}</small><br>
+                    <tiny style="font-size: 0.7rem;">{badge_info['description']}</tiny>
+                </div>
+                """, unsafe_allow_html=True)
+
+# ============================================================================
+# TAB 5: PERFIL
+# ============================================================================
+with tab5:
+    st.markdown('<h3 class="section-header">📊 Seu Perfil</h3>', unsafe_allow_html=True)
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown(f"""
+        ### 🏆 Estatísticas Gerais
+        
+        - **Nível Atual:** {current_level}/{len(MASTERY_LEVELS)}
+        - **Título:** {MASTERY_LEVELS[current_level]['title']}
+        - **XP Total:** {st.session_state.python_xp}
+        - **Pontos:** {st.session_state.python_points}
+        - **Streak:** 🔥 {st.session_state.python_streak} dias
+        """)
+    
+    with col2:
+        st.markdown(f"""
+        ### 📚 Progresso no Aprendizado
+        
+        - **Práticas Completadas:** {learned_count}/60
+        - **Taxa de Conclusão:** {(learned_count/60)*100:.1f}%
+        - **Favoritas:** {favorites_count}
+        - **Scripts Testados:** {st.session_state.editor_runs}
+        - **Badges:** {len(st.session_state.python_badges)}/{len(BADGES)}
+        """)
+    
+    st.divider()
+    st.markdown("### 🎯 Próximas Metas")
+    
+    if current_level < 5:
+        next_level_xp = get_xp_for_next_level(current_level)
+        xp_needed = next_level_xp - st.session_state.python_xp
+        next_title = MASTERY_LEVELS[current_level + 1]["title"]
+        
+        st.markdown(f"""
+        ⬆️ **Próximo Nível:** {next_title}
+        
+        Você precisa de **{xp_needed} XP** para chegar ao próximo nível!
+        """)
+    else:
+        st.markdown("🏆 **Você é uma Pythonista Elite! Parabéns!**")
+    
+    st.divider()
+    st.markdown("### 💪 Dicas para Evoluir Rápido")
+    
+    st.markdown("""
+    1. **Complete Desafios:** +100-200 XP cada
+    2. **Teste no Editor:** +5 XP por execução
+    3. **Favoritize Práticas:** +5 XP cada
+    4. **Marque Aprendidas:** +25 XP cada
+    5. **Mantenha Streak:** Use a plataforma todos os dias!
+    
+    **Meta:** Chegue ao nível Lendário (🏆) em 30 dias!
     """)
