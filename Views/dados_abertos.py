@@ -646,14 +646,18 @@ for dataset in filtered_datasets:
     col1, col2 = st.columns([2.5, 1])
     
     with col1:
+        # Formatar rows e cols corretamente
+        rows_str = f"{dataset['rows']:,}" if isinstance(dataset['rows'], int) else dataset['rows']
+        cols_str = f"{dataset['cols']}" if isinstance(dataset['cols'], int) else dataset['cols']
+        
         st.markdown(f"""
         <div class="dataset-card">
             <span class="dataset-card-icon">{dataset['icon']}</span>
             <div class="dataset-title">{dataset['title']}</div>
             <p class="dataset-description">{dataset['description']}</p>
             <div class="dataset-meta">
-                <div class="dataset-meta-item">📝 {dataset['rows']:,} linhas</div>
-                <div class="dataset-meta-item">📋 {dataset['cols']} colunas</div>
+                <div class="dataset-meta-item">📝 {rows_str} linhas</div>
+                <div class="dataset-meta-item">📋 {cols_str} colunas</div>
                 <div class="dataset-meta-item">💾 {dataset['size']}</div>
             </div>
         </div>
