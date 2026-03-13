@@ -623,15 +623,13 @@ else:
 # RENDERIZAÇÃO DOS CARDS
 # --------------------------------------------------
 for dataset in filtered_datasets:
-    # Criar botões de ação
-    col1 = st.columns(1)[0]
+    # Formatar rows e cols corretamente
+    rows_str = f"{dataset['rows']:,}" if isinstance(dataset['rows'], int) else dataset['rows']
+    cols_str = f"{dataset['cols']}" if isinstance(dataset['cols'], int) else dataset['cols']
+    
+    col1, col2 = st.columns([2.5, 1])
     
     with col1:
-        # Formatar rows e cols corretamente
-        rows_str = f"{dataset['rows']:,}" if isinstance(dataset['rows'], int) else dataset['rows']
-        cols_str = f"{dataset['cols']}" if isinstance(dataset['cols'], int) else dataset['cols']
-        
-        # Criar o card com download button inside
         st.markdown(f"""
         <div class="dataset-card">
             <span class="dataset-card-icon">{dataset['icon']}</span>
@@ -644,8 +642,8 @@ for dataset in filtered_datasets:
             </div>
         </div>
         """, unsafe_allow_html=True)
-        
-        # Botão de download dentro do card
+    
+    with col2:
         st.download_button(
             label="⬇️ Download",
             data=requests.get(
