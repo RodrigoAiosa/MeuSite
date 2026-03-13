@@ -5,7 +5,8 @@ from datetime import datetime
 import base64
 from io import BytesIO
 import requests
-from bs4 import BeautifulSoup
+import re
+import json
 
 # --------------------------------------------------
 # CONFIGURAÇÃO DA PÁGINA
@@ -413,65 +414,73 @@ def get_tableau_datasets():
         response = requests.get(url, headers=headers, timeout=10)
         response.raise_for_status()
         
-        soup = BeautifulSoup(response.content, 'html.parser')
+        html_content = response.text
         
-        # Encontrar todos os assets (recursos)
-        assets = soup.find_all('tr', class_='_resourceAsset_atqz8_160')
+        # Encontrar todos os padrões de href dentro de _resourceAsset_atqz8_160
+        # Procura por: <tr class="_resourceAsset_atqz8_160"><a href="/app/sample-data/...">
+        pattern = r'<tr class="_resourceAsset_atqz8_160">\s*<a href="([^"]+)"[^>]*>([^<]+)</a>'
+        matches = re.findall(pattern, html_content)
         
         datasets = []
         
-        for asset in assets:
-            link = asset.find('a', href=True)
-            if link:
-                href = link.get('href')
-                text = link.get_text(strip=True)
+        for href, text in matches:
+            if '/app/sample-data/' in href:
+                # Construir URL completa
+                if href.startswith('/'):
+                    full_url = 'https://public.tableau.com' + href
+                else:
+                    full_url = href
                 
-                if href and ('/app/sample-data/' in href):
-                    # Construir URL completa
-                    if href.startswith('/'):
-                        full_url = 'https://public.tableau.com' + href
-                    else:
-                        full_url = href
-                    
-                    # Extrair nome do arquivo
-                    file_name = href.split('/')[-1]
-                    
-                    # Determinar categoria e ícone baseado no nome
-                    if any(word in file_name.lower() for word in ['superstore', 'store']):
-                        category = "Vendas"
-                        icon = "💰"
-                    elif any(word in file_name.lower() for word in ['coffee', 'retail']):
-                        category = "Varejo"
-                        icon = "☕"
-                    elif any(word in file_name.lower() for word in ['world', 'global', 'geography']):
-                        category = "Global"
-                        icon = "🌍"
-                    elif any(word in file_name.lower() for word in ['flight', 'airline']):
-                        category = "Transporte"
-                        icon = "✈️"
-                    elif any(word in file_name.lower() for word in ['gbbo', 'recipe']):
-                        category = "Entretenimento"
-                        icon = "🎬"
-                    else:
-                        category = "Diversos"
-                        icon = "📊"
-                    
-                    datasets.append({
-                        "category": category,
-                        "icon": icon,
-                        "title": file_name.replace('_', ' ').replace('.csv', '').replace('.xls', '').replace('.xlsx', '').replace('.zip', ''),
-                        "description": f"Dataset {text.lower()} do Tableau Sample Data",
-                        "rows": "N/A",
-                        "cols": "N/A",
-                        "size": "N/A",
-                        "url": full_url,
-                        "file_name": file_name
-                    })
+                # Extrair nome do arquivo
+                file_name = href.split('/')[-1]
+                
+                # Determinar categoria e ícone baseado no nome
+                file_lower = file_name.lower()
+                
+                if any(word in file_lower for word in ['superstore', 'store']):
+                    category = "Vendas"
+                    icon = "💰"
+                elif any(word in file_lower for word in ['coffee', 'retail']):
+                    category = "Varejo"
+                    icon = "☕"
+                elif any(word in file_lower for word in ['world', 'global', 'geography']):
+                    category = "Global"
+                    icon = "🌍"
+                elif any(word in file_lower for word in ['flight', 'airline']):
+                    category = "Transporte"
+                    icon = "✈️"
+                elif any(word in file_lower for word in ['gbbo', 'recipe']):
+                    category = "Entretenimento"
+                    icon = "🎬"
+                elif any(word in file_lower for word in ['inc5000', 'company']):
+                    category = "Negócios"
+                    icon = "🏢"
+                else:
+                    category = "Diversos"
+                    icon = "📊"
+                
+                # Limpar título
+                title = file_name.replace('_', ' ').replace('-', ' ')
+                for ext in ['.csv', '.xls', '.xlsx', '.zip', '.xlsm']:
+                    title = title.replace(ext, '')
+                title = title.strip()
+                
+                datasets.append({
+                    "category": category,
+                    "icon": icon,
+                    "title": title,
+                    "description": f"Dataset {text.lower()} - Tableau Sample Data",
+                    "rows": "N/A",
+                    "cols": "N/A",
+                    "size": "N/A",
+                    "url": full_url,
+                    "file_name": file_name
+                })
         
         return datasets if datasets else get_default_datasets()
         
     except Exception as e:
-        st.warning(f"Não foi possível carregar datasets do Tableau: {str(e)}")
+        st.warning(f"⚠️ Usando datasets padrão (erro ao carregar: {str(e)})")
         return get_default_datasets()
 
 def get_default_datasets():
@@ -482,22 +491,33 @@ def get_default_datasets():
             "icon": "💰",
             "title": "Superstore Sales",
             "description": "Dados de vendas de uma rede de lojas com informações de clientes, produtos e transações.",
-            "rows": 9994,
-            "cols": 17,
-            "size": "2.4 MB",
+            "rows": "N/A",
+            "cols": "N/A",
+            "size": "N/A",
             "url": "https://public.tableau.com/app/sample-data/sample_-_superstore.xls",
-            "file_name": "superstore_sales.xls"
+            "file_name": "sample_-_superstore.xls"
         },
         {
-            "category": "Vendas",
-            "icon": "📈",
+            "category": "Global",
+            "icon": "🌍",
             "title": "World Indicators",
             "description": "Indicadores econômicos mundiais com dados de países e regiões.",
-            "rows": 6340,
-            "cols": 15,
-            "size": "1.2 MB",
+            "rows": "N/A",
+            "cols": "N/A",
+            "size": "N/A",
             "url": "https://public.tableau.com/app/sample-data/sample_-_world_indicators.xlsx",
-            "file_name": "world_indicators.xlsx"
+            "file_name": "sample_-_world_indicators.xlsx"
+        },
+        {
+            "category": "Varejo",
+            "icon": "☕",
+            "title": "Coffee Chain",
+            "description": "Dados de uma rede de cafeterias com informações de vendas.",
+            "rows": "N/A",
+            "cols": "N/A",
+            "size": "N/A",
+            "url": "https://public.tableau.com/app/sample-data/sample_-_coffee_chain.xlsx",
+            "file_name": "sample_-_coffee_chain.xlsx"
         },
     ]
 
