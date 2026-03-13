@@ -4,6 +4,8 @@ import os
 from datetime import datetime
 import base64
 from io import BytesIO
+import requests
+from bs4 import BeautifulSoup
 
 # --------------------------------------------------
 # CONFIGURAÇÃO DA PÁGINA
@@ -398,109 +400,109 @@ div[data-testid="stTextInput"] input:focus {
 """, unsafe_allow_html=True)
 
 # --------------------------------------------------
-# DADOS DOS DATASETS
+# FUNÇÃO PARA EXTRAIR DATASETS DO TABLEAU
 # --------------------------------------------------
-datasets = [
-    {
-        "category": "Vendas",
-        "icon": "💰",
-        "title": "Superstore Sales",
-        "description": "Dados de vendas de uma rede de lojas com informações de clientes, produtos e transações.",
-        "rows": 9994,
-        "cols": 17,
-        "size": "2.4 MB",
-        "url": "https://public.tableau.com/app/sample-data/sample_-_superstore.xls",
-        "file_name": "superstore_sales.xls"
-    },
-    {
-        "category": "Vendas",
-        "icon": "📈",
-        "title": "World Indicators",
-        "description": "Indicadores econômicos mundiais com dados de países e regiões.",
-        "rows": 6340,
-        "cols": 15,
-        "size": "1.2 MB",
-        "url": "https://public.tableau.com/app/sample-data/sample_-_world_indicators.xlsx",
-        "file_name": "world_indicators.xlsx"
-    },
-    {
-        "category": "RH",
-        "icon": "👥",
-        "title": "Coffee Chain Data",
-        "description": "Dados de uma rede de cafeterias com informações de vendas e localidades.",
-        "rows": 8500,
-        "cols": 18,
-        "size": "1.8 MB",
-        "url": "https://public.tableau.com/app/sample-data/sample_-_coffee_chain.xlsx",
-        "file_name": "coffee_chain.xlsx"
-    },
-    {
-        "category": "RH",
-        "icon": "📊",
-        "title": "Superstore Returns",
-        "description": "Análise de devoluções em lojas com informações de produtos e regiões.",
-        "rows": 818,
-        "cols": 12,
-        "size": "450 KB",
-        "url": "https://public.tableau.com/app/sample-data/sample_-_superstore_returns.xls",
-        "file_name": "superstore_returns.xls"
-    },
-    {
-        "category": "Financeiro",
-        "icon": "💳",
-        "title": "Global Superstore",
-        "description": "Dados de lojas globais com informações de vendas e rentabilidade.",
-        "rows": 51290,
-        "cols": 19,
-        "size": "3.1 MB",
-        "url": "https://public.tableau.com/app/sample-data/sample_-_global_superstore.xlsx",
-        "file_name": "global_superstore.xlsx"
-    },
-    {
-        "category": "Financeiro",
-        "icon": "📉",
-        "title": "European Superstore",
-        "description": "Dados de lojas na Europa com informações de vendas e rentabilidade.",
-        "rows": 12645,
-        "cols": 19,
-        "size": "2.1 MB",
-        "url": "https://public.tableau.com/app/sample-data/sample_-_european_superstore.xlsx",
-        "file_name": "european_superstore.xlsx"
-    },
-    {
-        "category": "Marketing",
-        "icon": "📢",
-        "title": "Inc5000 Company List",
-        "description": "Dados de empresas da Inc 5000 com análise de crescimento e localização.",
-        "rows": 5000,
-        "cols": 14,
-        "size": "1.5 MB",
-        "url": "https://public.tableau.com/app/sample-data/Data Set- Inc5000 Company List_2014.csv",
-        "file_name": "inc5000_company_list.csv"
-    },
-    {
-        "category": "Marketing",
-        "icon": "🎯",
-        "title": "Stock Market Data",
-        "description": "Dados do mercado de ações com informações de preços e volumes.",
-        "rows": 6800,
-        "cols": 14,
-        "size": "1.3 MB",
-        "url": "https://public.tableau.com/app/sample-data/sample_-_superstore.xls",
-        "file_name": "stock_market.xls"
-    },
-    {
-        "category": "Operacional",
-        "icon": "⚙️",
-        "title": "Supply Chain Metrics",
-        "description": "Métricas de cadeia de suprimentos com dados de logística e estoque.",
-        "rows": 5120,
-        "cols": 20,
-        "size": "2.3 MB",
-        "url": "https://public.tableau.com/app/sample-data/sample_-_superstore.xls",
-        "file_name": "supply_chain_metrics.xls"
-    },
-]
+@st.cache_data(ttl=3600)  # Cache de 1 hora
+def get_tableau_datasets():
+    try:
+        url = "https://public.tableau.com/app/learn/sample-data"
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+        
+        response = requests.get(url, headers=headers, timeout=10)
+        response.raise_for_status()
+        
+        soup = BeautifulSoup(response.content, 'html.parser')
+        
+        # Encontrar todos os assets (recursos)
+        assets = soup.find_all('tr', class_='_resourceAsset_atqz8_160')
+        
+        datasets = []
+        
+        for asset in assets:
+            link = asset.find('a', href=True)
+            if link:
+                href = link.get('href')
+                text = link.get_text(strip=True)
+                
+                if href and ('/app/sample-data/' in href):
+                    # Construir URL completa
+                    if href.startswith('/'):
+                        full_url = 'https://public.tableau.com' + href
+                    else:
+                        full_url = href
+                    
+                    # Extrair nome do arquivo
+                    file_name = href.split('/')[-1]
+                    
+                    # Determinar categoria e ícone baseado no nome
+                    if any(word in file_name.lower() for word in ['superstore', 'store']):
+                        category = "Vendas"
+                        icon = "💰"
+                    elif any(word in file_name.lower() for word in ['coffee', 'retail']):
+                        category = "Varejo"
+                        icon = "☕"
+                    elif any(word in file_name.lower() for word in ['world', 'global', 'geography']):
+                        category = "Global"
+                        icon = "🌍"
+                    elif any(word in file_name.lower() for word in ['flight', 'airline']):
+                        category = "Transporte"
+                        icon = "✈️"
+                    elif any(word in file_name.lower() for word in ['gbbo', 'recipe']):
+                        category = "Entretenimento"
+                        icon = "🎬"
+                    else:
+                        category = "Diversos"
+                        icon = "📊"
+                    
+                    datasets.append({
+                        "category": category,
+                        "icon": icon,
+                        "title": file_name.replace('_', ' ').replace('.csv', '').replace('.xls', '').replace('.xlsx', '').replace('.zip', ''),
+                        "description": f"Dataset {text.lower()} do Tableau Sample Data",
+                        "rows": "N/A",
+                        "cols": "N/A",
+                        "size": "N/A",
+                        "url": full_url,
+                        "file_name": file_name
+                    })
+        
+        return datasets if datasets else get_default_datasets()
+        
+    except Exception as e:
+        st.warning(f"Não foi possível carregar datasets do Tableau: {str(e)}")
+        return get_default_datasets()
+
+def get_default_datasets():
+    """Datasets padrão caso o scraping falhe"""
+    return [
+        {
+            "category": "Vendas",
+            "icon": "💰",
+            "title": "Superstore Sales",
+            "description": "Dados de vendas de uma rede de lojas com informações de clientes, produtos e transações.",
+            "rows": 9994,
+            "cols": 17,
+            "size": "2.4 MB",
+            "url": "https://public.tableau.com/app/sample-data/sample_-_superstore.xls",
+            "file_name": "superstore_sales.xls"
+        },
+        {
+            "category": "Vendas",
+            "icon": "📈",
+            "title": "World Indicators",
+            "description": "Indicadores econômicos mundiais com dados de países e regiões.",
+            "rows": 6340,
+            "cols": 15,
+            "size": "1.2 MB",
+            "url": "https://public.tableau.com/app/sample-data/sample_-_world_indicators.xlsx",
+            "file_name": "world_indicators.xlsx"
+        },
+    ]
+
+# Carregar datasets
+datasets = get_tableau_datasets()
 
 # --------------------------------------------------
 # HERO
