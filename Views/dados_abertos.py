@@ -553,15 +553,35 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-col_c1, col_c2, col_c3 = st.columns([1, 5, 1])
-with col_c2:
-    selected_category = st.radio(
-        "Categoria",
-        categories_with_all,
-        horizontal=True,
-        label_visibility="collapsed",
-        key="category_filter"
-    )
+# CSS para centralizar o radio button
+st.markdown("""
+<style>
+div[data-testid="stRadio"] {
+    display: flex !important;
+    justify-content: center !important;
+}
+
+div[data-testid="stRadio"] > label {
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+}
+
+div[data-testid="stRadio"] > label > div {
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
+selected_category = st.radio(
+    "Categoria",
+    categories_with_all,
+    horizontal=True,
+    label_visibility="collapsed",
+    key="category_filter"
+)
 
 st.write("")
 
