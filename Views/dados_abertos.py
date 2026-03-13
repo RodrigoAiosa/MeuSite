@@ -410,7 +410,7 @@ datasets = [
         "cols": 17,
         "size": "2.4 MB",
         "url": "https://public.tableau.com/app/sample-data/sample_-_superstore.xls",
-        "file_name": "superstore_sales"
+        "file_name": "superstore_sales.xls"
     },
     {
         "category": "Vendas",
@@ -421,7 +421,7 @@ datasets = [
         "cols": 15,
         "size": "1.2 MB",
         "url": "https://public.tableau.com/app/sample-data/sample_-_world_indicators.xlsx",
-        "file_name": "world_indicators"
+        "file_name": "world_indicators.xlsx"
     },
     {
         "category": "RH",
@@ -432,7 +432,7 @@ datasets = [
         "cols": 18,
         "size": "1.8 MB",
         "url": "https://public.tableau.com/app/sample-data/sample_-_coffee_chain.xlsx",
-        "file_name": "coffee_chain"
+        "file_name": "coffee_chain.xlsx"
     },
     {
         "category": "RH",
@@ -443,18 +443,18 @@ datasets = [
         "cols": 12,
         "size": "450 KB",
         "url": "https://public.tableau.com/app/sample-data/sample_-_superstore_returns.xls",
-        "file_name": "superstore_returns"
+        "file_name": "superstore_returns.xls"
     },
     {
         "category": "Financeiro",
         "icon": "💳",
-        "title": "Stock Market Data",
-        "description": "Dados do mercado de ações com informações de preços e volumes.",
-        "rows": 4250,
-        "cols": 10,
-        "size": "980 KB",
+        "title": "Global Superstore",
+        "description": "Dados de lojas globais com informações de vendas e rentabilidade.",
+        "rows": 51290,
+        "cols": 19,
+        "size": "3.1 MB",
         "url": "https://public.tableau.com/app/sample-data/sample_-_global_superstore.xlsx",
-        "file_name": "stock_market"
+        "file_name": "global_superstore.xlsx"
     },
     {
         "category": "Financeiro",
@@ -465,29 +465,29 @@ datasets = [
         "cols": 19,
         "size": "2.1 MB",
         "url": "https://public.tableau.com/app/sample-data/sample_-_european_superstore.xlsx",
-        "file_name": "european_superstore"
+        "file_name": "european_superstore.xlsx"
     },
     {
         "category": "Marketing",
         "icon": "📢",
-        "title": "Marketing Campaign",
-        "description": "Dados de campanhas de marketing com métricas de performance e ROI.",
-        "rows": 3500,
-        "cols": 16,
+        "title": "Inc5000 Company List",
+        "description": "Dados de empresas da Inc 5000 com análise de crescimento e localização.",
+        "rows": 5000,
+        "cols": 14,
         "size": "1.5 MB",
-        "url": "https://public.tableau.com/app/sample-data/sample_-_superstore.xls",
-        "file_name": "marketing_campaign"
+        "url": "https://public.tableau.com/app/sample-data/Data Set- Inc5000 Company List_2014.csv",
+        "file_name": "inc5000_company_list.csv"
     },
     {
         "category": "Marketing",
         "icon": "🎯",
-        "title": "Tableau Sample - Airbnb",
-        "description": "Dados de aluguel de acomodações com análise de preços e avaliações.",
+        "title": "Stock Market Data",
+        "description": "Dados do mercado de ações com informações de preços e volumes.",
         "rows": 6800,
         "cols": 14,
         "size": "1.3 MB",
         "url": "https://public.tableau.com/app/sample-data/sample_-_superstore.xls",
-        "file_name": "airbnb_listings"
+        "file_name": "stock_market.xls"
     },
     {
         "category": "Operacional",
@@ -498,7 +498,7 @@ datasets = [
         "cols": 20,
         "size": "2.3 MB",
         "url": "https://public.tableau.com/app/sample-data/sample_-_superstore.xls",
-        "file_name": "supply_chain_metrics"
+        "file_name": "supply_chain_metrics.xls"
     },
 ]
 
@@ -621,7 +621,7 @@ else:
 # --------------------------------------------------
 for dataset in filtered_datasets:
     # Criar botões de ação
-    col1, col2, col3 = st.columns([2, 1, 1])
+    col1, col2 = st.columns([2.5, 1])
     
     with col1:
         st.markdown(f"""
@@ -640,7 +640,7 @@ for dataset in filtered_datasets:
     with col2:
         if st.button(
             "⬇️ Download",
-            key=f"download_csv_{dataset['title']}",
+            key=f"download_{dataset['title']}",
             use_container_width=True,
             help=f"Download {dataset['title']}"
         ):
@@ -648,89 +648,18 @@ for dataset in filtered_datasets:
                 import requests
                 
                 # Fazer requisição para o arquivo
-                response = requests.get(dataset['url'], timeout=30)
+                response = requests.get(dataset['url'], timeout=30, allow_redirects=True)
                 response.raise_for_status()
-                
-                # Determinar extensão do arquivo original
-                file_url = dataset['url']
-                if file_url.endswith('.xls'):
-                    file_ext = 'xls'
-                    mime_type = 'application/vnd.ms-excel'
-                elif file_url.endswith('.xlsx'):
-                    file_ext = 'xlsx'
-                    mime_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-                else:
-                    file_ext = 'csv'
-                    mime_type = 'text/csv'
                 
                 st.download_button(
                     label="✓ Pronto",
                     data=response.content,
-                    file_name=f"{dataset['file_name']}.{file_ext}",
-                    mime=mime_type,
+                    file_name=dataset['file_name'],
+                    mime="application/octet-stream",
                     key=f"download_btn_{dataset['title']}"
                 )
             except Exception as e:
-                st.error(f"Erro ao baixar: {str(e)}")
-    
-    with col3:
-        if st.button(
-            "👁️ Preview",
-            key=f"preview_{dataset['title']}",
-            use_container_width=True,
-            help=f"Visualizar {dataset['title']}"
-        ):
-            try:
-                import requests
-                from io import BytesIO
-                
-                file_url = dataset['url']
-                response = requests.get(file_url, timeout=30)
-                response.raise_for_status()
-                
-                # Tentar ler com pandas
-                file_buffer = BytesIO(response.content)
-                
-                try:
-                    # Tentar como Excel primeiro
-                    df = pd.read_excel(file_buffer)
-                except:
-                    # Se falhar, tentar como CSV
-                    file_buffer.seek(0)
-                    df = pd.read_csv(file_buffer)
-                
-                # Criar modal com os dados
-                with st.expander(f"📋 Preview - {dataset['title']}", expanded=True):
-                    st.markdown(f"""
-                    <div style="
-                        background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
-                        padding: 20px;
-                        border-radius: 12px;
-                        border: 1px solid rgba(0,180,216,0.2);
-                    ">
-                        <p style="color: #7b8ba8; margin-bottom: 15px; font-size: 0.9rem;">
-                            Mostrando <span style="color: #00b4d8; font-weight: 600;">10 primeiras linhas</span> de <span style="color: #00b4d8; font-weight: 600;">{df.shape[0]:,} linhas</span>
-                        </p>
-                    </div>
-                    """, unsafe_allow_html=True)
-                    
-                    st.dataframe(
-                        df.head(10),
-                        use_container_width=True,
-                        height=400
-                    )
-                    
-                    # Mostrar informações adicionais
-                    col_info1, col_info2, col_info3 = st.columns(3)
-                    with col_info1:
-                        st.metric("Total de Linhas", f"{df.shape[0]:,}")
-                    with col_info2:
-                        st.metric("Total de Colunas", df.shape[1])
-                    with col_info3:
-                        st.metric("Colunas", ", ".join(df.columns[:3]) + "...")
-                    
-            except Exception as e:
-                st.error(f"Erro ao carregar preview: {str(e)}")
+                st.error(f"❌ Erro ao baixar: {str(e)}")
     
     st.write("")
 
