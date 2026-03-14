@@ -361,7 +361,6 @@ hr {
 # ── HERO (idêntico ao SQL Pro, adaptado para Python) ──
 st.markdown("""
 <div class="hero-wrapper">
-    <div class="hero-badge">🐍 Python Pro</div>
     <h1 class="hero-title">
         Melhores Práticas Python para <span class="accent">código que escala</span>
     </h1>
