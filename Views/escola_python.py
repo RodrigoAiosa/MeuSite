@@ -420,7 +420,7 @@ def get_level_color_class(level):
 # --- HEADER PONTOS + STREAK ---
 col1, col2, col3 = st.columns([2, 3, 2])
 with col1:
-    st.markdown(f'<h1 style="text-align: center; color: #a78bfa; font-family: Syne, sans-serif;">🐍 Python Pro</h1>', unsafe_allow_html=True)
+    st.markdown(f'<h1 style="text-align: center; color: #a78bfa; font-family: Syne, sans-serif;"></h1>', unsafe_allow_html=True)
 with col2:
     st.markdown('<h3 style="text-align: center; color: #7c3aed;">Jornada de Maestria</h3>', unsafe_allow_html=True)
 with col3:
