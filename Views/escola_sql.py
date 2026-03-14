@@ -80,7 +80,7 @@ def execute_query(query):
     except Exception as e:
         return None, f"❌ Erro: {str(e)}"
 
-# ── DESIGN LANDING PAGE ──
+# ── DESIGN (Python Pro palette) ──
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
@@ -88,26 +88,23 @@ st.markdown("""
 *, *::before, *::after { box-sizing: border-box; }
 
 html, body, .main, [data-testid="stAppViewContainer"] {
-    background-color: #060912 !important;
+    background-color: #0a0e27 !important;
 }
 
 [data-testid="stAppViewContainer"] {
-    background-color: #060912 !important;
     background-image:
-        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0,180,216,0.10) 0%, transparent 60%),
-        radial-gradient(ellipse 40% 30% at 80% 60%, rgba(0,100,180,0.06) 0%, transparent 50%);
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(139,92,246,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 80% 60%, rgba(59,130,246,0.08) 0%, transparent 50%);
 }
 
 [data-testid="stHeader"] { background: transparent !important; }
 
-/* Fonte apenas no conteúdo principal */
 .main h1, .main h2, .main h3, .main h4,
 .main p, .main a, .main li,
 [data-testid="stAppViewContainer"] div:not([data-testid="stSidebar"]) {
     font-family: 'DM Sans', sans-serif !important;
 }
 
-/* Preserva ícones Material do Streamlit */
 .material-symbols-rounded,
 .material-icons,
 [data-testid*="Collapse"] span,
@@ -139,9 +136,9 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     font-weight: 700;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: #00b4d8;
-    border: 1px solid rgba(0,180,216,0.35);
-    background: rgba(0,180,216,0.07);
+    color: #a78bfa;
+    border: 1px solid rgba(167,139,250,0.35);
+    background: rgba(167,139,250,0.07);
     padding: 6px 18px;
     border-radius: 100px;
     margin-bottom: 28px;
@@ -160,7 +157,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 }
 
 .hero-title .accent {
-    background: linear-gradient(135deg, #00b4d8 0%, #48cae4 50%, #90e0ef 100%);
+    background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 50%, #c4b5fd 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -190,7 +187,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     font-family: 'Syne', sans-serif !important;
     font-size: 2rem;
     font-weight: 800;
-    color: #00b4d8;
+    color: #a78bfa;
     display: block;
     line-height: 1;
 }
@@ -209,7 +206,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     max-width: 900px;
     margin: 0 auto 60px;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(0,180,216,0.3), transparent);
+    background: linear-gradient(90deg, transparent, rgba(167,139,250,0.3), transparent);
 }
 
 /* ── SECTION HEADERS ── */
@@ -220,7 +217,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     color: #f0f4ff;
     margin: 50px 0 28px;
     padding-bottom: 16px;
-    border-bottom: 1px solid rgba(0,180,216,0.2);
+    border-bottom: 1px solid rgba(167,139,250,0.2);
     letter-spacing: -0.5px;
     position: relative;
 }
@@ -232,13 +229,13 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     left: 0;
     width: 48px;
     height: 2px;
-    background: #00b4d8;
+    background: #a78bfa;
 }
 
 /* ── PROGRESS BAR ── */
 .progress-container {
     background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(167,139,250,0.2);
     border-radius: 20px;
     padding: 28px 32px;
     margin: 0 0 40px;
@@ -255,7 +252,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #00b4d8, #48cae4);
+    background: linear-gradient(90deg, #a78bfa, #7c3aed);
     border-radius: 100px;
     transition: width 0.4s ease;
 }
@@ -263,7 +260,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 /* ── STAT CARDS ── */
 .stat-card {
     background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(167,139,250,0.2);
     border-radius: 20px;
     padding: 36px 28px;
     text-align: center;
@@ -277,15 +274,15 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(0,180,216,0.5), transparent);
+    background: linear-gradient(90deg, transparent, rgba(167,139,250,0.5), transparent);
     opacity: 0;
     transition: opacity 0.35s ease;
 }
 
 .stat-card:hover {
     transform: translateY(-4px);
-    border-color: rgba(0,180,216,0.2);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,180,216,0.1);
+    border-color: rgba(167,139,250,0.4);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(167,139,250,0.1);
 }
 
 .stat-card:hover::before { opacity: 1; }
@@ -294,7 +291,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     font-family: 'Syne', sans-serif !important;
     font-size: 2.6rem;
     font-weight: 800;
-    color: #00b4d8;
+    color: #a78bfa;
     margin-bottom: 10px;
     line-height: 1;
 }
@@ -319,7 +316,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 .filter-section,
 .editor-section {
     background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(167,139,250,0.2);
     border-radius: 20px;
     padding: 30px 32px;
     margin: 20px 0 32px;
@@ -331,14 +328,14 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     font-weight: 700;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    color: #00b4d8;
+    color: #a78bfa;
     margin-bottom: 14px;
 }
 
 /* ── METRIC BOX ── */
 .metric-box {
     background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(167,139,250,0.2);
     border-radius: 16px;
     padding: 22px;
     text-align: center;
@@ -348,7 +345,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     font-family: 'Syne', sans-serif !important;
     font-size: 2.2rem;
     font-weight: 800;
-    color: #00b4d8;
+    color: #a78bfa;
 }
 
 .metric-label {
@@ -360,8 +357,8 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 
 /* ── BADGES ── */
 .points-badge {
-    background: linear-gradient(135deg, #00b4d8, #48cae4);
-    color: #060912;
+    background: linear-gradient(135deg, #a78bfa, #7c3aed);
+    color: #0a0e27;
     padding: 7px 16px;
     border-radius: 100px;
     font-family: 'Syne', sans-serif !important;
@@ -387,9 +384,9 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 
 .badge {
     display: inline-block;
-    background: rgba(0,180,216,0.12);
-    color: #00b4d8;
-    border: 1px solid rgba(0,180,216,0.25);
+    background: rgba(167,139,250,0.12);
+    color: #a78bfa;
+    border: 1px solid rgba(167,139,250,0.25);
     padding: 4px 10px;
     border-radius: 6px;
     font-size: 0.78rem;
@@ -400,8 +397,8 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 /* ── NOTES ── */
 .notes-container {
     background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
-    border: 1px solid rgba(255,255,255,0.05);
-    border-left: 3px solid #00b4d8;
+    border: 1px solid rgba(167,139,250,0.2);
+    border-left: 3px solid #a78bfa;
     border-radius: 12px;
     padding: 16px 20px;
     margin: 10px 0;
@@ -410,7 +407,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 /* ── EXPANDERS ── */
 .stExpander {
     background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%) !important;
-    border: 1px solid rgba(255,255,255,0.05) !important;
+    border: 1px solid rgba(167,139,250,0.2) !important;
     border-radius: 14px !important;
     margin-bottom: 10px !important;
 }
@@ -422,24 +419,24 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 
 /* ── CODE BLOCKS ── */
 .stCode {
-    background-color: #0a0f1e !important;
-    border: 1px solid rgba(0,180,216,0.15) !important;
+    background-color: #1a1a2e !important;
+    border: 1px solid rgba(167,139,250,0.15) !important;
     border-radius: 10px !important;
 }
 
-code { color: #48cae4 !important; background: transparent !important; }
+code { color: #c4b5fd !important; background: transparent !important; }
 
 /* ── INPUTS & SELECTS ── */
 .stSelectbox > div > div {
     background: rgba(255,255,255,0.03) !important;
-    border: 1px solid rgba(0,180,216,0.2) !important;
+    border: 1px solid rgba(167,139,250,0.2) !important;
     color: #e2e8f0 !important;
     border-radius: 12px !important;
 }
 
 .stTextArea > div > div {
     background: rgba(255,255,255,0.03) !important;
-    border: 1px solid rgba(0,180,216,0.2) !important;
+    border: 1px solid rgba(167,139,250,0.2) !important;
     color: #e2e8f0 !important;
     border-radius: 12px !important;
 }
@@ -447,7 +444,7 @@ code { color: #48cae4 !important; background: transparent !important; }
 div[data-testid="stTextInput"] input {
     background-color: rgba(255,255,255,0.03) !important;
     color: #e2e8f0 !important;
-    border: 1px solid rgba(0,180,216,0.25) !important;
+    border: 1px solid rgba(167,139,250,0.25) !important;
     border-radius: 14px !important;
     padding: 14px 22px !important;
     font-size: 0.95rem !important;
@@ -456,14 +453,14 @@ div[data-testid="stTextInput"] input {
 
 div[data-testid="stTextInput"] input::placeholder { color: #2d3748 !important; }
 div[data-testid="stTextInput"] input:focus {
-    box-shadow: 0 0 0 3px rgba(0,180,216,0.15) !important;
-    border-color: rgba(0,180,216,0.6) !important;
+    box-shadow: 0 0 0 3px rgba(167,139,250,0.15) !important;
+    border-color: rgba(167,139,250,0.6) !important;
 }
 
 /* ── STATUS MESSAGES ── */
 .stInfo {
-    background: rgba(0,180,216,0.07) !important;
-    border: 1px solid rgba(0,180,216,0.25) !important;
+    background: rgba(167,139,250,0.07) !important;
+    border: 1px solid rgba(167,139,250,0.25) !important;
     border-radius: 12px !important;
 }
 
@@ -482,28 +479,28 @@ div[data-testid="stTextInput"] input:focus {
 /* ── DIVIDER ── */
 hr {
     border: none !important;
-    border-top: 1px solid rgba(255,255,255,0.05) !important;
+    border-top: 1px solid rgba(167,139,250,0.1) !important;
     margin: 40px 0 !important;
 }
 
-/* ── SIDEBAR ── (sem interferência nos ícones) ── */
-a { color: #00b4d8 !important; transition: all 0.3s ease; }
+/* ── LINKS ── */
+a { color: #a78bfa !important; transition: all 0.3s ease; }
 a:hover { filter: brightness(1.2); }
 
 .footer-spacer { height: 60px; }
 
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #060912; }
-::-webkit-scrollbar-thumb { background: rgba(0,180,216,0.2); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(0,180,216,0.4); }
+::-webkit-scrollbar-track { background: #0a0e27; }
+::-webkit-scrollbar-thumb { background: rgba(167,139,250,0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(167,139,250,0.4); }
 
 </style>
 """, unsafe_allow_html=True)
 
 # --- SIDEBAR NAVIGATION ---
 st.sidebar.markdown("""
-<div style="text-align: center; padding: 20px 0; border-bottom: 1px solid rgba(0,180,216,0.2);">
-    <h1 style="font-family:'Syne',sans-serif; font-size: 1.6rem; color: #00b4d8; margin: 0; font-weight:800; letter-spacing:-0.5px;">🗄️ SQL Pro</h1>
+<div style="text-align: center; padding: 20px 0; border-bottom: 1px solid rgba(167,139,250,0.2);">
+    <h1 style="font-family:'Syne',sans-serif; font-size: 1.6rem; color: #a78bfa; margin: 0; font-weight:800; letter-spacing:-0.5px;">🗄️ SQL Pro</h1>
     <p style="color: #4a5568; font-size: 0.82rem; margin-top: 6px; letter-spacing:1px; text-transform:uppercase;">Domine SQL em 60 práticas</p>
 </div>
 """, unsafe_allow_html=True)
@@ -512,16 +509,16 @@ st.sidebar.markdown("""
 col1, col2 = st.sidebar.columns(2)
 with col1:
     st.markdown(f"""
-    <div style="background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%); border: 1px solid rgba(255,255,255,0.05); border-radius: 14px; padding: 16px; text-align: center;">
-        <p style="font-family:'Syne',sans-serif; color: #00b4d8; font-weight: 800; font-size: 1.4rem; margin: 0;">⭐ {st.session_state.user_points}</p>
+    <div style="background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%); border: 1px solid rgba(167,139,250,0.2); border-radius: 14px; padding: 16px; text-align: center;">
+        <p style="font-family:'Syne',sans-serif; color: #a78bfa; font-weight: 800; font-size: 1.4rem; margin: 0;">⭐ {st.session_state.user_points}</p>
         <p style="color: #4a5568; font-size: 0.75rem; margin: 5px 0; text-transform:uppercase; letter-spacing:1px;">Pontos</p>
     </div>
     """, unsafe_allow_html=True)
 
 with col2:
     st.markdown(f"""
-    <div style="background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%); border: 1px solid rgba(255,255,255,0.05); border-radius: 14px; padding: 16px; text-align: center;">
-        <p style="font-family:'Syne',sans-serif; color: #00b4d8; font-weight: 800; font-size: 1.4rem; margin: 0;">🔥 {st.session_state.daily_streak}</p>
+    <div style="background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%); border: 1px solid rgba(167,139,250,0.2); border-radius: 14px; padding: 16px; text-align: center;">
+        <p style="font-family:'Syne',sans-serif; color: #a78bfa; font-weight: 800; font-size: 1.4rem; margin: 0;">🔥 {st.session_state.daily_streak}</p>
         <p style="color: #4a5568; font-size: 0.75rem; margin: 5px 0; text-transform:uppercase; letter-spacing:1px;">Streak</p>
     </div>
     """, unsafe_allow_html=True)
@@ -545,8 +542,6 @@ search_query = st.sidebar.text_input(
     label_visibility="collapsed"
 )
 st.session_state.search_query = search_query.lower()
-
-# --- ARMAZENAR MENU SELECIONADO ---
 st.session_state.current_menu = menu
 
 # ── HERO ──
@@ -577,7 +572,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# --- PROGRESSO VISUAL (SEMPRE VISÍVEL) ---
+# --- PROGRESSO VISUAL ---
 total_practices = 60
 learned_count = len(st.session_state.learned)
 progress_percent = (learned_count / total_practices) * 100
@@ -586,7 +581,7 @@ st.markdown(f"""
 <div class="progress-container">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
         <p style="font-family:'Syne',sans-serif; color: #e2e8f0; font-weight: 700; font-size:0.85rem; letter-spacing:1.5px; text-transform:uppercase; margin: 0;">🎓 Seu Progresso</p>
-        <p style="font-family:'Syne',sans-serif; color: #00b4d8; font-weight: 800; font-size:1.1rem; margin: 0;">{learned_count}/{total_practices}</p>
+        <p style="font-family:'Syne',sans-serif; color: #a78bfa; font-weight: 800; font-size:1.1rem; margin: 0;">{learned_count}/{total_practices}</p>
     </div>
     <div class="progress-bar">
         <div class="progress-fill" style="width: {progress_percent}%"></div>
@@ -631,16 +626,14 @@ with col3:
 
 st.markdown("""
 <p style="text-align: center; color: #4a5568; margin: 40px 0; font-size: 1rem; line-height: 1.8; max-width:660px; margin-left:auto; margin-right:auto;">
-    Queries eficientes são a base de dashboards que escalam. 
+    Queries eficientes são a base de dashboards que escalam.
     Boas práticas em SQL reduzem tempo de processamento e amplificam a precisão das análises.
     <br><br>
-    <span style="color: #00b4d8; font-weight: 600;">
+    <span style="color: #a78bfa; font-weight: 600;">
     Este é um guia completo para transformar você em um especialista SQL.
     </span>
 </p>
 """, unsafe_allow_html=True)
-
-# st.divider()
 
 # --- DATABASE DE PRÁTICAS SQL ---
 sql_practices = [
@@ -723,11 +716,10 @@ with col2:
 
 st.markdown('</div>', unsafe_allow_html=True)
 
-# --- SEÇÃO EDITOR SQL COM BANCO REAL ---
+# --- EDITOR SQL ---
 st.markdown('<h2 class="section-header">✏️ Editor SQL Interativo</h2>', unsafe_allow_html=True)
-st.markdown('<p style="color: #4a5568; margin-bottom: 30px; font-weight:300;">Teste suas queries SQL em tempo real. O banco contém as tabelas: <span style="color:#00b4d8;">usuarios</span>, <span style="color:#00b4d8;">vendas</span> e <span style="color:#00b4d8;">produtos</span>.</p>', unsafe_allow_html=True)
+st.markdown('<p style="color: #4a5568; margin-bottom: 30px; font-weight:300;">Teste suas queries SQL em tempo real. O banco contém as tabelas: <span style="color:#a78bfa;">usuarios</span>, <span style="color:#a78bfa;">vendas</span> e <span style="color:#a78bfa;">produtos</span>.</p>', unsafe_allow_html=True)
 
-# --- EXEMPLOS PRÉ-DEFINIDOS ---
 sql_templates = {
     "SELECT Básico": "SELECT * FROM produtos LIMIT 10;",
     "WHERE Filtro": "SELECT id, nome, categoria FROM produtos WHERE categoria = 'Livros';",
@@ -755,10 +747,7 @@ with col_template:
         key="template_select",
         label_visibility="collapsed"
     )
-    if selected_template != "Escrever Manual":
-        template_query = sql_templates[selected_template]
-    else:
-        template_query = ""
+    template_query = sql_templates[selected_template] if selected_template != "Escrever Manual" else ""
 
 with col_editor:
     st.markdown('<p class="editor-title">📝 Seu SQL</p>', unsafe_allow_html=True)
@@ -773,15 +762,13 @@ with col_editor:
 
 st.markdown('</div>', unsafe_allow_html=True)
 
-# st.divider()
-
-# --- SEÇÃO DE RESULTADO COM EXECUTOR REAL ---
+# --- RESULTADO ---
 st.markdown('<h2 class="section-header">📊 Resultado da Query</h2>', unsafe_allow_html=True)
 
 col_result, col_info = st.columns([2, 1], gap="large")
 
 with col_result:
-    st.markdown('<div style="background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 24px;">', unsafe_allow_html=True)
+    st.markdown('<div style="background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%); border: 1px solid rgba(167,139,250,0.2); border-radius: 16px; padding: 24px;">', unsafe_allow_html=True)
     if user_query.strip():
         result_df, message = execute_query(user_query)
         if "✅" in message:
@@ -802,8 +789,8 @@ with col_result:
 
 with col_info:
     st.markdown("""
-    <div style="background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 24px;">
-        <p style="font-family:'Syne',sans-serif; color: #00b4d8; font-weight: 700; font-size:0.8rem; letter-spacing:1.5px; text-transform:uppercase; margin-bottom: 16px;">ℹ️ Tabelas & Dicas</p>
+    <div style="background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%); border: 1px solid rgba(167,139,250,0.2); border-radius: 16px; padding: 24px;">
+        <p style="font-family:'Syne',sans-serif; color: #a78bfa; font-weight: 700; font-size:0.8rem; letter-spacing:1.5px; text-transform:uppercase; margin-bottom: 16px;">ℹ️ Tabelas & Dicas</p>
         <p style="color: #4a5568; font-size: 0.85rem; line-height: 1.8; margin-bottom: 16px; font-weight:300;">
             <span style="color:#e2e8f0; font-weight:600;">usuarios:</span> id, nome, email, ativo, created_at, categoria
             <br><br>
@@ -811,7 +798,7 @@ with col_info:
             <br><br>
             <span style="color:#e2e8f0; font-weight:600;">produtos:</span> id, nome, categoria, preco
         </p>
-        <p style="color: #2d3748; font-size: 0.82rem; font-weight:300; border-top: 1px solid rgba(255,255,255,0.04); padding-top: 14px;">
+        <p style="color: #2d3748; font-size: 0.82rem; font-weight:300; border-top: 1px solid rgba(167,139,250,0.1); padding-top: 14px;">
             💡 Teste SELECT, WHERE, JOIN, GROUP BY, LIMIT e mais!
         </p>
     </div>
@@ -821,9 +808,9 @@ st.divider()
 
 # --- FOOTER ---
 st.markdown("""
-<div style="text-align: center; padding: 40px 0; border-top: 1px solid rgba(255,255,255,0.04); color: #2d3748;">
+<div style="text-align: center; padding: 40px 0; border-top: 1px solid rgba(167,139,250,0.1); color: #2d3748;">
     <p style="margin-bottom: 10px; font-size: 0.92rem;">
-        <span style="font-family:'Syne',sans-serif; color: #00b4d8; font-weight: 700;">SQL - Melhores Práticas</span> 
+        <span style="font-family:'Syne',sans-serif; color: #a78bfa; font-weight: 700;">SQL - Melhores Práticas</span>
         &nbsp;•&nbsp; Criado por Rodrigo Aiosa
     </p>
     <p style="font-size: 0.82rem; font-weight:300;">
