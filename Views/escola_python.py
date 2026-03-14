@@ -204,26 +204,6 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     100% { box-shadow: 0 0 20px rgba(255, 20, 147, 0.5); }
 }
 
-.xp-bar {
-    background: linear-gradient(90deg, rgba(167,139,250,0.2), rgba(167,139,250,0.5));
-    border-radius: 10px;
-    height: 25px;
-    border: 1px solid rgba(167,139,250,0.3);
-    overflow: hidden;
-    margin: 10px 0;
-}
-
-.xp-progress {
-    background: linear-gradient(90deg, #a78bfa, #7c3aed);
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
-    font-size: 0.8rem;
-}
-
 .badge-container {
     display: flex;
     flex-wrap: wrap;
@@ -353,14 +333,12 @@ def get_xp_progress(xp, current_level):
     """Retorna progresso em % para próximo nível"""
     current_level_xp = MASTERY_LEVELS[current_level]["xp_required"]
     next_level_xp = get_xp_for_next_level(current_level)
-    
     progress = ((xp - current_level_xp) / (next_level_xp - current_level_xp)) * 100
     return min(100, max(0, progress))
 
 def check_badges(learned_count, favorites_count, editor_runs, points):
     """Verifica quais badges foram conquistados"""
     new_badges = set()
-    
     if learned_count >= 1:
         new_badges.add("first_steps")
     if learned_count >= 10:
@@ -371,7 +349,6 @@ def check_badges(learned_count, favorites_count, editor_runs, points):
         new_badges.add("favorite_collector")
     if points >= 1000:
         new_badges.add("code_master")
-    
     return new_badges
 
 def get_level_color_class(level):
@@ -397,28 +374,16 @@ with col2:
 with col3:
     st.markdown(f'<h1 style="text-align: center; font-size: 2rem;">⭐ {st.session_state.python_points} pontos</h1>', unsafe_allow_html=True)
 
-# --- BARRA DE NÍVEL ---
+# --- NÍVEL E STREAK ---
 current_level = get_current_level(st.session_state.python_xp)
 current_xp = st.session_state.python_xp
 level_info = MASTERY_LEVELS[current_level]
 
-# st.markdown(f'<div class="level-badge {get_level_color_class(current_level)}">{level_info["icon"]} {level_info["title"]}</div>', unsafe_allow_html=True)
-
-# XP Progress
+# Variáveis de XP mantidas para uso na aba Perfil
 xp_progress = get_xp_progress(current_xp, current_level)
 next_level_xp = get_xp_for_next_level(current_level)
 current_level_xp = MASTERY_LEVELS[current_level]["xp_required"]
-
 progress_text = f"XP: {current_xp - current_level_xp} / {next_level_xp - current_level_xp}"
-
-st.markdown(f"""
-<div class="xp-bar">
-    <div class="xp-progress" style="width: {xp_progress}%;">
-        {progress_text if xp_progress > 20 else ""}
-    </div>
-</div>
-<p style="text-align: center; color: #7b8ba8; font-size: 0.9rem;">{progress_text}</p>
-""", unsafe_allow_html=True)
 
 # Streak
 if st.session_state.python_streak > 0:
@@ -443,9 +408,8 @@ with tab1:
     with col2:
         search = st.text_input("🔍 Buscar prática", key="python_search")
 
-    # DATABASE DE PRÁTICAS (60)
     python_practices = [
-        # INICIANTE (20)
+        # INICIANTE (19)
         {"icon": "📚", "title": "Usar Type Hints", "category": "Qualidade & Manutenção", "difficulty": "Iniciante", "description": "Especifique tipos de argumentos e retorno.", "bad_code": "def calcular_total(items):\n    return sum(item['valor'] for item in items)", "good_code": "from typing import List, Dict\n\ndef calcular_total(items: List[Dict[str, float]]) -> float:\n    return sum(item['valor'] for item in items)", "benefit": "Detecta erros em tempo de desenvolvimento.", "explanation": "Type hints melhoram legibilidade e oferecem autocomplete."},
         {"icon": "🔐", "title": "List Comprehension", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "Prefira list comprehension a loops tradicionais.", "bad_code": "pares = []\nfor num in [1,2,3,4,5]:\n    if num % 2 == 0:\n        pares.append(num * 2)", "good_code": "pares = [num * 2 for num in [1,2,3,4,5] if num % 2 == 0]", "benefit": "30-40% mais rápido.", "explanation": "Otimizada em C, executa mais rápido."},
         {"icon": "🔍", "title": "Usar f-strings", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "f-strings são mais legíveis e rápidas.", "bad_code": "nome = 'Alice'\nidade = 30\nmsg = 'Olá, ' + nome + '. Você tem ' + str(idade) + ' anos'", "good_code": "nome = 'Alice'\nidade = 30\nmsg = f'Olá, {nome}. Você tem {idade} anos'", "benefit": "20% mais rápido.", "explanation": "Otimizadas em tempo de compilação."},
@@ -465,7 +429,7 @@ with tab1:
         {"icon": "🎪", "title": "String methods vs regex", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "Use método simples quando possível.", "bad_code": "import re\nif re.search(r'mundo', texto):\n    print('Encontrado')", "good_code": "if 'mundo' in texto:\n    print('Encontrado')", "benefit": "10x mais rápido.", "explanation": "Otimizadas em C."},
         {"icon": "📦", "title": "setdefault()", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "Define e retorna simultaneamente.", "bad_code": "if 'python' not in cat:\n    cat['python'] = []\ncat['python'].append('item')", "good_code": "cat.setdefault('python', []).append('item')", "benefit": "Uma linha.", "explanation": "Combina verificação e atribuição."},
         {"icon": "🔍", "title": "in vs count()", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "Use in para verificar existência.", "bad_code": "if lista.count(3) > 0:\n    print('Existe')", "good_code": "if 3 in lista:\n    print('Existe')", "benefit": "3x mais rápido.", "explanation": "Sem criar contador."},
-        
+
         # INTERMEDIÁRIO (20)
         {"icon": "🔗", "title": "Usar Decorators", "category": "Elegância & Reutilização", "difficulty": "Intermediário", "description": "Reutilize lógica comum.", "bad_code": "def f1():\n    inicio = time.time()\n    resultado = calc()\n    print(time.time() - inicio)\n    return resultado", "good_code": "@timing\ndef f1():\n    return calc()\n\ndef timing(func):\n    def wrapper(*args):\n        inicio = time.time()\n        resultado = func(*args)\n        print(time.time() - inicio)\n        return resultado\n    return wrapper", "benefit": "Reutilização.", "explanation": "Encapsula lógica transversal."},
         {"icon": "⚡", "title": "Usar @property", "category": "Elegância & Encapsulamento", "difficulty": "Intermediário", "description": "Crie getters/setters Pythônicos.", "bad_code": "class Pessoa:\n    def get_nome(self):\n        return self._nome", "good_code": "class Pessoa:\n    @property\n    def nome(self):\n        return self._nome", "benefit": "Sintaxe natural.", "explanation": "Permite p.nome = 'valor'."},
@@ -484,10 +448,10 @@ with tab1:
         {"icon": "✅", "title": "assertRaises", "category": "Qualidade & Testes", "difficulty": "Intermediário", "description": "Teste exceções corretamente.", "bad_code": "try:\n    dividir(10, 0)\nexcept ZeroDivisionError:\n    print('OK')", "good_code": "import unittest\n\nclass TestDividir(unittest.TestCase):\n    def test_divisao(self):\n        with self.assertRaises(ZeroDivisionError):\n            dividir(10, 0)", "benefit": "Claro.", "explanation": "Formaliza teste."},
         {"icon": "🎯", "title": "with Statement", "category": "Segurança & Manutenção", "difficulty": "Intermediário", "description": "Gerencie contexto.", "bad_code": "lock.acquire()\ntry:\n    processar()\nfinally:\n    lock.release()", "good_code": "class LockCtx:\n    def __enter__(self):\n        self.lock.acquire()\n    def __exit__(self, *args):\n        self.lock.release()\n\nwith LockCtx():\n    processar()", "benefit": "Reutilizável.", "explanation": "__enter__ e __exit__."},
         {"icon": "📦", "title": "Set Comprehension", "category": "Elegância & Performance", "difficulty": "Intermediário", "description": "Crie conjuntos com elegância.", "bad_code": "unicos = set()\nfor x in numeros:\n    unicos.add(x % 2)", "good_code": "unicos = {x % 2 for x in numeros}", "benefit": "Conciso.", "explanation": "Mesma performance."},
-        {"icon": "🌟", "title": "Avoid Global Mutable", "category": "Qualidade & Manutenção", "difficulty": "Intermediário", "description": "Não use globais mutáveis.", "bad_code": "cache = {}\ndef processar(chave):\n    global cache\n    cache[chave] = valor", "good_code": "def processar(chave: str, cache: Dict) -> Dict:\n    cache[chave] = valor\n    return cache", "benefit": "Testável.", "explanation": "Passa estado como argumento."},
+        {"icon": "🌟", "title": "Avoid Global Mutable", "category": "Qualidade & Manutenção", "difficulty": "Intermediário", "description": "Não use globais mutáveis.", "bad_code": "cache = {}\ndef processar(chave):\n    global cache\n    cache[chave] = valor", "good_code": "def processar(chave: str, cache: dict) -> dict:\n    cache[chave] = valor\n    return cache", "benefit": "Testável.", "explanation": "Passa estado como argumento."},
         {"icon": "⚡", "title": "Comprehension Aninhada", "category": "Elegância & Performance", "difficulty": "Intermediário", "description": "Aninhamento elegante.", "bad_code": "matriz = []\nfor i in range(3):\n    linha = []\n    for j in range(3):\n        linha.append(i * j)\n    matriz.append(linha)", "good_code": "matriz = [[i*j for j in range(3)] for i in range(3)]", "benefit": "Conciso.", "explanation": "Legível quando bem estruturada."},
-        
-        # AVANÇADO (20)
+
+        # AVANÇADO (19)
         {"icon": "🎯", "title": "__slots__", "category": "Performance & Otimização", "difficulty": "Avançado", "description": "Reduz consumo de memória.", "bad_code": "class Ponto:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y", "good_code": "class Ponto:\n    __slots__ = ['x', 'y']\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y", "benefit": "50% menos memória.", "explanation": "Sem __dict__."},
         {"icon": "🔐", "title": "Metaclasses", "category": "Arquitetura & Avançado", "difficulty": "Avançado", "description": "Controlam criação de classes.", "bad_code": "class Singleton:\n    _instance = None\n    def __new__(cls):\n        if cls._instance is None:\n            cls._instance = super().__new__(cls)\n        return cls._instance", "good_code": "class SingletonMeta(type):\n    _instances = {}\n    def __call__(cls, *args):\n        if cls not in cls._instances:\n            cls._instances[cls] = super().__call__(*args)\n        return cls._instances[cls]", "benefit": "Padrões.", "explanation": "Classe de classes."},
         {"icon": "⚡", "title": "Protocol (Typing)", "category": "Qualidade & Manutenção", "difficulty": "Avançado", "description": "Interfaces sem herança.", "bad_code": "def processar(obj):\n    return obj.processar()", "good_code": "from typing import Protocol\n\nclass Processavel(Protocol):\n    def processar(self) -> str: ...\n\ndef processar(obj: Processavel) -> str:\n    return obj.processar()", "benefit": "Type checking.", "explanation": "Structural subtyping."},
@@ -504,7 +468,7 @@ with tab1:
         {"icon": "🎯", "title": "Logging", "category": "Qualidade & Produção", "difficulty": "Avançado", "description": "logging vs print.", "bad_code": "print('Começando...')\nprint(f'Dados: {dados}')", "good_code": "import logging\nlogger = logging.getLogger(__name__)\n\nlogger.info('Começando...')\nlogger.debug(f'Dados: {dados}')", "benefit": "Configurável.", "explanation": "Níveis e handlers."},
         {"icon": "🔗", "title": "Pytest", "category": "Qualidade & Testes", "difficulty": "Avançado", "description": "pytest é melhor.", "bad_code": "class Test(unittest.TestCase):\n    def test_resultado(self):\n        self.assertEqual(funcao(2, 3), 5)", "good_code": "def test_resultado():\n    assert funcao(2, 3) == 5\n\ndef test_erro():\n    with pytest.raises(ValueError):\n        funcao('a', 'b')", "benefit": "Simples.", "explanation": "Assertions e fixtures."},
         {"icon": "📦", "title": "mypy", "category": "Qualidade & Manutenção", "difficulty": "Avançado", "description": "Type checking estático.", "bad_code": "def somar(a: int, b: int) -> int:\n    return a + b\n\nsomar('2', '3')", "good_code": "# mypy script.py\n# Detecta: Argument has incompatible type\n# somar('2', '3')", "benefit": "Antes da execução.", "explanation": "Validação estática."},
-        {"icon": "🚀", "title": "Dependency Injection", "category": "Arquitetura & Manutenção", "difficulty": "Avançado", "description": "Injetar dependências.", "bad_code": "class Servico:\n    def __init__(self):\n        self.db = Database()", "good_code": "class Servico:\n    def __init__(self, db: Database):\n        self.db = db\n\ndb = Database()\nservico = Servico(db)", "benefit": "Testável.", "explanation": "Desacoplado."},
+        {"icon": "🚀", "title": "Dependency Injection", "category": "Arquitetura & Manutenção", "difficulty": "Avançado", "description": "Injetar dependências.", "bad_code": "class Servico:\n    def __init__(self):\n        self.db = Database()", "good_code": "class Servico:\n    def __init__(self, db):\n        self.db = db\n\ndb = Database()\nservico = Servico(db)", "benefit": "Testável.", "explanation": "Desacoplado."},
         {"icon": "🎨", "title": "__enter__/__exit__", "category": "Arquitetura & Elegância", "difficulty": "Avançado", "description": "Context managers customizados.", "bad_code": "transacao.begin()\ntry:\n    sql.execute()\nfinally:\n    transacao.commit()", "good_code": "class Transacao:\n    def __enter__(self):\n        self.begin()\n        return self\n    def __exit__(self, *args):\n        self.commit()\n\nwith Transacao() as t:\n    sql.execute()", "benefit": "Reutilizável.", "explanation": "Cleanup garantido."},
         {"icon": "⚡", "title": "cached_property", "category": "Performance & Elegância", "difficulty": "Avançado", "description": "Propriedades com cache.", "bad_code": "class Dados:\n    def __init__(self):\n        self.resultado = self.calcular_pesado()", "good_code": "class Dados:\n    @functools.cached_property\n    def resultado(self):\n        return self.calcular_pesado()", "benefit": "Sob demanda.", "explanation": "Caching automático."},
     ]
@@ -516,44 +480,41 @@ with tab1:
     if search:
         filtered = [p for p in filtered if search.lower() in p["title"].lower()]
 
-    # --- MOSTRAR PRÁTICAS ---
     st.markdown('<h3 class="section-header">📖 Melhores Práticas</h3>', unsafe_allow_html=True)
     st.markdown(f'**Mostrando {len(filtered)} de {len(python_practices)} práticas**')
 
     for idx, p in enumerate(filtered):
         is_learned = idx in st.session_state.python_learned
         is_favorite = idx in st.session_state.python_favorites
-        
+
         with st.expander(f"{p['icon']} {p['title']} — {p['difficulty']}" + (" ✅" if is_learned else "") + (" ⭐" if is_favorite else ""), expanded=False):
             col1, col2 = st.columns([3, 1])
-            
+
             with col1:
                 st.markdown(f"**Descrição:** {p['description']}")
                 st.markdown(f"**Benefício:** {p['benefit']}")
                 st.markdown(f"**Categoria:** `{p['category']}`")
-                
+
             with col2:
-                xp_gain = 10 if not is_favorite else 0
                 if st.button(f"⭐ Favoritar", key=f"fav_{idx}"):
                     st.session_state.python_favorites.add(idx)
                     st.session_state.python_points += 5
                     st.session_state.python_xp += 5
                     st.rerun()
-                    
-                xp_gain = 25 if not is_learned else 0
+
                 if st.button(f"✅ Aprendida", key=f"learn_{idx}"):
                     st.session_state.python_learned.add(idx)
                     st.session_state.python_points += 25
                     st.session_state.python_xp += 25
                     st.session_state.python_level = get_current_level(st.session_state.python_xp)
                     st.rerun()
-            
+
             st.markdown("**❌ Evitar:**")
             st.code(p["bad_code"], language="python")
-            
+
             st.markdown("**✅ Preferir:**")
             st.code(p["good_code"], language="python")
-            
+
             st.markdown(f"**Explicação:** {p['explanation']}")
 
 # ============================================================================
@@ -561,11 +522,9 @@ with tab1:
 # ============================================================================
 with tab2:
     st.markdown('<h3 class="section-header">✏️ Editor Python Interativo</h3>', unsafe_allow_html=True)
-    
-    # Templates
+
     st.markdown("**📚 Templates Rápidos:**")
-    col1, col2, col3 = st.columns(3)
-    
+
     templates = {
         "Hello World": "print('Hello, World!')",
         "Soma": "a = 5\nb = 3\nprint(f'Soma: {a + b}')",
@@ -577,12 +536,10 @@ with tab2:
         "Classe": "class Pessoa:\n    def __init__(self, nome):\n        self.nome = nome\n\np = Pessoa('Alice')\nprint(p.nome)",
         "Try/Except": "try:\n    resultado = 10 / 2\n    print(resultado)\nexcept ZeroDivisionError:\n    print('Erro!')",
     }
-    
+
     selected_template = st.selectbox("Escolha um template:", ["Vazio"] + list(templates.keys()), key="template_selector")
-    
     template_code = templates.get(selected_template, "")
-    
-    # Editor
+
     st.markdown("**Seu Código:**")
     code_input = st.text_area(
         "Digite seu código Python aqui",
@@ -591,36 +548,28 @@ with tab2:
         key="code_editor",
         placeholder="# Digite seu código aqui\nprint('Hello, World!')"
     )
-    
-    # Botão RUN
+
     col1, col2, col3 = st.columns([2, 2, 2])
     with col1:
         run_button = st.button("▶️ RUN", use_container_width=True)
-    
+
     if 'editor_runs' not in st.session_state:
         st.session_state.editor_runs = 0
-    
-    # Executar código
+
     if run_button and code_input.strip():
         st.markdown("**Resultado:**")
         st.session_state.editor_runs += 1
         st.session_state.python_xp += 5
         st.session_state.python_points += 5
-        
+
         try:
-            # Capturar output
             output_buffer = StringIO()
             old_stdout = sys.stdout
             sys.stdout = output_buffer
-            
-            # Executar código
             exec(code_input)
-            
-            # Restaurar stdout
             sys.stdout = old_stdout
             output = output_buffer.getvalue()
-            
-            # Exibir resultado
+
             if output:
                 st.markdown(f"""
                 <div class="success-box achievement-pop">
@@ -630,7 +579,7 @@ with tab2:
                 st.markdown("""
                 <div class="success-box">✅ Código executado com sucesso (sem output)</div>
                 """, unsafe_allow_html=True)
-                
+
         except Exception as e:
             sys.stdout = old_stdout
             error_message = f"{type(e).__name__}: {str(e)}"
@@ -641,12 +590,11 @@ with tab2:
         st.markdown("""
         <div class="error-box">❌ Digite um código antes de executar!</div>
         """, unsafe_allow_html=True)
-    
-    # Dicas
+
     st.divider()
     st.markdown("""
     ### 💡 Dicas para o Editor
-    
+
     - **Templates:** Use os botões acima para inserir exemplos rápidos
     - **Print:** Use `print()` para ver resultados
     - **Erros:** Os erros serão exibidos em vermelho
@@ -660,12 +608,12 @@ with tab2:
 with tab3:
     st.markdown('<h3 class="section-header">🎯 Desafios Semanais</h3>', unsafe_allow_html=True)
     st.markdown("Complete desafios para ganhar XP e subir de nível!")
-    
+
     for challenge in CHALLENGES:
         is_completed = challenge["id"] in st.session_state.python_challenges_completed
-        
+
         col1, col2 = st.columns([4, 1])
-        
+
         with col1:
             status = "✅ Completo" if is_completed else f"🎯 {challenge['difficulty']}"
             st.markdown(f"""
@@ -675,7 +623,7 @@ with tab3:
                 <p><strong>Recompensa:</strong> +{challenge['xp_reward']} XP</p>
             </div>
             """, unsafe_allow_html=True)
-        
+
         with col2:
             if not is_completed:
                 if st.button(f"Marcar ✓", key=f"challenge_{challenge['id']}"):
@@ -690,13 +638,13 @@ with tab3:
 # ============================================================================
 with tab4:
     st.markdown('<h3 class="section-header">🏆 Suas Conquistas</h3>', unsafe_allow_html=True)
-    
+
     learned_count = len(st.session_state.python_learned)
     favorites_count = len(st.session_state.python_favorites)
-    
+
     current_badges = check_badges(learned_count, favorites_count, st.session_state.editor_runs, st.session_state.python_points)
     st.session_state.python_badges = current_badges
-    
+
     st.markdown(f"""
     ### 📊 Estatísticas
     - **Práticas Aprendidas:** {learned_count}/60
@@ -705,19 +653,18 @@ with tab4:
     - **Pontos Totais:** {st.session_state.python_points}
     - **XP Total:** {st.session_state.python_xp}
     """)
-    
+
     st.markdown("### 🎖️ Badges Desbloqueados")
-    
+
     unlocked = []
     locked = []
-    
+
     for badge_id, badge_info in BADGES.items():
         if badge_id in st.session_state.python_badges:
             unlocked.append((badge_id, badge_info))
         else:
             locked.append((badge_id, badge_info))
-    
-    # Mostrar desbloqueados
+
     if unlocked:
         cols = st.columns(5)
         for idx, (badge_id, badge_info) in enumerate(unlocked):
@@ -728,8 +675,7 @@ with tab4:
                     <small><b>{badge_info['title']}</b></small>
                 </div>
                 """, unsafe_allow_html=True)
-    
-    # Mostrar bloqueados
+
     st.markdown("### 🔒 Badges Bloqueados")
     if locked:
         cols = st.columns(5)
@@ -748,56 +694,57 @@ with tab4:
 # ============================================================================
 with tab5:
     st.markdown('<h3 class="section-header">📊 Seu Perfil</h3>', unsafe_allow_html=True)
-    
+
     col1, col2 = st.columns(2)
-    
+
     with col1:
         st.markdown(f"""
         ### 🏆 Estatísticas Gerais
-        
+
         - **Nível Atual:** {current_level}/{len(MASTERY_LEVELS)}
         - **Título:** {MASTERY_LEVELS[current_level]['title']}
         - **XP Total:** {st.session_state.python_xp}
         - **Pontos:** {st.session_state.python_points}
         - **Streak:** 🔥 {st.session_state.python_streak} dias
         """)
-    
+
     with col2:
+        learned_count = len(st.session_state.python_learned)
         st.markdown(f"""
         ### 📚 Progresso no Aprendizado
-        
+
         - **Práticas Completadas:** {learned_count}/60
         - **Taxa de Conclusão:** {(learned_count/60)*100:.1f}%
-        - **Favoritas:** {favorites_count}
+        - **Favoritas:** {len(st.session_state.python_favorites)}
         - **Scripts Testados:** {st.session_state.editor_runs}
         - **Badges:** {len(st.session_state.python_badges)}/{len(BADGES)}
         """)
-    
+
     st.divider()
     st.markdown("### 🎯 Próximas Metas")
-    
+
     if current_level < 5:
         next_level_xp = get_xp_for_next_level(current_level)
         xp_needed = next_level_xp - st.session_state.python_xp
         next_title = MASTERY_LEVELS[current_level + 1]["title"]
-        
+
         st.markdown(f"""
         ⬆️ **Próximo Nível:** {next_title}
-        
+
         Você precisa de **{xp_needed} XP** para chegar ao próximo nível!
         """)
     else:
         st.markdown("🏆 **Você é uma Pythonista Elite! Parabéns!**")
-    
+
     st.divider()
     st.markdown("### 💪 Dicas para Evoluir Rápido")
-    
+
     st.markdown("""
     1. **Complete Desafios:** +100-200 XP cada
     2. **Teste no Editor:** +5 XP por execução
     3. **Favoritize Práticas:** +5 XP cada
     4. **Marque Aprendidas:** +25 XP cada
     5. **Mantenha Streak:** Use a plataforma todos os dias!
-    
+
     **Meta:** Chegue ao nível Lendário (🏆) em 30 dias!
     """)
