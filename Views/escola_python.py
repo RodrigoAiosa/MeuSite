@@ -496,7 +496,13 @@ with tab1:
                 st.markdown(f"**Categoria:** `{p['category']}`")
 
             with col2:
-                if st.button(f"⭐ Favoritar", key=f"fav_{idx}"):
+                if is_favorite:
+                    if st.button("★ Favoritado", key=f"fav_{idx}"):
+                        st.session_state.python_favorites.discard(idx)
+                        st.session_state.python_points -= 5
+                        st.session_state.python_xp -= 5
+                        st.rerun()
+                elif st.button("⭐ Favoritar", key=f"fav_{idx}"):
                     st.session_state.python_favorites.add(idx)
                     st.session_state.python_points += 5
                     st.session_state.python_xp += 5
