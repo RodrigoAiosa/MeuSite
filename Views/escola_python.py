@@ -402,7 +402,7 @@ current_level = get_current_level(st.session_state.python_xp)
 current_xp = st.session_state.python_xp
 level_info = MASTERY_LEVELS[current_level]
 
-st.markdown(f'<div class="level-badge {get_level_color_class(current_level)}">{level_info["icon"]} {level_info["title"]}</div>', unsafe_allow_html=True)
+# st.markdown(f'<div class="level-badge {get_level_color_class(current_level)}">{level_info["icon"]} {level_info["title"]}</div>', unsafe_allow_html=True)
 
 # XP Progress
 xp_progress = get_xp_progress(current_xp, current_level)
