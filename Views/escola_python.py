@@ -610,11 +610,21 @@ with tab2:
         "Try/Except": "try:\n    resultado = 10 / 2\n    print(resultado)\nexcept ZeroDivisionError:\n    print('Erro!')",
     }
 
+    if 'editor_code' not in st.session_state:
+        st.session_state.editor_code = ""
+    if 'last_template' not in st.session_state:
+        st.session_state.last_template = "Vazio"
+
     selected_template = st.selectbox("Escolha um template:", ["Vazio"] + list(templates.keys()), key="template_selector")
-    template_code = templates.get(selected_template, "")
+
+    if selected_template != st.session_state.last_template:
+        st.session_state.editor_code = templates.get(selected_template, "")
+        st.session_state.last_template = selected_template
+        st.rerun()
 
     st.markdown("**Seu Código:**")
-    code_input = st.text_area("Digite seu código Python aqui", value=template_code, height=250, key="code_editor", placeholder="# Digite seu código aqui\nprint('Hello, World!')")
+    code_input = st.text_area("Digite seu código Python aqui", value=st.session_state.editor_code, height=250, key="code_editor", placeholder="# Digite seu código aqui\nprint('Hello, World!')")
+    st.session_state.editor_code = code_input
 
     col1, col2, col3 = st.columns([2, 2, 2])
     with col1:
