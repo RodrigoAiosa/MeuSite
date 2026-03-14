@@ -502,7 +502,9 @@ with tab1:
                     st.session_state.python_xp += 5
                     st.rerun()
 
-                if st.button(f"✅ Aprendida", key=f"learn_{idx}"):
+                if is_learned:
+                    st.button("✅ Aprendida", key=f"learn_{idx}", disabled=True)
+                elif st.button("✅ Aprendida", key=f"learn_{idx}"):
                     st.session_state.python_learned.add(idx)
                     st.session_state.python_points += 25
                     st.session_state.python_xp += 25
