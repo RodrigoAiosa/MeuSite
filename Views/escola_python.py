@@ -614,16 +614,26 @@ with tab2:
         st.session_state.editor_code = ""
     if 'last_template' not in st.session_state:
         st.session_state.last_template = "Vazio"
+    if 'editor_key_counter' not in st.session_state:
+        st.session_state.editor_key_counter = 0
 
     selected_template = st.selectbox("Escolha um template:", ["Vazio"] + list(templates.keys()), key="template_selector")
 
     if selected_template != st.session_state.last_template:
         st.session_state.editor_code = templates.get(selected_template, "")
         st.session_state.last_template = selected_template
+        st.session_state.editor_key_counter += 1
         st.rerun()
 
     st.markdown("**Seu Código:**")
-    code_input = st.text_area("Digite seu código Python aqui", value=st.session_state.editor_code, height=250, key="code_editor", placeholder="# Digite seu código aqui\nprint('Hello, World!')")
+    editor_key = f"code_editor_{st.session_state.editor_key_counter}"
+    code_input = st.text_area(
+        "Digite seu código Python aqui",
+        value=st.session_state.editor_code,
+        height=250,
+        key=editor_key,
+        placeholder="# Digite seu código aqui\nprint('Hello, World!')"
+    )
     st.session_state.editor_code = code_input
 
     col1, col2, col3 = st.columns([2, 2, 2])
