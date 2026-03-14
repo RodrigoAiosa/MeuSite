@@ -118,6 +118,14 @@ html, body, .main, [data-testid="stAppViewContainer"] {
         radial-gradient(ellipse 40% 30% at 80% 60%, rgba(59,130,246,0.08) 0%, transparent 50%);
 }
 
+/* Hide default Streamlit padding at the very top */
+[data-testid="stAppViewContainer"] > .main > div:first-child {
+    padding-top: 0 !important;
+}
+[data-testid="block-container"] {
+    padding-top: 0 !important;
+}
+
 .main h1, .main h2, .main h3 {
     font-family: 'Syne', sans-serif !important;
 }
@@ -167,49 +175,19 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     font-size: 1.2rem;
 }
 
-.level-bronze {
-    border-color: #CD7F32;
-    color: #CD7F32;
-    box-shadow: 0 0 20px rgba(205, 127, 50, 0.3);
-}
-
-.level-silver {
-    border-color: #C0C0C0;
-    color: #C0C0C0;
-    box-shadow: 0 0 20px rgba(192, 192, 192, 0.3);
-}
-
-.level-gold {
-    border-color: #FFD700;
-    color: #FFD700;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-}
-
-.level-diamond {
-    border-color: #00D9FF;
-    color: #00D9FF;
-    box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
-}
-
-.level-legendary {
-    border-color: #FF1493;
-    color: #FF1493;
-    box-shadow: 0 0 20px rgba(255, 20, 147, 0.5);
-    animation: pulse 2s infinite;
-}
+.level-bronze { border-color: #CD7F32; color: #CD7F32; box-shadow: 0 0 20px rgba(205,127,50,0.3); }
+.level-silver { border-color: #C0C0C0; color: #C0C0C0; box-shadow: 0 0 20px rgba(192,192,192,0.3); }
+.level-gold { border-color: #FFD700; color: #FFD700; box-shadow: 0 0 20px rgba(255,215,0,0.3); }
+.level-diamond { border-color: #00D9FF; color: #00D9FF; box-shadow: 0 0 20px rgba(0,217,255,0.5); }
+.level-legendary { border-color: #FF1493; color: #FF1493; box-shadow: 0 0 20px rgba(255,20,147,0.5); animation: pulse 2s infinite; }
 
 @keyframes pulse {
-    0% { box-shadow: 0 0 20px rgba(255, 20, 147, 0.5); }
-    50% { box-shadow: 0 0 40px rgba(255, 20, 147, 0.8); }
-    100% { box-shadow: 0 0 20px rgba(255, 20, 147, 0.5); }
+    0% { box-shadow: 0 0 20px rgba(255,20,147,0.5); }
+    50% { box-shadow: 0 0 40px rgba(255,20,147,0.8); }
+    100% { box-shadow: 0 0 20px rgba(255,20,147,0.5); }
 }
 
-.badge-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 15px 0;
-}
+.badge-container { display: flex; flex-wrap: wrap; gap: 10px; margin: 15px 0; }
 
 .badge {
     background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.3) 100%);
@@ -222,15 +200,8 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     transition: all 0.3s ease;
 }
 
-.badge:hover {
-    transform: scale(1.1);
-    border-color: #a78bfa;
-    box-shadow: 0 0 15px rgba(167,139,250,0.3);
-}
-
-.badge-locked {
-    opacity: 0.3;
-}
+.badge:hover { transform: scale(1.1); border-color: #a78bfa; box-shadow: 0 0 15px rgba(167,139,250,0.3); }
+.badge-locked { opacity: 0.3; }
 
 .challenge-box {
     background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
@@ -240,26 +211,13 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     margin: 10px 0;
 }
 
-.challenge-completed {
-    border-color: #22c55e;
-    background: linear-gradient(145deg, rgba(34,197,94,0.1) 0%, rgba(0,0,0,0.2) 100%);
-}
+.challenge-completed { border-color: #22c55e; background: linear-gradient(145deg, rgba(34,197,94,0.1) 0%, rgba(0,0,0,0.2) 100%); }
 
-.streak-fire {
-    font-size: 2rem;
-    animation: bounce 1s infinite;
-}
+.streak-fire { font-size: 2rem; animation: bounce 1s infinite; }
 
 @keyframes bounce {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
-}
-
-.code-editor {
-    background-color: #1a1a2e !important;
-    border: 1px solid rgba(167,139,250,0.2) !important;
-    border-radius: 12px !important;
-    padding: 15px !important;
 }
 
 .output-box {
@@ -298,68 +256,220 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     word-wrap: break-word;
 }
 
-.achievement-pop {
-    animation: slideIn 0.5s ease-out;
-}
+.achievement-pop { animation: slideIn 0.5s ease-out; }
 
 @keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
+
+/* Hero section stat counter animation */
+@keyframes countUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.hero-stat { animation: countUp 0.6s ease-out forwards; }
+.hero-stat:nth-child(2) { animation-delay: 0.15s; opacity: 0; }
+.hero-stat:nth-child(3) { animation-delay: 0.3s; opacity: 0; }
 </style>
+""", unsafe_allow_html=True)
+
+# ============================================================================
+# HERO SECTION
+# ============================================================================
+st.markdown("""
+<div style="
+    background: linear-gradient(160deg, #080c20 0%, #0d1038 45%, #080c20 100%);
+    border-bottom: 1px solid rgba(139,92,246,0.18);
+    padding: 72px 40px 56px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin: -1rem -1rem 2rem -1rem;
+">
+    <!-- Radial glow top center -->
+    <div style="
+        position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+        width: 800px; height: 320px;
+        background: radial-gradient(ellipse, rgba(109,40,217,0.28) 0%, transparent 70%);
+        pointer-events: none;
+    "></div>
+    <!-- Radial glow bottom right -->
+    <div style="
+        position: absolute; bottom: -60px; right: 3%;
+        width: 350px; height: 250px;
+        background: radial-gradient(ellipse, rgba(59,130,246,0.1) 0%, transparent 70%);
+        pointer-events: none;
+    "></div>
+    <!-- Radial glow bottom left -->
+    <div style="
+        position: absolute; bottom: -40px; left: 3%;
+        width: 280px; height: 200px;
+        background: radial-gradient(ellipse, rgba(167,139,250,0.06) 0%, transparent 70%);
+        pointer-events: none;
+    "></div>
+
+    <!-- Badge pill -->
+    <div style="
+        display: inline-flex; align-items: center; gap: 8px;
+        background: rgba(139,92,246,0.1);
+        border: 1px solid rgba(139,92,246,0.32);
+        border-radius: 50px;
+        padding: 8px 22px;
+        margin-bottom: 32px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.82rem;
+        color: #b8a1ff;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-weight: 600;
+        backdrop-filter: blur(8px);
+        position: relative; z-index: 1;
+    ">
+        🐍 &nbsp; PYTHON PRO
+    </div>
+
+    <!-- Headline line 1 -->
+    <div style="
+        font-family: 'Syne', sans-serif;
+        font-size: clamp(2rem, 4.5vw, 3.2rem);
+        font-weight: 800;
+        color: #eef2ff;
+        margin: 0 0 4px;
+        line-height: 1.12;
+        letter-spacing: -0.025em;
+        position: relative; z-index: 1;
+    ">
+        Melhores Práticas Python para
+    </div>
+
+    <!-- Headline line 2 — gradient -->
+    <div style="
+        font-family: 'Syne', sans-serif;
+        font-size: clamp(2rem, 4.5vw, 3.2rem);
+        font-weight: 800;
+        background: linear-gradient(95deg, #a78bfa 0%, #818cf8 45%, #c084fc 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 28px;
+        line-height: 1.15;
+        letter-spacing: -0.025em;
+        position: relative; z-index: 1;
+    ">
+        código que escala
+    </div>
+
+    <!-- Subtitle -->
+    <p style="
+        font-family: 'DM Sans', sans-serif;
+        font-size: 1.0rem;
+        color: #7a8ea8;
+        max-width: 520px;
+        margin: 0 auto 52px;
+        line-height: 1.75;
+        font-weight: 400;
+        position: relative; z-index: 1;
+    ">
+        Estratégias avançadas para código limpo, performático e manutenível.<br>
+        Transforme seus projetos em referências de qualidade.
+    </p>
+
+    <!-- Stats row -->
+    <div style="
+        display: flex;
+        justify-content: center;
+        gap: 64px;
+        flex-wrap: wrap;
+        position: relative; z-index: 1;
+    ">
+        <div class="hero-stat" style="text-align: center;">
+            <div style="
+                font-family: 'Syne', sans-serif;
+                font-size: 2.6rem;
+                font-weight: 800;
+                color: #a78bfa;
+                line-height: 1;
+                margin-bottom: 8px;
+            ">60+</div>
+            <div style="
+                font-family: 'DM Sans', sans-serif;
+                font-size: 0.7rem;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                color: #3d4f68;
+                font-weight: 700;
+            ">PRÁTICAS</div>
+        </div>
+        <div class="hero-stat" style="text-align: center;">
+            <div style="
+                font-family: 'Syne', sans-serif;
+                font-size: 2.6rem;
+                font-weight: 800;
+                color: #a78bfa;
+                line-height: 1;
+                margin-bottom: 8px;
+            ">5</div>
+            <div style="
+                font-family: 'DM Sans', sans-serif;
+                font-size: 0.7rem;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                color: #3d4f68;
+                font-weight: 700;
+            ">CATEGORIAS</div>
+        </div>
+        <div class="hero-stat" style="text-align: center;">
+            <div style="
+                font-family: 'Syne', sans-serif;
+                font-size: 2.6rem;
+                font-weight: 800;
+                color: #a78bfa;
+                line-height: 1;
+                margin-bottom: 8px;
+            ">3</div>
+            <div style="
+                font-family: 'DM Sans', sans-serif;
+                font-size: 0.7rem;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                color: #3d4f68;
+                font-weight: 700;
+            ">NÍVEIS</div>
+        </div>
+    </div>
+</div>
 """, unsafe_allow_html=True)
 
 # --- FUNÇÕES AUXILIARES ---
 def get_current_level(xp):
-    """Retorna o nível baseado no XP"""
     for level in sorted(MASTERY_LEVELS.keys(), reverse=True):
         if xp >= MASTERY_LEVELS[level]["xp_required"]:
             return level
     return 1
 
 def get_xp_for_next_level(current_level):
-    """Retorna XP necessário para próximo nível"""
     if current_level >= 5:
         return MASTERY_LEVELS[5]["xp_required"] + 1000
     return MASTERY_LEVELS[current_level + 1]["xp_required"]
 
 def get_xp_progress(xp, current_level):
-    """Retorna progresso em % para próximo nível"""
     current_level_xp = MASTERY_LEVELS[current_level]["xp_required"]
     next_level_xp = get_xp_for_next_level(current_level)
     progress = ((xp - current_level_xp) / (next_level_xp - current_level_xp)) * 100
     return min(100, max(0, progress))
 
 def check_badges(learned_count, favorites_count, editor_runs, points):
-    """Verifica quais badges foram conquistados"""
     new_badges = set()
-    if learned_count >= 1:
-        new_badges.add("first_steps")
-    if learned_count >= 10:
-        new_badges.add("ten_practices")
-    if learned_count >= 20:
-        new_badges.add("twenty_practices")
-    if favorites_count >= 10:
-        new_badges.add("favorite_collector")
-    if points >= 1000:
-        new_badges.add("code_master")
+    if learned_count >= 1: new_badges.add("first_steps")
+    if learned_count >= 10: new_badges.add("ten_practices")
+    if learned_count >= 20: new_badges.add("twenty_practices")
+    if favorites_count >= 10: new_badges.add("favorite_collector")
+    if points >= 1000: new_badges.add("code_master")
     return new_badges
 
 def get_level_color_class(level):
-    """Retorna a classe CSS cor para o nível"""
-    colors = {
-        1: "level-bronze",
-        2: "level-silver",
-        3: "level-gold",
-        4: "level-diamond",
-        5: "level-legendary"
-    }
+    colors = {1: "level-bronze", 2: "level-silver", 3: "level-gold", 4: "level-diamond", 5: "level-legendary"}
     return colors.get(level, "level-bronze")
 
 # --- HEADER PRINCIPAL ---
@@ -379,13 +489,11 @@ current_level = get_current_level(st.session_state.python_xp)
 current_xp = st.session_state.python_xp
 level_info = MASTERY_LEVELS[current_level]
 
-# Variáveis de XP mantidas para uso na aba Perfil
 xp_progress = get_xp_progress(current_xp, current_level)
 next_level_xp = get_xp_for_next_level(current_level)
 current_level_xp = MASTERY_LEVELS[current_level]["xp_required"]
 progress_text = f"XP: {current_xp - current_level_xp} / {next_level_xp - current_level_xp}"
 
-# Streak
 if st.session_state.python_streak > 0:
     st.markdown(f'<p style="text-align: center; font-size: 1.3rem;"><span class="streak-fire">🔥</span> {st.session_state.python_streak} dias em sequência!</p>', unsafe_allow_html=True)
 
@@ -409,7 +517,6 @@ with tab1:
         search = st.text_input("🔍 Buscar prática", key="python_search")
 
     python_practices = [
-        # INICIANTE (19)
         {"icon": "📚", "title": "Usar Type Hints", "category": "Qualidade & Manutenção", "difficulty": "Iniciante", "description": "Especifique tipos de argumentos e retorno.", "bad_code": "def calcular_total(items):\n    return sum(item['valor'] for item in items)", "good_code": "from typing import List, Dict\n\ndef calcular_total(items: List[Dict[str, float]]) -> float:\n    return sum(item['valor'] for item in items)", "benefit": "Detecta erros em tempo de desenvolvimento.", "explanation": "Type hints melhoram legibilidade e oferecem autocomplete."},
         {"icon": "🔐", "title": "List Comprehension", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "Prefira list comprehension a loops tradicionais.", "bad_code": "pares = []\nfor num in [1,2,3,4,5]:\n    if num % 2 == 0:\n        pares.append(num * 2)", "good_code": "pares = [num * 2 for num in [1,2,3,4,5] if num % 2 == 0]", "benefit": "30-40% mais rápido.", "explanation": "Otimizada em C, executa mais rápido."},
         {"icon": "🔍", "title": "Usar f-strings", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "f-strings são mais legíveis e rápidas.", "bad_code": "nome = 'Alice'\nidade = 30\nmsg = 'Olá, ' + nome + '. Você tem ' + str(idade) + ' anos'", "good_code": "nome = 'Alice'\nidade = 30\nmsg = f'Olá, {nome}. Você tem {idade} anos'", "benefit": "20% mais rápido.", "explanation": "Otimizadas em tempo de compilação."},
@@ -429,8 +536,6 @@ with tab1:
         {"icon": "🎪", "title": "String methods vs regex", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "Use método simples quando possível.", "bad_code": "import re\nif re.search(r'mundo', texto):\n    print('Encontrado')", "good_code": "if 'mundo' in texto:\n    print('Encontrado')", "benefit": "10x mais rápido.", "explanation": "Otimizadas em C."},
         {"icon": "📦", "title": "setdefault()", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "Define e retorna simultaneamente.", "bad_code": "if 'python' not in cat:\n    cat['python'] = []\ncat['python'].append('item')", "good_code": "cat.setdefault('python', []).append('item')", "benefit": "Uma linha.", "explanation": "Combina verificação e atribuição."},
         {"icon": "🔍", "title": "in vs count()", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "Use in para verificar existência.", "bad_code": "if lista.count(3) > 0:\n    print('Existe')", "good_code": "if 3 in lista:\n    print('Existe')", "benefit": "3x mais rápido.", "explanation": "Sem criar contador."},
-
-        # INTERMEDIÁRIO (20)
         {"icon": "🔗", "title": "Usar Decorators", "category": "Elegância & Reutilização", "difficulty": "Intermediário", "description": "Reutilize lógica comum.", "bad_code": "def f1():\n    inicio = time.time()\n    resultado = calc()\n    print(time.time() - inicio)\n    return resultado", "good_code": "@timing\ndef f1():\n    return calc()\n\ndef timing(func):\n    def wrapper(*args):\n        inicio = time.time()\n        resultado = func(*args)\n        print(time.time() - inicio)\n        return resultado\n    return wrapper", "benefit": "Reutilização.", "explanation": "Encapsula lógica transversal."},
         {"icon": "⚡", "title": "Usar @property", "category": "Elegância & Encapsulamento", "difficulty": "Intermediário", "description": "Crie getters/setters Pythônicos.", "bad_code": "class Pessoa:\n    def get_nome(self):\n        return self._nome", "good_code": "class Pessoa:\n    @property\n    def nome(self):\n        return self._nome", "benefit": "Sintaxe natural.", "explanation": "Permite p.nome = 'valor'."},
         {"icon": "🚀", "title": "Generator Expressions", "category": "Performance & Elegância", "difficulty": "Intermediário", "description": "Economize memória com generators.", "bad_code": "quadrados = [x**2 for x in range(1000000)]\nfor q in quadrados:\n    processar(q)", "good_code": "quadrados = (x**2 for x in range(1000000))\nfor q in quadrados:\n    processar(q)", "benefit": "90% menos memória.", "explanation": "Lazy evaluation."},
@@ -450,8 +555,6 @@ with tab1:
         {"icon": "📦", "title": "Set Comprehension", "category": "Elegância & Performance", "difficulty": "Intermediário", "description": "Crie conjuntos com elegância.", "bad_code": "unicos = set()\nfor x in numeros:\n    unicos.add(x % 2)", "good_code": "unicos = {x % 2 for x in numeros}", "benefit": "Conciso.", "explanation": "Mesma performance."},
         {"icon": "🌟", "title": "Avoid Global Mutable", "category": "Qualidade & Manutenção", "difficulty": "Intermediário", "description": "Não use globais mutáveis.", "bad_code": "cache = {}\ndef processar(chave):\n    global cache\n    cache[chave] = valor", "good_code": "def processar(chave: str, cache: dict) -> dict:\n    cache[chave] = valor\n    return cache", "benefit": "Testável.", "explanation": "Passa estado como argumento."},
         {"icon": "⚡", "title": "Comprehension Aninhada", "category": "Elegância & Performance", "difficulty": "Intermediário", "description": "Aninhamento elegante.", "bad_code": "matriz = []\nfor i in range(3):\n    linha = []\n    for j in range(3):\n        linha.append(i * j)\n    matriz.append(linha)", "good_code": "matriz = [[i*j for j in range(3)] for i in range(3)]", "benefit": "Conciso.", "explanation": "Legível quando bem estruturada."},
-
-        # AVANÇADO (19)
         {"icon": "🎯", "title": "__slots__", "category": "Performance & Otimização", "difficulty": "Avançado", "description": "Reduz consumo de memória.", "bad_code": "class Ponto:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y", "good_code": "class Ponto:\n    __slots__ = ['x', 'y']\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y", "benefit": "50% menos memória.", "explanation": "Sem __dict__."},
         {"icon": "🔐", "title": "Metaclasses", "category": "Arquitetura & Avançado", "difficulty": "Avançado", "description": "Controlam criação de classes.", "bad_code": "class Singleton:\n    _instance = None\n    def __new__(cls):\n        if cls._instance is None:\n            cls._instance = super().__new__(cls)\n        return cls._instance", "good_code": "class SingletonMeta(type):\n    _instances = {}\n    def __call__(cls, *args):\n        if cls not in cls._instances:\n            cls._instances[cls] = super().__call__(*args)\n        return cls._instances[cls]", "benefit": "Padrões.", "explanation": "Classe de classes."},
         {"icon": "⚡", "title": "Protocol (Typing)", "category": "Qualidade & Manutenção", "difficulty": "Avançado", "description": "Interfaces sem herança.", "bad_code": "def processar(obj):\n    return obj.processar()", "good_code": "from typing import Protocol\n\nclass Processavel(Protocol):\n    def processar(self) -> str: ...\n\ndef processar(obj: Processavel) -> str:\n    return obj.processar()", "benefit": "Type checking.", "explanation": "Structural subtyping."},
@@ -473,7 +576,6 @@ with tab1:
         {"icon": "⚡", "title": "cached_property", "category": "Performance & Elegância", "difficulty": "Avançado", "description": "Propriedades com cache.", "bad_code": "class Dados:\n    def __init__(self):\n        self.resultado = self.calcular_pesado()", "good_code": "class Dados:\n    @functools.cached_property\n    def resultado(self):\n        return self.calcular_pesado()", "benefit": "Sob demanda.", "explanation": "Caching automático."},
     ]
 
-    # Filtrar
     filtered = python_practices
     if selected_difficulty != "Todas":
         filtered = [p for p in filtered if p["difficulty"] == selected_difficulty]
@@ -519,10 +621,8 @@ with tab1:
 
             st.markdown("**❌ Evitar:**")
             st.code(p["bad_code"], language="python")
-
             st.markdown("**✅ Preferir:**")
             st.code(p["good_code"], language="python")
-
             st.markdown(f"**Explicação:** {p['explanation']}")
 
 # ============================================================================
@@ -579,30 +679,20 @@ with tab2:
             output = output_buffer.getvalue()
 
             if output:
-                st.markdown(f"""
-                <div class="success-box achievement-pop">
-{output}</div>
-                """, unsafe_allow_html=True)
+                st.markdown(f'<div class="success-box achievement-pop">{output}</div>', unsafe_allow_html=True)
             else:
-                st.markdown("""
-                <div class="success-box">✅ Código executado com sucesso (sem output)</div>
-                """, unsafe_allow_html=True)
+                st.markdown('<div class="success-box">✅ Código executado com sucesso (sem output)</div>', unsafe_allow_html=True)
 
         except Exception as e:
             sys.stdout = old_stdout
             error_message = f"{type(e).__name__}: {str(e)}"
-            st.markdown(f"""
-            <div class="error-box">❌ {error_message}</div>
-            """, unsafe_allow_html=True)
+            st.markdown(f'<div class="error-box">❌ {error_message}</div>', unsafe_allow_html=True)
     elif run_button and not code_input.strip():
-        st.markdown("""
-        <div class="error-box">❌ Digite um código antes de executar!</div>
-        """, unsafe_allow_html=True)
+        st.markdown('<div class="error-box">❌ Digite um código antes de executar!</div>', unsafe_allow_html=True)
 
     st.divider()
     st.markdown("""
     ### 💡 Dicas para o Editor
-
     - **Templates:** Use os botões acima para inserir exemplos rápidos
     - **Print:** Use `print()` para ver resultados
     - **Erros:** Os erros serão exibidos em vermelho
@@ -664,38 +754,21 @@ with tab4:
 
     st.markdown("### 🎖️ Badges Desbloqueados")
 
-    unlocked = []
-    locked = []
-
-    for badge_id, badge_info in BADGES.items():
-        if badge_id in st.session_state.python_badges:
-            unlocked.append((badge_id, badge_info))
-        else:
-            locked.append((badge_id, badge_info))
+    unlocked = [(bid, bi) for bid, bi in BADGES.items() if bid in st.session_state.python_badges]
+    locked = [(bid, bi) for bid, bi in BADGES.items() if bid not in st.session_state.python_badges]
 
     if unlocked:
         cols = st.columns(5)
         for idx, (badge_id, badge_info) in enumerate(unlocked):
             with cols[idx % 5]:
-                st.markdown(f"""
-                <div class="badge">
-                    {badge_info['icon']}<br>
-                    <small><b>{badge_info['title']}</b></small>
-                </div>
-                """, unsafe_allow_html=True)
+                st.markdown(f'<div class="badge">{badge_info["icon"]}<br><small><b>{badge_info["title"]}</b></small></div>', unsafe_allow_html=True)
 
     st.markdown("### 🔒 Badges Bloqueados")
     if locked:
         cols = st.columns(5)
         for idx, (badge_id, badge_info) in enumerate(locked):
             with cols[idx % 5]:
-                st.markdown(f"""
-                <div class="badge badge-locked">
-                    {badge_info['icon']}<br>
-                    <small>{badge_info['title']}</small><br>
-                    <tiny style="font-size: 0.7rem;">{badge_info['description']}</tiny>
-                </div>
-                """, unsafe_allow_html=True)
+                st.markdown(f'<div class="badge badge-locked">{badge_info["icon"]}<br><small>{badge_info["title"]}</small><br><tiny style="font-size: 0.7rem;">{badge_info["description"]}</tiny></div>', unsafe_allow_html=True)
 
 # ============================================================================
 # TAB 5: PERFIL
@@ -708,7 +781,6 @@ with tab5:
     with col1:
         st.markdown(f"""
         ### 🏆 Estatísticas Gerais
-
         - **Nível Atual:** {current_level}/{len(MASTERY_LEVELS)}
         - **Título:** {MASTERY_LEVELS[current_level]['title']}
         - **XP Total:** {st.session_state.python_xp}
@@ -720,7 +792,6 @@ with tab5:
         learned_count = len(st.session_state.python_learned)
         st.markdown(f"""
         ### 📚 Progresso no Aprendizado
-
         - **Práticas Completadas:** {learned_count}/60
         - **Taxa de Conclusão:** {(learned_count/60)*100:.1f}%
         - **Favoritas:** {len(st.session_state.python_favorites)}
@@ -735,7 +806,6 @@ with tab5:
         next_level_xp = get_xp_for_next_level(current_level)
         xp_needed = next_level_xp - st.session_state.python_xp
         next_title = MASTERY_LEVELS[current_level + 1]["title"]
-
         st.markdown(f"""
         ⬆️ **Próximo Nível:** {next_title}
 
@@ -745,9 +815,8 @@ with tab5:
         st.markdown("🏆 **Você é uma Pythonista Elite! Parabéns!**")
 
     st.divider()
-    st.markdown("### 💪 Dicas para Evoluir Rápido")
-
     st.markdown("""
+    ### 💪 Dicas para Evoluir Rápido
     1. **Complete Desafios:** +100-200 XP cada
     2. **Teste no Editor:** +5 XP por execução
     3. **Favoritize Práticas:** +5 XP cada
