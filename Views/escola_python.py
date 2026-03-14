@@ -30,7 +30,6 @@ if 'python_streak' not in st.session_state:
 if 'python_last_session' not in st.session_state:
     st.session_state.python_last_session = None
 
-# --- SISTEMA DE NÍVEIS (LEVELING UP) ---
 MASTERY_LEVELS = {
     1: {"title": "🥉 Python Padawan", "icon": "🥉", "xp_required": 0, "color": "#CD7F32", "theme": "bronze"},
     2: {"title": "🥈 Code Ninja", "icon": "🥈", "xp_required": 250, "color": "#C0C0C0", "theme": "silver"},
@@ -53,60 +52,19 @@ BADGES = {
 }
 
 CHALLENGES = [
-    {
-        "id": "challenge_1",
-        "title": "Mestre de List Comprehension",
-        "difficulty": "Intermediário",
-        "xp_reward": 100,
-        "description": "Complete 3 práticas sobre List Comprehension",
-        "target": 3,
-        "type": "practices",
-        "practice_filter": "List Comprehension"
-    },
-    {
-        "id": "challenge_2",
-        "title": "Decorador Profissional",
-        "difficulty": "Avançado",
-        "xp_reward": 150,
-        "description": "Complete 2 práticas sobre Decorators",
-        "target": 2,
-        "type": "practices",
-        "practice_filter": "Decorators"
-    },
-    {
-        "id": "challenge_3",
-        "title": "Editor Speedrunner",
-        "difficulty": "Iniciante",
-        "xp_reward": 50,
-        "description": "Execute 20 scripts no editor interativo",
-        "target": 20,
-        "type": "editor_runs"
-    },
-    {
-        "id": "challenge_4",
-        "title": "Colecionador de Estrelas",
-        "difficulty": "Iniciante",
-        "xp_reward": 75,
-        "description": "Favoritou 5 práticas",
-        "target": 5,
-        "type": "favorites"
-    },
-    {
-        "id": "challenge_5",
-        "title": "Generador de Poder",
-        "difficulty": "Avançado",
-        "xp_reward": 200,
-        "description": "Complete todas as práticas sobre Generators",
-        "target": 3,
-        "type": "practices",
-        "practice_filter": "Generator"
-    },
+    {"id": "challenge_1", "title": "Mestre de List Comprehension", "difficulty": "Intermediário", "xp_reward": 100, "description": "Complete 3 práticas sobre List Comprehension", "target": 3, "type": "practices", "practice_filter": "List Comprehension"},
+    {"id": "challenge_2", "title": "Decorador Profissional", "difficulty": "Avançado", "xp_reward": 150, "description": "Complete 2 práticas sobre Decorators", "target": 2, "type": "practices", "practice_filter": "Decorators"},
+    {"id": "challenge_3", "title": "Editor Speedrunner", "difficulty": "Iniciante", "xp_reward": 50, "description": "Execute 20 scripts no editor interativo", "target": 20, "type": "editor_runs"},
+    {"id": "challenge_4", "title": "Colecionador de Estrelas", "difficulty": "Iniciante", "xp_reward": 75, "description": "Favoritou 5 práticas", "target": 5, "type": "favorites"},
+    {"id": "challenge_5", "title": "Generador de Poder", "difficulty": "Avançado", "xp_reward": 200, "description": "Complete todas as práticas sobre Generators", "target": 3, "type": "practices", "practice_filter": "Generator"},
 ]
 
-# --- DESIGN AVANÇADO ---
+# ── DESIGN (mesma paleta SQL Pro) ──
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; }
 
 html, body, .main, [data-testid="stAppViewContainer"] {
     background-color: #0a0e27 !important;
@@ -118,63 +76,174 @@ html, body, .main, [data-testid="stAppViewContainer"] {
         radial-gradient(ellipse 40% 30% at 80% 60%, rgba(59,130,246,0.08) 0%, transparent 50%);
 }
 
-/* Hide default Streamlit padding at the very top */
-[data-testid="stAppViewContainer"] > .main > div:first-child {
-    padding-top: 0 !important;
-}
-[data-testid="block-container"] {
-    padding-top: 0 !important;
-}
+[data-testid="stHeader"] { background: transparent !important; }
 
-.main h1, .main h2, .main h3 {
-    font-family: 'Syne', sans-serif !important;
-}
-
-.main p, .main a {
+.main h1, .main h2, .main h3, .main h4,
+.main p, .main a, .main li,
+[data-testid="stAppViewContainer"] div:not([data-testid="stSidebar"]) {
     font-family: 'DM Sans', sans-serif !important;
 }
 
+[data-testid="stMarkdownContainer"] { width: 100% !important; }
+.block-container {
+    max-width: 100% !important;
+    padding-left: 4rem !important;
+    padding-right: 4rem !important;
+}
+
+/* ── HERO ── */
+.hero-wrapper {
+    text-align: center;
+    padding: 80px 20px 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero-badge {
+    display: inline-block;
+    font-family: 'Syne', sans-serif !important;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #a78bfa;
+    border: 1px solid rgba(167,139,250,0.35);
+    background: rgba(167,139,250,0.07);
+    padding: 6px 18px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+}
+
+.hero-title {
+    font-family: 'Syne', sans-serif !important;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    color: #f0f4ff;
+    margin: 0 auto 20px;
+    max-width: 760px;
+    text-align: center;
+}
+
+.hero-title .accent {
+    background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 50%, #c4b5fd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle {
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: #7b8ba8;
+    max-width: 560px;
+    margin: 0 auto 48px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    flex-wrap: wrap;
+    margin-bottom: 60px;
+}
+
+.hero-stat { text-align: center; }
+
+.hero-stat-number {
+    font-family: 'Syne', sans-serif !important;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #a78bfa;
+    display: block;
+    line-height: 1;
+}
+
+.hero-stat-label {
+    font-size: 0.78rem;
+    color: #4a5568;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 6px;
+    display: block;
+}
+
+.hero-divider {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(167,139,250,0.3), transparent);
+}
+
+/* ── SECTION HEADERS ── */
 .section-header {
+    font-family: 'Syne', sans-serif !important;
     font-size: 1.5rem;
     font-weight: 800;
     color: #f0f4ff;
-    margin: 30px 0 20px;
+    margin: 50px 0 28px;
     padding-bottom: 16px;
-    border-bottom: 2px solid rgba(167,139,250,0.2);
+    border-bottom: 1px solid rgba(167,139,250,0.2);
+    letter-spacing: -0.5px;
+    position: relative;
 }
 
-.stat-box {
+.section-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 48px;
+    height: 2px;
+    background: #a78bfa;
+}
+
+/* ── STAT CARDS ── */
+.stat-card {
     background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
     border: 1px solid rgba(167,139,250,0.2);
-    border-radius: 12px;
-    padding: 20px;
+    border-radius: 20px;
+    padding: 36px 28px;
     text-align: center;
-    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
+.stat-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(167,139,250,0.4);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
 .stat-number {
-    font-size: 2.2rem;
+    font-family: 'Syne', sans-serif !important;
+    font-size: 2.6rem;
     font-weight: 800;
     color: #a78bfa;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    line-height: 1;
 }
-
 .stat-label {
-    color: #7b8ba8;
-    font-size: 0.9rem;
+    font-family: 'Syne', sans-serif !important;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+.stat-sublabel {
+    font-size: 0.82rem;
+    color: #4a5568;
+    margin-top: 8px;
+    font-weight: 300;
 }
 
-.level-badge {
-    background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.3) 100%);
-    border: 2px solid;
-    border-radius: 20px;
-    padding: 15px 30px;
-    text-align: center;
-    margin: 10px 0;
-    font-weight: bold;
-    font-size: 1.2rem;
-}
-
+/* ── LEVEL / BADGES / CHALLENGES ── */
 .level-bronze { border-color: #CD7F32; color: #CD7F32; box-shadow: 0 0 20px rgba(205,127,50,0.3); }
 .level-silver { border-color: #C0C0C0; color: #C0C0C0; box-shadow: 0 0 20px rgba(192,192,192,0.3); }
 .level-gold { border-color: #FFD700; color: #FFD700; box-shadow: 0 0 20px rgba(255,215,0,0.3); }
@@ -199,7 +268,6 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     cursor: pointer;
     transition: all 0.3s ease;
 }
-
 .badge:hover { transform: scale(1.1); border-color: #a78bfa; box-shadow: 0 0 15px rgba(167,139,250,0.3); }
 .badge-locked { opacity: 0.3; }
 
@@ -210,11 +278,9 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     padding: 15px;
     margin: 10px 0;
 }
-
 .challenge-completed { border-color: #22c55e; background: linear-gradient(145deg, rgba(34,197,94,0.1) 0%, rgba(0,0,0,0.2) 100%); }
 
 .streak-fire { font-size: 2rem; animation: bounce 1s infinite; }
-
 @keyframes bounce {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
@@ -231,7 +297,6 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     white-space: pre-wrap;
     word-wrap: break-word;
 }
-
 .error-box {
     background: linear-gradient(145deg, rgba(239,68,68,0.1) 0%, rgba(239,68,68,0.05) 100%);
     border: 1px solid rgba(239,68,68,0.3);
@@ -243,7 +308,6 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     white-space: pre-wrap;
     word-wrap: break-word;
 }
-
 .success-box {
     background: linear-gradient(145deg, rgba(34,197,94,0.1) 0%, rgba(34,197,94,0.05) 100%);
     border: 1px solid rgba(34,197,94,0.3);
@@ -255,189 +319,71 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     white-space: pre-wrap;
     word-wrap: break-word;
 }
-
 .achievement-pop { animation: slideIn 0.5s ease-out; }
-
 @keyframes slideIn {
     from { opacity: 0; transform: translateY(-20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Hero section stat counter animation */
-@keyframes countUp {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+/* ── INPUTS ── */
+.stSelectbox > div > div {
+    background: rgba(255,255,255,0.03) !important;
+    border: 1px solid rgba(167,139,250,0.2) !important;
+    color: #e2e8f0 !important;
+    border-radius: 12px !important;
 }
-.hero-stat { animation: countUp 0.6s ease-out forwards; }
-.hero-stat:nth-child(2) { animation-delay: 0.15s; opacity: 0; }
-.hero-stat:nth-child(3) { animation-delay: 0.3s; opacity: 0; }
+.stTextArea > div > div {
+    background: rgba(255,255,255,0.03) !important;
+    border: 1px solid rgba(167,139,250,0.2) !important;
+    color: #e2e8f0 !important;
+    border-radius: 12px !important;
+}
+div[data-testid="stTextInput"] input {
+    background-color: rgba(255,255,255,0.03) !important;
+    color: #e2e8f0 !important;
+    border: 1px solid rgba(167,139,250,0.25) !important;
+    border-radius: 14px !important;
+    padding: 14px 22px !important;
+    font-size: 0.95rem !important;
+}
+hr {
+    border: none !important;
+    border-top: 1px solid rgba(167,139,250,0.1) !important;
+    margin: 40px 0 !important;
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0a0e27; }
+::-webkit-scrollbar-thumb { background: rgba(167,139,250,0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(167,139,250,0.4); }
 </style>
 """, unsafe_allow_html=True)
 
-# ============================================================================
-# HERO SECTION
-# ============================================================================
+# ── HERO (idêntico ao SQL Pro, adaptado para Python) ──
 st.markdown("""
-<div style="
-    background: linear-gradient(160deg, #080c20 0%, #0d1038 45%, #080c20 100%);
-    border-bottom: 1px solid rgba(139,92,246,0.18);
-    padding: 72px 40px 56px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    margin: -1rem -1rem 2rem -1rem;
-">
-    <!-- Radial glow top center -->
-    <div style="
-        position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
-        width: 800px; height: 320px;
-        background: radial-gradient(ellipse, rgba(109,40,217,0.28) 0%, transparent 70%);
-        pointer-events: none;
-    "></div>
-    <!-- Radial glow bottom right -->
-    <div style="
-        position: absolute; bottom: -60px; right: 3%;
-        width: 350px; height: 250px;
-        background: radial-gradient(ellipse, rgba(59,130,246,0.1) 0%, transparent 70%);
-        pointer-events: none;
-    "></div>
-    <!-- Radial glow bottom left -->
-    <div style="
-        position: absolute; bottom: -40px; left: 3%;
-        width: 280px; height: 200px;
-        background: radial-gradient(ellipse, rgba(167,139,250,0.06) 0%, transparent 70%);
-        pointer-events: none;
-    "></div>
-
-    <!-- Badge pill -->
-    <div style="
-        display: inline-flex; align-items: center; gap: 8px;
-        background: rgba(139,92,246,0.1);
-        border: 1px solid rgba(139,92,246,0.32);
-        border-radius: 50px;
-        padding: 8px 22px;
-        margin-bottom: 32px;
-        font-family: 'DM Sans', sans-serif;
-        font-size: 0.82rem;
-        color: #b8a1ff;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        font-weight: 600;
-        backdrop-filter: blur(8px);
-        position: relative; z-index: 1;
-    ">
-        🐍 &nbsp; PYTHON PRO
-    </div>
-
-    <!-- Headline line 1 -->
-    <div style="
-        font-family: 'Syne', sans-serif;
-        font-size: clamp(2rem, 4.5vw, 3.2rem);
-        font-weight: 800;
-        color: #eef2ff;
-        margin: 0 0 4px;
-        line-height: 1.12;
-        letter-spacing: -0.025em;
-        position: relative; z-index: 1;
-    ">
-        Melhores Práticas Python para
-    </div>
-
-    <!-- Headline line 2 — gradient -->
-    <div style="
-        font-family: 'Syne', sans-serif;
-        font-size: clamp(2rem, 4.5vw, 3.2rem);
-        font-weight: 800;
-        background: linear-gradient(95deg, #a78bfa 0%, #818cf8 45%, #c084fc 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        margin: 0 0 28px;
-        line-height: 1.15;
-        letter-spacing: -0.025em;
-        position: relative; z-index: 1;
-    ">
-        código que escala
-    </div>
-
-    <!-- Subtitle -->
-    <p style="
-        font-family: 'DM Sans', sans-serif;
-        font-size: 1.0rem;
-        color: #7a8ea8;
-        max-width: 520px;
-        margin: 0 auto 52px;
-        line-height: 1.75;
-        font-weight: 400;
-        position: relative; z-index: 1;
-    ">
-        Estratégias avançadas para código limpo, performático e manutenível.<br>
+<div class="hero-wrapper">
+    <div class="hero-badge">🐍 Python Pro</div>
+    <h1 class="hero-title">
+        Melhores Práticas Python para <span class="accent">código que escala</span>
+    </h1>
+    <p class="hero-subtitle">
+        Estratégias avançadas para código limpo, performático e manutenível.
         Transforme seus projetos em referências de qualidade.
     </p>
-
-    <!-- Stats row -->
-    <div style="
-        display: flex;
-        justify-content: center;
-        gap: 64px;
-        flex-wrap: wrap;
-        position: relative; z-index: 1;
-    ">
-        <div class="hero-stat" style="text-align: center;">
-            <div style="
-                font-family: 'Syne', sans-serif;
-                font-size: 2.6rem;
-                font-weight: 800;
-                color: #a78bfa;
-                line-height: 1;
-                margin-bottom: 8px;
-            ">60+</div>
-            <div style="
-                font-family: 'DM Sans', sans-serif;
-                font-size: 0.7rem;
-                letter-spacing: 0.18em;
-                text-transform: uppercase;
-                color: #3d4f68;
-                font-weight: 700;
-            ">PRÁTICAS</div>
+    <div class="hero-stats">
+        <div class="hero-stat">
+            <span class="hero-stat-number">60+</span>
+            <span class="hero-stat-label">Práticas</span>
         </div>
-        <div class="hero-stat" style="text-align: center;">
-            <div style="
-                font-family: 'Syne', sans-serif;
-                font-size: 2.6rem;
-                font-weight: 800;
-                color: #a78bfa;
-                line-height: 1;
-                margin-bottom: 8px;
-            ">5</div>
-            <div style="
-                font-family: 'DM Sans', sans-serif;
-                font-size: 0.7rem;
-                letter-spacing: 0.18em;
-                text-transform: uppercase;
-                color: #3d4f68;
-                font-weight: 700;
-            ">CATEGORIAS</div>
+        <div class="hero-stat">
+            <span class="hero-stat-number">5</span>
+            <span class="hero-stat-label">Categorias</span>
         </div>
-        <div class="hero-stat" style="text-align: center;">
-            <div style="
-                font-family: 'Syne', sans-serif;
-                font-size: 2.6rem;
-                font-weight: 800;
-                color: #a78bfa;
-                line-height: 1;
-                margin-bottom: 8px;
-            ">3</div>
-            <div style="
-                font-family: 'DM Sans', sans-serif;
-                font-size: 0.7rem;
-                letter-spacing: 0.18em;
-                text-transform: uppercase;
-                color: #3d4f68;
-                font-weight: 700;
-            ">NÍVEIS</div>
+        <div class="hero-stat">
+            <span class="hero-stat-number">3</span>
+            <span class="hero-stat-label">Níveis</span>
         </div>
     </div>
+    <div class="hero-divider"></div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -472,47 +418,36 @@ def get_level_color_class(level):
     colors = {1: "level-bronze", 2: "level-silver", 3: "level-gold", 4: "level-diamond", 5: "level-legendary"}
     return colors.get(level, "level-bronze")
 
-# --- HEADER PRINCIPAL ---
+# --- HEADER PONTOS + STREAK ---
 col1, col2, col3 = st.columns([2, 3, 2])
-
 with col1:
     st.markdown(f'<h1 style="text-align: center; color: #a78bfa; font-family: Syne, sans-serif;">🐍 Python Pro</h1>', unsafe_allow_html=True)
-
 with col2:
     st.markdown('<h3 style="text-align: center; color: #7c3aed;">Jornada de Maestria</h3>', unsafe_allow_html=True)
-
 with col3:
     st.markdown(f'<h1 style="text-align: center; font-size: 2rem;">⭐ {st.session_state.python_points} pontos</h1>', unsafe_allow_html=True)
 
-# --- NÍVEL E STREAK ---
 current_level = get_current_level(st.session_state.python_xp)
 current_xp = st.session_state.python_xp
 level_info = MASTERY_LEVELS[current_level]
-
 xp_progress = get_xp_progress(current_xp, current_level)
 next_level_xp = get_xp_for_next_level(current_level)
 current_level_xp = MASTERY_LEVELS[current_level]["xp_required"]
-progress_text = f"XP: {current_xp - current_level_xp} / {next_level_xp - current_level_xp}"
 
 if st.session_state.python_streak > 0:
     st.markdown(f'<p style="text-align: center; font-size: 1.3rem;"><span class="streak-fire">🔥</span> {st.session_state.python_streak} dias em sequência!</p>', unsafe_allow_html=True)
 
-# --- TABS PRINCIPAIS ---
+# --- TABS ---
 tab1, tab2, tab3, tab4, tab5 = st.tabs(["📚 Práticas", "✏️ Editor", "🎯 Desafios", "🏆 Badges", "📊 Perfil"])
 
 # ============================================================================
-# TAB 1: PRÁTICAS PYTHON
+# TAB 1: PRÁTICAS
 # ============================================================================
 with tab1:
     st.markdown('<h3 class="section-header">🔎 Filtrar Práticas</h3>', unsafe_allow_html=True)
-
     col1, col2 = st.columns(2)
     with col1:
-        selected_difficulty = st.selectbox(
-            "📈 Nível de Dificuldade",
-            ["Todas", "Iniciante", "Intermediário", "Avançado"],
-            key="python_difficulty"
-        )
+        selected_difficulty = st.selectbox("📈 Nível de Dificuldade", ["Todas", "Iniciante", "Intermediário", "Avançado"], key="python_difficulty")
     with col2:
         search = st.text_input("🔍 Buscar prática", key="python_search")
 
@@ -551,7 +486,6 @@ with tab1:
         {"icon": "🔗", "title": "super() em Herança", "category": "Elegância & Manutenção", "difficulty": "Intermediário", "description": "Chame método da classe pai.", "bad_code": "class Cachorro(Animal):\n    def falar(self):\n        Animal.falar(self)\n        print('Au!')", "good_code": "class Cachorro(Animal):\n    def falar(self):\n        super().falar()\n        print('Au!')", "benefit": "MRO.", "explanation": "Method Resolution Order."},
         {"icon": "🎪", "title": "Map e Filter", "category": "Programação Funcional", "difficulty": "Intermediário", "description": "Estilo funcional.", "bad_code": "quadrados = []\nfor n in [1,2,3]:\n    quadrados.append(n**2)", "good_code": "quadrados = list(map(lambda x: x**2, [1,2,3]))\n# Ou melhor:\nquadrados = [x**2 for x in [1,2,3]]", "benefit": "Funcional.", "explanation": "List comprehension é melhor."},
         {"icon": "✅", "title": "assertRaises", "category": "Qualidade & Testes", "difficulty": "Intermediário", "description": "Teste exceções corretamente.", "bad_code": "try:\n    dividir(10, 0)\nexcept ZeroDivisionError:\n    print('OK')", "good_code": "import unittest\n\nclass TestDividir(unittest.TestCase):\n    def test_divisao(self):\n        with self.assertRaises(ZeroDivisionError):\n            dividir(10, 0)", "benefit": "Claro.", "explanation": "Formaliza teste."},
-        {"icon": "🎯", "title": "with Statement", "category": "Segurança & Manutenção", "difficulty": "Intermediário", "description": "Gerencie contexto.", "bad_code": "lock.acquire()\ntry:\n    processar()\nfinally:\n    lock.release()", "good_code": "class LockCtx:\n    def __enter__(self):\n        self.lock.acquire()\n    def __exit__(self, *args):\n        self.lock.release()\n\nwith LockCtx():\n    processar()", "benefit": "Reutilizável.", "explanation": "__enter__ e __exit__."},
         {"icon": "📦", "title": "Set Comprehension", "category": "Elegância & Performance", "difficulty": "Intermediário", "description": "Crie conjuntos com elegância.", "bad_code": "unicos = set()\nfor x in numeros:\n    unicos.add(x % 2)", "good_code": "unicos = {x % 2 for x in numeros}", "benefit": "Conciso.", "explanation": "Mesma performance."},
         {"icon": "🌟", "title": "Avoid Global Mutable", "category": "Qualidade & Manutenção", "difficulty": "Intermediário", "description": "Não use globais mutáveis.", "bad_code": "cache = {}\ndef processar(chave):\n    global cache\n    cache[chave] = valor", "good_code": "def processar(chave: str, cache: dict) -> dict:\n    cache[chave] = valor\n    return cache", "benefit": "Testável.", "explanation": "Passa estado como argumento."},
         {"icon": "⚡", "title": "Comprehension Aninhada", "category": "Elegância & Performance", "difficulty": "Intermediário", "description": "Aninhamento elegante.", "bad_code": "matriz = []\nfor i in range(3):\n    linha = []\n    for j in range(3):\n        linha.append(i * j)\n    matriz.append(linha)", "good_code": "matriz = [[i*j for j in range(3)] for i in range(3)]", "benefit": "Conciso.", "explanation": "Legível quando bem estruturada."},
@@ -591,12 +525,10 @@ with tab1:
 
         with st.expander(f"{p['icon']} {p['title']} — {p['difficulty']}" + (" ✅" if is_learned else "") + (" ⭐" if is_favorite else ""), expanded=False):
             col1, col2 = st.columns([3, 1])
-
             with col1:
                 st.markdown(f"**Descrição:** {p['description']}")
                 st.markdown(f"**Benefício:** {p['benefit']}")
                 st.markdown(f"**Categoria:** `{p['category']}`")
-
             with col2:
                 if is_favorite:
                     if st.button("★ Favoritado", key=f"fav_{idx}"):
@@ -609,7 +541,6 @@ with tab1:
                     st.session_state.python_points += 5
                     st.session_state.python_xp += 5
                     st.rerun()
-
                 if is_learned:
                     st.button("✅ Aprendida", key=f"learn_{idx}", disabled=True)
                 elif st.button("✅ Aprendida", key=f"learn_{idx}"):
@@ -626,11 +557,10 @@ with tab1:
             st.markdown(f"**Explicação:** {p['explanation']}")
 
 # ============================================================================
-# TAB 2: EDITOR INTERATIVO
+# TAB 2: EDITOR
 # ============================================================================
 with tab2:
     st.markdown('<h3 class="section-header">✏️ Editor Python Interativo</h3>', unsafe_allow_html=True)
-
     st.markdown("**📚 Templates Rápidos:**")
 
     templates = {
@@ -649,13 +579,7 @@ with tab2:
     template_code = templates.get(selected_template, "")
 
     st.markdown("**Seu Código:**")
-    code_input = st.text_area(
-        "Digite seu código Python aqui",
-        value=template_code,
-        height=250,
-        key="code_editor",
-        placeholder="# Digite seu código aqui\nprint('Hello, World!')"
-    )
+    code_input = st.text_area("Digite seu código Python aqui", value=template_code, height=250, key="code_editor", placeholder="# Digite seu código aqui\nprint('Hello, World!')")
 
     col1, col2, col3 = st.columns([2, 2, 2])
     with col1:
@@ -669,7 +593,6 @@ with tab2:
         st.session_state.editor_runs += 1
         st.session_state.python_xp += 5
         st.session_state.python_points += 5
-
         try:
             output_buffer = StringIO()
             old_stdout = sys.stdout
@@ -677,16 +600,13 @@ with tab2:
             exec(code_input)
             sys.stdout = old_stdout
             output = output_buffer.getvalue()
-
             if output:
                 st.markdown(f'<div class="success-box achievement-pop">{output}</div>', unsafe_allow_html=True)
             else:
                 st.markdown('<div class="success-box">✅ Código executado com sucesso (sem output)</div>', unsafe_allow_html=True)
-
         except Exception as e:
             sys.stdout = old_stdout
-            error_message = f"{type(e).__name__}: {str(e)}"
-            st.markdown(f'<div class="error-box">❌ {error_message}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="error-box">❌ {type(e).__name__}: {str(e)}</div>', unsafe_allow_html=True)
     elif run_button and not code_input.strip():
         st.markdown('<div class="error-box">❌ Digite um código antes de executar!</div>', unsafe_allow_html=True)
 
@@ -697,7 +617,6 @@ with tab2:
     - **Print:** Use `print()` para ver resultados
     - **Erros:** Os erros serão exibidos em vermelho
     - **XP:** Ganhe +5 XP cada vez que executa um script
-    - **Streak:** Execute código todo dia para manter a sequência!
     """)
 
 # ============================================================================
@@ -709,9 +628,7 @@ with tab3:
 
     for challenge in CHALLENGES:
         is_completed = challenge["id"] in st.session_state.python_challenges_completed
-
         col1, col2 = st.columns([4, 1])
-
         with col1:
             status = "✅ Completo" if is_completed else f"🎯 {challenge['difficulty']}"
             st.markdown(f"""
@@ -721,7 +638,6 @@ with tab3:
                 <p><strong>Recompensa:</strong> +{challenge['xp_reward']} XP</p>
             </div>
             """, unsafe_allow_html=True)
-
         with col2:
             if not is_completed:
                 if st.button(f"Marcar ✓", key=f"challenge_{challenge['id']}"):
@@ -739,7 +655,6 @@ with tab4:
 
     learned_count = len(st.session_state.python_learned)
     favorites_count = len(st.session_state.python_favorites)
-
     current_badges = check_badges(learned_count, favorites_count, st.session_state.editor_runs, st.session_state.python_points)
     st.session_state.python_badges = current_badges
 
@@ -752,11 +667,10 @@ with tab4:
     - **XP Total:** {st.session_state.python_xp}
     """)
 
-    st.markdown("### 🎖️ Badges Desbloqueados")
-
     unlocked = [(bid, bi) for bid, bi in BADGES.items() if bid in st.session_state.python_badges]
     locked = [(bid, bi) for bid, bi in BADGES.items() if bid not in st.session_state.python_badges]
 
+    st.markdown("### 🎖️ Badges Desbloqueados")
     if unlocked:
         cols = st.columns(5)
         for idx, (badge_id, badge_info) in enumerate(unlocked):
@@ -775,9 +689,7 @@ with tab4:
 # ============================================================================
 with tab5:
     st.markdown('<h3 class="section-header">📊 Seu Perfil</h3>', unsafe_allow_html=True)
-
     col1, col2 = st.columns(2)
-
     with col1:
         st.markdown(f"""
         ### 🏆 Estatísticas Gerais
@@ -787,7 +699,6 @@ with tab5:
         - **Pontos:** {st.session_state.python_points}
         - **Streak:** 🔥 {st.session_state.python_streak} dias
         """)
-
     with col2:
         learned_count = len(st.session_state.python_learned)
         st.markdown(f"""
@@ -801,7 +712,6 @@ with tab5:
 
     st.divider()
     st.markdown("### 🎯 Próximas Metas")
-
     if current_level < 5:
         next_level_xp = get_xp_for_next_level(current_level)
         xp_needed = next_level_xp - st.session_state.python_xp
