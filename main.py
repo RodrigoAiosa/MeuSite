@@ -96,8 +96,8 @@ curso_excel = st.Page(page="Views/curso_excel.py", title="Escola Excel", icon="�
 navigation_dict = {
     "Informações": [sobre_page, projeto_recente_page],
     "Resultados": [cases_sucesso_page],
-    "Portifólio": [projeto_python_page, projeto_powerbi_page, escola_sql, escola_python, escola_excel, curso_excel],
-    "Treinamentos": [treinamento_empresa_page, cursos_online_page],
+    "Portifólio": [projeto_python_page, projeto_powerbi_page],
+    "Treinamentos": [treinamento_empresa_page, cursos_online_page, escola_sql, escola_python, escola_excel, curso_excel],
     "Entre em contato": [contato],
     "Assistente IA": [AIOSAIA]
 }
