@@ -12,7 +12,7 @@ st.set_page_config(
 )
 
 # ── dados ──────────────────────────────────────────────────────────────────────
-with open("atalhos_excel.json", "r", encoding="utf-8") as f:
+with open("Views/atalhos_excel.json", "r", encoding="utf-8") as f:
     data = json.load(f)
 
 df = pd.DataFrame(data)
