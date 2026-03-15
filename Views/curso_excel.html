@@ -233,6 +233,45 @@ table.grid td.cell.selected {
   z-index: 2;
 }
 
+/* range selection */
+table.grid td.cell.in-range {
+  background: rgba(33,163,102,0.08);
+  border-color: rgba(33,163,102,0.18);
+  z-index: 1;
+}
+
+/* anchor cell of a range */
+table.grid td.cell.range-anchor {
+  background: var(--selected);
+  border-color: var(--green);
+  box-shadow: inset 0 0 0 2px var(--green);
+  z-index: 3;
+}
+
+/* header highlighted when column/row selected */
+table.grid th.col-highlighted {
+  background: rgba(33,163,102,0.18) !important;
+  color: var(--green-light) !important;
+}
+table.grid td.row-num.row-highlighted {
+  background: rgba(33,163,102,0.18) !important;
+  color: var(--green-light) !important;
+}
+
+/* range tooltip on formula bar */
+.range-hint {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--green);
+  background: rgba(33,163,102,0.08);
+  border: 1px solid var(--border-green);
+  border-radius: 6px;
+  padding: 3px 10px;
+  white-space: nowrap;
+  display: none;
+}
+.range-hint.visible { display: inline-block; }
+
 table.grid td.cell.editing {
   background: rgba(33,163,102,0.08);
   border-color: var(--green-light);
@@ -635,6 +674,7 @@ table.grid td.cell.editing {
     <div class="cell-ref" id="cell-ref">A1</div>
     <span class="formula-icon">fx</span>
     <input type="text" id="formula-input" placeholder="Digite uma fórmula ou valor..." autocomplete="off" spellcheck="false">
+    <span class="range-hint" id="range-hint"></span>
   </div>
   <div class="grid-wrapper" id="grid-wrapper">
     <table class="grid" id="main-grid"></table>
@@ -692,9 +732,36 @@ const colName = i => String.fromCharCode(65 + i);
 const cellId = (r, c) => `${colName(c)}${r + 1}`;
 
 // Main grid state
-let gridData = {}; // { "A1": "=SOMA(B1:B5)" }
+let gridData = {};
 let selectedCell = { r: 0, c: 0 };
 let editingCell = null;
+
+// ── RANGE SELECTION STATE ────────────────────────────────────────────────────
+let rangeAnchor   = null;   // { r, c } — cell where drag started
+let rangeEnd      = null;   // { r, c } — cell where drag currently is
+let isDragging    = false;
+let isFormulaMode = false;  // true when formula bar is focused & starts with =
+
+// Normalise a range to { r1,c1,r2,c2 } with r1≤r2, c1≤c2
+function normaliseRange(a, b) {
+  return {
+    r1: Math.min(a.r, b.r), c1: Math.min(a.c, b.c),
+    r2: Math.max(a.r, b.r), c2: Math.max(a.c, b.c),
+  };
+}
+
+// Returns a string like "B2:D5" or "A1" if single cell
+function rangeLabel(a, b) {
+  const { r1, c1, r2, c2 } = normaliseRange(a, b);
+  const start = cellId(r1, c1);
+  const end   = cellId(r2, c2);
+  return start === end ? start : `${start}:${end}`;
+}
+
+// True if (r,c) is inside normalised range
+function inRange(r, c, nr) {
+  return r >= nr.r1 && r <= nr.r2 && c >= nr.c1 && c <= nr.c2;
+}
 
 // Challenge grid state
 let chGridData = {};
@@ -921,49 +988,67 @@ function evalCell(val, data) {
 
 // ─── MAIN GRID RENDER ────────────────────────────────────────────────────────
 function buildGrid(tableEl, rows, cols, data, selCell, editCell, isChallenge) {
+  const hasRange = !isChallenge && rangeAnchor && rangeEnd;
+  const nr = hasRange ? normaliseRange(rangeAnchor, rangeEnd) : null;
+
   let html = '<thead><tr><th class="row-header"></th>';
-  for (let c = 0; c < cols; c++) html += `<th>${colName(c)}</th>`;
+  for (let c = 0; c < cols; c++) {
+    const colHighlight = nr && c >= nr.c1 && c <= nr.c2 ? ' col-highlighted' : '';
+    html += `<th class="${colHighlight}" onclick="selectColumn(${c})">${colName(c)}</th>`;
+  }
   html += '</tr></thead><tbody>';
-  
+
   for (let r = 0; r < rows; r++) {
-    html += `<tr><td class="row-num">${r + 1}</td>`;
+    const rowHighlight = nr && r >= nr.r1 && r <= nr.r2 ? ' row-highlighted' : '';
+    html += `<tr><td class="row-num${rowHighlight}" onclick="selectRow(${r})">${r + 1}</td>`;
+
     for (let c = 0; c < cols; c++) {
       const id = cellId(r, c);
       const raw = data[id] ?? "";
       const result = evalCell(raw, data);
-      const isSel = selCell.r === r && selCell.c === c;
+      const isSel  = !isChallenge && selCell.r === r && selCell.c === c;
       const isEdit = editCell && editCell.r === r && editCell.c === c;
       const isTarget = isChallenge && targetCell && targetCell === id;
-      
+
+      // Range classes
       let cls = 'cell';
-      if (isSel) cls += ' selected';
+      if (!isChallenge && nr) {
+        const isAnchor = rangeAnchor && rangeAnchor.r === r && rangeAnchor.c === c;
+        if (inRange(r, c, nr)) cls += isAnchor ? ' range-anchor' : ' in-range';
+      } else if (isSel) {
+        cls += ' selected';
+      }
       if (isEdit) cls += ' editing';
-      
+
       let dispCls = 'cell-display';
       if (String(raw).startsWith("=")) dispCls += ' formula-result';
       if (String(result).includes("#")) dispCls += ' error';
       if (!isNaN(result) && result !== "") dispCls += ' number';
-      
+
       const displayVal = isEdit ? '' : (result !== null && result !== undefined ? result : '');
-      
       const targetStyle = isTarget && !raw ? 'box-shadow: inset 0 0 0 2px rgba(33,163,102,0.7); background: rgba(33,163,102,0.08);' : '';
-      
-      html += `<td class="${cls}" data-r="${r}" data-c="${c}" data-id="${id}" 
-               style="${targetStyle}"
-               onclick="${isChallenge ? 'chCellClick' : 'cellClick'}(${r},${c})"
-               ondblclick="${isChallenge ? 'chCellDblClick' : 'cellDblClick'}(${r},${c})">
-               ${isEdit ? `<input class="cell-editor" id="editor-${isChallenge?'ch-':''}${r}-${c}" 
-                          value="${raw}" 
+
+      const mouseHandlers = isChallenge ? `onclick="chCellClick(${r},${c})" ondblclick="chCellDblClick(${r},${c})"` :
+        `onmousedown="cellMouseDown(event,${r},${c})"
+         onmouseover="cellMouseOver(${r},${c})"
+         onclick="cellClick(${r},${c})"
+         ondblclick="cellDblClick(${r},${c})"`;
+
+      html += `<td class="${cls}" data-r="${r}" data-c="${c}" data-id="${id}"
+               style="${targetStyle}" ${mouseHandlers}>
+               ${isEdit
+                 ? `<input class="cell-editor" id="editor-${isChallenge?'ch-':''}${r}-${c}"
+                          value="${raw}"
                           onblur="${isChallenge ? 'chCommitEdit' : 'commitEdit'}(${r},${c},this.value)"
-                          onkeydown="${isChallenge ? 'chEditorKey' : 'editorKey'}(event,${r},${c})">` 
-                        : `<div class="${dispCls}">${displayVal}</div>`}
+                          onkeydown="${isChallenge ? 'chEditorKey' : 'editorKey'}(event,${r},${c})">`
+                 : `<div class="${dispCls}">${displayVal}</div>`}
                </td>`;
     }
     html += '</tr>';
   }
   html += '</tbody>';
   tableEl.innerHTML = html;
-  
+
   if (editCell) {
     const prefix = isChallenge ? 'ch-' : '';
     const ed = document.getElementById(`editor-${prefix}${editCell.r}-${editCell.c}`);
@@ -972,11 +1057,14 @@ function buildGrid(tableEl, rows, cols, data, selCell, editCell, isChallenge) {
 }
 
 function renderMain() {
+  if (!rangeAnchor) { rangeAnchor = { ...selectedCell }; rangeEnd = { ...selectedCell }; }
   buildGrid(document.getElementById('main-grid'), ROWS, COLS, gridData, selectedCell, editingCell, false);
   const id = cellId(selectedCell.r, selectedCell.c);
   document.getElementById('cell-ref').textContent = id;
   const raw = gridData[id] ?? "";
-  document.getElementById('formula-input').value = raw;
+  if (document.activeElement !== document.getElementById('formula-input')) {
+    document.getElementById('formula-input').value = raw;
+  }
 }
 
 function renderChallenge() {
@@ -987,52 +1075,182 @@ function renderChallenge() {
 }
 
 // ─── MAIN GRID INTERACTIONS ──────────────────────────────────────────────────
-function cellClick(r, c) {
-  if (editingCell) commitEdit(editingCell.r, editingCell.c, 
-    document.getElementById(`editor-${editingCell.r}-${editingCell.c}`)?.value ?? "");
+
+// ── helpers ──
+function updateRangeUI() {
+  const ref   = document.getElementById('cell-ref');
+  const hint  = document.getElementById('range-hint');
+  const input = document.getElementById('formula-input');
+
+  if (rangeAnchor && rangeEnd) {
+    const label = rangeLabel(rangeAnchor, rangeEnd);
+    ref.textContent = label;
+
+    // count cells
+    const { r1, c1, r2, c2 } = normaliseRange(rangeAnchor, rangeEnd);
+    const rows = r2 - r1 + 1, cols = c2 - c1 + 1;
+    const count = rows * cols;
+    if (count > 1) {
+      hint.textContent = `${rows}L × ${cols}C = ${count} células`;
+      hint.classList.add('visible');
+    } else {
+      hint.classList.remove('visible');
+    }
+
+    // If formula bar is active and formula starts with =, inject range
+    if (isFormulaMode) {
+      const cur = input.value;
+      const pos = input.selectionStart;
+      // Replace last partial cell ref or range being typed
+      const before = cur.slice(0, pos);
+      const after  = cur.slice(pos);
+      const cleaned = before.replace(/[A-J]\d*:?[A-J]?\d*$/, '');
+      input.value = cleaned + label + after;
+      const newPos = cleaned.length + label.length;
+      input.setSelectionRange(newPos, newPos);
+    }
+  } else if (selectedCell) {
+    ref.textContent = cellId(selectedCell.r, selectedCell.c);
+    hint.classList.remove('visible');
+  }
+}
+
+// ── mouse events ──
+function cellMouseDown(e, r, c) {
+  if (e.button !== 0) return;
+
+  // commit any open editor first
+  if (editingCell) {
+    commitEdit(editingCell.r, editingCell.c,
+      document.getElementById(`editor-${editingCell.r}-${editingCell.c}`)?.value ?? "");
+  }
   editingCell = null;
-  selectedCell = { r, c };
+
+  if (e.shiftKey && rangeAnchor) {
+    // Extend existing range
+    rangeEnd = { r, c };
+  } else {
+    rangeAnchor = { r, c };
+    rangeEnd    = { r, c };
+    selectedCell = { r, c };
+  }
+  isDragging = true;
   renderMain();
+  updateRangeUI();
+  e.preventDefault(); // prevent text selection
+}
+
+function cellMouseOver(r, c) {
+  if (!isDragging) return;
+  rangeEnd = { r, c };
+  renderMain();
+  updateRangeUI();
+}
+
+function cellClick(r, c) {
+  // single click without drag: collapse to single cell
+  if (!isDragging) {
+    if (editingCell) commitEdit(editingCell.r, editingCell.c,
+      document.getElementById(`editor-${editingCell.r}-${editingCell.c}`)?.value ?? "");
+    editingCell = null;
+    rangeAnchor  = { r, c };
+    rangeEnd     = { r, c };
+    selectedCell = { r, c };
+    const id = cellId(r, c);
+    document.getElementById('formula-input').value = gridData[id] ?? "";
+    renderMain();
+    updateRangeUI();
+  }
 }
 
 function cellDblClick(r, c) {
+  rangeAnchor  = { r, c };
+  rangeEnd     = { r, c };
   selectedCell = { r, c };
-  editingCell = { r, c };
+  editingCell  = { r, c };
   renderMain();
+  updateRangeUI();
+}
+
+// Global mouseup ends drag
+document.addEventListener('mouseup', () => {
+  if (isDragging) {
+    isDragging = false;
+    // If a real range was selected, update formula-bar ref display
+    updateRangeUI();
+  }
+});
+
+// ── select entire column by clicking header ──
+function selectColumn(c) {
+  rangeAnchor  = { r: 0, c };
+  rangeEnd     = { r: ROWS - 1, c };
+  selectedCell = { r: 0, c };
+  renderMain();
+  updateRangeUI();
+}
+
+// ── select entire row by clicking row number ──
+function selectRow(r) {
+  rangeAnchor  = { r, c: 0 };
+  rangeEnd     = { r, c: COLS - 1 };
+  selectedCell = { r, c: 0 };
+  renderMain();
+  updateRangeUI();
 }
 
 function commitEdit(r, c, val) {
   const id = cellId(r, c);
   if (val.trim() === "") delete gridData[id];
   else gridData[id] = val.trim();
-  editingCell = null;
+  editingCell  = null;
   selectedCell = { r, c };
+  rangeAnchor  = { r, c };
+  rangeEnd     = { r, c };
   renderMain();
+  updateRangeUI();
 }
 
 function editorKey(e, r, c) {
   if (e.key === 'Enter') {
     commitEdit(r, c, e.target.value);
-    selectedCell = { r: Math.min(r + 1, ROWS - 1), c };
+    const nr = Math.min(r + 1, ROWS - 1);
+    selectedCell = { r: nr, c };
+    rangeAnchor  = { r: nr, c };
+    rangeEnd     = { r: nr, c };
     renderMain();
+    updateRangeUI();
     e.preventDefault();
   } else if (e.key === 'Escape') {
     editingCell = null; renderMain();
   } else if (e.key === 'Tab') {
     commitEdit(r, c, e.target.value);
-    selectedCell = { r, c: Math.min(c + 1, COLS - 1) };
+    const nc = Math.min(c + 1, COLS - 1);
+    selectedCell = { r, c: nc };
+    rangeAnchor  = { r, c: nc };
+    rangeEnd     = { r, c: nc };
     renderMain();
+    updateRangeUI();
     e.preventDefault();
   }
   updateAutocomplete(e.target.value);
 }
 
 // Formula bar sync
+document.getElementById('formula-input').addEventListener('focus', function() {
+  isFormulaMode = this.value.startsWith('=');
+});
+
 document.getElementById('formula-input').addEventListener('input', function() {
+  isFormulaMode = this.value.startsWith('=');
   const id = cellId(selectedCell.r, selectedCell.c);
   gridData[id] = this.value;
   renderMain();
   updateAutocomplete(this.value);
+});
+
+document.getElementById('formula-input').addEventListener('blur', function() {
+  isFormulaMode = false;
 });
 
 document.getElementById('formula-input').addEventListener('keydown', function(e) {
