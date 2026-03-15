@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Excel Trainer · Planilha Virtual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #060912;
+  --surface: rgba(255,255,255,0.03);
+  --surface2: rgba(255,255,255,0.06);
+  --green: #21a366;
+  --green-light: #3dbb7e;
+  --green-glow: rgba(33,163,102,0.2);
+  --text: #e2e8f0;
+  --muted: #4a5568;
+  --muted2: #2d3748;
+  --border: rgba(255,255,255,0.06);
+  --border-green: rgba(33,163,102,0.25);
+  --cell-bg: #0d1117;
+  --cell-border: rgba(255,255,255,0.07);
+  --header-bg: rgba(33,163,102,0.08);
+  --selected: rgba(33,163,102,0.15);
+  --formula-bar: #0a0f1a;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body {
+  background-image:
+    radial-gradient(ellipse 80% 40% at 50% -5%, rgba(33,115,70,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 30% 30% at 85% 70%, rgba(16,124,65,0.06) 0%, transparent 50%);
+}
+
+/* ── NAV ── */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 48px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(6,9,18,0.8);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--text);
+  letter-spacing: -0.5px;
+}
+
+.nav-logo span { color: var(--green); }
+
+.nav-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.nav-tab {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--muted);
+  transition: all 0.2s;
+  border: none;
+  background: none;
+}
+
+.nav-tab.active {
+  background: var(--green-glow);
+  color: var(--green-light);
+  border: 1px solid var(--border-green);
+}
+
+.nav-badge {
+  font-size: 0.7rem;
+  background: rgba(33,163,102,0.15);
+  color: var(--green);
+  border: 1px solid var(--border-green);
+  border-radius: 100px;
+  padding: 3px 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* ── LAYOUT ── */
+.app {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 65px);
+}
+
+.panel { display: none; flex-direction: column; height: 100%; }
+.panel.active { display: flex; }
+
+/* ── SPREADSHEET PANEL ── */
+.formula-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  background: var(--formula-bar);
+  border-bottom: 1px solid var(--border);
+}
+
+.cell-ref {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--green-light);
+  background: var(--surface);
+  border: 1px solid var(--border-green);
+  border-radius: 6px;
+  padding: 5px 12px;
+  min-width: 60px;
+  text-align: center;
+}
+
+.formula-icon {
+  font-family: 'DM Mono', monospace;
+  font-size: 1rem;
+  color: var(--green);
+  font-weight: 500;
+}
+
+#formula-input {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 14px;
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.9rem;
+  outline: none;
+  transition: all 0.2s;
+}
+
+#formula-input:focus {
+  border-color: var(--border-green);
+  box-shadow: 0 0 0 3px var(--green-glow);
+}
+
+/* ── GRID ── */
+.grid-wrapper {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+}
+
+table.grid {
+  border-collapse: collapse;
+  font-size: 13px;
+  font-family: 'DM Mono', monospace;
+  user-select: none;
+}
+
+table.grid th {
+  background: var(--header-bg);
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 6px 0;
+  text-align: center;
+  border: 1px solid var(--cell-border);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  min-width: 90px;
+}
+
+table.grid th.row-header {
+  left: 0;
+  z-index: 6;
+  min-width: 42px;
+  width: 42px;
+}
+
+table.grid td.row-num {
+  background: var(--header-bg);
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-align: center;
+  border: 1px solid var(--cell-border);
+  padding: 0 8px;
+  position: sticky;
+  left: 0;
+  z-index: 4;
+  min-width: 42px;
+}
+
+table.grid td.cell {
+  background: var(--cell-bg);
+  border: 1px solid var(--cell-border);
+  padding: 0;
+  min-width: 90px;
+  height: 28px;
+  vertical-align: middle;
+  cursor: cell;
+  position: relative;
+}
+
+table.grid td.cell.selected {
+  background: var(--selected);
+  border-color: var(--green);
+  box-shadow: inset 0 0 0 1px var(--green);
+  z-index: 2;
+}
+
+table.grid td.cell.editing {
+  background: rgba(33,163,102,0.08);
+  border-color: var(--green-light);
+  box-shadow: inset 0 0 0 2px var(--green-light);
+  z-index: 3;
+}
+
+.cell-display {
+  padding: 4px 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.82rem;
+  color: var(--text);
+  height: 28px;
+  line-height: 20px;
+}
+
+.cell-display.formula-result { color: #7dd3a8; }
+.cell-display.error { color: #e08080; }
+.cell-display.number { text-align: right; }
+
+.cell-editor {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 4px 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.82rem;
+  color: var(--text);
+  position: absolute;
+  top: 0; left: 0;
+}
+
+/* ── TOOLBAR ── */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(6,9,18,0.6);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.toolbar-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.toolbar-btn:hover {
+  color: var(--green-light);
+  border-color: var(--border-green);
+  background: rgba(33,163,102,0.07);
+}
+
+.toolbar-sep {
+  width: 1px;
+  height: 20px;
+  background: var(--border);
+}
+
+.toolbar-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted2);
+}
+
+/* autocomplete */
+#autocomplete {
+  position: fixed;
+  background: #0d1117;
+  border: 1px solid var(--border-green);
+  border-radius: 10px;
+  padding: 4px 0;
+  z-index: 1000;
+  min-width: 220px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+  display: none;
+}
+
+.ac-item {
+  padding: 8px 14px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.82rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.1s;
+}
+
+.ac-item:hover, .ac-item.highlighted {
+  background: rgba(33,163,102,0.1);
+}
+
+.ac-fn { color: var(--green-light); font-weight: 500; }
+.ac-hint { color: var(--muted); font-size: 0.72rem; }
+
+/* ── DESAFIOS PANEL ── */
+.challenges-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  height: 100%;
+  overflow: hidden;
+}
+
+.challenges-sidebar {
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 24px 16px;
+  background: rgba(6,9,18,0.5);
+}
+
+.challenges-sidebar h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted2);
+  margin-bottom: 16px;
+  padding: 0 8px;
+}
+
+.challenge-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-bottom: 6px;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.challenge-item:hover {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+.challenge-item.active {
+  background: rgba(33,163,102,0.08);
+  border-color: var(--border-green);
+}
+
+.challenge-item.done .ch-icon { background: rgba(33,163,102,0.2); color: var(--green); }
+
+.ch-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--surface2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  color: var(--muted);
+}
+
+.ch-info { flex: 1; }
+.ch-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+.ch-meta { font-size: 0.72rem; color: var(--muted); display: flex; gap: 8px; }
+.ch-level {
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.lv-ini { background: rgba(33,163,102,0.12); color: var(--green-light); }
+.lv-ava { background: rgba(240,180,0,0.1); color: #f0c040; }
+.lv-pow { background: rgba(200,80,80,0.1); color: #e08080; }
+
+.ch-check { font-size: 1rem; color: var(--green); margin-left: auto; align-self: center; }
+
+/* challenge main */
+.challenge-main {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.challenge-header {
+  padding: 24px 32px 16px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(6,9,18,0.4);
+}
+
+.ch-header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.ch-header-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.5px;
+}
+
+.ch-header-desc {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+.ch-hint-box {
+  margin-top: 12px;
+  background: rgba(33,163,102,0.06);
+  border: 1px solid var(--border-green);
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 0.82rem;
+  color: #5aaf8a;
+  font-family: 'DM Mono', monospace;
+}
+
+.ch-hint-box strong { color: var(--green-light); }
+
+/* challenge grid area */
+.challenge-grid-area {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* result panel */
+.result-panel {
+  padding: 16px 32px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(6,9,18,0.6);
+}
+
+.result-msg {
+  flex: 1;
+  font-size: 0.88rem;
+}
+
+.result-msg.success {
+  color: var(--green-light);
+  font-weight: 500;
+}
+
+.result-msg.error { color: #e08080; }
+.result-msg.neutral { color: var(--muted); }
+
+.btn-check {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 10px 24px;
+  border-radius: 10px;
+  cursor: pointer;
+  background: rgba(33,163,102,0.12);
+  color: var(--green-light);
+  border: 1px solid var(--border-green);
+  transition: all 0.25s;
+}
+
+.btn-check:hover {
+  background: rgba(33,163,102,0.22);
+  box-shadow: 0 4px 20px rgba(33,163,102,0.2);
+}
+
+.btn-reset {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.78rem;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: var(--surface);
+  color: var(--muted);
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+
+.btn-reset:hover { color: var(--text); border-color: var(--muted); }
+
+/* progress */
+.progress-bar-wrap {
+  height: 3px;
+  background: var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green), var(--green-light));
+  transition: width 0.5s ease;
+  border-radius: 2px;
+}
+
+/* ── TOAST ── */
+#toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #0d1117;
+  border: 1px solid var(--border-green);
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 0.88rem;
+  color: var(--green-light);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+#toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: rgba(33,163,102,0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(33,163,102,0.4); }
+
+.confetti-wrapper {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+@keyframes fall {
+  0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Excel <span>Trainer</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchPanel('spreadsheet')">📊 Planilha Livre</button>
+    <button class="nav-tab" onclick="switchPanel('challenges')">🎯 Desafios</button>
+  </div>
+  <div class="nav-badge" id="progress-badge">0 / 10 concluídos</div>
+</nav>
+
+<!-- SPREADSHEET PANEL -->
+<div class="panel active" id="panel-spreadsheet">
+  <div class="toolbar">
+    <span class="toolbar-label">Inserir:</span>
+    <button class="toolbar-btn" onclick="insertSnippet('=SOMA(')">SOMA</button>
+    <button class="toolbar-btn" onclick="insertSnippet('=MÉDIA(')">MÉDIA</button>
+    <button class="toolbar-btn" onclick="insertSnippet('=SE(')">SE</button>
+    <button class="toolbar-btn" onclick="insertSnippet('=PROCV(')">PROCV</button>
+    <button class="toolbar-btn" onclick="insertSnippet('=CONT.SE(')">CONT.SE</button>
+    <button class="toolbar-btn" onclick="insertSnippet('=SOMASE(')">SOMASE</button>
+    <button class="toolbar-btn" onclick="insertSnippet('=MÁXIMO(')">MÁX</button>
+    <button class="toolbar-btn" onclick="insertSnippet('=MÍNIMO(')">MÍN</button>
+    <button class="toolbar-btn" onclick="insertSnippet('=ARRED(')">ARRED</button>
+    <div class="toolbar-sep"></div>
+    <button class="toolbar-btn" onclick="clearGrid()">🗑 Limpar</button>
+    <button class="toolbar-btn" onclick="loadDemo()">📋 Carregar Demo</button>
+  </div>
+  <div class="formula-bar">
+    <div class="cell-ref" id="cell-ref">A1</div>
+    <span class="formula-icon">fx</span>
+    <input type="text" id="formula-input" placeholder="Digite uma fórmula ou valor..." autocomplete="off" spellcheck="false">
+  </div>
+  <div class="grid-wrapper" id="grid-wrapper">
+    <table class="grid" id="main-grid"></table>
+  </div>
+  <div id="autocomplete"></div>
+</div>
+
+<!-- CHALLENGES PANEL -->
+<div class="panel" id="panel-challenges">
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progress-bar" style="width:0%"></div>
+  </div>
+  <div class="challenges-layout">
+    <div class="challenges-sidebar">
+      <h3>Exercícios</h3>
+      <div id="challenge-list"></div>
+    </div>
+    <div class="challenge-main">
+      <div class="challenge-header" id="ch-header">
+        <div class="ch-header-top">
+          <div>
+            <div class="ch-header-title" id="ch-title">Selecione um desafio</div>
+            <div class="ch-header-desc" id="ch-desc">Escolha um exercício na lista ao lado para começar.</div>
+          </div>
+          <span class="ch-level lv-ini" id="ch-level-badge"></span>
+        </div>
+        <div class="ch-hint-box" id="ch-hint" style="display:none"></div>
+      </div>
+      <div class="challenge-grid-area">
+        <div class="formula-bar">
+          <div class="cell-ref" id="ch-cell-ref">A1</div>
+          <span class="formula-icon">fx</span>
+          <input type="text" id="ch-formula-input" placeholder="Digite sua fórmula aqui..." autocomplete="off" spellcheck="false">
+        </div>
+        <div class="grid-wrapper">
+          <table class="grid" id="ch-grid"></table>
+        </div>
+      </div>
+      <div class="result-panel">
+        <div class="result-msg neutral" id="result-msg">👆 Digite sua resposta na célula destacada e clique em Verificar.</div>
+        <button class="btn-reset" onclick="resetChallenge()">↺ Resetar</button>
+        <button class="btn-check" onclick="checkAnswer()">✓ Verificar resposta</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<div class="confetti-wrapper" id="confetti-wrapper"></div>
+
+<script>
+// ─── GRID ENGINE ────────────────────────────────────────────────────────────
+const COLS = 10, ROWS = 25;
+const colName = i => String.fromCharCode(65 + i);
+const cellId = (r, c) => `${colName(c)}${r + 1}`;
+
+// Main grid state
+let gridData = {}; // { "A1": "=SOMA(B1:B5)" }
+let selectedCell = { r: 0, c: 0 };
+let editingCell = null;
+
+// Challenge grid state
+let chGridData = {};
+let chSelectedCell = { r: 0, c: 0 };
+let currentChallenge = null;
+let completedChallenges = new Set();
+let targetCell = null;
+
+// ─── FORMULA PARSER ─────────────────────────────────────────────────────────
+function parseFormula(formula, data, depth = 0) {
+  if (depth > 20) return "#REF!";
+  if (!formula || formula === "") return "";
+  if (!formula.toString().startsWith("=")) {
+    const n = parseFloat(formula);
+    return isNaN(n) ? formula : n;
+  }
+  
+  let expr = formula.slice(1).toUpperCase().trim();
+  
+  // Resolve cell references first
+  expr = expr.replace(/\b([A-J])(\d+)\b/g, (_, col, row) => {
+    const key = `${col}${row}`;
+    const val = data[key] ?? "";
+    if (String(val).startsWith("=")) {
+      const res = parseFormula(val, data, depth + 1);
+      return isNaN(res) ? `"${res}"` : res;
+    }
+    const n = parseFloat(val);
+    return isNaN(n) ? `"${val}"` : n;
+  });
+  
+  // Resolve ranges for functions
+  function expandRange(range) {
+    const m = range.match(/([A-J])(\d+):([A-J])(\d+)/);
+    if (!m) return [];
+    const c1 = m[1].charCodeAt(0) - 65, r1 = parseInt(m[2]) - 1;
+    const c2 = m[3].charCodeAt(0) - 65, r2 = parseInt(m[4]) - 1;
+    const vals = [];
+    for (let r = r1; r <= r2; r++)
+      for (let c = c1; c <= c2; c++) {
+        const k = `${colName(c)}${r + 1}`;
+        const v = data[k] ?? "";
+        if (String(v).startsWith("=")) {
+          const res = parseFormula(v, data, depth + 1);
+          if (!isNaN(res)) vals.push(Number(res));
+        } else {
+          const n = parseFloat(v);
+          if (!isNaN(n)) vals.push(n);
+        }
+      }
+    return vals;
+  }
+  
+  // PT-BR Functions
+  const fns = {
+    'SOMA': (args) => {
+      let s = 0;
+      args.forEach(a => {
+        if (typeof a === 'string' && a.includes(':')) expandRange(a).forEach(v => s += v);
+        else s += Number(a) || 0;
+      });
+      return s;
+    },
+    'SUM': (args) => fns['SOMA'](args),
+    'MÉDIA': (args) => {
+      let vals = [];
+      args.forEach(a => {
+        if (typeof a === 'string' && a.includes(':')) vals.push(...expandRange(a));
+        else if (!isNaN(a)) vals.push(Number(a));
+      });
+      return vals.length ? vals.reduce((a,b) => a+b, 0) / vals.length : 0;
+    },
+    'AVERAGE': (args) => fns['MÉDIA'](args),
+    'MÁXIMO': (args) => {
+      let vals = [];
+      args.forEach(a => {
+        if (typeof a === 'string' && a.includes(':')) vals.push(...expandRange(a));
+        else if (!isNaN(a)) vals.push(Number(a));
+      });
+      return vals.length ? Math.max(...vals) : 0;
+    },
+    'MAX': (args) => fns['MÁXIMO'](args),
+    'MÍNIMO': (args) => {
+      let vals = [];
+      args.forEach(a => {
+        if (typeof a === 'string' && a.includes(':')) vals.push(...expandRange(a));
+        else if (!isNaN(a)) vals.push(Number(a));
+      });
+      return vals.length ? Math.min(...vals) : 0;
+    },
+    'MIN': (args) => fns['MÍNIMO'](args),
+    'CONT.NÚM': (args) => {
+      let c = 0;
+      args.forEach(a => {
+        if (typeof a === 'string' && a.includes(':')) c += expandRange(a).length;
+        else if (!isNaN(a) && a !== '') c++;
+      });
+      return c;
+    },
+    'COUNT': (args) => fns['CONT.NÚM'](args),
+    'ARRED': (args) => {
+      const n = Number(args[0]) || 0;
+      const d = Number(args[1]) || 0;
+      return Math.round(n * Math.pow(10, d)) / Math.pow(10, d);
+    },
+    'ROUND': (args) => fns['ARRED'](args),
+    'ABS': (args) => Math.abs(Number(args[0]) || 0),
+    'RAIZ': (args) => Math.sqrt(Number(args[0]) || 0),
+    'SQRT': (args) => Math.sqrt(Number(args[0]) || 0),
+    'POTÊNCIA': (args) => Math.pow(Number(args[0]) || 0, Number(args[1]) || 0),
+    'POWER': (args) => Math.pow(Number(args[0]) || 0, Number(args[1]) || 0),
+    'SE': (args) => {
+      try {
+        const cond = Function(`"use strict"; return (${args[0]})`)();
+        return cond ? (args[1] ?? 0) : (args[2] ?? 0);
+      } catch { return "#VALOR!"; }
+    },
+    'IF': (args) => fns['SE'](args),
+    'CONT.SE': (args) => {
+      if (args.length < 2) return "#ARGS!";
+      const range = expandRange(String(args[0]).replace(/"/g,''));
+      const crit = String(args[1]).replace(/"/g,'').trim();
+      let cnt = 0;
+      range.forEach(v => {
+        if (crit.startsWith('>')) { if (v > parseFloat(crit.slice(1))) cnt++; }
+        else if (crit.startsWith('<')) { if (v < parseFloat(crit.slice(1))) cnt++; }
+        else if (crit.startsWith('>=')) { if (v >= parseFloat(crit.slice(2))) cnt++; }
+        else if (crit.startsWith('<=')) { if (v <= parseFloat(crit.slice(2))) cnt++; }
+        else if (v == crit) cnt++;
+      });
+      return cnt;
+    },
+    'COUNTIF': (args) => fns['CONT.SE'](args),
+    'SOMASE': (args) => {
+      if (args.length < 3) return "#ARGS!";
+      const range = String(args[0]).replace(/"/g,'');
+      const sumRange = String(args[2]).replace(/"/g,'');
+      const crit = String(args[1]).replace(/"/g,'').trim();
+      const rVals = expandRange(range);
+      const sVals = expandRange(sumRange);
+      let sum = 0;
+      rVals.forEach((v, i) => {
+        let match = false;
+        if (crit.startsWith('>') && !crit.startsWith('>=')) match = v > parseFloat(crit.slice(1));
+        else if (crit.startsWith('>=')) match = v >= parseFloat(crit.slice(2));
+        else if (crit.startsWith('<') && !crit.startsWith('<=')) match = v < parseFloat(crit.slice(1));
+        else if (crit.startsWith('<=')) match = v <= parseFloat(crit.slice(2));
+        else match = v == crit;
+        if (match && sVals[i] !== undefined) sum += sVals[i];
+      });
+      return sum;
+    },
+    'SUMIF': (args) => fns['SOMASE'](args),
+    'CONCATENAR': (args) => args.map(a => String(a).replace(/"/g,'')).join(''),
+    'CONCAT': (args) => fns['CONCATENAR'](args),
+    'MAIÚSCULA': (args) => String(args[0]).replace(/"/g,'').toUpperCase(),
+    'UPPER': (args) => fns['MAIÚSCULA'](args),
+    'MINÚSCULA': (args) => String(args[0]).replace(/"/g,'').toLowerCase(),
+    'LOWER': (args) => fns['MINÚSCULA'](args),
+    'NÚM.CARACT': (args) => String(args[0]).replace(/"/g,'').length,
+    'LEN': (args) => fns['NÚM.CARACT'](args),
+    'PROCV': (args) => {
+      // Simplified VLOOKUP
+      return "=PROCV (use desafios)";
+    },
+  };
+
+  // Match function calls
+  const fnMatch = expr.match(/^([A-ZÁÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕÇ\.\-]+)\((.*)\)$/s);
+  if (fnMatch) {
+    const fnName = fnMatch[1];
+    const argsRaw = fnMatch[2];
+    
+    // Re-expand range args (before col substitution)
+    const originalExpr = formula.slice(1).toUpperCase().trim();
+    const origFnMatch = originalExpr.match(/^([A-ZÁÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕÇ\.\-]+)\((.*)\)$/s);
+    
+    if (fns[fnName]) {
+      // Split args preserving ranges
+      const args = splitArgs(argsRaw);
+      // For range functions, pass original range strings
+      const origArgs = origFnMatch ? splitArgs(origFnMatch[2]) : args;
+      
+      try {
+        return fns[fnName](origArgs.map((a, i) => {
+          if (a.includes(':')) return a;
+          const computed = args[i];
+          return computed !== undefined ? computed : a;
+        }));
+      } catch(e) { return "#ERRO!"; }
+    }
+    return `#NOME? (${fnName})`;
+  }
+  
+  // Simple arithmetic
+  try {
+    const safe = expr.replace(/[^0-9+\-*/().,%\s"'<>=!]/g, '');
+    return Function(`"use strict"; return (${expr.replace(/,/g, '.')})`)();
+  } catch { return "#VALOR!"; }
+}
+
+function splitArgs(str) {
+  const args = [];
+  let depth = 0, cur = '';
+  for (const ch of str) {
+    if (ch === '(' ) depth++;
+    else if (ch === ')') depth--;
+    else if (ch === ';' && depth === 0) { args.push(cur.trim()); cur = ''; continue; }
+    else if (ch === ',' && depth === 0) { args.push(cur.trim()); cur = ''; continue; }
+    cur += ch;
+  }
+  if (cur.trim()) args.push(cur.trim());
+  return args;
+}
+
+function evalCell(val, data) {
+  if (!val || val === "") return "";
+  if (!String(val).startsWith("=")) {
+    const n = parseFloat(val);
+    return isNaN(n) ? val : n;
+  }
+  return parseFormula(val, data);
+}
+
+// ─── MAIN GRID RENDER ────────────────────────────────────────────────────────
+function buildGrid(tableEl, rows, cols, data, selCell, editCell, isChallenge) {
+  let html = '<thead><tr><th class="row-header"></th>';
+  for (let c = 0; c < cols; c++) html += `<th>${colName(c)}</th>`;
+  html += '</tr></thead><tbody>';
+  
+  for (let r = 0; r < rows; r++) {
+    html += `<tr><td class="row-num">${r + 1}</td>`;
+    for (let c = 0; c < cols; c++) {
+      const id = cellId(r, c);
+      const raw = data[id] ?? "";
+      const result = evalCell(raw, data);
+      const isSel = selCell.r === r && selCell.c === c;
+      const isEdit = editCell && editCell.r === r && editCell.c === c;
+      const isTarget = isChallenge && targetCell && targetCell === id;
+      
+      let cls = 'cell';
+      if (isSel) cls += ' selected';
+      if (isEdit) cls += ' editing';
+      
+      let dispCls = 'cell-display';
+      if (String(raw).startsWith("=")) dispCls += ' formula-result';
+      if (String(result).includes("#")) dispCls += ' error';
+      if (!isNaN(result) && result !== "") dispCls += ' number';
+      
+      const displayVal = isEdit ? '' : (result !== null && result !== undefined ? result : '');
+      
+      const targetStyle = isTarget && !raw ? 'box-shadow: inset 0 0 0 2px rgba(33,163,102,0.7); background: rgba(33,163,102,0.08);' : '';
+      
+      html += `<td class="${cls}" data-r="${r}" data-c="${c}" data-id="${id}" 
+               style="${targetStyle}"
+               onclick="${isChallenge ? 'chCellClick' : 'cellClick'}(${r},${c})"
+               ondblclick="${isChallenge ? 'chCellDblClick' : 'cellDblClick'}(${r},${c})">
+               ${isEdit ? `<input class="cell-editor" id="editor-${isChallenge?'ch-':''}${r}-${c}" 
+                          value="${raw}" 
+                          onblur="${isChallenge ? 'chCommitEdit' : 'commitEdit'}(${r},${c},this.value)"
+                          onkeydown="${isChallenge ? 'chEditorKey' : 'editorKey'}(event,${r},${c})">` 
+                        : `<div class="${dispCls}">${displayVal}</div>`}
+               </td>`;
+    }
+    html += '</tr>';
+  }
+  html += '</tbody>';
+  tableEl.innerHTML = html;
+  
+  if (editCell) {
+    const prefix = isChallenge ? 'ch-' : '';
+    const ed = document.getElementById(`editor-${prefix}${editCell.r}-${editCell.c}`);
+    if (ed) { ed.focus(); ed.setSelectionRange(ed.value.length, ed.value.length); }
+  }
+}
+
+function renderMain() {
+  buildGrid(document.getElementById('main-grid'), ROWS, COLS, gridData, selectedCell, editingCell, false);
+  const id = cellId(selectedCell.r, selectedCell.c);
+  document.getElementById('cell-ref').textContent = id;
+  const raw = gridData[id] ?? "";
+  document.getElementById('formula-input').value = raw;
+}
+
+function renderChallenge() {
+  buildGrid(document.getElementById('ch-grid'), 15, 8, chGridData, chSelectedCell, null, true);
+  const id = cellId(chSelectedCell.r, chSelectedCell.c);
+  document.getElementById('ch-cell-ref').textContent = id;
+  document.getElementById('ch-formula-input').value = chGridData[id] ?? "";
+}
+
+// ─── MAIN GRID INTERACTIONS ──────────────────────────────────────────────────
+function cellClick(r, c) {
+  if (editingCell) commitEdit(editingCell.r, editingCell.c, 
+    document.getElementById(`editor-${editingCell.r}-${editingCell.c}`)?.value ?? "");
+  editingCell = null;
+  selectedCell = { r, c };
+  renderMain();
+}
+
+function cellDblClick(r, c) {
+  selectedCell = { r, c };
+  editingCell = { r, c };
+  renderMain();
+}
+
+function commitEdit(r, c, val) {
+  const id = cellId(r, c);
+  if (val.trim() === "") delete gridData[id];
+  else gridData[id] = val.trim();
+  editingCell = null;
+  selectedCell = { r, c };
+  renderMain();
+}
+
+function editorKey(e, r, c) {
+  if (e.key === 'Enter') {
+    commitEdit(r, c, e.target.value);
+    selectedCell = { r: Math.min(r + 1, ROWS - 1), c };
+    renderMain();
+    e.preventDefault();
+  } else if (e.key === 'Escape') {
+    editingCell = null; renderMain();
+  } else if (e.key === 'Tab') {
+    commitEdit(r, c, e.target.value);
+    selectedCell = { r, c: Math.min(c + 1, COLS - 1) };
+    renderMain();
+    e.preventDefault();
+  }
+  updateAutocomplete(e.target.value);
+}
+
+// Formula bar sync
+document.getElementById('formula-input').addEventListener('input', function() {
+  const id = cellId(selectedCell.r, selectedCell.c);
+  gridData[id] = this.value;
+  renderMain();
+  updateAutocomplete(this.value);
+});
+
+document.getElementById('formula-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') { renderMain(); this.blur(); }
+});
+
+// Challenge formula bar
+document.getElementById('ch-formula-input').addEventListener('input', function() {
+  const id = cellId(chSelectedCell.r, chSelectedCell.c);
+  chGridData[id] = this.value;
+  renderChallenge();
+});
+
+document.getElementById('ch-formula-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') { renderChallenge(); }
+});
+
+// ─── CHALLENGE GRID ──────────────────────────────────────────────────────────
+function chCellClick(r, c) {
+  chSelectedCell = { r, c };
+  renderChallenge();
+  const id = cellId(r, c);
+  document.getElementById('ch-cell-ref').textContent = id;
+  document.getElementById('ch-formula-input').value = chGridData[id] ?? "";
+  document.getElementById('ch-formula-input').focus();
+}
+
+function chCellDblClick(r, c) {
+  chCellClick(r, c);
+}
+
+function chCommitEdit(r, c, val) {}
+function chEditorKey(e, r, c) {}
+
+// ─── AUTOCOMPLETE ────────────────────────────────────────────────────────────
+const FUNCTIONS = [
+  { name: 'SOMA', hint: '(núm1; núm2; ...)' },
+  { name: 'MÉDIA', hint: '(núm1; núm2; ...)' },
+  { name: 'SE', hint: '(teste; valor_se_verdadeiro; valor_se_falso)' },
+  { name: 'PROCV', hint: '(valor; tabela; col; [aprox])' },
+  { name: 'CONT.SE', hint: '(intervalo; critérios)' },
+  { name: 'SOMASE', hint: '(intervalo; critérios; intervalo_soma)' },
+  { name: 'MÁXIMO', hint: '(núm1; ...)' },
+  { name: 'MÍNIMO', hint: '(núm1; ...)' },
+  { name: 'ARRED', hint: '(número; núm_dígitos)' },
+  { name: 'CONCATENAR', hint: '(texto1; texto2; ...)' },
+  { name: 'MAIÚSCULA', hint: '(texto)' },
+  { name: 'MINÚSCULA', hint: '(texto)' },
+  { name: 'NÚM.CARACT', hint: '(texto)' },
+  { name: 'CONT.NÚM', hint: '(valor1; ...)' },
+  { name: 'ABS', hint: '(número)' },
+  { name: 'RAIZ', hint: '(número)' },
+  { name: 'POTÊNCIA', hint: '(base; expoente)' },
+];
+
+let acHighlight = -1;
+
+function updateAutocomplete(val) {
+  const ac = document.getElementById('autocomplete');
+  if (!val.startsWith('=')) { ac.style.display = 'none'; return; }
+  
+  const typed = val.slice(1).toUpperCase();
+  const lastFn = typed.match(/([A-ZÁÉÍÓÚ\.]+)$/)?.[1] ?? '';
+  if (!lastFn || lastFn.length < 1) { ac.style.display = 'none'; return; }
+  
+  const matches = FUNCTIONS.filter(f => f.name.startsWith(lastFn) && f.name !== lastFn);
+  if (!matches.length) { ac.style.display = 'none'; return; }
+  
+  const input = document.getElementById('formula-input');
+  const rect = input.getBoundingClientRect();
+  ac.style.display = 'block';
+  ac.style.left = rect.left + 'px';
+  ac.style.top = (rect.bottom + 4) + 'px';
+  ac.style.width = rect.width + 'px';
+  acHighlight = -1;
+  
+  ac.innerHTML = matches.map((f, i) =>
+    `<div class="ac-item" data-fn="${f.name}" onclick="applyAC('${f.name}')">
+       <span class="ac-fn">${f.name}</span>
+       <span class="ac-hint">${f.hint}</span>
+     </div>`
+  ).join('');
+}
+
+function applyAC(fn) {
+  const input = document.getElementById('formula-input');
+  const val = input.value;
+  const lastFnMatch = val.slice(1).toUpperCase().match(/([A-ZÁÉÍÓÚ\.]+)$/);
+  if (lastFnMatch) {
+    const prefix = val.slice(0, val.length - lastFnMatch[1].length);
+    input.value = prefix + fn + '(';
+    const id = cellId(selectedCell.r, selectedCell.c);
+    gridData[id] = input.value;
+    renderMain();
+  }
+  document.getElementById('autocomplete').style.display = 'none';
+  input.focus();
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('#autocomplete')) document.getElementById('autocomplete').style.display = 'none';
+});
+
+// ─── SNIPPET INSERT ──────────────────────────────────────────────────────────
+function insertSnippet(fn) {
+  const input = document.getElementById('formula-input');
+  const id = cellId(selectedCell.r, selectedCell.c);
+  input.value = fn;
+  gridData[id] = fn;
+  renderMain();
+  input.focus();
+  input.setSelectionRange(input.value.length, input.value.length);
+}
+
+// ─── CLEAR / DEMO ────────────────────────────────────────────────────────────
+function clearGrid() {
+  gridData = {};
+  selectedCell = { r: 0, c: 0 };
+  editingCell = null;
+  renderMain();
+  showToast('Planilha limpa!');
+}
+
+function loadDemo() {
+  gridData = {
+    'A1': 'Produto', 'B1': 'Jan', 'C1': 'Fev', 'D1': 'Mar', 'E1': 'Total',
+    'A2': 'Caneta', 'B2': '1200', 'C2': '980', 'D2': '1450',
+    'A3': 'Caderno', 'B3': '3400', 'C3': '2890', 'D3': '4100',
+    'A4': 'Mochila', 'B4': '890', 'C4': '1200', 'D4': '760',
+    'A5': 'Régua', 'B5': '450', 'C5': '380', 'D5': '520',
+    'A6': 'Borracha', 'B6': '200', 'C6': '180', 'D6': '240',
+    'E2': '=SOMA(B2:D2)', 'E3': '=SOMA(B3:D3)',
+    'E4': '=SOMA(B4:D4)', 'E5': '=SOMA(B5:D5)', 'E6': '=SOMA(B6:D6)',
+    'A8': 'Total Jan', 'B8': '=SOMA(B2:B6)',
+    'A9': 'Média Jan', 'B9': '=MÉDIA(B2:B6)',
+    'A10': 'Máximo', 'B10': '=MÁXIMO(B2:D6)',
+    'A11': 'Mínimo', 'B11': '=MÍNIMO(B2:D6)',
+  };
+  renderMain();
+  showToast('Demo carregado! Explore as fórmulas 🎉');
+}
+
+// ─── CHALLENGES ──────────────────────────────────────────────────────────────
+const CHALLENGES = [
+  {
+    id: 1, title: 'Soma básica', level: 'Iniciante', icon: '➕',
+    desc: 'Some os valores das células B2 até B6 e coloque o resultado em B7.',
+    hint: 'Use: <strong>=SOMA(B2:B6)</strong>',
+    target: 'B7',
+    data: {
+      'A1': 'Item', 'B1': 'Valor',
+      'A2': 'Produto A', 'B2': '150',
+      'A3': 'Produto B', 'B3': '230',
+      'A4': 'Produto C', 'B4': '90',
+      'A5': 'Produto D', 'B5': '410',
+      'A6': 'Produto E', 'B6': '175',
+      'A7': 'TOTAL',
+    },
+    validate: (val) => Math.abs(Number(val) - 1055) < 0.01,
+    expected: 1055
+  },
+  {
+    id: 2, title: 'Média simples', level: 'Iniciante', icon: '📊',
+    desc: 'Calcule a média das notas em C2:C6 e coloque o resultado em C7.',
+    hint: 'Use: <strong>=MÉDIA(C2:C6)</strong>',
+    target: 'C7',
+    data: {
+      'A1': 'Aluno', 'B1': 'Turma', 'C1': 'Nota',
+      'A2': 'Ana', 'B2': 'A', 'C2': '8.5',
+      'A3': 'Bruno', 'B3': 'A', 'C3': '7.0',
+      'A4': 'Carla', 'B4': 'B', 'C4': '9.2',
+      'A5': 'Diego', 'B5': 'B', 'C5': '6.8',
+      'A6': 'Elena', 'B6': 'A', 'C6': '8.0',
+      'A7': 'MÉDIA',
+    },
+    validate: (val) => Math.abs(Number(val) - 7.9) < 0.01,
+    expected: 7.9
+  },
+  {
+    id: 3, title: 'Máximo e Mínimo', level: 'Iniciante', icon: '🔺',
+    desc: 'Encontre o maior valor em D2:D6 e coloque em D8. Coloque o menor em D9.',
+    hint: '<strong>=MÁXIMO(D2:D6)</strong> para maior e <strong>=MÍNIMO(D2:D6)</strong> para menor',
+    target: 'D8',
+    data: {
+      'A1': 'Cidade', 'B1': 'Região', 'D1': 'Temp (°C)',
+      'A2': 'SP', 'D2': '28',
+      'A3': 'RJ', 'D3': '35',
+      'A4': 'BH', 'D4': '22',
+      'A5': 'POA', 'D5': '18',
+      'A6': 'Manaus', 'D6': '38',
+      'A8': 'MÁXIMO', 'A9': 'MÍNIMO',
+    },
+    validate: (val) => Math.abs(Number(val) - 38) < 0.01,
+    expected: 38
+  },
+  {
+    id: 4, title: 'Função SE', level: 'Avançado', icon: '🔀',
+    desc: 'Em C2, use SE para exibir "Aprovado" se B2 >= 7, senão "Reprovado".',
+    hint: '<strong>=SE(B2>=7;"Aprovado";"Reprovado")</strong>',
+    target: 'C2',
+    data: {
+      'A1': 'Aluno', 'B1': 'Nota', 'C1': 'Status',
+      'A2': 'João', 'B2': '8.5',
+      'A3': 'Maria', 'B3': '5.0',
+    },
+    validate: (val) => String(val).toLowerCase().trim() === 'aprovado',
+    expected: 'Aprovado'
+  },
+  {
+    id: 5, title: 'CONT.SE', level: 'Avançado', icon: '🔢',
+    desc: 'Conte quantos valores em B2:B7 são maiores que 1000. Coloque em B9.',
+    hint: '<strong>=CONT.SE(B2:B7;">1000")</strong>',
+    target: 'B9',
+    data: {
+      'A1': 'Vendedor', 'B1': 'Vendas',
+      'A2': 'Ana', 'B2': '1250',
+      'A3': 'Carlos', 'B3': '890',
+      'A4': 'Diana', 'B4': '2100',
+      'A5': 'Eduardo', 'B5': '750',
+      'A6': 'Fernanda', 'B6': '1800',
+      'A7': 'Gabriel', 'B7': '1050',
+      'A9': 'Acima de 1000:',
+    },
+    validate: (val) => Math.abs(Number(val) - 4) < 0.01,
+    expected: 4
+  },
+  {
+    id: 6, title: 'SOMASE', level: 'Avançado', icon: '🧮',
+    desc: 'Some os valores de C2:C7 apenas onde B2:B7 = "Sul". Resultado em C9.',
+    hint: '<strong>=SOMASE(B2:B7;"Sul";C2:C7)</strong>',
+    target: 'C9',
+    data: {
+      'A1': 'Loja', 'B1': 'Região', 'C1': 'Faturamento',
+      'A2': 'L1', 'B2': 'Sul', 'C2': '45000',
+      'A3': 'L2', 'B3': 'Norte', 'C3': '32000',
+      'A4': 'L3', 'B4': 'Sul', 'C4': '58000',
+      'A5': 'L4', 'B5': 'Leste', 'C5': '27000',
+      'A6': 'L5', 'B6': 'Sul', 'C6': '61000',
+      'A7': 'L6', 'B7': 'Norte', 'C7': '39000',
+      'A9': 'Total Sul:',
+    },
+    validate: (val) => Math.abs(Number(val) - 164000) < 1,
+    expected: 164000
+  },
+  {
+    id: 7, title: 'ARRED', level: 'Avançado', icon: '🔣',
+    desc: 'Arredonde o valor de B2 para 2 casas decimais. Coloque em C2.',
+    hint: '<strong>=ARRED(B2;2)</strong>',
+    target: 'C2',
+    data: {
+      'A1': 'Produto', 'B1': 'Preço bruto', 'C1': 'Preço arredondado',
+      'A2': 'Item X', 'B2': '29.5678',
+    },
+    validate: (val) => Math.abs(Number(val) - 29.57) < 0.001,
+    expected: 29.57
+  },
+  {
+    id: 8, title: 'Concatenar', level: 'Avançado', icon: '🔗',
+    desc: 'Una o nome (A2) e sobrenome (B2) com um espaço entre eles. Coloque em C2.',
+    hint: '<strong>=CONCATENAR(A2;" ";B2)</strong> ou <strong>=A2&" "&B2</strong>',
+    target: 'C2',
+    data: {
+      'A1': 'Nome', 'B1': 'Sobrenome', 'C1': 'Nome Completo',
+      'A2': 'Ana', 'B2': 'Silva',
+    },
+    validate: (val) => String(val).trim().toLowerCase() === 'ana silva',
+    expected: 'Ana Silva'
+  },
+  {
+    id: 9, title: 'Fórmula aninhada', level: 'Power User', icon: '⚡',
+    desc: 'Em C2, use SE com MÉDIA: se a média de B2:B6 >= 7, mostrar "Turma Boa", senão "Reforço".',
+    hint: '<strong>=SE(MÉDIA(B2:B6)>=7;"Turma Boa";"Reforço")</strong>',
+    target: 'C2',
+    data: {
+      'A1': 'Aluno', 'B1': 'Nota',
+      'A2': 'P1', 'B2': '9',
+      'A3': 'P2', 'B3': '8',
+      'A4': 'P3', 'B4': '7.5',
+      'A5': 'P4', 'B5': '6',
+      'A6': 'P5', 'B6': '8.5',
+      'C1': 'Avaliação',
+    },
+    validate: (val) => String(val).toLowerCase().trim() === 'turma boa',
+    expected: 'Turma Boa'
+  },
+  {
+    id: 10, title: 'Dashboard Power', level: 'Power User', icon: '🏆',
+    desc: 'Em B10, calcule o bônus: SOMASE das vendas da região "SP" em C2:C8 multiplicado por 0.05.',
+    hint: '<strong>=SOMASE(B2:B8;"SP";C2:C8)*0.05</strong>',
+    target: 'B10',
+    data: {
+      'A1': 'Vendedor', 'B1': 'Região', 'C1': 'Vendas',
+      'A2': 'Ana', 'B2': 'SP', 'C2': '120000',
+      'A3': 'Bruno', 'B3': 'RJ', 'C3': '85000',
+      'A4': 'Carla', 'B4': 'SP', 'C4': '145000',
+      'A5': 'Diego', 'B5': 'MG', 'C5': '72000',
+      'A6': 'Elena', 'B6': 'SP', 'C6': '98000',
+      'A7': 'Fábio', 'B7': 'RJ', 'C7': '110000',
+      'A8': 'Gabi', 'B8': 'SP', 'C8': '134000',
+      'A10': 'Bônus SP (5%):',
+    },
+    validate: (val) => Math.abs(Number(val) - 24850) < 1,
+    expected: 24850
+  },
+];
+
+function buildChallengeList() {
+  const list = document.getElementById('challenge-list');
+  const lvMap = { 'Iniciante': 'lv-ini', 'Avançado': 'lv-ava', 'Power User': 'lv-pow' };
+  list.innerHTML = CHALLENGES.map(ch => `
+    <div class="challenge-item ${completedChallenges.has(ch.id) ? 'done' : ''}" 
+         id="ch-item-${ch.id}" onclick="loadChallenge(${ch.id})">
+      <div class="ch-icon">${ch.icon}</div>
+      <div class="ch-info">
+        <div class="ch-title">${ch.title}</div>
+        <div class="ch-meta">
+          <span class="ch-level ${lvMap[ch.level]}">${ch.level}</span>
+        </div>
+      </div>
+      ${completedChallenges.has(ch.id) ? '<span class="ch-check">✓</span>' : ''}
+    </div>
+  `).join('');
+}
+
+function loadChallenge(id) {
+  currentChallenge = CHALLENGES.find(c => c.id === id);
+  if (!currentChallenge) return;
+  
+  chGridData = { ...currentChallenge.data };
+  targetCell = currentChallenge.target;
+  
+  // Select target cell
+  const col = targetCell.charCodeAt(0) - 65;
+  const row = parseInt(targetCell.slice(1)) - 1;
+  chSelectedCell = { r: row, c: col };
+  
+  // Update sidebar
+  document.querySelectorAll('.challenge-item').forEach(el => el.classList.remove('active'));
+  document.getElementById(`ch-item-${id}`)?.classList.add('active');
+  
+  // Update header
+  const lvMap = { 'Iniciante': 'lv-ini', 'Avançado': 'lv-ava', 'Power User': 'lv-pow' };
+  document.getElementById('ch-title').textContent = currentChallenge.title;
+  document.getElementById('ch-desc').textContent = currentChallenge.desc;
+  document.getElementById('ch-level-badge').className = `ch-level ${lvMap[currentChallenge.level]}`;
+  document.getElementById('ch-level-badge').textContent = currentChallenge.level;
+  document.getElementById('ch-hint').style.display = 'block';
+  document.getElementById('ch-hint').innerHTML = `💡 Dica: ${currentChallenge.hint}`;
+  
+  document.getElementById('result-msg').className = 'result-msg neutral';
+  document.getElementById('result-msg').textContent = `👆 Digite sua fórmula na célula ${targetCell} destacada e clique em Verificar.`;
+  
+  renderChallenge();
+  document.getElementById('ch-formula-input').focus();
+}
+
+function checkAnswer() {
+  if (!currentChallenge) { showToast('Selecione um desafio primeiro!'); return; }
+  
+  const raw = chGridData[targetCell] ?? "";
+  const result = evalCell(raw, chGridData);
+  const isCorrect = currentChallenge.validate(result);
+  
+  const msg = document.getElementById('result-msg');
+  
+  if (isCorrect) {
+    msg.className = 'result-msg success';
+    msg.textContent = `✅ Correto! Resultado: ${result} — Excelente trabalho!`;
+    if (!completedChallenges.has(currentChallenge.id)) {
+      completedChallenges.add(currentChallenge.id);
+      buildChallengeList();
+      loadChallenge(currentChallenge.id);
+      updateProgress();
+      showConfetti();
+      showToast(`🏆 Desafio "${currentChallenge.title}" concluído!`);
+    }
+  } else {
+    msg.className = 'result-msg error';
+    const got = raw ? `Obteve: ${result}` : 'Célula vazia';
+    msg.textContent = `❌ Não está certo ainda. ${got}. Esperado: ${currentChallenge.expected}`;
+  }
+}
+
+function resetChallenge() {
+  if (!currentChallenge) return;
+  chGridData = { ...currentChallenge.data };
+  renderChallenge();
+  document.getElementById('result-msg').className = 'result-msg neutral';
+  document.getElementById('result-msg').textContent = `👆 Digite sua fórmula na célula ${targetCell} destacada e clique em Verificar.`;
+  document.getElementById('ch-formula-input').value = '';
+}
+
+function updateProgress() {
+  const done = completedChallenges.size;
+  const total = CHALLENGES.length;
+  document.getElementById('progress-badge').textContent = `${done} / ${total} concluídos`;
+  document.getElementById('progress-bar').style.width = `${(done / total) * 100}%`;
+}
+
+// ─── PANEL SWITCH ────────────────────────────────────────────────────────────
+function switchPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(`panel-${name}`).classList.add('active');
+  event.target.classList.add('active');
+  
+  if (name === 'challenges') buildChallengeList();
+}
+
+// ─── TOAST ───────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ─── CONFETTI ────────────────────────────────────────────────────────────────
+function showConfetti() {
+  const wrap = document.getElementById('confetti-wrapper');
+  wrap.innerHTML = '';
+  const colors = ['#21a366', '#3dbb7e', '#85d4aa', '#f0c040', '#e08080'];
+  for (let i = 0; i < 60; i++) {
+    const el = document.createElement('div');
+    const size = Math.random() * 8 + 4;
+    el.style.cssText = `
+      position:absolute;
+      width:${size}px; height:${size}px;
+      background:${colors[Math.floor(Math.random() * colors.length)]};
+      border-radius:${Math.random() > 0.5 ? '50%' : '2px'};
+      left:${Math.random() * 100}%;
+      top:-10px;
+      animation: fall ${Math.random() * 2 + 1.5}s ease-in ${Math.random() * 0.5}s forwards;
+    `;
+    wrap.appendChild(el);
+  }
+  setTimeout(() => wrap.innerHTML = '', 4000);
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+renderMain();
+updateProgress();
+</script>
+</body>
+</html>
