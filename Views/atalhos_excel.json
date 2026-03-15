@@ -1,0 +1,2578 @@
+[
+  {
+    "atalho": "Ctrl + C",
+    "descricao": "Copiar células selecionadas",
+    "categoria": "Edição",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + C permite executar a ação 'Copiar células selecionadas' rapidamente no Excel.",
+    "ranking_corporativo": 1
+  },
+  {
+    "atalho": "Ctrl + V",
+    "descricao": "Colar conteúdo copiado",
+    "categoria": "Edição",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + V permite executar a ação 'Colar conteúdo copiado' rapidamente no Excel.",
+    "ranking_corporativo": 2
+  },
+  {
+    "atalho": "Ctrl + X",
+    "descricao": "Recortar células selecionadas",
+    "categoria": "Edição",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + X permite executar a ação 'Recortar células selecionadas' rapidamente no Excel.",
+    "ranking_corporativo": 3
+  },
+  {
+    "atalho": "Ctrl + Z",
+    "descricao": "Desfazer última ação",
+    "categoria": "Edição",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + Z permite executar a ação 'Desfazer última ação' rapidamente no Excel.",
+    "ranking_corporativo": 4
+  },
+  {
+    "atalho": "Ctrl + Y",
+    "descricao": "Refazer ação desfeita",
+    "categoria": "Edição",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + Y permite executar a ação 'Refazer ação desfeita' rapidamente no Excel.",
+    "ranking_corporativo": 5
+  },
+  {
+    "atalho": "Ctrl + A",
+    "descricao": "Selecionar toda a planilha",
+    "categoria": "Seleção",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + A permite executar a ação 'Selecionar toda a planilha' rapidamente no Excel.",
+    "ranking_corporativo": 6
+  },
+  {
+    "atalho": "Ctrl + S",
+    "descricao": "Salvar arquivo",
+    "categoria": "Produtividade",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + S permite executar a ação 'Salvar arquivo' rapidamente no Excel.",
+    "ranking_corporativo": 7
+  },
+  {
+    "atalho": "Ctrl + P",
+    "descricao": "Imprimir",
+    "categoria": "Produtividade",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + P permite executar a ação 'Imprimir' rapidamente no Excel.",
+    "ranking_corporativo": 8
+  },
+  {
+    "atalho": "Ctrl + N",
+    "descricao": "Nova pasta de trabalho",
+    "categoria": "Produtividade",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + N permite executar a ação 'Nova pasta de trabalho' rapidamente no Excel.",
+    "ranking_corporativo": 9
+  },
+  {
+    "atalho": "Ctrl + W",
+    "descricao": "Fechar arquivo atual",
+    "categoria": "Produtividade",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + W permite executar a ação 'Fechar arquivo atual' rapidamente no Excel.",
+    "ranking_corporativo": 10
+  },
+  {
+    "atalho": "Ctrl + O",
+    "descricao": "Abrir arquivo",
+    "categoria": "Produtividade",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + O permite executar a ação 'Abrir arquivo' rapidamente no Excel.",
+    "ranking_corporativo": 11
+  },
+  {
+    "atalho": "Ctrl + F",
+    "descricao": "Localizar texto ou valor",
+    "categoria": "Produtividade",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + F permite executar a ação 'Localizar texto ou valor' rapidamente no Excel.",
+    "ranking_corporativo": 12
+  },
+  {
+    "atalho": "Ctrl + H",
+    "descricao": "Localizar e substituir",
+    "categoria": "Produtividade",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + H permite executar a ação 'Localizar e substituir' rapidamente no Excel.",
+    "ranking_corporativo": 13
+  },
+  {
+    "atalho": "Ctrl + K",
+    "descricao": "Inserir hiperlink",
+    "categoria": "Edição",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + K permite executar a ação 'Inserir hiperlink' rapidamente no Excel.",
+    "ranking_corporativo": 14
+  },
+  {
+    "atalho": "Ctrl + D",
+    "descricao": "Preencher seleção para baixo",
+    "categoria": "Edição",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + D permite executar a ação 'Preencher seleção para baixo' rapidamente no Excel.",
+    "ranking_corporativo": 15
+  },
+  {
+    "atalho": "Ctrl + R",
+    "descricao": "Preencher seleção para direita",
+    "categoria": "Edição",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + R permite executar a ação 'Preencher seleção para direita' rapidamente no Excel.",
+    "ranking_corporativo": 16
+  },
+  {
+    "atalho": "Ctrl + B",
+    "descricao": "Negrito",
+    "categoria": "Formatação",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + B permite executar a ação 'Negrito' rapidamente no Excel.",
+    "ranking_corporativo": 17
+  },
+  {
+    "atalho": "Ctrl + I",
+    "descricao": "Itálico",
+    "categoria": "Formatação",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + I permite executar a ação 'Itálico' rapidamente no Excel.",
+    "ranking_corporativo": 18
+  },
+  {
+    "atalho": "Ctrl + U",
+    "descricao": "Sublinhado",
+    "categoria": "Formatação",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + U permite executar a ação 'Sublinhado' rapidamente no Excel.",
+    "ranking_corporativo": 19
+  },
+  {
+    "atalho": "Ctrl + 1",
+    "descricao": "Abrir caixa de formatação de células",
+    "categoria": "Formatação",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + 1 permite executar a ação 'Abrir caixa de formatação de células' rapidamente no Excel.",
+    "ranking_corporativo": 20
+  },
+  {
+    "atalho": "Ctrl + 2",
+    "descricao": "Aplicar ou remover negrito",
+    "categoria": "Formatação",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + 2 permite executar a ação 'Aplicar ou remover negrito' rapidamente no Excel.",
+    "ranking_corporativo": 21
+  },
+  {
+    "atalho": "Ctrl + 3",
+    "descricao": "Aplicar ou remover itálico",
+    "categoria": "Formatação",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + 3 permite executar a ação 'Aplicar ou remover itálico' rapidamente no Excel.",
+    "ranking_corporativo": 22
+  },
+  {
+    "atalho": "Ctrl + 4",
+    "descricao": "Aplicar ou remover sublinhado",
+    "categoria": "Formatação",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + 4 permite executar a ação 'Aplicar ou remover sublinhado' rapidamente no Excel.",
+    "ranking_corporativo": 23
+  },
+  {
+    "atalho": "Ctrl + 5",
+    "descricao": "Aplicar ou remover tachado",
+    "categoria": "Formatação",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + 5 permite executar a ação 'Aplicar ou remover tachado' rapidamente no Excel.",
+    "ranking_corporativo": 24
+  },
+  {
+    "atalho": "Ctrl + 9",
+    "descricao": "Ocultar linhas selecionadas",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + 9 permite executar a ação 'Ocultar linhas selecionadas' rapidamente no Excel.",
+    "ranking_corporativo": 25
+  },
+  {
+    "atalho": "Ctrl + 0",
+    "descricao": "Ocultar colunas selecionadas",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + 0 permite executar a ação 'Ocultar colunas selecionadas' rapidamente no Excel.",
+    "ranking_corporativo": 26
+  },
+  {
+    "atalho": "Ctrl + ;",
+    "descricao": "Inserir data atual",
+    "categoria": "Edição",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + ; permite executar a ação 'Inserir data atual' rapidamente no Excel.",
+    "ranking_corporativo": 27
+  },
+  {
+    "atalho": "Ctrl + Shift + :",
+    "descricao": "Inserir hora atual",
+    "categoria": "Edição",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + Shift + : permite executar a ação 'Inserir hora atual' rapidamente no Excel.",
+    "ranking_corporativo": 28
+  },
+  {
+    "atalho": "Ctrl + T",
+    "descricao": "Criar tabela a partir da seleção",
+    "categoria": "Tabelas",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + T permite executar a ação 'Criar tabela a partir da seleção' rapidamente no Excel.",
+    "ranking_corporativo": 29
+  },
+  {
+    "atalho": "Ctrl + Shift + L",
+    "descricao": "Ativar ou desativar filtro automático",
+    "categoria": "Dados",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + Shift + L permite executar a ação 'Ativar ou desativar filtro automático' rapidamente no Excel.",
+    "ranking_corporativo": 30
+  },
+  {
+    "atalho": "F2",
+    "descricao": "Entrar no modo de edição da célula",
+    "categoria": "Edição",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho F2 permite executar a ação 'Entrar no modo de edição da célula' rapidamente no Excel.",
+    "ranking_corporativo": 31
+  },
+  {
+    "atalho": "F4",
+    "descricao": "Repetir última ação ou alternar ref absoluta",
+    "categoria": "Fórmulas",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho F4 permite executar a ação 'Repetir última ação ou alternar ref absoluta' rapidamente no Excel.",
+    "ranking_corporativo": 32
+  },
+  {
+    "atalho": "F5",
+    "descricao": "Abrir caixa Ir Para",
+    "categoria": "Navegação",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho F5 permite executar a ação 'Abrir caixa Ir Para' rapidamente no Excel.",
+    "ranking_corporativo": 33
+  },
+  {
+    "atalho": "F7",
+    "descricao": "Verificar ortografia",
+    "categoria": "Produtividade",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho F7 permite executar a ação 'Verificar ortografia' rapidamente no Excel.",
+    "ranking_corporativo": 34
+  },
+  {
+    "atalho": "F8",
+    "descricao": "Ativar modo de extensão de seleção",
+    "categoria": "Seleção",
+    "nivel": "Avançado",
+    "explicacao": "O atalho F8 permite executar a ação 'Ativar modo de extensão de seleção' rapidamente no Excel.",
+    "ranking_corporativo": 35
+  },
+  {
+    "atalho": "F9",
+    "descricao": "Calcular todas as planilhas abertas",
+    "categoria": "Fórmulas",
+    "nivel": "Avançado",
+    "explicacao": "O atalho F9 permite executar a ação 'Calcular todas as planilhas abertas' rapidamente no Excel.",
+    "ranking_corporativo": 36
+  },
+  {
+    "atalho": "F11",
+    "descricao": "Criar gráfico em nova folha",
+    "categoria": "Gráficos",
+    "nivel": "Avançado",
+    "explicacao": "O atalho F11 permite executar a ação 'Criar gráfico em nova folha' rapidamente no Excel.",
+    "ranking_corporativo": 37
+  },
+  {
+    "atalho": "F12",
+    "descricao": "Salvar como",
+    "categoria": "Produtividade",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho F12 permite executar a ação 'Salvar como' rapidamente no Excel.",
+    "ranking_corporativo": 38
+  },
+  {
+    "atalho": "Alt + F1",
+    "descricao": "Inserir gráfico incorporado",
+    "categoria": "Gráficos",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + F1 permite executar a ação 'Inserir gráfico incorporado' rapidamente no Excel.",
+    "ranking_corporativo": 39
+  },
+  {
+    "atalho": "Alt + F4",
+    "descricao": "Fechar o Excel",
+    "categoria": "Produtividade",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Alt + F4 permite executar a ação 'Fechar o Excel' rapidamente no Excel.",
+    "ranking_corporativo": 40
+  },
+  {
+    "atalho": "Alt + =",
+    "descricao": "Inserir função AutoSoma",
+    "categoria": "Fórmulas",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Alt + = permite executar a ação 'Inserir função AutoSoma' rapidamente no Excel.",
+    "ranking_corporativo": 41
+  },
+  {
+    "atalho": "Alt + Enter",
+    "descricao": "Quebrar linha dentro da célula",
+    "categoria": "Edição",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Alt + Enter permite executar a ação 'Quebrar linha dentro da célula' rapidamente no Excel.",
+    "ranking_corporativo": 42
+  },
+  {
+    "atalho": "Alt + F8",
+    "descricao": "Abrir caixa de diálogo de Macros",
+    "categoria": "Produtividade",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + F8 permite executar a ação 'Abrir caixa de diálogo de Macros' rapidamente no Excel.",
+    "ranking_corporativo": 43
+  },
+  {
+    "atalho": "Alt + F11",
+    "descricao": "Abrir editor VBA",
+    "categoria": "Produtividade",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + F11 permite executar a ação 'Abrir editor VBA' rapidamente no Excel.",
+    "ranking_corporativo": 44
+  },
+  {
+    "atalho": "Shift + F11",
+    "descricao": "Inserir nova planilha",
+    "categoria": "Planilhas",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Shift + F11 permite executar a ação 'Inserir nova planilha' rapidamente no Excel.",
+    "ranking_corporativo": 45
+  },
+  {
+    "atalho": "Shift + F3",
+    "descricao": "Abrir assistente de função",
+    "categoria": "Fórmulas",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Shift + F3 permite executar a ação 'Abrir assistente de função' rapidamente no Excel.",
+    "ranking_corporativo": 46
+  },
+  {
+    "atalho": "Shift + F8",
+    "descricao": "Adicionar célula à seleção",
+    "categoria": "Seleção",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Shift + F8 permite executar a ação 'Adicionar célula à seleção' rapidamente no Excel.",
+    "ranking_corporativo": 47
+  },
+  {
+    "atalho": "Shift + F9",
+    "descricao": "Calcular planilha ativa",
+    "categoria": "Fórmulas",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Shift + F9 permite executar a ação 'Calcular planilha ativa' rapidamente no Excel.",
+    "ranking_corporativo": 48
+  },
+  {
+    "atalho": "Ctrl + Home",
+    "descricao": "Ir para célula A1",
+    "categoria": "Navegação",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + Home permite executar a ação 'Ir para célula A1' rapidamente no Excel.",
+    "ranking_corporativo": 49
+  },
+  {
+    "atalho": "Ctrl + End",
+    "descricao": "Ir para última célula com dados",
+    "categoria": "Navegação",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + End permite executar a ação 'Ir para última célula com dados' rapidamente no Excel.",
+    "ranking_corporativo": 50
+  },
+  {
+    "atalho": "Ctrl + Seta direita",
+    "descricao": "Ir para próxima célula preenchida à direita",
+    "categoria": "Navegação",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + Seta direita permite executar a ação 'Ir para próxima célula preenchida à direita' rapidamente no Excel.",
+    "ranking_corporativo": 51
+  },
+  {
+    "atalho": "Ctrl + Seta esquerda",
+    "descricao": "Ir para próxima célula preenchida à esquerda",
+    "categoria": "Navegação",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + Seta esquerda permite executar a ação 'Ir para próxima célula preenchida à esquerda' rapidamente no Excel.",
+    "ranking_corporativo": 52
+  },
+  {
+    "atalho": "Ctrl + Seta acima",
+    "descricao": "Ir para próxima célula preenchida acima",
+    "categoria": "Navegação",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + Seta acima permite executar a ação 'Ir para próxima célula preenchida acima' rapidamente no Excel.",
+    "ranking_corporativo": 53
+  },
+  {
+    "atalho": "Ctrl + Seta abaixo",
+    "descricao": "Ir para próxima célula preenchida abaixo",
+    "categoria": "Navegação",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + Seta abaixo permite executar a ação 'Ir para próxima célula preenchida abaixo' rapidamente no Excel.",
+    "ranking_corporativo": 54
+  },
+  {
+    "atalho": "Ctrl + Page Down",
+    "descricao": "Ir para próxima planilha",
+    "categoria": "Planilhas",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + Page Down permite executar a ação 'Ir para próxima planilha' rapidamente no Excel.",
+    "ranking_corporativo": 55
+  },
+  {
+    "atalho": "Ctrl + Page Up",
+    "descricao": "Ir para planilha anterior",
+    "categoria": "Planilhas",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + Page Up permite executar a ação 'Ir para planilha anterior' rapidamente no Excel.",
+    "ranking_corporativo": 56
+  },
+  {
+    "atalho": "Ctrl + Tab",
+    "descricao": "Alternar entre pastas de trabalho abertas",
+    "categoria": "Produtividade",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + Tab permite executar a ação 'Alternar entre pastas de trabalho abertas' rapidamente no Excel.",
+    "ranking_corporativo": 57
+  },
+  {
+    "atalho": "Ctrl + Shift + Home",
+    "descricao": "Selecionar de A1 até célula atual",
+    "categoria": "Seleção",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + Home permite executar a ação 'Selecionar de A1 até célula atual' rapidamente no Excel.",
+    "ranking_corporativo": 58
+  },
+  {
+    "atalho": "Ctrl + Shift + End",
+    "descricao": "Selecionar até última célula com dados",
+    "categoria": "Seleção",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + End permite executar a ação 'Selecionar até última célula com dados' rapidamente no Excel.",
+    "ranking_corporativo": 59
+  },
+  {
+    "atalho": "Ctrl + Shift + Seta",
+    "descricao": "Estender seleção até última célula preenchida",
+    "categoria": "Seleção",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + Seta permite executar a ação 'Estender seleção até última célula preenchida' rapidamente no Excel.",
+    "ranking_corporativo": 60
+  },
+  {
+    "atalho": "Ctrl + Espaço",
+    "descricao": "Selecionar coluna inteira",
+    "categoria": "Seleção",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Espaço permite executar a ação 'Selecionar coluna inteira' rapidamente no Excel.",
+    "ranking_corporativo": 61
+  },
+  {
+    "atalho": "Shift + Espaço",
+    "descricao": "Selecionar linha inteira",
+    "categoria": "Seleção",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Shift + Espaço permite executar a ação 'Selecionar linha inteira' rapidamente no Excel.",
+    "ranking_corporativo": 62
+  },
+  {
+    "atalho": "Ctrl + Shift + Espaço",
+    "descricao": "Selecionar toda a planilha",
+    "categoria": "Seleção",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + Espaço permite executar a ação 'Selecionar toda a planilha' rapidamente no Excel.",
+    "ranking_corporativo": 63
+  },
+  {
+    "atalho": "Ctrl + Shift + +",
+    "descricao": "Inserir células, linhas ou colunas",
+    "categoria": "Edição",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + + permite executar a ação 'Inserir células, linhas ou colunas' rapidamente no Excel.",
+    "ranking_corporativo": 64
+  },
+  {
+    "atalho": "Ctrl + -",
+    "descricao": "Excluir células, linhas ou colunas",
+    "categoria": "Edição",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + - permite executar a ação 'Excluir células, linhas ou colunas' rapidamente no Excel.",
+    "ranking_corporativo": 65
+  },
+  {
+    "atalho": "Ctrl + Shift + ~",
+    "descricao": "Aplicar formato Geral",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + ~ permite executar a ação 'Aplicar formato Geral' rapidamente no Excel.",
+    "ranking_corporativo": 66
+  },
+  {
+    "atalho": "Ctrl + Shift + $",
+    "descricao": "Aplicar formato Moeda",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + $ permite executar a ação 'Aplicar formato Moeda' rapidamente no Excel.",
+    "ranking_corporativo": 67
+  },
+  {
+    "atalho": "Ctrl + Shift + %",
+    "descricao": "Aplicar formato Percentual",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + % permite executar a ação 'Aplicar formato Percentual' rapidamente no Excel.",
+    "ranking_corporativo": 68
+  },
+  {
+    "atalho": "Ctrl + Shift + #",
+    "descricao": "Aplicar formato Data",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + # permite executar a ação 'Aplicar formato Data' rapidamente no Excel.",
+    "ranking_corporativo": 69
+  },
+  {
+    "atalho": "Ctrl + Shift + @",
+    "descricao": "Aplicar formato Hora",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + @ permite executar a ação 'Aplicar formato Hora' rapidamente no Excel.",
+    "ranking_corporativo": 70
+  },
+  {
+    "atalho": "Ctrl + Shift + !",
+    "descricao": "Aplicar formato Número com separadores",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + ! permite executar a ação 'Aplicar formato Número com separadores' rapidamente no Excel.",
+    "ranking_corporativo": 71
+  },
+  {
+    "atalho": "Ctrl + Shift + ^",
+    "descricao": "Aplicar formato Científico",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + ^ permite executar a ação 'Aplicar formato Científico' rapidamente no Excel.",
+    "ranking_corporativo": 72
+  },
+  {
+    "atalho": "Ctrl + Shift + &",
+    "descricao": "Aplicar borda ao redor da seleção",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + & permite executar a ação 'Aplicar borda ao redor da seleção' rapidamente no Excel.",
+    "ranking_corporativo": 73
+  },
+  {
+    "atalho": "Ctrl + Shift + _",
+    "descricao": "Remover bordas da seleção",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + _ permite executar a ação 'Remover bordas da seleção' rapidamente no Excel.",
+    "ranking_corporativo": 74
+  },
+  {
+    "atalho": "Ctrl + F1",
+    "descricao": "Mostrar ou ocultar a Faixa de Opções",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + F1 permite executar a ação 'Mostrar ou ocultar a Faixa de Opções' rapidamente no Excel.",
+    "ranking_corporativo": 75
+  },
+  {
+    "atalho": "Ctrl + F2",
+    "descricao": "Abrir visualização de impressão",
+    "categoria": "Produtividade",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + F2 permite executar a ação 'Abrir visualização de impressão' rapidamente no Excel.",
+    "ranking_corporativo": 76
+  },
+  {
+    "atalho": "Ctrl + F3",
+    "descricao": "Abrir gerenciador de nomes",
+    "categoria": "Fórmulas",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + F3 permite executar a ação 'Abrir gerenciador de nomes' rapidamente no Excel.",
+    "ranking_corporativo": 77
+  },
+  {
+    "atalho": "Ctrl + F4",
+    "descricao": "Fechar janela da pasta de trabalho",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + F4 permite executar a ação 'Fechar janela da pasta de trabalho' rapidamente no Excel.",
+    "ranking_corporativo": 78
+  },
+  {
+    "atalho": "Ctrl + F5",
+    "descricao": "Restaurar tamanho da janela",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + F5 permite executar a ação 'Restaurar tamanho da janela' rapidamente no Excel.",
+    "ranking_corporativo": 79
+  },
+  {
+    "atalho": "Ctrl + F6",
+    "descricao": "Alternar entre janelas abertas",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + F6 permite executar a ação 'Alternar entre janelas abertas' rapidamente no Excel.",
+    "ranking_corporativo": 80
+  },
+  {
+    "atalho": "Ctrl + F7",
+    "descricao": "Mover janela com teclado",
+    "categoria": "Produtividade",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + F7 permite executar a ação 'Mover janela com teclado' rapidamente no Excel.",
+    "ranking_corporativo": 81
+  },
+  {
+    "atalho": "Ctrl + F8",
+    "descricao": "Redimensionar janela com teclado",
+    "categoria": "Produtividade",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + F8 permite executar a ação 'Redimensionar janela com teclado' rapidamente no Excel.",
+    "ranking_corporativo": 82
+  },
+  {
+    "atalho": "Ctrl + F9",
+    "descricao": "Minimizar pasta de trabalho",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + F9 permite executar a ação 'Minimizar pasta de trabalho' rapidamente no Excel.",
+    "ranking_corporativo": 83
+  },
+  {
+    "atalho": "Ctrl + F10",
+    "descricao": "Maximizar ou restaurar pasta de trabalho",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + F10 permite executar a ação 'Maximizar ou restaurar pasta de trabalho' rapidamente no Excel.",
+    "ranking_corporativo": 84
+  },
+  {
+    "atalho": "Ctrl + F12",
+    "descricao": "Abrir arquivo",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + F12 permite executar a ação 'Abrir arquivo' rapidamente no Excel.",
+    "ranking_corporativo": 85
+  },
+  {
+    "atalho": "Ctrl + G",
+    "descricao": "Abrir caixa Ir Para",
+    "categoria": "Navegação",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + G permite executar a ação 'Abrir caixa Ir Para' rapidamente no Excel.",
+    "ranking_corporativo": 86
+  },
+  {
+    "atalho": "Ctrl + L",
+    "descricao": "Criar tabela (alternativo)",
+    "categoria": "Tabelas",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Ctrl + L permite executar a ação 'Criar tabela (alternativo)' rapidamente no Excel.",
+    "ranking_corporativo": 87
+  },
+  {
+    "atalho": "Ctrl + Q",
+    "descricao": "Abrir Análise Rápida",
+    "categoria": "Dados",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Q permite executar a ação 'Abrir Análise Rápida' rapidamente no Excel.",
+    "ranking_corporativo": 88
+  },
+  {
+    "atalho": "Ctrl + Shift + F",
+    "descricao": "Abrir formatação de fonte",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + F permite executar a ação 'Abrir formatação de fonte' rapidamente no Excel.",
+    "ranking_corporativo": 89
+  },
+  {
+    "atalho": "Ctrl + Shift + O",
+    "descricao": "Selecionar células com comentários",
+    "categoria": "Auditoria",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + O permite executar a ação 'Selecionar células com comentários' rapidamente no Excel.",
+    "ranking_corporativo": 90
+  },
+  {
+    "atalho": "Ctrl + Shift + P",
+    "descricao": "Alterar tamanho da fonte",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + P permite executar a ação 'Alterar tamanho da fonte' rapidamente no Excel.",
+    "ranking_corporativo": 91
+  },
+  {
+    "atalho": "Ctrl + Shift + U",
+    "descricao": "Expandir ou recolher barra de fórmulas",
+    "categoria": "Fórmulas",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + U permite executar a ação 'Expandir ou recolher barra de fórmulas' rapidamente no Excel.",
+    "ranking_corporativo": 92
+  },
+  {
+    "atalho": "Ctrl + '",
+    "descricao": "Copiar fórmula da célula acima",
+    "categoria": "Fórmulas",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + ' permite executar a ação 'Copiar fórmula da célula acima' rapidamente no Excel.",
+    "ranking_corporativo": 93
+  },
+  {
+    "atalho": "Ctrl + `",
+    "descricao": "Alternar exibição de fórmulas e valores",
+    "categoria": "Fórmulas",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + ` permite executar a ação 'Alternar exibição de fórmulas e valores' rapidamente no Excel.",
+    "ranking_corporativo": 94
+  },
+  {
+    "atalho": "Delete",
+    "descricao": "Apagar conteúdo da célula",
+    "categoria": "Edição",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Delete permite executar a ação 'Apagar conteúdo da célula' rapidamente no Excel.",
+    "ranking_corporativo": 95
+  },
+  {
+    "atalho": "Backspace",
+    "descricao": "Apagar e entrar em modo edição",
+    "categoria": "Edição",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Backspace permite executar a ação 'Apagar e entrar em modo edição' rapidamente no Excel.",
+    "ranking_corporativo": 96
+  },
+  {
+    "atalho": "Esc",
+    "descricao": "Cancelar entrada ou fechar diálogo",
+    "categoria": "Edição",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Esc permite executar a ação 'Cancelar entrada ou fechar diálogo' rapidamente no Excel.",
+    "ranking_corporativo": 97
+  },
+  {
+    "atalho": "Enter",
+    "descricao": "Confirmar entrada e mover para baixo",
+    "categoria": "Edição",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Enter permite executar a ação 'Confirmar entrada e mover para baixo' rapidamente no Excel.",
+    "ranking_corporativo": 98
+  },
+  {
+    "atalho": "Tab",
+    "descricao": "Confirmar entrada e mover para direita",
+    "categoria": "Edição",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Tab permite executar a ação 'Confirmar entrada e mover para direita' rapidamente no Excel.",
+    "ranking_corporativo": 99
+  },
+  {
+    "atalho": "Shift + Enter",
+    "descricao": "Confirmar e mover para cima",
+    "categoria": "Edição",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Shift + Enter permite executar a ação 'Confirmar e mover para cima' rapidamente no Excel.",
+    "ranking_corporativo": 100
+  },
+  {
+    "atalho": "Shift + Tab",
+    "descricao": "Confirmar e mover para esquerda",
+    "categoria": "Edição",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Shift + Tab permite executar a ação 'Confirmar e mover para esquerda' rapidamente no Excel.",
+    "ranking_corporativo": 101
+  },
+  {
+    "atalho": "Ctrl + Enter",
+    "descricao": "Preencher seleção com entrada atual",
+    "categoria": "Edição",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Enter permite executar a ação 'Preencher seleção com entrada atual' rapidamente no Excel.",
+    "ranking_corporativo": 102
+  },
+  {
+    "atalho": "Ctrl + Shift + Enter",
+    "descricao": "Inserir fórmula de matriz (legado)",
+    "categoria": "Fórmulas",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Shift + Enter permite executar a ação 'Inserir fórmula de matriz (legado)' rapidamente no Excel.",
+    "ranking_corporativo": 103
+  },
+  {
+    "atalho": "Alt + Seta abaixo",
+    "descricao": "Abrir lista suspensa da célula",
+    "categoria": "Dados",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Alt + Seta abaixo permite executar a ação 'Abrir lista suspensa da célula' rapidamente no Excel.",
+    "ranking_corporativo": 104
+  },
+  {
+    "atalho": "F1",
+    "descricao": "Abrir ajuda do Excel",
+    "categoria": "Produtividade",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho F1 permite executar a ação 'Abrir ajuda do Excel' rapidamente no Excel.",
+    "ranking_corporativo": 105
+  },
+  {
+    "atalho": "F3",
+    "descricao": "Colar nome definido na fórmula",
+    "categoria": "Fórmulas",
+    "nivel": "Avançado",
+    "explicacao": "O atalho F3 permite executar a ação 'Colar nome definido na fórmula' rapidamente no Excel.",
+    "ranking_corporativo": 106
+  },
+  {
+    "atalho": "F6",
+    "descricao": "Mover para próximo painel ou seção",
+    "categoria": "Navegação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho F6 permite executar a ação 'Mover para próximo painel ou seção' rapidamente no Excel.",
+    "ranking_corporativo": 107
+  },
+  {
+    "atalho": "F10",
+    "descricao": "Ativar dicas de tecla na faixa",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho F10 permite executar a ação 'Ativar dicas de tecla na faixa' rapidamente no Excel.",
+    "ranking_corporativo": 108
+  },
+  {
+    "atalho": "Ctrl + Shift + F3",
+    "descricao": "Criar nomes a partir de seleção",
+    "categoria": "Fórmulas",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Shift + F3 permite executar a ação 'Criar nomes a partir de seleção' rapidamente no Excel.",
+    "ranking_corporativo": 109
+  },
+  {
+    "atalho": "Alt + H + A + C",
+    "descricao": "Centralizar conteúdo da célula",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + A + C permite executar a ação 'Centralizar conteúdo da célula' rapidamente no Excel.",
+    "ranking_corporativo": 110
+  },
+  {
+    "atalho": "Alt + H + A + L",
+    "descricao": "Alinhar conteúdo à esquerda",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + A + L permite executar a ação 'Alinhar conteúdo à esquerda' rapidamente no Excel.",
+    "ranking_corporativo": 111
+  },
+  {
+    "atalho": "Alt + H + A + R",
+    "descricao": "Alinhar conteúdo à direita",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + A + R permite executar a ação 'Alinhar conteúdo à direita' rapidamente no Excel.",
+    "ranking_corporativo": 112
+  },
+  {
+    "atalho": "Alt + H + B",
+    "descricao": "Abrir menu de bordas",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + B permite executar a ação 'Abrir menu de bordas' rapidamente no Excel.",
+    "ranking_corporativo": 113
+  },
+  {
+    "atalho": "Alt + H + D",
+    "descricao": "Excluir células ou linhas",
+    "categoria": "Edição",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + D permite executar a ação 'Excluir células ou linhas' rapidamente no Excel.",
+    "ranking_corporativo": 114
+  },
+  {
+    "atalho": "Alt + H + I",
+    "descricao": "Inserir células ou linhas",
+    "categoria": "Edição",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + I permite executar a ação 'Inserir células ou linhas' rapidamente no Excel.",
+    "ranking_corporativo": 115
+  },
+  {
+    "atalho": "Alt + H + H",
+    "descricao": "Abrir cor de preenchimento",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + H permite executar a ação 'Abrir cor de preenchimento' rapidamente no Excel.",
+    "ranking_corporativo": 116
+  },
+  {
+    "atalho": "Alt + H + F + C",
+    "descricao": "Abrir cor de fonte",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + F + C permite executar a ação 'Abrir cor de fonte' rapidamente no Excel.",
+    "ranking_corporativo": 117
+  },
+  {
+    "atalho": "Alt + H + M + M",
+    "descricao": "Mesclar e centralizar células",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + M + M permite executar a ação 'Mesclar e centralizar células' rapidamente no Excel.",
+    "ranking_corporativo": 118
+  },
+  {
+    "atalho": "Alt + H + O + R",
+    "descricao": "Renomear planilha",
+    "categoria": "Planilhas",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + O + R permite executar a ação 'Renomear planilha' rapidamente no Excel.",
+    "ranking_corporativo": 119
+  },
+  {
+    "atalho": "Alt + H + O + H",
+    "descricao": "Ajustar altura da linha",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + O + H permite executar a ação 'Ajustar altura da linha' rapidamente no Excel.",
+    "ranking_corporativo": 120
+  },
+  {
+    "atalho": "Alt + H + O + W",
+    "descricao": "Ajustar largura da coluna",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + O + W permite executar a ação 'Ajustar largura da coluna' rapidamente no Excel.",
+    "ranking_corporativo": 121
+  },
+  {
+    "atalho": "Alt + H + O + I",
+    "descricao": "Autoajustar largura da coluna",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + O + I permite executar a ação 'Autoajustar largura da coluna' rapidamente no Excel.",
+    "ranking_corporativo": 122
+  },
+  {
+    "atalho": "Alt + H + O + A",
+    "descricao": "Autoajustar altura da linha",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + O + A permite executar a ação 'Autoajustar altura da linha' rapidamente no Excel.",
+    "ranking_corporativo": 123
+  },
+  {
+    "atalho": "Alt + H + V + S",
+    "descricao": "Colar especial",
+    "categoria": "Edição",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + V + S permite executar a ação 'Colar especial' rapidamente no Excel.",
+    "ranking_corporativo": 124
+  },
+  {
+    "atalho": "Alt + H + V + V",
+    "descricao": "Colar apenas valores",
+    "categoria": "Edição",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + V + V permite executar a ação 'Colar apenas valores' rapidamente no Excel.",
+    "ranking_corporativo": 125
+  },
+  {
+    "atalho": "Alt + H + V + F",
+    "descricao": "Colar apenas fórmulas",
+    "categoria": "Edição",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + V + F permite executar a ação 'Colar apenas fórmulas' rapidamente no Excel.",
+    "ranking_corporativo": 126
+  },
+  {
+    "atalho": "Alt + H + V + T",
+    "descricao": "Colar transpondo",
+    "categoria": "Edição",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + V + T permite executar a ação 'Colar transpondo' rapidamente no Excel.",
+    "ranking_corporativo": 127
+  },
+  {
+    "atalho": "Alt + H + V + E",
+    "descricao": "Colar com vínculo",
+    "categoria": "Edição",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + H + V + E permite executar a ação 'Colar com vínculo' rapidamente no Excel.",
+    "ranking_corporativo": 128
+  },
+  {
+    "atalho": "Alt + H + W",
+    "descricao": "Quebrar texto automaticamente",
+    "categoria": "Formatação",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Alt + H + W permite executar a ação 'Quebrar texto automaticamente' rapidamente no Excel.",
+    "ranking_corporativo": 129
+  },
+  {
+    "atalho": "Alt + N + V",
+    "descricao": "Inserir Tabela Dinâmica",
+    "categoria": "Tabelas",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + N + V permite executar a ação 'Inserir Tabela Dinâmica' rapidamente no Excel.",
+    "ranking_corporativo": 130
+  },
+  {
+    "atalho": "Alt + N + T",
+    "descricao": "Inserir tabela",
+    "categoria": "Tabelas",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Alt + N + T permite executar a ação 'Inserir tabela' rapidamente no Excel.",
+    "ranking_corporativo": 131
+  },
+  {
+    "atalho": "Alt + N + C",
+    "descricao": "Inserir gráfico de colunas",
+    "categoria": "Gráficos",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + N + C permite executar a ação 'Inserir gráfico de colunas' rapidamente no Excel.",
+    "ranking_corporativo": 132
+  },
+  {
+    "atalho": "Alt + N + N",
+    "descricao": "Inserir gráfico de linhas",
+    "categoria": "Gráficos",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + N + N permite executar a ação 'Inserir gráfico de linhas' rapidamente no Excel.",
+    "ranking_corporativo": 133
+  },
+  {
+    "atalho": "Alt + N + Q",
+    "descricao": "Inserir gráfico de pizza",
+    "categoria": "Gráficos",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + N + Q permite executar a ação 'Inserir gráfico de pizza' rapidamente no Excel.",
+    "ranking_corporativo": 134
+  },
+  {
+    "atalho": "Alt + N + B",
+    "descricao": "Inserir gráfico de barras",
+    "categoria": "Gráficos",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + N + B permite executar a ação 'Inserir gráfico de barras' rapidamente no Excel.",
+    "ranking_corporativo": 135
+  },
+  {
+    "atalho": "Alt + N + X",
+    "descricao": "Inserir Gráfico de Dispersão",
+    "categoria": "Gráficos",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + N + X permite executar a ação 'Inserir Gráfico de Dispersão' rapidamente no Excel.",
+    "ranking_corporativo": 136
+  },
+  {
+    "atalho": "Alt + N + S",
+    "descricao": "Inserir Minigráfico",
+    "categoria": "Gráficos",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + N + S permite executar a ação 'Inserir Minigráfico' rapidamente no Excel.",
+    "ranking_corporativo": 137
+  },
+  {
+    "atalho": "Alt + N + P",
+    "descricao": "Inserir imagem",
+    "categoria": "Produtividade",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Alt + N + P permite executar a ação 'Inserir imagem' rapidamente no Excel.",
+    "ranking_corporativo": 138
+  },
+  {
+    "atalho": "Alt + N + F",
+    "descricao": "Inserir caixa de texto",
+    "categoria": "Edição",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + N + F permite executar a ação 'Inserir caixa de texto' rapidamente no Excel.",
+    "ranking_corporativo": 139
+  },
+  {
+    "atalho": "Alt + N + H",
+    "descricao": "Inserir forma",
+    "categoria": "Edição",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + N + H permite executar a ação 'Inserir forma' rapidamente no Excel.",
+    "ranking_corporativo": 140
+  },
+  {
+    "atalho": "Alt + N + L",
+    "descricao": "Inserir link",
+    "categoria": "Edição",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Alt + N + L permite executar a ação 'Inserir link' rapidamente no Excel.",
+    "ranking_corporativo": 141
+  },
+  {
+    "atalho": "Alt + D + S",
+    "descricao": "Classificar dados",
+    "categoria": "Dados",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + D + S permite executar a ação 'Classificar dados' rapidamente no Excel.",
+    "ranking_corporativo": 142
+  },
+  {
+    "atalho": "Alt + D + F + F",
+    "descricao": "Ativar filtro automático",
+    "categoria": "Dados",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + D + F + F permite executar a ação 'Ativar filtro automático' rapidamente no Excel.",
+    "ranking_corporativo": 143
+  },
+  {
+    "atalho": "Alt + A + C",
+    "descricao": "Limpar filtros aplicados",
+    "categoria": "Dados",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + A + C permite executar a ação 'Limpar filtros aplicados' rapidamente no Excel.",
+    "ranking_corporativo": 144
+  },
+  {
+    "atalho": "Alt + A + T",
+    "descricao": "Criar tabela dinâmica",
+    "categoria": "Tabelas",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + A + T permite executar a ação 'Criar tabela dinâmica' rapidamente no Excel.",
+    "ranking_corporativo": 145
+  },
+  {
+    "atalho": "Alt + A + M",
+    "descricao": "Remover duplicatas",
+    "categoria": "Dados",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + A + M permite executar a ação 'Remover duplicatas' rapidamente no Excel.",
+    "ranking_corporativo": 146
+  },
+  {
+    "atalho": "Alt + A + E",
+    "descricao": "Texto para colunas",
+    "categoria": "Dados",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + A + E permite executar a ação 'Texto para colunas' rapidamente no Excel.",
+    "ranking_corporativo": 147
+  },
+  {
+    "atalho": "Alt + A + V + V",
+    "descricao": "Validação de dados",
+    "categoria": "Dados",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + A + V + V permite executar a ação 'Validação de dados' rapidamente no Excel.",
+    "ranking_corporativo": 148
+  },
+  {
+    "atalho": "Alt + A + G + G",
+    "descricao": "Agrupar linhas ou colunas",
+    "categoria": "Dados",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + A + G + G permite executar a ação 'Agrupar linhas ou colunas' rapidamente no Excel.",
+    "ranking_corporativo": 149
+  },
+  {
+    "atalho": "Alt + A + U + U",
+    "descricao": "Desagrupar linhas ou colunas",
+    "categoria": "Dados",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + A + U + U permite executar a ação 'Desagrupar linhas ou colunas' rapidamente no Excel.",
+    "ranking_corporativo": 150
+  },
+  {
+    "atalho": "Alt + A + H",
+    "descricao": "Mostrar detalhe (desrecolher)",
+    "categoria": "Dados",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + A + H permite executar a ação 'Mostrar detalhe (desrecolher)' rapidamente no Excel.",
+    "ranking_corporativo": 151
+  },
+  {
+    "atalho": "Alt + A + J",
+    "descricao": "Ocultar detalhe (recolher)",
+    "categoria": "Dados",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + A + J permite executar a ação 'Ocultar detalhe (recolher)' rapidamente no Excel.",
+    "ranking_corporativo": 152
+  },
+  {
+    "atalho": "Alt + A + B",
+    "descricao": "Atualizar dados externos",
+    "categoria": "Dados",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + A + B permite executar a ação 'Atualizar dados externos' rapidamente no Excel.",
+    "ranking_corporativo": 153
+  },
+  {
+    "atalho": "Alt + A + Y",
+    "descricao": "Atualizar tudo (Power Query e conexões)",
+    "categoria": "Power Query",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + A + Y permite executar a ação 'Atualizar tudo (Power Query e conexões)' rapidamente no Excel.",
+    "ranking_corporativo": 154
+  },
+  {
+    "atalho": "Alt + A + Z",
+    "descricao": "Editar consulta no Power Query",
+    "categoria": "Power Query",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + A + Z permite executar a ação 'Editar consulta no Power Query' rapidamente no Excel.",
+    "ranking_corporativo": 155
+  },
+  {
+    "atalho": "Alt + A + P",
+    "descricao": "Abrir Painel de Conexões",
+    "categoria": "Power Query",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + A + P permite executar a ação 'Abrir Painel de Conexões' rapidamente no Excel.",
+    "ranking_corporativo": 156
+  },
+  {
+    "atalho": "Alt + M + F",
+    "descricao": "Abrir assistente de função",
+    "categoria": "Fórmulas",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + M + F permite executar a ação 'Abrir assistente de função' rapidamente no Excel.",
+    "ranking_corporativo": 157
+  },
+  {
+    "atalho": "Alt + M + N",
+    "descricao": "Definir nome para intervalo",
+    "categoria": "Fórmulas",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + M + N permite executar a ação 'Definir nome para intervalo' rapidamente no Excel.",
+    "ranking_corporativo": 158
+  },
+  {
+    "atalho": "Alt + M + A",
+    "descricao": "Gerenciador de nomes",
+    "categoria": "Fórmulas",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + M + A permite executar a ação 'Gerenciador de nomes' rapidamente no Excel.",
+    "ranking_corporativo": 159
+  },
+  {
+    "atalho": "Alt + M + I",
+    "descricao": "Rastrear precedentes",
+    "categoria": "Auditoria",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + M + I permite executar a ação 'Rastrear precedentes' rapidamente no Excel.",
+    "ranking_corporativo": 160
+  },
+  {
+    "atalho": "Alt + M + D",
+    "descricao": "Rastrear dependentes",
+    "categoria": "Auditoria",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + M + D permite executar a ação 'Rastrear dependentes' rapidamente no Excel.",
+    "ranking_corporativo": 161
+  },
+  {
+    "atalho": "Alt + M + E",
+    "descricao": "Remover setas de rastreamento",
+    "categoria": "Auditoria",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + M + E permite executar a ação 'Remover setas de rastreamento' rapidamente no Excel.",
+    "ranking_corporativo": 162
+  },
+  {
+    "atalho": "Alt + M + V",
+    "descricao": "Verificar erros nas fórmulas",
+    "categoria": "Auditoria",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + M + V permite executar a ação 'Verificar erros nas fórmulas' rapidamente no Excel.",
+    "ranking_corporativo": 163
+  },
+  {
+    "atalho": "Alt + M + U + A",
+    "descricao": "Avaliar fórmula passo a passo",
+    "categoria": "Auditoria",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + M + U + A permite executar a ação 'Avaliar fórmula passo a passo' rapidamente no Excel.",
+    "ranking_corporativo": 164
+  },
+  {
+    "atalho": "Alt + M + W",
+    "descricao": "Abrir janela de inspeção",
+    "categoria": "Auditoria",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + M + W permite executar a ação 'Abrir janela de inspeção' rapidamente no Excel.",
+    "ranking_corporativo": 165
+  },
+  {
+    "atalho": "Alt + M + X",
+    "descricao": "Calcular agora (F9 alternativo)",
+    "categoria": "Fórmulas",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + M + X permite executar a ação 'Calcular agora (F9 alternativo)' rapidamente no Excel.",
+    "ranking_corporativo": 166
+  },
+  {
+    "atalho": "Alt + M + C",
+    "descricao": "Calcular planilha atual",
+    "categoria": "Fórmulas",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + M + C permite executar a ação 'Calcular planilha atual' rapidamente no Excel.",
+    "ranking_corporativo": 167
+  },
+  {
+    "atalho": "Alt + T + M + R",
+    "descricao": "Gravar nova macro",
+    "categoria": "Produtividade",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + T + M + R permite executar a ação 'Gravar nova macro' rapidamente no Excel.",
+    "ranking_corporativo": 168
+  },
+  {
+    "atalho": "Alt + T + M + M",
+    "descricao": "Abrir lista de macros",
+    "categoria": "Produtividade",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + T + M + M permite executar a ação 'Abrir lista de macros' rapidamente no Excel.",
+    "ranking_corporativo": 169
+  },
+  {
+    "atalho": "Alt + T + I",
+    "descricao": "Abrir suplementos do Excel",
+    "categoria": "Produtividade",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + T + I permite executar a ação 'Abrir suplementos do Excel' rapidamente no Excel.",
+    "ranking_corporativo": 170
+  },
+  {
+    "atalho": "Alt + T + O",
+    "descricao": "Abrir opções do Excel",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + T + O permite executar a ação 'Abrir opções do Excel' rapidamente no Excel.",
+    "ranking_corporativo": 171
+  },
+  {
+    "atalho": "Alt + W + F + F",
+    "descricao": "Congelar painéis (primeira linha/coluna)",
+    "categoria": "Navegação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + W + F + F permite executar a ação 'Congelar painéis (primeira linha/coluna)' rapidamente no Excel.",
+    "ranking_corporativo": 172
+  },
+  {
+    "atalho": "Alt + W + F + R",
+    "descricao": "Congelar primeira linha",
+    "categoria": "Navegação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + W + F + R permite executar a ação 'Congelar primeira linha' rapidamente no Excel.",
+    "ranking_corporativo": 173
+  },
+  {
+    "atalho": "Alt + W + F + C",
+    "descricao": "Congelar primeira coluna",
+    "categoria": "Navegação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + W + F + C permite executar a ação 'Congelar primeira coluna' rapidamente no Excel.",
+    "ranking_corporativo": 174
+  },
+  {
+    "atalho": "Alt + W + S",
+    "descricao": "Dividir janela em painéis",
+    "categoria": "Navegação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + W + S permite executar a ação 'Dividir janela em painéis' rapidamente no Excel.",
+    "ranking_corporativo": 175
+  },
+  {
+    "atalho": "Alt + W + N",
+    "descricao": "Abrir nova janela da pasta de trabalho",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + W + N permite executar a ação 'Abrir nova janela da pasta de trabalho' rapidamente no Excel.",
+    "ranking_corporativo": 176
+  },
+  {
+    "atalho": "Alt + W + A",
+    "descricao": "Organizar todas as janelas",
+    "categoria": "Produtividade",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + W + A permite executar a ação 'Organizar todas as janelas' rapidamente no Excel.",
+    "ranking_corporativo": 177
+  },
+  {
+    "atalho": "Alt + W + Q",
+    "descricao": "Zoom personalizado",
+    "categoria": "Produtividade",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Alt + W + Q permite executar a ação 'Zoom personalizado' rapidamente no Excel.",
+    "ranking_corporativo": 178
+  },
+  {
+    "atalho": "Alt + W + I",
+    "descricao": "Zoom 100%",
+    "categoria": "Produtividade",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Alt + W + I permite executar a ação 'Zoom 100%' rapidamente no Excel.",
+    "ranking_corporativo": 179
+  },
+  {
+    "atalho": "Alt + W + J",
+    "descricao": "Zoom para seleção",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + W + J permite executar a ação 'Zoom para seleção' rapidamente no Excel.",
+    "ranking_corporativo": 180
+  },
+  {
+    "atalho": "Ctrl + Shift + A",
+    "descricao": "Inserir argumentos da função",
+    "categoria": "Fórmulas",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + A permite executar a ação 'Inserir argumentos da função' rapidamente no Excel.",
+    "ranking_corporativo": 181
+  },
+  {
+    "atalho": "Ctrl + E",
+    "descricao": "Preenchimento Relâmpago",
+    "categoria": "Dados",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + E permite executar a ação 'Preenchimento Relâmpago' rapidamente no Excel.",
+    "ranking_corporativo": 182
+  },
+  {
+    "atalho": "Ctrl + Alt + V",
+    "descricao": "Abrir colar especial",
+    "categoria": "Edição",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Alt + V permite executar a ação 'Abrir colar especial' rapidamente no Excel.",
+    "ranking_corporativo": 183
+  },
+  {
+    "atalho": "Ctrl + Alt + L",
+    "descricao": "Reaplicar filtros",
+    "categoria": "Dados",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Alt + L permite executar a ação 'Reaplicar filtros' rapidamente no Excel.",
+    "ranking_corporativo": 184
+  },
+  {
+    "atalho": "Ctrl + Alt + F5",
+    "descricao": "Atualizar todas as conexões de dados",
+    "categoria": "Dados",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + F5 permite executar a ação 'Atualizar todas as conexões de dados' rapidamente no Excel.",
+    "ranking_corporativo": 185
+  },
+  {
+    "atalho": "Ctrl + Alt + F9",
+    "descricao": "Forçar recálculo completo",
+    "categoria": "Fórmulas",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + F9 permite executar a ação 'Forçar recálculo completo' rapidamente no Excel.",
+    "ranking_corporativo": 186
+  },
+  {
+    "atalho": "Ctrl + Alt + Shift + F9",
+    "descricao": "Recalcular e verificar dependências",
+    "categoria": "Fórmulas",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + Shift + F9 permite executar a ação 'Recalcular e verificar dependências' rapidamente no Excel.",
+    "ranking_corporativo": 187
+  },
+  {
+    "atalho": "Alt + Shift + Right",
+    "descricao": "Agrupar linhas ou colunas selecionadas",
+    "categoria": "Dados",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + Shift + Right permite executar a ação 'Agrupar linhas ou colunas selecionadas' rapidamente no Excel.",
+    "ranking_corporativo": 188
+  },
+  {
+    "atalho": "Alt + Shift + Left",
+    "descricao": "Desagrupar linhas ou colunas",
+    "categoria": "Dados",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + Shift + Left permite executar a ação 'Desagrupar linhas ou colunas' rapidamente no Excel.",
+    "ranking_corporativo": 189
+  },
+  {
+    "atalho": "Ctrl + Shift + F1",
+    "descricao": "Exibição em tela cheia",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + F1 permite executar a ação 'Exibição em tela cheia' rapidamente no Excel.",
+    "ranking_corporativo": 190
+  },
+  {
+    "atalho": "Ctrl + Shift + F2",
+    "descricao": "Inserir comentário",
+    "categoria": "Edição",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + F2 permite executar a ação 'Inserir comentário' rapidamente no Excel.",
+    "ranking_corporativo": 191
+  },
+  {
+    "atalho": "Ctrl + Shift + F4",
+    "descricao": "Localizar ocorrência anterior",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + F4 permite executar a ação 'Localizar ocorrência anterior' rapidamente no Excel.",
+    "ranking_corporativo": 192
+  },
+  {
+    "atalho": "Ctrl + Shift + F9",
+    "descricao": "Limpar cache de cálculo",
+    "categoria": "Fórmulas",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Shift + F9 permite executar a ação 'Limpar cache de cálculo' rapidamente no Excel.",
+    "ranking_corporativo": 193
+  },
+  {
+    "atalho": "Ctrl + Shift + F12",
+    "descricao": "Imprimir rapidamente",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + F12 permite executar a ação 'Imprimir rapidamente' rapidamente no Excel.",
+    "ranking_corporativo": 194
+  },
+  {
+    "atalho": "Page Up",
+    "descricao": "Mover uma tela para cima",
+    "categoria": "Navegação",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Page Up permite executar a ação 'Mover uma tela para cima' rapidamente no Excel.",
+    "ranking_corporativo": 195
+  },
+  {
+    "atalho": "Page Down",
+    "descricao": "Mover uma tela para baixo",
+    "categoria": "Navegação",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Page Down permite executar a ação 'Mover uma tela para baixo' rapidamente no Excel.",
+    "ranking_corporativo": 196
+  },
+  {
+    "atalho": "Alt + Page Down",
+    "descricao": "Mover uma tela para direita",
+    "categoria": "Navegação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + Page Down permite executar a ação 'Mover uma tela para direita' rapidamente no Excel.",
+    "ranking_corporativo": 197
+  },
+  {
+    "atalho": "Alt + Page Up",
+    "descricao": "Mover uma tela para esquerda",
+    "categoria": "Navegação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + Page Up permite executar a ação 'Mover uma tela para esquerda' rapidamente no Excel.",
+    "ranking_corporativo": 198
+  },
+  {
+    "atalho": "Ctrl + Backspace",
+    "descricao": "Rolar para exibir célula ativa",
+    "categoria": "Navegação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Backspace permite executar a ação 'Rolar para exibir célula ativa' rapidamente no Excel.",
+    "ranking_corporativo": 199
+  },
+  {
+    "atalho": "Home",
+    "descricao": "Ir para início da linha",
+    "categoria": "Navegação",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Home permite executar a ação 'Ir para início da linha' rapidamente no Excel.",
+    "ranking_corporativo": 200
+  },
+  {
+    "atalho": "Shift + F2",
+    "descricao": "Inserir ou editar comentário",
+    "categoria": "Edição",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Shift + F2 permite executar a ação 'Inserir ou editar comentário' rapidamente no Excel.",
+    "ranking_corporativo": 201
+  },
+  {
+    "atalho": "Shift + F5",
+    "descricao": "Abrir Localizar (alternativo)",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Shift + F5 permite executar a ação 'Abrir Localizar (alternativo)' rapidamente no Excel.",
+    "ranking_corporativo": 202
+  },
+  {
+    "atalho": "Shift + F6",
+    "descricao": "Painel anterior",
+    "categoria": "Navegação",
+    "nivel": "Power User",
+    "explicacao": "O atalho Shift + F6 permite executar a ação 'Painel anterior' rapidamente no Excel.",
+    "ranking_corporativo": 203
+  },
+  {
+    "atalho": "Shift + F10",
+    "descricao": "Abrir menu de contexto",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Shift + F10 permite executar a ação 'Abrir menu de contexto' rapidamente no Excel.",
+    "ranking_corporativo": 204
+  },
+  {
+    "atalho": "Shift + F12",
+    "descricao": "Salvar (alternativo)",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Shift + F12 permite executar a ação 'Salvar (alternativo)' rapidamente no Excel.",
+    "ranking_corporativo": 205
+  },
+  {
+    "atalho": "Alt + Shift + F10",
+    "descricao": "Menu de Smart Tag ou Verificação de Erros",
+    "categoria": "Auditoria",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + Shift + F10 permite executar a ação 'Menu de Smart Tag ou Verificação de Erros' rapidamente no Excel.",
+    "ranking_corporativo": 206
+  },
+  {
+    "atalho": "Alt + Shift + S",
+    "descricao": "Classificar em ordem crescente",
+    "categoria": "Dados",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + Shift + S permite executar a ação 'Classificar em ordem crescente' rapidamente no Excel.",
+    "ranking_corporativo": 207
+  },
+  {
+    "atalho": "Alt + Shift + D",
+    "descricao": "Classificar em ordem decrescente",
+    "categoria": "Dados",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + Shift + D permite executar a ação 'Classificar em ordem decrescente' rapidamente no Excel.",
+    "ranking_corporativo": 208
+  },
+  {
+    "atalho": "Alt + Shift + F11",
+    "descricao": "Inserir módulo VBA",
+    "categoria": "Produtividade",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + Shift + F11 permite executar a ação 'Inserir módulo VBA' rapidamente no Excel.",
+    "ranking_corporativo": 209
+  },
+  {
+    "atalho": "Alt + Shift + F8",
+    "descricao": "Executar macro selecionada",
+    "categoria": "Produtividade",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + Shift + F8 permite executar a ação 'Executar macro selecionada' rapidamente no Excel.",
+    "ranking_corporativo": 210
+  },
+  {
+    "atalho": "Alt + F10",
+    "descricao": "Abrir painel de seleção de objetos",
+    "categoria": "Edição",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + F10 permite executar a ação 'Abrir painel de seleção de objetos' rapidamente no Excel.",
+    "ranking_corporativo": 211
+  },
+  {
+    "atalho": "Alt + F9",
+    "descricao": "Mostrar ou ocultar objetos",
+    "categoria": "Edição",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + F9 permite executar a ação 'Mostrar ou ocultar objetos' rapidamente no Excel.",
+    "ranking_corporativo": 212
+  },
+  {
+    "atalho": "Alt + F2",
+    "descricao": "Salvar como (atalho alternativo)",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + F2 permite executar a ação 'Salvar como (atalho alternativo)' rapidamente no Excel.",
+    "ranking_corporativo": 213
+  },
+  {
+    "atalho": "Alt + F3",
+    "descricao": "Criar nova função no VBA",
+    "categoria": "Produtividade",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + F3 permite executar a ação 'Criar nova função no VBA' rapidamente no Excel.",
+    "ranking_corporativo": 214
+  },
+  {
+    "atalho": "Alt + F6",
+    "descricao": "Alternar entre planilhas e painéis",
+    "categoria": "Navegação",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + F6 permite executar a ação 'Alternar entre planilhas e painéis' rapidamente no Excel.",
+    "ranking_corporativo": 215
+  },
+  {
+    "atalho": "Alt + F7",
+    "descricao": "Ir para próximo erro ortográfico",
+    "categoria": "Produtividade",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + F7 permite executar a ação 'Ir para próximo erro ortográfico' rapidamente no Excel.",
+    "ranking_corporativo": 216
+  },
+  {
+    "atalho": "Alt + R + C",
+    "descricao": "Inserir comentário",
+    "categoria": "Edição",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Alt + R + C permite executar a ação 'Inserir comentário' rapidamente no Excel.",
+    "ranking_corporativo": 217
+  },
+  {
+    "atalho": "Alt + R + D",
+    "descricao": "Excluir comentário",
+    "categoria": "Edição",
+    "nivel": "Iniciante",
+    "explicacao": "O atalho Alt + R + D permite executar a ação 'Excluir comentário' rapidamente no Excel.",
+    "ranking_corporativo": 218
+  },
+  {
+    "atalho": "Alt + R + A",
+    "descricao": "Mostrar todos os comentários",
+    "categoria": "Edição",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + R + A permite executar a ação 'Mostrar todos os comentários' rapidamente no Excel.",
+    "ranking_corporativo": 219
+  },
+  {
+    "atalho": "Alt + R + N",
+    "descricao": "Próximo comentário",
+    "categoria": "Edição",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + R + N permite executar a ação 'Próximo comentário' rapidamente no Excel.",
+    "ranking_corporativo": 220
+  },
+  {
+    "atalho": "Alt + R + P",
+    "descricao": "Comentário anterior",
+    "categoria": "Edição",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + R + P permite executar a ação 'Comentário anterior' rapidamente no Excel.",
+    "ranking_corporativo": 221
+  },
+  {
+    "atalho": "Alt + R + S + H",
+    "descricao": "Proteger planilha",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + R + S + H permite executar a ação 'Proteger planilha' rapidamente no Excel.",
+    "ranking_corporativo": 222
+  },
+  {
+    "atalho": "Alt + R + S + W",
+    "descricao": "Proteger pasta de trabalho",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + R + S + W permite executar a ação 'Proteger pasta de trabalho' rapidamente no Excel.",
+    "ranking_corporativo": 223
+  },
+  {
+    "atalho": "Alt + R + S + S",
+    "descricao": "Compartilhar pasta de trabalho",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + R + S + S permite executar a ação 'Compartilhar pasta de trabalho' rapidamente no Excel.",
+    "ranking_corporativo": 224
+  },
+  {
+    "atalho": "Alt + H + K",
+    "descricao": "Estilo de milhar",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + K permite executar a ação 'Estilo de milhar' rapidamente no Excel.",
+    "ranking_corporativo": 225
+  },
+  {
+    "atalho": "Alt + H + P",
+    "descricao": "Diminuir casas decimais",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + P permite executar a ação 'Diminuir casas decimais' rapidamente no Excel.",
+    "ranking_corporativo": 226
+  },
+  {
+    "atalho": "Alt + H + 0",
+    "descricao": "Aumentar casas decimais",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + 0 permite executar a ação 'Aumentar casas decimais' rapidamente no Excel.",
+    "ranking_corporativo": 227
+  },
+  {
+    "atalho": "Alt + H + 9",
+    "descricao": "Diminuir recuo",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + 9 permite executar a ação 'Diminuir recuo' rapidamente no Excel.",
+    "ranking_corporativo": 228
+  },
+  {
+    "atalho": "Alt + H + 6",
+    "descricao": "Aumentar recuo",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + 6 permite executar a ação 'Aumentar recuo' rapidamente no Excel.",
+    "ranking_corporativo": 229
+  },
+  {
+    "atalho": "Alt + H + L",
+    "descricao": "Formatação Condicional",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + L permite executar a ação 'Formatação Condicional' rapidamente no Excel.",
+    "ranking_corporativo": 230
+  },
+  {
+    "atalho": "Alt + H + L + H",
+    "descricao": "Nova regra de formatação condicional",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + L + H permite executar a ação 'Nova regra de formatação condicional' rapidamente no Excel.",
+    "ranking_corporativo": 231
+  },
+  {
+    "atalho": "Alt + H + L + C",
+    "descricao": "Limpar regras de formatação condicional",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + L + C permite executar a ação 'Limpar regras de formatação condicional' rapidamente no Excel.",
+    "ranking_corporativo": 232
+  },
+  {
+    "atalho": "Alt + H + L + R",
+    "descricao": "Gerenciar regras condicionais",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + L + R permite executar a ação 'Gerenciar regras condicionais' rapidamente no Excel.",
+    "ranking_corporativo": 233
+  },
+  {
+    "atalho": "Alt + H + L + D",
+    "descricao": "Realçar células com regras",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + L + D permite executar a ação 'Realçar células com regras' rapidamente no Excel.",
+    "ranking_corporativo": 234
+  },
+  {
+    "atalho": "Alt + H + L + T",
+    "descricao": "Barras de dados",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + L + T permite executar a ação 'Barras de dados' rapidamente no Excel.",
+    "ranking_corporativo": 235
+  },
+  {
+    "atalho": "Alt + H + L + S",
+    "descricao": "Escalas de cor",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + L + S permite executar a ação 'Escalas de cor' rapidamente no Excel.",
+    "ranking_corporativo": 236
+  },
+  {
+    "atalho": "Alt + H + L + I",
+    "descricao": "Conjuntos de ícones",
+    "categoria": "Formatação",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + L + I permite executar a ação 'Conjuntos de ícones' rapidamente no Excel.",
+    "ranking_corporativo": 237
+  },
+  {
+    "atalho": "Alt + H + S + S",
+    "descricao": "Classificar do menor para maior",
+    "categoria": "Dados",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + S + S permite executar a ação 'Classificar do menor para maior' rapidamente no Excel.",
+    "ranking_corporativo": 238
+  },
+  {
+    "atalho": "Alt + H + S + O",
+    "descricao": "Classificar do maior para o menor",
+    "categoria": "Dados",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + H + S + O permite executar a ação 'Classificar do maior para o menor' rapidamente no Excel.",
+    "ranking_corporativo": 239
+  },
+  {
+    "atalho": "Alt + J + T + I",
+    "descricao": "Atualizar tabela dinâmica",
+    "categoria": "Tabelas",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + J + T + I permite executar a ação 'Atualizar tabela dinâmica' rapidamente no Excel.",
+    "ranking_corporativo": 240
+  },
+  {
+    "atalho": "Alt + J + T + A",
+    "descricao": "Selecionar tudo na tabela dinâmica",
+    "categoria": "Tabelas",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + J + T + A permite executar a ação 'Selecionar tudo na tabela dinâmica' rapidamente no Excel.",
+    "ranking_corporativo": 241
+  },
+  {
+    "atalho": "Alt + J + T + C",
+    "descricao": "Campos de tabela dinâmica",
+    "categoria": "Tabelas",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + J + T + C permite executar a ação 'Campos de tabela dinâmica' rapidamente no Excel.",
+    "ranking_corporativo": 242
+  },
+  {
+    "atalho": "Alt + J + T + E",
+    "descricao": "Expandir campo na tabela dinâmica",
+    "categoria": "Tabelas",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + J + T + E permite executar a ação 'Expandir campo na tabela dinâmica' rapidamente no Excel.",
+    "ranking_corporativo": 243
+  },
+  {
+    "atalho": "Alt + J + T + P",
+    "descricao": "Recolher campo na tabela dinâmica",
+    "categoria": "Tabelas",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + J + T + P permite executar a ação 'Recolher campo na tabela dinâmica' rapidamente no Excel.",
+    "ranking_corporativo": 244
+  },
+  {
+    "atalho": "Alt + J + C + A",
+    "descricao": "Selecionar toda a tabela",
+    "categoria": "Tabelas",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + J + C + A permite executar a ação 'Selecionar toda a tabela' rapidamente no Excel.",
+    "ranking_corporativo": 245
+  },
+  {
+    "atalho": "Alt + J + C + H",
+    "descricao": "Linha de cabeçalho da tabela",
+    "categoria": "Tabelas",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + J + C + H permite executar a ação 'Linha de cabeçalho da tabela' rapidamente no Excel.",
+    "ranking_corporativo": 246
+  },
+  {
+    "atalho": "Alt + J + C + T",
+    "descricao": "Linha de totais da tabela",
+    "categoria": "Tabelas",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + J + C + T permite executar a ação 'Linha de totais da tabela' rapidamente no Excel.",
+    "ranking_corporativo": 247
+  },
+  {
+    "atalho": "Alt + J + A + T",
+    "descricao": "Adicionar título ao gráfico",
+    "categoria": "Gráficos",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + J + A + T permite executar a ação 'Adicionar título ao gráfico' rapidamente no Excel.",
+    "ranking_corporativo": 248
+  },
+  {
+    "atalho": "Alt + J + A + L",
+    "descricao": "Adicionar rótulos de dados ao gráfico",
+    "categoria": "Gráficos",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + J + A + L permite executar a ação 'Adicionar rótulos de dados ao gráfico' rapidamente no Excel.",
+    "ranking_corporativo": 249
+  },
+  {
+    "atalho": "Alt + J + A + E",
+    "descricao": "Adicionar barras de erros ao gráfico",
+    "categoria": "Gráficos",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + J + A + E permite executar a ação 'Adicionar barras de erros ao gráfico' rapidamente no Excel.",
+    "ranking_corporativo": 250
+  },
+  {
+    "atalho": "Alt + J + A + G",
+    "descricao": "Adicionar linhas de grade ao gráfico",
+    "categoria": "Gráficos",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + J + A + G permite executar a ação 'Adicionar linhas de grade ao gráfico' rapidamente no Excel.",
+    "ranking_corporativo": 251
+  },
+  {
+    "atalho": "Alt + N + Z",
+    "descricao": "Inserir Caixa de Seleção (Checkbox)",
+    "categoria": "Edição",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + N + Z permite executar a ação 'Inserir Caixa de Seleção (Checkbox)' rapidamente no Excel.",
+    "ranking_corporativo": 252
+  },
+  {
+    "atalho": "Alt + N + O",
+    "descricao": "Inserir Objeto OLE",
+    "categoria": "Edição",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + N + O permite executar a ação 'Inserir Objeto OLE' rapidamente no Excel.",
+    "ranking_corporativo": 253
+  },
+  {
+    "atalho": "Alt + N + E",
+    "descricao": "Inserir equação matemática",
+    "categoria": "Edição",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + N + E permite executar a ação 'Inserir equação matemática' rapidamente no Excel.",
+    "ranking_corporativo": 254
+  },
+  {
+    "atalho": "Alt + N + W",
+    "descricao": "Inserir WordArt",
+    "categoria": "Edição",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + N + W permite executar a ação 'Inserir WordArt' rapidamente no Excel.",
+    "ranking_corporativo": 255
+  },
+  {
+    "atalho": "Alt + N + K",
+    "descricao": "Inserir SmartArt",
+    "categoria": "Edição",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + N + K permite executar a ação 'Inserir SmartArt' rapidamente no Excel.",
+    "ranking_corporativo": 256
+  },
+  {
+    "atalho": "Alt + N + D",
+    "descricao": "Inserir Ícone",
+    "categoria": "Edição",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + N + D permite executar a ação 'Inserir Ícone' rapidamente no Excel.",
+    "ranking_corporativo": 257
+  },
+  {
+    "atalho": "Alt + N + M",
+    "descricao": "Inserir modelo 3D",
+    "categoria": "Edição",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + N + M permite executar a ação 'Inserir modelo 3D' rapidamente no Excel.",
+    "ranking_corporativo": 258
+  },
+  {
+    "atalho": "Alt + N + G",
+    "descricao": "Inserir Gráfico de Mapa",
+    "categoria": "Gráficos",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + N + G permite executar a ação 'Inserir Gráfico de Mapa' rapidamente no Excel.",
+    "ranking_corporativo": 259
+  },
+  {
+    "atalho": "Alt + N + R",
+    "descricao": "Inserir Gráfico de Radar",
+    "categoria": "Gráficos",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + N + R permite executar a ação 'Inserir Gráfico de Radar' rapidamente no Excel.",
+    "ranking_corporativo": 260
+  },
+  {
+    "atalho": "Alt + N + U",
+    "descricao": "Inserir Gráfico de Rosca",
+    "categoria": "Gráficos",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + N + U permite executar a ação 'Inserir Gráfico de Rosca' rapidamente no Excel.",
+    "ranking_corporativo": 261
+  },
+  {
+    "atalho": "Alt + N + Y + 1",
+    "descricao": "Inserir Gráfico de Área",
+    "categoria": "Gráficos",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + N + Y + 1 permite executar a ação 'Inserir Gráfico de Área' rapidamente no Excel.",
+    "ranking_corporativo": 262
+  },
+  {
+    "atalho": "Alt + P + M",
+    "descricao": "Abrir margens de impressão",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + P + M permite executar a ação 'Abrir margens de impressão' rapidamente no Excel.",
+    "ranking_corporativo": 263
+  },
+  {
+    "atalho": "Alt + P + O",
+    "descricao": "Orientação da página",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + P + O permite executar a ação 'Orientação da página' rapidamente no Excel.",
+    "ranking_corporativo": 264
+  },
+  {
+    "atalho": "Alt + P + S + Z",
+    "descricao": "Ajustar tamanho do papel",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + P + S + Z permite executar a ação 'Ajustar tamanho do papel' rapidamente no Excel.",
+    "ranking_corporativo": 265
+  },
+  {
+    "atalho": "Alt + P + A",
+    "descricao": "Área de impressão",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + P + A permite executar a ação 'Área de impressão' rapidamente no Excel.",
+    "ranking_corporativo": 266
+  },
+  {
+    "atalho": "Alt + P + B + I",
+    "descricao": "Inserir quebra de página",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + P + B + I permite executar a ação 'Inserir quebra de página' rapidamente no Excel.",
+    "ranking_corporativo": 267
+  },
+  {
+    "atalho": "Alt + P + B + R",
+    "descricao": "Remover quebras de página",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + P + B + R permite executar a ação 'Remover quebras de página' rapidamente no Excel.",
+    "ranking_corporativo": 268
+  },
+  {
+    "atalho": "Alt + P + I",
+    "descricao": "Imprimir títulos de linha/coluna",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + P + I permite executar a ação 'Imprimir títulos de linha/coluna' rapidamente no Excel.",
+    "ranking_corporativo": 269
+  },
+  {
+    "atalho": "Alt + P + G",
+    "descricao": "Grade de impressão",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + P + G permite executar a ação 'Grade de impressão' rapidamente no Excel.",
+    "ranking_corporativo": 270
+  },
+  {
+    "atalho": "Alt + P + H",
+    "descricao": "Títulos de linha e coluna na impressão",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + P + H permite executar a ação 'Títulos de linha e coluna na impressão' rapidamente no Excel.",
+    "ranking_corporativo": 271
+  },
+  {
+    "atalho": "Ctrl + Alt + E",
+    "descricao": "Abrir Power Query Editor",
+    "categoria": "Power Query",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + E permite executar a ação 'Abrir Power Query Editor' rapidamente no Excel.",
+    "ranking_corporativo": 272
+  },
+  {
+    "atalho": "Ctrl + Alt + R",
+    "descricao": "Atualizar consulta Power Query",
+    "categoria": "Power Query",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + R permite executar a ação 'Atualizar consulta Power Query' rapidamente no Excel.",
+    "ranking_corporativo": 273
+  },
+  {
+    "atalho": "Ctrl + Alt + G",
+    "descricao": "Gerenciar consultas Power Query",
+    "categoria": "Power Query",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + G permite executar a ação 'Gerenciar consultas Power Query' rapidamente no Excel.",
+    "ranking_corporativo": 274
+  },
+  {
+    "atalho": "Ctrl + Alt + M",
+    "descricao": "Mesclar consultas no Power Query",
+    "categoria": "Power Query",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + M permite executar a ação 'Mesclar consultas no Power Query' rapidamente no Excel.",
+    "ranking_corporativo": 275
+  },
+  {
+    "atalho": "Ctrl + Alt + A",
+    "descricao": "Acrescentar consultas no Power Query",
+    "categoria": "Power Query",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + A permite executar a ação 'Acrescentar consultas no Power Query' rapidamente no Excel.",
+    "ranking_corporativo": 276
+  },
+  {
+    "atalho": "Ctrl + Alt + Shift + P",
+    "descricao": "Gerar relatório de Power Pivot",
+    "categoria": "Power Query",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + Shift + P permite executar a ação 'Gerar relatório de Power Pivot' rapidamente no Excel.",
+    "ranking_corporativo": 277
+  },
+  {
+    "atalho": "Ctrl + Alt + Shift + Q",
+    "descricao": "Abrir editor de consultas M",
+    "categoria": "Power Query",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + Shift + Q permite executar a ação 'Abrir editor de consultas M' rapidamente no Excel.",
+    "ranking_corporativo": 278
+  },
+  {
+    "atalho": "Ctrl + Alt + Shift + L",
+    "descricao": "Carregar para tabela/modelo",
+    "categoria": "Power Query",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + Shift + L permite executar a ação 'Carregar para tabela/modelo' rapidamente no Excel.",
+    "ranking_corporativo": 279
+  },
+  {
+    "atalho": "Ctrl + Alt + Shift + W",
+    "descricao": "Agrupar por nível no Power Query",
+    "categoria": "Power Query",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + Shift + W permite executar a ação 'Agrupar por nível no Power Query' rapidamente no Excel.",
+    "ranking_corporativo": 280
+  },
+  {
+    "atalho": "Ctrl + Alt + Shift + X",
+    "descricao": "Expandir coluna de registros",
+    "categoria": "Power Query",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + Shift + X permite executar a ação 'Expandir coluna de registros' rapidamente no Excel.",
+    "ranking_corporativo": 281
+  },
+  {
+    "atalho": "Ctrl + Alt + Shift + Z",
+    "descricao": "Desfazer etapa no Power Query",
+    "categoria": "Power Query",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + Shift + Z permite executar a ação 'Desfazer etapa no Power Query' rapidamente no Excel.",
+    "ranking_corporativo": 282
+  },
+  {
+    "atalho": "Ctrl + Alt + Shift + S",
+    "descricao": "Salvar e atualizar modelo de dados",
+    "categoria": "Power Query",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + Shift + S permite executar a ação 'Salvar e atualizar modelo de dados' rapidamente no Excel.",
+    "ranking_corporativo": 283
+  },
+  {
+    "atalho": "Ctrl + Alt + Shift + D",
+    "descricao": "Duplicar consulta Power Query",
+    "categoria": "Power Query",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + Shift + D permite executar a ação 'Duplicar consulta Power Query' rapidamente no Excel.",
+    "ranking_corporativo": 284
+  },
+  {
+    "atalho": "Ctrl + Alt + Shift + I",
+    "descricao": "Consulta de referência Power Query",
+    "categoria": "Power Query",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + Shift + I permite executar a ação 'Consulta de referência Power Query' rapidamente no Excel.",
+    "ranking_corporativo": 285
+  },
+  {
+    "atalho": "Ctrl + Alt + Shift + J",
+    "descricao": "Junção de consultas (Join)",
+    "categoria": "Power Query",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + Shift + J permite executar a ação 'Junção de consultas (Join)' rapidamente no Excel.",
+    "ranking_corporativo": 286
+  },
+  {
+    "atalho": "Ctrl + Alt + Shift + Y",
+    "descricao": "Acrescentar consultas (Append)",
+    "categoria": "Power Query",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + Shift + Y permite executar a ação 'Acrescentar consultas (Append)' rapidamente no Excel.",
+    "ranking_corporativo": 287
+  },
+  {
+    "atalho": "Ctrl + Alt + F11",
+    "descricao": "Abrir editor Power Query Avançado",
+    "categoria": "Power Query",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + F11 permite executar a ação 'Abrir editor Power Query Avançado' rapidamente no Excel.",
+    "ranking_corporativo": 288
+  },
+  {
+    "atalho": "Ctrl + Alt + F12",
+    "descricao": "Publicar no Power BI",
+    "categoria": "Power Query",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + F12 permite executar a ação 'Publicar no Power BI' rapidamente no Excel.",
+    "ranking_corporativo": 289
+  },
+  {
+    "atalho": "Ctrl + [",
+    "descricao": "Selecionar precedentes diretos",
+    "categoria": "Auditoria",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + [ permite executar a ação 'Selecionar precedentes diretos' rapidamente no Excel.",
+    "ranking_corporativo": 290
+  },
+  {
+    "atalho": "Ctrl + ]",
+    "descricao": "Selecionar dependentes diretos",
+    "categoria": "Auditoria",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + ] permite executar a ação 'Selecionar dependentes diretos' rapidamente no Excel.",
+    "ranking_corporativo": 291
+  },
+  {
+    "atalho": "Ctrl + Shift + {",
+    "descricao": "Selecionar todos os precedentes",
+    "categoria": "Auditoria",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Shift + { permite executar a ação 'Selecionar todos os precedentes' rapidamente no Excel.",
+    "ranking_corporativo": 292
+  },
+  {
+    "atalho": "Ctrl + Shift + }",
+    "descricao": "Selecionar todos os dependentes",
+    "categoria": "Auditoria",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Shift + } permite executar a ação 'Selecionar todos os dependentes' rapidamente no Excel.",
+    "ranking_corporativo": 293
+  },
+  {
+    "atalho": "F9 (dentro de fórmula)",
+    "descricao": "Calcular parte selecionada da fórmula",
+    "categoria": "Fórmulas",
+    "nivel": "Power User",
+    "explicacao": "O atalho F9 (dentro de fórmula) permite executar a ação 'Calcular parte selecionada da fórmula' rapidamente no Excel.",
+    "ranking_corporativo": 294
+  },
+  {
+    "atalho": "Ctrl + Shift + F3 (bis)",
+    "descricao": "Criar nome a partir de seleção",
+    "categoria": "Fórmulas",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Shift + F3 (bis) permite executar a ação 'Criar nome a partir de seleção' rapidamente no Excel.",
+    "ranking_corporativo": 295
+  },
+  {
+    "atalho": "Scroll Lock + Home",
+    "descricao": "Ir para canto superior esquerdo da tela",
+    "categoria": "Navegação",
+    "nivel": "Power User",
+    "explicacao": "O atalho Scroll Lock + Home permite executar a ação 'Ir para canto superior esquerdo da tela' rapidamente no Excel.",
+    "ranking_corporativo": 296
+  },
+  {
+    "atalho": "Scroll Lock + End",
+    "descricao": "Ir para canto inferior direito da tela",
+    "categoria": "Navegação",
+    "nivel": "Power User",
+    "explicacao": "O atalho Scroll Lock + End permite executar a ação 'Ir para canto inferior direito da tela' rapidamente no Excel.",
+    "ranking_corporativo": 297
+  },
+  {
+    "atalho": "Ctrl + Alt + F1",
+    "descricao": "Alternar grade de células",
+    "categoria": "Formatação",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + F1 permite executar a ação 'Alternar grade de células' rapidamente no Excel.",
+    "ranking_corporativo": 298
+  },
+  {
+    "atalho": "Ctrl + Alt + F2",
+    "descricao": "Abrir painel de atividade",
+    "categoria": "Produtividade",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + F2 permite executar a ação 'Abrir painel de atividade' rapidamente no Excel.",
+    "ranking_corporativo": 299
+  },
+  {
+    "atalho": "Ctrl + Alt + F4",
+    "descricao": "Fechar todas as pastas abertas",
+    "categoria": "Produtividade",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + F4 permite executar a ação 'Fechar todas as pastas abertas' rapidamente no Excel.",
+    "ranking_corporativo": 300
+  },
+  {
+    "atalho": "Ctrl + Alt + F7",
+    "descricao": "Verificar compatibilidade",
+    "categoria": "Auditoria",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + F7 permite executar a ação 'Verificar compatibilidade' rapidamente no Excel.",
+    "ranking_corporativo": 301
+  },
+  {
+    "atalho": "Ctrl + Alt + F8",
+    "descricao": "Executar macro com argumentos",
+    "categoria": "Produtividade",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + F8 permite executar a ação 'Executar macro com argumentos' rapidamente no Excel.",
+    "ranking_corporativo": 302
+  },
+  {
+    "atalho": "Ctrl + Alt + F10",
+    "descricao": "Navegar pelo painel de tarefas",
+    "categoria": "Produtividade",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + F10 permite executar a ação 'Navegar pelo painel de tarefas' rapidamente no Excel.",
+    "ranking_corporativo": 303
+  },
+  {
+    "atalho": "Alt + Shift + F1",
+    "descricao": "Inserir nova planilha (alternativo)",
+    "categoria": "Planilhas",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + Shift + F1 permite executar a ação 'Inserir nova planilha (alternativo)' rapidamente no Excel.",
+    "ranking_corporativo": 304
+  },
+  {
+    "atalho": "Ctrl + Alt + Page Down",
+    "descricao": "Próxima aba de planilha (alternativo)",
+    "categoria": "Planilhas",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + Page Down permite executar a ação 'Próxima aba de planilha (alternativo)' rapidamente no Excel.",
+    "ranking_corporativo": 305
+  },
+  {
+    "atalho": "Ctrl + Alt + Page Up",
+    "descricao": "Aba anterior de planilha (alternativo)",
+    "categoria": "Planilhas",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + Page Up permite executar a ação 'Aba anterior de planilha (alternativo)' rapidamente no Excel.",
+    "ranking_corporativo": 306
+  },
+  {
+    "atalho": "Alt + Shift + E",
+    "descricao": "Exportar planilha para PDF",
+    "categoria": "Produtividade",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + Shift + E permite executar a ação 'Exportar planilha para PDF' rapidamente no Excel.",
+    "ranking_corporativo": 307
+  },
+  {
+    "atalho": "Alt + Shift + I",
+    "descricao": "Importar dados de texto (assistente)",
+    "categoria": "Dados",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + Shift + I permite executar a ação 'Importar dados de texto (assistente)' rapidamente no Excel.",
+    "ranking_corporativo": 308
+  },
+  {
+    "atalho": "Alt + Shift + P",
+    "descricao": "Abrir parâmetros de conexão de dados",
+    "categoria": "Dados",
+    "nivel": "Power User",
+    "explicacao": "O atalho Alt + Shift + P permite executar a ação 'Abrir parâmetros de conexão de dados' rapidamente no Excel.",
+    "ranking_corporativo": 309
+  },
+  {
+    "atalho": "Ctrl + Alt + Shift + T",
+    "descricao": "Transpor dados colados",
+    "categoria": "Edição",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + Shift + T permite executar a ação 'Transpor dados colados' rapidamente no Excel.",
+    "ranking_corporativo": 310
+  },
+  {
+    "atalho": "Ctrl + Shift + G",
+    "descricao": "Abrir estatísticas da pasta de trabalho",
+    "categoria": "Produtividade",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Shift + G permite executar a ação 'Abrir estatísticas da pasta de trabalho' rapidamente no Excel.",
+    "ranking_corporativo": 311
+  },
+  {
+    "atalho": "Ctrl + Shift + I",
+    "descricao": "Inspecionar pasta de trabalho",
+    "categoria": "Auditoria",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Shift + I permite executar a ação 'Inspecionar pasta de trabalho' rapidamente no Excel.",
+    "ranking_corporativo": 312
+  },
+  {
+    "atalho": "Ctrl + Shift + M",
+    "descricao": "Inserir comentário encadeado",
+    "categoria": "Edição",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + M permite executar a ação 'Inserir comentário encadeado' rapidamente no Excel.",
+    "ranking_corporativo": 313
+  },
+  {
+    "atalho": "Ctrl + Shift + T",
+    "descricao": "Adicionar linha de totais à tabela",
+    "categoria": "Tabelas",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Ctrl + Shift + T permite executar a ação 'Adicionar linha de totais à tabela' rapidamente no Excel.",
+    "ranking_corporativo": 314
+  },
+  {
+    "atalho": "Alt + Shift + Page Down",
+    "descricao": "Selecionar até o fim da página",
+    "categoria": "Seleção",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + Shift + Page Down permite executar a ação 'Selecionar até o fim da página' rapidamente no Excel.",
+    "ranking_corporativo": 315
+  },
+  {
+    "atalho": "Alt + Shift + Page Up",
+    "descricao": "Selecionar até o início da página",
+    "categoria": "Seleção",
+    "nivel": "Avançado",
+    "explicacao": "O atalho Alt + Shift + Page Up permite executar a ação 'Selecionar até o início da página' rapidamente no Excel.",
+    "ranking_corporativo": 316
+  },
+  {
+    "atalho": "Ctrl + Shift + F5",
+    "descricao": "Ir para e selecionar tipo de célula",
+    "categoria": "Seleção",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Shift + F5 permite executar a ação 'Ir para e selecionar tipo de célula' rapidamente no Excel.",
+    "ranking_corporativo": 317
+  },
+  {
+    "atalho": "Ctrl + Alt + Shift + G",
+    "descricao": "Ir para especial",
+    "categoria": "Seleção",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + Shift + G permite executar a ação 'Ir para especial' rapidamente no Excel.",
+    "ranking_corporativo": 318
+  },
+  {
+    "atalho": "Ctrl + Alt + Shift + K",
+    "descricao": "Selecionar células com constantes",
+    "categoria": "Seleção",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + Shift + K permite executar a ação 'Selecionar células com constantes' rapidamente no Excel.",
+    "ranking_corporativo": 319
+  },
+  {
+    "atalho": "Ctrl + Alt + Shift + M",
+    "descricao": "Selecionar células com fórmulas",
+    "categoria": "Seleção",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + Shift + M permite executar a ação 'Selecionar células com fórmulas' rapidamente no Excel.",
+    "ranking_corporativo": 320
+  },
+  {
+    "atalho": "Ctrl + Alt + Shift + O",
+    "descricao": "Selecionar células em branco",
+    "categoria": "Seleção",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + Shift + O permite executar a ação 'Selecionar células em branco' rapidamente no Excel.",
+    "ranking_corporativo": 321
+  },
+  {
+    "atalho": "Ctrl + Alt + Shift + U",
+    "descricao": "Selecionar região atual",
+    "categoria": "Seleção",
+    "nivel": "Power User",
+    "explicacao": "O atalho Ctrl + Alt + Shift + U permite executar a ação 'Selecionar região atual' rapidamente no Excel.",
+    "ranking_corporativo": 322
+  }
+]
