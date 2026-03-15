@@ -669,7 +669,7 @@ with col2:
     st.markdown(f'<h3 style="text-align:center;color:#21a366;font-family:Syne,sans-serif;">Jornada de Maestria — {level_info["title"]}</h3>', unsafe_allow_html=True)
 
 # ── TABS ──────────────────────────────────────────────────────────────────────
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["📚 Práticas", "🎯 Quiz", "🏆 Desafios", "🎖️ Badges", "📊 Perfil"])
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📚 Práticas", "🎯 Quiz", "🏆 Desafios", "🎖️ Badges", "📊 Perfil", "🖥️ Planilha Virtual"])
 
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 1: PRÁTICAS
@@ -936,3 +936,35 @@ with tab5:
     4. **Marcar Aprendidas:** +25 XP cada
     5. **Meta:** Chegue ao nível Elite em 30 dias!
     """)
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 6: PLANILHA VIRTUAL
+# ══════════════════════════════════════════════════════════════════════════════
+with tab6:
+    st.markdown('<h3 class="section-header">🖥️ Planilha Virtual Interativa</h3>', unsafe_allow_html=True)
+    st.markdown(
+        "Treine fórmulas diretamente na planilha abaixo — com autocomplete, desafios guiados e validação de respostas.",
+        unsafe_allow_html=False
+    )
+    st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
+
+    html_path = "Views/excel-treino.html"
+    try:
+        with open(html_path, "r", encoding="utf-8") as f:
+            html_content = f.read()
+        components.html(html_content, height=820, scrolling=False)
+    except FileNotFoundError:
+        st.markdown("""
+        <div style="
+            background: rgba(239,68,68,0.08);
+            border: 1px solid rgba(239,68,68,0.25);
+            border-radius: 12px;
+            padding: 20px 24px;
+            color: #ff6b6b;
+            font-size: 0.9rem;
+        ">
+            ⚠️ <strong>Arquivo não encontrado:</strong> <code>Views/excel-treino.html</code><br><br>
+            Certifique-se de que o arquivo <code>excel-treino.html</code> está dentro da pasta <code>Views/</code>
+            no seu repositório.
+        </div>
+        """, unsafe_allow_html=True)
