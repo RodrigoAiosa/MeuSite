@@ -948,7 +948,7 @@ with tab6:
     )
     st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
 
-    html_path = "Views/excel-treino.html"
+    html_path = "Views/curso_excel.html"
     try:
         with open(html_path, "r", encoding="utf-8") as f:
             html_content = f.read()
@@ -963,8 +963,8 @@ with tab6:
             color: #ff6b6b;
             font-size: 0.9rem;
         ">
-            ⚠️ <strong>Arquivo não encontrado:</strong> <code>Views/excel-treino.html</code><br><br>
-            Certifique-se de que o arquivo <code>excel-treino.html</code> está dentro da pasta <code>Views/</code>
+            ⚠️ <strong>Arquivo não encontrado:</strong> <code>Views/curso_excel.html</code><br><br>
+            Certifique-se de que o arquivo <code>curso_excel.html</code> está dentro da pasta <code>Views/</code>
             no seu repositório.
         </div>
         """, unsafe_allow_html=True)
