@@ -87,7 +87,7 @@ contato = st.Page(page="Views/contato.py", title="Contato", icon="📧")
 AIOSAIA = st.Page(page="Views/AIosa_IA.py", title="AIOSA IA", icon="⚛️")
 escola_sql = st.Page(page="Views/escola_sql.py", title="Escola SQL", icon="⚛️")
 escola_python = st.Page(page="Views/escola_python.py", title="Escola Python", icon="⚛️")
-escola_excel = st.Page(page="Views/escola_python.py", title="Escola Excel", icon="⚛️")
+escola_excel = st.Page(page="Views/escola_excel.py", title="Escola Excel", icon="⚛️")
 #curso_sql = st.Page(page="Views/curso_sql.py", title="Curso SQL gratuíto", icon="📋")
 
 
