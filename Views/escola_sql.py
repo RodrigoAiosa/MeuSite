@@ -1,821 +1,1363 @@
-import streamlit as st
-import json
-from datetime import datetime, timedelta
-import pandas as pd
-import sqlite3
-from io import StringIO
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                           SQL ACADEMY - TRAINING PLATFORM                      ║
+║                                                                                ║
+║  Uma plataforma profissional de treinamento em SQL com 3 níveis de             ║
+║  dificuldade, quiz interativo, sistema de progressão e resultado final.        ║
+║  Inclui seção de SQL em Libras para acessibilidade.                            ║
+║                                                                                ║
+║  Author: SQL Academy Team                                                      ║
+║  Version: 2.0.0                                                                ║
+║  License: MIT                                                                  ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+"""
 
-# --- CONFIGURAÇÃO DE PÁGINA ---
+import streamlit as st
+from datetime import datetime
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# CONFIGURAÇÃO DA PÁGINA
+# ═══════════════════════════════════════════════════════════════════════════════
+
 st.set_page_config(
-    page_title="SQL - Melhores Práticas Pro | Rodrigo Aiosa",
-    page_icon="🗄️",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    page_title="SQL Academy - Treinamento em SQL",
+    page_icon="🎓",
+    layout="centered",
+    initial_sidebar_state="collapsed"
 )
 
-# --- INICIALIZAR SESSION STATE ---
-if 'favorites' not in st.session_state:
-    st.session_state.favorites = set()
-if 'learned' not in st.session_state:
-    st.session_state.learned = set()
-if 'notes' not in st.session_state:
-    st.session_state.notes = {}
-if 'search_query' not in st.session_state:
-    st.session_state.search_query = ""
-if 'user_points' not in st.session_state:
-    st.session_state.user_points = 0
-if 'challenges_completed' not in st.session_state:
-    st.session_state.challenges_completed = set()
-if 'daily_streak' not in st.session_state:
-    st.session_state.daily_streak = 1
-if 'current_menu' not in st.session_state:
-    st.session_state.current_menu = "📖 Todas as Práticas"
-if 'page' not in st.session_state:
-    st.session_state.page = 0
-if 'selected_category' not in st.session_state:
-    st.session_state.selected_category = "Todas"
-if 'selected_difficulty' not in st.session_state:
-    st.session_state.selected_difficulty = "Todas"
+# ═══════════════════════════════════════════════════════════════════════════════
+# CSS CUSTOMIZADO
+# ═══════════════════════════════════════════════════════════════════════════════
 
-# --- INICIALIZAR DATABASE EM MEMÓRIA ---
-def init_database():
-    conn = sqlite3.connect(':memory:', check_same_thread=False)
-    usuarios_df = pd.DataFrame({
-        'id': [1, 2, 3, 4, 5],
-        'nome': ['Alice Silva', 'Bob Santos', 'Carlos Oliveira', 'Diana Costa', 'Eduardo Pereira'],
-        'email': ['alice@gmail.com', 'bob@gmail.com', 'carlos@hotmail.com', 'diana@gmail.com', 'edu@outlook.com'],
-        'ativo': [True, True, False, True, True],
-        'created_at': ['2023-01-15', '2023-02-20', '2023-03-10', '2023-04-05', '2023-05-12'],
-        'categoria': ['Premium', 'Standard', 'Premium', 'Free', 'Standard']
-    })
-    usuarios_df.to_sql('usuarios', conn, index=False, if_exists='replace')
-    vendas_df = pd.DataFrame({
-        'id': [1, 2, 3, 4, 5, 6],
-        'usuario_id': [1, 2, 1, 3, 2, 5],
-        'valor': [150.00, 200.00, 75.50, 300.00, 120.00, 450.00],
-        'status': ['pago', 'pago', 'pendente', 'pago', 'cancelado', 'pago'],
-        'data': ['2024-01-10', '2024-01-15', '2024-02-01', '2024-02-10', '2024-02-15', '2024-03-01']
-    })
-    vendas_df.to_sql('vendas', conn, index=False, if_exists='replace')
-    produtos_df = pd.DataFrame({
-        'id': [1, 2, 3, 4],
-        'nome': ['Produto A', 'Produto B', 'Produto C', 'Produto D'],
-        'categoria': ['Eletrônicos', 'Eletrônicos', 'Livros', 'Livros'],
-        'preco': [99.99, 199.99, 29.99, 49.99]
-    })
-    produtos_df.to_sql('produtos', conn, index=False, if_exists='replace')
-    return conn
-
-def execute_query(query):
-    try:
-        query = query.strip()
-        if not query:
-            return None, "❌ Escreva uma query SQL primeiro!"
-        conn = init_database()
-        df = pd.read_sql_query(query, conn)
-        conn.close()
-        return df, f"✅ Query executada com sucesso! {len(df)} registros retornados."
-    except sqlite3.OperationalError as e:
-        return None, f"❌ Erro SQL: {str(e)}"
-    except Exception as e:
-        return None, f"❌ Erro: {str(e)}"
-
-# ── DESIGN (Python Pro palette) ──
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500&display=swap');
+    
+    * {
+        font-family: 'Lora', serif;
+    }
+    
+    .playfair {
+        font-family: 'Playfair Display', serif;
+    }
+    
+    body {
+        background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0c4a6e 100%);
+    }
+    
+    .main {
+        padding-top: 2rem;
+    }
+    
+    /* Estilos de Título Principal */
+    .main-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 3rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #fbbf24 0%, #fcd34d 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .subtitle {
+        text-align: center;
+        color: #93c5fd;
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+    }
+    
+    /* Cards de Nível */
+    .level-card {
+        padding: 2rem;
+        border-radius: 1rem;
+        border: 2px solid rgba(251, 191, 36, 0.3);
+        text-align: center;
+        transition: all 0.3s ease;
+        background: rgba(30, 58, 138, 0.2);
+        margin: 1rem 0;
+    }
+    
+    .level-card:hover {
+        border-color: #fbbf24;
+        background: rgba(30, 58, 138, 0.3);
+        transform: translateY(-5px);
+    }
+    
+    .level-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .level-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: #fcd34d;
+    }
+    
+    .level-desc {
+        color: #93c5fd;
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+    }
+    
+    /* Explicação */
+    .explanation-box {
+        background: rgba(30, 58, 138, 0.3);
+        border-left: 4px solid #fbbf24;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .explanation-title {
+        font-family: 'Playfair Display', serif;
+        color: #fcd34d;
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    
+    .explanation-text {
+        color: #93c5fd;
+        line-height: 1.6;
+    }
+    
+    /* Progresso */
+    .progress-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        color: #93c5fd;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+    
+    /* Resultado */
+    .result-box {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 1rem;
+        padding: 2rem;
+        text-align: center;
+        margin: 2rem 0;
+    }
+    
+    .result-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        animation: bounce 0.6s ease;
+    }
+    
+    .result-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 2rem;
+        color: white;
+        margin-bottom: 1rem;
+        font-weight: 700;
+    }
+    
+    .result-score {
+        font-size: 3rem;
+        color: #fcd34d;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    
+    .result-percentage {
+        font-size: 1.5rem;
+        color: #93c5fd;
+        margin-bottom: 1.5rem;
+    }
+    
+    .result-details {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: 0.5rem;
+        padding: 1rem;
+        color: #93c5fd;
+    }
+    
+    .result-details p {
+        margin: 0.5rem 0;
+    }
+    
+    .stButton > button {
+        width: 100%;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        font-family: 'Lora', serif;
+        transition: all 0.3s ease;
+        border: none;
+        font-size: 1rem;
+    }
+    
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+    }
 
-*, *::before, *::after { box-sizing: border-box; }
+    /* ═══════════════════════════════════
+       ESTILOS DA SEÇÃO LIBRAS
+    ═══════════════════════════════════ */
 
-html, body, .main, [data-testid="stAppViewContainer"] {
-    background-color: #0a0e27 !important;
-}
+    .libras-header {
+        background: linear-gradient(135deg, #1e3a8a 0%, #0c4a6e 100%);
+        border: 2px solid rgba(251,191,36,0.4);
+        border-radius: 1.2rem;
+        padding: 2rem;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
 
-[data-testid="stAppViewContainer"] {
-    background-image:
-        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(139,92,246,0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 40% 30% at 80% 60%, rgba(59,130,246,0.08) 0%, transparent 50%);
-}
+    .libras-header-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 2rem;
+        font-weight: 700;
+        color: #fcd34d;
+        margin-bottom: 0.4rem;
+    }
 
-[data-testid="stHeader"] { background: transparent !important; }
+    .libras-header-sub {
+        color: #93c5fd;
+        font-size: 1rem;
+    }
 
-.main h1, .main h2, .main h3, .main h4,
-.main p, .main a, .main li,
-[data-testid="stAppViewContainer"] div:not([data-testid="stSidebar"]) {
-    font-family: 'DM Sans', sans-serif !important;
-}
+    /* Card de conceito Libras */
+    .libras-card {
+        background: rgba(30, 58, 138, 0.25);
+        border: 2px solid rgba(251,191,36,0.2);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        transition: border-color 0.3s;
+    }
 
-.material-symbols-rounded,
-.material-icons,
-[data-testid*="Collapse"] span,
-[data-testid*="collapse"] span {
-    font-family: 'Material Symbols Rounded', 'Material Icons' !important;
-}
+    .libras-card:hover {
+        border-color: rgba(251,191,36,0.7);
+    }
 
-[data-testid="stMarkdownContainer"] { width: 100% !important; }
-.block-container {
-    max-width: 100% !important;
-    padding-left: 4rem !important;
-    padding-right: 4rem !important;
-}
+    .libras-card-title {
+        font-family: 'Playfair Display', serif;
+        color: #fcd34d;
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
 
-/* ── HERO ── */
-.hero-wrapper {
-    text-align: center;
-    padding: 80px 20px 50px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+    .libras-card-desc {
+        color: #93c5fd;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
 
-.hero-badge {
-    display: inline-block;
-    font-family: 'Syne', sans-serif !important;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #a78bfa;
-    border: 1px solid rgba(167,139,250,0.35);
-    background: rgba(167,139,250,0.07);
-    padding: 6px 18px;
-    border-radius: 100px;
-    margin-bottom: 28px;
-}
+    /* Avatar animado SVG */
+    .avatar-stage {
+        background: rgba(15, 23, 42, 0.6);
+        border-radius: 0.8rem;
+        padding: 1.2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem;
+        border: 1px solid rgba(251,191,36,0.15);
+    }
 
-.hero-title {
-    font-family: 'Syne', sans-serif !important;
-    font-size: clamp(2.4rem, 5vw, 4rem);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -1.5px;
-    color: #f0f4ff;
-    margin: 0 auto 20px;
-    max-width: 760px;
-    text-align: center;
-}
+    .avatar-label {
+        color: #fcd34d;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-align: center;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
 
-.hero-title .accent {
-    background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 50%, #c4b5fd 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
+    .handshape-grid {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 0.5rem;
+    }
 
-.hero-subtitle {
-    font-size: 1.05rem;
-    font-weight: 300;
-    color: #7b8ba8;
-    max-width: 560px;
-    margin: 0 auto 48px;
-    line-height: 1.7;
-    text-align: center;
-}
+    .handshape-item {
+        background: rgba(251,191,36,0.1);
+        border: 1px solid rgba(251,191,36,0.3);
+        border-radius: 0.5rem;
+        padding: 0.5rem 0.8rem;
+        text-align: center;
+        font-size: 0.8rem;
+        color: #e2e8f0;
+    }
 
-.hero-stats {
-    display: flex;
-    justify-content: center;
-    gap: 48px;
-    flex-wrap: wrap;
-    margin-bottom: 60px;
-}
+    .handshape-item span {
+        display: block;
+        font-size: 1.8rem;
+        margin-bottom: 0.2rem;
+    }
 
-.hero-stat { text-align: center; }
+    .tip-box {
+        background: rgba(251,191,36,0.08);
+        border-left: 3px solid #fbbf24;
+        border-radius: 0.4rem;
+        padding: 0.8rem 1rem;
+        color: #fcd34d;
+        font-size: 0.88rem;
+        margin-top: 0.8rem;
+        line-height: 1.5;
+    }
 
-.hero-stat-number {
-    font-family: 'Syne', sans-serif !important;
-    font-size: 2rem;
-    font-weight: 800;
-    color: #a78bfa;
-    display: block;
-    line-height: 1;
-}
+    /* Navegação de conceitos */
+    .concept-nav {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.5rem;
+    }
 
-.hero-stat-label {
-    font-size: 0.78rem;
-    color: #4a5568;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-top: 6px;
-    display: block;
-}
+    .nav-pill {
+        background: rgba(30,58,138,0.4);
+        border: 1px solid rgba(251,191,36,0.25);
+        border-radius: 2rem;
+        padding: 0.4rem 1rem;
+        color: #93c5fd;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
 
-.hero-divider {
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto 60px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(167,139,250,0.3), transparent);
-}
+    .nav-pill.active {
+        background: rgba(251,191,36,0.2);
+        border-color: #fbbf24;
+        color: #fcd34d;
+        font-weight: 600;
+    }
 
-/* ── SECTION HEADERS ── */
-.section-header {
-    font-family: 'Syne', sans-serif !important;
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: #f0f4ff;
-    margin: 50px 0 28px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid rgba(167,139,250,0.2);
-    letter-spacing: -0.5px;
-    position: relative;
-}
+    .badge-accessibility {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: rgba(34,197,94,0.15);
+        border: 1px solid rgba(34,197,94,0.4);
+        border-radius: 2rem;
+        padding: 0.3rem 0.9rem;
+        color: #86efac;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
 
-.section-header::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    width: 48px;
-    height: 2px;
-    background: #a78bfa;
-}
-
-/* ── PROGRESS BAR ── */
-.progress-container {
-    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
-    border: 1px solid rgba(167,139,250,0.2);
-    border-radius: 20px;
-    padding: 28px 32px;
-    margin: 0 0 40px;
-}
-
-.progress-bar {
-    width: 100%;
-    height: 8px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 100px;
-    overflow: hidden;
-    margin: 12px 0;
-}
-
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #a78bfa, #7c3aed);
-    border-radius: 100px;
-    transition: width 0.4s ease;
-}
-
-/* ── STAT CARDS ── */
-.stat-card {
-    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
-    border: 1px solid rgba(167,139,250,0.2);
-    border-radius: 20px;
-    padding: 36px 28px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(167,139,250,0.5), transparent);
-    opacity: 0;
-    transition: opacity 0.35s ease;
-}
-
-.stat-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(167,139,250,0.4);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(167,139,250,0.1);
-}
-
-.stat-card:hover::before { opacity: 1; }
-
-.stat-number {
-    font-family: 'Syne', sans-serif !important;
-    font-size: 2.6rem;
-    font-weight: 800;
-    color: #a78bfa;
-    margin-bottom: 10px;
-    line-height: 1;
-}
-
-.stat-label {
-    font-family: 'Syne', sans-serif !important;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: #e2e8f0;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-.stat-sublabel {
-    font-size: 0.82rem;
-    color: #4a5568;
-    margin-top: 8px;
-    font-weight: 300;
-}
-
-/* ── FILTER / EDITOR SECTIONS ── */
-.filter-section,
-.editor-section {
-    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
-    border: 1px solid rgba(167,139,250,0.2);
-    border-radius: 20px;
-    padding: 30px 32px;
-    margin: 20px 0 32px;
-}
-
-.editor-title {
-    font-family: 'Syne', sans-serif !important;
-    font-size: 0.9rem;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: #a78bfa;
-    margin-bottom: 14px;
-}
-
-/* ── METRIC BOX ── */
-.metric-box {
-    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
-    border: 1px solid rgba(167,139,250,0.2);
-    border-radius: 16px;
-    padding: 22px;
-    text-align: center;
-}
-
-.metric-value {
-    font-family: 'Syne', sans-serif !important;
-    font-size: 2.2rem;
-    font-weight: 800;
-    color: #a78bfa;
-}
-
-.metric-label {
-    color: #7b8ba8;
-    font-weight: 400;
-    margin-top: 8px;
-    font-size: 0.88rem;
-}
-
-/* ── BADGES ── */
-.points-badge {
-    background: linear-gradient(135deg, #a78bfa, #7c3aed);
-    color: #0a0e27;
-    padding: 7px 16px;
-    border-radius: 100px;
-    font-family: 'Syne', sans-serif !important;
-    font-weight: 700;
-    font-size: 0.82rem;
-    display: inline-block;
-    margin: 4px;
-    letter-spacing: 0.5px;
-}
-
-.streak-badge {
-    background: linear-gradient(135deg, #ef4444, #dc2626);
-    color: white;
-    padding: 7px 16px;
-    border-radius: 100px;
-    font-family: 'Syne', sans-serif !important;
-    font-weight: 700;
-    font-size: 0.82rem;
-    display: inline-block;
-    margin: 4px;
-    letter-spacing: 0.5px;
-}
-
-.badge {
-    display: inline-block;
-    background: rgba(167,139,250,0.12);
-    color: #a78bfa;
-    border: 1px solid rgba(167,139,250,0.25);
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 0.78rem;
-    font-weight: 600;
-    margin: 3px;
-}
-
-/* ── NOTES ── */
-.notes-container {
-    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
-    border: 1px solid rgba(167,139,250,0.2);
-    border-left: 3px solid #a78bfa;
-    border-radius: 12px;
-    padding: 16px 20px;
-    margin: 10px 0;
-}
-
-/* ── EXPANDERS ── */
-.stExpander {
-    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%) !important;
-    border: 1px solid rgba(167,139,250,0.2) !important;
-    border-radius: 14px !important;
-    margin-bottom: 10px !important;
-}
-
-.stExpander [data-testid="stExpanderToggleButton"] {
-    color: #e2e8f0 !important;
-    font-weight: 600;
-}
-
-/* ── CODE BLOCKS ── */
-.stCode {
-    background-color: #1a1a2e !important;
-    border: 1px solid rgba(167,139,250,0.15) !important;
-    border-radius: 10px !important;
-}
-
-code { color: #c4b5fd !important; background: transparent !important; }
-
-/* ── INPUTS & SELECTS ── */
-.stSelectbox > div > div {
-    background: rgba(255,255,255,0.03) !important;
-    border: 1px solid rgba(167,139,250,0.2) !important;
-    color: #e2e8f0 !important;
-    border-radius: 12px !important;
-}
-
-.stTextArea > div > div {
-    background: rgba(255,255,255,0.03) !important;
-    border: 1px solid rgba(167,139,250,0.2) !important;
-    color: #e2e8f0 !important;
-    border-radius: 12px !important;
-}
-
-div[data-testid="stTextInput"] input {
-    background-color: rgba(255,255,255,0.03) !important;
-    color: #e2e8f0 !important;
-    border: 1px solid rgba(167,139,250,0.25) !important;
-    border-radius: 14px !important;
-    padding: 14px 22px !important;
-    font-size: 0.95rem !important;
-    font-family: 'DM Sans', sans-serif !important;
-}
-
-div[data-testid="stTextInput"] input::placeholder { color: #2d3748 !important; }
-div[data-testid="stTextInput"] input:focus {
-    box-shadow: 0 0 0 3px rgba(167,139,250,0.15) !important;
-    border-color: rgba(167,139,250,0.6) !important;
-}
-
-/* ── STATUS MESSAGES ── */
-.stInfo {
-    background: rgba(167,139,250,0.07) !important;
-    border: 1px solid rgba(167,139,250,0.25) !important;
-    border-radius: 12px !important;
-}
-
-.stSuccess {
-    background: rgba(34,197,94,0.07) !important;
-    border: 1px solid rgba(34,197,94,0.3) !important;
-    border-radius: 12px !important;
-}
-
-.stError {
-    background: rgba(239,68,68,0.07) !important;
-    border: 1px solid rgba(239,68,68,0.3) !important;
-    border-radius: 12px !important;
-}
-
-/* ── DIVIDER ── */
-hr {
-    border: none !important;
-    border-top: 1px solid rgba(167,139,250,0.1) !important;
-    margin: 40px 0 !important;
-}
-
-/* ── LINKS ── */
-a { color: #a78bfa !important; transition: all 0.3s ease; }
-a:hover { filter: brightness(1.2); }
-
-.footer-spacer { height: 60px; }
-
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #0a0e27; }
-::-webkit-scrollbar-thumb { background: rgba(167,139,250,0.2); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(167,139,250,0.4); }
-
+    @media (max-width: 768px) {
+        .main-title { font-size: 2rem; }
+        .result-score { font-size: 2.5rem; }
+        .libras-header-title { font-size: 1.5rem; }
+    }
 </style>
 """, unsafe_allow_html=True)
 
-# --- SIDEBAR NAVIGATION ---
-st.sidebar.markdown("""
-<div style="text-align: center; padding: 20px 0; border-bottom: 1px solid rgba(167,139,250,0.2);">
-    <h1 style="font-family:'Syne',sans-serif; font-size: 1.6rem; color: #a78bfa; margin: 0; font-weight:800; letter-spacing:-0.5px;">🗄️ SQL Pro</h1>
-    <p style="color: #4a5568; font-size: 0.82rem; margin-top: 6px; letter-spacing:1px; text-transform:uppercase;">Domine SQL em 60 práticas</p>
-</div>
-""", unsafe_allow_html=True)
+# ═══════════════════════════════════════════════════════════════════════════════
+# BANCO DE DADOS DE QUIZ
+# ═══════════════════════════════════════════════════════════════════════════════
 
-# --- SIDEBAR STATS ---
-col1, col2 = st.sidebar.columns(2)
-with col1:
-    st.markdown(f"""
-    <div style="background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%); border: 1px solid rgba(167,139,250,0.2); border-radius: 14px; padding: 16px; text-align: center;">
-        <p style="font-family:'Syne',sans-serif; color: #a78bfa; font-weight: 800; font-size: 1.4rem; margin: 0;">⭐ {st.session_state.user_points}</p>
-        <p style="color: #4a5568; font-size: 0.75rem; margin: 5px 0; text-transform:uppercase; letter-spacing:1px;">Pontos</p>
-    </div>
-    """, unsafe_allow_html=True)
+QUIZZES = {
+    'básico': [
+        {
+            'id': 1,
+            'title': 'O que é SQL?',
+            'explanation': 'SQL (Structured Query Language) é uma linguagem padronizada para gerenciar e manipular bancos de dados relacionais. É essencial para qualquer pessoa que trabalha com dados.',
+            'question': 'Qual é o principal propósito da linguagem SQL?',
+            'options': [
+                'Criar interfaces gráficas',
+                'Gerenciar e manipular dados em bancos de dados',
+                'Desenvolver aplicativos mobile',
+                'Criar documentos em PDF',
+                'Gerenciar conexões de rede'
+            ],
+            'correct': 1
+        },
+        {
+            'id': 2,
+            'title': 'Comando SELECT',
+            'explanation': 'O SELECT é o comando fundamental para recuperar dados de uma tabela. A sintaxe básica é: SELECT coluna FROM tabela. Este é o comando mais utilizado em SQL.',
+            'question': 'Qual comando SQL é usado para recuperar dados de uma tabela?',
+            'options': [
+                'INSERT',
+                'UPDATE',
+                'DELETE',
+                'SELECT',
+                'CREATE'
+            ],
+            'correct': 3
+        },
+        {
+            'id': 3,
+            'title': 'Cláusula WHERE',
+            'explanation': 'A cláusula WHERE filtra registros com base em condições específicas. Exemplo: SELECT * FROM usuarios WHERE idade > 18. Permite refinar consultas para obter dados específicos.',
+            'question': 'Qual cláusula SQL é usada para filtrar registros?',
+            'options': [
+                'GROUP BY',
+                'ORDER BY',
+                'WHERE',
+                'JOIN',
+                'HAVING'
+            ],
+            'correct': 2
+        },
+        {
+            'id': 4,
+            'title': 'Comando INSERT',
+            'explanation': 'INSERT adiciona novos registros a uma tabela. Sintaxe: INSERT INTO tabela (colunas) VALUES (valores). É fundamental para adicionar dados ao banco.',
+            'question': 'Como inserir um novo registro em uma tabela?',
+            'options': [
+                'INSERT INTO tabela (colunas) VALUES (valores)',
+                'ADD INTO tabela VALUES (valores)',
+                'PUT INTO tabela (colunas) VALUES (valores)',
+                'APPEND tabela (colunas) VALUES (valores)',
+                'NEW INTO tabela VALUES (valores)'
+            ],
+            'correct': 0
+        },
+        {
+            'id': 5,
+            'title': 'Tipos de Dados',
+            'explanation': 'SQL suporta vários tipos de dados: INT (inteiro), VARCHAR (texto variável), DATE (data), DECIMAL (número decimal), BOOLEAN (verdadeiro/falso). Cada tipo serve para um propósito específico.',
+            'question': 'Qual tipo de dados SQL é apropriado para armazenar texto?',
+            'options': [
+                'INT',
+                'VARCHAR',
+                'DATE',
+                'BOOLEAN',
+                'DECIMAL'
+            ],
+            'correct': 1
+        }
+    ],
+    'intermediário': [
+        {
+            'id': 1,
+            'title': 'JOINs',
+            'explanation': 'JOINs combinam registros de duas ou mais tabelas. INNER JOIN retorna apenas registros que correspondem em ambas as tabelas. Existem também LEFT, RIGHT, FULL e CROSS JOIN.',
+            'question': 'Qual tipo de JOIN retorna apenas registros que existem em ambas as tabelas?',
+            'options': [
+                'LEFT JOIN',
+                'RIGHT JOIN',
+                'INNER JOIN',
+                'FULL JOIN',
+                'CROSS JOIN'
+            ],
+            'correct': 2
+        },
+        {
+            'id': 2,
+            'title': 'Agregações',
+            'explanation': 'Funções de agregação como COUNT(), SUM(), AVG(), MAX(), MIN() executam cálculos sobre grupos de registros. São fundamentais para análise de dados.',
+            'question': 'Qual função SQL retorna o valor máximo de uma coluna?',
+            'options': [
+                'COUNT()',
+                'SUM()',
+                'MAX()',
+                'AVG()',
+                'MIN()'
+            ],
+            'correct': 2
+        },
+        {
+            'id': 3,
+            'title': 'GROUP BY',
+            'explanation': 'GROUP BY agrupa registros que possuem o mesmo valor em uma coluna específica, geralmente usado com funções de agregação. Permite análise de dados por categorias.',
+            'question': 'Para agrupar resultados por categoria, qual cláusula usar?',
+            'options': [
+                'WHERE categoria = valor',
+                'ORDER BY categoria',
+                'GROUP BY categoria',
+                'PARTITION BY categoria',
+                'DISTINCT categoria'
+            ],
+            'correct': 2
+        },
+        {
+            'id': 4,
+            'title': 'Subconsultas',
+            'explanation': 'Uma subconsulta é uma consulta dentro de outra consulta. Pode ser usada em SELECT, FROM, WHERE ou HAVING. Permite consultas mais complexas e aninhadas.',
+            'question': 'O que é uma subconsulta em SQL?',
+            'options': [
+                'Uma consulta que ordena resultados',
+                'Uma consulta que filtra por intervalo',
+                'Uma consulta dentro de outra consulta',
+                'Uma consulta com múltiplas tabelas',
+                'Uma consulta com agregação'
+            ],
+            'correct': 2
+        },
+        {
+            'id': 5,
+            'title': 'LIKE e Wildcards',
+            'explanation': 'LIKE é usado para buscar padrões em texto. % representa zero ou mais caracteres, _ representa um caractere. Exemplo: SELECT * FROM usuarios WHERE nome LIKE \'A%\'.',
+            'question': 'Qual é a função do operador % em uma cláusula LIKE?',
+            'options': [
+                'Representar um caractere exato',
+                'Representar zero ou mais caracteres',
+                'Representar um intervalo de números',
+                'Comparar datas',
+                'Calcular percentuais'
+            ],
+            'correct': 1
+        }
+    ],
+    'avançado': [
+        {
+            'id': 1,
+            'title': 'Window Functions',
+            'explanation': 'Window Functions realizam cálculos sobre um conjunto de linhas (janela). Exemplos: ROW_NUMBER(), RANK(), DENSE_RANK(), LAG(), LEAD(). São poderosas para análise de dados complexa.',
+            'question': 'Qual função window calcula a posição de uma linha dentro de uma partição?',
+            'options': [
+                'AGGREGATE()',
+                'ROW_NUMBER()',
+                'DISTRIBUTE()',
+                'PARTITION_SUM()',
+                'CALCULATE()'
+            ],
+            'correct': 1
+        },
+        {
+            'id': 2,
+            'title': 'CTEs (Common Table Expressions)',
+            'explanation': 'CTEs (WITH clause) criam tabelas temporárias nomeadas dentro de uma consulta, melhorando legibilidade e reutilização. Sintaxe: WITH nome_cte AS (SELECT ...) SELECT ...',
+            'question': 'Qual cláusula SQL cria uma tabela temporária nomeada (CTE)?',
+            'options': [
+                'TEMPORARY TABLE',
+                'CREATE TEMP',
+                'WITH',
+                'DECLARE',
+                'DEFINE'
+            ],
+            'correct': 2
+        },
+        {
+            'id': 3,
+            'title': 'Índices',
+            'explanation': 'Índices aceleram buscas em tabelas. Tipos incluem PRIMARY KEY, UNIQUE, COMPOSITE. Sintaxe: CREATE INDEX nome ON tabela (coluna). Melhoram performance mas usam espaço em disco.',
+            'question': 'Qual é o principal benefício de criar um índice em uma coluna?',
+            'options': [
+                'Aumentar o tamanho do banco de dados',
+                'Reduzir a memória RAM necessária',
+                'Acelerar consultas de busca',
+                'Melhorar a inserção de dados',
+                'Evitar duplicatas automaticamente'
+            ],
+            'correct': 2
+        },
+        {
+            'id': 4,
+            'title': 'Transações e ACID',
+            'explanation': 'Transações garantem que operações sejam atômicas (tudo ou nada). Propriedades ACID: Atomicidade, Consistência, Isolamento, Durabilidade. São críticas para integridade de dados.',
+            'question': 'O que significa a propriedade "Atomicidade" em uma transação?',
+            'options': [
+                'Vários usuários podem acessar simultaneamente',
+                'Os dados são permanentes após commit',
+                'Ou toda a operação ocorre ou nenhuma',
+                'Os dados permanecem consistentes',
+                'As operações são isoladas entre si'
+            ],
+            'correct': 2
+        },
+        {
+            'id': 5,
+            'title': 'Query Optimization',
+            'explanation': 'Otimização envolve usar EXPLAIN para analisar planos de execução, evitar SELECT *, usar índices apropriados e reescrever consultas. É essencial para performance.',
+            'question': 'Qual comando mostra o plano de execução de uma consulta?',
+            'options': [
+                'ANALYZE',
+                'EXECUTE',
+                'EXPLAIN',
+                'PROFILE',
+                'BENCHMARK'
+            ],
+            'correct': 2
+        }
+    ]
+}
 
-with col2:
-    st.markdown(f"""
-    <div style="background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%); border: 1px solid rgba(167,139,250,0.2); border-radius: 14px; padding: 16px; text-align: center;">
-        <p style="font-family:'Syne',sans-serif; color: #a78bfa; font-weight: 800; font-size: 1.4rem; margin: 0;">🔥 {st.session_state.daily_streak}</p>
-        <p style="color: #4a5568; font-size: 0.75rem; margin: 5px 0; text-transform:uppercase; letter-spacing:1px;">Streak</p>
-    </div>
-    """, unsafe_allow_html=True)
+# ═══════════════════════════════════════════════════════════════════════════════
+# CONTEÚDO LIBRAS — Conceitos básicos de SQL em Libras
+# ═══════════════════════════════════════════════════════════════════════════════
+# Cada conceito traz:
+#   - title / icon / description_pt  (explicação em português)
+#   - sign_description               (descrição textual do sinal em Libras)
+#   - handshapes                     (configurações de mão usadas)
+#   - movement                       (movimento do sinal)
+#   - location                       (local de articulação)
+#   - tip                            (dica mnemônica)
+#   - avatar_svg                     (avatar SVG animado representando o sinal)
+# ═══════════════════════════════════════════════════════════════════════════════
 
-# --- SIDEBAR MENU ---
-st.sidebar.markdown("---")
-st.sidebar.markdown("### 📚 Navegação")
-
-menu = st.sidebar.radio(
-    "Escolha uma seção:",
-    ["📖 Todas as Práticas", "⭐ Meus Favoritos", "✅ Já Aprendi", "🏆 Progresso", "🎯 Desafios"],
-    label_visibility="collapsed"
-)
-
-# --- SEARCH FUNCTIONALITY ---
-st.sidebar.markdown("---")
-st.sidebar.markdown("### 🔍 Buscar")
-search_query = st.sidebar.text_input(
-    "Buscar práticas:",
-    placeholder="Digite aqui...",
-    label_visibility="collapsed"
-)
-st.session_state.search_query = search_query.lower()
-st.session_state.current_menu = menu
-
-# ── HERO ──
-st.markdown("""
-<div class="hero-wrapper">
-    <div class="hero-badge">🗄️ SQL Pro</div>
-    <h1 class="hero-title">
-        Melhores Práticas SQL para <span class="accent">queries que escalam</span>
-    </h1>
-    <p class="hero-subtitle">
-        Estratégias avançadas para queries eficientes, escaláveis e precisas. Transforme dados em vantagem competitiva.
-    </p>
-    <div class="hero-stats">
-        <div class="hero-stat">
-            <span class="hero-stat-number">60+</span>
-            <span class="hero-stat-label">Práticas</span>
-        </div>
-        <div class="hero-stat">
-            <span class="hero-stat-number">5</span>
-            <span class="hero-stat-label">Categorias</span>
-        </div>
-        <div class="hero-stat">
-            <span class="hero-stat-number">3</span>
-            <span class="hero-stat-label">Níveis</span>
-        </div>
-    </div>
-    <div class="hero-divider"></div>
-</div>
-""", unsafe_allow_html=True)
-
-# --- PROGRESSO VISUAL ---
-total_practices = 60
-learned_count = len(st.session_state.learned)
-progress_percent = (learned_count / total_practices) * 100
-
-st.markdown(f"""
-<div class="progress-container">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-        <p style="font-family:'Syne',sans-serif; color: #e2e8f0; font-weight: 700; font-size:0.85rem; letter-spacing:1.5px; text-transform:uppercase; margin: 0;">🎓 Seu Progresso</p>
-        <p style="font-family:'Syne',sans-serif; color: #a78bfa; font-weight: 800; font-size:1.1rem; margin: 0;">{learned_count}/{total_practices}</p>
-    </div>
-    <div class="progress-bar">
-        <div class="progress-fill" style="width: {progress_percent}%"></div>
-    </div>
-    <p style="color: #4a5568; font-size: 0.82rem; margin: 10px 0 0; font-weight:300;">
-        {'🏆 Parabéns! Você completou todas as práticas!' if learned_count == total_practices else f'Continue! Faltam {total_practices - learned_count} práticas para completar o guia.'}
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
-# --- STATS SECTION ---
-st.markdown('<h2 class="section-header">📊 Números que Falam</h2>', unsafe_allow_html=True)
-
-col1, col2, col3 = st.columns(3, gap="medium")
-
-with col1:
-    st.markdown("""
-    <div class="stat-card">
-        <div class="stat-number">60+</div>
-        <div class="stat-label">Práticas SQL</div>
-        <div class="stat-sublabel">Documentadas e Testadas</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col2:
-    st.markdown("""
-    <div class="stat-card">
-        <div class="stat-number">5</div>
-        <div class="stat-label">Categorias</div>
-        <div class="stat-sublabel">De Conhecimento Essencial</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col3:
-    st.markdown("""
-    <div class="stat-card">
-        <div class="stat-number">3</div>
-        <div class="stat-label">Níveis</div>
-        <div class="stat-sublabel">Iniciante, Intermediário, Avançado</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-st.markdown("""
-<p style="text-align: center; color: #4a5568; margin: 40px 0; font-size: 1rem; line-height: 1.8; max-width:660px; margin-left:auto; margin-right:auto;">
-    Queries eficientes são a base de dashboards que escalam.
-    Boas práticas em SQL reduzem tempo de processamento e amplificam a precisão das análises.
-    <br><br>
-    <span style="color: #a78bfa; font-weight: 600;">
-    Este é um guia completo para transformar você em um especialista SQL.
-    </span>
-</p>
-""", unsafe_allow_html=True)
-
-# --- DATABASE DE PRÁTICAS SQL ---
-sql_practices = [
+LIBRAS_CONCEPTS = [
     {
-        "icon": "🔍",
-        "title": "Evitar SELECT *",
-        "category": "Performance",
-        "difficulty": "Iniciante",
-        "description": "Selecione apenas as colunas necessárias.",
-        "bad_query": "SELECT * FROM vendas WHERE ano = 2024;",
-        "good_query": "SELECT\n    id,\n    produto,\n    valor,\n    data_venda\nFROM vendas\nWHERE ano = 2024;",
-        "benefit": "Reduz bandwidth de rede, acelera processamento.",
-        "context": "Impacto exponencial em sistemas com muitos dados.",
-        "explanation": "Especificar colunas reduz o volume de dados trafegado pela rede e melhora o índice utilizado pelo banco de dados."
+        "id": "banco_dados",
+        "title": "Banco de Dados",
+        "icon": "🗄️",
+        "description_pt": "Um banco de dados é um sistema organizado para armazenar, gerenciar e recuperar informações. Em SQL, trabalhamos diretamente com bancos de dados relacionais.",
+        "sign_description": "Sinal de ARMAZENAR/GUARDAR combinado com o sinal de ORGANIZADO. Ambas as mãos em configuração B (dedos unidos, palma aberta) se fecham simultaneamente em direção ao corpo, como se guardasse algo.",
+        "handshapes": [
+            {"emoji": "🤲", "label": "Mão B"},
+            {"emoji": "✊", "label": "Fechar"},
+            {"emoji": "📦", "label": "Guardar"},
+        ],
+        "movement": "As duas mãos se fecham em direção ao peito (movimento de guardar/arquivar).",
+        "location": "Frente ao corpo, altura do peito.",
+        "tip": "💡 Pense em 'guardar uma caixa cheia de informações' — esse movimento de fechar as mãos representa o armazenamento de dados.",
+        "avatar_key": "storage",
     },
     {
-        "icon": "✅",
-        "title": "Tratar NULL Explicitamente",
-        "category": "Lógica & Precisão",
-        "difficulty": "Iniciante",
-        "description": "NULL não é zero nem string vazia.",
-        "bad_query": "SELECT SUM(comissao) FROM vendas WHERE status = 'concluida';",
-        "good_query": "SELECT\n    SUM(COALESCE(comissao, 0)) AS total_comissao\nFROM vendas\nWHERE status = 'concluida'\n    AND comissao IS NOT NULL;",
-        "benefit": "Evita resultados inesperados.",
-        "context": "Crítico em cálculos financeiros.",
-        "explanation": "COALESCE substitui NULLs por um valor padrão, evitando que a soma resulte em NULL quando há valores nulos na coluna."
-    },
-    {
-        "icon": "🔐",
-        "title": "Prepared Statements",
-        "category": "Segurança & Manutenção",
-        "difficulty": "Iniciante",
-        "description": "Parameterize queries contra SQL Injection.",
-        "bad_query": "query = f\"SELECT * FROM usuarios WHERE email = '{user_email}'\"",
-        "good_query": "query = (\n    \"SELECT *\"\n    \"FROM usuarios\"\n    \"WHERE email = %s\"\n)\ncursor.execute(query, (user_email,))",
-        "benefit": "Impede ataques de segurança.",
-        "context": "Obrigatório em produção.",
-        "explanation": "Usar placeholders (%) em vez de concatenação protege contra SQL Injection, pois os parâmetros são tratados como dados, não como código SQL."
-    },
-    {
+        "id": "tabela",
+        "title": "Tabela",
         "icon": "📋",
-        "title": "Documentar Queries",
-        "category": "Segurança & Manutenção",
-        "difficulty": "Iniciante",
-        "description": "Comente queries complexas.",
-        "bad_query": "SELECT u.id, COUNT(DISTINCT v.id) FROM usuarios u LEFT JOIN vendas v ON u.id = v.usuario_id GROUP BY u.id;",
-        "good_query": "-- Query: Contagem de vendas por usuário\n-- Propósito: Dashboard de Engagement\nSELECT\n    u.id,\n    u.nome,\n    COUNT(DISTINCT v.id) AS total_vendas\nFROM usuarios u\nLEFT JOIN vendas v\n    ON u.id = v.usuario_id\nGROUP BY u.id, u.nome;",
-        "benefit": "Fácil handoff e manutenção.",
-        "context": "Um comentário economiza horas.",
-        "explanation": "Comentários explicam o objetivo da query e facilitam manutenção futura, especialmente em equipes com múltiplos desenvolvedores."
+        "description_pt": "Uma tabela organiza dados em linhas e colunas, como uma planilha. Cada linha é um registro e cada coluna é um atributo desse registro.",
+        "sign_description": "Sinal de TABELA em Libras: as duas mãos espalmadas se posicionam horizontalmente formando um retângulo no ar, representando as bordas de uma tabela.",
+        "handshapes": [
+            {"emoji": "🤚", "label": "Mão B aberta"},
+            {"emoji": "📐", "label": "Retângulo"},
+            {"emoji": "⬜", "label": "Grade"},
+        ],
+        "movement": "As mãos traçam um retângulo no ar (horizontal), depois os dedos indicadores de ambas as mãos fazem linhas verticais e horizontais alternadas, indicando a grade da tabela.",
+        "location": "Na frente do corpo, nível da cintura.",
+        "tip": "💡 Desenhe a tabela no ar! O movimento de traçar linhas é intuitivo — você está literalmente desenhando a estrutura da tabela.",
+        "avatar_key": "table",
     },
     {
-        "icon": "🎓",
-        "title": "Usar LIMIT em Development",
-        "category": "Performance",
-        "difficulty": "Iniciante",
-        "description": "Sempre limitar resultados em queries de teste.",
-        "bad_query": "SELECT * FROM usuarios;",
-        "good_query": "SELECT *\nFROM usuarios\nLIMIT 100;",
-        "benefit": "Evita lentidão ao testar em prod.",
-        "context": "Development vs Production.",
-        "explanation": "LIMIT reduz o tempo de execução durante testes e evita carregar dados desnecessários em memória, protegendo também a produção de queries descontroladas."
+        "id": "select",
+        "title": "SELECT",
+        "icon": "🔍",
+        "description_pt": "SELECT é o comando para consultar/buscar dados de uma tabela. É o comando mais utilizado em SQL e o ponto de partida de toda consulta.",
+        "sign_description": "Sinal de BUSCAR/PESQUISAR: a mão dominante em configuração de pinça (polegar + indicador unidos) realiza um movimento circular no ar como se estivesse pesquisando, depois aponta para baixo indicando 'busca na tabela'.",
+        "handshapes": [
+            {"emoji": "🤌", "label": "Pinça"},
+            {"emoji": "👇", "label": "Apontar"},
+            {"emoji": "🔄", "label": "Circular"},
+        ],
+        "movement": "Movimento circular da mão dominante em configuração de pinça, seguido de movimento descendente (apontando para a tabela imaginária).",
+        "location": "Frente ao corpo, nível do rosto/ombro.",
+        "tip": "💡 A pinça + movimento circular lembra uma lupa de pesquisa — SELECT é exatamente isso: pesquisar e selecionar dados.",
+        "avatar_key": "select",
+    },
+    {
+        "id": "where",
+        "title": "WHERE",
+        "icon": "🎯",
+        "description_pt": "WHERE é a cláusula que filtra registros segundo uma condição. Só retorna os dados que atendem ao critério especificado.",
+        "sign_description": "Sinal de CONDIÇÃO/FILTRO: a mão dominante em configuração de dedo indicador estendido aponta para a lateral, depois as duas mãos em configuração F (polegar + indicador formam círculo) se unem representando um filtro/peneira.",
+        "handshapes": [
+            {"emoji": "☝️", "label": "Indicador"},
+            {"emoji": "👌", "label": "Configuração F"},
+            {"emoji": "⚗️", "label": "Filtrar"},
+        ],
+        "movement": "O indicador aponta para um lado (condição), depois as duas mãos em F se encostam e afastam como uma peneira filtrando.",
+        "location": "Frente ao corpo, lateral direita.",
+        "tip": "💡 Pense numa peneira — WHERE filtra os dados, deixando passar apenas o que satisfaz a condição.",
+        "avatar_key": "where",
+    },
+    {
+        "id": "insert",
+        "title": "INSERT",
+        "icon": "➕",
+        "description_pt": "INSERT adiciona novos registros a uma tabela. É o comando usado para incluir dados novos no banco de dados.",
+        "sign_description": "Sinal de INSERIR/INCLUIR: a mão dominante em configuração de dedo indicador estendido entra por baixo da mão não-dominante (espalmada horizontalmente como uma tabela), representando a inserção de um dado.",
+        "handshapes": [
+            {"emoji": "☝️", "label": "Indicador"},
+            {"emoji": "🤚", "label": "Palma horizontal"},
+            {"emoji": "⬆️", "label": "Inserir"},
+        ],
+        "movement": "A mão não-dominante permanece horizontal (a tabela). A mão dominante sobe por baixo e entra, como inserindo uma ficha.",
+        "location": "Frente ao corpo, nível da cintura.",
+        "tip": "💡 Imagine inserir um cartão em uma caixa — o movimento de 'enfiar por baixo' é exatamente o conceito de adicionar dados a uma tabela.",
+        "avatar_key": "insert",
+    },
+    {
+        "id": "coluna_linha",
+        "title": "Coluna e Linha",
+        "icon": "⬜",
+        "description_pt": "Colunas organizam os atributos (nome, idade, email…) e linhas organizam cada registro. A interseção entre coluna e linha é uma célula.",
+        "sign_description": "COLUNA: dedo indicador da mão dominante traça uma linha vertical de cima para baixo. LINHA: dedo indicador traça uma linha horizontal da esquerda para a direita.",
+        "handshapes": [
+            {"emoji": "☝️", "label": "Indicador"},
+            {"emoji": "⬇️", "label": "Coluna (vertical)"},
+            {"emoji": "➡️", "label": "Linha (horizontal)"},
+        ],
+        "movement": "Para COLUNA: trace uma linha vertical de cima para baixo. Para LINHA: trace uma linha horizontal da esquerda para a direita.",
+        "location": "Frente ao corpo, nível do peito.",
+        "tip": "💡 Coluna = movimento VERTICAL (como uma coluna de prédio). Linha = movimento HORIZONTAL (como uma linha do horizonte). Simples de memorizar!",
+        "avatar_key": "colrow",
     },
 ]
 
-# --- FILTROS SECTION ---
-st.markdown('<h2 class="section-header">🔎 Filtrar Práticas</h2>', unsafe_allow_html=True)
+# SVG dos avatares animados (representações estilizadas dos sinais)
+def get_avatar_svg(avatar_key: str) -> str:
+    """Retorna o SVG do avatar animado conforme o sinal"""
 
-st.markdown('<div class="filter-section">', unsafe_allow_html=True)
+    # Paleta compartilhada
+    skin = "#F5CBA7"
+    skin_dark = "#E59866"
+    shirt = "#1e3a8a"
+    hair = "#2c3e50"
+    bg = "rgba(15,23,42,0)"
 
-col1, col2, col_space = st.columns([1.5, 1.5, 1])
+    avatars = {
 
-with col1:
-    categorias = ["Todas"] + sorted(list(set([p["category"] for p in sql_practices])))
-    selected_category = st.selectbox("📂 Categoria", categorias, key="category_filter")
+        # ── BANCO DE DADOS: mãos fechando em direção ao peito ──────────────
+        "storage": f"""
+<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" width="200" height="220">
+  <style>
+    .lh {{ animation: closeL 1.6s ease-in-out infinite; transform-origin: 60px 140px; }}
+    .rh {{ animation: closeR 1.6s ease-in-out infinite; transform-origin: 140px 140px; }}
+    @keyframes closeL {{
+      0%,100% {{ transform: translateX(0) rotate(0deg); }}
+      50%      {{ transform: translateX(18px) rotate(-20deg); }}
+    }}
+    @keyframes closeR {{
+      0%,100% {{ transform: translateX(0) rotate(0deg); }}
+      50%      {{ transform: translateX(-18px) rotate(20deg); }}
+    }}
+  </style>
+  <!-- Corpo/torso -->
+  <rect x="75" y="110" width="50" height="60" rx="8" fill="{shirt}"/>
+  <!-- Cabeça -->
+  <circle cx="100" cy="75" r="28" fill="{skin}"/>
+  <rect x="78" y="50" width="44" height="18" rx="9" fill="{hair}"/>
+  <!-- Olhos -->
+  <circle cx="91" cy="78" r="3" fill="#2c3e50"/>
+  <circle cx="109" cy="78" r="3" fill="#2c3e50"/>
+  <!-- Boca sorridente -->
+  <path d="M93 88 Q100 94 107 88" stroke="#e67e22" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Mão esquerda (B fechando) -->
+  <g class="lh">
+    <rect x="42" y="128" width="32" height="22" rx="8" fill="{skin}"/>
+    <rect x="44" y="124" width="6" height="12" rx="3" fill="{skin_dark}"/>
+    <rect x="52" y="122" width="6" height="14" rx="3" fill="{skin_dark}"/>
+    <rect x="60" y="124" width="6" height="12" rx="3" fill="{skin_dark}"/>
+  </g>
+  <!-- Mão direita (B fechando) -->
+  <g class="rh">
+    <rect x="126" y="128" width="32" height="22" rx="8" fill="{skin}"/>
+    <rect x="128" y="124" width="6" height="12" rx="3" fill="{skin_dark}"/>
+    <rect x="136" y="122" width="6" height="14" rx="3" fill="{skin_dark}"/>
+    <rect x="144" y="124" width="6" height="12" rx="3" fill="{skin_dark}"/>
+  </g>
+  <!-- Ícone banco de dados -->
+  <ellipse cx="100" cy="192" rx="18" ry="7" fill="#fbbf24" opacity="0.8"/>
+  <rect x="82" y="192" width="36" height="14" fill="#fbbf24" opacity="0.6"/>
+  <ellipse cx="100" cy="206" rx="18" ry="7" fill="#f59e0b" opacity="0.9"/>
+</svg>""",
 
-with col2:
-    dificuldades = ["Todas", "Iniciante", "Intermediário", "Avançado"]
-    selected_difficulty = st.selectbox("📈 Nível de Dificuldade", dificuldades, key="difficulty_filter")
+        # ── TABELA: mãos traçando retângulo e grade ─────────────────────────
+        "table": f"""
+<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" width="200" height="220">
+  <style>
+    .lh2 {{ animation: traceL 2s ease-in-out infinite; transform-origin: 55px 145px; }}
+    .rh2 {{ animation: traceR 2s ease-in-out infinite; transform-origin: 145px 145px; }}
+    @keyframes traceL {{
+      0%   {{ transform: translate(0,0); }}
+      25%  {{ transform: translate(0,-20px); }}
+      50%  {{ transform: translate(30px,-20px); }}
+      75%  {{ transform: translate(30px,0); }}
+      100% {{ transform: translate(0,0); }}
+    }}
+    @keyframes traceR {{
+      0%   {{ transform: translate(0,0); }}
+      25%  {{ transform: translate(0,-20px); }}
+      50%  {{ transform: translate(-30px,-20px); }}
+      75%  {{ transform: translate(-30px,0); }}
+      100% {{ transform: translate(0,0); }}
+    }}
+  </style>
+  <rect x="75" y="110" width="50" height="60" rx="8" fill="{shirt}"/>
+  <circle cx="100" cy="75" r="28" fill="{skin}"/>
+  <rect x="78" y="50" width="44" height="18" rx="9" fill="{hair}"/>
+  <circle cx="91" cy="78" r="3" fill="#2c3e50"/>
+  <circle cx="109" cy="78" r="3" fill="#2c3e50"/>
+  <path d="M93 88 Q100 94 107 88" stroke="#e67e22" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Grade de tabela abaixo -->
+  <rect x="65" y="185" width="70" height="30" rx="3" fill="none" stroke="#fbbf24" stroke-width="1.5" opacity="0.7"/>
+  <line x1="88" y1="185" x2="88" y2="215" stroke="#fbbf24" stroke-width="1" opacity="0.7"/>
+  <line x1="112" y1="185" x2="112" y2="215" stroke="#fbbf24" stroke-width="1" opacity="0.7"/>
+  <line x1="65" y1="200" x2="135" y2="200" stroke="#fbbf24" stroke-width="1" opacity="0.7"/>
+  <!-- Mão esquerda -->
+  <g class="lh2">
+    <rect x="38" y="135" width="30" height="20" rx="7" fill="{skin}"/>
+    <rect x="40" y="130" width="5" height="10" rx="2.5" fill="{skin_dark}"/>
+    <rect x="47" y="128" width="5" height="12" rx="2.5" fill="{skin_dark}"/>
+    <rect x="54" y="130" width="5" height="10" rx="2.5" fill="{skin_dark}"/>
+  </g>
+  <!-- Mão direita -->
+  <g class="rh2">
+    <rect x="132" y="135" width="30" height="20" rx="7" fill="{skin}"/>
+    <rect x="134" y="130" width="5" height="10" rx="2.5" fill="{skin_dark}"/>
+    <rect x="141" y="128" width="5" height="12" rx="2.5" fill="{skin_dark}"/>
+    <rect x="148" y="130" width="5" height="10" rx="2.5" fill="{skin_dark}"/>
+  </g>
+</svg>""",
 
-st.markdown('</div>', unsafe_allow_html=True)
+        # ── SELECT: movimento circular de pesquisa ───────────────────────────
+        "select": f"""
+<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" width="200" height="220">
+  <style>
+    .search {{ animation: searchMove 1.8s ease-in-out infinite; transform-origin: 130px 120px; }}
+    @keyframes searchMove {{
+      0%   {{ transform: rotate(0deg) translate(8px,0) rotate(0deg); }}
+      50%  {{ transform: rotate(180deg) translate(8px,0) rotate(-180deg); }}
+      100% {{ transform: rotate(360deg) translate(8px,0) rotate(-360deg); }}
+    }}
+    .arr {{ animation: arrDrop 1.8s ease-in-out infinite; }}
+    @keyframes arrDrop {{
+      0%,60%,100% {{ transform: translateY(0); opacity:0; }}
+      70%,90%     {{ transform: translateY(12px); opacity:1; }}
+    }}
+  </style>
+  <rect x="75" y="110" width="50" height="60" rx="8" fill="{shirt}"/>
+  <circle cx="100" cy="75" r="28" fill="{skin}"/>
+  <rect x="78" y="50" width="44" height="18" rx="9" fill="{hair}"/>
+  <circle cx="91" cy="78" r="3" fill="#2c3e50"/>
+  <circle cx="109" cy="78" r="3" fill="#2c3e50"/>
+  <path d="M93 88 Q100 94 107 88" stroke="#e67e22" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Lupa animada -->
+  <g class="search">
+    <circle cx="130" cy="118" r="14" fill="none" stroke="#fbbf24" stroke-width="3"/>
+    <line x1="140" y1="128" x2="148" y2="136" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+    <!-- Dedo indicador no centro -->
+    <circle cx="130" cy="118" r="4" fill="{skin}"/>
+  </g>
+  <!-- Mão esquerda estática -->
+  <rect x="38" y="130" width="30" height="20" rx="7" fill="{skin}"/>
+  <rect x="40" y="125" width="5" height="10" rx="2.5" fill="{skin_dark}"/>
+  <!-- Seta descendo (busca) -->
+  <g class="arr">
+    <line x1="100" y1="172" x2="100" y2="184" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round"/>
+    <polyline points="95,180 100,186 105,180" fill="none" stroke="#fbbf24" stroke-width="2.5" stroke-linejoin="round"/>
+  </g>
+</svg>""",
 
-# --- EDITOR SQL ---
-st.markdown('<h2 class="section-header">✏️ Editor SQL Interativo</h2>', unsafe_allow_html=True)
-st.markdown('<p style="color: #4a5568; margin-bottom: 30px; font-weight:300;">Teste suas queries SQL em tempo real. O banco contém as tabelas: <span style="color:#a78bfa;">usuarios</span>, <span style="color:#a78bfa;">vendas</span> e <span style="color:#a78bfa;">produtos</span>.</p>', unsafe_allow_html=True)
+        # ── WHERE: dedos formando peneira ────────────────────────────────────
+        "where": f"""
+<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" width="200" height="220">
+  <style>
+    .filter {{ animation: filterPulse 1.6s ease-in-out infinite; transform-origin: 100px 150px; }}
+    @keyframes filterPulse {{
+      0%,100% {{ transform: scaleY(1); }}
+      50%      {{ transform: scaleY(0.85) translateY(6px); }}
+    }}
+    .dots {{ animation: dotsFall 1.6s ease-in-out infinite; }}
+    @keyframes dotsFall {{
+      0%   {{ transform: translateY(0); opacity:1; }}
+      100% {{ transform: translateY(20px); opacity:0; }}
+    }}
+  </style>
+  <rect x="75" y="110" width="50" height="60" rx="8" fill="{shirt}"/>
+  <circle cx="100" cy="75" r="28" fill="{skin}"/>
+  <rect x="78" y="50" width="44" height="18" rx="9" fill="{hair}"/>
+  <circle cx="91" cy="78" r="3" fill="#2c3e50"/>
+  <circle cx="109" cy="78" r="3" fill="#2c3e50"/>
+  <path d="M93 88 Q100 94 107 88" stroke="#e67e22" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Peneira animada -->
+  <g class="filter">
+    <path d="M65 138 Q100 148 135 138" stroke="#fbbf24" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <line x1="80" y1="148" x2="83" y2="162" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"/>
+    <line x1="100" y1="150" x2="100" y2="164" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"/>
+    <line x1="120" y1="148" x2="117" y2="162" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <!-- Pontos caindo (dados filtrados) -->
+  <g class="dots">
+    <circle cx="83" cy="168" r="3" fill="#93c5fd" opacity="0.8"/>
+    <circle cx="100" cy="170" r="3" fill="#93c5fd" opacity="0.8"/>
+    <circle cx="117" cy="168" r="3" fill="#93c5fd" opacity="0.8"/>
+  </g>
+  <!-- Mão esquerda (indicador apontando) -->
+  <rect x="38" y="125" width="22" height="16" rx="6" fill="{skin}"/>
+  <rect x="50" y="116" width="6" height="14" rx="3" fill="{skin_dark}"/>
+  <!-- Mão direita (indicador) -->
+  <rect x="140" y="125" width="22" height="16" rx="6" fill="{skin}"/>
+  <rect x="144" y="116" width="6" height="14" rx="3" fill="{skin_dark}"/>
+</svg>""",
 
-sql_templates = {
-    "SELECT Básico": "SELECT * FROM produtos LIMIT 10;",
-    "WHERE Filtro": "SELECT id, nome, categoria FROM produtos WHERE categoria = 'Livros';",
-    "COUNT Agregação": "SELECT COUNT(*) AS total_produtos FROM produtos;",
-    "GROUP BY": "SELECT categoria, COUNT(*) AS total FROM produtos GROUP BY categoria;",
-    "JOIN Tabelas": "SELECT u.nome, v.valor FROM usuarios u INNER JOIN vendas v ON u.id = v.usuario_id LIMIT 5;",
-    "ORDER BY": "SELECT id, nome FROM usuarios ORDER BY nome ASC;",
-    "SUM com Agregação": "SELECT usuario_id, SUM(valor) AS total_valor FROM vendas GROUP BY usuario_id;",
-    "LEFT JOIN": "SELECT u.id, u.nome, COUNT(v.id) AS total_vendas FROM usuarios u LEFT JOIN vendas v ON u.id = v.usuario_id GROUP BY u.id, u.nome;",
-    "DISTINCT": "SELECT DISTINCT categoria FROM produtos ORDER BY categoria;",
-    "BETWEEN": "SELECT * FROM vendas WHERE valor BETWEEN 100 AND 300;",
-    "IN Clause": "SELECT * FROM usuarios WHERE id IN (1, 2, 3, 4, 5);",
-    "LIKE Pattern": "SELECT * FROM usuarios WHERE nome LIKE '%Silva%';",
-}
+        # ── INSERT: mão entrando por baixo ───────────────────────────────────
+        "insert": f"""
+<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" width="200" height="220">
+  <style>
+    .ins {{ animation: insertUp 1.8s ease-in-out infinite; transform-origin: 100px 165px; }}
+    @keyframes insertUp {{
+      0%,100% {{ transform: translateY(0); }}
+      50%      {{ transform: translateY(-18px); }}
+    }}
+  </style>
+  <rect x="75" y="110" width="50" height="60" rx="8" fill="{shirt}"/>
+  <circle cx="100" cy="75" r="28" fill="{skin}"/>
+  <rect x="78" y="50" width="44" height="18" rx="9" fill="{hair}"/>
+  <circle cx="91" cy="78" r="3" fill="#2c3e50"/>
+  <circle cx="109" cy="78" r="3" fill="#2c3e50"/>
+  <path d="M93 88 Q100 94 107 88" stroke="#e67e22" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Tabela (mão não-dominante horizontal) -->
+  <rect x="60" y="148" width="80" height="12" rx="5" fill="{skin}" opacity="0.9"/>
+  <rect x="62" y="144" width="6" height="8" rx="3" fill="{skin_dark}"/>
+  <rect x="70" y="143" width="6" height="9" rx="3" fill="{skin_dark}"/>
+  <rect x="78" y="144" width="6" height="8" rx="3" fill="{skin_dark}"/>
+  <!-- Mão dominante inserindo (sobe) -->
+  <g class="ins">
+    <rect x="88" y="162" width="24" height="16" rx="6" fill="{skin}"/>
+    <rect x="96" y="156" width="8" height="12" rx="4" fill="{skin_dark}"/>
+    <!-- Plus icon -->
+    <text x="97" y="172" font-size="10" fill="#fbbf24" font-weight="bold">+</text>
+  </g>
+</svg>""",
 
-st.markdown('<div class="editor-section">', unsafe_allow_html=True)
+        # ── COLUNA/LINHA: traçando linhas ────────────────────────────────────
+        "colrow": f"""
+<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" width="200" height="220">
+  <style>
+    .vline {{ stroke-dasharray: 60; stroke-dashoffset: 60;
+              animation: drawV 2s ease-in-out infinite; }}
+    .hline {{ stroke-dasharray: 60; stroke-dashoffset: 60;
+              animation: drawH 2s ease-in-out infinite 1s; }}
+    @keyframes drawV {{
+      0%,100% {{ stroke-dashoffset: 60; opacity:0.3; }}
+      40%,60% {{ stroke-dashoffset: 0;  opacity:1; }}
+    }}
+    @keyframes drawH {{
+      0%,100% {{ stroke-dashoffset: 60; opacity:0.3; }}
+      40%,60% {{ stroke-dashoffset: 0;  opacity:1; }}
+    }}
+    .finger {{ animation: fingerTrace 2s ease-in-out infinite; transform-origin: 110px 140px; }}
+    @keyframes fingerTrace {{
+      0%,100% {{ transform: translate(0,0); }}
+      25%      {{ transform: translate(0,-30px); }}
+      50%      {{ transform: translate(0,0); }}
+      75%      {{ transform: translate(30px,0); }}
+    }}
+  </style>
+  <rect x="75" y="110" width="50" height="60" rx="8" fill="{shirt}"/>
+  <circle cx="100" cy="75" r="28" fill="{skin}"/>
+  <rect x="78" y="50" width="44" height="18" rx="9" fill="{hair}"/>
+  <circle cx="91" cy="78" r="3" fill="#2c3e50"/>
+  <circle cx="109" cy="78" r="3" fill="#2c3e50"/>
+  <path d="M93 88 Q100 94 107 88" stroke="#e67e22" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Linhas animadas -->
+  <line class="vline" x1="80" y1="178" x2="80" y2="215" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+  <line class="hline" x1="65" y1="200" x2="125" y2="200" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+  <!-- Indicador traçando -->
+  <g class="finger">
+    <rect x="100" y="132" width="20" height="14" rx="5" fill="{skin}"/>
+    <rect x="106" y="124" width="6" height="12" rx="3" fill="{skin_dark}"/>
+  </g>
+</svg>""",
+    }
 
-col_template, col_editor = st.columns([1, 2], gap="large")
+    return avatars.get(avatar_key, avatars["storage"])
 
-with col_template:
-    st.markdown('<p class="editor-title">📚 Templates</p>', unsafe_allow_html=True)
-    selected_template = st.selectbox(
-        "Escolha um exemplo:",
-        ["Escrever Manual"] + list(sql_templates.keys()),
-        key="template_select",
-        label_visibility="collapsed"
-    )
-    template_query = sql_templates[selected_template] if selected_template != "Escrever Manual" else ""
 
-with col_editor:
-    st.markdown('<p class="editor-title">📝 Seu SQL</p>', unsafe_allow_html=True)
-    user_query = st.text_area(
-        "Escreva sua query SQL:",
-        value=template_query,
-        height=150,
-        key="sql_editor",
-        placeholder="SELECT * FROM produtos;",
-        label_visibility="collapsed"
-    )
+# ═══════════════════════════════════════════════════════════════════════════════
+# INICIALIZAÇÃO DO ESTADO DA SESSÃO
+# ═══════════════════════════════════════════════════════════════════════════════
 
-st.markdown('</div>', unsafe_allow_html=True)
+def init_session_state():
+    if 'stage' not in st.session_state:
+        st.session_state.stage = 'name'
+    if 'full_name' not in st.session_state:
+        st.session_state.full_name = ''
+    if 'selected_level' not in st.session_state:
+        st.session_state.selected_level = None
+    if 'current_question' not in st.session_state:
+        st.session_state.current_question = 0
+    if 'score' not in st.session_state:
+        st.session_state.score = 0
+    if 'answers' not in st.session_state:
+        st.session_state.answers = []
+    if 'show_result' not in st.session_state:
+        st.session_state.show_result = False
+    if 'libras_concept_idx' not in st.session_state:
+        st.session_state.libras_concept_idx = 0
 
-# --- RESULTADO ---
-st.markdown('<h2 class="section-header">📊 Resultado da Query</h2>', unsafe_allow_html=True)
+init_session_state()
 
-col_result, col_info = st.columns([2, 1], gap="large")
+# ═══════════════════════════════════════════════════════════════════════════════
+# TELA 1: CADASTRO DE NOME
+# ═══════════════════════════════════════════════════════════════════════════════
 
-with col_result:
-    st.markdown('<div style="background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%); border: 1px solid rgba(167,139,250,0.2); border-radius: 16px; padding: 24px;">', unsafe_allow_html=True)
-    if user_query.strip():
-        result_df, message = execute_query(user_query)
-        if "✅" in message:
-            st.success(message)
-            if result_df is not None and len(result_df) > 0:
-                st.dataframe(result_df, use_container_width=True)
-            else:
-                st.info("Query executada, mas nenhum resultado foi retornado.")
-        else:
-            st.error(message)
-    else:
+def screen_name():
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.markdown("<div style='text-align:center;font-size:3rem;'>🎓</div>", unsafe_allow_html=True)
+        st.markdown('<p class="main-title">SQL Academy</p>', unsafe_allow_html=True)
+        st.markdown('<p class="subtitle">Domine a Linguagem de Dados</p>', unsafe_allow_html=True)
+        st.markdown("---")
+
+        full_name = st.text_input("NOME COMPLETO", placeholder="Digite seu nome completo", key="name_input")
+
+        if st.button("Começar →", use_container_width=True, type="primary"):
+            if full_name.strip():
+                st.session_state.full_name = full_name.strip()
+                st.session_state.stage = 'level'
+                st.rerun()
+
+        st.markdown("---")
         st.markdown("""
-        <div style="text-align: center; padding: 40px; color: #2d3748;">
-            <p style="font-size: 1rem;">📝 Escreva uma query SQL no editor para ver o resultado</p>
+        <div style='text-align:center;color:#93c5fd;font-size:0.9rem;'>
+            <p>✓ 3 Níveis de Dificuldade</p>
+            <p>✓ 15 Questões Totais</p>
+            <p>✓ Resultado Final com Pontuação</p>
+            <p>🤟 SQL em Libras — Acessibilidade Total</p>
         </div>
         """, unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
 
-with col_info:
+# ═══════════════════════════════════════════════════════════════════════════════
+# TELA 2: SELEÇÃO DE NÍVEL (com opção Libras)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def screen_level():
+    st.markdown(f'<h1 style="text-align:center;color:white;">Bem-vindo, {st.session_state.full_name}!</h1>',
+                unsafe_allow_html=True)
+    st.markdown('<p class="subtitle">Escolha seu nível de dificuldade ou explore SQL em Libras</p>',
+                unsafe_allow_html=True)
+    st.markdown("---")
+
+    col1, col2, col3 = st.columns(3)
+    levels = [
+        {'key': 'básico',        'title': 'BÁSICO',         'icon': '📚', 'desc': 'Fundamentos de SQL',         'col': col1},
+        {'key': 'intermediário', 'title': 'INTERMEDIÁRIO',  'icon': '⚡', 'desc': 'Consultas Avançadas',         'col': col2},
+        {'key': 'avançado',      'title': 'AVANÇADO',       'icon': '🚀', 'desc': 'Otimização & Performance',    'col': col3},
+    ]
+
+    for level in levels:
+        with level['col']:
+            st.markdown(f"""
+            <div class="level-card">
+                <div class="level-icon">{level['icon']}</div>
+                <div class="level-title">{level['title']}</div>
+                <div class="level-desc">{level['desc']}</div>
+                <div style='color:#fcd34d;font-size:0.8rem;'>5 questões</div>
+            </div>
+            """, unsafe_allow_html=True)
+            if st.button(f"Começar {level['title']}", use_container_width=True, key=f"btn_{level['key']}"):
+                st.session_state.selected_level = level['key']
+                st.session_state.current_question = 0
+                st.session_state.score = 0
+                st.session_state.answers = []
+                st.session_state.show_result = False
+                st.session_state.stage = 'quiz'
+                st.rerun()
+
+    st.markdown("---")
+
+    # Destaque Libras
     st.markdown("""
-    <div style="background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%); border: 1px solid rgba(167,139,250,0.2); border-radius: 16px; padding: 24px;">
-        <p style="font-family:'Syne',sans-serif; color: #a78bfa; font-weight: 700; font-size:0.8rem; letter-spacing:1.5px; text-transform:uppercase; margin-bottom: 16px;">ℹ️ Tabelas & Dicas</p>
-        <p style="color: #4a5568; font-size: 0.85rem; line-height: 1.8; margin-bottom: 16px; font-weight:300;">
-            <span style="color:#e2e8f0; font-weight:600;">usuarios:</span> id, nome, email, ativo, created_at, categoria
-            <br><br>
-            <span style="color:#e2e8f0; font-weight:600;">vendas:</span> id, usuario_id, valor, status, data
-            <br><br>
-            <span style="color:#e2e8f0; font-weight:600;">produtos:</span> id, nome, categoria, preco
-        </p>
-        <p style="color: #2d3748; font-size: 0.82rem; font-weight:300; border-top: 1px solid rgba(167,139,250,0.1); padding-top: 14px;">
-            💡 Teste SELECT, WHERE, JOIN, GROUP BY, LIMIT e mais!
-        </p>
+    <div style="background:linear-gradient(135deg,rgba(30,58,138,0.45),rgba(12,74,110,0.45));
+                border:2px solid rgba(251,191,36,0.5); border-radius:1rem;
+                padding:1.5rem; text-align:center; margin-top:0.5rem;">
+        <div style="font-size:2.5rem; margin-bottom:0.4rem;">🤟</div>
+        <div style="font-family:'Playfair Display',serif; font-size:1.5rem;
+                    color:#fcd34d; font-weight:700; margin-bottom:0.4rem;">SQL em Libras</div>
+        <div style="color:#93c5fd; font-size:0.95rem;">
+            Aprenda os conceitos básicos de SQL através da Língua Brasileira de Sinais.<br>
+            Conteúdo acessível com avatares animados, descrições detalhadas dos sinais e dicas mnemônicas.
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
-st.divider()
+    st.markdown("<div style='height:0.8rem;'></div>", unsafe_allow_html=True)
 
-# --- FOOTER ---
-st.markdown("""
-<div style="text-align: center; padding: 40px 0; border-top: 1px solid rgba(167,139,250,0.1); color: #2d3748;">
-    <p style="margin-bottom: 10px; font-size: 0.92rem;">
-        <span style="font-family:'Syne',sans-serif; color: #a78bfa; font-weight: 700;">SQL - Melhores Práticas</span>
-        &nbsp;•&nbsp; Criado por Rodrigo Aiosa
-    </p>
-    <p style="font-size: 0.82rem; font-weight:300;">
-        Transforme seus dados em vantagem competitiva com SQL estratégico
-    </p>
-</div>
-<div class="footer-spacer"></div>
-""", unsafe_allow_html=True)
+    if st.button("🤟  Entrar em SQL em Libras", use_container_width=True):
+        st.session_state.libras_concept_idx = 0
+        st.session_state.stage = 'libras'
+        st.rerun()
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TELA 3: QUIZ
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def screen_quiz():
+    quiz = QUIZZES[st.session_state.selected_level]
+    question_data = quiz[st.session_state.current_question]
+    total_questions = len(quiz)
+
+    progress = (st.session_state.current_question + 1) / total_questions
+    st.progress(progress)
+    col1, col2 = st.columns(2)
+    with col1:
+        st.text(f"Questão {st.session_state.current_question + 1} de {total_questions}")
+    with col2:
+        st.text(f"📊 {st.session_state.score} pontos")
+
+    st.markdown("---")
+
+    st.markdown(f"""
+    <div class="explanation-box">
+        <div class="explanation-title">{question_data['title']}</div>
+        <div class="explanation-text">{question_data['explanation']}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown(f"<h3 style='color:white;'>{question_data['question']}</h3>", unsafe_allow_html=True)
+    st.markdown("---")
+
+    for idx, option in enumerate(question_data['options']):
+        if st.button(
+            f"{chr(65+idx)}. {option}",
+            use_container_width=True,
+            key=f"option_{st.session_state.current_question}_{idx}",
+            disabled=st.session_state.show_result
+        ):
+            st.session_state.show_result = True
+            is_correct = idx == question_data['correct']
+            st.session_state.answers.append({
+                'question': st.session_state.current_question,
+                'selected': idx,
+                'correct': is_correct
+            })
+            if is_correct:
+                st.session_state.score += 1
+
+    st.markdown("---")
+
+    if st.session_state.show_result:
+        answer_data = st.session_state.answers[-1]
+        if answer_data['correct']:
+            st.success("✅ Resposta correta!")
+        else:
+            st.error(f"❌ Resposta incorreta! A resposta correta é: **{chr(65+question_data['correct'])}. {question_data['options'][question_data['correct']]}**")
+
+        st.markdown("---")
+        col_next, _ = st.columns([1, 4])
+        with col_next:
+            if st.session_state.current_question + 1 < total_questions:
+                if st.button("Próxima →", use_container_width=True, type="primary"):
+                    st.session_state.current_question += 1
+                    st.session_state.show_result = False
+                    st.rerun()
+            else:
+                if st.button("Ver Resultado", use_container_width=True, type="primary"):
+                    st.session_state.stage = 'results'
+                    st.rerun()
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TELA 4: RESULTADO FINAL
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def screen_results():
+    quiz = QUIZZES[st.session_state.selected_level]
+    percentage = (st.session_state.score / len(quiz)) * 100
+
+    if percentage >= 90:   icon, title = "🏆", "Excelente Desempenho!"
+    elif percentage >= 80: icon, title = "👏", "Muito Bom!"
+    elif percentage >= 70: icon, title = "✅", "Aprovado!"
+    elif percentage >= 50: icon, title = "📚", "Pode Melhorar!"
+    else:                  icon, title = "💪", "Tente Novamente!"
+
+    st.markdown(f"""
+    <div class="result-box">
+        <div class="result-icon">{icon}</div>
+        <div class="result-title">{title}</div>
+        <div class="result-score">{st.session_state.score}/{len(quiz)}</div>
+        <div class="result-percentage">{percentage:.0f}%</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("---")
+    c1, c2, c3 = st.columns(3)
+    with c1: st.metric("Nível", st.session_state.selected_level.upper())
+    with c2: st.metric("Questões Certas", f"{st.session_state.score}/{len(quiz)}")
+    with c3: st.metric("Taxa de Acerto", f"{percentage:.1f}%")
+
+    st.markdown("---")
+    col1, col2 = st.columns(2)
+
+    with col1:
+        if st.button("← Tentar Outro Nível", use_container_width=True):
+            st.session_state.stage = 'level'
+            st.session_state.selected_level = None
+            st.session_state.current_question = 0
+            st.session_state.score = 0
+            st.session_state.answers = []
+            st.session_state.show_result = False
+            st.rerun()
+
+    with col2:
+        if st.button("🔄 Reiniciar Tudo", use_container_width=True):
+            for key in list(st.session_state.keys()):
+                del st.session_state[key]
+            st.rerun()
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TELA 5: SQL EM LIBRAS ← NOVA
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def screen_libras():
+    """Seção completa de SQL em Libras com avatares animados e descrições dos sinais"""
+
+    concept = LIBRAS_CONCEPTS[st.session_state.libras_concept_idx]
+    total = len(LIBRAS_CONCEPTS)
+    idx = st.session_state.libras_concept_idx
+
+    # ── Cabeçalho ──────────────────────────────────────────────────────────────
+    st.markdown("""
+    <div class="libras-header">
+        <div style="font-size:2.5rem; margin-bottom:0.5rem;">🤟</div>
+        <div class="libras-header-title">SQL em Libras</div>
+        <div class="libras-header-sub">
+            Conceitos básicos de SQL na Língua Brasileira de Sinais
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Badge acessibilidade
+    st.markdown("""
+    <div class="badge-accessibility">
+        ♿ Conteúdo acessível em Libras — Língua Brasileira de Sinais
+    </div>
+    """, unsafe_allow_html=True)
+
+    # ── Navegação de conceitos (pills) ─────────────────────────────────────────
+    cols = st.columns(len(LIBRAS_CONCEPTS))
+    for i, c in enumerate(LIBRAS_CONCEPTS):
+        with cols[i]:
+            label = f"{c['icon']} {c['title']}"
+            is_active = i == idx
+            style_extra = "background:rgba(251,191,36,0.2);border-color:#fbbf24;color:#fcd34d;font-weight:600;" if is_active else ""
+            if st.button(label, key=f"pill_{i}", use_container_width=True):
+                st.session_state.libras_concept_idx = i
+                st.rerun()
+
+    st.markdown("---")
+
+    # Progresso
+    st.progress((idx + 1) / total)
+    st.markdown(f"<p style='color:#93c5fd;font-size:0.85rem;'>Conceito {idx+1} de {total}</p>",
+                unsafe_allow_html=True)
+
+    # ── Card principal ─────────────────────────────────────────────────────────
+    st.markdown(f"""
+    <div class="libras-card">
+        <div class="libras-card-title">{concept['icon']} {concept['title']}</div>
+        <div class="libras-card-desc">{concept['description_pt']}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # ── Duas colunas: Avatar + Detalhes ────────────────────────────────────────
+    col_avatar, col_details = st.columns([1, 1.6])
+
+    with col_avatar:
+        st.markdown("""
+        <div class="avatar-stage">
+            <div class="avatar-label">👤 Avatar do Sinal</div>
+        """, unsafe_allow_html=True)
+        st.markdown(get_avatar_svg(concept["avatar_key"]), unsafe_allow_html=True)
+        st.markdown("""
+            <div style="color:#93c5fd;font-size:0.75rem;text-align:center;margin-top:0.4rem;">
+                ↕ Animação ilustrativa do sinal
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col_details:
+        # Descrição do sinal
+        st.markdown(f"""
+        <div class="explanation-box">
+            <div class="explanation-title">📝 Como fazer o sinal</div>
+            <div class="explanation-text">{concept['sign_description']}</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Configurações de mão
+        st.markdown('<div class="avatar-label" style="margin-bottom:0.5rem;">✋ Configurações de Mão</div>',
+                    unsafe_allow_html=True)
+        hs_html = '<div class="handshape-grid">'
+        for hs in concept["handshapes"]:
+            hs_html += f'<div class="handshape-item"><span>{hs["emoji"]}</span>{hs["label"]}</div>'
+        hs_html += '</div>'
+        st.markdown(hs_html, unsafe_allow_html=True)
+
+    st.markdown("<div style='height:1rem;'></div>", unsafe_allow_html=True)
+
+    # ── Movimento e Localização ────────────────────────────────────────────────
+    col_m, col_l = st.columns(2)
+    with col_m:
+        st.markdown(f"""
+        <div style="background:rgba(30,58,138,0.2);border:1px solid rgba(251,191,36,0.2);
+                    border-radius:0.6rem;padding:1rem;height:100%;">
+            <div style="color:#fcd34d;font-weight:700;margin-bottom:0.4rem;">🔄 Movimento</div>
+            <div style="color:#93c5fd;font-size:0.9rem;line-height:1.5;">{concept['movement']}</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col_l:
+        st.markdown(f"""
+        <div style="background:rgba(30,58,138,0.2);border:1px solid rgba(251,191,36,0.2);
+                    border-radius:0.6rem;padding:1rem;height:100%;">
+            <div style="color:#fcd34d;font-weight:700;margin-bottom:0.4rem;">📍 Localização</div>
+            <div style="color:#93c5fd;font-size:0.9rem;line-height:1.5;">{concept['location']}</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("<div style='height:1rem;'></div>", unsafe_allow_html=True)
+
+    # ── Dica mnemônica ─────────────────────────────────────────────────────────
+    st.markdown(f'<div class="tip-box">{concept["tip"]}</div>', unsafe_allow_html=True)
+
+    st.markdown("---")
+
+    # ── Navegação anterior / próximo ───────────────────────────────────────────
+    col_prev, col_center, col_next = st.columns([1, 2, 1])
+
+    with col_prev:
+        if idx > 0:
+            if st.button("← Anterior", use_container_width=True):
+                st.session_state.libras_concept_idx -= 1
+                st.rerun()
+
+    with col_center:
+        if st.button("← Voltar ao Menu", use_container_width=True):
+            st.session_state.stage = 'level'
+            st.rerun()
+
+    with col_next:
+        if idx < total - 1:
+            if st.button("Próximo →", use_container_width=True, type="primary"):
+                st.session_state.libras_concept_idx += 1
+                st.rerun()
+        else:
+            if st.button("✅ Concluído!", use_container_width=True, type="primary"):
+                st.session_state.stage = 'level'
+                st.rerun()
+
+    # ── Rodapé informativo ─────────────────────────────────────────────────────
+    st.markdown("---")
+    st.markdown("""
+    <div style="background:rgba(30,58,138,0.15);border-radius:0.6rem;padding:1rem;
+                text-align:center;color:#64748b;font-size:0.78rem;line-height:1.6;">
+        🤟 As descrições dos sinais são aproximações para fins educacionais.<br>
+        Para aprendizado aprofundado de Libras, consulte um professor certificado de Libras<br>
+        ou utilize materiais do <strong style="color:#93c5fd;">INES — Instituto Nacional de Educação de Surdos</strong>.
+    </div>
+    """, unsafe_allow_html=True)
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# RENDERIZAÇÃO PRINCIPAL
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def main():
+    if st.session_state.stage == 'name':
+        screen_name()
+    elif st.session_state.stage == 'level':
+        screen_level()
+    elif st.session_state.stage == 'quiz':
+        screen_quiz()
+    elif st.session_state.stage == 'results':
+        screen_results()
+    elif st.session_state.stage == 'libras':
+        screen_libras()
+
+if __name__ == "__main__":
+    main()
