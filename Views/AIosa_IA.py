@@ -8,27 +8,8 @@ registrar_acesso("🦉 AIosa Agente de IA")
 st.markdown(
     """
     <style>
-    .project-button {
-        display: inline-block;
-        background-color: #262730;
-        color: #00b4d8 !important;
-        font-size: 1.2rem;
-        font-weight: bold;
-        padding: 12px 20px;
-        margin-bottom: 5px;
-        border-radius: 10px;
-        text-decoration: none;
-        transition: transform 0.3s, box-shadow 0.3s;
-        border: 1px solid rgba(0, 180, 216, 0.2);
-        width: 100%;
-        max-width: 800px;
-        cursor: pointer;
-        text-align: left;
-    }
-    .project-button:hover {
-        transform: scale(1.01);
-        box-shadow: 0 8px 16px rgba(0, 180, 216, 0.3);
-        border-color: #00b4d8;
+    .highlight-blue {
+        color: #00b4d8;
     }
     .project-description {
         color: #ffffff;
@@ -38,8 +19,32 @@ st.markdown(
         max-width: 800px;
         line-height: 1.4;
     }
-    .highlight-blue {
-        color: #00b4d8;
+    .open-btn {
+        display: inline-block;
+        background-color: #262730;
+        color: #00b4d8 !important;
+        font-size: 1rem;
+        font-weight: bold;
+        padding: 8px 16px;
+        margin-bottom: 12px;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: transform 0.2s, box-shadow 0.2s;
+        border: 1px solid rgba(0, 180, 216, 0.2);
+        cursor: pointer;
+    }
+    .open-btn:hover {
+        transform: scale(1.01);
+        box-shadow: 0 4px 12px rgba(0, 180, 216, 0.3);
+        border-color: #00b4d8;
+    }
+    .iframe-wrapper {
+        border: 2px solid #31333F;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 60px;
+        background-color: #ECE5DD;
+        width: 100%;
     }
     </style>
     """,
@@ -48,21 +53,32 @@ st.markdown(
 
 # --- TÍTULO ---
 st.markdown('<h1>🦉 <span class="highlight-blue">AI</span>osa Agente de IA</h1>', unsafe_allow_html=True)
-st.write("Aplicações web completas desenvolvidas para automação de processos e análise financeira.")
+st.write("Assistente virtual inteligente desenvolvido por Rodrigo Aiosa.")
 st.markdown("---")
 
-# --- BOTÃO QUE ABRE EM NOVA ABA ---
+# --- BOTÃO ABRIR EM NOVA ABA + IFRAME ---
 st.markdown(
     """
-    <a href="https://aiosaia.streamlit.app/" target="_blank" class="project-button">
-        🦉<span style="color:#00b4d8;">AI</span>OSA — Assistente Virtual Inteligente ↗️
+    <a href="https://aiosaia.streamlit.app/" target="_blank" class="open-btn">
+        🔗 Abrir em nova aba ↗️
     </a>
     """,
     unsafe_allow_html=True
 )
 
 st.markdown(
-    '<div class="project-description">Assistente virtual desenvolvido por Rodrigo Aiosa. Clique para abrir o chat.</div>',
+    """
+    <div class="iframe-wrapper">
+        <iframe
+            src="https://aiosaia.streamlit.app/?embed=true"
+            width="100%"
+            height="720"
+            frameborder="0"
+            allow="clipboard-read; clipboard-write"
+            sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-downloads">
+        </iframe>
+    </div>
+    """,
     unsafe_allow_html=True
 )
 
