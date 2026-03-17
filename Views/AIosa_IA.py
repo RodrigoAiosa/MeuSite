@@ -56,16 +56,6 @@ st.markdown('<h1>🦉 <span class="highlight-blue">AI</span>osa Agente de IA</h1
 st.write("Assistente virtual inteligente desenvolvido por Rodrigo Aiosa.")
 st.markdown("---")
 
-# --- BOTÃO ABRIR EM NOVA ABA + IFRAME ---
-st.markdown(
-    """
-    <a href="https://aiosaia.streamlit.app/" target="_blank" class="open-btn">
-        🔗 Abrir em nova aba ↗️
-    </a>
-    """,
-    unsafe_allow_html=True
-)
-
 st.markdown(
     """
     <div class="iframe-wrapper">
