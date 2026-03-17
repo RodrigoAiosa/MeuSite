@@ -1,8 +1,7 @@
 import streamlit as st
-from utils import exibir_rodape, registrar_acesso  # Importação mantida
+from utils import exibir_rodape, registrar_acesso
 
 # --- REGISTRO DE ACESSO ---
-# Registra a entrada do usuário na página de Projetos Python
 registrar_acesso("🦉 AIosa Agente de IA")
 
 # --- ESTILO CSS ---
@@ -46,7 +45,6 @@ st.markdown(
         margin-bottom: 60px;
         background-color: #f0f2f6;
     }
-    /* Estilo para o destaque azul nas iniciais */
     .highlight-blue {
         color: #00b4d8;
     }
@@ -55,24 +53,19 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Título customizado com "AI" em azul
+# --- TÍTULO ---
 st.markdown('<h1>🦉 <span class="highlight-blue">AI</span>osa Agente de IA</h1>', unsafe_allow_html=True)
-
 st.write("Aplicações web completas desenvolvidas para automação de processos e análise financeira.")
 st.markdown("---")
 
 # --- FUNÇÃO PARA RENDERIZAR APPS COM DESCRIÇÃO ---
 def render_python_app(title, description, url):
-    # Botão para abrir em nova aba (essencial caso o iframe falhe)
     st.markdown(f'<a href="{url}" target="_blank" class="project-button">{title} ↗️</a>', unsafe_allow_html=True)
-    # Descrição
     st.markdown(f'<div class="project-description">{description}</div>', unsafe_allow_html=True)
-    
-    # Limpeza da URL para o iframe (removendo âncoras que causam redirect loops)
+
     clean_url = url.split('#')[0]
     embed_url = f"{clean_url}?embed=true"
-    
-    # App incorporado
+
     st.markdown(
         f"""
         <div class="iframe-container">
@@ -89,15 +82,11 @@ def render_python_app(title, description, url):
         unsafe_allow_html=True
     )
 
-# --- LISTA DE PROJETOS ---
-
-# Projeto 
-# Removi a âncora da URL para evitar o erro de redirecionamento no iframe
-# Note que aqui também apliquei o destaque no título do projeto se desejar
+# --- PROJETO ---
 render_python_app(
     "🦉<span class='highlight-blue'>AI</span>OSA — Assistente Virtual Inteligente",
     "Assistente virtual desenvolvido por Rodrigo Aiosa.",
-    "https://rodrigoaiosa-aiosa-assistente-ia.hf.space"
+    "https://aiosaia.streamlit.app"  # ✅ URL atualizada
 )
 
 exibir_rodape()
