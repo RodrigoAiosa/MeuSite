@@ -2,7 +2,7 @@ import streamlit as st
 from utils import exibir_rodape, registrar_acesso
 
 # --- REGISTRO DE ACESSO ---
-registrar_acesso("🦉 AIosa Agente de IA")
+registrar_acesso("🦉 Gerar Dados BI")
 
 # --- ESTILO CSS ---
 st.markdown(
@@ -50,11 +50,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
-# --- TÍTULO ---
-st.markdown('<h1>🦉 <span class="highlight-blue">AI</span>osa Agente de IA</h1>', unsafe_allow_html=True)
-st.write("Assistente virtual inteligente desenvolvido por Rodrigo Aiosa.")
-st.markdown("---")
 
 st.markdown(
     """
