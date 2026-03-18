@@ -89,15 +89,15 @@ escola_sql = st.Page(page="Views/escola_sql.py", title="Escola SQL", icon="⚛�
 escola_python = st.Page(page="Views/escola_python.py", title="Escola Python", icon="⚛️")
 escola_excel = st.Page(page="Views/escola_excel.py", title="Teclas de Atalho Excel", icon="⚛️")
 curso_excel = st.Page(page="Views/curso_excel.py", title="Escola Excel", icon="⚛️")
+gerar_dados_bi = st.Page(page="Views/gerar_dados_bi.py", title="Gerador Dados BI", icon="⚛️")
 #curso_sql = st.Page(page="Views/curso_sql.py", title="Curso SQL gratuíto", icon="📋")
-
 
 # --- NAVEGAÇÃO ---
 navigation_dict = {
     "Informações": [sobre_page, projeto_recente_page],
     "Resultados": [cases_sucesso_page],
     "Portifólio": [projeto_python_page, projeto_powerbi_page],
-    "Treinamentos": [treinamento_empresa_page, cursos_online_page, escola_sql, escola_python, escola_excel, curso_excel],
+    "Treinamentos": [treinamento_empresa_page, cursos_online_page, escola_sql, escola_python, escola_excel, curso_excel, gerar_dados_bi],
     "Entre em contato": [contato],
     "Assistente IA": [AIOSAIA]
 }
