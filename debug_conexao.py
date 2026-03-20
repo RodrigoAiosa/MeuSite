@@ -4,20 +4,18 @@ from datetime import datetime, timedelta, timezone
 
 st.title("🔧 Debug — Conexão Supabase")
 
-# ── Configuração via Pooler (IPv4) ───────────────────────────
 SUPABASE_CONFIG = {
-    "host":            "aws-0-us-east-1.pooler.supabase.com",
+    "host":            "aws-1-us-east-1.pooler.supabase.com",
     "database":        "postgres",
     "user":            "postgres.hqkhtpwmciavtobsutph",
     "password":        st.secrets.get("SUPABASE_PASSWORD", ""),
-    "port":            "6543",
+    "port":            "5432",
     "sslmode":         "require",
     "connect_timeout": 10,
 }
 
 # ── 1. Verifica secret ───────────────────────────────────────
 st.subheader("1. Secret configurado?")
-
 senha = st.secrets.get("SUPABASE_PASSWORD", None)
 if senha:
     st.success(f"✅ SUPABASE_PASSWORD = {str(senha)[:4]}***")
@@ -26,12 +24,10 @@ else:
     st.stop()
 
 # ── 2. Testa conexão ────────────────────────────────────────
-st.subheader("2. Conexão com o banco (Pooler IPv4 — porta 6543)")
-
+st.subheader("2. Conexão com o banco (Session Pooler IPv4 — porta 5432)")
 try:
     conn = psycopg2.connect(**SUPABASE_CONFIG)
     st.success("✅ Conexão estabelecida com sucesso!")
-
     cur = conn.cursor()
 
     # ── 3. Verifica tabela ───────────────────────────────────
@@ -62,7 +58,7 @@ try:
         except Exception as e:
             st.error(f"❌ Erro no INSERT: {e}")
     else:
-        st.error("❌ Tabela NÃO encontrada! Crie a tabela no Supabase.")
+        st.error("❌ Tabela NÃO encontrada!")
 
     cur.close()
     conn.close()
