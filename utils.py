@@ -5,21 +5,15 @@ import urllib.parse
 from datetime import datetime, timedelta, timezone
 
 # ============================================================
-# CONFIGURAÇÕES — Supabase (IPv4 via Connection Pooler)
+# CONFIGURAÇÕES — Supabase (Session Pooler IPv4)
 # ============================================================
-# O Streamlit Cloud usa IPv6 por padrão, mas o Supabase Free
-# não aceita IPv6 na porta 5432 (direct connection).
-# Solução: usar o Connection Pooler na porta 6543 (IPv4).
-#
-# Secrets necessários no Streamlit Cloud:
-#   SUPABASE_PASSWORD = "sua_senha"
 
 SUPABASE_CONFIG = {
-    "host":            "aws-0-us-east-1.pooler.supabase.com",
+    "host":            "aws-1-us-east-1.pooler.supabase.com",
     "database":        "postgres",
     "user":            "postgres.hqkhtpwmciavtobsutph",
     "password":        st.secrets.get("SUPABASE_PASSWORD", ""),
-    "port":            "6543",
+    "port":            "5432",
     "sslmode":         "require",
     "connect_timeout": 10,
 }
@@ -47,7 +41,7 @@ inicializar_estado()
 # ============================================================
 
 def _conectar_supabase():
-    """Retorna uma conexão psycopg2 com o Supabase via pooler IPv4."""
+    """Retorna uma conexão psycopg2 com o Supabase via Session Pooler IPv4."""
     return psycopg2.connect(**SUPABASE_CONFIG)
 
 
