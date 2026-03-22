@@ -181,11 +181,11 @@ treinamento_empresa_page = st.Page(page="Views/treinamento_empresa.py", title="P
 cursos_online_page = st.Page(page="Views/cursos_online.py", title="Cursos Online", icon="🛜")
 contato = st.Page(page="Views/contato.py", title="Contato", icon="📧")
 AIOSAIA = st.Page(page="Views/AIosa_IA.py", title="AIOSA IA", icon="⚛️")
-escola_sql = st.Page(page="Views/escola_sql.py", title="Escola SQL", icon="⚛️")
-escola_python = st.Page(page="Views/escola_python.py", title="Escola Python", icon="⚛️")
-escola_excel = st.Page(page="Views/escola_excel.py", title="Teclas de Atalho Excel", icon="⚛️")
-curso_excel = st.Page(page="Views/curso_excel.py", title="Escola Excel", icon="⚛️")
-gerar_dados_bi = st.Page(page="Views/gerar_dados_bi.py", title="Gerador Dados BI", icon="⚛️")
+escola_sql = st.Page(page="Views/escola_sql.py", title="Escola SQL", icon="🗄️")
+escola_python = st.Page(page="Views/escola_python.py", title="Escola Python", icon="🐍")
+escola_excel = st.Page(page="Views/escola_excel.py", title="Teclas de Atalho Excel", icon="📊")
+curso_excel = st.Page(page="Views/curso_excel.py", title="Escola Excel", icon="💻")
+gerar_dados_bi = st.Page(page="Views/gerar_dados_bi.py", title="Gerador Dados BI", icon="")
 
 # --- NAVEGAÇÃO ---
 navigation_dict = {
