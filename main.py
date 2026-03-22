@@ -185,7 +185,7 @@ escola_sql = st.Page(page="Views/escola_sql.py", title="Escola SQL", icon="🗄�
 escola_python = st.Page(page="Views/escola_python.py", title="Escola Python", icon="🐍")
 escola_excel = st.Page(page="Views/escola_excel.py", title="Teclas de Atalho Excel", icon="📊")
 curso_excel = st.Page(page="Views/curso_excel.py", title="Escola Excel", icon="💻")
-gerar_dados_bi = st.Page(page="Views/gerar_dados_bi.py", title="Gerador Dados BI", icon="")
+gerar_dados_bi = st.Page(page="Views/gerar_dados_bi.py", title="Gerador Dados BI", icon="💡")
 
 # --- NAVEGAÇÃO ---
 navigation_dict = {
