@@ -17,7 +17,8 @@ st.markdown("""
     [data-testid="stSidebar"],
     [data-testid="stSidebarNav"] {
         background-color: #0d0d14 !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
+        border: none !important;
+        box-shadow: none !important;
     }
 
     /* ── Scrollbar fina na sidebar ── */
@@ -112,8 +113,17 @@ st.markdown("""
     /* ── Logo / cabeçalho da sidebar ── */
     [data-testid="stSidebarHeader"] {
         background-color: #0d0d14 !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+        border: none !important;
+        box-shadow: none !important;
         padding-bottom: 12px !important;
+    }
+
+    /* ── Remove qualquer borda residual do Streamlit ── */
+    [data-testid="stSidebar"] > div:first-child,
+    [data-testid="stSidebar"] section {
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
     }
 
     /* ── Botão de toggle da sidebar ── */
