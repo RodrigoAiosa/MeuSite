@@ -55,7 +55,7 @@ st.markdown(
     """
     <div class="iframe-wrapper">
         <iframe
-            src="https://gerador-dados-bi.streamlit.app/?embed=true"
+            src="https://ai-bidatagenerator.streamlit.app/?embed=true"
             width="100%"
             height="720"
             frameborder="0"
