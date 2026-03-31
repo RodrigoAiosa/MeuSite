@@ -422,7 +422,7 @@ python_projects = [
     {
         "title": "🚀 BI Data Generator PRO",
         "desc": "Construí uma ferramenta que analisa seu desempenho no ENEM por área, explica cada resposta e aponta onde focar. Open source, gratuito, acessível a qualquer estudante com internet.",
-        "url": "https://bi-data-generator.streamlit.app"
+        "url": "https://rodrigoaiosa.streamlit.app/gerar_dados_bi"
     },
     {
         "title": "🗺️ CrimeMap BR — Segurança Pública",
