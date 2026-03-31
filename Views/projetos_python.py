@@ -447,7 +447,7 @@ python_projects = [
     {
         "title": "📍 Extrator de Dados - Google Maps",
         "desc": "Ferramenta para extração estruturada de dados públicos do Google Maps para geração de leads.",
-        "url": "https://rodrigoaiosa-extrair-dados-googlemaps.hf.space"
+        "url": "https://extrator-de-dados-gm.streamlit.app/"
     },
 ]
 
