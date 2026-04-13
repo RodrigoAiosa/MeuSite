@@ -432,7 +432,7 @@ python_projects = [
     {
         "title": "🦉 Calculadora ROI de Automação",
         "desc": "Ferramenta estratégica para estimar o Retorno sobre Investimento (ROI) de projetos de automação empresarial.",
-        "url": "https://rodrigoaiosa-roi-automacao.hf.space"
+        "url": "https://roiautomacao.streamlit.app/"
     },
     {
         "title": "💼 APP S.O.S. MULHER",
