@@ -404,6 +404,12 @@ st.write("")
 # LISTA DE PROJETOS
 # --------------------------------------------------
 python_projects = [
+
+    {
+        "title": "💰 Renda por Município - São Paulo",
+        "desc": "Dados oficiais do IBGE | PIB per capita e estimativas de renda familiar",
+        "url": "https://renda-cidades-sp-ibge.streamlit.app/"
+    },
     {
         "title": "🎓 O cursinho que o Brasil não pode pagar — eu construí de graça",
         "desc": "Construí um simulador do ENEM gratuito com Python + Streamlit. E quero te contar por que isso importa",
