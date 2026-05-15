@@ -471,61 +471,61 @@ pbi_projects = [
         "title": "Portal da Transparência - Ilheus",
         "icon": "📈",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYTM2ZWFlM2QtOTc2NC00NDQ2LTg2ZTctOGY5Nzc4YTk2YWM1IiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9&pageName=6a9e62a06ecb8db6c215",
-        "desc": "Meu dashboard em Power BI do Portal da Transparência de Ilhéus transforma dados públicos em informação clara e estratégica. Com visualizações interativas, é possível acompanhar receitas, despesas e indicadores em tempo real, fortalecendo o controle social e apoiando decisões mais conscientes e transparentes."
+        "desc": "Transforma dados públicos de Ilhéus em informação clara e estratégica. Acompanhe receitas, despesas e indicadores em tempo real, fortalecendo o controle social."
     },
     {
         "title": "💹 DRE Estratégico — Análise Financeira",
         "icon": "📊",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiOWE0ZmU3ZTMtYzAyYi00NDE1LTg3YWItYjcxZTE2ZWI2OWRjIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9&disablecdnExpiration=1766386882",
-        "desc": "Dashboard financeiro focado no acompanhamento detalhado do DRE, com análises vertical e horizontal que permitem avaliar a composição de receitas, custos e despesas ao longo do tempo. A solução oferece insights estratégicos sobre rentabilidade, margens e tendências financeiras, apoiando gestores na tomada de decisões mais precisas e alinhadas aos objetivos corporativos."
+        "desc": "Acompanhamento detalhado do DRE com análises vertical/horizontal. Avalie rentabilidade, margens e tendências para decisões financeiras mais precisas."
     },
     {
         "title": "🏦 Monitoramento de Vagas — Bradesco",
         "icon": "📋",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiMjQxN2Q4NGYtNWRmNy00NWVjLWE4YmQtNWMyNWYwNGYyZDUzIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
-        "desc": "Dashboard estratégico para acompanhamento de vagas abertas no site oficial do Bradesco, oferecendo visão consolidada por área, localização, tipo de vaga e volume de oportunidades ativas. A solução permite identificar tendências de contratação, mapear demandas por perfil profissional e apoiar decisões estratégicas de recrutamento com base em dados atualizados do mercado bancário."
+        "desc": "Visão consolidada de vagas Bradesco por área, localização e perfil. Identifique tendências de contratação e apoie decisões estratégicas de recrutamento."
     },
     {
         "title": "💳 Relatório STONE",
         "icon": "🏛️",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiMmViN2ZlMWMtY2Q4My00NmNmLTg0NzAtZjEzMzliNzcwMWMyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Solução avançada para monitoramento de faturamento B2B, consolidando KPIs essenciais como Margem de Contribuição e Ticket Médio. O dashboard permite uma análise granular da evolução mensal e performance por filtros regionais, facilitando a identificação de gargalos operacionais e oportunidades de expansão no setor financeiro."
+        "desc": "Monitoramento de faturamento B2B com KPIs como Margem de Contribuição e Ticket Médio. Análise granular por região e evolução mensal."
     },
     {
         "title": "📊 Vendas Meta vs Realizado",
         "icon": "📈",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYTg4OTdkZDUtNmIwZS00NGE1LTk2MDktMzc1YjM3ZjViN2Q5IiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Focado na gestão de Recrutamento e Seleção, este painel transforma dados brutos em inteligência estratégica. Acompanhe o funil de contratação, tempo médio de fechamento de vagas e eficiência dos canais de recrutamento, permitindo que o RH atue de forma preditiva na composição das equipes e no alcance das metas corporativas."
+        "desc": "Gestão de Recrutamento e Seleção: acompanhe funil, tempo de fechamento e eficiência dos canais. RH preditivo para alcance de metas."
     },
     {
         "title": "📦 Controle de Pedidos BNZ",
         "icon": "📦",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiODE4YmZkNDItNWQ0OC00YmUyLThiZTktOTlmN2E0NWM3NTljIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Sistema de gestão de estoque inteligente que oferece visibilidade total sobre o fluxo de mercadorias. O dashboard monitora níveis de inventário, giro de produtos e status de pedidos em tempo real, auxiliando na prevenção de rupturas e no otimização logística para garantir que o suprimento atenda à demanda com precisão."
+        "desc": "Gestão de estoque inteligente: níveis de inventário, giro de produtos e status de pedidos em tempo real. Prevenção de rupturas e otimização logística."
     },
     {
         "title": "🎯 Análise Dados Estratégica",
         "icon": "🎯",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiM2ZhYjQ5YzItNTliMS00M2QxLWFhMmItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Painel voltado para a alta gestão, focado no controle rigoroso de metas e performance de vendas. Através de visualizações dinâmicas, é possível confrontar o planejado vs. realizado, analisar tendências de mercado e ajustar táticas comerciais rapidamente para garantir o atingimento dos objetivos estratégicos da organização."
+        "desc": "Alta gestão: controle rigoroso de metas e performance de vendas. Compare planejado vs realizado e ajuste táticas rapidamente."
     },
     {
         "title": "👥 People Analytics (RH)",
         "icon": "👥",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYmE2OGE3ODktZTUzMi00YTU2LTlkYmItYzUzY2UzNmJkMjAyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Especializado na gestão de remuneração variável, este dashboard automatiza o controle de comissões e bonificações. A ferramenta garante transparência e precisão nos cálculos, correlacionando o desempenho individual com os pagamentos efetuados, reduzindo erros operacionais e aumentando a motivação da força de vendas."
+        "desc": "Automatize o controle de comissões e bonificações. Transparência e precisão nos cálculos, correlacionando desempenho com pagamentos efetuados."
     },
     {
         "title": "🚀 Gestão de Negócios - Relatório Borelli",
         "icon": "🚀",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYzNhNDFkNzEtZmVkNy00ODZkLTgyZDYtMWIzMDQ3YWU2ZjFiIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Dashboard focado na eficiência fabril e controle de produção. Monitora o ciclo produtivo completo, desde a entrada de insumos até o produto final, destacando índices de produtividade, desperdícios e ocupação de capacidade. Ideal para gestores que buscam otimizar processos e reduzir custos operacionais na indústria."
+        "desc": "Eficiência fabril e controle de produção: ciclo produtivo, produtividade, desperdícios e ocupação de capacidade. Reduza custos operacionais."
     },
     {
         "title": "🏖️ Dashboard Financeiro — Beocean Resort",
         "icon": "💰",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiY2VkZmU1MDMtNTgwZS00NTJmLWFhOTktYzM0YzMwZDE3OTE4IiwidCI6IjdjNTYzNjMxLTcyZGMtNDY1Ny05MTRkLWIyM2M5ZTI5OGVlMSJ9&pageName=ae6d1828240b25f04e49",
-        "desc": "Painel de controle financeiro integral para o setor de hotelaria. Oferece uma visão clara do fluxo de caixa, receitas por categoria e despesas operacionais. Com indicadores de saúde financeira atualizados, permite uma gestão de tesouraria mais segura e decisões baseadas em dados para maximizar a rentabilidade do resort."
+        "desc": "Painel financeiro para hotelaria: fluxo de caixa, receitas por categoria e despesas operacionais. Decisões baseadas em dados para maximizar rentabilidade."
     }
 ]
 
