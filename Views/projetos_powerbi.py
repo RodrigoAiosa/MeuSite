@@ -500,7 +500,7 @@ pbi_projects = [
     {
         "title": "📦 Controle de Pedidos BNZ",
         "icon": "📦",
-        "url": "https://app.powerbi.com/view?r=eyJrIjoiODE4YmZkNDItNWQ0OC00YmUyLThiZTktOTlmN2E0NWM3NTljIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
+        "url": "https://app.powerbi.com/view?r=eyJrIjoiZDZlNzViNzMtODllZS00OTVlLWI4MWQtNzBhZmU5ZTkxY2E0IiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
         "desc": "Gestão de estoque inteligente: níveis de inventário, giro de produtos e status de pedidos em tempo real. Prevenção de rupturas e otimização logística."
     },
     {
