@@ -365,7 +365,7 @@ st.markdown("""
     </p>
     <div class="hero-stats">
         <div class="hero-stat">
-            <span class="hero-stat-number">9</span>
+            <span class="hero-stat-number">11</span>
             <span class="hero-stat-label">Projetos</span>
         </div>
         <div class="hero-stat">
