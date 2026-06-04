@@ -406,6 +406,11 @@ st.write("")
 python_projects = [
 
     {
+        "title": "📍 População Municipal",
+        "desc": "Dados oficiais do IBGE | Tabela SIDRA 6579",
+        "url": "https://popualcaoibge.streamlit.app/"
+    },
+    {
         "title": "💰 Renda por Município - São Paulo",
         "desc": "Dados oficiais do IBGE | PIB per capita e estimativas de renda familiar",
         "url": "https://renda-cidades-sp-ibge.streamlit.app/"
