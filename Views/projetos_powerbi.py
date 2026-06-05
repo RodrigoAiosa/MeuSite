@@ -470,7 +470,7 @@ pbi_projects = [
     {
         "title": "Portal da Transparência - Ilheus",
         "icon": "📈",
-        "url": "https://app.powerbi.com/view?r=eyJrIjoiYTM2ZWFlM2QtOTc2NC00NDQ2LTg2ZTctOGY5Nzc4YTk2YWM1IiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9&pageName=6a9e62a06ecb8db6c215",
+        "url": "https://app.powerbi.com/view?r=eyJrIjoiYTM2ZWFlM2QtOTc2NC00NDQ2LTg2ZTctOGY5Nzc4YTk2YWM1IiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
         "desc": "Transforma dados públicos de Ilhéus em informação clara e estratégica. Acompanhe receitas, despesas e indicadores em tempo real, fortalecendo o controle social."
     },
     {
