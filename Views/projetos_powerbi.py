@@ -518,7 +518,7 @@ pbi_projects = [
     {
         "title": "🚀 Gestão de Negócios - Relatório Borelli",
         "icon": "🚀",
-        "url": "https://app.powerbi.com/view?r=eyJrIjoiYzNhNDFkNzEtZmVkNy00ODZkLTgyZDYtMWIzMDQ3YWU2ZjFiIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
+        "url": "https://app.powerbi.com/view?r=eyJrIjoiZTY5YmEzZmQtZDVhMS00N2QyLWJhY2QtMDNhMWFmMDRjMjNmIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
         "desc": "Eficiência fabril e controle de produção: ciclo produtivo, produtividade, desperdícios e ocupação de capacidade. Reduza custos operacionais."
     },
     {
