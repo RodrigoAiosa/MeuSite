@@ -420,7 +420,7 @@ st.markdown("""
     </p>
     <div class="hero-stats">
         <div class="hero-stat">
-            <span class="hero-stat-number">10</span>
+            <span class="hero-stat-number">11</span>
             <span class="hero-stat-label">Dashboards</span>
         </div>
         <div class="hero-stat">
