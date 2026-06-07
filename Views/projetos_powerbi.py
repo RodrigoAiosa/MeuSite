@@ -467,6 +467,12 @@ st.write("")
 
 # --- DADOS DOS PROJETOS ---
 pbi_projects = [
+     {
+        "title": "Dashboard OEE",
+        "icon": "📈",
+        "url": "https://app.powerbi.com/view?r=eyJrIjoiM2YxN2NhZmQtMTg4My00YTgwLWJhOGQtZmRkNGZkNTM1ZDM0IiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
+        "desc": "Transforme dados brutos de eficiência industrial em insights claros e estratégicos. Acompanhe a disponibilidade, o desempenho e a qualidade da produção em tempo real, identificando gargalos, reduzindo perdas e aumentando a produtividade do seu chão de fábrica."
+    },
     {
         "title": "Portal da Transparência - Ilheus",
         "icon": "📈",
