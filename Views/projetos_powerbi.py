@@ -411,6 +411,12 @@ div[data-testid="stTextInput"] input:focus {
 # --- DADOS DOS PROJETOS ---
 pbi_projects = [
      {
+        "title": "Dashboard Transporte - Travel Company",
+        "icon": "📈",
+        "url": "https://app.powerbi.com/view?r=eyJrIjoiNjY5NThlNjctZWY1Ny00YjA0LTk0MjEtNzhiNjgzZjdjZjA2IiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
+        "desc": "Transforme dados logísticos em vantagem competitiva. Analise indicadores de performance operacional, identifique pontos de ineficiência e otimize toda a cadeia de transportes, reduzindo lead time, custos operacionais e aumentando a satisfação dos clientes."
+    },
+     {
         "title": "Dashboard ANATEL - Indicadores de Reclamações",
         "icon": "📈",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYTQ4MGM2MzMtNTU1NS00NjBkLWEyYmItNTI3ZTUyY2NiNjNjIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
