@@ -408,63 +408,6 @@ div[data-testid="stTextInput"] input:focus {
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 """, unsafe_allow_html=True)
 
-# ── HERO ──
-st.markdown("""
-<div class="hero-wrapper">
-    <div class="hero-badge">📊 Portfólio Power BI</div>
-    <h1 class="hero-title">
-        Dashboards que transformam <span class="accent">dados em decisões</span>
-    </h1>
-    <p class="hero-subtitle">
-        Inteligência de negócios aplicada — visualizações estratégicas para gestores que exigem resultado.
-    </p>
-    <div class="hero-stats">
-        <div class="hero-stat">
-            <span class="hero-stat-number">12</span>
-            <span class="hero-stat-label">Dashboards</span>
-        </div>
-        <div class="hero-stat">
-            <span class="hero-stat-number">+20</span>
-            <span class="hero-stat-label">Anos de Campo</span>
-        </div>
-        <div class="hero-stat">
-            <span class="hero-stat-number">100%</span>
-            <span class="hero-stat-label">Estratégico</span>
-        </div>
-    </div>
-    <div class="hero-container">
-        <div class="hero-container-title">Decisões de Elite exigem Experiência Real</div>
-        <div class="hero-container-text">
-            <p><strong style="color:#e2e8f0;">A Lógica do Sucesso:</strong></p>
-            <ol>
-                <li>Resultados extraordinários só são alcançados através de <span class="hero-highlight">metodologias validadas pelo tempo</span>.</li>
-                <li>Minha consultoria e mentoria sintetizam <span class="hero-highlight">+20 anos de campo</span> em estratégias aplicáveis.</li>
-                <li><strong style="color:#e2e8f0;">Logo,</strong> acelerar sua curva de aprendizado e seus lucros comigo não é uma opção, é a <span class="hero-highlight">consequência lógica da excelência.</span></li>
-            </ol>
-            <p>Não busque apenas dashboards. Busque a inteligência por trás deles.</p>
-        </div>
-    </div>
-    <div class="hero-divider"></div>
-</div>
-""", unsafe_allow_html=True)
-
-# ── SEARCH ──
-st.markdown(
-    "<p class='search-label'>🔍 Filtre os painéis pelo nome ou descrição</p>",
-    unsafe_allow_html=True
-)
-
-col_s1, col_s2, col_s3 = st.columns([1, 2, 1])
-with col_s2:
-    search_query = st.text_input(
-        label="Pesquisar dashboard",
-        placeholder="Ex: financeiro, RH, Stone...",
-        key="search_pbi",
-        label_visibility="collapsed"
-    )
-
-st.write("")
-
 # --- DADOS DOS PROJETOS ---
 pbi_projects = [
      {
@@ -541,16 +484,76 @@ pbi_projects = [
     }
 ]
 
+# --- CONTAGEM DINÂMICA DOS PROJETOS ---
+total_projetos = len(pbi_projects)
+
+# ── HERO (COM VALOR DINÂMICO) ──
+st.markdown(f"""
+<div class="hero-wrapper">
+    <div class="hero-badge">📊 Portfólio Power BI</div>
+    <h1 class="hero-title">
+        Dashboards que transformam <span class="accent">dados em decisões</span>
+    </h1>
+    <p class="hero-subtitle">
+        Inteligência de negócios aplicada — visualizações estratégicas para gestores que exigem resultado.
+    </p>
+    <div class="hero-stats">
+        <div class="hero-stat">
+            <span class="hero-stat-number">{total_projetos}</span>
+            <span class="hero-stat-label">Dashboards</span>
+        </div>
+        <div class="hero-stat">
+            <span class="hero-stat-number">+20</span>
+            <span class="hero-stat-label">Anos de Campo</span>
+        </div>
+        <div class="hero-stat">
+            <span class="hero-stat-number">100%</span>
+            <span class="hero-stat-label">Estratégico</span>
+        </div>
+    </div>
+    <div class="hero-container">
+        <div class="hero-container-title">Decisões de Elite exigem Experiência Real</div>
+        <div class="hero-container-text">
+            <p><strong style="color:#e2e8f0;">A Lógica do Sucesso:</strong></p>
+            <ol>
+                <li>Resultados extraordinários só são alcançados através de <span class="hero-highlight">metodologias validadas pelo tempo</span>.</li>
+                <li>Minha consultoria e mentoria sintetizam <span class="hero-highlight">+20 anos de campo</span> em estratégias aplicáveis.</li>
+                <li><strong style="color:#e2e8f0;">Logo,</strong> acelerar sua curva de aprendizado e seus lucros comigo não é uma opção, é a <span class="hero-highlight">consequência lógica da excelência.</span></li>
+            </ol>
+            <p>Não busque apenas dashboards. Busque a inteligência por trás deles.</p>
+        </div>
+    </div>
+    <div class="hero-divider"></div>
+</div>
+""", unsafe_allow_html=True)
+
+# ── SEARCH ──
+st.markdown(
+    "<p class='search-label'>🔍 Filtre os painéis pelo nome ou descrição</p>",
+    unsafe_allow_html=True
+)
+
+col_s1, col_s2, col_s3 = st.columns([1, 2, 1])
+with col_s2:
+    search_query = st.text_input(
+        label="Pesquisar dashboard",
+        placeholder="Ex: financeiro, RH, Stone...",
+        key="search_pbi",
+        label_visibility="collapsed"
+    )
+
+st.write("")
+
 # --- FILTRO DE PESQUISA ---
 if search_query:
     filtered_projects = [
         p for p in pbi_projects
         if search_query.lower() in p["title"].lower() or search_query.lower() in p["desc"].lower()
     ]
-    total = len(filtered_projects)
-    label = "resultado" if total == 1 else "resultados"
+    total_resultados = len(filtered_projects)
+    label = "resultado" if total_resultados == 1 else "resultados"
     st.markdown(
-        f"<div class='search-result-count'>🔎 <span>{total}</span> {label} para <span>\"{search_query}\"</span></div>",
+        f"<div class='search-result-count'>🔎 <span>{total_resultados}</span> {label} para <span>\"{search_query}\"</span></div>",
         unsafe_allow_html=True
     )
 else:
