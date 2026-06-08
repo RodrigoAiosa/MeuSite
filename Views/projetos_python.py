@@ -352,59 +352,9 @@ div[data-testid="stTextInput"] input:focus {
 """, unsafe_allow_html=True)
 
 # --------------------------------------------------
-# HERO
-# --------------------------------------------------
-st.markdown("""
-<div class="hero-wrapper">
-    <div class="hero-badge">⚡ Portfólio Python</div>
-    <h1 class="hero-title">
-        Aplicações que <span class="accent">resolvem problemas</span><br>reais com código
-    </h1>
-    <p class="hero-subtitle">
-        Automação, análise financeira e Business Intelligence — ferramentas construídas para impactar.
-    </p>
-    <div class="hero-stats">
-        <div class="hero-stat">
-            <span class="hero-stat-number">11</span>
-            <span class="hero-stat-label">Projetos</span>
-        </div>
-        <div class="hero-stat">
-            <span class="hero-stat-number">100%</span>
-            <span class="hero-stat-label">Open Access</span>
-        </div>
-        <div class="hero-stat">
-            <span class="hero-stat-number">∞</span>
-            <span class="hero-stat-label">Impacto</span>
-        </div>
-    </div>
-    <div class="hero-divider"></div>
-</div>
-""", unsafe_allow_html=True)
-
-# --------------------------------------------------
-# BARRA DE PESQUISA
-# --------------------------------------------------
-st.markdown(
-    "<p class='search-label'>🔍 Filtre os projetos pelo nome ou descrição</p>",
-    unsafe_allow_html=True
-)
-
-col_s1, col_s2, col_s3 = st.columns([1, 2, 1])
-with col_s2:
-    search_query = st.text_input(
-        label="Pesquisar projeto",
-        placeholder="Ex: ENEM, ROI, mapas...",
-        key="search_python",
-        label_visibility="collapsed"
-    )
-
-st.write("")
-
-# --------------------------------------------------
-# LISTA DE PROJETOS
+# LISTA DE PROJETOS (movida para antes do HERO)
 # --------------------------------------------------
 python_projects = [
-
     {
         "title": "📍 População Municipal",
         "desc": "Dados oficiais do IBGE | Tabela SIDRA 6579",
@@ -463,6 +413,60 @@ python_projects = [
 ]
 
 # --------------------------------------------------
+# CONTAGEM DINÂMICA DOS PROJETOS
+# --------------------------------------------------
+total_projetos = len(python_projects)
+
+# --------------------------------------------------
+# HERO (COM VALOR DINÂMICO)
+# --------------------------------------------------
+st.markdown(f"""
+<div class="hero-wrapper">
+    <div class="hero-badge">⚡ Portfólio Python</div>
+    <h1 class="hero-title">
+        Aplicações que <span class="accent">resolvem problemas</span><br>reais com código
+    </h1>
+    <p class="hero-subtitle">
+        Automação, análise financeira e Business Intelligence — ferramentas construídas para impactar.
+    </p>
+    <div class="hero-stats">
+        <div class="hero-stat">
+            <span class="hero-stat-number">{total_projetos}</span>
+            <span class="hero-stat-label">Projetos</span>
+        </div>
+        <div class="hero-stat">
+            <span class="hero-stat-number">100%</span>
+            <span class="hero-stat-label">Open Access</span>
+        </div>
+        <div class="hero-stat">
+            <span class="hero-stat-number">∞</span>
+            <span class="hero-stat-label">Impacto</span>
+        </div>
+    </div>
+    <div class="hero-divider"></div>
+</div>
+""", unsafe_allow_html=True)
+
+# --------------------------------------------------
+# BARRA DE PESQUISA
+# --------------------------------------------------
+st.markdown(
+    "<p class='search-label'>🔍 Filtre os projetos pelo nome ou descrição</p>",
+    unsafe_allow_html=True
+)
+
+col_s1, col_s2, col_s3 = st.columns([1, 2, 1])
+with col_s2:
+    search_query = st.text_input(
+        label="Pesquisar projeto",
+        placeholder="Ex: ENEM, ROI, mapas...",
+        key="search_python",
+        label_visibility="collapsed"
+    )
+
+st.write("")
+
+# --------------------------------------------------
 # FILTRO DE PESQUISA
 # --------------------------------------------------
 if search_query:
@@ -470,10 +474,10 @@ if search_query:
         p for p in python_projects
         if search_query.lower() in p["title"].lower() or search_query.lower() in p["desc"].lower()
     ]
-    total = len(filtered_projects)
-    label = "resultado" if total == 1 else "resultados"
+    total_resultados = len(filtered_projects)
+    label = "resultado" if total_resultados == 1 else "resultados"
     st.markdown(
-        f"<div class='search-result-count'>🔎 <span>{total}</span> {label} para <span>\"{search_query}\"</span></div>",
+        f"<div class='search-result-count'>🔎 <span>{total_resultados}</span> {label} para <span>\"{search_query}\"</span></div>",
         unsafe_allow_html=True
     )
 else:
