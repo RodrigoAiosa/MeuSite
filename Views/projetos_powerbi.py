@@ -5,7 +5,7 @@ import urllib.parse
 # --- REGISTRO DE ACESSO ---
 registrar_acesso("Projetos Power BI")
 
-# --- ESTILO MINIMALISTA ---
+# --- ESTILO MINIMALISTA COM CARDS IGUAIS ---
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
@@ -50,7 +50,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 }
 
 .block-container {
-    max-width: 1200px !important;
+    max-width: 1300px !important;
     padding: 2rem 2rem 1rem 2rem !important;
     margin: 0 auto !important;
 }
@@ -195,16 +195,22 @@ div[data-testid="stTextInput"] input:focus {
     font-weight: 500;
 }
 
-/* ── CARDS MINIMALISTAS (SEM FLIP) ── */
+/* ── CARDS COM ALTURA IGUAL (MODIFICADO) ── */
+/* Garantir que todas as colunas tenham mesma altura */
+div[data-testid="column"] {
+    display: flex;
+    flex-direction: column;
+}
+
 .card {
     background: rgba(19,22,31,0.6);
     backdrop-filter: blur(10px);
     border-radius: 16px;
     padding: 24px;
-    margin-bottom: 24px;
     border: 1px solid rgba(255,255,255,0.05);
     transition: transform 0.2s ease, border-color 0.2s ease;
-    height: 100%;
+    height: 100%; /* ALTURA TOTAL DA COLUNA */
+    min-height: 460px; /* ALTURA MÍNIMA FIXA */
     display: flex;
     flex-direction: column;
 }
@@ -215,8 +221,9 @@ div[data-testid="stTextInput"] input:focus {
 }
 
 .card-icon {
-    font-size: 40px;
+    font-size: 42px;
     margin-bottom: 16px;
+    flex-shrink: 0;
 }
 
 .pbi-card-title {
@@ -226,6 +233,8 @@ div[data-testid="stTextInput"] input:focus {
     color: #e2e8f0;
     margin-bottom: 12px;
     line-height: 1.4;
+    min-height: 48px; /* ALTURA FIXA PARA O TÍTULO (2 LINHAS) */
+    flex-shrink: 0;
 }
 
 .pbi-card-tag {
@@ -240,6 +249,8 @@ div[data-testid="stTextInput"] input:focus {
     border-radius: 50px;
     display: inline-block;
     margin-bottom: 16px;
+    align-self: flex-start;
+    flex-shrink: 0;
 }
 
 .pbi-description {
@@ -247,7 +258,24 @@ div[data-testid="stTextInput"] input:focus {
     color: #7e8ba3;
     line-height: 1.5;
     margin-bottom: 20px;
-    flex-grow: 1;
+    flex-grow: 1; /* EXPANDE PARA OCUPAR ESPAÇO DISPONÍVEL */
+    overflow-y: auto; /* ROLA SE O TEXTO FOR MUITO GRANDE */
+    max-height: 100px; /* ALTURA MÁXIMA PARA DESCRIÇÃO */
+}
+
+/* Custom scroll para descrições longas */
+.pbi-description::-webkit-scrollbar {
+    width: 2px;
+}
+
+.pbi-description::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.05);
+    border-radius: 2px;
+}
+
+.pbi-description::-webkit-scrollbar-thumb {
+    background: rgba(0,180,216,0.3);
+    border-radius: 2px;
 }
 
 .btn-acessar {
@@ -265,6 +293,7 @@ div[data-testid="stTextInput"] input:focus {
     transition: all 0.2s ease;
     text-align: center;
     margin-bottom: 16px;
+    flex-shrink: 0;
 }
 
 .btn-acessar:hover {
@@ -279,6 +308,7 @@ div[data-testid="stTextInput"] input:focus {
     justify-content: center;
     padding-top: 12px;
     border-top: 1px solid rgba(255,255,255,0.05);
+    flex-shrink: 0;
 }
 
 .share-label {
@@ -349,10 +379,20 @@ div[data-testid="stTextInput"] input:focus {
     
     .card {
         padding: 20px;
+        min-height: 440px;
     }
     
     .hero-container-title {
         font-size: 1rem;
+    }
+    
+    .pbi-card-title {
+        min-height: auto;
+        font-size: 0.95rem;
+    }
+    
+    .pbi-description {
+        max-height: 80px;
     }
 }
 </style>
@@ -511,7 +551,7 @@ if not filtered_projects:
         unsafe_allow_html=True
     )
 
-# --- RENDERIZAÇÃO DOS CARDS (SEM FLIP) ---
+# --- RENDERIZAÇÃO DOS CARDS COM ALTURA IGUAL ---
 if filtered_projects:
     for i in range(0, len(filtered_projects), 3):
         cols = st.columns(3)
