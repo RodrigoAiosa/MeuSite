@@ -5,35 +5,38 @@ import urllib.parse
 # --- REGISTRO DE ACESSO ---
 registrar_acesso("Projetos Power BI")
 
-# --- ESTILO LANDING PAGE ---
+# --- ESTILO MINIMALISTA ---
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-*, *::before, *::after { box-sizing: border-box; }
+/* RESET & BASE */
+*, *::before, *::after { 
+    box-sizing: border-box; 
+}
 
 html, body, .main, [data-testid="stAppViewContainer"] {
-    background-color: #060912 !important;
+    background-color: #0a0c12 !important;
 }
 
 [data-testid="stAppViewContainer"] {
-    background-color: #060912 !important;
-    background-image:
-        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0,180,216,0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 40% 30% at 80% 60%, rgba(0,100,180,0.07) 0%, transparent 50%);
+    background-color: #0a0c12 !important;
+    background-image: none !important;
 }
 
-[data-testid="stHeader"] { background: transparent !important; }
+[data-testid="stHeader"] { 
+    background: transparent !important; 
+}
 
-/* Aplica fonte customizada apenas no conteúdo principal, nunca na sidebar */
+/* TIPOGRAFIA PRINCIPAL */
 .main h1, .main h2, .main h3, .main h4,
 .main p, .main a, .main li,
 [data-testid="stAppViewContainer"] div:not([data-testid="stSidebar"]) {
     font-family: 'DM Sans', sans-serif !important;
 }
 
-/* Garante que ícones Material do Streamlit não sejam afetados */
+/* GARANTE ÍCONES */
 .material-symbols-rounded,
 .material-icons,
 [data-testid*="Collapse"] span,
@@ -41,18 +44,36 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     font-family: 'Material Symbols Rounded', 'Material Icons' !important;
 }
 
-/* Centralização do container */
-[data-testid="stMarkdownContainer"] { width: 100% !important; }
-.block-container {
-    max-width: 100% !important;
-    padding-left: 4rem !important;
-    padding-right: 4rem !important;
+/* CONTAINER PRINCIPAL */
+[data-testid="stMarkdownContainer"] { 
+    width: 100% !important; 
 }
 
-/* ── HERO ── */
+.block-container {
+    max-width: 1200px !important;
+    padding: 2rem 2rem 1rem 2rem !important;
+    margin: 0 auto !important;
+}
+
+/* SCROLLBAR MINIMALISTA */
+::-webkit-scrollbar { 
+    width: 4px; 
+}
+::-webkit-scrollbar-track { 
+    background: #0a0c12; 
+}
+::-webkit-scrollbar-thumb { 
+    background: rgba(0,180,216,0.15); 
+    border-radius: 2px; 
+}
+::-webkit-scrollbar-thumb:hover { 
+    background: rgba(0,180,216,0.3); 
+}
+
+/* ── HERO SECTION MINIMAL ── */
 .hero-wrapper {
     text-align: center;
-    padding: 80px 20px 50px;
+    padding: 20px 20px 40px 20px;
     position: relative;
     width: 100%;
     display: flex;
@@ -60,112 +81,59 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     align-items: center;
 }
 
-.hero-badge {
-    display: inline-block;
-    font-family: 'Syne', sans-serif !important;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #00b4d8;
-    border: 1px solid rgba(0,180,216,0.35);
-    background: rgba(0,180,216,0.07);
-    padding: 6px 18px;
-    border-radius: 100px;
-    margin-bottom: 28px;
-}
-
 .hero-title {
     font-family: 'Syne', sans-serif !important;
-    font-size: clamp(2.4rem, 5vw, 4rem);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -1.5px;
-    color: #f0f4ff;
-    margin: 0 auto 20px;
-    max-width: 720px;
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #e2e8f0;
+    margin: 0 auto 16px;
+    max-width: 680px;
     text-align: center;
 }
 
 .hero-title .accent {
-    background: linear-gradient(135deg, #00b4d8 0%, #48cae4 50%, #90e0ef 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    background: none;
+    color: #00b4d8;
 }
 
 .hero-subtitle {
-    font-size: 1.05rem;
-    font-weight: 300;
-    color: #7b8ba8;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #7e8ba3;
     max-width: 560px;
-    margin: 0 auto 48px;
-    line-height: 1.7;
+    margin: 0 auto 40px;
+    line-height: 1.5;
     text-align: center;
 }
 
-.hero-stats {
-    display: flex;
-    justify-content: center;
-    gap: 48px;
-    flex-wrap: wrap;
-    margin-bottom: 60px;
-}
-
-.hero-stat { text-align: center; }
-
-.hero-stat-number {
-    font-family: 'Syne', sans-serif !important;
-    font-size: 2rem;
-    font-weight: 800;
-    color: #00b4d8;
-    display: block;
-    line-height: 1;
-}
-
-.hero-stat-label {
-    font-size: 0.78rem;
-    color: #4a5568;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-top: 6px;
-    display: block;
-}
-
-.hero-divider {
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto 60px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(0,180,216,0.3), transparent);
-}
-
-/* ── SILOGISMO / HERO CARD ── */
+/* ── CARD SILOGISMO MINIMAL ── */
 .hero-container {
-    background: linear-gradient(135deg, rgba(17,24,39,0.8) 0%, rgba(15,23,42,0.9) 100%);
-    padding: 40px 48px;
-    border-radius: 20px;
-    border-left: 3px solid #00b4d8;
-    margin-bottom: 60px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(0,180,216,0.1);
-    max-width: 860px;
+    background: rgba(19,22,31,0.4);
+    backdrop-filter: blur(10px);
+    padding: 32px 40px;
+    border-radius: 16px;
+    border-left: 2px solid #00b4d8;
+    margin-bottom: 0;
+    max-width: 720px;
     width: 100%;
     text-align: left;
 }
 
 .hero-container-title {
     font-family: 'Syne', sans-serif !important;
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: #f0f4ff;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #e2e8f0;
     margin-bottom: 20px;
-    letter-spacing: -0.3px;
+    letter-spacing: -0.02em;
 }
 
 .hero-container-text {
-    font-size: 0.95rem;
-    color: #7b8ba8;
-    line-height: 1.75;
+    font-size: 0.9rem;
+    color: #7e8ba3;
+    line-height: 1.6;
 }
 
 .hero-container-text ol {
@@ -174,7 +142,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 }
 
 .hero-container-text li {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .hero-container-text p {
@@ -183,340 +151,308 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 
 .hero-highlight {
     color: #00b4d8;
-    font-weight: 600;
+    font-weight: 500;
 }
 
-/* ── SEARCH ── */
+/* ── SEARCH MINIMAL ── */
 .search-label {
     text-align: center;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: #4a5568;
-    letter-spacing: 0.5px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 div[data-testid="stTextInput"] input {
-    background-color: rgba(255,255,255,0.03) !important;
+    background-color: rgba(19,22,31,0.8) !important;
     color: #e2e8f0 !important;
-    border: 1px solid rgba(0,180,216,0.25) !important;
-    border-radius: 14px !important;
-    padding: 14px 22px !important;
-    font-size: 0.95rem !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+    border-radius: 12px !important;
+    padding: 12px 18px !important;
+    font-size: 0.9rem !important;
     font-family: 'DM Sans', sans-serif !important;
-    transition: all 0.3s ease !important;
+    transition: all 0.2s ease !important;
 }
-div[data-testid="stTextInput"] input::placeholder { color: #2d3748 !important; }
+
+div[data-testid="stTextInput"] input::placeholder { 
+    color: #4a5568 !important; 
+}
+
 div[data-testid="stTextInput"] input:focus {
-    box-shadow: 0 0 0 3px rgba(0,180,216,0.15) !important;
-    border-color: rgba(0,180,216,0.6) !important;
-    background-color: rgba(0,180,216,0.04) !important;
+    box-shadow: 0 0 0 2px rgba(0,180,216,0.2) !important;
+    border-color: rgba(0,180,216,0.4) !important;
+    background-color: rgba(19,22,31,0.95) !important;
 }
 
 .search-result-count {
     text-align: center;
     color: #4a5568;
-    font-size: 0.88rem;
-    margin: 14px 0 28px;
+    font-size: 0.85rem;
+    margin: 16px 0 24px;
 }
+
 .search-result-count span {
     color: #00b4d8;
-    font-weight: 600;
+    font-weight: 500;
 }
 
-/* ── SECTION LABEL ── */
-.section-label {
-    font-family: 'Syne', sans-serif !important;
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #2d3748;
-    margin-bottom: 32px;
-    text-align: center;
-}
-
-/* ── FLIP CARDS ── */
-.flip-card {
-    background-color: transparent;
-    width: 100%;
-    height: 420px;
-    perspective: 1000px;
-    margin-bottom: 20px;
-    animation: fadeInUp 0.8s ease-out forwards;
-    opacity: 0;
-}
-
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
-.flip-card-inner {
-    position: relative;
-    width: 100%;
+/* ── CARDS MINIMALISTAS (SEM FLIP) ── */
+.card {
+    background: rgba(19,22,31,0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: transform 0.2s ease, border-color 0.2s ease;
     height: 100%;
-    text-align: center;
-    transition: transform 0.8s;
-    transform-style: preserve-3d;
-}
-
-.flip-card:hover .flip-card-inner {
-    transform: rotateY(180deg);
-}
-
-.flip-card-front, .flip-card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 28px;
 }
 
-.flip-card-front {
-    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.25) 100%);
-    border: 1px solid rgba(255,255,255,0.05);
-    color: #f0f4ff;
+.card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(0,180,216,0.3);
 }
 
-.flip-card-back {
-    background: linear-gradient(145deg, rgba(0,180,216,0.06) 0%, rgba(6,9,18,0.95) 100%);
-    border: 1px solid rgba(0,180,216,0.3);
-    color: #f0f4ff;
-    transform: rotateY(180deg);
-    overflow: hidden;
-    box-shadow: 0 0 30px rgba(0,180,216,0.1);
+.card-icon {
+    font-size: 40px;
+    margin-bottom: 16px;
 }
-
-.pbi-description {
-    font-size: 0.88rem;
-    color: #7b8ba8;
-    line-height: 1.55;
-    margin-bottom: 18px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.5s ease-in-out;
-    transition-delay: 0.3s;
-}
-.flip-card:hover .pbi-description {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.card-icon { font-size: 56px; margin-bottom: 18px; }
 
 .pbi-card-title {
     font-family: 'Syne', sans-serif !important;
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #f0f4ff;
-    margin-bottom: 16px;
-    letter-spacing: -0.3px;
-    line-height: 1.3;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    margin-bottom: 12px;
+    line-height: 1.4;
 }
 
 .pbi-card-tag {
     font-family: 'Syne', sans-serif !important;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 2px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 1px;
     text-transform: uppercase;
-    background: rgba(0,180,216,0.1);
+    background: rgba(0,180,216,0.08);
     color: #00b4d8;
-    padding: 5px 14px;
-    border-radius: 100px;
-    border: 1px solid rgba(0,180,216,0.2);
+    padding: 4px 12px;
+    border-radius: 50px;
+    display: inline-block;
+    margin-bottom: 16px;
+}
+
+.pbi-description {
+    font-size: 0.85rem;
+    color: #7e8ba3;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    flex-grow: 1;
 }
 
 .btn-acessar {
-    background: rgba(0,180,216,0.12);
+    background: rgba(0,180,216,0.1);
     color: #00b4d8 !important;
-    padding: 10px 22px;
-    border-radius: 12px;
+    padding: 10px 20px;
+    border-radius: 10px;
     text-decoration: none !important;
     font-family: 'Syne', sans-serif !important;
-    font-weight: 700;
-    font-size: 0.82rem;
-    letter-spacing: 0.5px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.3px;
     display: inline-block;
-    border: 1px solid rgba(0,180,216,0.3);
-    opacity: 0;
-    transition: all 0.4s ease;
-    transition-delay: 0.45s;
+    border: 1px solid rgba(0,180,216,0.15);
+    transition: all 0.2s ease;
+    text-align: center;
+    margin-bottom: 16px;
 }
-.flip-card:hover .btn-acessar {
-    opacity: 1;
-}
+
 .btn-acessar:hover {
-    background: rgba(0,180,216,0.22);
-    border-color: rgba(0,180,216,0.6);
+    background: rgba(0,180,216,0.2);
+    border-color: rgba(0,180,216,0.4);
 }
 
 .share-container {
     display: flex;
-    gap: 16px;
-    margin-top: 12px;
+    gap: 12px;
     align-items: center;
     justify-content: center;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.05);
 }
 
 .share-label {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: #4a5568;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
-    margin-top: 14px;
 }
 
 .share-icon {
     color: #4a5568;
-    font-size: 1.3rem;
-    transition: all 0.3s ease;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
     text-decoration: none;
 }
-.share-icon:hover { transform: scale(1.2); }
-.icon-li:hover { color: #0077b5; }
-.icon-wa:hover { color: #25d366; }
 
-/* ── EMPTY STATE ── */
+.share-icon:hover { 
+    transform: scale(1.1); 
+}
+
+.icon-li:hover { 
+    color: #0077b5; 
+}
+
+.icon-wa:hover { 
+    color: #25d366; 
+}
+
+/* ── EMPTY STATE MINIMAL ── */
 .empty-state {
     text-align: center;
-    padding: 80px 20px;
+    padding: 60px 20px;
 }
-.empty-state-icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.4; }
+
+.empty-state-icon { 
+    font-size: 2.5rem; 
+    margin-bottom: 16px; 
+    opacity: 0.3; 
+}
+
 .empty-state-title {
     font-family: 'Syne', sans-serif !important;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #2d3748;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #4a5568;
     margin-bottom: 8px;
 }
-.empty-state-sub { font-size: 0.88rem; color: #1a202c; }
 
-.footer-spacer { height: 60px; }
+.empty-state-sub { 
+    font-size: 0.85rem; 
+    color: #2d3748; 
+}
 
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #060912; }
-::-webkit-scrollbar-thumb { background: rgba(0,180,216,0.2); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(0,180,216,0.4); }
+/* ── FOOTER ── */
+.footer-spacer { 
+    height: 40px; 
+}
 
+/* ── RESPONSIVO ── */
+@media (max-width: 768px) {
+    .block-container {
+        padding: 1rem !important;
+    }
+    
+    .hero-container {
+        padding: 24px;
+    }
+    
+    .card {
+        padding: 20px;
+    }
+    
+    .hero-container-title {
+        font-size: 1rem;
+    }
+}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 """, unsafe_allow_html=True)
 
 # --- DADOS DOS PROJETOS ---
 pbi_projects = [
-     {
+    {
         "title": "Dashboard Transporte - Travel Company",
         "icon": "📈",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiNjY5NThlNjctZWY1Ny00YjA0LTk0MjEtNzhiNjgzZjdjZjA2IiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
-        "desc": "Transforme dados logísticos em vantagem competitiva. Analise indicadores de performance operacional, identifique pontos de ineficiência e otimize toda a cadeia de transportes, reduzindo lead time, custos operacionais e aumentando a satisfação dos clientes."
+        "desc": "Transforme dados logísticos em vantagem competitiva. Analise indicadores de performance operacional, identifique pontos de ineficiência e otimize toda a cadeia de transportes."
     },
-     {
+    {
         "title": "Dashboard ANATEL - Indicadores de Reclamações",
         "icon": "📈",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYTQ4MGM2MzMtNTU1NS00NjBkLWEyYmItNTI3ZTUyY2NiNjNjIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
-        "desc": "Transforme dados de reclamações em insights estratégicos. Monitore os indicadores da ANATEL, identifique tendências e gargalos, e tome decisões mais assertivas para melhorar a qualidade do atendimento e a satisfação dos clientes."
+        "desc": "Transforme dados de reclamações em insights estratégicos. Monitore os indicadores da ANATEL, identifique tendências e gargalos."
     },
-     {
+    {
         "title": "Dashboard OEE",
         "icon": "📈",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiM2YxN2NhZmQtMTg4My00YTgwLWJhOGQtZmRkNGZkNTM1ZDM0IiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
-        "desc": "Transforme dados brutos de eficiência industrial em insights claros e estratégicos. Acompanhe a disponibilidade, o desempenho e a qualidade da produção em tempo real, identificando gargalos, reduzindo perdas e aumentando a produtividade do seu chão de fábrica."
+        "desc": "Transforme dados brutos de eficiência industrial em insights claros. Acompanhe disponibilidade, desempenho e qualidade da produção."
     },
     {
         "title": "Portal da Transparência - Ilheus",
         "icon": "📈",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYTM2ZWFlM2QtOTc2NC00NDQ2LTg2ZTctOGY5Nzc4YTk2YWM1IiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
-        "desc": "Transforma dados públicos de Ilhéus em informação clara e estratégica. Acompanhe receitas, despesas e indicadores em tempo real, fortalecendo o controle social."
+        "desc": "Transforma dados públicos de Ilhéus em informação clara e estratégica. Acompanhe receitas, despesas e indicadores."
     },
     {
-        "title": "💹 DRE Estratégico — Análise Financeira",
+        "title": "DRE Estratégico — Análise Financeira",
         "icon": "📊",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiOWE0ZmU3ZTMtYzAyYi00NDE1LTg3YWItYjcxZTE2ZWI2OWRjIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9&disablecdnExpiration=1766386882",
-        "desc": "Acompanhamento detalhado do DRE com análises vertical/horizontal. Avalie rentabilidade, margens e tendências para decisões financeiras mais precisas."
+        "desc": "Acompanhamento detalhado do DRE com análises vertical/horizontal. Avalie rentabilidade, margens e tendências."
     },
     {
-        "title": "🏦 Monitoramento de Vagas — Bradesco",
+        "title": "Monitoramento de Vagas — Bradesco",
         "icon": "📋",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiMjQxN2Q4NGYtNWRmNy00NWVjLWE4YmQtNWMyNWYwNGYyZDUzIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
-        "desc": "Visão consolidada de vagas Bradesco por área, localização e perfil. Identifique tendências de contratação e apoie decisões estratégicas de recrutamento."
+        "desc": "Visão consolidada de vagas Bradesco por área, localização e perfil. Identifique tendências de contratação."
     },
     {
-        "title": "💳 Relatório STONE",
+        "title": "Relatório STONE",
         "icon": "🏛️",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiMmViN2ZlMWMtY2Q4My00NmNmLTg0NzAtZjEzMzliNzcwMWMyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Monitoramento de faturamento B2B com KPIs como Margem de Contribuição e Ticket Médio. Análise granular por região e evolução mensal."
+        "desc": "Monitoramento de faturamento B2B com KPIs como Margem de Contribuição e Ticket Médio."
     },
     {
-        "title": "📊 Vendas Meta vs Realizado",
+        "title": "Vendas Meta vs Realizado",
         "icon": "📈",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYTg4OTdkZDUtNmIwZS00NGE1LTk2MDktMzc1YjM3ZjViN2Q5IiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Gestão de Recrutamento e Seleção: acompanhe funil, tempo de fechamento e eficiência dos canais. RH preditivo para alcance de metas."
+        "desc": "Gestão de Recrutamento e Seleção: acompanhe funil, tempo de fechamento e eficiência dos canais."
     },
     {
-        "title": "📦 Controle de Pedidos BNZ",
+        "title": "Controle de Pedidos BNZ",
         "icon": "📦",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiZDZlNzViNzMtODllZS00OTVlLWI4MWQtNzBhZmU5ZTkxY2E0IiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
-        "desc": "Gestão de estoque inteligente: níveis de inventário, giro de produtos e status de pedidos em tempo real. Prevenção de rupturas e otimização logística."
+        "desc": "Gestão de estoque inteligente: níveis de inventário, giro de produtos e status de pedidos."
     },
     {
-        "title": "🎯 Análise Dados Estratégica",
+        "title": "Análise Dados Estratégica",
         "icon": "🎯",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiM2ZhYjQ5YzItNTliMS00M2QxLWFhMmItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Alta gestão: controle rigoroso de metas e performance de vendas. Compare planejado vs realizado e ajuste táticas rapidamente."
+        "desc": "Alta gestão: controle rigoroso de metas e performance de vendas. Compare planejado vs realizado."
     },
     {
-        "title": "👥 People Analytics (RH)",
+        "title": "People Analytics (RH)",
         "icon": "👥",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiYmE2OGE3ODktZTUzMi00YTU2LTlkYmItYzUzY2UzNmJkMjAyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9",
-        "desc": "Automatize o controle de comissões e bonificações. Transparência e precisão nos cálculos, correlacionando desempenho com pagamentos efetuados."
+        "desc": "Automatize o controle de comissões e bonificações. Transparência e precisão nos cálculos."
     },
     {
-        "title": "🚀 Gestão de Negócios - Relatório Borelli",
+        "title": "Gestão de Negócios - Relatório Borelli",
         "icon": "🚀",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiZTY5YmEzZmQtZDVhMS00N2QyLWJhY2QtMDNhMWFmMDRjMjNmIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
-        "desc": "Eficiência fabril e controle de produção: ciclo produtivo, produtividade, desperdícios e ocupação de capacidade. Reduza custos operacionais."
+        "desc": "Eficiência fabril e controle de produção: ciclo produtivo, produtividade e desperdícios."
     },
     {
-        "title": "🏖️ Dashboard Financeiro — Beocean Resort",
+        "title": "Dashboard Financeiro — Beocean Resort",
         "icon": "💰",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiY2VkZmU1MDMtNTgwZS00NTJmLWFhOTktYzM0YzMwZDE3OTE4IiwidCI6IjdjNTYzNjMxLTcyZGMtNDY1Ny05MTRkLWIyM2M5ZTI5OGVlMSJ9&pageName=ae6d1828240b25f04e49",
-        "desc": "Painel financeiro para hotelaria: fluxo de caixa, receitas por categoria e despesas operacionais. Decisões baseadas em dados para maximizar rentabilidade."
+        "desc": "Painel financeiro para hotelaria: fluxo de caixa, receitas por categoria e despesas operacionais."
     }
 ]
 
-# --- CONTAGEM DINÂMICA DOS PROJETOS ---
+# --- CONTAGEM DINÂMICA ---
 total_projetos = len(pbi_projects)
 
-# ── HERO (COM VALOR DINÂMICO) ──
+# --- HERO SECTION (SEM ELEMENTOS DECORATIVOS) ---
 st.markdown(f"""
 <div class="hero-wrapper">
-    <div class="hero-badge">📊 Portfólio Power BI</div>
     <h1 class="hero-title">
         Dashboards que transformam <span class="accent">dados em decisões</span>
     </h1>
     <p class="hero-subtitle">
         Inteligência de negócios aplicada — visualizações estratégicas para gestores que exigem resultado.
     </p>
-    <div class="hero-stats">
-        <div class="hero-stat">
-            <span class="hero-stat-number">{total_projetos}</span>
-            <span class="hero-stat-label">Dashboards</span>
-        </div>
-        <div class="hero-stat">
-            <span class="hero-stat-number">+20</span>
-            <span class="hero-stat-label">Anos de Campo</span>
-        </div>
-        <div class="hero-stat">
-            <span class="hero-stat-number">100%</span>
-            <span class="hero-stat-label">Estratégico</span>
-        </div>
-    </div>
     <div class="hero-container">
         <div class="hero-container-title">Decisões de Elite exigem Experiência Real</div>
         <div class="hero-container-text">
@@ -529,11 +465,10 @@ st.markdown(f"""
             <p>Não busque apenas dashboards. Busque a inteligência por trás deles.</p>
         </div>
     </div>
-    <div class="hero-divider"></div>
 </div>
 """, unsafe_allow_html=True)
 
-# ── SEARCH ──
+# --- SEARCH ---
 st.markdown(
     "<p class='search-label'>🔍 Filtre os painéis pelo nome ou descrição</p>",
     unsafe_allow_html=True
@@ -547,8 +482,6 @@ with col_s2:
         key="search_pbi",
         label_visibility="collapsed"
     )
-
-st.write("")
 
 # --- FILTRO DE PESQUISA ---
 if search_query:
@@ -578,50 +511,40 @@ if not filtered_projects:
         unsafe_allow_html=True
     )
 
-# ── SECTION LABEL ──
+# --- RENDERIZAÇÃO DOS CARDS (SEM FLIP) ---
 if filtered_projects:
-    st.markdown('<div class="section-label">— Dashboards em destaque —</div>', unsafe_allow_html=True)
-
-# --- RENDERIZAÇÃO DOS FLIP CARDS ---
-for i in range(0, len(filtered_projects), 3):
-    cols = st.columns(3)
-    for j in range(3):
-        idx = i + j
-        if idx < len(filtered_projects):
-            p = filtered_projects[idx]
-
-            wa_text = f"{p['title']}* que vi no seu portfólio.\n\n💡 {p['desc']}\n\n🔗 Link: {p['url']}"
-            wa_link = f"https://wa.me/?text={urllib.parse.quote(wa_text)}"
-            li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['url'])}"
-
-            with cols[j]:
-                st.markdown(f"""
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="card-icon">{p['icon']}</div>
-                            <div class="pbi-card-title">{p['title']}</div>
-                            <div class="pbi-card-tag">PASSE O MOUSE ↻</div>
-                        </div>
-                        <div class="flip-card-back">
-                            <div style="font-family:'Syne',sans-serif; font-weight:700; font-size:0.7rem; letter-spacing:2px; text-transform:uppercase; color:#00b4d8; margin-bottom:8px;">PROJETO</div>
-                            <div class="pbi-description">{p['desc']}</div>
-                            <a href="{p['url']}" target="_blank" class="btn-acessar">
-                                Abrir Dashboard →
+    for i in range(0, len(filtered_projects), 3):
+        cols = st.columns(3)
+        for j in range(3):
+            idx = i + j
+            if idx < len(filtered_projects):
+                p = filtered_projects[idx]
+                
+                wa_text = f"{p['title']} - que vi no seu portfólio.\n\n💡 {p['desc']}\n\n🔗 Link: {p['url']}"
+                wa_link = f"https://wa.me/?text={urllib.parse.quote(wa_text)}"
+                li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['url'])}"
+                
+                with cols[j]:
+                    st.markdown(f"""
+                    <div class="card">
+                        <div class="card-icon">{p['icon']}</div>
+                        <div class="pbi-card-title">{p['title']}</div>
+                        <div class="pbi-card-tag">PROJETO</div>
+                        <div class="pbi-description">{p['desc']}</div>
+                        <a href="{p['url']}" target="_blank" class="btn-acessar">
+                            Abrir Dashboard →
+                        </a>
+                        <div class="share-container">
+                            <span class="share-label">Falar com Rodrigo:</span>
+                            <a href="{li_link}" target="_blank" class="share-icon icon-li">
+                                <i class="fab fa-linkedin"></i>
                             </a>
-                            <div class="share-label">Falar com Rodrigo:</div>
-                            <div class="share-container">
-                                <a href="{li_link}" target="_blank" class="share-icon icon-li">
-                                    <i class="fab fa-linkedin"></i>
-                                </a>
-                                <a href="{wa_link}" target="_blank" class="share-icon icon-wa">
-                                    <i class="fab fa-whatsapp"></i>
-                                </a>
-                            </div>
+                            <a href="{wa_link}" target="_blank" class="share-icon icon-wa">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
                         </div>
                     </div>
-                </div>
-                """, unsafe_allow_html=True)
+                    """, unsafe_allow_html=True)
 
 st.markdown('<div class="footer-spacer"></div>', unsafe_allow_html=True)
 
