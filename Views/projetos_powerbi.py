@@ -419,7 +419,7 @@ pbi_projects = [
      {
         "title": "Dashboard ANATEL - Indicadores de Reclamações",
         "icon": "📈",
-        "url": "https://app.powerbi.com/view?r=eyJrIjoiYmIwMTgzNWQtNzg5ZS00YjcxLTg4ZWUtNTc2OWEwYzQzMGQyIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
+        "url": "https://app.powerbi.com/view?r=eyJrIjoiYTQ4MGM2MzMtNTU1NS00NjBkLWEyYmItNTI3ZTUyY2NiNjNjIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
         "desc": "Transforme dados de reclamações em insights estratégicos. Monitore os indicadores da ANATEL, identifique tendências e gargalos, e tome decisões mais assertivas para melhorar a qualidade do atendimento e a satisfação dos clientes."
     },
      {
