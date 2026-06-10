@@ -5,7 +5,7 @@ import urllib.parse
 # --- REGISTRO DE ACESSO ---
 registrar_acesso("Projetos Power BI")
 
-# --- ESTILO MINIMALISTA COM CARDS IGUAIS ---
+# --- ESTILO MINIMALISTA COM ESPAÇAMENTOS IGUAIS ---
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
@@ -195,13 +195,21 @@ div[data-testid="stTextInput"] input:focus {
     font-weight: 500;
 }
 
-/* ── CARDS COM ALTURA IGUAL (MODIFICADO) ── */
-/* Garantir que todas as colunas tenham mesma altura */
+/* ── GRID COM ESPAÇAMENTOS PERFEITAMENTE IGUAIS ── */
+/* Remove gaps padrão do Streamlit */
 div[data-testid="column"] {
-    display: flex;
-    flex-direction: column;
+    padding: 0 !important;
+    margin: 0 !important;
+    gap: 0 !important;
 }
 
+/* Container das colunas */
+div[data-testid="stHorizontalBlock"] {
+    gap: 24px !important; /* Espaço horizontal entre cards */
+    margin-bottom: 24px !important; /* Espaço vertical IGUAL ao horizontal */
+}
+
+/* Cada card ocupa toda a coluna */
 .card {
     background: rgba(19,22,31,0.6);
     backdrop-filter: blur(10px);
@@ -209,8 +217,8 @@ div[data-testid="column"] {
     padding: 24px;
     border: 1px solid rgba(255,255,255,0.05);
     transition: transform 0.2s ease, border-color 0.2s ease;
-    height: 100%; /* ALTURA TOTAL DA COLUNA */
-    min-height: 460px; /* ALTURA MÍNIMA FIXA */
+    height: 100%;
+    min-height: 460px;
     display: flex;
     flex-direction: column;
 }
@@ -233,7 +241,7 @@ div[data-testid="column"] {
     color: #e2e8f0;
     margin-bottom: 12px;
     line-height: 1.4;
-    min-height: 48px; /* ALTURA FIXA PARA O TÍTULO (2 LINHAS) */
+    min-height: 48px;
     flex-shrink: 0;
 }
 
@@ -258,12 +266,11 @@ div[data-testid="column"] {
     color: #7e8ba3;
     line-height: 1.5;
     margin-bottom: 20px;
-    flex-grow: 1; /* EXPANDE PARA OCUPAR ESPAÇO DISPONÍVEL */
-    overflow-y: auto; /* ROLA SE O TEXTO FOR MUITO GRANDE */
-    max-height: 100px; /* ALTURA MÁXIMA PARA DESCRIÇÃO */
+    flex-grow: 1;
+    overflow-y: auto;
+    max-height: 100px;
 }
 
-/* Custom scroll para descrições longas */
 .pbi-description::-webkit-scrollbar {
     width: 2px;
 }
@@ -367,6 +374,11 @@ div[data-testid="column"] {
     height: 40px; 
 }
 
+/* ÚLTIMA LINHA NÃO DEVE TER MARGEM INFERIOR */
+div[data-testid="stHorizontalBlock"]:last-of-type {
+    margin-bottom: 0 !important;
+}
+
 /* ── RESPONSIVO ── */
 @media (max-width: 768px) {
     .block-container {
@@ -393,6 +405,12 @@ div[data-testid="column"] {
     
     .pbi-description {
         max-height: 80px;
+    }
+    
+    /* Ajuste espaçamento em mobile */
+    div[data-testid="stHorizontalBlock"] {
+        gap: 16px !important;
+        margin-bottom: 16px !important;
     }
 }
 </style>
@@ -484,7 +502,7 @@ pbi_projects = [
 # --- CONTAGEM DINÂMICA ---
 total_projetos = len(pbi_projects)
 
-# --- HERO SECTION (SEM ELEMENTOS DECORATIVOS) ---
+# --- HERO SECTION ---
 st.markdown(f"""
 <div class="hero-wrapper">
     <h1 class="hero-title">
@@ -551,7 +569,7 @@ if not filtered_projects:
         unsafe_allow_html=True
     )
 
-# --- RENDERIZAÇÃO DOS CARDS COM ALTURA IGUAL ---
+# --- RENDERIZAÇÃO DOS CARDS COM ESPAÇAMENTOS IGUAIS ---
 if filtered_projects:
     for i in range(0, len(filtered_projects), 3):
         cols = st.columns(3)
