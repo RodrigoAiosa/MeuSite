@@ -280,7 +280,7 @@ st.markdown(f"""
     <div class="hero-stats">
         <div class="hero-stat"><span class="hero-stat-number">{total_projetos}</span><span class="hero-stat-label"> Painéis Ativos</span></div>
         <div class="hero-stat"><span class="hero-stat-number">+20 Anos</span><span class="hero-stat-label"> De Projetos REAIS</span></div>
-        <div class="hero-stat"><span class="hero-stat-number">100%</span><span class="hero-stat-label">Foco em Decisão</span></div>
+        <div class="hero-stat"><span class="hero-stat-number">100%</span><span class="hero-stat-label"> Foco em Decisão</span></div>
     </div>
 </div>
 """, unsafe_allow_html=True)
