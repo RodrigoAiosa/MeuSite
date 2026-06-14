@@ -16,7 +16,7 @@ st.set_page_config(
 )
 
 # --------------------------------------------------
-# ESTILO LANDING PAGE PREMIUM (FIX DO LAYOUT DE CARDS)
+# ESTILO LANDING PAGE PREMIUM (FIX DEFINITIVO DO GRID)
 # --------------------------------------------------
 st.markdown("""
 <style>
@@ -52,41 +52,10 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     font-family: 'Material Symbols Rounded', 'Material Icons' !important;
 }
 
-/* ── FORÇA CENTRALIZAÇÃO NO CONTAINER DO STREAMLIT ── */
-[data-testid="stMarkdownContainer"] {
-    width: 100% !important;
-}
-
 .block-container {
     max-width: 1200px !important;
     padding-left: 2rem !important;
     padding-right: 2rem !important;
-}
-
-/* ── MASTER FIX: ALINHAMENTO ABSOLUTO DE ALTURA E LARGURA EM GRID ── */
-[data-testid="stHorizontalBlock"] {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 24px !important;
-}
-
-[data-testid="stColumn"] {
-    width: 100% !important;
-    max-width: 100% !important;
-    flex: none !important;
-    display: flex !important;
-    flex-direction: column !important;
-}
-
-/* Força todas as sub-divs internas do Streamlit a expandirem uniformemente */
-[data-testid="stColumn"] > div, 
-[data-testid="stColumn"] [data-testid="stMarkdownContainer"],
-[data-testid="stColumn"] [data-testid="stMarkdownContainer"] > div {
-    display: flex !important;
-    flex-direction: column !important;
-    flex: 1 !important;
-    height: 100% !important;
-    width: 100% !important;
 }
 
 /* ── HERO ── */
@@ -236,20 +205,42 @@ div[data-testid="stTextInput"] input:focus {
     text-align: center;
 }
 
-/* ── PROJECT CARDS ── */
+/* ── CONTAINER CUSTOMIZADO EM GRID PURO (ISOLADO DO STREAMLIT) ── */
+.projects-grid-container {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 32px !important; /* Controla perfeitamente a distância lateral e vertical entre os cards */
+    width: 100% !important;
+    padding: 10px 0 !important;
+}
+
+/* Força responsividade em telas menores mantendo a integridade do grid */
+@media (max-width: 992px) {
+    .projects-grid-container {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+@media (max-width: 600px) {
+    .projects-grid-container {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* ── PROJECT CARDS FIXO E ALINHADO ── */
 .project-card {
     background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.3) 100%);
-    padding: 24px;
+    padding: 28px;
     border-radius: 16px;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     border: 1px solid rgba(255,255,255,0.06);
     position: relative;
     overflow: hidden;
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+    
+    /* Faz com que todos os cards herdem a mesma altura gerada pela linha do Grid principal */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    height: 100% !important; 
 }
 
 .project-card::before {
@@ -288,11 +279,11 @@ div[data-testid="stTextInput"] input:focus {
     font-size: 0.88rem;
     font-weight: 300;
     line-height: 1.6;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
 }
 
 .project-btn-wrap {
-    margin-top: auto;
+    margin-top: auto !important; /* Empurra o botão rigidamente para o rodapé do card */
     width: 100%;
 }
 
@@ -345,9 +336,6 @@ div[data-testid="stTextInput"] input:focus {
 ::-webkit-scrollbar-track { background: #060912; }
 ::-webkit-scrollbar-thumb { background: rgba(0,180,216,0.2); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(0,180,216,0.4); }
-
-/* Remove margens e paddings indesejados inseridos pelo markdown interno do Streamlit */
-[data-testid="stMarkdownContainer"] p { margin-bottom: 0px !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -418,7 +406,7 @@ python_projects = [
 total_projetos = len(python_projects)
 
 # --------------------------------------------------
-# HERO (COM VALOR DINÂMICO)
+# HERO
 # --------------------------------------------------
 st.markdown(f"""
 <div class="hero-wrapper">
@@ -466,27 +454,10 @@ with col_s2:
 
 st.write("")
 
-# --- RENDERIZADOR DE CARD DE PROJETO ---
-def renderizar_projeto(p):
-    st.markdown(f"""
-    <div class="project-card">
-        <div>
-            <div class="project-title">{p['title']}</div>
-            <div class="project-description">{p['desc']}</div>
-        </div>
-        <div class="project-btn-wrap">
-            <a href="{p['url']}" target="_blank" class="project-button">
-                Acessar Aplicação <span class="arrow">→</span>
-            </a>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
 # --------------------------------------------------
-# FILTRO DE PESQUISA INTELIGENTE & RENDERIZAÇÃO
+# FILTRO DE PESQUISA INTELIGENTE
 # --------------------------------------------------
 if search_query:
-    # Quebra os termos buscados e faz validação ampla em todo o texto do projeto
     search_terms = search_query.lower().split()
     filtered_projects = []
     
@@ -504,16 +475,36 @@ if search_query:
 else:
     filtered_projects = python_projects
 
-# Execução do Grid dinâmico e simétrico em 3 colunas (Altura e Largura unificadas via Grid CSS)
+# --------------------------------------------------
+# CONSTRUÇÃO DO INJECT DE HTML NOVO (GRID PURO CONTROLADO)
+# --------------------------------------------------
 if filtered_projects:
     st.markdown('<div class="section-label">Aplicações Ativas</div>', unsafe_allow_html=True)
-    for i in range(0, len(filtered_projects), 3):
-        cols = st.columns(3)
-        for j in range(3):
-            idx = i + j
-            if idx < len(filtered_projects):
-                with cols[j]:
-                    renderizar_projeto(filtered_projects[idx])
+    
+    # Inicia a estrutura do Grid Unificado
+    html_grid = '<div class="projects-grid-container">'
+    
+    # Agrega cada card de forma puramente sequencial dentro do Grid CSS
+    for p in filtered_projects:
+        html_grid += f"""
+        <div class="project-card">
+            <div>
+                <div class="project-title">{p['title']}</div>
+                <div class="project-description">{p['desc']}</div>
+            </div>
+            <div class="project-btn-wrap">
+                <a href="{p['url']}" target="_blank" class="project-button">
+                    Acessar Aplicação →
+                </a>
+            </div>
+        </div>
+        """
+    
+    # Fecha a div principal do container
+    html_grid += '</div>'
+    
+    # Renderiza tudo de uma única vez em bloco nativo de alta performance
+    st.markdown(html_grid, unsafe_allow_html=True)
 else:
     st.markdown(
         """
