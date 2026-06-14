@@ -98,7 +98,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 .hero-stat-number { font-family: 'Syne', sans-serif !important; font-size: 1.8rem; font-weight: 800; color: #00b4d8; }
 .hero-stat-label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
 
-/* ── TITULOS DE CATEGORIA (ANCORAS VISUAIS DE RETENÇÃO) ── */
+/* ── TITULOS DE CATEGORIA ── */
 .category-header {
     font-family: 'Syne', sans-serif !important;
     font-size: 1.4rem;
@@ -112,7 +112,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     gap: 10px;
 }
 
-/* ── CARDS EM GRID INTERATIVO (SEM FLIP - ACESSIBILIDADE TOTAL) ── */
+/* ── CARDS EM GRID INTERATIVO ── */
 .ux-card {
     background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.3) 100%);
     border: 1px solid rgba(255,255,255,0.06);
@@ -154,11 +154,38 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 }
 .btn-direct:hover { opacity: 0.9; }
 
+/* COMPARTILHAMENTO ATUALIZADO */
 .share-row { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 12px; }
-.share-txt { font-size: 0.75rem; color: #64748b; }
-.share-links { display: flex; gap: 12px; }
-.share-ico { color: #64748b; font-size: 1.1rem; transition: color 0.3s; }
-.share-ico:hover { color: #00b4d8; }
+.share-txt { font-size: 0.75rem; color: #64748b; font-weight: 500; }
+.share-links { display: flex; gap: 8px; }
+
+.share-btn-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: background-color 0.2s;
+}
+.share-btn-item.wa {
+    background-color: rgba(37, 211, 102, 0.1);
+    color: #25D366 !important;
+    border: 1px solid rgba(37, 211, 102, 0.2);
+}
+.share-btn-item.wa:hover {
+    background-color: rgba(37, 211, 102, 0.2);
+}
+.share-btn-item.li {
+    background-color: rgba(10, 102, 194, 0.1);
+    color: #0A66C2 !important;
+    border: 1px solid rgba(10, 102, 194, 0.2);
+}
+.share-btn-item.li:hover {
+    background-color: rgba(10, 102, 194, 0.2);
+}
 
 /* SEARCH BAR */
 div[data-testid="stTextInput"] input {
@@ -255,7 +282,7 @@ pbi_projects = [
         "desc": "Inteligência de departamento pessoal: Funil de R&S, turnover, custos associados a comissões e bonificações integradas por performance."
     },
     {
-        "title": "🚀 Relatório Borelli - Produção",
+        "title": "🚀 Relatório Borelli - Production",
         "icon": "🚀",
         "category": "Operações & Logística",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiZTY5YmEzZmQtZDVhMS00N2QyLWJhY2QtMDNhMWFmMDRjMjNmIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
@@ -280,7 +307,7 @@ st.markdown(f"""
     <div class="hero-stats">
         <div class="hero-stat"><span class="hero-stat-number">{total_projetos}</span><span class="hero-stat-label"> Painéis Ativos</span></div>
         <div class="hero-stat"><span class="hero-stat-number">+20 Anos</span><span class="hero-stat-label"> De Projetos REAIS</span></div>
-        <div class="hero-stat"><span class="hero-stat-number">100%</span><span class="hero-stat-label"> Foco em Decisão</span></div>
+        <div class="hero-stat"><span class="hero-stat-number">100%</span><span class="hero-stat-label">Foco em Decisão</span></div>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -297,10 +324,13 @@ with col_s2:
 
 st.write("")
 
-# --- RENDERIZADOR DE CARD INDIVIDUAL ---
+# --- RENDERIZADOR DE CARD INDIVIDUAL COM COMPARTILHAMENTO DIRETO DO LINK DO PAINEL ---
 def renderizar_card(p):
-    wa_text = f"Olá Rodrigo, gostei do projeto *{p['title']}* do seu portfólio."
-    wa_link = f"https://wa.me/?text={urllib.parse.quote(wa_text)}"
+    # Texto estruturado enviando especificamente o link direto daquele respectivo painel
+    mensagem_whatsapp = f"Olá! Veja esse dashboard estratégico de Power BI que encontrei no portfólio: *{p['title']}*.\n\nLink do painel: {p['url']}"
+    wa_link = f"https://wa.me/?text={urllib.parse.quote(mensagem_whatsapp)}"
+    
+    # Compartilhamento oficial estruturado para o LinkedIn apontando para a URL do painel
     li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['url'])}"
     
     st.markdown(f"""
@@ -315,10 +345,14 @@ def renderizar_card(p):
         <div class="card-actions">
             <a href="{p['url']}" target="_blank" class="btn-direct">Abrir Dashboard →</a>
             <div class="share-row">
-                <span class="share-txt">Contato / Share</span>
+                <span class="share-txt">Compartilhar link:</span>
                 <div class="share-links">
-                    <a href="{li_link}" target="_blank" class="share-ico"><i class="fab fa-linkedin"></i></a>
-                    <a href="{wa_link}" target="_blank" class="share-ico"><i class="fab fa-whatsapp"></i></a>
+                    <a href="{wa_link}" target="_blank" class="share-btn-item wa">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </a>
+                    <a href="{li_link}" target="_blank" class="share-btn-item li">
+                        <i class="fab fa-linkedin"></i> LinkedIn
+                    </a>
                 </div>
             </div>
         </div>
@@ -356,14 +390,11 @@ else:
     categorias = ["Estratégico & Financeiro", "Operações & Logística", "RH & People Analytics", "Setor Público & Geral"]
     
     for cat_name in categorias:
-        # Filtra projetos da categoria específica
         cat_projects = [p for p in pbi_projects if p["category"] == cat_name]
         
         if cat_projects:
-            # Título da Seção (Categoria)
             st.markdown(f'<div class="category-header"><span></span> {cat_name}</div>', unsafe_allow_html=True)
             
-            # Renderização em Grid de 3 colunas por Categoria
             for i in range(0, len(cat_projects), 3):
                 cols = st.columns(3)
                 for j in range(3):
