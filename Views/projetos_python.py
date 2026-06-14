@@ -16,7 +16,7 @@ st.set_page_config(
 )
 
 # --------------------------------------------------
-# ESTILO LANDING PAGE
+# ESTILO LANDING PAGE PREMIUM (FIX DO LAYOUT DE CARDS)
 # --------------------------------------------------
 st.markdown("""
 <style>
@@ -63,16 +63,30 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     padding-right: 2rem !important;
 }
 
-/* Garante que as colunas do Streamlit estiquem 100% verticalmente para alinhar os cards */
+/* ── MASTER FIX: ALINHAMENTO ABSOLUTO DE ALTURA E LARGURA EM GRID ── */
+[data-testid="stHorizontalBlock"] {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 24px !important;
+}
+
 [data-testid="stColumn"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: none !important;
     display: flex !important;
     flex-direction: column !important;
 }
 
-[data-testid="stColumn"] > div {
+/* Força todas as sub-divs internas do Streamlit a expandirem uniformemente */
+[data-testid="stColumn"] > div, 
+[data-testid="stColumn"] [data-testid="stMarkdownContainer"],
+[data-testid="stColumn"] [data-testid="stMarkdownContainer"] > div {
     display: flex !important;
     flex-direction: column !important;
     flex: 1 !important;
+    height: 100% !important;
+    width: 100% !important;
 }
 
 /* ── HERO ── */
@@ -222,7 +236,7 @@ div[data-testid="stTextInput"] input:focus {
     text-align: center;
 }
 
-/* ── PROJECT CARDS (GRID LAYOUT FIXADO IGUAL) ── */
+/* ── PROJECT CARDS ── */
 .project-card {
     background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.3) 100%);
     padding: 24px;
@@ -236,7 +250,6 @@ div[data-testid="stTextInput"] input:focus {
     position: relative;
     overflow: hidden;
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
-    margin-bottom: 24px;
 }
 
 .project-card::before {
@@ -275,7 +288,7 @@ div[data-testid="stTextInput"] input:focus {
     font-size: 0.88rem;
     font-weight: 300;
     line-height: 1.6;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
 .project-btn-wrap {
@@ -333,6 +346,8 @@ div[data-testid="stTextInput"] input:focus {
 ::-webkit-scrollbar-thumb { background: rgba(0,180,216,0.2); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(0,180,216,0.4); }
 
+/* Remove margens e paddings indesejados inseridos pelo markdown interno do Streamlit */
+[data-testid="stMarkdownContainer"] p { margin-bottom: 0px !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -489,7 +504,7 @@ if search_query:
 else:
     filtered_projects = python_projects
 
-# Execução do Grid dinâmico de exibição (Layout em 3 colunas simétricas)
+# Execução do Grid dinâmico e simétrico em 3 colunas (Altura e Largura unificadas via Grid CSS)
 if filtered_projects:
     st.markdown('<div class="section-label">Aplicações Ativas</div>', unsafe_allow_html=True)
     for i in range(0, len(filtered_projects), 3):
