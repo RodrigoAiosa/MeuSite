@@ -154,7 +154,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 }
 .btn-direct:hover { opacity: 0.9; }
 
-/* COMPARTILHAMENTO ATUALIZADO */
+/* COMPARTILHAMENTO */
 .share-row { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 12px; }
 .share-txt { font-size: 0.75rem; color: #64748b; font-weight: 500; }
 .share-links { display: flex; gap: 8px; }
@@ -307,7 +307,7 @@ st.markdown(f"""
     <div class="hero-stats">
         <div class="hero-stat"><span class="hero-stat-number">{total_projetos}</span><span class="hero-stat-label"> Painéis Ativos</span></div>
         <div class="hero-stat"><span class="hero-stat-number">+20 Anos</span><span class="hero-stat-label"> De Projetos REAIS</span></div>
-        <div class="hero-stat"><span class="hero-stat-number">100%</span><span class="hero-stat-label"> Foco em Decisão</span></div>
+        <div class="hero-stat"><span class="hero-stat-number">100%</span><span class="hero-stat-label">Foco em Decisão</span></div>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -324,9 +324,8 @@ with col_s2:
 
 st.write("")
 
-# --- RENDERIZADOR DE CARD INDIVIDUAL COM TEXTO COMPLETO DINÂMICO ---
+# --- RENDERIZADOR DE CARD INDIVIDUAL ---
 def renderizar_card(p):
-    # 🌟 WHATSAPP: Texto rico incluindo Título, Descrição e Link do respectivo painel
     mensagem_whatsapp = (
         f"Olá! Veja que excelente dashboard de Power BI:\n\n"
         f"📊 *{p['title']}*\n"
@@ -335,7 +334,6 @@ def renderizar_card(p):
     )
     wa_link = f"https://wa.me/?text={urllib.parse.quote(mensagem_whatsapp)}"
     
-    # 🌟 LINKEDIN: Injeta dinamicamente o título, o resumo estruturado e a URL alvo no escopo do post corporativo
     li_base = "https://www.linkedin.com/shareArticle?mini=true"
     li_title = urllib.parse.quote(p['title'])
     li_summary = urllib.parse.quote(f"Solução de BI: {p['desc']}")
@@ -371,10 +369,17 @@ def renderizar_card(p):
 
 # --- FLUXO DINÂMICO DE FILTRO VS GERAL ---
 if search_query:
-    filtered_projects = [
-        p for p in pbi_projects
-        if search_query.lower() in p["title"].lower() or search_query.lower() in p["desc"].lower()
-    ]
+    # 🌟 PESQUISA ULTRA INTELIGENTE: Quebra os termos digitados e valida de forma ampla
+    search_terms = search_query.lower().split()
+    filtered_projects = []
+    
+    for p in pbi_projects:
+        # Texto consolidado do painel para checar contra os termos pesquisados
+        texto_painel = f"{p['title']} {p['desc']} {p['category']} {p['icon']}".lower()
+        
+        # O painel precisa conter TODOS os termos digitados (independente da ordem ou posição)
+        if all(term in texto_painel for term in search_terms):
+            filtered_projects.append(p)
     
     if filtered_projects:
         st.markdown(f"<p style='color:#64748b; text-align:center;'>Exibindo {len(filtered_projects)} resultado(s) para sua busca</p>", unsafe_allow_html=True)
@@ -390,7 +395,7 @@ if search_query:
         <div style="text-align:center; padding: 40px; color: #64748b;">
             <p style="font-size:2rem;">🔍</p>
             <h3>Nenhum painel atende a esse termo.</h3>
-            <p>Tente buscar por palavras mais amplas como 'vendas' ou 'estoque'.</p>
+            <p>Tente buscar por palavras mais amplas ou termos contidos nas descrições.</p>
         </div>
         """, unsafe_allow_html=True)
 
