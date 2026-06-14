@@ -16,7 +16,7 @@ st.set_page_config(
 )
 
 # --------------------------------------------------
-# ESTILO LANDING PAGE PREMIUM (FIX DEFINITIVO DO GRID)
+# ESTILO GLOBAL DA LANDING PAGE
 # --------------------------------------------------
 st.markdown("""
 <style>
@@ -37,19 +37,8 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 
 [data-testid="stHeader"] { background: transparent !important; }
 
-/* Aplica fonte customizada apenas no conteúdo principal, nunca na sidebar */
-.main h1, .main h2, .main h3, .main h4,
-.main p, .main a, .main li,
-[data-testid="stAppViewContainer"] div:not([data-testid="stSidebar"]) {
+.main h1, .main h2, .main h3, .main h4, .main p, .main a, .main li {
     font-family: 'DM Sans', sans-serif !important;
-}
-
-/* Garante que ícones Material do Streamlit não sejam afetados */
-.material-symbols-rounded,
-.material-icons,
-[data-testid*="Collapse"] span,
-[data-testid*="collapse"] span {
-    font-family: 'Material Symbols Rounded', 'Material Icons' !important;
 }
 
 .block-container {
@@ -192,7 +181,6 @@ div[data-testid="stTextInput"] input:focus {
     font-weight: 600;
 }
 
-/* ── SECTION LABEL ── */
 .section-label {
     font-family: 'Syne', sans-serif !important;
     font-size: 0.8rem;
@@ -204,143 +192,11 @@ div[data-testid="stTextInput"] input:focus {
     margin-bottom: 32px;
     text-align: center;
 }
-
-/* ── CONTAINER CUSTOMIZADO EM GRID PURO (ISOLADO DO STREAMLIT) ── */
-.projects-grid-container {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 32px !important; /* Controla perfeitamente a distância lateral e vertical entre os cards */
-    width: 100% !important;
-    padding: 10px 0 !important;
-}
-
-/* Força responsividade em telas menores mantendo a integridade do grid */
-@media (max-width: 992px) {
-    .projects-grid-container {
-        grid-template-columns: repeat(2, 1fr) !important;
-    }
-}
-@media (max-width: 600px) {
-    .projects-grid-container {
-        grid-template-columns: 1fr !important;
-    }
-}
-
-/* ── PROJECT CARDS FIXO E ALINHADO ── */
-.project-card {
-    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.3) 100%);
-    padding: 28px;
-    border-radius: 16px;
-    border: 1px solid rgba(255,255,255,0.06);
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
-    
-    /* Faz com que todos os cards herdem a mesma altura gerada pela linha do Grid principal */
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: space-between !important;
-    height: 100% !important; 
-}
-
-.project-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(0,180,216,0.4), transparent);
-    opacity: 0;
-    transition: opacity 0.35s ease;
-}
-
-.project-card:hover {
-    transform: translateY(-6px);
-    border-color: rgba(0,180,216,0.4);
-    box-shadow: 0 12px 30px rgba(0,180,216,0.1);
-    background: linear-gradient(145deg, rgba(0,180,216,0.04) 0%, rgba(0,0,0,0.25) 100%);
-}
-
-.project-card:hover::before {
-    opacity: 1;
-}
-
-.project-title {
-    font-family: 'Syne', sans-serif !important;
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #f0f4ff;
-    margin-bottom: 12px;
-    line-height: 1.35;
-    letter-spacing: -0.3px;
-}
-
-.project-description {
-    color: #94a3b8;
-    font-size: 0.88rem;
-    font-weight: 300;
-    line-height: 1.6;
-    margin-bottom: 28px;
-}
-
-.project-btn-wrap {
-    margin-top: auto !important; /* Empurra o botão rigidamente para o rodapé do card */
-    width: 100%;
-}
-
-.project-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
-    color: #ffffff !important;
-    font-family: 'Syne', sans-serif !important;
-    font-weight: 700;
-    font-size: 0.85rem;
-    letter-spacing: 0.5px;
-    padding: 12px;
-    border-radius: 10px;
-    text-decoration: none !important;
-    transition: opacity 0.3s ease;
-}
-
-.project-button:hover {
-    opacity: 0.9;
-}
-
-/* ── EMPTY STATE ── */
-.empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: #64748b;
-}
-.empty-state-icon {
-    font-size: 3rem;
-    margin-bottom: 16px;
-    opacity: 0.5;
-}
-.empty-state-title {
-    font-family: 'Syne', sans-serif !important;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #f0f4ff;
-    margin-bottom: 8px;
-}
-.empty-state-sub {
-    font-size: 0.88rem;
-    color: #64748b;
-}
-
-/* ── SCROLLBAR ── */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #060912; }
-::-webkit-scrollbar-thumb { background: rgba(0,180,216,0.2); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(0,180,216,0.4); }
 </style>
 """, unsafe_allow_html=True)
 
 # --------------------------------------------------
-# LISTA DE PROJETOS
+# DATA SOURCING (LISTA DE PROJETOS)
 # --------------------------------------------------
 python_projects = [
     {
@@ -400,13 +256,10 @@ python_projects = [
     },
 ]
 
-# --------------------------------------------------
-# CONTAGEM DINÂMICA DOS PROJETOS
-# --------------------------------------------------
 total_projetos = len(python_projects)
 
 # --------------------------------------------------
-# HERO
+# RENDER HERO
 # --------------------------------------------------
 st.markdown(f"""
 <div class="hero-wrapper">
@@ -436,14 +289,11 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # --------------------------------------------------
-# BARRA DE PESQUISA
+# RENDER FILTRO DE BUSCA
 # --------------------------------------------------
-st.markdown(
-    "<p class='search-label'>🔍 Filtre os projetos pelo nome ou descrição</p>",
-    unsafe_allow_html=True
-)
+st.markdown("<p class='search-label'>🔍 Filtre os projetos pelo nome ou descrição</p>", unsafe_allow_html=True)
 
-col_s1, col_s2, col_s3 = st.columns([1, 2, 1])
+_, col_s2, _ = st.columns([1, 2, 1])
 with col_s2:
     search_query = st.text_input(
         label="Pesquisar projeto",
@@ -452,20 +302,15 @@ with col_s2:
         label_visibility="collapsed"
     )
 
-st.write("")
-
 # --------------------------------------------------
-# FILTRO DE PESQUISA INTELIGENTE
+# MECANISMO DE FILTRAGEM
 # --------------------------------------------------
 if search_query:
     search_terms = search_query.lower().split()
-    filtered_projects = []
-    
-    for p in python_projects:
-        texto_projeto = f"{p['title']} {p['desc']}".lower()
-        if all(term in texto_projeto for term in search_terms):
-            filtered_projects.append(p)
-            
+    filtered_projects = [
+        p for p in python_projects 
+        if all(term in f"{p['title']} {p['desc']}".lower() for term in search_terms)
+    ]
     total_resultados = len(filtered_projects)
     label = "resultado" if total_resultados == 1 else "resultados"
     st.markdown(
@@ -476,19 +321,17 @@ else:
     filtered_projects = python_projects
 
 # --------------------------------------------------
-# CONSTRUÇÃO DO INJECT DE HTML NOVO (GRID PURO CONTROLADO)
+# INJEÇÃO DO COMPONENTE ISOLADO EM CSS GRID IFRAME
 # --------------------------------------------------
 if filtered_projects:
     st.markdown('<div class="section-label">Aplicações Ativas</div>', unsafe_allow_html=True)
     
-    # Inicia a estrutura do Grid Unificado
-    html_grid = '<div class="projects-grid-container">'
-    
-    # Agrega cada card de forma puramente sequencial dentro do Grid CSS
+    # Geração das strings de cada card interno do Grid
+    cards_html = ""
     for p in filtered_projects:
-        html_grid += f"""
+        cards_html += f"""
         <div class="project-card">
-            <div>
+            <div class="project-content">
                 <div class="project-title">{p['title']}</div>
                 <div class="project-description">{p['desc']}</div>
             </div>
@@ -499,23 +342,125 @@ if filtered_projects:
             </div>
         </div>
         """
+
+    # Montagem do documento HTML isolado com CSS Grid robusto
+    component_code = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap');
+        
+        * {{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }}
+        
+        body {{
+            background-color: transparent;
+            font-family: 'DM Sans', sans-serif;
+            overflow: hidden;
+        }}
+        
+        /* O Grid mestre que unifica altura e largura com gaps simétricos */
+        .projects-grid-container {{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            width: 100%;
+        }}
+        
+        @media (max-width: 900px) {{
+            .projects-grid-container {{ grid-template-columns: repeat(2, 1fr); }}
+        }}
+        @media (max-width: 600px) {{
+            .projects-grid-container {{ grid-template-columns: 1fr; }}
+        }}
+        
+        .project-card {{
+            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.3) 100%);
+            padding: 28px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%; /* Sincroniza com a altura máxima da linha do grid */
+            transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+        }}
+        
+        .project-card:hover {{
+            transform: translateY(-5px);
+            border-color: rgba(0,180,216,0.4);
+            box-shadow: 0 12px 30px rgba(0,180,216,0.1);
+        }}
+        
+        .project-title {{
+            font-family: 'Syne', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #f0f4ff;
+            margin-bottom: 12px;
+            line-height: 1.35;
+        }}
+        
+        .project-description {{
+            color: #94a3b8;
+            font-size: 0.88rem;
+            font-weight: 300;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }}
+        
+        .project-btn-wrap {{
+            margin-top: auto;
+            width: 100%;
+        }}
+        
+        .project-button {{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
+            color: #ffffff;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            padding: 12px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }}
+        
+        .project-button:hover {{
+            opacity: 0.9;
+        }}
+        </style>
+    </head>
+    <body>
+        <div class="projects-grid-container">
+            {cards_html}
+        </div>
+    </body>
+    </html>
+    """
     
-    # Fecha a div principal do container
-    html_grid += '</div>'
+    # Cálculo dinâmico aproximado de altura do Iframe baseado nas linhas do grid para evitar scrollbars
+    linhas = (len(filtered_projects) + 2) // 3
+    altura_calculada = linhas * 290  # 290px por linha de card garante folga ideal
     
-    # Renderiza tudo de uma única vez em bloco nativo de alta performance
-    st.markdown(html_grid, unsafe_allow_html=True)
+    st.components.v1.html(component_code, height=altura_calculada, scrolling=False)
+
 else:
-    st.markdown(
-        """
+    st.markdown("""
         <div class="empty-state">
             <div class="empty-state-icon">🔍</div>
             <div class="empty-state-title">Nenhum projeto encontrado.</div>
             <div class="empty-state-sub">Tente buscar por palavras mais amplas ou termos contidos nas descrições.</div>
         </div>
-        """,
-        unsafe_allow_html=True
-    )
+    """, unsafe_allow_html=True)
 
 st.write("")
 exibir_rodape()
