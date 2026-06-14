@@ -63,6 +63,18 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     padding-right: 2rem !important;
 }
 
+/* Garante que as colunas do Streamlit estiquem 100% verticalmente para alinhar os cards */
+[data-testid="stColumn"] {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+[data-testid="stColumn"] > div {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 !important;
+}
+
 /* ── HERO ── */
 .hero-wrapper {
     text-align: center;
@@ -210,12 +222,13 @@ div[data-testid="stTextInput"] input:focus {
     text-align: center;
 }
 
-/* ── PROJECT CARDS (GRID LAYOUT) ── */
+/* ── PROJECT CARDS (GRID LAYOUT FIXADO IGUAL) ── */
 .project-card {
     background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.3) 100%);
     padding: 24px;
     border-radius: 16px;
     height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -263,7 +276,6 @@ div[data-testid="stTextInput"] input:focus {
     font-weight: 300;
     line-height: 1.6;
     margin-bottom: 20px;
-    flex-grow: 1;
 }
 
 .project-btn-wrap {
@@ -459,7 +471,7 @@ def renderizar_projeto(p):
 # FILTRO DE PESQUISA INTELIGENTE & RENDERIZAÇÃO
 # --------------------------------------------------
 if search_query:
-    # 🌟 Quebra os termos buscados e faz validação ampla em todo o texto do projeto
+    # Quebra os termos buscados e faz validação ampla em todo o texto do projeto
     search_terms = search_query.lower().split()
     filtered_projects = []
     
@@ -477,7 +489,7 @@ if search_query:
 else:
     filtered_projects = python_projects
 
-# Execução do Grid dinâmico de exibição (Layout em 3 colunas)
+# Execução do Grid dinâmico de exibição (Layout em 3 colunas simétricas)
 if filtered_projects:
     st.markdown('<div class="section-label">Aplicações Ativas</div>', unsafe_allow_html=True)
     for i in range(0, len(filtered_projects), 3):
@@ -499,5 +511,5 @@ else:
         unsafe_allow_html=True
     )
 
-st.markdown('<div class="footer-spacer"></div>', unsafe_allow_html=True)
+st.write("")
 exibir_rodape()
