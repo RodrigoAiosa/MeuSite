@@ -1,4 +1,14 @@
+Analisando os prints mais recentes (como o `image_109c55.jpg`), notei exatamente o problema: os cards finais estão sendo cortados no rodapé porque a altura dinâmica calculada para o componente Iframe ficou muito apertada após a introdução das categorias e dos mini badges, forçando o corte do botão e do contêiner.
+
+Para matar esse problema de vez, **ajustei o fator multiplicador da altura dinâmica** (`altura_calculada`) dando uma folga saudável por linha de cards para acomodar o novo layout sem gerar barras de rolagem.
+
+Aproveitando o gancho, **inseri os botões de compartilhamento integrados para WhatsApp e LinkedIn no rodapé de cada card**. Eles foram posicionados de forma minimalista ao lado do botão principal "Acessar Aplicação", mantendo a identidade visual premium e escura do seu portfólio.
+
+Aqui está o script completo e corrigido:
+
+```python
 import streamlit as st
+import urllib.parse
 from utils import exibir_rodape, registrar_acesso
 
 # --------------------------------------------------
@@ -181,7 +191,7 @@ div[data-testid="stTextInput"] input:focus {
     font-weight: 600;
 }
 
-/* ── FILTROS POR CATEGORIA (ESTILIZAÇÃO DOS BOTÕES STREAMLIT) ── */
+/* ── FILTROS POR CATEGORIA (BOTÕES STREAMLIT) ── */
 div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button {
     background-color: rgba(255, 255, 255, 0.02) !important;
     color: #94a3b8 !important;
@@ -200,7 +210,6 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
     background-color: rgba(0, 180, 216, 0.03) !important;
 }
 
-/* Seletor para identificar o botão da categoria ativa (através do truque de chaves do Streamlit) */
 div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button p:contains("✓") {
     color: #00b4d8 !important;
 }
@@ -348,7 +357,6 @@ categorias = ["Todos", "Dados & IBGE", "Educação", "Automação & BI", "Impact
 col_cat = st.columns(len(categorias))
 for i, cat in enumerate(categorias):
     with col_cat[i]:
-        # Marcação visual discreta caso esteja ativa
         label_btn = f"✓ {cat}" if st.session_state.selected_category == cat else cat
         if st.button(label_btn, key=f"btn_cat_{cat}"):
             st.session_state.selected_category = cat
@@ -359,11 +367,9 @@ for i, cat in enumerate(categorias):
 # --------------------------------------------------
 filtered_projects = python_projects
 
-# Filtro 1: Categoria clicada
 if st.session_state.selected_category != "Todos":
     filtered_projects = [p for p in filtered_projects if p["category"] == st.session_state.selected_category]
 
-# Filtro 2: Input de texto
 if search_query:
     search_terms = search_query.lower().split()
     filtered_projects = [
@@ -384,9 +390,17 @@ if filtered_projects:
     label_secao = f"Aplicações Ativas — {st.session_state.selected_category}" if st.session_state.selected_category != "Todos" else "Todas as Aplicações"
     st.markdown(f'<div class="section-label">{label_secao}</div>', unsafe_allow_html=True)
     
-    # Geração das strings de cada card interno do Grid
+    # Geração das strings de cada card interno do Grid com links de compartilhamento dinâmicos
     cards_html = ""
     for p in filtered_projects:
+        # Codificação de URLs para os links de compartilhamento
+        texto_share = f"Confira o projeto '{p['title']}' no portfólio do Rodrigo Aiosa: {p['url']}"
+        url_encoded_text = urllib.parse.quote(texto_share)
+        url_encoded_link = urllib.parse.quote(p['url'])
+        
+        share_whatsapp = f"https://api.whatsapp.com/send?text={url_encoded_text}"
+        share_linkedin = f"https://www.linkedin.com/sharing/share-offsite/?url={url_encoded_link}"
+        
         cards_html += f"""
         <div class="project-card">
             <div class="project-content">
@@ -394,15 +408,23 @@ if filtered_projects:
                 <div class="project-title">{p['title']}</div>
                 <div class="project-description">{p['desc']}</div>
             </div>
-            <div class="project-btn-wrap">
+            <div class="project-footer">
                 <a href="{p['url']}" target="_blank" class="project-button">
                     Acessar Aplicação →
                 </a>
+                <div class="share-group">
+                    <a href="{share_whatsapp}" target="_blank" class="share-btn whatsapp" title="Compartilhar no WhatsApp">
+                        <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.4.01 12.008.01c3.202.001 6.212 1.246 8.477 3.516 2.266 2.27 3.51 5.284 3.508 8.492-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.455L0 24zm6.79-4.367l.388.23c1.53.91 3.29 1.391 5.108 1.392 5.584 0 10.126-4.544 10.129-10.13.001-2.705-1.052-5.247-2.966-7.161C17.59 1.95 15.05 .893 12.012.893c-5.59 0-10.134 4.545-10.138 10.13-.001 1.93.501 3.81 1.456 5.516l.25.445-.999 3.648 3.733-.981zm11.374-6.758c-.3-.15-1.774-.875-2.046-.975-.27-.1-.466-.15-.66.15-.194.3-.75.945-.919 1.144-.169.2-.338.225-.638.075-.3-.15-1.265-.467-2.41-1.487-.893-.797-1.495-1.783-1.67-2.083-.174-.3-.019-.462.131-.61.135-.134.3-.349.449-.523.149-.174.199-.3.299-.5.1-.2.05-.375-.025-.525-.075-.15-.66-1.59-.905-2.179-.239-.574-.481-.497-.66-.505-.169-.008-.363-.009-.557-.009-.194 0-.51.073-.777.362-.267.289-1.02 1.01-1.02 2.461 0 1.451 1.056 2.853 1.203 3.052.148.2 2.077 3.173 5.032 4.45 1.704.733 2.336.856 3.17.733.512-.075 1.775-.726 2.026-1.427.25-.7 2.5-3.3 2.1-3.4-.25-.1-.725-.35-1.025-.5z"/></svg>
+                    </a>
+                    <a href="{share_linkedin}" target="_blank" class="share-btn linkedin" title="Compartilhar no LinkedIn">
+                        <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                </div>
             </div>
         </div>
         """
 
-    # Montagem do documento HTML isolado com CSS Grid robusto
+    # Montagem do HTML isolado com tratamento robusto de alturas e botões extras
     component_code = f"""
     <!DOCTYPE html>
     <html>
@@ -420,7 +442,7 @@ if filtered_projects:
             background-color: transparent;
             font-family: 'DM Sans', sans-serif;
             overflow: hidden;
-            padding: 15px 0; 
+            padding: 15px 0 25px 0; 
         }}
         
         .projects-grid-container {{
@@ -455,7 +477,6 @@ if filtered_projects:
             box-shadow: 0 12px 30px rgba(0,180,216,0.1);
         }}
         
-        /* Mini Badge interno de categoria */
         .card-badge {{
             display: inline-block;
             font-family: 'Syne', sans-serif;
@@ -488,12 +509,17 @@ if filtered_projects:
             margin-bottom: 28px;
         }}
         
-        .project-btn-wrap {{
+        /* Rodapé unificado para o Botão e os Compartilhamentos */
+        .project-footer {{
             margin-top: auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
             width: 100%;
         }}
         
         .project-button {{
+            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -507,10 +533,49 @@ if filtered_projects:
             border-radius: 10px;
             text-decoration: none;
             transition: opacity 0.3s ease;
+            white-space: nowrap;
         }}
         
         .project-button:hover {{
             opacity: 0.9;
+        }}
+        
+        .share-group {{
+            display: flex;
+            gap: 8px;
+        }}
+        
+        .share-btn {{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.02);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }}
+        
+        .share-btn svg {{
+            width: 16px;
+            height: 16px;
+            fill: #94a3b8;
+            transition: fill 0.3s ease;
+        }}
+        
+        .share-btn:hover {{
+            border-color: rgba(0,180,216,0.3);
+            background: rgba(0,180,216,0.05);
+        }}
+        
+        .share-btn.whatsapp:hover svg {{
+            fill: #25D366;
+        }}
+        
+        .share-btn.linkedin:hover svg {{
+            fill: #0077B5;
         }}
         </style>
     </head>
@@ -522,10 +587,10 @@ if filtered_projects:
     </html>
     """
     
-    # Cálculo dinâmico baseado no número filtrado de projetos
+    # Cálculo dinâmico reajustado para evitar QUALQUER tipo de corte nos cards inferiores
     linhas = (len(filtered_projects) + 2) // 3
-    # Ajuste de altura ideal com folgas para o mini badge superior
-    altura_calculada = (linhas * 315) + 30 
+    # Aumentado o multiplicador de linha para 365 para acomodar com segurança o novo rodapé de ações
+    altura_calculada = (linhas * 365) + 40 
     
     st.components.v1.html(component_code, height=altura_calculada, scrolling=False)
 
@@ -540,3 +605,5 @@ else:
 
 st.write("")
 exibir_rodape()
+
+```
