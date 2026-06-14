@@ -696,51 +696,43 @@ div[data-testid="stTextInput"] input:focus {
 
 
 # ── TOP BANNER ──
-st.markdown("""
-<div class="top-banner">
-    <strong>Novo projeto disponível:</strong> Dashboard OEE com análise preditiva de paradas. 
-    Rolar para conferir ↓
-</div>
-""", unsafe_allow_html=True)
+st.markdown(
+    "<div class='top-banner'>"
+    "<strong>Novo projeto disponível:</strong> Dashboard OEE com análise preditiva de paradas. "
+    "Rolar para conferir ↓"
+    "</div>",
+    unsafe_allow_html=True
+)
 
 
-# ── HERO ──
-st.markdown(f"""
-<div class="hero">
-    <div class="hero-eyebrow">Portfólio Power BI</div>
-    <h1 class="hero-h1">
-        Dados que <em>convencem</em> quem decide.
-    </h1>
-    <p class="hero-sub">
-        {TOTAL} dashboards construídos com +20 anos de gestão real — não de teoria. 
-        Cada painel resolve um problema de negócio específico.
-    </p>
+# ── HERO — partes separadas para evitar conflito de aspas no f-string ──
+st.markdown(
+    "<div class='hero'>"
+    "<div class='hero-eyebrow'>Portfólio Power BI</div>"
+    "<h1 class='hero-h1'>Dados que <em>convencem</em> quem decide.</h1>"
+    f"<p class='hero-sub'>{TOTAL} dashboards construídos com +20 anos de gestão real — não de teoria. "
+    "Cada painel resolve um problema de negócio específico.</p>"
+    "</div>",
+    unsafe_allow_html=True
+)
 
-    <div class="hero-ctas">
-        <a href="#dashboards" class="btn-primary">Ver todos os dashboards →</a>
-        <a href="https://wa.me/5500000000000" target="_blank" class="btn-ghost">Falar com Rodrigo</a>
-    </div>
+st.markdown(
+    "<div style='display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:40px;'>"
+    "<a href='#dashboards' class='btn-primary'>Ver todos os dashboards →</a>"
+    "<a href='https://wa.me/5500000000000' target='_blank' class='btn-ghost'>Falar com Rodrigo</a>"
+    "</div>",
+    unsafe_allow_html=True
+)
 
-    <div class="stats-row">
-        <div class="stat-cell">
-            <span class="stat-num">{TOTAL}</span>
-            <span class="stat-lbl">Dashboards</span>
-        </div>
-        <div class="stat-cell">
-            <span class="stat-num">+20</span>
-            <span class="stat-lbl">Anos de Campo</span>
-        </div>
-        <div class="stat-cell">
-            <span class="stat-num">5</span>
-            <span class="stat-lbl">Setores</span>
-        </div>
-        <div class="stat-cell">
-            <span class="stat-num">100%</span>
-            <span class="stat-lbl">Estratégico</span>
-        </div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
+st.markdown(
+    f"<div class='stats-row'>"
+    f"<div class='stat-cell'><span class='stat-num'>{TOTAL}</span><span class='stat-lbl'>Dashboards</span></div>"
+    "<div class='stat-cell'><span class='stat-num'>+20</span><span class='stat-lbl'>Anos de Campo</span></div>"
+    "<div class='stat-cell'><span class='stat-num'>5</span><span class='stat-lbl'>Setores</span></div>"
+    "<div class='stat-cell'><span class='stat-num'>100%</span><span class='stat-lbl'>Estratégico</span></div>"
+    "</div>",
+    unsafe_allow_html=True
+)
 
 
 # ── MANIFESTO ──
