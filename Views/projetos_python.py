@@ -181,6 +181,30 @@ div[data-testid="stTextInput"] input:focus {
     font-weight: 600;
 }
 
+/* ── FILTROS POR CATEGORIA (ESTILIZAÇÃO DOS BOTÕES STREAMLIT) ── */
+div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button {
+    background-color: rgba(255, 255, 255, 0.02) !important;
+    color: #94a3b8 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 10px !important;
+    padding: 6px 16px !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 0.85rem !important;
+    transition: all 0.3s ease !important;
+    width: 100% !important;
+}
+
+div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button:hover {
+    border-color: rgba(0, 180, 216, 0.4) !important;
+    color: #00b4d8 !important;
+    background-color: rgba(0, 180, 216, 0.03) !important;
+}
+
+/* Seletor para identificar o botão da categoria ativa (através do truque de chaves do Streamlit) */
+div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button p:contains("✓") {
+    color: #00b4d8 !important;
+}
+
 .section-label {
     font-family: 'Syne', sans-serif !important;
     font-size: 0.8rem;
@@ -188,7 +212,7 @@ div[data-testid="stTextInput"] input:focus {
     letter-spacing: 3px;
     text-transform: uppercase;
     color: #f0f4ff;
-    margin-top: 20px;
+    margin-top: 35px;
     margin-bottom: 32px;
     text-align: center;
 }
@@ -196,63 +220,74 @@ div[data-testid="stTextInput"] input:focus {
 """, unsafe_allow_html=True)
 
 # --------------------------------------------------
-# DATA SOURCING (LISTA DE PROJETOS)
+# DATA SOURCING (LISTA DE PROJETOS COM CATEGORIAS)
 # --------------------------------------------------
 python_projects = [
     {
         "title": "📍 População Municipal",
         "desc": "Dados oficiais do IBGE | Tabela SIDRA 6579",
-        "url": "https://popualcaoibge.streamlit.app/"
+        "url": "https://popualcaoibge.streamlit.app/",
+        "category": "Dados & IBGE"
     },
     {
         "title": "💰 Renda por Município - São Paulo",
         "desc": "Dados oficiais do IBGE | PIB per capita e estimativas de renda familiar",
-        "url": "https://renda-cidades-sp-ibge.streamlit.app/"
+        "url": "https://renda-cidades-sp-ibge.streamlit.app/",
+        "category": "Dados & IBGE"
     },
     {
         "title": "🎓 O cursinho que o Brasil não pode pagar — eu construí de graça",
         "desc": "Construí um simulador do ENEM gratuito com Python + Streamlit. E quero te contar por que isso importa",
-        "url": "https://enem-simulador.streamlit.app/"
+        "url": "https://enem-simulador.streamlit.app/",
+        "category": "Educação"
     },
     {
         "title": "🎓 Simulador FUVEST",
         "desc": "Construí um simulador da FUVEST gratuito com Python + Streamlit. E quero te contar por que isso importa.",
-        "url": "https://simulador-fuvest.streamlit.app/"
+        "url": "https://simulador-fuvest.streamlit.app/",
+        "category": "Educação"
     },
     {
         "title": "✈️ Criei um simulado GRATUITO do ITA com questões reais de 2021 a 2025",
         "desc": "Questões reais, gabarito comentado, cronômetro. Sem cadastro. Sem pagar nada, porque o sonho não pode depender do bolso",
-        "url": "https://simulador-ita.streamlit.app/"
+        "url": "https://simulador-ita.streamlit.app/",
+        "category": "Educação"
     },
     {
         "title": "🚀 BI Data Generator PRO",
         "desc": "Construí uma ferramenta que analisa seu desempenho no ENEM por área, explica cada resposta e aponta onde focar. Open source, gratuito, acessível a qualquer estudante com internet.",
-        "url": "https://ai-bidatagenerator.streamlit.app/"
+        "url": "https://ai-bidatagenerator.streamlit.app/",
+        "category": "Automação & BI"
     },
     {
         "title": "🗺️ CrimeMap BR — Segurança Pública",
         "desc": "Dashboard interativo com dados abertos oficiais do Rio de Janeiro. Explore ocorrências criminais por município, tipo e período.",
-        "url": "https://rodrigoaiosa-crimemap.hf.space"
+        "url": "https://rodrigoaiosa-crimemap.hf.space",
+        "category": "Impacto Social"
     },
     {
         "title": "🦉 Calculadora ROI de Automação",
         "desc": "Ferramenta estratégica para estimar o Retorno sobre Investimento (ROI) de projetos de automação empresarial.",
-        "url": "https://roiautomacao.streamlit.app/"
+        "url": "https://roiautomacao.streamlit.app/",
+        "category": "Automação & BI"
     },
     {
         "title": "💼 APP S.O.S. MULHER",
         "desc": "Aplicação voltada à conscientização e análise de dados relacionados à violência contra a mulher no Brasil.",
-        "url": "https://rodrigoaiosa-help-mulher.hf.space"
+        "url": "https://rodrigoaiosa-help-mulher.hf.space",
+        "category": "Impacto Social"
     },
     {
         "title": "💼 Precificador Profissional para MEI",
         "desc": "Calculadora inteligente de precificação para microempreendedores baseada em custos reais e margem desejada.",
-        "url": "https://rodrigoaiosa-precificador-profissional-mei.hf.space"
+        "url": "https://rodrigoaiosa-precificador-profissional-mei.hf.space",
+        "category": "Automação & BI"
     },
     {
         "title": "📍 Extrator de Dados - Google Maps",
         "desc": "Ferramenta para extração estruturada de dados públicos do Google Maps para geração de leads.",
-        "url": "https://extrator-de-dados-gm.streamlit.app/"
+        "url": "https://extrator-de-dados-gm.streamlit.app/",
+        "category": "Automação & BI"
     },
 ]
 
@@ -303,28 +338,51 @@ with col_s2:
     )
 
 # --------------------------------------------------
-# MECANISMO DE FILTRAGEM
+# COMPONENTE DE FILTRO INTERATIVO POR CATEGORIA
 # --------------------------------------------------
+if "selected_category" not in st.session_state:
+    st.session_state.selected_category = "Todos"
+
+categorias = ["Todos", "Dados & IBGE", "Educação", "Automação & BI", "Impacto Social"]
+
+col_cat = st.columns(len(categorias))
+for i, cat in enumerate(categorias):
+    with col_cat[i]:
+        # Marcação visual discreta caso esteja ativa
+        label_btn = f"✓ {cat}" if st.session_state.selected_category == cat else cat
+        if st.button(label_btn, key=f"btn_cat_{cat}"):
+            st.session_state.selected_category = cat
+            st.rerun()
+
+# --------------------------------------------------
+# MECANISMO DE FILTRAGEM (TEXTO + CATEGORIA)
+# --------------------------------------------------
+filtered_projects = python_projects
+
+# Filtro 1: Categoria clicada
+if st.session_state.selected_category != "Todos":
+    filtered_projects = [p for p in filtered_projects if p["category"] == st.session_state.selected_category]
+
+# Filtro 2: Input de texto
 if search_query:
     search_terms = search_query.lower().split()
     filtered_projects = [
-        p for p in python_projects 
+        p for p in filtered_projects 
         if all(term in f"{p['title']} {p['desc']}".lower() for term in search_terms)
     ]
     total_resultados = len(filtered_projects)
     label = "resultado" if total_resultados == 1 else "resultados"
     st.markdown(
-        f"<div class='search-result-count'>🔎 <span>{total_resultados}</span> {label} para <span>\"{search_query}\"</span></div>",
+        f"<div class='search-result-count'>🔎 <span>{total_resultados}</span> {label} encontrados</div>",
         unsafe_allow_html=True
     )
-else:
-    filtered_projects = python_projects
 
 # --------------------------------------------------
 # INJEÇÃO DO COMPONENTE ISOLADO EM CSS GRID IFRAME
 # --------------------------------------------------
 if filtered_projects:
-    st.markdown('<div class="section-label">Aplicações Ativas</div>', unsafe_allow_html=True)
+    label_secao = f"Aplicações Ativas — {st.session_state.selected_category}" if st.session_state.selected_category != "Todos" else "Todas as Aplicações"
+    st.markdown(f'<div class="section-label">{label_secao}</div>', unsafe_allow_html=True)
     
     # Geração das strings de cada card interno do Grid
     cards_html = ""
@@ -332,6 +390,7 @@ if filtered_projects:
         cards_html += f"""
         <div class="project-card">
             <div class="project-content">
+                <div class="card-badge">{p['category']}</div>
                 <div class="project-title">{p['title']}</div>
                 <div class="project-description">{p['desc']}</div>
             </div>
@@ -361,12 +420,9 @@ if filtered_projects:
             background-color: transparent;
             font-family: 'DM Sans', sans-serif;
             overflow: hidden;
-            /* O padding-top dá uma folga de 10px para que o efeito translateY(-5px) */
-            /* não corte o topo das bordas dos cards da primeira linha */
-            padding: 10px 0; 
+            padding: 15px 0; 
         }}
         
-        /* O Grid mestre que unifica altura e largura com gaps simétricos */
         .projects-grid-container {{
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -389,7 +445,7 @@ if filtered_projects:
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            height: 100%; /* Sincroniza com a altura máxima da linha do grid */
+            height: 100%;
             transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
         }}
         
@@ -397,6 +453,22 @@ if filtered_projects:
             transform: translateY(-5px);
             border-color: rgba(0,180,216,0.4);
             box-shadow: 0 12px 30px rgba(0,180,216,0.1);
+        }}
+        
+        /* Mini Badge interno de categoria */
+        .card-badge {{
+            display: inline-block;
+            font-family: 'Syne', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(0, 180, 216, 0.85);
+            background: rgba(0, 180, 216, 0.05);
+            border: 1px solid rgba(0, 180, 216, 0.2);
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-bottom: 16px;
         }}
         
         .project-title {{
@@ -450,19 +522,19 @@ if filtered_projects:
     </html>
     """
     
-    # Cálculo dinâmico das linhas
+    # Cálculo dinâmico baseado no número filtrado de projetos
     linhas = (len(filtered_projects) + 2) // 3
-    # Aumentado para 310 para acomodar confortavelmente os paddings adicionais sem gerar scrollbar
-    altura_calculada = (linhas * 290) + 20 
+    # Ajuste de altura ideal com folgas para o mini badge superior
+    altura_calculada = (linhas * 315) + 30 
     
     st.components.v1.html(component_code, height=altura_calculada, scrolling=False)
 
 else:
     st.markdown("""
         <div class="empty-state">
-            <div class="empty-state-icon">🔍</div>
-            <div class="empty-state-title">Nenhum projeto encontrado.</div>
-            <div class="empty-state-sub">Tente buscar por palavras mais amplas ou termos contidos nas descrições.</div>
+            <div class="empty-state-icon" style="text-align:center; font-size:2.5rem; margin-top:30px;">🔍</div>
+            <div class="empty-state-title" style="text-align:center; color:#f0f4ff; font-weight:600; margin-top:10px;">Nenhum projeto encontrado nesta categoria.</div>
+            <div class="empty-state-sub" style="text-align:center; color:#64748b; font-size:0.88rem; margin-top:5px;">Tente mudar a categoria selecionada ou limpe os termos pesquisados.</div>
         </div>
     """, unsafe_allow_html=True)
 
