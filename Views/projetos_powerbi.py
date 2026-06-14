@@ -502,6 +502,7 @@ div[data-testid="stTextInput"] input:focus {
     border-radius: 18px;
     padding: 28px;
     height: 100%;
+    min-height: 340px;
     display: flex;
     flex-direction: column;
     transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
@@ -827,6 +828,11 @@ for cat in filtered_cats:
     projects = cat["projects"]
     for row_start in range(0, len(projects), 3):
         row = projects[row_start:row_start + 3]
+
+        # Espaçamento maior entre linhas de cards
+        if row_start > 0:
+            st.markdown("<div style='height:20px'></div>", unsafe_allow_html=True)
+
         cols = st.columns(3)
 
         for ci, proj in enumerate(row):
@@ -872,7 +878,7 @@ st.markdown("""
     </p>
     <div class="hero-ctas" style="justify-content:center;">
         <a href="https://wa.me/5500000000000" target="_blank" class="btn-primary">
-            Solicitar uma consultoria →
+            Solicitar uma consultoria gratuita →
         </a>
         <a href="https://www.linkedin.com/in/rodrigo" target="_blank" class="btn-ghost">
             Conectar no LinkedIn
