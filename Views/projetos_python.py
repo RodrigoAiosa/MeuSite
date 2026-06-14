@@ -1,12 +1,3 @@
-Analisando os prints mais recentes (como o `image_109c55.jpg`), notei exatamente o problema: os cards finais estão sendo cortados no rodapé porque a altura dinâmica calculada para o componente Iframe ficou muito apertada após a introdução das categorias e dos mini badges, forçando o corte do botão e do contêiner.
-
-Para matar esse problema de vez, **ajustei o fator multiplicador da altura dinâmica** (`altura_calculada`) dando uma folga saudável por linha de cards para acomodar o novo layout sem gerar barras de rolagem.
-
-Aproveitando o gancho, **inseri os botões de compartilhamento integrados para WhatsApp e LinkedIn no rodapé de cada card**. Eles foram posicionados de forma minimalista ao lado do botão principal "Acessar Aplicação", mantendo a identidade visual premium e escura do seu portfólio.
-
-Aqui está o script completo e corrigido:
-
-```python
 import streamlit as st
 import urllib.parse
 from utils import exibir_rodape, registrar_acesso
@@ -605,5 +596,3 @@ else:
 
 st.write("")
 exibir_rodape()
-
-```
