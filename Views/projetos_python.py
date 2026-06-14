@@ -361,6 +361,9 @@ if filtered_projects:
             background-color: transparent;
             font-family: 'DM Sans', sans-serif;
             overflow: hidden;
+            /* O padding-top dá uma folga de 10px para que o efeito translateY(-5px) */
+            /* não corte o topo das bordas dos cards da primeira linha */
+            padding: 10px 0; 
         }}
         
         /* O Grid mestre que unifica altura e largura com gaps simétricos */
@@ -447,9 +450,10 @@ if filtered_projects:
     </html>
     """
     
-    # Cálculo dinâmico aproximado de altura do Iframe baseado nas linhas do grid para evitar scrollbars
+    # Cálculo dinâmico das linhas
     linhas = (len(filtered_projects) + 2) // 3
-    altura_calculada = linhas * 290  # 290px por linha de card garante folga ideal
+    # Aumentado para 310 para acomodar confortavelmente os paddings adicionais sem gerar scrollbar
+    altura_calculada = (linhas * 290) + 20 
     
     st.components.v1.html(component_code, height=altura_calculada, scrolling=False)
 
