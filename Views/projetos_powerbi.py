@@ -411,6 +411,8 @@ body {{
     background: rgba(0,180,216,0.07);
     transition: background 0.18s, border-color 0.18s;
     letter-spacing: 0.2px;
+    cursor: pointer;
+    outline: none;
 }}
 
 .btn-open:hover {{
@@ -427,11 +429,43 @@ body {{
     transition: color 0.2s, transform 0.2s;
     display: inline-flex;
     align-items: center;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+    line-height: 1;
 }}
 
-.share-btn:hover {{ transform: scale(1.15); }}
+.share-btn:hover {{ transform: scale(1.2); }}
 .share-btn.li:hover {{ color: #0077b5; }}
 .share-btn.wa:hover {{ color: #25d366; }}
+.share-btn.cp:hover {{ color: #00b4d8; }}
+
+/* ── TOOLTIP DE CÓPIA ── */
+.copy-toast {{
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(12px);
+    background: rgba(0,180,216,0.15);
+    border: 1px solid rgba(0,180,216,0.35);
+    color: #00b4d8;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    padding: 8px 18px;
+    border-radius: 100px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s, transform 0.2s;
+    z-index: 9999;
+    white-space: nowrap;
+}}
+
+.copy-toast.show {{
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}}
 
 /* ── EMPTY ── */
 .empty-state {{
@@ -519,6 +553,9 @@ body {{
 
 </div>
 
+<!-- TOAST DE CÓPIA -->
+<div class="copy-toast" id="copy-toast">🔗 Link copiado!</div>
+
 <script>
 const CATS = {{
     financeiro: {{ label: 'Financeiro', color: '#185FA5', bg: 'rgba(24,95,165,0.12)', text: '#60a5fa' }},
@@ -531,6 +568,52 @@ const CATS = {{
 const PROJECTS = {projects_json};
 
 let activeFilter = 'all';
+
+/* Abre URL escapando do sandbox do iframe do Streamlit */
+function openURL(url) {{
+    try {{
+        window.top.open(url, '_blank', 'noopener,noreferrer');
+    }} catch(e) {{
+        window.open(url, '_blank', 'noopener,noreferrer');
+    }}
+}}
+
+/* Compartilha no LinkedIn */
+function shareLinkedIn(url) {{
+    const liUrl = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(url);
+    openURL(liUrl);
+}}
+
+/* Compartilha no WhatsApp */
+function shareWhatsApp(title, desc, url) {{
+    const text = title + '\\n\\n' + desc + '\\n\\n🔗 ' + url;
+    const waUrl = 'https://wa.me/?text=' + encodeURIComponent(text);
+    openURL(waUrl);
+}}
+
+/* Copia link e exibe toast */
+function copyLink(url) {{
+    const toast = document.getElementById('copy-toast');
+    if (navigator.clipboard && navigator.clipboard.writeText) {{
+        navigator.clipboard.writeText(url).then(() => showToast(toast));
+    }} else {{
+        /* Fallback para contextos sem HTTPS */
+        const ta = document.createElement('textarea');
+        ta.value = url;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast(toast);
+    }}
+}}
+
+function showToast(el) {{
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 2200);
+}}
 
 function setFilter(cat) {{
     activeFilter = cat;
@@ -564,10 +647,12 @@ function renderCards() {{
     countEl.innerHTML = `<strong>${{filtered.length}}</strong> ${{word}} encontrados`;
 
     grid.innerHTML = filtered.map((p, i) => {{
-        const cat = CATS[p.cat];
-        const waText = encodeURIComponent(`${{p.title}}\\n\\n${{p.desc}}\\n\\n🔗 ${{p.url}}`);
-        const liUrl  = encodeURIComponent(p.url);
-        const delay  = Math.min(i * 40, 400);
+        const cat  = CATS[p.cat];
+        const delay = Math.min(i * 40, 400);
+        /* Escapa aspas simples para uso seguro em onclick inline */
+        const safeTitle = p.title.replace(/'/g, "\\'");
+        const safeDesc  = p.desc.replace(/'/g, "\\'");
+        const safeUrl   = p.url.replace(/'/g, "\\'");
         return `
         <div class="pb-card" style="animation-delay:${{delay}}ms">
             <div class="card-accent" style="background:${{cat.color}};"></div>
@@ -577,18 +662,22 @@ function renderCards() {{
             </div>
             <p class="card-desc">${{p.desc}}</p>
             <div class="card-footer">
-                <a href="${{p.url}}" target="_blank" class="btn-open">
+                <button class="btn-open" onclick="openURL('${{safeUrl}}')" title="Abrir dashboard no Power BI">
                     Abrir dashboard <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.7rem;"></i>
-                </a>
+                </button>
                 <div class="share-row">
-                    <a href="https://www.linkedin.com/sharing/share-offsite/?url=${{liUrl}}"
-                       target="_blank" class="share-btn li" title="Compartilhar no LinkedIn">
+                    <button class="share-btn li" title="Compartilhar no LinkedIn"
+                        onclick="shareLinkedIn('${{safeUrl}}')">
                         <i class="fa-brands fa-linkedin"></i>
-                    </a>
-                    <a href="https://wa.me/?text=${{waText}}"
-                       target="_blank" class="share-btn wa" title="Compartilhar no WhatsApp">
+                    </button>
+                    <button class="share-btn wa" title="Compartilhar no WhatsApp"
+                        onclick="shareWhatsApp('${{safeTitle}}', '${{safeDesc}}', '${{safeUrl}}')">
                         <i class="fa-brands fa-whatsapp"></i>
-                    </a>
+                    </button>
+                    <button class="share-btn cp" title="Copiar link"
+                        onclick="copyLink('${{safeUrl}}')">
+                        <i class="fa-regular fa-copy"></i>
+                    </button>
                 </div>
             </div>
         </div>`;
