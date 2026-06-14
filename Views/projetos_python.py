@@ -37,8 +37,6 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 
 [data-testid="stHeader"] { background: transparent !important; }
 
-
-
 /* Aplica fonte customizada apenas no conteúdo principal, nunca na sidebar */
 .main h1, .main h2, .main h3, .main h4,
 .main p, .main a, .main li,
@@ -60,15 +58,15 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 }
 
 .block-container {
-    max-width: 100% !important;
-    padding-left: 4rem !important;
-    padding-right: 4rem !important;
+    max-width: 1200px !important;
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
 }
 
 /* ── HERO ── */
 .hero-wrapper {
     text-align: center;
-    padding: 80px 20px 50px;
+    padding: 80px 20px 30px;
     position: relative;
     width: 100%;
     display: flex;
@@ -125,11 +123,15 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     justify-content: center;
     gap: 48px;
     flex-wrap: wrap;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
 }
 
 .hero-stat {
     text-align: center;
+    background: rgba(255,255,255,0.02);
+    padding: 10px 24px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.05);
 }
 
 .hero-stat-number {
@@ -143,7 +145,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 
 .hero-stat-label {
     font-size: 0.78rem;
-    color: #4a5568;
+    color: #64748b;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     margin-top: 6px;
@@ -153,7 +155,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 .hero-divider {
     width: 100%;
     max-width: 900px;
-    margin: 0 auto 60px;
+    margin: 40px auto 40px;
     height: 1px;
     background: linear-gradient(90deg, transparent, rgba(0,180,216,0.3), transparent);
 }
@@ -162,7 +164,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 .search-label {
     text-align: center;
     font-size: 0.85rem;
-    color: #4a5568;
+    color: #64748b;
     letter-spacing: 0.5px;
     margin-bottom: 10px;
 }
@@ -177,9 +179,7 @@ div[data-testid="stTextInput"] input {
     font-family: 'DM Sans', sans-serif !important;
     transition: all 0.3s ease !important;
 }
-div[data-testid="stTextInput"] input::placeholder {
-    color: #2d3748 !important;
-}
+
 div[data-testid="stTextInput"] input:focus {
     box-shadow: 0 0 0 3px rgba(0,180,216,0.15) !important;
     border-color: rgba(0,180,216,0.6) !important;
@@ -188,7 +188,7 @@ div[data-testid="stTextInput"] input:focus {
 
 .search-result-count {
     text-align: center;
-    color: #4a5568;
+    color: #64748b;
     font-size: 0.88rem;
     margin: 14px 0 28px;
 }
@@ -200,25 +200,30 @@ div[data-testid="stTextInput"] input:focus {
 /* ── SECTION LABEL ── */
 .section-label {
     font-family: 'Syne', sans-serif !important;
-    font-size: 0.68rem;
+    font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: #2d3748;
+    color: #f0f4ff;
+    margin-top: 20px;
     margin-bottom: 32px;
     text-align: center;
 }
 
-/* ── PROJECT CARDS ── */
+/* ── PROJECT CARDS (GRID LAYOUT) ── */
 .project-card {
-    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
-    padding: 30px 32px;
-    border-radius: 20px;
-    margin-bottom: 20px;
-    border: 1px solid rgba(255,255,255,0.05);
+    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.3) 100%);
+    padding: 24px;
+    border-radius: 16px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid rgba(255,255,255,0.06);
     position: relative;
     overflow: hidden;
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+    margin-bottom: 24px;
 }
 
 .project-card::before {
@@ -232,12 +237,9 @@ div[data-testid="stTextInput"] input:focus {
 }
 
 .project-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(0,180,216,0.2);
-    box-shadow:
-        0 20px 40px rgba(0,0,0,0.4),
-        0 0 0 1px rgba(0,180,216,0.1),
-        inset 0 1px 0 rgba(0,180,216,0.1);
+    transform: translateY(-6px);
+    border-color: rgba(0,180,216,0.4);
+    box-shadow: 0 12px 30px rgba(0,180,216,0.1);
     background: linear-gradient(145deg, rgba(0,180,216,0.04) 0%, rgba(0,0,0,0.25) 100%);
 }
 
@@ -245,80 +247,56 @@ div[data-testid="stTextInput"] input:focus {
     opacity: 1;
 }
 
-.project-card-inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 24px;
-}
-
-.project-card-content {
-    flex: 1;
-}
-
 .project-title {
     font-family: 'Syne', sans-serif !important;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     font-weight: 700;
-    color: #e2e8f0;
-    margin-bottom: 10px;
+    color: #f0f4ff;
+    margin-bottom: 12px;
     line-height: 1.35;
     letter-spacing: -0.3px;
 }
 
 .project-description {
-    color: #4a5568;
-    font-size: 0.9rem;
+    color: #94a3b8;
+    font-size: 0.88rem;
     font-weight: 300;
-    line-height: 1.65;
-    margin: 0;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1;
 }
 
 .project-btn-wrap {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
+    margin-top: auto;
+    width: 100%;
 }
 
 .project-button {
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
-    background: rgba(0,180,216,0.1);
-    color: #00b4d8 !important;
+    background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
+    color: #ffffff !important;
     font-family: 'Syne', sans-serif !important;
     font-weight: 700;
-    font-size: 0.82rem;
+    font-size: 0.85rem;
     letter-spacing: 0.5px;
-    padding: 11px 20px;
-    border-radius: 12px;
+    padding: 12px;
+    border-radius: 10px;
     text-decoration: none !important;
-    border: 1px solid rgba(0,180,216,0.25);
-    white-space: nowrap;
-    transition: all 0.3s ease;
+    transition: opacity 0.3s ease;
 }
 
 .project-button:hover {
-    background: rgba(0,180,216,0.18);
-    border-color: rgba(0,180,216,0.5);
-    transform: translateX(3px);
-    box-shadow: 0 4px 20px rgba(0,180,216,0.2);
-}
-
-.project-button .arrow {
-    font-size: 1rem;
-    transition: transform 0.3s ease;
-}
-
-.project-button:hover .arrow {
-    transform: translateX(3px);
+    opacity: 0.9;
 }
 
 /* ── EMPTY STATE ── */
 .empty-state {
     text-align: center;
-    padding: 80px 20px;
-    color: #2d3748;
+    padding: 60px 20px;
+    color: #64748b;
 }
 .empty-state-icon {
     font-size: 3rem;
@@ -327,19 +305,14 @@ div[data-testid="stTextInput"] input:focus {
 }
 .empty-state-title {
     font-family: 'Syne', sans-serif !important;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 700;
-    color: #2d3748;
+    color: #f0f4ff;
     margin-bottom: 8px;
 }
 .empty-state-sub {
     font-size: 0.88rem;
-    color: #1a202c;
-}
-
-/* ── FOOTER SPACER ── */
-.footer-spacer {
-    height: 60px;
+    color: #64748b;
 }
 
 /* ── SCROLLBAR ── */
@@ -352,7 +325,7 @@ div[data-testid="stTextInput"] input:focus {
 """, unsafe_allow_html=True)
 
 # --------------------------------------------------
-# LISTA DE PROJETOS (movida para antes do HERO)
+# LISTA DE PROJETOS
 # --------------------------------------------------
 python_projects = [
     {
@@ -459,21 +432,42 @@ col_s1, col_s2, col_s3 = st.columns([1, 2, 1])
 with col_s2:
     search_query = st.text_input(
         label="Pesquisar projeto",
-        placeholder="Ex: ENEM, ROI, mapas...",
+        placeholder="Ex: ENEM, ROI, mapas, IBGE...",
         key="search_python",
         label_visibility="collapsed"
     )
 
 st.write("")
 
+# --- RENDERIZADOR DE CARD DE PROJETO ---
+def renderizar_projeto(p):
+    st.markdown(f"""
+    <div class="project-card">
+        <div>
+            <div class="project-title">{p['title']}</div>
+            <div class="project-description">{p['desc']}</div>
+        </div>
+        <div class="project-btn-wrap">
+            <a href="{p['url']}" target="_blank" class="project-button">
+                Acessar Aplicação <span class="arrow">→</span>
+            </a>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
 # --------------------------------------------------
-# FILTRO DE PESQUISA
+# FILTRO DE PESQUISA INTELIGENTE & RENDERIZAÇÃO
 # --------------------------------------------------
 if search_query:
-    filtered_projects = [
-        p for p in python_projects
-        if search_query.lower() in p["title"].lower() or search_query.lower() in p["desc"].lower()
-    ]
+    # 🌟 Quebra os termos buscados e faz validação ampla em todo o texto do projeto
+    search_terms = search_query.lower().split()
+    filtered_projects = []
+    
+    for p in python_projects:
+        texto_projeto = f"{p['title']} {p['desc']}".lower()
+        if all(term in texto_projeto for term in search_terms):
+            filtered_projects.append(p)
+            
     total_resultados = len(filtered_projects)
     label = "resultado" if total_resultados == 1 else "resultados"
     st.markdown(
@@ -483,47 +477,27 @@ if search_query:
 else:
     filtered_projects = python_projects
 
-# --------------------------------------------------
-# MENSAGEM QUANDO NÃO HÁ RESULTADOS
-# --------------------------------------------------
-if not filtered_projects:
+# Execução do Grid dinâmico de exibição (Layout em 3 colunas)
+if filtered_projects:
+    st.markdown('<div class="section-label">Aplicações Ativas</div>', unsafe_allow_html=True)
+    for i in range(0, len(filtered_projects), 3):
+        cols = st.columns(3)
+        for j in range(3):
+            idx = i + j
+            if idx < len(filtered_projects):
+                with cols[j]:
+                    renderizar_projeto(filtered_projects[idx])
+else:
     st.markdown(
         """
         <div class="empty-state">
             <div class="empty-state-icon">🔍</div>
             <div class="empty-state-title">Nenhum projeto encontrado.</div>
-            <div class="empty-state-sub">Tente outro termo de pesquisa.</div>
+            <div class="empty-state-sub">Tente buscar por palavras mais amplas ou termos contidos nas descrições.</div>
         </div>
         """,
         unsafe_allow_html=True
     )
 
-# --------------------------------------------------
-# SECTION LABEL
-# --------------------------------------------------
-if filtered_projects:
-    st.markdown('<div class="section-label">— Projetos em destaque —</div>', unsafe_allow_html=True)
-
-# --------------------------------------------------
-# RENDERIZAÇÃO DOS CARDS
-# --------------------------------------------------
-for p in filtered_projects:
-    st.markdown(f"""
-    <div class="project-card">
-        <div class="project-card-inner">
-            <div class="project-card-content">
-                <div class="project-title">{p['title']}</div>
-                <p class="project-description">{p['desc']}</p>
-            </div>
-            <div class="project-btn-wrap">
-                <a href="{p['url']}" target="_blank" class="project-button">
-                    Abrir <span class="arrow">→</span>
-                </a>
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
 st.markdown('<div class="footer-spacer"></div>', unsafe_allow_html=True)
-
 exibir_rodape()
