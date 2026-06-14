@@ -278,8 +278,8 @@ st.markdown(f"""
     <h1 class="hero-title">Dashboards que transformam <span class="accent">Dados em Lucro</span></h1>
     <p class="hero-subtitle">Arquitetura de BI de nível corporativo. Role para baixo e conheça todas as soluções segmentadas por verticais de negócio.</p>
     <div class="hero-stats">
-        <div class="hero-stat"><span class="hero-stat-number">{total_projetos}</span><span class="hero-stat-label">Painéis Ativos</span></div>
-        <div class="hero-stat"><span class="hero-stat-number">+20 Anos</span><span class="hero-stat-label">De Engenharia</span></div>
+        <div class="hero-stat"><span class="hero-stat-number">{total_projetos}</span><span class="hero-stat-label"> Painéis Ativos</span></div>
+        <div class="hero-stat"><span class="hero-stat-number">+20 Anos</span><span class="hero-stat-label">De Projetos REAIS</span></div>
         <div class="hero-stat"><span class="hero-stat-number">100%</span><span class="hero-stat-label">Foco em Decisão</span></div>
     </div>
 </div>
