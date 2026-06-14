@@ -324,14 +324,23 @@ with col_s2:
 
 st.write("")
 
-# --- RENDERIZADOR DE CARD INDIVIDUAL COM COMPARTILHAMENTO DIRETO DO LINK DO PAINEL ---
+# --- RENDERIZADOR DE CARD INDIVIDUAL COM TEXTO COMPLETO DINÂMICO ---
 def renderizar_card(p):
-    # Texto estruturado enviando especificamente o link direto daquele respectivo painel
-    mensagem_whatsapp = f"Olá! Veja esse dashboard estratégico de Power BI que encontrei no portfólio: *{p['title']}*.\n\nLink do painel: {p['url']}"
+    # 🌟 WHATSAPP: Texto rico incluindo Título, Descrição e Link do respectivo painel
+    mensagem_whatsapp = (
+        f"Olá! Veja que excelente dashboard de Power BI:\n\n"
+        f"📊 *{p['title']}*\n"
+        f"ℹ️ {p['desc']}\n\n"
+        f"🔗 Aceda ao painel completo aqui: {p['url']}"
+    )
     wa_link = f"https://wa.me/?text={urllib.parse.quote(mensagem_whatsapp)}"
     
-    # Compartilhamento oficial estruturado para o LinkedIn apontando para a URL do painel
-    li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['url'])}"
+    # 🌟 LINKEDIN: Injeta dinamicamente o título, o resumo estruturado e a URL alvo no escopo do post corporativo
+    li_base = "https://www.linkedin.com/shareArticle?mini=true"
+    li_title = urllib.parse.quote(p['title'])
+    li_summary = urllib.parse.quote(f"Solução de BI: {p['desc']}")
+    li_url = urllib.parse.quote(p['url'])
+    li_link = f"{li_base}&url={li_url}&title={li_title}&summary={li_summary}"
     
     st.markdown(f"""
     <div class="ux-card">
@@ -345,7 +354,7 @@ def renderizar_card(p):
         <div class="card-actions">
             <a href="{p['url']}" target="_blank" class="btn-direct">Abrir Dashboard →</a>
             <div class="share-row">
-                <span class="share-txt">Compartilhar link:</span>
+                <span class="share-txt">Compartilhar:</span>
                 <div class="share-links">
                     <a href="{wa_link}" target="_blank" class="share-btn-item wa">
                         <i class="fab fa-whatsapp"></i> WhatsApp
@@ -386,7 +395,7 @@ if search_query:
         """, unsafe_allow_html=True)
 
 else:
-    # --- VISUALIZAÇÃO GERAL: TODOS EXIBIDOS JUNTOS E DIVIDIDOS POR CATEGORIA ---
+    # --- VISUALIZAÇÃO GERAL ---
     categorias = ["Estratégico & Financeiro", "Operações & Logística", "RH & People Analytics", "Setor Público & Geral"]
     
     for cat_name in categorias:
