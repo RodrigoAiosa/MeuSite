@@ -98,32 +98,21 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 .hero-stat-number { font-family: 'Syne', sans-serif !important; font-size: 1.8rem; font-weight: 800; color: #00b4d8; }
 .hero-stat-label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
 
-/* ── NATIVE TABS STYLE OVERRIDE FOR RETENTION ── */
-.stTabs [data-baseweb="tab-list"] {
-    gap: 10px;
-    justify-content: center;
-}
-.stTabs [data-baseweb="tab"] {
-    background-color: rgba(255,255,255,0.03) !important;
-    border: 1px solid rgba(255,255,255,0.05) !important;
-    padding: 10px 20px !important;
-    border-radius: 10px !important;
-    color: #7b8ba8 !important;
+/* ── TITULOS DE CATEGORIA (ANCORAS VISUAIS DE RETENÇÃO) ── */
+.category-header {
     font-family: 'Syne', sans-serif !important;
-    font-weight: 600 !important;
-    transition: all 0.3s ease;
-}
-.stTabs [data-baseweb="tab"]:hover {
-    color: #00b4d8 !important;
-    border-color: rgba(0,180,216,0.3) !important;
-}
-.stTabs [aria-selected="true"] {
-    background: rgba(0,180,216,0.1) !important;
-    color: #00b4d8 !important;
-    border-color: #00b4d8 !important;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #f0f4ff;
+    margin: 45px 0 20px 0;
+    padding-left: 12px;
+    border-left: 3px solid #00b4d8;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-/* ── PREMIUM INTERACTIVE CARDS (NO FLIP - MOBILE FRIENDLY) ── */
+/* ── CARDS EM GRID INTERATIVO (SEM FLIP - ACESSIBILIDADE TOTAL) ── */
 .ux-card {
     background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.3) 100%);
     border: 1px solid rgba(255,255,255,0.06);
@@ -183,19 +172,7 @@ div[data-testid="stTextInput"] input:focus {
     border-color: rgba(0,180,216,0.6) !important;
     background-color: rgba(0,180,216,0.02) !important;
 }
-
-.section-title-cat {
-    font-family: 'Syne', sans-serif !important;
-    font-size: 1.25rem;
-    color: #f0f4ff;
-    margin: 20px 0;
-    font-weight: 700;
-    border-left: 3px solid #00b4d8;
-    padding-left: 10px;
-}
-
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 """, unsafe_allow_html=True)
 
 # --- BASE DE DADOS DOS PROJETOS CATEGORIZADOS ---
@@ -299,7 +276,7 @@ st.markdown(f"""
 <div class="hero-wrapper">
     <div class="hero-badge">📊 Portfólio de Alta Performance</div>
     <h1 class="hero-title">Dashboards que transformam <span class="accent">Dados em Lucro</span></h1>
-    <p class="hero-subtitle">Arquitetura de BI de nível corporativo. Escolha uma categoria abaixo para explorar soluções práticas prontas para implementação.</p>
+    <p class="hero-subtitle">Arquitetura de BI de nível corporativo. Role para baixo e conheça todas as soluções segmentadas por verticais de negócio.</p>
     <div class="hero-stats">
         <div class="hero-stat"><span class="hero-stat-number">{total_projetos}</span><span class="hero-stat-label">Painéis Ativos</span></div>
         <div class="hero-stat"><span class="hero-stat-number">+20 Anos</span><span class="hero-stat-label">De Engenharia</span></div>
@@ -320,7 +297,36 @@ with col_s2:
 
 st.write("")
 
-# --- LOGICA DE FILTRO & SEGMENTAÇÃO POR CATEGORIAS (UX RETENTION) ---
+# --- RENDERIZADOR DE CARD INDIVIDUAL ---
+def renderizar_card(p):
+    wa_text = f"Olá Rodrigo, gostei do projeto *{p['title']}* do seu portfólio."
+    wa_link = f"https://wa.me/?text={urllib.parse.quote(wa_text)}"
+    li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['url'])}"
+    
+    st.markdown(f"""
+    <div class="ux-card">
+        <div>
+            <div class="card-top">
+                <div class="card-icon-box">{p['icon']}</div>
+                <div class="ux-card-title">{p['title']}</div>
+            </div>
+            <div class="ux-card-desc">{p['desc']}</div>
+        </div>
+        <div class="card-actions">
+            <a href="{p['url']}" target="_blank" class="btn-direct">Abrir Dashboard →</a>
+            <div class="share-row">
+                <span class="share-txt">Contato / Share</span>
+                <div class="share-links">
+                    <a href="{li_link}" target="_blank" class="share-ico"><i class="fab fa-linkedin"></i></a>
+                    <a href="{wa_link}" target="_blank" class="share-ico"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+
+# --- FLUXO DINÂMICO DE FILTRO VS GERAL ---
 if search_query:
     filtered_projects = [
         p for p in pbi_projects
@@ -329,40 +335,13 @@ if search_query:
     
     if filtered_projects:
         st.markdown(f"<p style='color:#64748b; text-align:center;'>Exibindo {len(filtered_projects)} resultado(s) para sua busca</p>", unsafe_allow_html=True)
-        # Renderização direta em grid quando houver busca
         for i in range(0, len(filtered_projects), 3):
             cols = st.columns(3)
             for j in range(3):
                 idx = i + j
                 if idx < len(filtered_projects):
-                    p = filtered_projects[idx]
-                    
-                    wa_text = f"Olá Rodrigo, gostei do projeto *{p['title']}* no seu portfólio."
-                    wa_link = f"https://wa.me/?text={urllib.parse.quote(wa_text)}"
-                    li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['url'])}"
-                    
                     with cols[j]:
-                        st.markdown(f"""
-                        <div class="ux-card">
-                            <div>
-                                <div class="card-top">
-                                    <div class="card-icon-box">{p['icon']}</div>
-                                    <div class="ux-card-title">{p['title']}</div>
-                                </div>
-                                <div class="ux-card-desc">{p['desc']}</div>
-                            </div>
-                            <div class="card-actions">
-                                <a href="{p['url']}" target="_blank" class="btn-direct">Visualizar Painel →</a>
-                                <div class="share-row">
-                                    <span class="share-txt">Contato / Share</span>
-                                    <div class="share-links">
-                                        <a href="{li_link}" target="_blank" class="share-ico"><i class="fab fa-linkedin"></i></a>
-                                        <a href="{wa_link}" target="_blank" class="share-ico"><i class="fab fa-whatsapp"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        """, unsafe_allow_html=True)
+                        renderizar_card(filtered_projects[idx])
     else:
         st.markdown("""
         <div style="text-align:center; padding: 40px; color: #64748b;">
@@ -373,49 +352,25 @@ if search_query:
         """, unsafe_allow_html=True)
 
 else:
-    # --- FLUXO PRINCIPAL: DIVISÃO EM CATEGORIAS POR TABS ---
+    # --- VISUALIZAÇÃO GERAL: TODOS EXIBIDOS JUNTOS E DIVIDIDOS POR CATEGORIA ---
     categorias = ["Estratégico & Financeiro", "Operações & Logística", "RH & People Analytics", "Setor Público & Geral"]
-    tabs = st.tabs(categorias)
-
-    for idx_tab, cat_name in enumerate(categorias):
-        with tabs[idx_tab]:
-            # Filtra os projetos específicos da categoria atual
-            cat_projects = [p for p in pbi_projects if p["category"] == cat_name]
+    
+    for cat_name in categorias:
+        # Filtra projetos da categoria específica
+        cat_projects = [p for p in pbi_projects if p["category"] == cat_name]
+        
+        if cat_projects:
+            # Título da Seção (Categoria)
+            st.markdown(f'<div class="category-header"><span></span> {cat_name}</div>', unsafe_allow_html=True)
             
-            # Divide os cards em linhas de 3 colunas fluidas
+            # Renderização em Grid de 3 colunas por Categoria
             for i in range(0, len(cat_projects), 3):
                 cols = st.columns(3)
                 for j in range(3):
                     idx_proj = i + j
                     if idx_proj < len(cat_projects):
-                        p = cat_projects[idx_proj]
-                        
-                        wa_text = f"Olá Rodrigo, estava olhando sua categoria *{p['category']}* e gostei do projeto: {p['title']}."
-                        wa_link = f"https://wa.me/?text={urllib.parse.quote(wa_text)}"
-                        li_link = f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(p['url'])}"
-                        
                         with cols[j]:
-                            st.markdown(f"""
-                            <div class="ux-card">
-                                <div>
-                                    <div class="card-top">
-                                        <div class="card-icon-box">{p['icon']}</div>
-                                        <div class="ux-card-title">{p['title']}</div>
-                                    </div>
-                                    <div class="ux-card-desc">{p['desc']}</div>
-                                </div>
-                                <div class="card-actions">
-                                    <a href="{p['url']}" target="_blank" class="btn-direct">Abrir Dashboard Interno →</a>
-                                    <div class="share-row">
-                                        <span class="share-txt">Contato com Rodrigo</span>
-                                        <div class="share-links">
-                                            <a href="{li_link}" target="_blank" class="share-ico"><i class="fab fa-linkedin"></i></a>
-                                            <a href="{wa_link}" target="_blank" class="share-ico"><i class="fab fa-whatsapp"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            """, unsafe_allow_html=True)
+                            renderizar_card(cat_projects[idx_proj])
 
 st.markdown('<div style="height: 60px;"></div>', unsafe_allow_html=True)
 exibir_rodape()
