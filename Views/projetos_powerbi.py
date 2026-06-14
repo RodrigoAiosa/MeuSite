@@ -831,11 +831,11 @@ for cat in filtered_cats:
     </div>
     """, unsafe_allow_html=True)
 
-    # Grid de cards — 3 colunas
+    # Grid de cards — sempre 3 colunas (cards sozinhos ficam na 1ª coluna)
     projects = cat["projects"]
     for row_start in range(0, len(projects), 3):
         row = projects[row_start:row_start + 3]
-        cols = st.columns(len(row)) if len(row) < 3 else st.columns(3)
+        cols = st.columns(3)
 
         for ci, proj in enumerate(row):
             wa_text = f"Olá Rodrigo! Vi o *{proj['title']}* no seu portfólio e quero saber mais.\n\n{proj['desc']}\n\n🔗 {proj['url']}"
