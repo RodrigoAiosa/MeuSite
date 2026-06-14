@@ -872,7 +872,7 @@ st.markdown("""
     </p>
     <div class="hero-ctas" style="justify-content:center;">
         <a href="https://wa.me/5500000000000" target="_blank" class="btn-primary">
-            Solicitar uma consultoria gratuita →
+            Solicitar uma consultoria →
         </a>
         <a href="https://www.linkedin.com/in/rodrigo" target="_blank" class="btn-ghost">
             Conectar no LinkedIn
