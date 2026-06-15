@@ -223,7 +223,7 @@ div[data-testid="stTextInput"] input:focus {
 # --- BASE DE DADOS DOS PROJETOS CATEGORIZADOS ---
 pbi_projects = [
     {
-        "title": "Dashboard Transporte - Travel Company",
+        "title": "Transporte - Travel Company",
         "icon": "🚛",
         "category": "Operações & Logística",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiNjY5NThlNjctZWY1Ny00YjA0LTk0MjEtNzhiNjgzZjdjZjA2IiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
