@@ -112,6 +112,22 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     gap: 10px;
 }
 
+/* ── FORÇA COLUNAS STREAMLIT MESMA ALTURA ── */
+[data-testid="stHorizontalBlock"] {
+    align-items: stretch !important;
+}
+
+[data-testid="stHorizontalBlock"] > [data-testid="stColumn"] {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+[data-testid="stHorizontalBlock"] > [data-testid="stColumn"] > [data-testid="stVerticalBlockBorderWrapper"],
+[data-testid="stHorizontalBlock"] > [data-testid="stColumn"] > div {
+    height: 100% !important;
+    flex: 1 !important;
+}
+
 /* ── CARDS EM GRID INTERATIVO ── */
 .ux-card {
     background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.3) 100%);
@@ -119,6 +135,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     border-radius: 16px;
     padding: 24px;
     height: 100%;
+    min-height: 320px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -133,7 +150,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 }
 
 .card-top { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 16px; }
-.card-icon-box { font-size: 32px; background: rgba(0,180,216,0.06); padding: 10px; border-radius: 12px; border: 1px solid rgba(0,180,216,0.1); line-height: 1; }
+.card-icon-box { font-size: 32px; background: rgba(0,180,216,0.06); padding: 10px; border-radius: 12px; border: 1px solid rgba(0,180,216,0.1); line-height: 1; flex-shrink: 0; }
 .ux-card-title { font-family: 'Syne', sans-serif !important; font-size: 1.15rem; font-weight: 700; color: #f0f4ff; line-height: 1.3; }
 
 .ux-card-desc { font-size: 0.88rem; color: #94a3b8; line-height: 1.6; margin-bottom: 20px; flex-grow: 1; }
@@ -151,6 +168,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     font-size: 0.85rem;
     letter-spacing: 0.5px;
     transition: opacity 0.3s ease;
+    display: block;
 }
 .btn-direct:hover { opacity: 0.9; }
 
@@ -333,16 +351,16 @@ def renderizar_card(p):
         f"🔗 Aceda ao painel completo aqui: {p['url']}"
     )
     wa_link = f"https://wa.me/?text={urllib.parse.quote(mensagem_whatsapp)}"
-    
+
     li_base = "https://www.linkedin.com/shareArticle?mini=true"
     li_title = urllib.parse.quote(p['title'])
     li_summary = urllib.parse.quote(f"Solução de BI: {p['desc']}")
     li_url = urllib.parse.quote(p['url'])
     li_link = f"{li_base}&url={li_url}&title={li_title}&summary={li_summary}"
-    
+
     st.markdown(f"""
     <div class="ux-card">
-        <div>
+        <div style="display:flex; flex-direction:column; flex-grow:1;">
             <div class="card-top">
                 <div class="card-icon-box">{p['icon']}</div>
                 <div class="ux-card-title">{p['title']}</div>
@@ -372,15 +390,15 @@ if search_query:
     # 🌟 PESQUISA ULTRA INTELIGENTE: Quebra os termos digitados e valida de forma ampla
     search_terms = search_query.lower().split()
     filtered_projects = []
-    
+
     for p in pbi_projects:
         # Texto consolidado do painel para checar contra os termos pesquisados
         texto_painel = f"{p['title']} {p['desc']} {p['category']} {p['icon']}".lower()
-        
+
         # O painel precisa conter TODOS os termos digitados (independente da ordem ou posição)
         if all(term in texto_painel for term in search_terms):
             filtered_projects.append(p)
-    
+
     if filtered_projects:
         st.markdown(f"<p style='color:#64748b; text-align:center;'>Exibindo {len(filtered_projects)} resultado(s) para sua busca</p>", unsafe_allow_html=True)
         for i in range(0, len(filtered_projects), 3):
@@ -402,13 +420,13 @@ if search_query:
 else:
     # --- VISUALIZAÇÃO GERAL ---
     categorias = ["Estratégico & Financeiro", "Operações & Logística", "RH & People Analytics", "Setor Público & Geral"]
-    
+
     for cat_name in categorias:
         cat_projects = [p for p in pbi_projects if p["category"] == cat_name]
-        
+
         if cat_projects:
             st.markdown(f'<div class="category-header"><span></span> {cat_name}</div>', unsafe_allow_html=True)
-            
+
             for i in range(0, len(cat_projects), 3):
                 cols = st.columns(3)
                 for j in range(3):
