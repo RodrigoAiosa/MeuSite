@@ -277,18 +277,6 @@ python_projects = [
         "url": "https://rodrigoaiosa-help-mulher.hf.space",
         "category": "Impacto Social"
     },
-    {
-        "title": "💼 Precificador Profissional para MEI",
-        "desc": "Calculadora inteligente de precificação para microempreendedores baseada em custos reais e margem desejada.",
-        "url": "https://rodrigoaiosa-precificador-profissional-mei.hf.space",
-        "category": "Automação & BI"
-    },
-    {
-        "title": "📍 Extrator de Dados - Google Maps",
-        "desc": "Ferramenta para extração estruturada de dados públicos do Google Maps para geração de leads.",
-        "url": "https://extrator-de-dados-gm.streamlit.app/",
-        "category": "Automação & BI"
-    },
 ]
 
 total_projetos = len(python_projects)
