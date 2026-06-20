@@ -233,7 +233,7 @@ pbi_projects = [
         "title": "Dashboard ANATEL - Reclamações",
         "icon": "📞",
         "category": "Operações & Logística",
-        "url": "https://app.powerbi.com/view?r=eyJrIjoiZjgwNmViZjMtYTQ3OS00ZjljLWFiZjktOTNlNzJhYWQ2MzZkIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
+        "url": "hhttps://app.powerbi.com/view?r=eyJrIjoiZjgwNmViZjMtYTQ3OS00ZjljLWFiZjktOTNlNzJhYWQ2MzZkIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
         "desc": "Monitoramento de reclamações gerais da ANATEL. Perfeito para identificar gargalos de atendimento, tendências e disparadores de insatisfação."
     },
     {
