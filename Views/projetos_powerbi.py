@@ -300,7 +300,7 @@ pbi_projects = [
         "desc": "Inteligência de departamento pessoal: Funil de R&S, turnover, custos associados a comissões e bonificações integradas por performance."
     },
     {
-        "title": "🚀 Relatório Borelli,
+        "title": "🚀 Relatório Borelli",
         "icon": "🚀",
         "category": "Operações & Logística",
         "url": "https://app.powerbi.com/view?r=eyJrIjoiZTY5YmEzZmQtZDVhMS00N2QyLWJhY2QtMDNhMWFmMDRjMjNmIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
