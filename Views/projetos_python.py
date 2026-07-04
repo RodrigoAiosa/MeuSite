@@ -223,6 +223,13 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 # DATA SOURCING (LISTA DE PROJETOS COM CATEGORIAS)
 # --------------------------------------------------
 python_projects = [
+
+    {
+        "title": "📍 População Municipal",
+        "desc": "Dados oficiais do IBGE | Tabela SIDRA 6579",
+        "url": "https://populacaobrasil.streamlit.app/",
+        "category": "Dados & IBGE"
+    },
     {
         "title": "📍 População Municipal",
         "desc": "Dados oficiais do IBGE | Tabela SIDRA 6579",
