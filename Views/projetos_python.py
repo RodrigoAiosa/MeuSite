@@ -225,8 +225,8 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 python_projects = [
 
     {
-        "title": "📍 População Municipal",
-        "desc": "Dados oficiais do IBGE | Tabela SIDRA 6579",
+        "title": "📍 População Brasil",
+        "desc": "habitantes estimados em Brasil",
         "url": "https://populacaobrasil.streamlit.app/",
         "category": "Dados & IBGE"
     },
