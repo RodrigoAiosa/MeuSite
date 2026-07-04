@@ -223,64 +223,63 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 # DATA SOURCING (LISTA DE PROJETOS COM CATEGORIAS)
 # --------------------------------------------------
 python_projects = [
-
     {
         "title": "📍 População Brasil",
-        "desc": "habitantes estimados em Brasil",
+        "desc": "Dashboard interativo com dados populacionais oficiais do IBGE. Explore estimativas demográficas por região, estado e município com visualizações dinâmicas e mapas interativos.",
         "url": "https://populacaobrasil.streamlit.app/",
         "category": "Dados & IBGE"
     },
     {
         "title": "📍 População Municipal",
-        "desc": "Dados oficiais do IBGE | Tabela SIDRA 6579",
+        "desc": "Consulta detalhada de população por município brasileiro usando dados oficiais da tabela SIDRA 6579 do IBGE. Visualize rankings, compare regiões e acompanhe tendências demográficas.",
         "url": "https://popualcaoibge.streamlit.app/",
         "category": "Dados & IBGE"
     },
     {
         "title": "💰 Renda por Município - São Paulo",
-        "desc": "Dados oficiais do IBGE | PIB per capita e estimativas de renda familiar",
+        "desc": "Análise aprofundada da distribuição de renda nos municípios paulistas com dados oficiais do IBGE. Explore PIB per capita, estimativas de renda familiar e desigualdades regionais em dashboards interativos.",
         "url": "https://renda-cidades-sp-ibge.streamlit.app/",
         "category": "Dados & IBGE"
     },
     {
         "title": "🎓 O cursinho que o Brasil não pode pagar — eu construí de graça",
-        "desc": "Construí um simulador do ENEM gratuito com Python + Streamlit. E quero te contar por que isso importa",
+        "desc": "Simulador ENEM gratuito com questões reais, correção automática, estatísticas de desempenho e plano de estudos personalizado. Democratizando o acesso à preparação para o vestibular.",
         "url": "https://enem-simulador.streamlit.app/",
         "category": "Educação"
     },
     {
         "title": "🎓 Simulador FUVEST",
-        "desc": "Construí um simulador da FUVEST gratuito com Python + Streamlit. E quero te contar por que isso importa.",
+        "desc": "Treine para a FUVEST com questões de provas anteriores, correção instantânea, análise de desempenho por área e recomendações personalizadas de estudo. 100% gratuito e sem cadastro.",
         "url": "https://simulador-fuvest.streamlit.app/",
         "category": "Educação"
     },
     {
-        "title": "✈️ Criei um simulado GRATUITO do ITA com questões reais de 2021 a 2025",
-        "desc": "Questões reais, gabarito comentado, cronômetro. Sem cadastro. Sem pagar nada, porque o sonho não pode depender do bolso",
+        "title": "✈️ Simulador ITA — 2021 a 2025",
+        "desc": "Prepare-se para o vestibular mais concorrido do Brasil com questões reais do ITA dos últimos 5 anos. Gabarito comentado, cronômetro integrado, estatísticas de desempenho e análise por disciplina.",
         "url": "https://simulador-ita.streamlit.app/",
         "category": "Educação"
     },
     {
         "title": "🚀 BI Data Generator PRO",
-        "desc": "Construí uma ferramenta que analisa seu desempenho no ENEM por área, explica cada resposta e aponta onde focar. Open source, gratuito, acessível a qualquer estudante com internet.",
+        "desc": "Ferramenta inteligente que analisa seu desempenho no ENEM por área do conhecimento, explica cada resposta detalhadamente e identifica pontos críticos para otimizar seus estudos. Com IA integrada.",
         "url": "https://ai-bidatagenerator.streamlit.app/",
         "category": "Automação & BI"
     },
     {
         "title": "🗺️ CrimeMap BR — Segurança Pública",
-        "desc": "Dashboard interativo com dados abertos oficiais do Rio de Janeiro. Explore ocorrências criminais por município, tipo e período.",
+        "desc": "Dashboard interativo com dados oficiais de criminalidade do Rio de Janeiro. Analise padrões de ocorrências por município, tipo de crime e período, com visualizações georreferenciadas e filtros dinâmicos.",
         "url": "https://rodrigoaiosa-crimemap.hf.space",
         "category": "Impacto Social"
     },
     {
         "title": "🦉 Calculadora ROI de Automação",
-        "desc": "Ferramenta estratégica para estimar o Retorno sobre Investimento (ROI) de projetos de automação empresarial.",
+        "desc": "Ferramenta estratégica para calcular o Retorno sobre Investimento (ROI) de projetos de automação. Compare cenários, projete resultados financeiros e tome decisões baseadas em dados.",
         "url": "https://roiautomacao.streamlit.app/",
         "category": "Automação & BI"
     },
     {
         "title": "💼 APP S.O.S. MULHER",
-        "desc": "Aplicação voltada à conscientização e análise de dados relacionados à violência contra a mulher no Brasil.",
+        "desc": "Plataforma de conscientização e análise de dados sobre violência contra a mulher no Brasil. Visualize estatísticas, tendências regionais e tenha acesso a recursos e informações de apoio.",
         "url": "https://rodrigoaiosa-help-mulher.hf.space",
         "category": "Impacto Social"
     },
