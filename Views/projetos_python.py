@@ -46,8 +46,6 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     max-width: 1200px !important;
     padding-left: 2rem !important;
     padding-right: 2rem !important;
-    padding-top: 2rem !important;
-    padding-bottom: 2rem !important;
 }
 
 /* ── HERO ── */
@@ -153,7 +151,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     font-size: 0.85rem;
     color: #64748b;
     letter-spacing: 0.5px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 div[data-testid="stTextInput"] input {
@@ -177,7 +175,7 @@ div[data-testid="stTextInput"] input:focus {
     text-align: center;
     color: #64748b;
     font-size: 0.88rem;
-    margin: 20px 0 35px;
+    margin: 14px 0 28px;
 }
 .search-result-count span {
     color: #00b4d8;
@@ -185,22 +183,16 @@ div[data-testid="stTextInput"] input:focus {
 }
 
 /* ── FILTROS POR CATEGORIA (BOTÕES STREAMLIT) ── */
-div[data-testid="stHorizontalBlock"] {
-    gap: 16px !important;
-    margin: 10px 0 15px 0 !important;
-}
-
 div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button {
     background-color: rgba(255, 255, 255, 0.02) !important;
     color: #94a3b8 !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
     border-radius: 10px !important;
-    padding: 10px 20px !important;
+    padding: 6px 16px !important;
     font-family: 'DM Sans', sans-serif !important;
     font-size: 0.85rem !important;
     transition: all 0.3s ease !important;
     width: 100% !important;
-    min-height: 44px !important;
 }
 
 div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button:hover {
@@ -220,165 +212,9 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
     letter-spacing: 3px;
     text-transform: uppercase;
     color: #f0f4ff;
-    margin-top: 45px;
-    margin-bottom: 35px;
+    margin-top: 35px;
+    margin-bottom: 32px;
     text-align: center;
-}
-
-/* ── CARDS MELHORADOS PARA PYTHON ── */
-.project-card-python {
-    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.3) 100%);
-    padding: 28px;
-    border-radius: 16px;
-    border: 1px solid rgba(255,255,255,0.06);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    min-height: 360px;
-    transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
-    margin-bottom: 30px;
-}
-
-.project-card-python:hover {
-    transform: translateY(-5px);
-    border-color: rgba(0,180,216,0.4);
-    box-shadow: 0 12px 30px rgba(0,180,216,0.1);
-}
-
-.card-badge-python {
-    display: inline-block;
-    font-family: 'Syne', sans-serif;
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: rgba(0, 180, 216, 0.85);
-    background: rgba(0, 180, 216, 0.05);
-    border: 1px solid rgba(0, 180, 216, 0.2);
-    padding: 4px 12px;
-    border-radius: 6px;
-    margin-bottom: 16px;
-    align-self: flex-start;
-}
-
-.project-title-python {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #f0f4ff;
-    margin-bottom: 12px;
-    line-height: 1.35;
-}
-
-.project-description-python {
-    color: #94a3b8;
-    font-size: 0.88rem;
-    font-weight: 300;
-    line-height: 1.7;
-    margin-bottom: 24px;
-    flex-grow: 1;
-}
-
-.project-footer-python {
-    margin-top: auto;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-}
-
-.project-button-python {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
-    color: #ffffff !important;
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 0.85rem;
-    letter-spacing: 0.5px;
-    padding: 12px 16px;
-    border-radius: 10px;
-    text-decoration: none !important;
-    transition: opacity 0.3s ease;
-    white-space: nowrap;
-}
-
-.project-button-python:hover {
-    opacity: 0.9;
-    color: #ffffff !important;
-}
-
-.share-group-python {
-    display: flex;
-    gap: 8px;
-    flex-shrink: 0;
-}
-
-.share-btn-python {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.08);
-    background: rgba(255,255,255,0.02);
-    transition: all 0.3s ease;
-    text-decoration: none;
-}
-
-.share-btn-python svg {
-    width: 18px;
-    height: 18px;
-    fill: #94a3b8;
-    transition: fill 0.3s ease;
-}
-
-.share-btn-python:hover {
-    border-color: rgba(0,180,216,0.3);
-    background: rgba(0,180,216,0.05);
-}
-
-.share-btn-python.whatsapp:hover svg {
-    fill: #25D366;
-}
-
-.share-btn-python.linkedin:hover svg {
-    fill: #0077B5;
-}
-
-/* GARANTE QUE OS CARDS NÃO SEJAM CORTADOS E TENHAM ESPAÇAMENTO */
-[data-testid="stVerticalBlock"] {
-    gap: 0rem !important;
-}
-
-.row-widget.stHorizontal {
-    margin-bottom: 20px !important;
-    gap: 20px !important;
-}
-
-[data-testid="stVerticalBlockBorderWrapper"] {
-    height: auto !important;
-    min-height: 100% !important;
-}
-
-/* ESPAÇAMENTO ENTRE LINHAS DO GRID */
-[data-testid="stHorizontalBlock"] > [data-testid="stColumn"] {
-    padding-left: 12px !important;
-    padding-right: 12px !important;
-}
-
-/* ESPAÇO EXTRA APÓS A SEÇÃO DE BUSCA */
-.search-section-spacer {
-    height: 30px;
-}
-
-/* ESPAÇO EXTRA PARA O RODAPÉ */
-.footer-spacer {
-    height: 80px;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -387,11 +223,12 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 # DATA SOURCING (LISTA DE PROJETOS COM CATEGORIAS)
 # --------------------------------------------------
 python_projects = [
+
     {
-        "title": "📊 Processador Inteligente de CEPs",
-        "desc": "Automatize a consulta de endereços com dados do ViaCEP. Realize buscas individuais com mapa interativo ou processe lotes de planilhas (CSV/XLSX) para obter dados completos como DDD e IBGE. Explore ainda bairros por faixa de CEP com consultas por amostragem.",
-        "url": "https://consultacepfree.streamlit.app/",
-        "category": "Dados & IBGE"
+    "title": "📊 Processador Inteligente de CEPs",
+    "desc": "Automatize a consulta de endereços com dados do ViaCEP. Realize buscas individuais com mapa interativo ou processe lotes de planilhas (CSV/XLSX) para obter dados completos como DDD e IBGE. Explore ainda bairros por faixa de CEP com consultas por amostragem.",
+    "url": "https://consultacepfree.streamlit.app/",
+    "category": "Dados & IBGE"
     },
     {
         "title": "📍 População Brasil",
@@ -501,9 +338,6 @@ with col_s2:
         label_visibility="collapsed"
     )
 
-# Espaçamento após a busca
-st.markdown('<div class="search-section-spacer"></div>', unsafe_allow_html=True)
-
 # --------------------------------------------------
 # COMPONENTE DE FILTRO INTERATIVO POR CATEGORIA
 # --------------------------------------------------
@@ -519,67 +353,6 @@ for i, cat in enumerate(categorias):
         if st.button(label_btn, key=f"btn_cat_{cat}"):
             st.session_state.selected_category = cat
             st.rerun()
-
-# Espaçamento após os filtros
-st.markdown('<div style="height: 20px;"></div>', unsafe_allow_html=True)
-
-# --------------------------------------------------
-# FUNÇÃO PARA RENDERIZAR UM CARD INDIVIDUAL
-# --------------------------------------------------
-def renderizar_card_python(projeto):
-    """Renderiza um card de projeto Python usando HTML puro"""
-    
-    # Codificação de URLs para os links de compartilhamento
-    texto_share = f"Confira o projeto '{projeto['title']}' no portfólio do Rodrigo Aiosa: {projeto['url']}"
-    url_encoded_text = urllib.parse.quote(texto_share)
-    url_encoded_link = urllib.parse.quote(projeto['url'])
-    
-    share_whatsapp = f"https://api.whatsapp.com/send?text={url_encoded_text}"
-    share_linkedin = f"https://www.linkedin.com/sharing/share-offsite/?url={url_encoded_link}"
-    
-    card_html = f"""
-    <div class="project-card-python">
-        <div style="display:flex; flex-direction:column; flex-grow:1; min-height: 300px;">
-            <div class="card-badge-python">{projeto['category']}</div>
-            <div class="project-title-python">{projeto['title']}</div>
-            <div class="project-description-python">{projeto['desc']}</div>
-        </div>
-        <div class="project-footer-python">
-            <a href="{projeto['url']}" target="_blank" class="project-button-python">
-                Acessar Aplicação →
-            </a>
-            <div class="share-group-python">
-                <a href="{share_whatsapp}" target="_blank" class="share-btn-python whatsapp" title="Compartilhar no WhatsApp">
-                    <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.4.01 12.008.01c3.202.001 6.212 1.246 8.477 3.516 2.266 2.27 3.51 5.284 3.508 8.492-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.455L0 24zm6.79-4.367l.388.23c1.53.91 3.29 1.391 5.108 1.392 5.584 0 10.126-4.544 10.129-10.13.001-2.705-1.052-5.247-2.966-7.161C17.59 1.95 15.05 .893 12.012.893c-5.59 0-10.134 4.545-10.138 10.13-.001 1.93.501 3.81 1.456 5.516l.25.445-.999 3.648 3.733-.981zm11.374-6.758c-.3-.15-1.774-.875-2.046-.975-.27-.1-.466-.15-.66.15-.194.3-.75.945-.919 1.144-.169.2-.338.225-.638.075-.3-.15-1.265-.467-2.41-1.487-.893-.797-1.495-1.783-1.67-2.083-.174-.3-.019-.462.131-.61.135-.134.3-.349.449-.523.149-.174.199-.3.299-.5.1-.2.05-.375-.025-.525-.075-.15-.66-1.59-.905-2.179-.239-.574-.481-.497-.66-.505-.169-.008-.363-.009-.557-.009-.194 0-.51.073-.777.362-.267.289-1.02 1.01-1.02 2.461 0 1.451 1.056 2.853 1.203 3.052.148.2 2.077 3.173 5.032 4.45 1.704.733 2.336.856 3.17.733.512-.075 1.775-.726 2.026-1.427.25-.7 2.5-3.3 2.1-3.4-.25-.1-.725-.35-1.025-.5z"/></svg>
-                </a>
-                <a href="{share_linkedin}" target="_blank" class="share-btn-python linkedin" title="Compartilhar no LinkedIn">
-                    <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                </a>
-            </div>
-        </div>
-    </div>
-    """
-    return card_html
-
-# --------------------------------------------------
-# FUNÇÃO PARA RENDERIZAR GRID DE PROJETOS
-# --------------------------------------------------
-def renderizar_grid_python(projetos, colunas=3):
-    """Renderiza os projetos em um grid com altura controlada para evitar cortes"""
-    if not projetos:
-        return
-    
-    num_projetos = len(projetos)
-    linhas = (num_projetos + colunas - 1) // colunas
-    
-    for i in range(linhas):
-        cols = st.columns(colunas)
-        for j in range(colunas):
-            idx = i * colunas + j
-            if idx < num_projetos:
-                with cols[j]:
-                    card_html = renderizar_card_python(projetos[idx])
-                    st.markdown(card_html, unsafe_allow_html=True)
 
 # --------------------------------------------------
 # MECANISMO DE FILTRAGEM (TEXTO + CATEGORIA)
@@ -603,14 +376,232 @@ if search_query:
     )
 
 # --------------------------------------------------
-# RENDERIZAÇÃO DOS PROJETOS EM GRID
+# INJEÇÃO DO COMPONENTE ISOLADO EM CSS GRID IFRAME
 # --------------------------------------------------
 if filtered_projects:
     label_secao = f"Aplicações Ativas — {st.session_state.selected_category}" if st.session_state.selected_category != "Todos" else "Todas as Aplicações"
     st.markdown(f'<div class="section-label">{label_secao}</div>', unsafe_allow_html=True)
     
-    # Renderiza o grid com 3 colunas
-    renderizar_grid_python(filtered_projects, colunas=3)
+    # Geração das strings de cada card interno do Grid com links de compartilhamento dinâmicos
+    cards_html = ""
+    for p in filtered_projects:
+        # Codificação de URLs para os links de compartilhamento
+        texto_share = f"Confira o projeto '{p['title']}' no portfólio do Rodrigo Aiosa: {p['url']}"
+        url_encoded_text = urllib.parse.quote(texto_share)
+        url_encoded_link = urllib.parse.quote(p['url'])
+        
+        share_whatsapp = f"https://api.whatsapp.com/send?text={url_encoded_text}"
+        share_linkedin = f"https://www.linkedin.com/sharing/share-offsite/?url={url_encoded_link}"
+        
+        cards_html += f"""
+        <div class="project-card">
+            <div class="project-content">
+                <div class="card-badge">{p['category']}</div>
+                <div class="project-title">{p['title']}</div>
+                <div class="project-description">{p['desc']}</div>
+            </div>
+            <div class="project-footer">
+                <a href="{p['url']}" target="_blank" class="project-button">
+                    Acessar Aplicação →
+                </a>
+                <div class="share-group">
+                    <a href="{share_whatsapp}" target="_blank" class="share-btn whatsapp" title="Compartilhar no WhatsApp">
+                        <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.4.01 12.008.01c3.202.001 6.212 1.246 8.477 3.516 2.266 2.27 3.51 5.284 3.508 8.492-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.455L0 24zm6.79-4.367l.388.23c1.53.91 3.29 1.391 5.108 1.392 5.584 0 10.126-4.544 10.129-10.13.001-2.705-1.052-5.247-2.966-7.161C17.59 1.95 15.05 .893 12.012.893c-5.59 0-10.134 4.545-10.138 10.13-.001 1.93.501 3.81 1.456 5.516l.25.445-.999 3.648 3.733-.981zm11.374-6.758c-.3-.15-1.774-.875-2.046-.975-.27-.1-.466-.15-.66.15-.194.3-.75.945-.919 1.144-.169.2-.338.225-.638.075-.3-.15-1.265-.467-2.41-1.487-.893-.797-1.495-1.783-1.67-2.083-.174-.3-.019-.462.131-.61.135-.134.3-.349.449-.523.149-.174.199-.3.299-.5.1-.2.05-.375-.025-.525-.075-.15-.66-1.59-.905-2.179-.239-.574-.481-.497-.66-.505-.169-.008-.363-.009-.557-.009-.194 0-.51.073-.777.362-.267.289-1.02 1.01-1.02 2.461 0 1.451 1.056 2.853 1.203 3.052.148.2 2.077 3.173 5.032 4.45 1.704.733 2.336.856 3.17.733.512-.075 1.775-.726 2.026-1.427.25-.7 2.5-3.3 2.1-3.4-.25-.1-.725-.35-1.025-.5z"/></svg>
+                    </a>
+                    <a href="{share_linkedin}" target="_blank" class="share-btn linkedin" title="Compartilhar no LinkedIn">
+                        <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        """
+
+    # Montagem do HTML com scroll habilitado e layout melhorado
+    component_code = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap');
+        
+        * {{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }}
+        
+        body {{
+            background-color: transparent;
+            font-family: 'DM Sans', sans-serif;
+            padding: 15px 5px 25px 5px;
+            overflow-y: auto;
+            max-height: 700px;
+        }}
+        
+        .projects-grid-container {{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            width: 100%;
+        }}
+        
+        @media (max-width: 900px) {{
+            .projects-grid-container {{ grid-template-columns: repeat(2, 1fr); }}
+        }}
+        @media (max-width: 600px) {{
+            .projects-grid-container {{ grid-template-columns: 1fr; }}
+        }}
+        
+        .project-card {{
+            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.3) 100%);
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+            min-height: 320px;
+            transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+        }}
+        
+        .project-card:hover {{
+            transform: translateY(-5px);
+            border-color: rgba(0,180,216,0.4);
+            box-shadow: 0 12px 30px rgba(0,180,216,0.1);
+        }}
+        
+        .card-badge {{
+            display: inline-block;
+            font-family: 'Syne', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(0, 180, 216, 0.85);
+            background: rgba(0, 180, 216, 0.05);
+            border: 1px solid rgba(0, 180, 216, 0.2);
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-bottom: 14px;
+            align-self: flex-start;
+        }}
+        
+        .project-title {{
+            font-family: 'Syne', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #f0f4ff;
+            margin-bottom: 10px;
+            line-height: 1.35;
+        }}
+        
+        .project-description {{
+            color: #94a3b8;
+            font-size: 0.85rem;
+            font-weight: 300;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }}
+        
+        .project-footer {{
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }}
+        
+        .project-button {{
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
+            color: #ffffff;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            padding: 10px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+        }}
+        
+        .project-button:hover {{
+            opacity: 0.9;
+        }}
+        
+        .share-group {{
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }}
+        
+        .share-btn {{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.02);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }}
+        
+        .share-btn svg {{
+            width: 15px;
+            height: 15px;
+            fill: #94a3b8;
+            transition: fill 0.3s ease;
+        }}
+        
+        .share-btn:hover {{
+            border-color: rgba(0,180,216,0.3);
+            background: rgba(0,180,216,0.05);
+        }}
+        
+        .share-btn.whatsapp:hover svg {{
+            fill: #25D366;
+        }}
+        
+        .share-btn.linkedin:hover svg {{
+            fill: #0077B5;
+        }}
+        </style>
+    </head>
+    <body>
+        <div class="projects-grid-container">
+            {cards_html}
+        </div>
+    </body>
+    </html>
+    """
+    
+    # Calcula altura com base no número de projetos
+    num_projetos = len(filtered_projects)
+    colunas = 3
+    linhas = (num_projetos + colunas - 1) // colunas
+    
+    # Altura por linha considerando padding e margens
+    altura_por_linha = 370
+    padding_total = 80
+    
+    altura_final = (linhas * altura_por_linha) + padding_total
+    
+    # Garantir altura mínima
+    altura_final = max(altura_final, 450)
+    
+    # Limitar altura máxima para não ficar muito grande
+    altura_final = min(altura_final, 850)
+    
+    # Renderiza com scroll habilitado para garantir que nada seja cortado
+    st.components.v1.html(component_code, height=int(altura_final), scrolling=True)
 
 else:
     st.markdown("""
@@ -620,9 +611,6 @@ else:
             <div class="empty-state-sub" style="text-align:center; color:#64748b; font-size:0.88rem; margin-top:5px;">Tente mudar a categoria selecionada ou limpe os termos pesquisados.</div>
         </div>
     """, unsafe_allow_html=True)
-
-# Espaçamento antes do rodapé
-st.markdown('<div class="footer-spacer"></div>', unsafe_allow_html=True)
 
 st.write("")
 exibir_rodape()
