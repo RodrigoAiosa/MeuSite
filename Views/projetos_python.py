@@ -46,6 +46,8 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     max-width: 1200px !important;
     padding-left: 2rem !important;
     padding-right: 2rem !important;
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
 }
 
 /* ── HERO ── */
@@ -151,7 +153,7 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     font-size: 0.85rem;
     color: #64748b;
     letter-spacing: 0.5px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 div[data-testid="stTextInput"] input {
@@ -175,7 +177,7 @@ div[data-testid="stTextInput"] input:focus {
     text-align: center;
     color: #64748b;
     font-size: 0.88rem;
-    margin: 14px 0 28px;
+    margin: 20px 0 35px;
 }
 .search-result-count span {
     color: #00b4d8;
@@ -183,16 +185,22 @@ div[data-testid="stTextInput"] input:focus {
 }
 
 /* ── FILTROS POR CATEGORIA (BOTÕES STREAMLIT) ── */
+div[data-testid="stHorizontalBlock"] {
+    gap: 16px !important;
+    margin: 10px 0 15px 0 !important;
+}
+
 div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button {
     background-color: rgba(255, 255, 255, 0.02) !important;
     color: #94a3b8 !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
     border-radius: 10px !important;
-    padding: 6px 16px !important;
+    padding: 10px 20px !important;
     font-family: 'DM Sans', sans-serif !important;
     font-size: 0.85rem !important;
     transition: all 0.3s ease !important;
     width: 100% !important;
+    min-height: 44px !important;
 }
 
 div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button:hover {
@@ -212,24 +220,24 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
     letter-spacing: 3px;
     text-transform: uppercase;
     color: #f0f4ff;
-    margin-top: 35px;
-    margin-bottom: 32px;
+    margin-top: 45px;
+    margin-bottom: 35px;
     text-align: center;
 }
 
 /* ── CARDS MELHORADOS PARA PYTHON ── */
 .project-card-python {
     background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.3) 100%);
-    padding: 24px;
+    padding: 28px;
     border-radius: 16px;
     border: 1px solid rgba(255,255,255,0.06);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    min-height: 340px;
+    min-height: 360px;
     transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
-    margin-bottom: 24px;
+    margin-bottom: 30px;
 }
 
 .project-card-python:hover {
@@ -248,27 +256,27 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
     color: rgba(0, 180, 216, 0.85);
     background: rgba(0, 180, 216, 0.05);
     border: 1px solid rgba(0, 180, 216, 0.2);
-    padding: 4px 10px;
+    padding: 4px 12px;
     border-radius: 6px;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
     align-self: flex-start;
 }
 
 .project-title-python {
     font-family: 'Syne', sans-serif;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     font-weight: 700;
     color: #f0f4ff;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     line-height: 1.35;
 }
 
 .project-description-python {
     color: #94a3b8;
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     font-weight: 300;
-    line-height: 1.6;
-    margin-bottom: 20px;
+    line-height: 1.7;
+    margin-bottom: 24px;
     flex-grow: 1;
 }
 
@@ -276,7 +284,7 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
     margin-top: auto;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     width: 100%;
 }
 
@@ -289,9 +297,9 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
     color: #ffffff !important;
     font-family: 'Syne', sans-serif;
     font-weight: 700;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     letter-spacing: 0.5px;
-    padding: 10px 16px;
+    padding: 12px 16px;
     border-radius: 10px;
     text-decoration: none !important;
     transition: opacity 0.3s ease;
@@ -305,7 +313,7 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 
 .share-group-python {
     display: flex;
-    gap: 6px;
+    gap: 8px;
     flex-shrink: 0;
 }
 
@@ -313,8 +321,8 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border-radius: 10px;
     border: 1px solid rgba(255,255,255,0.08);
     background: rgba(255,255,255,0.02);
@@ -323,8 +331,8 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 }
 
 .share-btn-python svg {
-    width: 15px;
-    height: 15px;
+    width: 18px;
+    height: 18px;
     fill: #94a3b8;
     transition: fill 0.3s ease;
 }
@@ -342,18 +350,35 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
     fill: #0077B5;
 }
 
-/* GARANTE QUE OS CARDS NÃO SEJAM CORTADOS */
+/* GARANTE QUE OS CARDS NÃO SEJAM CORTADOS E TENHAM ESPAÇAMENTO */
 [data-testid="stVerticalBlock"] {
     gap: 0rem !important;
 }
 
 .row-widget.stHorizontal {
-    margin-bottom: 0px !important;
+    margin-bottom: 20px !important;
+    gap: 20px !important;
 }
 
 [data-testid="stVerticalBlockBorderWrapper"] {
     height: auto !important;
     min-height: 100% !important;
+}
+
+/* ESPAÇAMENTO ENTRE LINHAS DO GRID */
+[data-testid="stHorizontalBlock"] > [data-testid="stColumn"] {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+}
+
+/* ESPAÇO EXTRA APÓS A SEÇÃO DE BUSCA */
+.search-section-spacer {
+    height: 30px;
+}
+
+/* ESPAÇO EXTRA PARA O RODAPÉ */
+.footer-spacer {
+    height: 80px;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -476,6 +501,9 @@ with col_s2:
         label_visibility="collapsed"
     )
 
+# Espaçamento após a busca
+st.markdown('<div class="search-section-spacer"></div>', unsafe_allow_html=True)
+
 # --------------------------------------------------
 # COMPONENTE DE FILTRO INTERATIVO POR CATEGORIA
 # --------------------------------------------------
@@ -491,6 +519,9 @@ for i, cat in enumerate(categorias):
         if st.button(label_btn, key=f"btn_cat_{cat}"):
             st.session_state.selected_category = cat
             st.rerun()
+
+# Espaçamento após os filtros
+st.markdown('<div style="height: 20px;"></div>', unsafe_allow_html=True)
 
 # --------------------------------------------------
 # FUNÇÃO PARA RENDERIZAR UM CARD INDIVIDUAL
@@ -508,7 +539,7 @@ def renderizar_card_python(projeto):
     
     card_html = f"""
     <div class="project-card-python">
-        <div style="display:flex; flex-direction:column; flex-grow:1; min-height: 280px;">
+        <div style="display:flex; flex-direction:column; flex-grow:1; min-height: 300px;">
             <div class="card-badge-python">{projeto['category']}</div>
             <div class="project-title-python">{projeto['title']}</div>
             <div class="project-description-python">{projeto['desc']}</div>
@@ -589,6 +620,9 @@ else:
             <div class="empty-state-sub" style="text-align:center; color:#64748b; font-size:0.88rem; margin-top:5px;">Tente mudar a categoria selecionada ou limpe os termos pesquisados.</div>
         </div>
     """, unsafe_allow_html=True)
+
+# Espaçamento antes do rodapé
+st.markdown('<div class="footer-spacer"></div>', unsafe_allow_html=True)
 
 st.write("")
 exibir_rodape()
