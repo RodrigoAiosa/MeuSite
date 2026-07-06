@@ -225,11 +225,11 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 python_projects = [
 
     {
-    "title": "📍 Busca CEP Completa",
-    "desc": "Ferramenta completa para consulta de CEPs via ViaCEP. Busca individual com endereço, além de processamento em lote (CSV/XLSX) e geração de tabela de bairros por faixa de CEP. Ideal para validação e enriquecimento de dados.",
+    "title": "📊 Processador Inteligente de CEPs",
+    "desc": "Automatize a consulta de endereços com dados do ViaCEP. Realize buscas individuais com mapa interativo ou processe lotes de planilhas (CSV/XLSX) para obter dados completos como DDD e IBGE. Explore ainda bairros por faixa de CEP com consultas por amostragem.",
     "url": "https://consultacepfree.streamlit.app/",
     "category": "Dados & IBGE"
-    },    
+    },
     {
         "title": "📍 População Brasil",
         "desc": "Dashboard interativo com dados populacionais oficiais do IBGE. Explore estimativas demográficas por região, estado e município com visualizações dinâmicas e mapas interativos.",
