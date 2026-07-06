@@ -416,7 +416,7 @@ if filtered_projects:
         </div>
         """
 
-    # Montagem do HTML isolado com tratamento robusto de alturas e botões extras
+    # Montagem do HTML com scroll habilitado e layout melhorado
     component_code = f"""
     <!DOCTYPE html>
     <html>
@@ -433,14 +433,15 @@ if filtered_projects:
         body {{
             background-color: transparent;
             font-family: 'DM Sans', sans-serif;
-            overflow: hidden;
-            padding: 15px 0 25px 0; 
+            padding: 15px 5px 25px 5px;
+            overflow-y: auto;
+            max-height: 700px;
         }}
         
         .projects-grid-container {{
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 32px;
+            gap: 28px;
             width: 100%;
         }}
         
@@ -453,13 +454,14 @@ if filtered_projects:
         
         .project-card {{
             background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.3) 100%);
-            padding: 28px;
+            padding: 24px;
             border-radius: 16px;
             border: 1px solid rgba(255,255,255,0.06);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             height: 100%;
+            min-height: 320px;
             transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
         }}
         
@@ -481,32 +483,33 @@ if filtered_projects:
             border: 1px solid rgba(0, 180, 216, 0.2);
             padding: 4px 10px;
             border-radius: 6px;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
+            align-self: flex-start;
         }}
         
         .project-title {{
             font-family: 'Syne', sans-serif;
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: #f0f4ff;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             line-height: 1.35;
         }}
         
         .project-description {{
             color: #94a3b8;
-            font-size: 0.88rem;
+            font-size: 0.85rem;
             font-weight: 300;
             line-height: 1.6;
-            margin-bottom: 28px;
+            margin-bottom: 20px;
+            flex-grow: 1;
         }}
         
-        /* Rodapé unificado para o Botão e os Compartilhamentos */
         .project-footer {{
             margin-top: auto;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             width: 100%;
         }}
         
@@ -519,9 +522,9 @@ if filtered_projects:
             color: #ffffff;
             font-family: 'Syne', sans-serif;
             font-weight: 700;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             letter-spacing: 0.5px;
-            padding: 12px;
+            padding: 10px 16px;
             border-radius: 10px;
             text-decoration: none;
             transition: opacity 0.3s ease;
@@ -534,15 +537,16 @@ if filtered_projects:
         
         .share-group {{
             display: flex;
-            gap: 8px;
+            gap: 6px;
+            flex-shrink: 0;
         }}
         
         .share-btn {{
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             border-radius: 10px;
             border: 1px solid rgba(255,255,255,0.08);
             background: rgba(255,255,255,0.02);
@@ -551,8 +555,8 @@ if filtered_projects:
         }}
         
         .share-btn svg {{
-            width: 16px;
-            height: 16px;
+            width: 15px;
+            height: 15px;
             fill: #94a3b8;
             transition: fill 0.3s ease;
         }}
@@ -579,12 +583,25 @@ if filtered_projects:
     </html>
     """
     
-    # Cálculo dinâmico reajustado para evitar QUALQUER tipo de corte nos cards inferiores
-    linhas = (len(filtered_projects) + 2) // 3
-    # Aumentado o multiplicador de linha para 365 para acomodar com segurança o novo rodapé de ações
-    altura_calculada = (linhas * 365) + 40 
+    # Calcula altura com base no número de projetos
+    num_projetos = len(filtered_projects)
+    colunas = 3
+    linhas = (num_projetos + colunas - 1) // colunas
     
-    st.components.v1.html(component_code, height=altura_calculada, scrolling=False)
+    # Altura por linha considerando padding e margens
+    altura_por_linha = 370
+    padding_total = 80
+    
+    altura_final = (linhas * altura_por_linha) + padding_total
+    
+    # Garantir altura mínima
+    altura_final = max(altura_final, 450)
+    
+    # Limitar altura máxima para não ficar muito grande
+    altura_final = min(altura_final, 850)
+    
+    # Renderiza com scroll habilitado para garantir que nada seja cortado
+    st.components.v1.html(component_code, height=int(altura_final), scrolling=True)
 
 else:
     st.markdown("""
