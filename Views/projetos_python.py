@@ -227,7 +227,7 @@ python_projects = [
     {
     "title": "📊 Processador Inteligente de CEPs",
     "desc": "Automatize a consulta de endereços com dados do ViaCEP. Realize buscas individuais com mapa interativo ou processe lotes de planilhas (CSV/XLSX) para obter dados completos como DDD e IBGE. Explore ainda bairros por faixa de CEP com consultas por amostragem.",
-    "url": "https://consultacepfree.streamlit.app/",
+    "url": "https://consultacep.streamlit.app/",
     "category": "Dados & IBGE"
     },
     {
