@@ -274,13 +274,15 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: 16px;
     padding: 24px;
-    height: 100%;
-    min-height: 320px;
+    height: 360px !important;
+    min-height: 360px !important;
+    max-height: 360px !important;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
     margin-bottom: 24px;
+    overflow: hidden;
 }
 
 .ux-card:hover {
@@ -312,6 +314,11 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
     color: #f0f4ff;
     margin-bottom: 10px;
     line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: calc(1.35em * 2);
 }
 
 .ux-card-desc {
@@ -321,6 +328,10 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
     line-height: 1.6;
     margin-bottom: 20px;
     flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .card-actions { display: flex; flex-direction: column; gap: 12px; margin-top: auto; }
