@@ -222,12 +222,50 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 [data-testid="stHorizontalBlock"] > [data-testid="stColumn"] {
     display: flex !important;
     flex-direction: column !important;
+    height: auto !important;
 }
 
-[data-testid="stHorizontalBlock"] > [data-testid="stColumn"] > [data-testid="stVerticalBlockBorderWrapper"],
 [data-testid="stHorizontalBlock"] > [data-testid="stColumn"] > div {
     height: 100% !important;
     flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+[data-testid="stColumn"] [data-testid="stVerticalBlock"] {
+    height: 100% !important;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+[data-testid="stColumn"] [data-testid="stVerticalBlockBorderWrapper"] {
+    height: 100% !important;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+[data-testid="stColumn"] [data-testid="element-container"],
+[data-testid="stColumn"] [data-testid="stElementContainer"] {
+    height: 100% !important;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+[data-testid="stColumn"] [data-testid="stMarkdownContainer"] {
+    height: 100% !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+[data-testid="stColumn"] [data-testid="stMarkdown"] {
+    height: 100% !important;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
 }
 
 /* ── CARDS EM GRID NATIVO (mesmo estilo do Power BI) ── */
