@@ -38,7 +38,8 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 
 [data-testid="stHeader"] { background: transparent !important; }
 
-.main h1, .main h2, .main h3, .main h4, .main p, .main a, .main li {
+.main h1, .main h2, .main h3, .main h4, .main p, .main a, .main li,
+[data-testid="stAppViewContainer"] div:not([data-testid="stSidebar"]) {
     font-family: 'DM Sans', sans-serif !important;
 }
 
@@ -201,10 +202,6 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
     background-color: rgba(0, 180, 216, 0.03) !important;
 }
 
-div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button p:contains("✓") {
-    color: #00b4d8 !important;
-}
-
 .section-label {
     font-family: 'Syne', sans-serif !important;
     font-size: 0.8rem;
@@ -215,6 +212,128 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
     margin-top: 35px;
     margin-bottom: 32px;
     text-align: center;
+}
+
+/* ── FORÇA COLUNAS STREAMLIT MESMA ALTURA (rolagem nativa da página) ── */
+[data-testid="stHorizontalBlock"] {
+    align-items: stretch !important;
+}
+
+[data-testid="stHorizontalBlock"] > [data-testid="stColumn"] {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+[data-testid="stHorizontalBlock"] > [data-testid="stColumn"] > [data-testid="stVerticalBlockBorderWrapper"],
+[data-testid="stHorizontalBlock"] > [data-testid="stColumn"] > div {
+    height: 100% !important;
+    flex: 1 !important;
+}
+
+/* ── CARDS EM GRID NATIVO (mesmo estilo do Power BI) ── */
+.ux-card {
+    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.3) 100%);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 24px;
+    height: 100%;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+    margin-bottom: 24px;
+}
+
+.ux-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(0,180,216,0.4);
+    box-shadow: 0 12px 30px rgba(0,180,216,0.1);
+}
+
+.card-badge {
+    display: inline-block;
+    font-family: 'Syne', sans-serif !important;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(0, 180, 216, 0.85);
+    background: rgba(0, 180, 216, 0.05);
+    border: 1px solid rgba(0, 180, 216, 0.2);
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-bottom: 14px;
+    align-self: flex-start;
+}
+
+.ux-card-title {
+    font-family: 'Syne', sans-serif !important;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #f0f4ff;
+    margin-bottom: 10px;
+    line-height: 1.35;
+}
+
+.ux-card-desc {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    font-weight: 300;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.card-actions { display: flex; flex-direction: column; gap: 12px; margin-top: auto; }
+
+.btn-direct {
+    background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
+    color: #ffffff !important;
+    padding: 12px;
+    border-radius: 10px;
+    text-align: center;
+    text-decoration: none !important;
+    font-family: 'Syne', sans-serif !important;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    transition: opacity 0.3s ease;
+    display: block;
+}
+.btn-direct:hover { opacity: 0.9; }
+
+/* COMPARTILHAMENTO */
+.share-row { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 12px; }
+.share-txt { font-size: 0.75rem; color: #64748b; font-weight: 500; }
+.share-links { display: flex; gap: 8px; }
+
+.share-btn-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: background-color 0.2s;
+}
+.share-btn-item.wa {
+    background-color: rgba(37, 211, 102, 0.1);
+    color: #25D366 !important;
+    border: 1px solid rgba(37, 211, 102, 0.2);
+}
+.share-btn-item.wa:hover {
+    background-color: rgba(37, 211, 102, 0.2);
+}
+.share-btn-item.li {
+    background-color: rgba(10, 102, 194, 0.1);
+    color: #0A66C2 !important;
+    border: 1px solid rgba(10, 102, 194, 0.2);
+}
+.share-btn-item.li:hover {
+    background-color: rgba(10, 102, 194, 0.2);
 }
 </style>
 """, unsafe_allow_html=True)
@@ -365,7 +484,7 @@ if st.session_state.selected_category != "Todos":
 if search_query:
     search_terms = search_query.lower().split()
     filtered_projects = [
-        p for p in filtered_projects 
+        p for p in filtered_projects
         if all(term in f"{p['title']} {p['desc']}".lower() for term in search_terms)
     ]
     total_resultados = len(filtered_projects)
@@ -376,239 +495,68 @@ if search_query:
     )
 
 # --------------------------------------------------
-# INJEÇÃO DO COMPONENTE ISOLADO EM CSS GRID IFRAME
+# RENDERIZADOR DE CARD INDIVIDUAL (mesmo padrão do Power BI)
 # --------------------------------------------------
-if filtered_projects:
-    label_secao = f"Aplicações Ativas — {st.session_state.selected_category}" if st.session_state.selected_category != "Todos" else "Todas as Aplicações"
-    st.markdown(f'<div class="section-label">{label_secao}</div>', unsafe_allow_html=True)
-    
-    # Geração das strings de cada card interno do Grid com links de compartilhamento dinâmicos
-    cards_html = ""
-    for p in filtered_projects:
-        # Codificação de URLs para os links de compartilhamento
-        texto_share = f"Confira o projeto '{p['title']}' no portfólio do Rodrigo Aiosa: {p['url']}"
-        url_encoded_text = urllib.parse.quote(texto_share)
-        url_encoded_link = urllib.parse.quote(p['url'])
-        
-        share_whatsapp = f"https://api.whatsapp.com/send?text={url_encoded_text}"
-        share_linkedin = f"https://www.linkedin.com/sharing/share-offsite/?url={url_encoded_link}"
-        
-        cards_html += f"""
-        <div class="project-card">
-            <div class="project-content">
-                <div class="card-badge">{p['category']}</div>
-                <div class="project-title">{p['title']}</div>
-                <div class="project-description">{p['desc']}</div>
-            </div>
-            <div class="project-footer">
-                <a href="{p['url']}" target="_blank" class="project-button">
-                    Acessar Aplicação →
-                </a>
-                <div class="share-group">
-                    <a href="{share_whatsapp}" target="_blank" class="share-btn whatsapp" title="Compartilhar no WhatsApp">
-                        <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.4.01 12.008.01c3.202.001 6.212 1.246 8.477 3.516 2.266 2.27 3.51 5.284 3.508 8.492-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.455L0 24zm6.79-4.367l.388.23c1.53.91 3.29 1.391 5.108 1.392 5.584 0 10.126-4.544 10.129-10.13.001-2.705-1.052-5.247-2.966-7.161C17.59 1.95 15.05 .893 12.012.893c-5.59 0-10.134 4.545-10.138 10.13-.001 1.93.501 3.81 1.456 5.516l.25.445-.999 3.648 3.733-.981zm11.374-6.758c-.3-.15-1.774-.875-2.046-.975-.27-.1-.466-.15-.66.15-.194.3-.75.945-.919 1.144-.169.2-.338.225-.638.075-.3-.15-1.265-.467-2.41-1.487-.893-.797-1.495-1.783-1.67-2.083-.174-.3-.019-.462.131-.61.135-.134.3-.349.449-.523.149-.174.199-.3.299-.5.1-.2.05-.375-.025-.525-.075-.15-.66-1.59-.905-2.179-.239-.574-.481-.497-.66-.505-.169-.008-.363-.009-.557-.009-.194 0-.51.073-.777.362-.267.289-1.02 1.01-1.02 2.461 0 1.451 1.056 2.853 1.203 3.052.148.2 2.077 3.173 5.032 4.45 1.704.733 2.336.856 3.17.733.512-.075 1.775-.726 2.026-1.427.25-.7 2.5-3.3 2.1-3.4-.25-.1-.725-.35-1.025-.5z"/></svg>
+def renderizar_card(p):
+    mensagem_whatsapp = (
+        f"Olá! Veja esse projeto em Python:\n\n"
+        f"📌 *{p['title']}*\n"
+        f"ℹ️ {p['desc']}\n\n"
+        f"🔗 Acesse a aplicação aqui: {p['url']}"
+    )
+    wa_link = f"https://wa.me/?text={urllib.parse.quote(mensagem_whatsapp)}"
+
+    li_base = "https://www.linkedin.com/shareArticle?mini=true"
+    li_title = urllib.parse.quote(p['title'])
+    li_summary = urllib.parse.quote(f"Projeto Python: {p['desc']}")
+    li_url = urllib.parse.quote(p['url'])
+    li_link = f"{li_base}&url={li_url}&title={li_title}&summary={li_summary}"
+
+    st.markdown(f"""
+    <div class="ux-card">
+        <div style="display:flex; flex-direction:column; flex-grow:1;">
+            <div class="card-badge">{p['category']}</div>
+            <div class="ux-card-title">{p['title']}</div>
+            <div class="ux-card-desc">{p['desc']}</div>
+        </div>
+        <div class="card-actions">
+            <a href="{p['url']}" target="_blank" class="btn-direct">Acessar Aplicação →</a>
+            <div class="share-row">
+                <span class="share-txt">Compartilhar:</span>
+                <div class="share-links">
+                    <a href="{wa_link}" target="_blank" class="share-btn-item wa">
+                        WhatsApp
                     </a>
-                    <a href="{share_linkedin}" target="_blank" class="share-btn linkedin" title="Compartilhar no LinkedIn">
-                        <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    <a href="{li_link}" target="_blank" class="share-btn-item li">
+                        LinkedIn
                     </a>
                 </div>
             </div>
         </div>
-        """
+    </div>
+    """, unsafe_allow_html=True)
 
-    # Montagem do HTML com scroll habilitado e layout melhorado
-    component_code = f"""
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <style>
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap');
-        
-        * {{
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }}
-        
-        body {{
-            background-color: transparent;
-            font-family: 'DM Sans', sans-serif;
-            padding: 15px 5px 25px 5px;
-            overflow-y: auto;
-            max-height: 700px;
-        }}
-        
-        .projects-grid-container {{
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 28px;
-            width: 100%;
-        }}
-        
-        @media (max-width: 900px) {{
-            .projects-grid-container {{ grid-template-columns: repeat(2, 1fr); }}
-        }}
-        @media (max-width: 600px) {{
-            .projects-grid-container {{ grid-template-columns: 1fr; }}
-        }}
-        
-        .project-card {{
-            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.3) 100%);
-            padding: 24px;
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.06);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-            min-height: 320px;
-            transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
-        }}
-        
-        .project-card:hover {{
-            transform: translateY(-5px);
-            border-color: rgba(0,180,216,0.4);
-            box-shadow: 0 12px 30px rgba(0,180,216,0.1);
-        }}
-        
-        .card-badge {{
-            display: inline-block;
-            font-family: 'Syne', sans-serif;
-            font-size: 0.65rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: rgba(0, 180, 216, 0.85);
-            background: rgba(0, 180, 216, 0.05);
-            border: 1px solid rgba(0, 180, 216, 0.2);
-            padding: 4px 10px;
-            border-radius: 6px;
-            margin-bottom: 14px;
-            align-self: flex-start;
-        }}
-        
-        .project-title {{
-            font-family: 'Syne', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #f0f4ff;
-            margin-bottom: 10px;
-            line-height: 1.35;
-        }}
-        
-        .project-description {{
-            color: #94a3b8;
-            font-size: 0.85rem;
-            font-weight: 300;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            flex-grow: 1;
-        }}
-        
-        .project-footer {{
-            margin-top: auto;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
-        }}
-        
-        .project-button {{
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
-            color: #ffffff;
-            font-family: 'Syne', sans-serif;
-            font-weight: 700;
-            font-size: 0.8rem;
-            letter-spacing: 0.5px;
-            padding: 10px 16px;
-            border-radius: 10px;
-            text-decoration: none;
-            transition: opacity 0.3s ease;
-            white-space: nowrap;
-        }}
-        
-        .project-button:hover {{
-            opacity: 0.9;
-        }}
-        
-        .share-group {{
-            display: flex;
-            gap: 6px;
-            flex-shrink: 0;
-        }}
-        
-        .share-btn {{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.08);
-            background: rgba(255,255,255,0.02);
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }}
-        
-        .share-btn svg {{
-            width: 15px;
-            height: 15px;
-            fill: #94a3b8;
-            transition: fill 0.3s ease;
-        }}
-        
-        .share-btn:hover {{
-            border-color: rgba(0,180,216,0.3);
-            background: rgba(0,180,216,0.05);
-        }}
-        
-        .share-btn.whatsapp:hover svg {{
-            fill: #25D366;
-        }}
-        
-        .share-btn.linkedin:hover svg {{
-            fill: #0077B5;
-        }}
-        </style>
-    </head>
-    <body>
-        <div class="projects-grid-container">
-            {cards_html}
-        </div>
-    </body>
-    </html>
-    """
-    
-    # Calcula altura com base no número de projetos
-    num_projetos = len(filtered_projects)
-    colunas = 3
-    linhas = (num_projetos + colunas - 1) // colunas
-    
-    # Altura por linha considerando padding e margens
-    altura_por_linha = 370
-    padding_total = 80
-    
-    altura_final = (linhas * altura_por_linha) + padding_total
-    
-    # Garantir altura mínima
-    altura_final = max(altura_final, 450)
-    
-    # Limitar altura máxima para não ficar muito grande
-    altura_final = min(altura_final, 850)
-    
-    # Renderiza com scroll habilitado para garantir que nada seja cortado
-    st.components.v1.html(component_code, height=int(altura_final), scrolling=True)
+# --------------------------------------------------
+# EXIBIÇÃO EM GRID NATIVO STREAMLIT (rolagem da própria página)
+# --------------------------------------------------
+if filtered_projects:
+    label_secao = f"Aplicações Ativas — {st.session_state.selected_category}" if st.session_state.selected_category != "Todos" else "Todas as Aplicações"
+    st.markdown(f'<div class="section-label">{label_secao}</div>', unsafe_allow_html=True)
+
+    for i in range(0, len(filtered_projects), 3):
+        cols = st.columns(3)
+        for j in range(3):
+            idx = i + j
+            if idx < len(filtered_projects):
+                with cols[j]:
+                    renderizar_card(filtered_projects[idx])
 
 else:
     st.markdown("""
-        <div class="empty-state">
-            <div class="empty-state-icon" style="text-align:center; font-size:2.5rem; margin-top:30px;">🔍</div>
-            <div class="empty-state-title" style="text-align:center; color:#f0f4ff; font-weight:600; margin-top:10px;">Nenhum projeto encontrado nesta categoria.</div>
-            <div class="empty-state-sub" style="text-align:center; color:#64748b; font-size:0.88rem; margin-top:5px;">Tente mudar a categoria selecionada ou limpe os termos pesquisados.</div>
+        <div style="text-align:center; padding: 40px; color: #64748b;">
+            <p style="font-size:2rem;">🔍</p>
+            <h3>Nenhum projeto encontrado nesta categoria.</h3>
+            <p>Tente mudar a categoria selecionada ou limpe os termos pesquisados.</p>
         </div>
     """, unsafe_allow_html=True)
 
