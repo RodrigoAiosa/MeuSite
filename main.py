@@ -177,7 +177,7 @@ projeto_recente_page = st.Page(page="Views/projetos_recentes.py", title="Projeto
 cases_sucesso_page = st.Page(page="Views/cases_sucesso.py", title="Cases de Sucesso", icon="🏆")
 projeto_python_page = st.Page(page="Views/projetos_python.py", title="Projetos Python", icon="🚧")
 projeto_powerbi_page = st.Page(page="Views/projetos_powerbi.py", title="Projetos Power BI", icon="📊")
-projeto_sql_page = st.Page(page="Views/projetos_sql.py", title="Projetos SQL", icon="🗄️")
+# projeto_sql_page = st.Page(page="Views/projetos_sql.py", title="Projetos SQL", icon="🗄️")
 treinamento_empresa_page = st.Page(page="Views/treinamento_empresa.py", title="Para Empresas", icon="📋")
 cursos_online_page = st.Page(page="Views/cursos_online.py", title="Cursos Online", icon="🛜")
 contato = st.Page(page="Views/contato.py", title="Contato", icon="📧")
@@ -192,7 +192,7 @@ gerar_dados_bi = st.Page(page="Views/gerar_dados_bi.py", title="Gerador Dados BI
 navigation_dict = {
     "Informações": [sobre_page, projeto_recente_page],
     "Resultados": [cases_sucesso_page],
-    "Portifólio": [projeto_python_page, projeto_powerbi_page, #projeto_sql_page],
+    "Portifólio": [projeto_python_page, projeto_powerbi_page],
     "Escola de Dados": [escola_sql, escola_python, escola_excel, curso_excel, gerar_dados_bi],
     "Treinamentos": [treinamento_empresa_page, cursos_online_page],
     "Entre em contato": [contato],
