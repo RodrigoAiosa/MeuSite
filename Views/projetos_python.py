@@ -395,7 +395,7 @@ python_projects = [
     "title": "🚌 Olho Vivo Dashboard",
     "desc": "Acompanhe o transporte público de São Paulo em tempo real com dados da API Olho Vivo (SPTrans). Consulte linhas, paradas e corredores, veja a posição ao vivo de toda a frota e a previsão de chegada por parada ou linha, com mapa interativo e atualização automática.",
     "url": "https://pesquisarotasptrans.streamlit.app/",
-    "category": "Dados & Mobilidade Urbana"
+    "category": "Automação & BI"
     },
     {
     "title": "📊 Processador Inteligente de CEPs",
