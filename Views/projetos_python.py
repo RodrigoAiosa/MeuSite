@@ -391,7 +391,12 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 # DATA SOURCING (LISTA DE PROJETOS COM CATEGORIAS)
 # --------------------------------------------------
 python_projects = [
-
+    {
+    "title": "🚌 Olho Vivo Dashboard",
+    "desc": "Acompanhe o transporte público de São Paulo em tempo real com dados da API Olho Vivo (SPTrans). Consulte linhas, paradas e corredores, veja a posição ao vivo de toda a frota e a previsão de chegada por parada ou linha, com mapa interativo e atualização automática.",
+    "url": "https://pesquisarotasptrans.streamlit.app/",
+    "category": "Dados & Mobilidade Urbana"
+    },
     {
     "title": "📊 Processador Inteligente de CEPs",
     "desc": "Automatize a consulta de endereços com dados do Via CEP. Realize buscas individuais com mapa interativo ou processe lotes de planilhas (CSV/XLSX) para obter dados completos como DDD e IBGE. Explore ainda bairros por faixa de CEP com consultas por amostragem.",
