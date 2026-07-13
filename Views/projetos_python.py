@@ -391,6 +391,14 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 # DATA SOURCING (LISTA DE PROJETOS COM CATEGORIAS)
 # --------------------------------------------------
 python_projects = [
+
+    {
+    "title": "💰Salário Médio por Estado — Brasil",
+    "desc": "Explore o salário médio dos trabalhadores em todos os estados brasileiros com dados oficiais. Compare remunerações por unidade da federação, visualize rankings, mapas e gráficos interativos para analisar as diferenças salariais entre as regiões do país.",
+    "url": "https://salariomediobrasil.streamlit.app/",
+    "category": "Dados & IBGE"
+    },
+    
     {
     "title": "🚌 Olho Vivo Dashboard",
     "desc": "Acompanhe o transporte público de São Paulo em tempo real com dados da API Olho Vivo (SPTrans). Consulte linhas, paradas e corredores, veja a posição ao vivo de toda a frota e a previsão de chegada por parada ou linha, com mapa interativo e atualização automática.",
