@@ -152,7 +152,7 @@ st.write("")
 python_projects = [
     {
         "title": "📒Investigador SQL",
-        "desc": "'📒Investigador SQL' é um quebra-cabeça de dedução lógica, com visual de quadrinho noir dos anos 50, onde você não escreve SQL você INVESTIGA até chegar nele.",
+        "desc": "Esse jogo é um quebra-cabeça de dedução lógica, com visual de quadrinho noir dos anos 50, onde você não escreve SQL você INVESTIGA até chegar nele.",
         "url": "https://sqlmurdoku.streamlit.app/"
     },
     {
