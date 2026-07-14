@@ -151,6 +151,11 @@ st.write("")
 # --------------------------------------------------
 python_projects = [
     {
+        "title": "📒Investigador SQL",
+        "desc": ""Caso SQL" é um quebra-cabeça de dedução lógica, com visual de quadrinho noir dos anos 50, onde você não escreve SQL você INVESTIGA até chegar nele.",
+        "url": "https://sqlmurdoku.streamlit.app/"
+    },
+    {
         "title": "🎓 O cursinho que o Brasil não pode pagar — eu construí de graça",
         "desc": "Construí um simulador do ENEM gratuito com Python + Streamlit. E quero te contar por que isso importa",
         "url": "https://enem-simulador.streamlit.app/"
