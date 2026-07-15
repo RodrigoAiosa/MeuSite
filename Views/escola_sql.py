@@ -1,86 +1,65 @@
 import streamlit as st
-import json
-from datetime import datetime, timedelta
-import pandas as pd
-import sqlite3
+import sys
 from io import StringIO
+from datetime import datetime
+import json
 
-# --- CONFIGURAÇÃO DE PÁGINA ---
 st.set_page_config(
-    page_title="SQL - Melhores Práticas Pro | Rodrigo Aiosa",
-    page_icon="🗄️",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    page_title="Python - Melhores Práticas Pro",
+    page_icon="🐍",
+    layout="wide"
 )
 
 # --- INICIALIZAR SESSION STATE ---
-if 'favorites' not in st.session_state:
-    st.session_state.favorites = set()
-if 'learned' not in st.session_state:
-    st.session_state.learned = set()
-if 'notes' not in st.session_state:
-    st.session_state.notes = {}
-if 'search_query' not in st.session_state:
-    st.session_state.search_query = ""
-if 'user_points' not in st.session_state:
-    st.session_state.user_points = 0
-if 'challenges_completed' not in st.session_state:
-    st.session_state.challenges_completed = set()
-if 'daily_streak' not in st.session_state:
-    st.session_state.daily_streak = 1
-if 'current_menu' not in st.session_state:
-    st.session_state.current_menu = "📖 Todas as Práticas"
-if 'page' not in st.session_state:
-    st.session_state.page = 0
-if 'selected_category' not in st.session_state:
-    st.session_state.selected_category = "Todas"
-if 'selected_difficulty' not in st.session_state:
-    st.session_state.selected_difficulty = "Todas"
+if 'python_favorites' not in st.session_state:
+    st.session_state.python_favorites = set()
+if 'python_learned' not in st.session_state:
+    st.session_state.python_learned = set()
+if 'python_points' not in st.session_state:
+    st.session_state.python_points = 0
+if 'python_level' not in st.session_state:
+    st.session_state.python_level = 1
+if 'python_xp' not in st.session_state:
+    st.session_state.python_xp = 0
+if 'python_badges' not in st.session_state:
+    st.session_state.python_badges = set()
+if 'python_challenges_completed' not in st.session_state:
+    st.session_state.python_challenges_completed = set()
+if 'python_streak' not in st.session_state:
+    st.session_state.python_streak = 0
+if 'python_last_session' not in st.session_state:
+    st.session_state.python_last_session = None
 
-# --- INICIALIZAR DATABASE EM MEMÓRIA ---
-def init_database():
-    conn = sqlite3.connect(':memory:', check_same_thread=False)
-    usuarios_df = pd.DataFrame({
-        'id': [1, 2, 3, 4, 5],
-        'nome': ['Alice Silva', 'Bob Santos', 'Carlos Oliveira', 'Diana Costa', 'Eduardo Pereira'],
-        'email': ['alice@gmail.com', 'bob@gmail.com', 'carlos@hotmail.com', 'diana@gmail.com', 'edu@outlook.com'],
-        'ativo': [True, True, False, True, True],
-        'created_at': ['2023-01-15', '2023-02-20', '2023-03-10', '2023-04-05', '2023-05-12'],
-        'categoria': ['Premium', 'Standard', 'Premium', 'Free', 'Standard']
-    })
-    usuarios_df.to_sql('usuarios', conn, index=False, if_exists='replace')
-    vendas_df = pd.DataFrame({
-        'id': [1, 2, 3, 4, 5, 6],
-        'usuario_id': [1, 2, 1, 3, 2, 5],
-        'valor': [150.00, 200.00, 75.50, 300.00, 120.00, 450.00],
-        'status': ['pago', 'pago', 'pendente', 'pago', 'cancelado', 'pago'],
-        'data': ['2024-01-10', '2024-01-15', '2024-02-01', '2024-02-10', '2024-02-15', '2024-03-01']
-    })
-    vendas_df.to_sql('vendas', conn, index=False, if_exists='replace')
-    produtos_df = pd.DataFrame({
-        'id': [1, 2, 3, 4],
-        'nome': ['Produto A', 'Produto B', 'Produto C', 'Produto D'],
-        'categoria': ['Eletrônicos', 'Eletrônicos', 'Livros', 'Livros'],
-        'preco': [99.99, 199.99, 29.99, 49.99]
-    })
-    produtos_df.to_sql('produtos', conn, index=False, if_exists='replace')
-    return conn
+MASTERY_LEVELS = {
+    1: {"title": "🥉 Python Padawan", "icon": "🥉", "xp_required": 0, "color": "#CD7F32", "theme": "bronze"},
+    2: {"title": "🥈 Code Ninja", "icon": "🥈", "xp_required": 250, "color": "#C0C0C0", "theme": "silver"},
+    3: {"title": "🥇 Python Master", "icon": "🥇", "xp_required": 750, "color": "#FFD700", "theme": "gold"},
+    4: {"title": "💎 Arquiteto Python", "icon": "💎", "xp_required": 1500, "color": "#00D9FF", "color_rgb": "rgb(0, 217, 255)", "theme": "diamond"},
+    5: {"title": "🏆 Pythonista Elite", "icon": "🏆", "xp_required": 2500, "color": "#FF1493", "theme": "legendary"},
+}
 
-def execute_query(query):
-    try:
-        query = query.strip()
-        if not query:
-            return None, "❌ Escreva uma query SQL primeiro!"
-        conn = init_database()
-        df = pd.read_sql_query(query, conn)
-        conn.close()
-        return df, f"✅ Query executada com sucesso! {len(df)} registros retornados."
-    except sqlite3.OperationalError as e:
-        return None, f"❌ Erro SQL: {str(e)}"
-    except Exception as e:
-        return None, f"❌ Erro: {str(e)}"
+BADGES = {
+    "first_steps": {"icon": "👣", "title": "Primeiros Passos", "description": "Completou a 1ª prática", "condition": lambda p: p >= 1},
+    "ten_practices": {"icon": "🔟", "title": "Persistência", "description": "Completou 10 práticas", "condition": lambda p: p >= 10},
+    "twenty_practices": {"icon": "2️⃣0️⃣", "title": "Veterano", "description": "Completou 20 práticas", "condition": lambda p: p >= 20},
+    "beginner_master": {"icon": "📚", "title": "Mestre Iniciante", "description": "Completou todas as práticas Iniciante", "condition": lambda p: p >= 20},
+    "code_ninja": {"icon": "🥷", "title": "Código Ninja", "description": "Completou 5 práticas Intermediário", "condition": lambda p: p >= 5},
+    "advanced_warrior": {"icon": "⚔️", "title": "Guerreiro Avançado", "description": "Completou 5 práticas Avançado", "condition": lambda p: p >= 5},
+    "speed_demon": {"icon": "⚡", "title": "Demônio da Velocidade", "description": "Executou 50 scripts no editor", "condition": lambda p: p >= 50},
+    "favorite_collector": {"icon": "⭐", "title": "Colecionador", "description": "Favoritou 10 práticas", "condition": lambda p: p >= 10},
+    "perfect_streak": {"icon": "🔥", "title": "Em Chamas", "description": "7 dias seguidos aprendendo", "condition": lambda p: p >= 7},
+    "code_master": {"icon": "👑", "title": "Rei do Código", "description": "1000+ pontos conquistados", "condition": lambda p: p >= 1000},
+}
 
-# ── DESIGN (Python Pro palette) ──
+CHALLENGES = [
+    {"id": "challenge_1", "title": "Mestre de List Comprehension", "difficulty": "Intermediário", "xp_reward": 100, "description": "Complete 3 práticas sobre List Comprehension", "target": 3, "type": "practices", "practice_filter": "List Comprehension"},
+    {"id": "challenge_2", "title": "Decorador Profissional", "difficulty": "Avançado", "xp_reward": 150, "description": "Complete 2 práticas sobre Decorators", "target": 2, "type": "practices", "practice_filter": "Decorators"},
+    {"id": "challenge_3", "title": "Editor Speedrunner", "difficulty": "Iniciante", "xp_reward": 50, "description": "Execute 20 scripts no editor interativo", "target": 20, "type": "editor_runs"},
+    {"id": "challenge_4", "title": "Colecionador de Estrelas", "difficulty": "Iniciante", "xp_reward": 75, "description": "Favoritou 5 práticas", "target": 5, "type": "favorites"},
+    {"id": "challenge_5", "title": "Generador de Poder", "difficulty": "Avançado", "xp_reward": 200, "description": "Complete todas as práticas sobre Generators", "target": 3, "type": "practices", "practice_filter": "Generator"},
+]
+
+# ── DESIGN (mesma paleta SQL Pro) ──
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
@@ -103,13 +82,6 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 .main p, .main a, .main li,
 [data-testid="stAppViewContainer"] div:not([data-testid="stSidebar"]) {
     font-family: 'DM Sans', sans-serif !important;
-}
-
-.material-symbols-rounded,
-.material-icons,
-[data-testid*="Collapse"] span,
-[data-testid*="collapse"] span {
-    font-family: 'Material Symbols Rounded', 'Material Icons' !important;
 }
 
 [data-testid="stMarkdownContainer"] { width: 100% !important; }
@@ -232,31 +204,6 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     background: #a78bfa;
 }
 
-/* ── PROGRESS BAR ── */
-.progress-container {
-    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
-    border: 1px solid rgba(167,139,250,0.2);
-    border-radius: 20px;
-    padding: 28px 32px;
-    margin: 0 0 40px;
-}
-
-.progress-bar {
-    width: 100%;
-    height: 8px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 100px;
-    overflow: hidden;
-    margin: 12px 0;
-}
-
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #a78bfa, #7c3aed);
-    border-radius: 100px;
-    transition: width 0.4s ease;
-}
-
 /* ── STAT CARDS ── */
 .stat-card {
     background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
@@ -268,25 +215,11 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     overflow: hidden;
     transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
-.stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(167,139,250,0.5), transparent);
-    opacity: 0;
-    transition: opacity 0.35s ease;
-}
-
 .stat-card:hover {
     transform: translateY(-4px);
     border-color: rgba(167,139,250,0.4);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(167,139,250,0.1);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
 }
-
-.stat-card:hover::before { opacity: 1; }
-
 .stat-number {
     font-family: 'Syne', sans-serif !important;
     font-size: 2.6rem;
@@ -295,7 +228,6 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     margin-bottom: 10px;
     line-height: 1;
 }
-
 .stat-label {
     font-family: 'Syne', sans-serif !important;
     font-size: 0.75rem;
@@ -304,7 +236,6 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     text-transform: uppercase;
     letter-spacing: 2px;
 }
-
 .stat-sublabel {
     font-size: 0.82rem;
     color: #4a5568;
@@ -332,115 +263,118 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     margin-bottom: 14px;
 }
 
-/* ── METRIC BOX ── */
-.metric-box {
+/* ── LEVEL / BADGES / CHALLENGES ── */
+.level-bronze { border-color: #CD7F32; color: #CD7F32; box-shadow: 0 0 20px rgba(205,127,50,0.3); }
+.level-silver { border-color: #C0C0C0; color: #C0C0C0; box-shadow: 0 0 20px rgba(192,192,192,0.3); }
+.level-gold { border-color: #FFD700; color: #FFD700; box-shadow: 0 0 20px rgba(255,215,0,0.3); }
+.level-diamond { border-color: #00D9FF; color: #00D9FF; box-shadow: 0 0 20px rgba(0,217,255,0.5); }
+.level-legendary { border-color: #FF1493; color: #FF1493; box-shadow: 0 0 20px rgba(255,20,147,0.5); animation: pulse 2s infinite; }
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 20px rgba(255,20,147,0.5); }
+    50% { box-shadow: 0 0 40px rgba(255,20,147,0.8); }
+    100% { box-shadow: 0 0 20px rgba(255,20,147,0.5); }
+}
+
+.badge-container { display: flex; flex-wrap: wrap; gap: 10px; margin: 15px 0; }
+
+.badge {
+    background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.3) 100%);
+    border: 1px solid rgba(167,139,250,0.2);
+    border-radius: 10px;
+    padding: 10px 15px;
+    text-align: center;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.badge:hover { transform: scale(1.1); border-color: #a78bfa; box-shadow: 0 0 15px rgba(167,139,250,0.3); }
+.badge-locked { opacity: 0.3; }
+
+.challenge-box {
+    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
+    border: 1px solid rgba(167,139,250,0.2);
+    border-radius: 12px;
+    padding: 15px;
+    margin: 10px 0;
+}
+.challenge-completed { border-color: #22c55e; background: linear-gradient(145deg, rgba(34,197,94,0.1) 0%, rgba(0,0,0,0.2) 100%); }
+
+.streak-fire { font-size: 2rem; animation: bounce 1s infinite; }
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.output-box {
+    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
+    border: 1px solid rgba(167,139,250,0.2);
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 15px;
+    font-family: 'Courier New', monospace;
+    color: #a78bfa;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+.error-box {
+    background: linear-gradient(145deg, rgba(239,68,68,0.1) 0%, rgba(239,68,68,0.05) 100%);
+    border: 1px solid rgba(239,68,68,0.3);
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 15px;
+    font-family: 'Courier New', monospace;
+    color: #ff6b6b;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+.success-box {
+    background: linear-gradient(145deg, rgba(34,197,94,0.1) 0%, rgba(34,197,94,0.05) 100%);
+    border: 1px solid rgba(34,197,94,0.3);
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 15px;
+    font-family: 'Courier New', monospace;
+    color: #22c55e;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+.achievement-pop { animation: slideIn 0.5s ease-out; }
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── INFO PANEL (igual ao "Tabelas & Dicas" do SQL) ── */
+.info-panel {
     background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
     border: 1px solid rgba(167,139,250,0.2);
     border-radius: 16px;
-    padding: 22px;
-    text-align: center;
+    padding: 24px;
 }
-
-.metric-value {
+.info-panel-title {
     font-family: 'Syne', sans-serif !important;
-    font-size: 2.2rem;
-    font-weight: 800;
     color: #a78bfa;
-}
-
-.metric-label {
-    color: #7b8ba8;
-    font-weight: 400;
-    margin-top: 8px;
-    font-size: 0.88rem;
-}
-
-/* ── BADGES ── */
-.points-badge {
-    background: linear-gradient(135deg, #a78bfa, #7c3aed);
-    color: #0a0e27;
-    padding: 7px 16px;
-    border-radius: 100px;
-    font-family: 'Syne', sans-serif !important;
     font-weight: 700;
-    font-size: 0.82rem;
-    display: inline-block;
-    margin: 4px;
-    letter-spacing: 0.5px;
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
 }
 
-.streak-badge {
-    background: linear-gradient(135deg, #ef4444, #dc2626);
-    color: white;
-    padding: 7px 16px;
-    border-radius: 100px;
-    font-family: 'Syne', sans-serif !important;
-    font-weight: 700;
-    font-size: 0.82rem;
-    display: inline-block;
-    margin: 4px;
-    letter-spacing: 0.5px;
-}
-
-.badge {
-    display: inline-block;
-    background: rgba(167,139,250,0.12);
-    color: #a78bfa;
-    border: 1px solid rgba(167,139,250,0.25);
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 0.78rem;
-    font-weight: 600;
-    margin: 3px;
-}
-
-/* ── NOTES ── */
-.notes-container {
-    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
-    border: 1px solid rgba(167,139,250,0.2);
-    border-left: 3px solid #a78bfa;
-    border-radius: 12px;
-    padding: 16px 20px;
-    margin: 10px 0;
-}
-
-/* ── EXPANDERS ── */
-.stExpander {
-    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%) !important;
-    border: 1px solid rgba(167,139,250,0.2) !important;
-    border-radius: 14px !important;
-    margin-bottom: 10px !important;
-}
-
-.stExpander [data-testid="stExpanderToggleButton"] {
-    color: #e2e8f0 !important;
-    font-weight: 600;
-}
-
-/* ── CODE BLOCKS ── */
-.stCode {
-    background-color: #1a1a2e !important;
-    border: 1px solid rgba(167,139,250,0.15) !important;
-    border-radius: 10px !important;
-}
-
-code { color: #c4b5fd !important; background: transparent !important; }
-
-/* ── INPUTS & SELECTS ── */
+/* ── INPUTS ── */
 .stSelectbox > div > div {
     background: rgba(255,255,255,0.03) !important;
     border: 1px solid rgba(167,139,250,0.2) !important;
     color: #e2e8f0 !important;
     border-radius: 12px !important;
 }
-
 .stTextArea > div > div {
     background: rgba(255,255,255,0.03) !important;
     border: 1px solid rgba(167,139,250,0.2) !important;
     color: #e2e8f0 !important;
     border-radius: 12px !important;
 }
-
 div[data-testid="stTextInput"] input {
     background-color: rgba(255,255,255,0.03) !important;
     color: #e2e8f0 !important;
@@ -448,115 +382,32 @@ div[data-testid="stTextInput"] input {
     border-radius: 14px !important;
     padding: 14px 22px !important;
     font-size: 0.95rem !important;
-    font-family: 'DM Sans', sans-serif !important;
 }
-
-div[data-testid="stTextInput"] input::placeholder { color: #2d3748 !important; }
-div[data-testid="stTextInput"] input:focus {
-    box-shadow: 0 0 0 3px rgba(167,139,250,0.15) !important;
-    border-color: rgba(167,139,250,0.6) !important;
-}
-
-/* ── STATUS MESSAGES ── */
-.stInfo {
-    background: rgba(167,139,250,0.07) !important;
-    border: 1px solid rgba(167,139,250,0.25) !important;
-    border-radius: 12px !important;
-}
-
-.stSuccess {
-    background: rgba(34,197,94,0.07) !important;
-    border: 1px solid rgba(34,197,94,0.3) !important;
-    border-radius: 12px !important;
-}
-
-.stError {
-    background: rgba(239,68,68,0.07) !important;
-    border: 1px solid rgba(239,68,68,0.3) !important;
-    border-radius: 12px !important;
-}
-
-/* ── DIVIDER ── */
 hr {
     border: none !important;
     border-top: 1px solid rgba(167,139,250,0.1) !important;
     margin: 40px 0 !important;
 }
-
-/* ── LINKS ── */
-a { color: #a78bfa !important; transition: all 0.3s ease; }
-a:hover { filter: brightness(1.2); }
-
-.footer-spacer { height: 60px; }
-
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #0a0e27; }
 ::-webkit-scrollbar-thumb { background: rgba(167,139,250,0.2); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(167,139,250,0.4); }
-
 </style>
 """, unsafe_allow_html=True)
 
-# --- SIDEBAR NAVIGATION ---
-st.sidebar.markdown("""
-<div style="text-align: center; padding: 20px 0; border-bottom: 1px solid rgba(167,139,250,0.2);">
-    <h1 style="font-family:'Syne',sans-serif; font-size: 1.6rem; color: #a78bfa; margin: 0; font-weight:800; letter-spacing:-0.5px;">🗄️ SQL Pro</h1>
-    <p style="color: #4a5568; font-size: 0.82rem; margin-top: 6px; letter-spacing:1px; text-transform:uppercase;">Domine SQL em 60 práticas</p>
-</div>
-""", unsafe_allow_html=True)
-
-# --- SIDEBAR STATS ---
-col1, col2 = st.sidebar.columns(2)
-with col1:
-    st.markdown(f"""
-    <div style="background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%); border: 1px solid rgba(167,139,250,0.2); border-radius: 14px; padding: 16px; text-align: center;">
-        <p style="font-family:'Syne',sans-serif; color: #a78bfa; font-weight: 800; font-size: 1.4rem; margin: 0;">⭐ {st.session_state.user_points}</p>
-        <p style="color: #4a5568; font-size: 0.75rem; margin: 5px 0; text-transform:uppercase; letter-spacing:1px;">Pontos</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col2:
-    st.markdown(f"""
-    <div style="background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%); border: 1px solid rgba(167,139,250,0.2); border-radius: 14px; padding: 16px; text-align: center;">
-        <p style="font-family:'Syne',sans-serif; color: #a78bfa; font-weight: 800; font-size: 1.4rem; margin: 0;">🔥 {st.session_state.daily_streak}</p>
-        <p style="color: #4a5568; font-size: 0.75rem; margin: 5px 0; text-transform:uppercase; letter-spacing:1px;">Streak</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-# --- SIDEBAR MENU ---
-st.sidebar.markdown("---")
-st.sidebar.markdown("### 📚 Navegação")
-
-menu = st.sidebar.radio(
-    "Escolha uma seção:",
-    ["📖 Todas as Práticas", "⭐ Meus Favoritos", "✅ Já Aprendi", "🏆 Progresso", "🎯 Desafios"],
-    label_visibility="collapsed"
-)
-
-# --- SEARCH FUNCTIONALITY ---
-st.sidebar.markdown("---")
-st.sidebar.markdown("### 🔍 Buscar")
-search_query = st.sidebar.text_input(
-    "Buscar práticas:",
-    placeholder="Digite aqui...",
-    label_visibility="collapsed"
-)
-st.session_state.search_query = search_query.lower()
-st.session_state.current_menu = menu
-
-# ── HERO ──
+# ── HERO (idêntico ao SQL Pro, adaptado para Python) ──
 st.markdown("""
 <div class="hero-wrapper">
-    <div class="hero-badge">🗄️ SQL Pro</div>
     <h1 class="hero-title">
-        Melhores Práticas SQL para <span class="accent">queries que escalam</span>
+        Melhores Práticas Python para <span class="accent">código que escala</span>
     </h1>
     <p class="hero-subtitle">
-        Estratégias avançadas para queries eficientes, escaláveis e precisas. Transforme dados em vantagem competitiva.
+        Estratégias avançadas para código limpo, performático e manutenível.
+        Transforme seus projetos em referências de qualidade.
     </p>
     <div class="hero-stats">
         <div class="hero-stat">
-            <span class="hero-stat-number">60+</span>
+            <span class="hero-stat-number">90+</span>
             <span class="hero-stat-label">Práticas</span>
         </div>
         <div class="hero-stat">
@@ -572,250 +423,437 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# --- PROGRESSO VISUAL ---
-total_practices = 60
-learned_count = len(st.session_state.learned)
-progress_percent = (learned_count / total_practices) * 100
+# --- FUNÇÕES AUXILIARES ---
+def get_current_level(xp):
+    for level in sorted(MASTERY_LEVELS.keys(), reverse=True):
+        if xp >= MASTERY_LEVELS[level]["xp_required"]:
+            return level
+    return 1
 
-st.markdown(f"""
-<div class="progress-container">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-        <p style="font-family:'Syne',sans-serif; color: #e2e8f0; font-weight: 700; font-size:0.85rem; letter-spacing:1.5px; text-transform:uppercase; margin: 0;">🎓 Seu Progresso</p>
-        <p style="font-family:'Syne',sans-serif; color: #a78bfa; font-weight: 800; font-size:1.1rem; margin: 0;">{learned_count}/{total_practices}</p>
-    </div>
-    <div class="progress-bar">
-        <div class="progress-fill" style="width: {progress_percent}%"></div>
-    </div>
-    <p style="color: #4a5568; font-size: 0.82rem; margin: 10px 0 0; font-weight:300;">
-        {'🏆 Parabéns! Você completou todas as práticas!' if learned_count == total_practices else f'Continue! Faltam {total_practices - learned_count} práticas para completar o guia.'}
-    </p>
-</div>
-""", unsafe_allow_html=True)
+def get_xp_for_next_level(current_level):
+    if current_level >= 5:
+        return MASTERY_LEVELS[5]["xp_required"] + 1000
+    return MASTERY_LEVELS[current_level + 1]["xp_required"]
 
-# --- STATS SECTION ---
-st.markdown('<h2 class="section-header">📊 Números que Falam</h2>', unsafe_allow_html=True)
+def get_xp_progress(xp, current_level):
+    current_level_xp = MASTERY_LEVELS[current_level]["xp_required"]
+    next_level_xp = get_xp_for_next_level(current_level)
+    progress = ((xp - current_level_xp) / (next_level_xp - current_level_xp)) * 100
+    return min(100, max(0, progress))
 
-col1, col2, col3 = st.columns(3, gap="medium")
+def check_badges(learned_count, favorites_count, editor_runs, points):
+    new_badges = set()
+    if learned_count >= 1: new_badges.add("first_steps")
+    if learned_count >= 10: new_badges.add("ten_practices")
+    if learned_count >= 20: new_badges.add("twenty_practices")
+    if favorites_count >= 10: new_badges.add("favorite_collector")
+    if points >= 1000: new_badges.add("code_master")
+    return new_badges
 
+def get_level_color_class(level):
+    colors = {1: "level-bronze", 2: "level-silver", 3: "level-gold", 4: "level-diamond", 5: "level-legendary"}
+    return colors.get(level, "level-bronze")
+
+# --- HEADER PONTOS + STREAK ---
+col1, col2, col3 = st.columns([2, 3, 2])
 with col1:
-    st.markdown("""
-    <div class="stat-card">
-        <div class="stat-number">60+</div>
-        <div class="stat-label">Práticas SQL</div>
-        <div class="stat-sublabel">Documentadas e Testadas</div>
-    </div>
-    """, unsafe_allow_html=True)
-
+    st.markdown(f'<h1 style="text-align: center; color: #a78bfa; font-family: Syne, sans-serif;"></h1>', unsafe_allow_html=True)
 with col2:
-    st.markdown("""
-    <div class="stat-card">
-        <div class="stat-number">5</div>
-        <div class="stat-label">Categorias</div>
-        <div class="stat-sublabel">De Conhecimento Essencial</div>
-    </div>
-    """, unsafe_allow_html=True)
-
+    st.markdown('<h3 style="text-align: center; color: #7c3aed;">Jornada de Maestria</h3>', unsafe_allow_html=True)
 with col3:
-    st.markdown("""
-    <div class="stat-card">
-        <div class="stat-number">3</div>
-        <div class="stat-label">Níveis</div>
-        <div class="stat-sublabel">Iniciante, Intermediário, Avançado</div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(f'<h1 style="text-align: center; font-size: 2rem;">⭐ {st.session_state.python_points} pontos</h1>', unsafe_allow_html=True)
 
-st.markdown("""
-<p style="text-align: center; color: #4a5568; margin: 40px 0; font-size: 1rem; line-height: 1.8; max-width:660px; margin-left:auto; margin-right:auto;">
-    Queries eficientes são a base de dashboards que escalam.
-    Boas práticas em SQL reduzem tempo de processamento e amplificam a precisão das análises.
-    <br><br>
-    <span style="color: #a78bfa; font-weight: 600;">
-    Este é um guia completo para transformar você em um especialista SQL.
-    </span>
-</p>
-""", unsafe_allow_html=True)
+current_level = get_current_level(st.session_state.python_xp)
+current_xp = st.session_state.python_xp
+level_info = MASTERY_LEVELS[current_level]
+xp_progress = get_xp_progress(current_xp, current_level)
+next_level_xp = get_xp_for_next_level(current_level)
+current_level_xp = MASTERY_LEVELS[current_level]["xp_required"]
 
-# --- DATABASE DE PRÁTICAS SQL ---
-sql_practices = [
-    {
-        "icon": "🔍",
-        "title": "Evitar SELECT *",
-        "category": "Performance",
-        "difficulty": "Iniciante",
-        "description": "Selecione apenas as colunas necessárias.",
-        "bad_query": "SELECT * FROM vendas WHERE ano = 2024;",
-        "good_query": "SELECT\n    id,\n    produto,\n    valor,\n    data_venda\nFROM vendas\nWHERE ano = 2024;",
-        "benefit": "Reduz bandwidth de rede, acelera processamento.",
-        "context": "Impacto exponencial em sistemas com muitos dados.",
-        "explanation": "Especificar colunas reduz o volume de dados trafegado pela rede e melhora o índice utilizado pelo banco de dados."
-    },
-    {
-        "icon": "✅",
-        "title": "Tratar NULL Explicitamente",
-        "category": "Lógica & Precisão",
-        "difficulty": "Iniciante",
-        "description": "NULL não é zero nem string vazia.",
-        "bad_query": "SELECT SUM(comissao) FROM vendas WHERE status = 'concluida';",
-        "good_query": "SELECT\n    SUM(COALESCE(comissao, 0)) AS total_comissao\nFROM vendas\nWHERE status = 'concluida'\n    AND comissao IS NOT NULL;",
-        "benefit": "Evita resultados inesperados.",
-        "context": "Crítico em cálculos financeiros.",
-        "explanation": "COALESCE substitui NULLs por um valor padrão, evitando que a soma resulte em NULL quando há valores nulos na coluna."
-    },
-    {
-        "icon": "🔐",
-        "title": "Prepared Statements",
-        "category": "Segurança & Manutenção",
-        "difficulty": "Iniciante",
-        "description": "Parameterize queries contra SQL Injection.",
-        "bad_query": "query = f\"SELECT * FROM usuarios WHERE email = '{user_email}'\"",
-        "good_query": "query = (\n    \"SELECT *\"\n    \"FROM usuarios\"\n    \"WHERE email = %s\"\n)\ncursor.execute(query, (user_email,))",
-        "benefit": "Impede ataques de segurança.",
-        "context": "Obrigatório em produção.",
-        "explanation": "Usar placeholders (%) em vez de concatenação protege contra SQL Injection, pois os parâmetros são tratados como dados, não como código SQL."
-    },
-    {
-        "icon": "📋",
-        "title": "Documentar Queries",
-        "category": "Segurança & Manutenção",
-        "difficulty": "Iniciante",
-        "description": "Comente queries complexas.",
-        "bad_query": "SELECT u.id, COUNT(DISTINCT v.id) FROM usuarios u LEFT JOIN vendas v ON u.id = v.usuario_id GROUP BY u.id;",
-        "good_query": "-- Query: Contagem de vendas por usuário\n-- Propósito: Dashboard de Engagement\nSELECT\n    u.id,\n    u.nome,\n    COUNT(DISTINCT v.id) AS total_vendas\nFROM usuarios u\nLEFT JOIN vendas v\n    ON u.id = v.usuario_id\nGROUP BY u.id, u.nome;",
-        "benefit": "Fácil handoff e manutenção.",
-        "context": "Um comentário economiza horas.",
-        "explanation": "Comentários explicam o objetivo da query e facilitam manutenção futura, especialmente em equipes com múltiplos desenvolvedores."
-    },
-    {
-        "icon": "🎓",
-        "title": "Usar LIMIT em Development",
-        "category": "Performance",
-        "difficulty": "Iniciante",
-        "description": "Sempre limitar resultados em queries de teste.",
-        "bad_query": "SELECT * FROM usuarios;",
-        "good_query": "SELECT *\nFROM usuarios\nLIMIT 100;",
-        "benefit": "Evita lentidão ao testar em prod.",
-        "context": "Development vs Production.",
-        "explanation": "LIMIT reduz o tempo de execução durante testes e evita carregar dados desnecessários em memória, protegendo também a produção de queries descontroladas."
-    },
-]
+if st.session_state.python_streak > 0:
+    st.markdown(f'<p style="text-align: center; font-size: 1.3rem;"><span class="streak-fire">🔥</span> {st.session_state.python_streak} dias em sequência!</p>', unsafe_allow_html=True)
 
-# --- FILTROS SECTION ---
-st.markdown('<h2 class="section-header">🔎 Filtrar Práticas</h2>', unsafe_allow_html=True)
+# --- TABS ---
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["📚 Práticas", "✏️ Editor", "🎯 Desafios", "🏆 Badges", "📊 Perfil"])
 
-st.markdown('<div class="filter-section">', unsafe_allow_html=True)
+# ============================================================================
+# TAB 1: PRÁTICAS
+# ============================================================================
+with tab1:
+    st.markdown('<h3 class="section-header">🔎 Filtrar Práticas</h3>', unsafe_allow_html=True)
+    col1, col2 = st.columns(2)
+    with col1:
+        selected_difficulty = st.selectbox("📈 Nível de Dificuldade", ["Todas", "Iniciante", "Intermediário", "Avançado"], key="python_difficulty")
+    with col2:
+        search = st.text_input("🔍 Buscar prática", key="python_search")
 
-col1, col2, col_space = st.columns([1.5, 1.5, 1])
+    python_practices = [
+        {"icon": "📚", "title": "Usar Type Hints", "category": "Qualidade & Manutenção", "difficulty": "Iniciante", "description": "Especifique tipos de argumentos e retorno.", "bad_code": "def calcular_total(items):\n    return sum(item['valor'] for item in items)", "good_code": "from typing import List, Dict\n\ndef calcular_total(items: List[Dict[str, float]]) -> float:\n    return sum(item['valor'] for item in items)", "benefit": "Detecta erros em tempo de desenvolvimento.", "explanation": "Type hints melhoram legibilidade e oferecem autocomplete."},
+        {"icon": "🔐", "title": "List Comprehension", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "Prefira list comprehension a loops tradicionais.", "bad_code": "pares = []\nfor num in [1,2,3,4,5]:\n    if num % 2 == 0:\n        pares.append(num * 2)", "good_code": "pares = [num * 2 for num in [1,2,3,4,5] if num % 2 == 0]", "benefit": "30-40% mais rápido.", "explanation": "Otimizada em C, executa mais rápido."},
+        {"icon": "🔍", "title": "Usar f-strings", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "f-strings são mais legíveis e rápidas.", "bad_code": "nome = 'Alice'\nidade = 30\nmsg = 'Olá, ' + nome + '. Você tem ' + str(idade) + ' anos'", "good_code": "nome = 'Alice'\nidade = 30\nmsg = f'Olá, {nome}. Você tem {idade} anos'", "benefit": "20% mais rápido.", "explanation": "Otimizadas em tempo de compilação."},
+        {"icon": "📋", "title": "Usar Docstrings", "category": "Qualidade & Manutenção", "difficulty": "Iniciante", "description": "Documente funções com docstrings.", "bad_code": "def calcular_idade(ano_nascimento):\n    return 2024 - ano_nascimento", "good_code": "def calcular_idade(ano_nascimento: int) -> int:\n    \"\"\"Calcula a idade de uma pessoa.\n    \n    Args:\n        ano_nascimento: Ano de nascimento\n    Returns:\n        Idade em anos\n    \"\"\"", "benefit": "Facilita manutenção.", "explanation": "Acessíveis via help()."},
+        {"icon": "✅", "title": "Usar Dicionários", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "Agrupe dados relacionados.", "bad_code": "pessoa_nome = 'Alice'\npessoa_idade = 30", "good_code": "pessoa = {'nome': 'Alice', 'idade': 30}", "benefit": "Código organizado.", "explanation": "Agrupa dados logicamente."},
+        {"icon": "🎯", "title": "Usar enumerate()", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "Acesse índice e valor simultaneamente.", "bad_code": "for i in range(len(nomes)):\n    print(f'{i}: {nomes[i]}')", "good_code": "for i, nome in enumerate(nomes):\n    print(f'{i}: {nome}')", "benefit": "Mais legível.", "explanation": "Evita erros de indexação."},
+        {"icon": "🔄", "title": "Usar zip()", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "Combine múltiplas iteráveis.", "bad_code": "for i in range(len(nomes)):\n    print(f'{nomes[i]} - {idades[i]}')", "good_code": "for nome, idade in zip(nomes, idades):\n    print(f'{nome} - {idade}')", "benefit": "Mais seguro.", "explanation": "Mais eficiente que indexação."},
+        {"icon": "🛡️", "title": "Try/Except Específicos", "category": "Qualidade & Manutenção", "difficulty": "Iniciante", "description": "Capture exceções específicas.", "bad_code": "try:\n    valor = int('abc')\nexcept:\n    print('Erro')", "good_code": "try:\n    valor = int('abc')\nexcept ValueError:\n    print('Erro: valor inválido')", "benefit": "Precisão.", "explanation": "Capturar específico evita silenciar bugs."},
+        {"icon": "🔑", "title": "Usar dict.get()", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "Acesse dicionários com segurança.", "bad_code": "if 'timeout' in config:\n    timeout = config['timeout']\nelse:\n    timeout = 30", "good_code": "timeout = config.get('timeout', 30)", "benefit": "Mais limpo.", "explanation": "Retorna padrão se chave não existir."},
+        {"icon": "⚡", "title": "Usar all() e any()", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "Verifique condições lógicas.", "bad_code": "resultado = True\nfor item in lista:\n    if not item:\n        resultado = False", "good_code": "resultado = all(lista)\nqualquer = any(lista)", "benefit": "Mais legível.", "explanation": "Implementadas em C."},
+        {"icon": "🔓", "title": "Context Managers (with)", "category": "Segurança & Manutenção", "difficulty": "Iniciante", "description": "Gerencie recursos automaticamente.", "bad_code": "f = open('dados.txt')\nconteudo = f.read()\nf.close()", "good_code": "with open('dados.txt') as f:\n    conteudo = f.read()", "benefit": "Fechamento garantido.", "explanation": "Garante cleanup automático."},
+        {"icon": "🎓", "title": "isinstance() vs type()", "category": "Qualidade & Manutenção", "difficulty": "Iniciante", "description": "Verifique tipos corretamente.", "bad_code": "if type(valor) == str:\n    print('É string')", "good_code": "if isinstance(valor, str):\n    print('É string')", "benefit": "Respeita herança.", "explanation": "Funciona com subclasses."},
+        {"icon": "🔀", "title": "sorted() vs sort()", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "Escolha a versão correta.", "bad_code": "numeros = [3, 1, 4]\nnumeros.sort()", "good_code": "numeros = [3, 1, 4]\nordenados = sorted(numeros)", "benefit": "Original intacto.", "explanation": "Mais funcional."},
+        {"icon": "💾", "title": "defaultdict", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "Inicialize automaticamente.", "bad_code": "palavras = {}\nfor p in lista:\n    if p not in palavras:\n        palavras[p] = 0\n    palavras[p] += 1", "good_code": "from collections import defaultdict\npedras = defaultdict(int)\nfor p in lista:\n    pedras[p] += 1", "benefit": "Código limpo.", "explanation": "Cria valores padrão."},
+        {"icon": "🚀", "title": "Evitar Variáveis Globais", "category": "Qualidade & Manutenção", "difficulty": "Iniciante", "description": "Passe dados como argumentos.", "bad_code": "contador = 0\ndef incrementar():\n    global contador\n    contador += 1", "good_code": "def incrementar(contador: int) -> int:\n    return contador + 1", "benefit": "Testável.", "explanation": "Evita dependências ocultas."},
+        {"icon": "⚙️", "title": "Constants em UPPERCASE", "category": "Qualidade & Manutenção", "difficulty": "Iniciante", "description": "Nomeie constantes corretamente.", "bad_code": "max_retries = 5\ntimeout = 30", "good_code": "MAX_RETRIES = 5\nTIMEOUT = 30", "benefit": "Indica constantes.", "explanation": "Sinaliza não modificação."},
+        {"icon": "🎪", "title": "String methods vs regex", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "Use método simples quando possível.", "bad_code": "import re\nif re.search(r'mundo', texto):\n    print('Encontrado')", "good_code": "if 'mundo' in texto:\n    print('Encontrado')", "benefit": "10x mais rápido.", "explanation": "Otimizadas em C."},
+        {"icon": "📦", "title": "setdefault()", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "Define e retorna simultaneamente.", "bad_code": "if 'python' not in cat:\n    cat['python'] = []\ncat['python'].append('item')", "good_code": "cat.setdefault('python', []).append('item')", "benefit": "Uma linha.", "explanation": "Combina verificação e atribuição."},
+        {"icon": "🔍", "title": "in vs count()", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "Use in para verificar existência.", "bad_code": "if lista.count(3) > 0:\n    print('Existe')", "good_code": "if 3 in lista:\n    print('Existe')", "benefit": "3x mais rápido.", "explanation": "Sem criar contador."},
+        {"icon": "🧩", "title": "Usar Walrus Operator", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "Atribua e teste em uma expressão.", "bad_code": "linha = arquivo.readline()\nwhile linha:\n    processar(linha)\n    linha = arquivo.readline()", "good_code": "while linha := arquivo.readline():\n    processar(linha)", "benefit": "Menos repetição.", "explanation": "Operador := (Python 3.8+) atribui e retorna valor simultaneamente."},
+        {"icon": "📌", "title": "Desempacotamento de Tuplas", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "Extraia valores de sequências com elegância.", "bad_code": "coords = (10, 20)\nx = coords[0]\ny = coords[1]", "good_code": "coords = (10, 20)\nx, y = coords", "benefit": "Código limpo.", "explanation": "Unpacking funciona com listas, tuplas e qualquer iterável."},
+        {"icon": "🔢", "title": "Usar Counter", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "Conte elementos com Counter.", "bad_code": "contagem = {}\nfor item in lista:\n    if item in contagem:\n        contagem[item] += 1\n    else:\n        contagem[item] = 1", "good_code": "from collections import Counter\ncontagem = Counter(lista)", "benefit": "Uma linha.", "explanation": "Otimizado, suporta operações como most_common()."},
+        {"icon": "🌀", "title": "Usar * no Desempacotamento", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "Capture restos com *.", "bad_code": "numeros = [1, 2, 3, 4, 5]\nprimeiro = numeros[0]\nresto = numeros[1:]", "good_code": "numeros = [1, 2, 3, 4, 5]\nprimeiro, *resto = numeros", "benefit": "Mais idiomático.", "explanation": "* captura elementos restantes em lista."},
+        {"icon": "🔂", "title": "Strings Multilinha com Parênteses", "category": "Qualidade & Manutenção", "difficulty": "Iniciante", "description": "Evite \\ em strings longas.", "bad_code": "msg = 'Este é um texto muito longo que ' \\\n      'precisa de quebra de linha'", "good_code": "msg = (\n    'Este é um texto muito longo que '\n    'precisa de quebra de linha'\n)", "benefit": "Sem backslash.", "explanation": "Strings adjacentes são concatenadas automaticamente."},
+        {"icon": "🎲", "title": "Usar abs() e round()", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "Use funções built-in matemáticas.", "bad_code": "if valor < 0:\n    valor = -valor\nresultado = int(preco * 100) / 100", "good_code": "valor = abs(valor)\nresultado = round(preco, 2)", "benefit": "Mais claro.", "explanation": "Built-ins são otimizados e expressivos."},
+        {"icon": "📎", "title": "Usar str.join()", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "Concatene strings com join.", "bad_code": "resultado = ''\nfor palavra in palavras:\n    resultado += palavra + ', '\nresultado = resultado[:-2]", "good_code": "resultado = ', '.join(palavras)", "benefit": "O(n) vs O(n²).", "explanation": "join é muito mais eficiente que concatenação em loop."},
+        {"icon": "🔎", "title": "None como Sentinela Padrão", "category": "Qualidade & Manutenção", "difficulty": "Iniciante", "description": "Use None como valor padrão mutável.", "bad_code": "def adicionar(item, lista=[]):\n    lista.append(item)\n    return lista", "good_code": "def adicionar(item, lista=None):\n    if lista is None:\n        lista = []\n    lista.append(item)\n    return lista", "benefit": "Evita bug clássico.", "explanation": "Argumentos mutáveis padrão são compartilhados entre chamadas."},
+        {"icon": "📐", "title": "Usar min() e max() com key", "category": "Elegância & Performance", "difficulty": "Iniciante", "description": "Encontre extremos com critério.", "bad_code": "maior_nome = ''\nfor p in pessoas:\n    if len(p['nome']) > len(maior_nome):\n        maior_nome = p['nome']", "good_code": "pessoa_nome_longo = max(pessoas, key=lambda p: len(p['nome']))", "benefit": "Expressivo.", "explanation": "key define o critério de comparação."},
+        {"icon": "✂️", "title": "Usar str.strip() e variantes", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "Limpe strings de forma precisa.", "bad_code": "texto = '  Olá mundo  '\ntexto_limpo = texto.replace(' ', '')", "good_code": "texto = '  Olá mundo  '\ntexto_limpo = texto.strip()  # Remove espaços das extremidades", "benefit": "Correto.", "explanation": "strip() remove espaços, lstrip() à esquerda, rstrip() à direita."},
+        {"icon": "🔗", "title": "Usar Decorators", "category": "Elegância & Reutilização", "difficulty": "Intermediário", "description": "Reutilize lógica comum.", "bad_code": "def f1():\n    inicio = time.time()\n    resultado = calc()\n    print(time.time() - inicio)\n    return resultado", "good_code": "@timing\ndef f1():\n    return calc()\n\ndef timing(func):\n    def wrapper(*args):\n        inicio = time.time()\n        resultado = func(*args)\n        print(time.time() - inicio)\n        return resultado\n    return wrapper", "benefit": "Reutilização.", "explanation": "Encapsula lógica transversal."},
+        {"icon": "⚡", "title": "Usar @property", "category": "Elegância & Encapsulamento", "difficulty": "Intermediário", "description": "Crie getters/setters Pythônicos.", "bad_code": "class Pessoa:\n    def get_nome(self):\n        return self._nome", "good_code": "class Pessoa:\n    @property\n    def nome(self):\n        return self._nome", "benefit": "Sintaxe natural.", "explanation": "Permite p.nome = 'valor'."},
+        {"icon": "🚀", "title": "Generator Expressions", "category": "Performance & Elegância", "difficulty": "Intermediário", "description": "Economize memória com generators.", "bad_code": "quadrados = [x**2 for x in range(1000000)]\nfor q in quadrados:\n    processar(q)", "good_code": "quadrados = (x**2 for x in range(1000000))\nfor q in quadrados:\n    processar(q)", "benefit": "90% menos memória.", "explanation": "Lazy evaluation."},
+        {"icon": "🔐", "title": "namedtuple", "category": "Elegância & Performance", "difficulty": "Intermediário", "description": "Estruturas leves e imutáveis.", "bad_code": "class Ponto:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y", "good_code": "from collections import namedtuple\nPonto = namedtuple('Ponto', ['x', 'y'])\np = Ponto(1, 2)", "benefit": "Menos código.", "explanation": "Classes otimizadas."},
+        {"icon": "🔄", "title": "functools.lru_cache", "category": "Performance & Otimização", "difficulty": "Intermediário", "description": "Cache automático de resultados.", "bad_code": "def fibonacci(n):\n    if n < 2: return n\n    return fibonacci(n-1) + fibonacci(n-2)", "good_code": "from functools import lru_cache\n\n@lru_cache(maxsize=128)\ndef fibonacci(n):\n    if n < 2: return n\n    return fibonacci(n-1) + fibonacci(n-2)", "benefit": "1000x mais rápido.", "explanation": "Evita recalcular."},
+        {"icon": "📊", "title": "*args e **kwargs", "category": "Elegância & Flexibilidade", "difficulty": "Intermediário", "description": "Argumentos variáveis.", "bad_code": "def func(a, b, c=None, d=None):\n    print(a, b, c, d)", "good_code": "def func(a, b, *args, **kwargs):\n    print(a, b)\n    print(args)\n    print(kwargs)", "benefit": "Flexível.", "explanation": "*args em tupla, **kwargs em dict."},
+        {"icon": "🎯", "title": "isinstance com Múltiplos Tipos", "category": "Qualidade & Manutenção", "difficulty": "Intermediário", "description": "Verifique múltiplos tipos.", "bad_code": "if type(v) == int or type(v) == float:\n    print('Número')", "good_code": "if isinstance(v, (int, float)):\n    print('Número')", "benefit": "Conciso.", "explanation": "Com tupla de tipos."},
+        {"icon": "🔗", "title": "pathlib vs os.path", "category": "Modernização & Legibilidade", "difficulty": "Intermediário", "description": "pathlib é mais moderno.", "bad_code": "import os\narq = os.path.join('dados', 'arquivo.txt')\nif os.path.exists(arq):\n    conteudo = open(arq).read()", "good_code": "from pathlib import Path\narq = Path('dados') / 'arquivo.txt'\nif arq.exists():\n    conteudo = arq.read_text()", "benefit": "OOP.", "explanation": "Mais moderno."},
+        {"icon": "🎨", "title": "f-strings Avançadas", "category": "Elegância & Legibilidade", "difficulty": "Intermediário", "description": "Formatação de strings.", "bad_code": "print(f'Preço: ${preco}')\nprint(f'Total: ${preco * quantidade}')", "good_code": "print(f'Preço: ${preco:.2f}')\nprint(f'Total: ${preco * quantidade:>10.2f}')", "benefit": "Precisão.", "explanation": "Especificadores de formato."},
+        {"icon": "🔐", "title": "dataclasses", "category": "Modernização & Elegância", "difficulty": "Intermediário", "description": "Automatize classes de dados.", "bad_code": "class Pessoa:\n    def __init__(self, nome, idade):\n        self.nome = nome\n        self.idade = idade", "good_code": "from dataclasses import dataclass\n\n@dataclass\nclass Pessoa:\n    nome: str\n    idade: int", "benefit": "Menos boilerplate.", "explanation": "Cria __init__, __repr__ automaticamente."},
+        {"icon": "🚀", "title": "Dict Comprehension", "category": "Elegância & Performance", "difficulty": "Intermediário", "description": "Crie dicionários com elegância.", "bad_code": "quadrados_dict = {}\nfor n in [1,2,3]:\n    quadrados_dict[n] = n**2", "good_code": "quadrados_dict = {n: n**2 for n in [1,2,3]}", "benefit": "Conciso.", "explanation": "Mesma performance."},
+        {"icon": "⚙️", "title": "itertools", "category": "Performance & Elegância", "difficulty": "Intermediário", "description": "Combinações e permutações.", "bad_code": "combos = []\nfor i in range(len(itens)):\n    for j in range(i+1, len(itens)):\n        combos.append((itens[i], itens[j]))", "good_code": "from itertools import combinations\ncombos = list(combinations([1,2,3], 2))", "benefit": "Simples.", "explanation": "Implementado em C."},
+        {"icon": "🔗", "title": "super() em Herança", "category": "Elegância & Manutenção", "difficulty": "Intermediário", "description": "Chame método da classe pai.", "bad_code": "class Cachorro(Animal):\n    def falar(self):\n        Animal.falar(self)\n        print('Au!')", "good_code": "class Cachorro(Animal):\n    def falar(self):\n        super().falar()\n        print('Au!')", "benefit": "MRO.", "explanation": "Method Resolution Order."},
+        {"icon": "🎪", "title": "Map e Filter", "category": "Programação Funcional", "difficulty": "Intermediário", "description": "Estilo funcional.", "bad_code": "quadrados = []\nfor n in [1,2,3]:\n    quadrados.append(n**2)", "good_code": "quadrados = list(map(lambda x: x**2, [1,2,3]))\n# Ou melhor:\nquadrados = [x**2 for x in [1,2,3]]", "benefit": "Funcional.", "explanation": "List comprehension é melhor."},
+        {"icon": "✅", "title": "assertRaises", "category": "Qualidade & Testes", "difficulty": "Intermediário", "description": "Teste exceções corretamente.", "bad_code": "try:\n    dividir(10, 0)\nexcept ZeroDivisionError:\n    print('OK')", "good_code": "import unittest\n\nclass TestDividir(unittest.TestCase):\n    def test_divisao(self):\n        with self.assertRaises(ZeroDivisionError):\n            dividir(10, 0)", "benefit": "Claro.", "explanation": "Formaliza teste."},
+        {"icon": "📦", "title": "Set Comprehension", "category": "Elegância & Performance", "difficulty": "Intermediário", "description": "Crie conjuntos com elegância.", "bad_code": "unicos = set()\nfor x in numeros:\n    unicos.add(x % 2)", "good_code": "unicos = {x % 2 for x in numeros}", "benefit": "Conciso.", "explanation": "Mesma performance."},
+        {"icon": "🌟", "title": "Avoid Global Mutable", "category": "Qualidade & Manutenção", "difficulty": "Intermediário", "description": "Não use globais mutáveis.", "bad_code": "cache = {}\ndef processar(chave):\n    global cache\n    cache[chave] = valor", "good_code": "def processar(chave: str, cache: dict) -> dict:\n    cache[chave] = valor\n    return cache", "benefit": "Testável.", "explanation": "Passa estado como argumento."},
+        {"icon": "⚡", "title": "Comprehension Aninhada", "category": "Elegância & Performance", "difficulty": "Intermediário", "description": "Aninhamento elegante.", "bad_code": "matriz = []\nfor i in range(3):\n    linha = []\n    for j in range(3):\n        linha.append(i * j)\n    matriz.append(linha)", "good_code": "matriz = [[i*j for j in range(3)] for i in range(3)]", "benefit": "Conciso.", "explanation": "Legível quando bem estruturada."},
+        {"icon": "🧪", "title": "Usar contextlib.suppress", "category": "Elegância & Manutenção", "difficulty": "Intermediário", "description": "Suprima exceções esperadas com elegância.", "bad_code": "try:\n    os.remove('arquivo.tmp')\nexcept FileNotFoundError:\n    pass", "good_code": "from contextlib import suppress\nwith suppress(FileNotFoundError):\n    os.remove('arquivo.tmp')", "benefit": "Intenção clara.", "explanation": "contextlib.suppress torna explícito que a exceção é esperada."},
+        {"icon": "🏗️", "title": "Usar __post_init__ em dataclasses", "category": "Modernização & Elegância", "difficulty": "Intermediário", "description": "Validação pós-inicialização.", "bad_code": "@dataclass\nclass Produto:\n    nome: str\n    preco: float\n    # Sem validação", "good_code": "@dataclass\nclass Produto:\n    nome: str\n    preco: float\n    def __post_init__(self):\n        if self.preco < 0:\n            raise ValueError('Preço não pode ser negativo')", "benefit": "Validação automática.", "explanation": "__post_init__ é chamado após __init__ gerado pelo dataclass."},
+        {"icon": "🔁", "title": "Usar itertools.chain", "category": "Performance & Elegância", "difficulty": "Intermediário", "description": "Concatene iteráveis sem copiar.", "bad_code": "todos = lista1 + lista2 + lista3\nfor item in todos:\n    processar(item)", "good_code": "from itertools import chain\nfor item in chain(lista1, lista2, lista3):\n    processar(item)", "benefit": "Zero cópia.", "explanation": "chain itera sobre múltiplos iteráveis sem criar nova lista."},
+        {"icon": "📦", "title": "Usar TypedDict", "category": "Qualidade & Manutenção", "difficulty": "Intermediário", "description": "Dicionários com tipos definidos.", "bad_code": "def processar(config: dict) -> None:\n    url = config['url']  # Sem type hint", "good_code": "from typing import TypedDict\nclass Config(TypedDict):\n    url: str\n    timeout: int\n\ndef processar(config: Config) -> None:\n    url = config['url']", "benefit": "Type checking.", "explanation": "TypedDict documenta estrutura esperada do dicionário."},
+        {"icon": "⏱️", "title": "Usar timeit para Benchmarks", "category": "Performance & Debugging", "difficulty": "Intermediário", "description": "Meça performance corretamente.", "bad_code": "import time\ninicio = time.time()\nresultado = funcao()\nprint(time.time() - inicio)", "good_code": "import timeit\ntempo = timeit.timeit(lambda: funcao(), number=1000)\nprint(f'Média: {tempo/1000:.6f}s')", "benefit": "Estatisticamente válido.", "explanation": "timeit executa múltiplas vezes e elimina variância do SO."},
+        {"icon": "🔀", "title": "Partial Functions", "category": "Programação Funcional", "difficulty": "Intermediário", "description": "Crie variantes de funções.", "bad_code": "def multiplicar(x, y):\n    return x * y\n\ndobre = lambda x: multiplicar(x, 2)\ntriplique = lambda x: multiplicar(x, 3)", "good_code": "from functools import partial\nduplicar = partial(multiplicar, y=2)\ntriplicar = partial(multiplicar, y=3)", "benefit": "Reutilizável.", "explanation": "partial cria nova função com argumentos pré-definidos."},
+        {"icon": "🌊", "title": "Usar yield from", "category": "Elegância & Performance", "difficulty": "Intermediário", "description": "Delegue generators.", "bad_code": "def achatar(lista):\n    for sublista in lista:\n        for item in sublista:\n            yield item", "good_code": "def achatar(lista):\n    for sublista in lista:\n        yield from sublista", "benefit": "Mais legível.", "explanation": "yield from delega para sub-generator de forma eficiente."},
+        {"icon": "🎛️", "title": "Operator Module", "category": "Programação Funcional", "difficulty": "Intermediário", "description": "Use funções ao invés de lambdas.", "bad_code": "lista.sort(key=lambda x: x.atributo)\ntotal = reduce(lambda a, b: a + b, numeros)", "good_code": "import operator\nlista.sort(key=operator.attrgetter('atributo'))\ntotal = reduce(operator.add, numeros)", "benefit": "Mais rápido.", "explanation": "operator funcs são implementadas em C e mais rápidas que lambdas."},
+        {"icon": "🗂️", "title": "Usar ChainMap", "category": "Performance & Elegância", "difficulty": "Intermediário", "description": "Combine dicionários sem copiar.", "bad_code": "config = {**defaults, **user_config, **env_config}", "good_code": "from collections import ChainMap\nconfig = ChainMap(env_config, user_config, defaults)", "benefit": "Sem cópia.", "explanation": "ChainMap busca em camadas sem mesclar os dicts."},
+        {"icon": "🔐", "title": "Usar slots em dataclasses", "category": "Performance & Otimização", "difficulty": "Intermediário", "description": "Combine dataclass com __slots__.", "bad_code": "@dataclass\nclass Ponto:\n    x: float\n    y: float\n    # Sem slots, usa __dict__", "good_code": "@dataclass(slots=True)\nclass Ponto:\n    x: float\n    y: float", "benefit": "30% mais rápido.", "explanation": "slots=True disponível no Python 3.10+, reduz memória."},
+        {"icon": "🎯", "title": "__slots__", "category": "Performance & Otimização", "difficulty": "Avançado", "description": "Reduz consumo de memória.", "bad_code": "class Ponto:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y", "good_code": "class Ponto:\n    __slots__ = ['x', 'y']\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y", "benefit": "50% menos memória.", "explanation": "Sem __dict__."},
+        {"icon": "🔐", "title": "Metaclasses", "category": "Arquitetura & Avançado", "difficulty": "Avançado", "description": "Controlam criação de classes.", "bad_code": "class Singleton:\n    _instance = None\n    def __new__(cls):\n        if cls._instance is None:\n            cls._instance = super().__new__(cls)\n        return cls._instance", "good_code": "class SingletonMeta(type):\n    _instances = {}\n    def __call__(cls, *args):\n        if cls not in cls._instances:\n            cls._instances[cls] = super().__call__(*args)\n        return cls._instances[cls]", "benefit": "Padrões.", "explanation": "Classe de classes."},
+        {"icon": "⚡", "title": "Protocol (Typing)", "category": "Qualidade & Manutenção", "difficulty": "Avançado", "description": "Interfaces sem herança.", "bad_code": "def processar(obj):\n    return obj.processar()", "good_code": "from typing import Protocol\n\nclass Processavel(Protocol):\n    def processar(self) -> str: ...\n\ndef processar(obj: Processavel) -> str:\n    return obj.processar()", "benefit": "Type checking.", "explanation": "Structural subtyping."},
+        {"icon": "🔗", "title": "ABC", "category": "Arquitetura & Design", "difficulty": "Avançado", "description": "Interfaces obrigatórias.", "bad_code": "class Database:\n    def conectar(self): pass", "good_code": "from abc import ABC, abstractmethod\n\nclass Database(ABC):\n    @abstractmethod\n    def conectar(self): pass", "benefit": "Força implementação.", "explanation": "Torna métodos obrigatórios."},
+        {"icon": "🎪", "title": "Async/Await", "category": "Concorrência & Performance", "difficulty": "Avançado", "description": "Programação assíncrona.", "bad_code": "for url in urls:\n    response = requests.get(url)", "good_code": "async def fetch(session, url):\n    async with session.get(url) as r:\n        return await r.text()\n\nasync def main():\n    tasks = [fetch(s, u) for u in urls]\n    await asyncio.gather(*tasks)", "benefit": "1000x mais rápido.", "explanation": "I/O sem threads."},
+        {"icon": "🔐", "title": "Descriptors", "category": "Elegância & Avançado", "difficulty": "Avançado", "description": "Controlam acesso a atributos.", "bad_code": "class Pessoa:\n    def __init__(self, idade):\n        if not (0 <= idade <= 150):\n            raise ValueError()\n        self.idade = idade", "good_code": "class ValidadorIdade:\n    def __get__(self, obj, objtype=None):\n        return obj._idade if obj else self\n    def __set__(self, obj, value):\n        if not (0 <= value <= 150):\n            raise ValueError()\n        obj._idade = value", "benefit": "Validação.", "explanation": "Intercepta acesso."},
+        {"icon": "📊", "title": "__getattr__", "category": "Elegância & Flexibilidade", "difficulty": "Avançado", "description": "Atributos dinâmicos.", "bad_code": "class Config:\n    def __init__(self, data):\n        self.data = data\n    def get(self, key):\n        return self.data.get(key)", "good_code": "class Config:\n    def __init__(self, data):\n        self.data = data\n    def __getattr__(self, key):\n        return self.data.get(key)", "benefit": "API Pythônica.", "explanation": "Chamado quando não existe."},
+        {"icon": "🎪", "title": "Mixin Classes", "category": "Arquitetura & Reutilização", "difficulty": "Avançado", "description": "Reutilize funcionalidade.", "bad_code": "class Cachorro:\n    def latir(self): return 'Au!'\n\nclass Gato:\n    def miar(self): return 'Miau!'", "good_code": "class ComFoto:\n    def tirar_foto(self): return 'Foto'\n\nclass Cachorro(ComFoto):\n    def latir(self): return 'Au!'", "benefit": "Reutilização.", "explanation": "Métodos reutilizáveis."},
+        {"icon": "⚙️", "title": "__call__", "category": "Elegância & Padrões", "difficulty": "Avançado", "description": "Objetos chamáveis.", "bad_code": "class Mult:\n    def __init__(self, fator):\n        self.fator = fator\n    def multiplicar(self, valor):\n        return valor * self.fator", "good_code": "class Mult:\n    def __init__(self, fator):\n        self.fator = fator\n    def __call__(self, valor):\n        return valor * self.fator\n\nmult3 = Mult(3)\nmult3(5)", "benefit": "Natural.", "explanation": "Usar como funções."},
+        {"icon": "🔗", "title": "Composition vs Herança", "category": "Arquitetura & Design", "difficulty": "Avançado", "description": "Composição é mais flexível.", "bad_code": "class Automovel(Veiculo): pass", "good_code": "class Automovel:\n    def __init__(self):\n        self.motor = Motor()\n        self.pneus = Pneus()", "benefit": "Flexível.", "explanation": "Has-a vs is-a."},
+        {"icon": "🚀", "title": "Cython", "category": "Performance & Otimização", "difficulty": "Avançado", "description": "Compila para C.", "bad_code": "def contar_pares(nums):\n    return sum(1 for n in nums if n % 2 == 0)", "good_code": "# cdef int contar_pares(list nums):\n#     cdef int count = 0\n#     for n in nums:\n#         if n % 2 == 0:\n#             count += 1\n#     return count", "benefit": "100x mais rápido.", "explanation": "Com type hints."},
+        {"icon": "📊", "title": "cProfile", "category": "Performance & Debugging", "difficulty": "Avançado", "description": "Identifique gargalos.", "bad_code": "import time\ninicio = time.time()\nfuncao_lenta()\nprint(time.time() - inicio)", "good_code": "import cProfile\nimport pstats\n\ncProfile.run('funcao_lenta()', 'stats')\np = pstats.Stats('stats')\np.print_stats(10)", "benefit": "Gargalo real.", "explanation": "Chamadas e tempo."},
+        {"icon": "🔐", "title": "Memory Profiler", "category": "Performance & Debugging", "difficulty": "Avançado", "description": "Identifique vazamentos.", "bad_code": "lista = [x for x in range(1000000)]", "good_code": "# @profile\n# def funcao():\n#     lista = [x for x in range(100000)]\n\n# python -m memory_profiler script.py", "benefit": "Vazamentos.", "explanation": "Memória por linha."},
+        {"icon": "🎯", "title": "Logging", "category": "Qualidade & Produção", "difficulty": "Avançado", "description": "logging vs print.", "bad_code": "print('Começando...')\nprint(f'Dados: {dados}')", "good_code": "import logging\nlogger = logging.getLogger(__name__)\n\nlogger.info('Começando...')\nlogger.debug(f'Dados: {dados}')", "benefit": "Configurável.", "explanation": "Níveis e handlers."},
+        {"icon": "🔗", "title": "Pytest", "category": "Qualidade & Testes", "difficulty": "Avançado", "description": "pytest é melhor.", "bad_code": "class Test(unittest.TestCase):\n    def test_resultado(self):\n        self.assertEqual(funcao(2, 3), 5)", "good_code": "def test_resultado():\n    assert funcao(2, 3) == 5\n\ndef test_erro():\n    with pytest.raises(ValueError):\n        funcao('a', 'b')", "benefit": "Simples.", "explanation": "Assertions e fixtures."},
+        {"icon": "📦", "title": "mypy", "category": "Qualidade & Manutenção", "difficulty": "Avançado", "description": "Type checking estático.", "bad_code": "def somar(a: int, b: int) -> int:\n    return a + b\n\nsomar('2', '3')", "good_code": "# mypy script.py\n# Detecta: Argument has incompatible type\n# somar('2', '3')", "benefit": "Antes da execução.", "explanation": "Validação estática."},
+        {"icon": "🚀", "title": "Dependency Injection", "category": "Arquitetura & Manutenção", "difficulty": "Avançado", "description": "Injetar dependências.", "bad_code": "class Servico:\n    def __init__(self):\n        self.db = Database()", "good_code": "class Servico:\n    def __init__(self, db):\n        self.db = db\n\ndb = Database()\nservico = Servico(db)", "benefit": "Testável.", "explanation": "Desacoplado."},
+        {"icon": "🎨", "title": "__enter__/__exit__", "category": "Arquitetura & Elegância", "difficulty": "Avançado", "description": "Context managers customizados.", "bad_code": "transacao.begin()\ntry:\n    sql.execute()\nfinally:\n    transacao.commit()", "good_code": "class Transacao:\n    def __enter__(self):\n        self.begin()\n        return self\n    def __exit__(self, *args):\n        self.commit()\n\nwith Transacao() as t:\n    sql.execute()", "benefit": "Reutilizável.", "explanation": "Cleanup garantido."},
+        {"icon": "⚡", "title": "cached_property", "category": "Performance & Elegância", "difficulty": "Avançado", "description": "Propriedades com cache.", "bad_code": "class Dados:\n    def __init__(self):\n        self.resultado = self.calcular_pesado()", "good_code": "class Dados:\n    @functools.cached_property\n    def resultado(self):\n        return self.calcular_pesado()", "benefit": "Sob demanda.", "explanation": "Caching automático."},
+        {"icon": "🌐", "title": "Usar __init_subclass__", "category": "Arquitetura & Avançado", "difficulty": "Avançado", "description": "Hook de criação de subclasses.", "bad_code": "class Plugin:\n    _registry = {}\n    @classmethod\n    def registrar(cls, nome):\n        def decorator(subclass):\n            cls._registry[nome] = subclass\n            return subclass\n        return decorator", "good_code": "class Plugin:\n    _registry = {}\n    def __init_subclass__(cls, nome=None, **kwargs):\n        super().__init_subclass__(**kwargs)\n        if nome:\n            Plugin._registry[nome] = cls", "benefit": "Automático.", "explanation": "__init_subclass__ é chamado ao criar subclasses, sem precisar de decorator."},
+        {"icon": "⚗️", "title": "Usar ast para Análise de Código", "category": "Ferramentas & Avançado", "difficulty": "Avançado", "description": "Analise código Python como árvore.", "bad_code": "import re\nfuncoes = re.findall(r'def (\\w+)', codigo)", "good_code": "import ast\ntree = ast.parse(codigo)\nfuncoes = [n.name for n in ast.walk(tree)\n           if isinstance(n, ast.FunctionDef)]", "benefit": "Preciso.", "explanation": "AST é a forma correta de analisar estrutura do código Python."},
+        {"icon": "🧲", "title": "Weak References", "category": "Performance & Avançado", "difficulty": "Avançado", "description": "Evite vazamento de memória.", "bad_code": "class Cache:\n    def __init__(self):\n        self.dados = {}  # Impede GC dos objetos", "good_code": "import weakref\nclass Cache:\n    def __init__(self):\n        self.dados = weakref.WeakValueDictionary()", "benefit": "GC funciona.", "explanation": "WeakValueDictionary não impede coleta de lixo dos valores."},
+        {"icon": "🎭", "title": "Usar singledispatch", "category": "Elegância & Avançado", "difficulty": "Avançado", "description": "Polimorfismo por tipo.", "bad_code": "def processar(dado):\n    if isinstance(dado, int):\n        return dado * 2\n    elif isinstance(dado, str):\n        return dado.upper()", "good_code": "from functools import singledispatch\n@singledispatch\ndef processar(dado):\n    raise TypeError(f'Tipo não suportado: {type(dado)}')\n@processar.register\ndef _(dado: int): return dado * 2\n@processar.register\ndef _(dado: str): return dado.upper()", "benefit": "Extensível.", "explanation": "singledispatch implementa multiple dispatch por tipo do 1º argumento."},
+        {"icon": "🔭", "title": "Usar __class_getitem__", "category": "Arquitetura & Avançado", "difficulty": "Avançado", "description": "Suporte a generics customizados.", "bad_code": "class Stack:\n    def __init__(self):\n        self.items = []\n# Não suporta Stack[int]", "good_code": "class Stack:\n    def __init__(self):\n        self.items = []\n    def __class_getitem__(cls, item):\n        return cls\n\nstack: Stack[int] = Stack()", "benefit": "Type hints.", "explanation": "__class_getitem__ habilita sintaxe Stack[int] para type hints."},
+        {"icon": "📡", "title": "Usar asyncio.Queue", "category": "Concorrência & Performance", "difficulty": "Avançado", "description": "Produtor-consumidor assíncrono.", "bad_code": "resultados = []\nasync def processar(urls):\n    for url in urls:\n        r = await fetch(url)\n        resultados.append(r)", "good_code": "async def produtor(fila, urls):\n    for url in urls:\n        await fila.put(url)\n\nasync def consumidor(fila):\n    while True:\n        url = await fila.get()\n        await fetch(url)\n        fila.task_done()", "benefit": "Backpressure.", "explanation": "Queue controla fluxo entre produtores e consumidores assíncronos."},
+        {"icon": "🛸", "title": "Usar __set_name__", "category": "Elegância & Avançado", "difficulty": "Avançado", "description": "Descriptors auto-nomeados.", "bad_code": "class Validado:\n    def __init__(self, nome):\n        self.nome = nome  # Nome manual obrigatório", "good_code": "class Validado:\n    def __set_name__(self, owner, nome):\n        self.nome = nome\n        self.nome_privado = f'_{nome}'\n    def __get__(self, obj, objtype=None):\n        return getattr(obj, self.nome_privado, None)", "benefit": "Automático.", "explanation": "__set_name__ é chamado quando o descriptor é atribuído a uma classe."},
+        {"icon": "🌱", "title": "Usar dataclasses.field", "category": "Modernização & Avançado", "difficulty": "Avançado", "description": "Campos customizados em dataclasses.", "bad_code": "@dataclass\nclass Config:\n    tags: list = []  # Bug! Compartilhado entre instâncias\n    nome: str = ''", "good_code": "from dataclasses import dataclass, field\n@dataclass\nclass Config:\n    tags: list = field(default_factory=list)\n    nome: str = field(default='', repr=False)", "benefit": "Sem bugs.", "explanation": "field(default_factory=) cria nova instância por objeto."},
+        {"icon": "🔮", "title": "Usar Annotated para Metadados", "category": "Qualidade & Avançado", "difficulty": "Avançado", "description": "Adicione metadados a type hints.", "bad_code": "def criar_usuario(nome: str, idade: int) -> None:\n    # Validação separada dos tipos\n    assert len(nome) > 0\n    assert 0 <= idade <= 150", "good_code": "from typing import Annotated\n\nNomeValido = Annotated[str, 'min_length:1']\nIdade = Annotated[int, 'ge:0,le:150']\n\ndef criar_usuario(nome: NomeValido, idade: Idade) -> None:\n    pass", "benefit": "Documentado.", "explanation": "Annotated permite embutir metadados de validação nos próprios tipos."},
+        {"icon": "⚡", "title": "Usar ProcessPoolExecutor", "category": "Concorrência & Performance", "difficulty": "Avançado", "description": "Paralelismo real com múltiplos CPUs.", "bad_code": "resultados = []\nfor item in dados_pesados:\n    resultados.append(calcular(item))", "good_code": "from concurrent.futures import ProcessPoolExecutor\n\nwith ProcessPoolExecutor() as executor:\n    resultados = list(executor.map(calcular, dados_pesados))", "benefit": "Multi-CPU real.", "explanation": "ProcessPoolExecutor bypassa o GIL usando processos separados."},
+    ]
 
-with col1:
-    categorias = ["Todas"] + sorted(list(set([p["category"] for p in sql_practices])))
-    selected_category = st.selectbox("📂 Categoria", categorias, key="category_filter")
+    filtered = python_practices
+    if selected_difficulty != "Todas":
+        filtered = [p for p in filtered if p["difficulty"] == selected_difficulty]
+    if search:
+        filtered = [p for p in filtered if search.lower() in p["title"].lower()]
 
-with col2:
-    dificuldades = ["Todas", "Iniciante", "Intermediário", "Avançado"]
-    selected_difficulty = st.selectbox("📈 Nível de Dificuldade", dificuldades, key="difficulty_filter")
+    st.markdown('<h3 class="section-header">📖 Melhores Práticas</h3>', unsafe_allow_html=True)
+    st.markdown(f'**Mostrando {len(filtered)} de {len(python_practices)} práticas**')
 
-st.markdown('</div>', unsafe_allow_html=True)
+    for idx, p in enumerate(filtered):
+        is_learned = idx in st.session_state.python_learned
+        is_favorite = idx in st.session_state.python_favorites
 
-# --- EDITOR SQL ---
-st.markdown('<h2 class="section-header">✏️ Editor SQL Interativo</h2>', unsafe_allow_html=True)
-st.markdown('<p style="color: #4a5568; margin-bottom: 30px; font-weight:300;">Teste suas queries SQL em tempo real. O banco contém as tabelas: <span style="color:#a78bfa;">usuarios</span>, <span style="color:#a78bfa;">vendas</span> e <span style="color:#a78bfa;">produtos</span>.</p>', unsafe_allow_html=True)
+        with st.expander(f"{p['icon']} {p['title']} — {p['difficulty']}" + (" ✅" if is_learned else "") + (" ⭐" if is_favorite else ""), expanded=False):
+            col1, col2 = st.columns([3, 1])
+            with col1:
+                st.markdown(f"**Descrição:** {p['description']}")
+                st.markdown(f"**Benefício:** {p['benefit']}")
+                st.markdown(f"**Categoria:** `{p['category']}`")
+            with col2:
+                if is_favorite:
+                    if st.button("★ Favoritado", key=f"fav_{idx}"):
+                        st.session_state.python_favorites.discard(idx)
+                        st.session_state.python_points -= 5
+                        st.session_state.python_xp -= 5
+                        st.rerun()
+                elif st.button("⭐ Favoritar", key=f"fav_{idx}"):
+                    st.session_state.python_favorites.add(idx)
+                    st.session_state.python_points += 5
+                    st.session_state.python_xp += 5
+                    st.rerun()
+                if is_learned:
+                    st.button("✅ Aprendida", key=f"learn_{idx}", disabled=True)
+                elif st.button("✅ Aprendida", key=f"learn_{idx}"):
+                    st.session_state.python_learned.add(idx)
+                    st.session_state.python_points += 25
+                    st.session_state.python_xp += 25
+                    st.session_state.python_level = get_current_level(st.session_state.python_xp)
+                    st.rerun()
 
-sql_templates = {
-    "SELECT Básico": "SELECT * FROM produtos LIMIT 10;",
-    "WHERE Filtro": "SELECT id, nome, categoria FROM produtos WHERE categoria = 'Livros';",
-    "COUNT Agregação": "SELECT COUNT(*) AS total_produtos FROM produtos;",
-    "GROUP BY": "SELECT categoria, COUNT(*) AS total FROM produtos GROUP BY categoria;",
-    "JOIN Tabelas": "SELECT u.nome, v.valor FROM usuarios u INNER JOIN vendas v ON u.id = v.usuario_id LIMIT 5;",
-    "ORDER BY": "SELECT id, nome FROM usuarios ORDER BY nome ASC;",
-    "SUM com Agregação": "SELECT usuario_id, SUM(valor) AS total_valor FROM vendas GROUP BY usuario_id;",
-    "LEFT JOIN": "SELECT u.id, u.nome, COUNT(v.id) AS total_vendas FROM usuarios u LEFT JOIN vendas v ON u.id = v.usuario_id GROUP BY u.id, u.nome;",
-    "DISTINCT": "SELECT DISTINCT categoria FROM produtos ORDER BY categoria;",
-    "BETWEEN": "SELECT * FROM vendas WHERE valor BETWEEN 100 AND 300;",
-    "IN Clause": "SELECT * FROM usuarios WHERE id IN (1, 2, 3, 4, 5);",
-    "LIKE Pattern": "SELECT * FROM usuarios WHERE nome LIKE '%Silva%';",
-}
+            st.markdown("**❌ Evitar:**")
+            st.code(p["bad_code"], language="python")
+            st.markdown("**✅ Preferir:**")
+            st.code(p["good_code"], language="python")
+            st.markdown(f"**Explicação:** {p['explanation']}")
 
-st.markdown('<div class="editor-section">', unsafe_allow_html=True)
-
-col_template, col_editor = st.columns([1, 2], gap="large")
-
-with col_template:
-    st.markdown('<p class="editor-title">📚 Templates</p>', unsafe_allow_html=True)
-    selected_template = st.selectbox(
-        "Escolha um exemplo:",
-        ["Escrever Manual"] + list(sql_templates.keys()),
-        key="template_select",
-        label_visibility="collapsed"
+# ============================================================================
+# TAB 2: EDITOR PYTHON INTERATIVO
+# ============================================================================
+with tab2:
+    st.markdown('<h2 class="section-header">✏️ Editor Python Interativo</h2>', unsafe_allow_html=True)
+    st.markdown(
+        '<p style="color: #7b8ba8; margin-bottom: 10px; font-weight:300;">'
+        'Escreva e execute código Python real, diretamente no navegador. '
+        'Use <span style="color:#a78bfa;">print()</span> para ver a saída.</p>',
+        unsafe_allow_html=True,
     )
-    template_query = sql_templates[selected_template] if selected_template != "Escrever Manual" else ""
 
-with col_editor:
-    st.markdown('<p class="editor-title">📝 Seu SQL</p>', unsafe_allow_html=True)
-    user_query = st.text_area(
-        "Escreva sua query SQL:",
-        value=template_query,
-        height=150,
-        key="sql_editor",
-        placeholder="SELECT * FROM produtos;",
-        label_visibility="collapsed"
-    )
+    python_templates = {
+        "Hello World": "print('Hello, World!')",
+        "Soma": "a = 5\nb = 3\nprint(f'Soma: {a + b}')",
+        "List": "numeros = [1, 2, 3, 4, 5]\nfor n in numeros:\n    print(n * 2)",
+        "Dict": "pessoa = {'nome': 'Alice', 'idade': 30}\nprint(pessoa)",
+        "Função": "def saudar(nome):\n    return f'Olá, {nome}!'\n\nprint(saudar('Python'))",
+        "Loop": "for i in range(5):\n    print(f'Número: {i}')",
+        "Compreensão": "pares = [n for n in range(10) if n % 2 == 0]\nprint(pares)",
+        "Classe": "class Pessoa:\n    def __init__(self, nome):\n        self.nome = nome\n\np = Pessoa('Alice')\nprint(p.nome)",
+        "Try/Except": "try:\n    resultado = 10 / 2\n    print(resultado)\nexcept ZeroDivisionError:\n    print('Erro!')",
+    }
 
-st.markdown('</div>', unsafe_allow_html=True)
+    if 'editor_code' not in st.session_state:
+        st.session_state.editor_code = ""
+    if 'last_template' not in st.session_state:
+        st.session_state.last_template = "Vazio"
+    if 'editor_key_counter' not in st.session_state:
+        st.session_state.editor_key_counter = 0
+    if 'editor_runs' not in st.session_state:
+        st.session_state.editor_runs = 0
 
-# --- RESULTADO ---
-st.markdown('<h2 class="section-header">📊 Resultado da Query</h2>', unsafe_allow_html=True)
+    st.markdown('<div class="editor-section">', unsafe_allow_html=True)
 
-col_result, col_info = st.columns([2, 1], gap="large")
+    col_template, col_editor = st.columns([1, 2], gap="large")
 
-with col_result:
-    st.markdown('<div style="background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%); border: 1px solid rgba(167,139,250,0.2); border-radius: 16px; padding: 24px;">', unsafe_allow_html=True)
-    if user_query.strip():
-        result_df, message = execute_query(user_query)
-        if "✅" in message:
-            st.success(message)
-            if result_df is not None and len(result_df) > 0:
-                st.dataframe(result_df, use_container_width=True)
-            else:
-                st.info("Query executada, mas nenhum resultado foi retornado.")
-        else:
-            st.error(message)
-    else:
-        st.markdown("""
-        <div style="text-align: center; padding: 40px; color: #2d3748;">
-            <p style="font-size: 1rem;">📝 Escreva uma query SQL no editor para ver o resultado</p>
-        </div>
-        """, unsafe_allow_html=True)
+    with col_template:
+        st.markdown('<p class="editor-title">📚 Templates</p>', unsafe_allow_html=True)
+        selected_template = st.selectbox(
+            "Escolha um template:",
+            ["Vazio"] + list(python_templates.keys()),
+            key="template_selector",
+            label_visibility="collapsed",
+        )
+
+        if selected_template != st.session_state.last_template:
+            st.session_state.editor_code = python_templates.get(selected_template, "")
+            st.session_state.last_template = selected_template
+            st.session_state.editor_key_counter += 1
+            st.rerun()
+
+    with col_editor:
+        st.markdown('<p class="editor-title">📝 Seu Código Python</p>', unsafe_allow_html=True)
+        editor_key = f"code_editor_{st.session_state.editor_key_counter}"
+        code_input = st.text_area(
+            "Digite seu código Python aqui",
+            value=st.session_state.editor_code,
+            height=180,
+            key=editor_key,
+            placeholder="# Digite seu código aqui\nprint('Hello, World!')",
+            label_visibility="collapsed",
+        )
+        st.session_state.editor_code = code_input
+
+    run_button = st.button("▶️ RUN", use_container_width=False)
+
     st.markdown('</div>', unsafe_allow_html=True)
 
-with col_info:
+    # --- RESULTADO ---
+    st.markdown('<h2 class="section-header">📊 Resultado da Execução</h2>', unsafe_allow_html=True)
+
+    col_result, col_info = st.columns([2, 1], gap="large")
+
+    with col_result:
+        if run_button and code_input.strip():
+            st.session_state.editor_runs += 1
+            st.session_state.python_xp += 5
+            st.session_state.python_points += 5
+            try:
+                output_buffer = StringIO()
+                old_stdout = sys.stdout
+                sys.stdout = output_buffer
+                exec(code_input)
+                sys.stdout = old_stdout
+                output = output_buffer.getvalue()
+                if output:
+                    st.markdown(f'<div class="success-box achievement-pop">{output}</div>', unsafe_allow_html=True)
+                else:
+                    st.markdown('<div class="success-box">✅ Código executado com sucesso (sem output)</div>', unsafe_allow_html=True)
+            except Exception as e:
+                sys.stdout = old_stdout
+                st.markdown(f'<div class="error-box">❌ {type(e).__name__}: {str(e)}</div>', unsafe_allow_html=True)
+        elif run_button and not code_input.strip():
+            st.markdown('<div class="error-box">❌ Digite um código antes de executar!</div>', unsafe_allow_html=True)
+        else:
+            st.markdown("""
+            <div style="text-align: center; padding: 40px; color: #2d3748;">
+                <p style="font-size: 1rem;">📝 Escreva um código Python no editor e clique em RUN para ver o resultado</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+    with col_info:
+        st.markdown(f"""
+        <div class="info-panel">
+            <p class="info-panel-title">ℹ️ Dicas & Atalhos</p>
+            <p style="color: #7b8ba8; font-size: 0.85rem; line-height: 1.8; margin-bottom: 16px; font-weight:300;">
+                <span style="color:#e2e8f0; font-weight:600;">print():</span> exibe valores na saída
+                <br><br>
+                <span style="color:#e2e8f0; font-weight:600;">Templates:</span> ponto de partida rápido para praticar
+                <br><br>
+                <span style="color:#e2e8f0; font-weight:600;">Erros:</span> aparecem destacados em vermelho, com o tipo da exceção
+            </p>
+            <p style="color: #2d3748; font-size: 0.82rem; font-weight:300; border-top: 1px solid rgba(167,139,250,0.1); padding-top: 14px;">
+                💡 Cada execução vale +5 XP — pratique bastante!
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+
+# ============================================================================
+# TAB 3: DESAFIOS
+# ============================================================================
+with tab3:
+    st.markdown('<h3 class="section-header">🎯 Desafios Semanais</h3>', unsafe_allow_html=True)
+    st.markdown("Complete desafios para ganhar XP e subir de nível!")
+
+    for challenge in CHALLENGES:
+        is_completed = challenge["id"] in st.session_state.python_challenges_completed
+        col1, col2 = st.columns([4, 1])
+        with col1:
+            status = "✅ Completo" if is_completed else f"🎯 {challenge['difficulty']}"
+            st.markdown(f"""
+            <div class="challenge-box {'challenge-completed' if is_completed else ''}">
+                <h4>{challenge['title']} {status}</h4>
+                <p>{challenge['description']}</p>
+                <p><strong>Recompensa:</strong> +{challenge['xp_reward']} XP</p>
+            </div>
+            """, unsafe_allow_html=True)
+        with col2:
+            if not is_completed:
+                if st.button(f"Marcar ✓", key=f"challenge_{challenge['id']}"):
+                    st.session_state.python_challenges_completed.add(challenge["id"])
+                    st.session_state.python_xp += challenge["xp_reward"]
+                    st.session_state.python_points += challenge["xp_reward"]
+                    st.session_state.python_level = get_current_level(st.session_state.python_xp)
+                    st.rerun()
+
+# ============================================================================
+# TAB 4: BADGES
+# ============================================================================
+with tab4:
+    st.markdown('<h3 class="section-header">🏆 Suas Conquistas</h3>', unsafe_allow_html=True)
+
+    learned_count = len(st.session_state.python_learned)
+    favorites_count = len(st.session_state.python_favorites)
+    current_badges = check_badges(learned_count, favorites_count, st.session_state.editor_runs, st.session_state.python_points)
+    st.session_state.python_badges = current_badges
+
+    st.markdown(f"""
+    ### 📊 Estatísticas
+    - **Práticas Aprendidas:** {learned_count}/90
+    - **Práticas Favoritadas:** {favorites_count}
+    - **Scripts Executados:** {st.session_state.editor_runs}
+    - **Pontos Totais:** {st.session_state.python_points}
+    - **XP Total:** {st.session_state.python_xp}
+    """)
+
+    unlocked = [(bid, bi) for bid, bi in BADGES.items() if bid in st.session_state.python_badges]
+    locked = [(bid, bi) for bid, bi in BADGES.items() if bid not in st.session_state.python_badges]
+
+    st.markdown("### 🎖️ Badges Desbloqueados")
+    if unlocked:
+        cols = st.columns(5)
+        for idx, (badge_id, badge_info) in enumerate(unlocked):
+            with cols[idx % 5]:
+                st.markdown(f'<div class="badge">{badge_info["icon"]}<br><small><b>{badge_info["title"]}</b></small></div>', unsafe_allow_html=True)
+
+    st.markdown("### 🔒 Badges Bloqueados")
+    if locked:
+        cols = st.columns(5)
+        for idx, (badge_id, badge_info) in enumerate(locked):
+            with cols[idx % 5]:
+                st.markdown(f'<div class="badge badge-locked">{badge_info["icon"]}<br><small>{badge_info["title"]}</small><br><tiny style="font-size: 0.7rem;">{badge_info["description"]}</tiny></div>', unsafe_allow_html=True)
+
+# ============================================================================
+# TAB 5: PERFIL
+# ============================================================================
+with tab5:
+    st.markdown('<h3 class="section-header">📊 Seu Perfil</h3>', unsafe_allow_html=True)
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown(f"""
+        ### 🏆 Estatísticas Gerais
+        - **Nível Atual:** {current_level}/{len(MASTERY_LEVELS)}
+        - **Título:** {MASTERY_LEVELS[current_level]['title']}
+        - **XP Total:** {st.session_state.python_xp}
+        - **Pontos:** {st.session_state.python_points}
+        - **Streak:** 🔥 {st.session_state.python_streak} dias
+        """)
+    with col2:
+        learned_count = len(st.session_state.python_learned)
+        st.markdown(f"""
+        ### 📚 Progresso no Aprendizado
+        - **Práticas Completadas:** {learned_count}/90
+        - **Taxa de Conclusão:** {(learned_count/90)*100:.1f}%
+        - **Favoritas:** {len(st.session_state.python_favorites)}
+        - **Scripts Testados:** {st.session_state.editor_runs}
+        - **Badges:** {len(st.session_state.python_badges)}/{len(BADGES)}
+        """)
+
+    st.divider()
+    st.markdown("### 🎯 Próximas Metas")
+    if current_level < 5:
+        next_level_xp = get_xp_for_next_level(current_level)
+        xp_needed = next_level_xp - st.session_state.python_xp
+        next_title = MASTERY_LEVELS[current_level + 1]["title"]
+        st.markdown(f"""
+        ⬆️ **Próximo Nível:** {next_title}
+
+        Você precisa de **{xp_needed} XP** para chegar ao próximo nível!
+        """)
+    else:
+        st.markdown("🏆 **Você é uma Pythonista Elite! Parabéns!**")
+
+    st.divider()
     st.markdown("""
-    <div style="background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%); border: 1px solid rgba(167,139,250,0.2); border-radius: 16px; padding: 24px;">
-        <p style="font-family:'Syne',sans-serif; color: #a78bfa; font-weight: 700; font-size:0.8rem; letter-spacing:1.5px; text-transform:uppercase; margin-bottom: 16px;">ℹ️ Tabelas & Dicas</p>
-        <p style="color: #4a5568; font-size: 0.85rem; line-height: 1.8; margin-bottom: 16px; font-weight:300;">
-            <span style="color:#e2e8f0; font-weight:600;">usuarios:</span> id, nome, email, ativo, created_at, categoria
-            <br><br>
-            <span style="color:#e2e8f0; font-weight:600;">vendas:</span> id, usuario_id, valor, status, data
-            <br><br>
-            <span style="color:#e2e8f0; font-weight:600;">produtos:</span> id, nome, categoria, preco
-        </p>
-        <p style="color: #2d3748; font-size: 0.82rem; font-weight:300; border-top: 1px solid rgba(167,139,250,0.1); padding-top: 14px;">
-            💡 Teste SELECT, WHERE, JOIN, GROUP BY, LIMIT e mais!
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    ### 💪 Dicas para Evoluir Rápido
+    1. **Complete Desafios:** +100-200 XP cada
+    2. **Teste no Editor:** +5 XP por execução
+    3. **Favoritize Práticas:** +5 XP cada
+    4. **Marque Aprendidas:** +25 XP cada
+    5. **Mantenha Streak:** Use a plataforma todos os dias!
 
-st.divider()
-
-# --- FOOTER ---
-st.markdown("""
-<div style="text-align: center; padding: 40px 0; border-top: 1px solid rgba(167,139,250,0.1); color: #2d3748;">
-    <p style="margin-bottom: 10px; font-size: 0.92rem;">
-        <span style="font-family:'Syne',sans-serif; color: #a78bfa; font-weight: 700;">SQL - Melhores Práticas</span>
-        &nbsp;•&nbsp; Criado por Rodrigo Aiosa
-    </p>
-    <p style="font-size: 0.82rem; font-weight:300;">
-        Transforme seus dados em vantagem competitiva com SQL estratégico
-    </p>
-</div>
-<div class="footer-spacer"></div>
-""", unsafe_allow_html=True)
+    **Meta:** Chegue ao nível Lendário (🏆) em 30 dias!
+    """)
