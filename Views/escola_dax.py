@@ -1,4 +1,8 @@
 import streamlit as st
+import re
+import html
+import difflib
+import pandas as pd
 
 st.set_page_config(
     page_title="DAX - Melhores Práticas Pro",
@@ -339,7 +343,10 @@ if st.session_state.dax_streak > 0:
     st.markdown(f'<p style="text-align: center; font-size: 1.3rem;"><span class="streak-fire">🔥</span> {st.session_state.dax_streak} dias em sequência!</p>', unsafe_allow_html=True)
 
 # --- TABS ---
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["📚 Práticas", "🧩 Simulador de Fórmulas", "🎯 Desafios", "🏆 Badges", "📊 Perfil"])
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+    "📚 Práticas", "🧩 Simulador de Fórmulas", "✍️ Escreva sua Fórmula",
+    "🎯 Desafios", "🏆 Badges", "📊 Perfil",
+])
 
 # ============================================================================
 # TAB 1: PRÁTICAS
@@ -704,9 +711,302 @@ with tab2:
     st.markdown(f"### 🎯 Progresso: {len(st.session_state.dax_sim_correct)}/{len(simulador_exercicios)} exercícios corretos")
 
 # ============================================================================
-# TAB 3: DESAFIOS
+# TAB 3: ESCREVA SUA FÓRMULA (corretor + destaque de sintaxe)
 # ============================================================================
 with tab3:
+    st.markdown('<h3 class="section-header">✍️ Escreva sua Própria Fórmula DAX</h3>', unsafe_allow_html=True)
+    st.markdown(
+        "Digite uma medida DAX do zero. Seu código é **destacado por sintaxe** automaticamente "
+        "e **corrigido** com base em boas práticas e em um exercício guiado, usando o modelo de "
+        "exemplo abaixo (fato + dimensões)."
+    )
+
+    # ------------------------------------------------------------------
+    # MODELO DE EXEMPLO — FATO E DIMENSÕES
+    # ------------------------------------------------------------------
+    st.markdown('<h4 class="section-header">🗂️ Modelo de Dados de Exemplo</h4>', unsafe_allow_html=True)
+    st.caption("Use exatamente estes nomes de tabela e coluna nas suas fórmulas — é sobre eles que o corretor valida.")
+
+    col_fato, col_dim = st.columns([1.3, 1])
+
+    with col_fato:
+        st.markdown("**⭐ Fato_Vendas** (tabela fato)")
+        df_fato = pd.DataFrame({
+            "DataID": [1, 1, 2, 3, 3],
+            "ClienteID": [101, 102, 101, 103, 102],
+            "ProdutoID": [201, 202, 201, 203, 202],
+            "Quantidade": [2, 1, 3, 1, 5],
+            "ValorUnitario": [120.0, 350.0, 120.0, 90.0, 350.0],
+            "ValorTotal": [240.0, 350.0, 360.0, 90.0, 1750.0],
+        })
+        st.dataframe(df_fato, use_container_width=True, hide_index=True)
+
+    with col_dim:
+        st.markdown("**📦 Dim_Produto**")
+        df_produto = pd.DataFrame({
+            "ProdutoID": [201, 202, 203],
+            "NomeProduto": ["Fone Bluetooth", "Smartwatch", "Mouse Sem Fio"],
+            "Categoria": ["Eletrônicos", "Eletrônicos", "Eletrônicos"],
+            "Custo": [60.0, 180.0, 35.0],
+        })
+        st.dataframe(df_produto, use_container_width=True, hide_index=True)
+
+    col_cli, col_cal = st.columns(2)
+    with col_cli:
+        st.markdown("**👤 Dim_Cliente**")
+        df_cliente = pd.DataFrame({
+            "ClienteID": [101, 102, 103],
+            "NomeCliente": ["Ana Souza", "Bruno Lima", "Carla Dias"],
+            "Estado": ["SP", "RJ", "SP"],
+            "Segmento": ["Varejo", "Corporativo", "E-commerce"],
+        })
+        st.dataframe(df_cliente, use_container_width=True, hide_index=True)
+
+    with col_cal:
+        st.markdown("**📅 Dim_Calendario** (marcada como tabela de datas)")
+        df_calendario = pd.DataFrame({
+            "DataID": [1, 2, 3],
+            "Data": ["2026-01-05", "2026-01-12", "2026-02-01"],
+            "Ano": [2026, 2026, 2026],
+            "Mes": [1, 1, 2],
+        })
+        st.dataframe(df_calendario, use_container_width=True, hide_index=True)
+
+    st.markdown(
+        "Relacionamentos: `Fato_Vendas[ProdutoID]` → `Dim_Produto[ProdutoID]` · "
+        "`Fato_Vendas[ClienteID]` → `Dim_Cliente[ClienteID]` · "
+        "`Fato_Vendas[DataID]` → `Dim_Calendario[DataID]`"
+    )
+
+    st.divider()
+
+    # ------------------------------------------------------------------
+    # FUNÇÕES DE APOIO — DESTAQUE DE SINTAXE
+    # ------------------------------------------------------------------
+    DAX_FUNCOES_CONHECIDAS = [
+        "CALCULATE", "CALCULATETABLE", "SUM", "SUMX", "AVERAGE", "AVERAGEX",
+        "COUNT", "COUNTA", "COUNTROWS", "DISTINCTCOUNT", "DISTINCT", "DIVIDE",
+        "IF", "SWITCH", "FILTER", "ALL", "ALLEXCEPT", "ALLSELECTED", "VALUES",
+        "RELATED", "RELATEDTABLE", "RANKX", "SAMEPERIODLASTYEAR", "TOTALYTD",
+        "TOTALQTD", "TOTALMTD", "DATEADD", "DATESYTD", "DATESQTD", "DATESMTD",
+        "KEEPFILTERS", "ISBLANK", "BLANK", "MAX", "MIN", "MAXX", "MINX",
+        "CONCATENATE", "FORMAT", "SELECTEDVALUE", "HASONEVALUE", "ISFILTERED",
+        "CROSSFILTER", "USERELATIONSHIP", "EARLIER", "LOOKUPVALUE", "TOPN",
+        "GENERATE", "SUMMARIZE", "ADDCOLUMNS", "ROW", "ISFILTERED", "NOT",
+        "AND", "OR", "TRUE", "FALSE", "VAR", "RETURN", "DATEDIFF", "TODAY",
+        "NOW", "YEAR", "MONTH", "DAY", "CONTAINS", "TREATAS", "SUBSTITUTE",
+        "LEN", "LEFT", "RIGHT", "MID", "TRIM", "UPPER", "LOWER", "ROUND",
+        "ROUNDUP", "ROUNDDOWN", "ABS", "IFERROR", "COALESCE", "PRODUCT",
+        "PRODUCTX", "GEOMEANX", "MEDIAN", "MEDIANX", "PERCENTILE.INC",
+    ]
+
+    def destacar_sintaxe_dax(codigo: str) -> str:
+        """Gera HTML com destaque de sintaxe simples para DAX (não executa nada)."""
+        if not codigo.strip():
+            return '<span style="color:#4a5568;">// digite uma fórmula acima para ver o destaque de sintaxe</span>'
+
+        padrao = re.compile(
+            r"(?P<comentario>--.*?$|/\*.*?\*/)"
+            r"|(?P<string>\"[^\"]*\"|'[^']*')"
+            r"|(?P<tabelacol>[A-Za-z_][\w]*\[[^\]]+\])"
+            r"|(?P<funcao>\b[A-Za-z_][A-Za-z0-9_.]*\b(?=\s*\())"
+            r"|(?P<palavra>\bVAR\b|\bRETURN\b|\bTRUE\(\)|\bFALSE\(\))"
+            r"|(?P<numero>\b\d+\.?\d*\b)",
+            re.MULTILINE | re.DOTALL,
+        )
+
+        resultado = []
+        ultimo_fim = 0
+        for m in padrao.finditer(codigo):
+            resultado.append(html.escape(codigo[ultimo_fim:m.start()]))
+            trecho = html.escape(m.group())
+            if m.lastgroup == "comentario":
+                resultado.append(f'<span style="color:#6b7280;font-style:italic;">{trecho}</span>')
+            elif m.lastgroup == "string":
+                resultado.append(f'<span style="color:#4ade80;">{trecho}</span>')
+            elif m.lastgroup == "tabelacol":
+                resultado.append(f'<span style="color:#38bdf8;">{trecho}</span>')
+            elif m.lastgroup == "funcao":
+                nome_funcao = m.group().upper()
+                cor = "#a78bfa" if nome_funcao in DAX_FUNCOES_CONHECIDAS else "#f87171"
+                resultado.append(f'<span style="color:{cor};font-weight:600;">{trecho}</span>')
+            elif m.lastgroup == "palavra":
+                resultado.append(f'<span style="color:#f8961e;font-weight:600;">{trecho}</span>')
+            elif m.lastgroup == "numero":
+                resultado.append(f'<span style="color:#fb923c;">{trecho}</span>')
+            ultimo_fim = m.end()
+        resultado.append(html.escape(codigo[ultimo_fim:]))
+        return "".join(resultado).replace("\n", "<br>")
+
+    def verificar_sintaxe_basica(codigo: str) -> list:
+        """Checagens genéricas de sintaxe, independentes do exercício."""
+        avisos = []
+        if codigo.count("(") != codigo.count(")"):
+            avisos.append("❌ Parênteses desbalanceados — confira se todo `(` tem um `)` correspondente.")
+        if codigo.count('"') % 2 != 0:
+            avisos.append("❌ Aspas duplas desbalanceadas.")
+        if "=" not in codigo:
+            avisos.append("⚠️ Não encontrei um `=` — toda medida precisa de `NomeDaMedida = <expressão>`.")
+        if re.search(r"\w\s*/\s*\w", codigo) and "DIVIDE(" not in codigo.upper():
+            avisos.append("⚠️ Encontrei uma divisão com `/`. Prefira `DIVIDE(numerador, denominador, valorAlternativo)` para evitar erros de divisão por zero.")
+
+        # Detecta possíveis nomes de função digitados errado (typos)
+        for match in re.finditer(r"\b([A-Za-z_][A-Za-z0-9_.]*)\s*(?=\()", codigo):
+            token = match.group(1).upper()
+            if token in ("IF", "AND", "OR", "NOT"):
+                continue
+            if token not in DAX_FUNCOES_CONHECIDAS:
+                sugestao = difflib.get_close_matches(token, DAX_FUNCOES_CONHECIDAS, n=1, cutoff=0.7)
+                if sugestao:
+                    avisos.append(f"❓ `{match.group(1)}` não é uma função DAX reconhecida. Você quis dizer `{sugestao[0]}`?")
+        return avisos
+
+    # ------------------------------------------------------------------
+    # EXERCÍCIOS GUIADOS (validados por padrão, não por execução real)
+    # ------------------------------------------------------------------
+    exercicios_escrita = [
+        {
+            "titulo": "1. Soma simples",
+            "tarefa": "Escreva uma medida chamada 'Total Vendas' que some Fato_Vendas[ValorTotal].",
+            "dica": "Para somar uma única coluna diretamente, SUM() é suficiente.",
+            "verificar": lambda c: (
+                "SUM(" in c.upper() and "FATO_VENDAS[VALORTOTAL]" in c.upper().replace(" ", ""),
+                "Use SUM(Fato_Vendas[ValorTotal]).",
+            ),
+        },
+        {
+            "titulo": "2. Margem sem erro de divisão",
+            "tarefa": "Escreva uma medida 'Margem %' que divida (ValorTotal - Custo) por ValorTotal, tratando divisão por zero.",
+            "dica": "Use DIVIDE(numerador, denominador, valorAlternativo) em vez de `/`.",
+            "verificar": lambda c: (
+                "DIVIDE(" in c.upper(),
+                "Sua fórmula deve usar DIVIDE(...) em vez de uma divisão direta com `/`.",
+            ),
+        },
+        {
+            "titulo": "3. Filtro de estado com CALCULATE",
+            "tarefa": "Escreva uma medida 'Vendas SP' que calcule o total de vendas apenas para Dim_Cliente[Estado] = \"SP\".",
+            "dica": "CALCULATE é a função correta para aplicar um novo filtro sobre uma expressão.",
+            "verificar": lambda c: (
+                "CALCULATE(" in c.upper() and "SP" in c.upper(),
+                "Use CALCULATE([Total Vendas], Dim_Cliente[Estado] = \"SP\").",
+            ),
+        },
+        {
+            "titulo": "4. Clientes únicos",
+            "tarefa": "Escreva uma medida 'Clientes Únicos' que conte os valores distintos de Fato_Vendas[ClienteID].",
+            "dica": "DISTINCTCOUNT() é a função nativa para essa contagem.",
+            "verificar": lambda c: (
+                "DISTINCTCOUNT(" in c.upper() and "CLIENTEID" in c.upper(),
+                "Use DISTINCTCOUNT(Fato_Vendas[ClienteID]).",
+            ),
+        },
+        {
+            "titulo": "5. Ranking de produtos",
+            "tarefa": "Escreva uma medida 'Ranking Produtos' que ordene os produtos pelo total de vendas, do maior para o menor.",
+            "dica": "RANKX percorre um conjunto de itens e calcula a posição de cada um.",
+            "verificar": lambda c: (
+                "RANKX(" in c.upper(),
+                "Use RANKX(ALL(Dim_Produto[NomeProduto]), [Total Vendas], , DESC).",
+            ),
+        },
+    ]
+
+    if "dax_exercicio_escrita_idx" not in st.session_state:
+        st.session_state.dax_exercicio_escrita_idx = 0
+    if "dax_escrita_correct" not in st.session_state:
+        st.session_state.dax_escrita_correct = set()
+
+    idx_exercicio = st.selectbox(
+        "Escolha um exercício guiado (ou ignore e escreva livremente abaixo):",
+        options=list(range(len(exercicios_escrita))),
+        format_func=lambda i: exercicios_escrita[i]["titulo"],
+        key="dax_exercicio_escrita_idx",
+    )
+    exercicio_atual = exercicios_escrita[idx_exercicio]
+
+    st.info(f"**Tarefa:** {exercicio_atual['tarefa']}")
+
+    codigo_usuario = st.text_area(
+        "Digite sua fórmula DAX aqui:",
+        height=160,
+        key=f"dax_codigo_{idx_exercicio}",
+        placeholder="NomeDaMedida =\nCALCULATE(\n    ...\n)",
+    )
+
+    st.markdown("**🎨 Destaque de sintaxe** (atualiza a cada edição):")
+    st.markdown(
+        f'<div class="sql-box" style="padding:16px; font-family:\'Courier New\',monospace; font-size:0.9rem; line-height:1.6;">'
+        f'{destacar_sintaxe_dax(codigo_usuario)}</div>',
+        unsafe_allow_html=True,
+    )
+
+    col_verificar, col_dica = st.columns([1, 3])
+    with col_verificar:
+        verificar_clicado = st.button("✅ Verificar Fórmula", key=f"dax_verificar_{idx_exercicio}", use_container_width=True)
+    with col_dica:
+        with st.popover("💡 Ver dica"):
+            st.write(exercicio_atual["dica"])
+
+    if verificar_clicado:
+        if not codigo_usuario.strip():
+            st.markdown('<div class="error-box">❌ Digite uma fórmula antes de verificar.</div>', unsafe_allow_html=True)
+        else:
+            codigo_norm = codigo_usuario.upper()
+            correto, mensagem_erro = exercicio_atual["verificar"](codigo_norm)
+            avisos_gerais = verificar_sintaxe_basica(codigo_usuario)
+
+            if correto and not avisos_gerais:
+                if idx_exercicio not in st.session_state.dax_escrita_correct:
+                    st.session_state.dax_escrita_correct.add(idx_exercicio)
+                    st.session_state.dax_xp += 15
+                    st.session_state.dax_points += 15
+                st.markdown('<div class="success-box achievement-pop">✅ Fórmula correta! Sua lógica está de acordo com o esperado.</div>', unsafe_allow_html=True)
+            elif correto and avisos_gerais:
+                st.markdown('<div class="success-box">✅ A lógica principal está correta, mas encontrei alguns pontos de atenção:</div>', unsafe_allow_html=True)
+                for aviso in avisos_gerais:
+                    st.warning(aviso)
+            else:
+                st.markdown(f'<div class="error-box">❌ Ainda não é isso. {mensagem_erro}</div>', unsafe_allow_html=True)
+                for aviso in avisos_gerais:
+                    st.warning(aviso)
+
+    st.markdown(f"### 🎯 Progresso nos exercícios de escrita: {len(st.session_state.dax_escrita_correct)}/{len(exercicios_escrita)}")
+
+    st.divider()
+
+    # ------------------------------------------------------------------
+    # MODO LIVRE — sem exercício, só destaque + checagem genérica
+    # ------------------------------------------------------------------
+    st.markdown('<h4 class="section-header">🆓 Modo Livre</h4>', unsafe_allow_html=True)
+    st.caption("Escreva qualquer fórmula DAX para ver o destaque de sintaxe e receber avisos gerais de boas práticas (sem exercício associado).")
+
+    codigo_livre = st.text_area(
+        "Sua fórmula livre:",
+        height=140,
+        key="dax_codigo_livre",
+        placeholder="Total Vendas =\nSUMX(Fato_Vendas, Fato_Vendas[Quantidade] * Fato_Vendas[ValorUnitario])",
+    )
+    st.markdown(
+        f'<div class="sql-box" style="padding:16px; font-family:\'Courier New\',monospace; font-size:0.9rem; line-height:1.6;">'
+        f'{destacar_sintaxe_dax(codigo_livre)}</div>',
+        unsafe_allow_html=True,
+    )
+    if st.button("🔍 Analisar Modo Livre", key="dax_analisar_livre"):
+        if not codigo_livre.strip():
+            st.markdown('<div class="error-box">❌ Digite uma fórmula antes de analisar.</div>', unsafe_allow_html=True)
+        else:
+            avisos = verificar_sintaxe_basica(codigo_livre)
+            if avisos:
+                for aviso in avisos:
+                    st.warning(aviso)
+            else:
+                st.markdown('<div class="success-box">✅ Nenhum problema óbvio de sintaxe encontrado!</div>', unsafe_allow_html=True)
+
+# ============================================================================
+# TAB 4: DESAFIOS
+# ============================================================================
+with tab4:
     st.markdown('<h3 class="section-header">🎯 Desafios Semanais</h3>', unsafe_allow_html=True)
     st.markdown("Complete desafios para ganhar XP e subir de nível!")
 
@@ -731,9 +1031,9 @@ with tab3:
                     st.rerun()
 
 # ============================================================================
-# TAB 4: BADGES
+# TAB 5: BADGES
 # ============================================================================
-with tab4:
+with tab5:
     st.markdown('<h3 class="section-header">🏆 Suas Conquistas</h3>', unsafe_allow_html=True)
 
     learned_count = len(st.session_state.dax_learned)
@@ -771,9 +1071,9 @@ with tab4:
                 st.markdown(f'<div class="badge badge-locked">{badge_info["icon"]}<br><small>{badge_info["title"]}</small><br><span style="font-size: 0.7rem;">{badge_info["description"]}</span></div>', unsafe_allow_html=True)
 
 # ============================================================================
-# TAB 5: PERFIL
+# TAB 6: PERFIL
 # ============================================================================
-with tab5:
+with tab6:
     st.markdown('<h3 class="section-header">📊 Seu Perfil</h3>', unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
