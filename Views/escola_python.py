@@ -1,8 +1,18 @@
 import streamlit as st
 import sys
 from io import StringIO
-from datetime import datetime
+from datetime import datetime, date
 import json
+
+import pandas as pd
+
+try:
+    from generators_bi import SETORES, RELACIONAMENTOS, to_zip
+    GERADOR_BI_DISPONIVEL = True
+except ImportError:
+    GERADOR_BI_DISPONIVEL = False
+
+MAX_LINHAS_FATO_PY = 10_000
 
 st.set_page_config(
     page_title="Python - Melhores Práticas Pro",
@@ -243,6 +253,26 @@ html, body, .main, [data-testid="stAppViewContainer"] {
     font-weight: 300;
 }
 
+/* ── FILTER / EDITOR SECTIONS ── */
+.filter-section,
+.editor-section {
+    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
+    border: 1px solid rgba(167,139,250,0.2);
+    border-radius: 20px;
+    padding: 30px 32px;
+    margin: 20px 0 32px;
+}
+
+.editor-title {
+    font-family: 'Syne', sans-serif !important;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #a78bfa;
+    margin-bottom: 14px;
+}
+
 /* ── LEVEL / BADGES / CHALLENGES ── */
 .level-bronze { border-color: #CD7F32; color: #CD7F32; box-shadow: 0 0 20px rgba(205,127,50,0.3); }
 .level-silver { border-color: #C0C0C0; color: #C0C0C0; box-shadow: 0 0 20px rgba(192,192,192,0.3); }
@@ -323,6 +353,23 @@ html, body, .main, [data-testid="stAppViewContainer"] {
 @keyframes slideIn {
     from { opacity: 0; transform: translateY(-20px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── INFO PANEL (igual ao "Tabelas & Dicas" do SQL) ── */
+.info-panel {
+    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
+    border: 1px solid rgba(167,139,250,0.2);
+    border-radius: 16px;
+    padding: 24px;
+}
+.info-panel-title {
+    font-family: 'Syne', sans-serif !important;
+    color: #a78bfa;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
 }
 
 /* ── INPUTS ── */
@@ -437,7 +484,10 @@ if st.session_state.python_streak > 0:
     st.markdown(f'<p style="text-align: center; font-size: 1.3rem;"><span class="streak-fire">🔥</span> {st.session_state.python_streak} dias em sequência!</p>', unsafe_allow_html=True)
 
 # --- TABS ---
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["📚 Práticas", "✏️ Editor", "🎯 Desafios", "🏆 Badges", "📊 Perfil"])
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+    "📚 Práticas", "✏️ Editor", "🗂️ Dados por Setor",
+    "🎯 Desafios", "🏆 Badges", "📊 Perfil",
+])
 
 # ============================================================================
 # TAB 1: PRÁTICAS
@@ -451,7 +501,6 @@ with tab1:
         search = st.text_input("🔍 Buscar prática", key="python_search")
 
     python_practices = [
-        # ── INICIANTE (original 19 + 10 novos) ──
         {"icon": "📚", "title": "Usar Type Hints", "category": "Qualidade & Manutenção", "difficulty": "Iniciante", "description": "Especifique tipos de argumentos e retorno.", "bad_code": "def calcular_total(items):\n    return sum(item['valor'] for item in items)", "good_code": "from typing import List, Dict\n\ndef calcular_total(items: List[Dict[str, float]]) -> float:\n    return sum(item['valor'] for item in items)", "benefit": "Detecta erros em tempo de desenvolvimento.", "explanation": "Type hints melhoram legibilidade e oferecem autocomplete."},
         {"icon": "🔐", "title": "List Comprehension", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "Prefira list comprehension a loops tradicionais.", "bad_code": "pares = []\nfor num in [1,2,3,4,5]:\n    if num % 2 == 0:\n        pares.append(num * 2)", "good_code": "pares = [num * 2 for num in [1,2,3,4,5] if num % 2 == 0]", "benefit": "30-40% mais rápido.", "explanation": "Otimizada em C, executa mais rápido."},
         {"icon": "🔍", "title": "Usar f-strings", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "f-strings são mais legíveis e rápidas.", "bad_code": "nome = 'Alice'\nidade = 30\nmsg = 'Olá, ' + nome + '. Você tem ' + str(idade) + ' anos'", "good_code": "nome = 'Alice'\nidade = 30\nmsg = f'Olá, {nome}. Você tem {idade} anos'", "benefit": "20% mais rápido.", "explanation": "Otimizadas em tempo de compilação."},
@@ -471,7 +520,6 @@ with tab1:
         {"icon": "🎪", "title": "String methods vs regex", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "Use método simples quando possível.", "bad_code": "import re\nif re.search(r'mundo', texto):\n    print('Encontrado')", "good_code": "if 'mundo' in texto:\n    print('Encontrado')", "benefit": "10x mais rápido.", "explanation": "Otimizadas em C."},
         {"icon": "📦", "title": "setdefault()", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "Define e retorna simultaneamente.", "bad_code": "if 'python' not in cat:\n    cat['python'] = []\ncat['python'].append('item')", "good_code": "cat.setdefault('python', []).append('item')", "benefit": "Uma linha.", "explanation": "Combina verificação e atribuição."},
         {"icon": "🔍", "title": "in vs count()", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "Use in para verificar existência.", "bad_code": "if lista.count(3) > 0:\n    print('Existe')", "good_code": "if 3 in lista:\n    print('Existe')", "benefit": "3x mais rápido.", "explanation": "Sem criar contador."},
-        # ── 10 NOVOS INICIANTE ──
         {"icon": "🧩", "title": "Usar Walrus Operator", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "Atribua e teste em uma expressão.", "bad_code": "linha = arquivo.readline()\nwhile linha:\n    processar(linha)\n    linha = arquivo.readline()", "good_code": "while linha := arquivo.readline():\n    processar(linha)", "benefit": "Menos repetição.", "explanation": "Operador := (Python 3.8+) atribui e retorna valor simultaneamente."},
         {"icon": "📌", "title": "Desempacotamento de Tuplas", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "Extraia valores de sequências com elegância.", "bad_code": "coords = (10, 20)\nx = coords[0]\ny = coords[1]", "good_code": "coords = (10, 20)\nx, y = coords", "benefit": "Código limpo.", "explanation": "Unpacking funciona com listas, tuplas e qualquer iterável."},
         {"icon": "🔢", "title": "Usar Counter", "category": "Performance & Elegância", "difficulty": "Iniciante", "description": "Conte elementos com Counter.", "bad_code": "contagem = {}\nfor item in lista:\n    if item in contagem:\n        contagem[item] += 1\n    else:\n        contagem[item] = 1", "good_code": "from collections import Counter\ncontagem = Counter(lista)", "benefit": "Uma linha.", "explanation": "Otimizado, suporta operações como most_common()."},
@@ -482,7 +530,6 @@ with tab1:
         {"icon": "🔎", "title": "None como Sentinela Padrão", "category": "Qualidade & Manutenção", "difficulty": "Iniciante", "description": "Use None como valor padrão mutável.", "bad_code": "def adicionar(item, lista=[]):\n    lista.append(item)\n    return lista", "good_code": "def adicionar(item, lista=None):\n    if lista is None:\n        lista = []\n    lista.append(item)\n    return lista", "benefit": "Evita bug clássico.", "explanation": "Argumentos mutáveis padrão são compartilhados entre chamadas."},
         {"icon": "📐", "title": "Usar min() e max() com key", "category": "Elegância & Performance", "difficulty": "Iniciante", "description": "Encontre extremos com critério.", "bad_code": "maior_nome = ''\nfor p in pessoas:\n    if len(p['nome']) > len(maior_nome):\n        maior_nome = p['nome']", "good_code": "pessoa_nome_longo = max(pessoas, key=lambda p: len(p['nome']))", "benefit": "Expressivo.", "explanation": "key define o critério de comparação."},
         {"icon": "✂️", "title": "Usar str.strip() e variantes", "category": "Elegância & Legibilidade", "difficulty": "Iniciante", "description": "Limpe strings de forma precisa.", "bad_code": "texto = '  Olá mundo  '\ntexto_limpo = texto.replace(' ', '')", "good_code": "texto = '  Olá mundo  '\ntexto_limpo = texto.strip()  # Remove espaços das extremidades", "benefit": "Correto.", "explanation": "strip() remove espaços, lstrip() à esquerda, rstrip() à direita."},
-        # ── INTERMEDIÁRIO (original 17 + 10 novos) ──
         {"icon": "🔗", "title": "Usar Decorators", "category": "Elegância & Reutilização", "difficulty": "Intermediário", "description": "Reutilize lógica comum.", "bad_code": "def f1():\n    inicio = time.time()\n    resultado = calc()\n    print(time.time() - inicio)\n    return resultado", "good_code": "@timing\ndef f1():\n    return calc()\n\ndef timing(func):\n    def wrapper(*args):\n        inicio = time.time()\n        resultado = func(*args)\n        print(time.time() - inicio)\n        return resultado\n    return wrapper", "benefit": "Reutilização.", "explanation": "Encapsula lógica transversal."},
         {"icon": "⚡", "title": "Usar @property", "category": "Elegância & Encapsulamento", "difficulty": "Intermediário", "description": "Crie getters/setters Pythônicos.", "bad_code": "class Pessoa:\n    def get_nome(self):\n        return self._nome", "good_code": "class Pessoa:\n    @property\n    def nome(self):\n        return self._nome", "benefit": "Sintaxe natural.", "explanation": "Permite p.nome = 'valor'."},
         {"icon": "🚀", "title": "Generator Expressions", "category": "Performance & Elegância", "difficulty": "Intermediário", "description": "Economize memória com generators.", "bad_code": "quadrados = [x**2 for x in range(1000000)]\nfor q in quadrados:\n    processar(q)", "good_code": "quadrados = (x**2 for x in range(1000000))\nfor q in quadrados:\n    processar(q)", "benefit": "90% menos memória.", "explanation": "Lazy evaluation."},
@@ -501,7 +548,6 @@ with tab1:
         {"icon": "📦", "title": "Set Comprehension", "category": "Elegância & Performance", "difficulty": "Intermediário", "description": "Crie conjuntos com elegância.", "bad_code": "unicos = set()\nfor x in numeros:\n    unicos.add(x % 2)", "good_code": "unicos = {x % 2 for x in numeros}", "benefit": "Conciso.", "explanation": "Mesma performance."},
         {"icon": "🌟", "title": "Avoid Global Mutable", "category": "Qualidade & Manutenção", "difficulty": "Intermediário", "description": "Não use globais mutáveis.", "bad_code": "cache = {}\ndef processar(chave):\n    global cache\n    cache[chave] = valor", "good_code": "def processar(chave: str, cache: dict) -> dict:\n    cache[chave] = valor\n    return cache", "benefit": "Testável.", "explanation": "Passa estado como argumento."},
         {"icon": "⚡", "title": "Comprehension Aninhada", "category": "Elegância & Performance", "difficulty": "Intermediário", "description": "Aninhamento elegante.", "bad_code": "matriz = []\nfor i in range(3):\n    linha = []\n    for j in range(3):\n        linha.append(i * j)\n    matriz.append(linha)", "good_code": "matriz = [[i*j for j in range(3)] for i in range(3)]", "benefit": "Conciso.", "explanation": "Legível quando bem estruturada."},
-        # ── 10 NOVOS INTERMEDIÁRIO ──
         {"icon": "🧪", "title": "Usar contextlib.suppress", "category": "Elegância & Manutenção", "difficulty": "Intermediário", "description": "Suprima exceções esperadas com elegância.", "bad_code": "try:\n    os.remove('arquivo.tmp')\nexcept FileNotFoundError:\n    pass", "good_code": "from contextlib import suppress\nwith suppress(FileNotFoundError):\n    os.remove('arquivo.tmp')", "benefit": "Intenção clara.", "explanation": "contextlib.suppress torna explícito que a exceção é esperada."},
         {"icon": "🏗️", "title": "Usar __post_init__ em dataclasses", "category": "Modernização & Elegância", "difficulty": "Intermediário", "description": "Validação pós-inicialização.", "bad_code": "@dataclass\nclass Produto:\n    nome: str\n    preco: float\n    # Sem validação", "good_code": "@dataclass\nclass Produto:\n    nome: str\n    preco: float\n    def __post_init__(self):\n        if self.preco < 0:\n            raise ValueError('Preço não pode ser negativo')", "benefit": "Validação automática.", "explanation": "__post_init__ é chamado após __init__ gerado pelo dataclass."},
         {"icon": "🔁", "title": "Usar itertools.chain", "category": "Performance & Elegância", "difficulty": "Intermediário", "description": "Concatene iteráveis sem copiar.", "bad_code": "todos = lista1 + lista2 + lista3\nfor item in todos:\n    processar(item)", "good_code": "from itertools import chain\nfor item in chain(lista1, lista2, lista3):\n    processar(item)", "benefit": "Zero cópia.", "explanation": "chain itera sobre múltiplos iteráveis sem criar nova lista."},
@@ -512,7 +558,6 @@ with tab1:
         {"icon": "🎛️", "title": "Operator Module", "category": "Programação Funcional", "difficulty": "Intermediário", "description": "Use funções ao invés de lambdas.", "bad_code": "lista.sort(key=lambda x: x.atributo)\ntotal = reduce(lambda a, b: a + b, numeros)", "good_code": "import operator\nlista.sort(key=operator.attrgetter('atributo'))\ntotal = reduce(operator.add, numeros)", "benefit": "Mais rápido.", "explanation": "operator funcs são implementadas em C e mais rápidas que lambdas."},
         {"icon": "🗂️", "title": "Usar ChainMap", "category": "Performance & Elegância", "difficulty": "Intermediário", "description": "Combine dicionários sem copiar.", "bad_code": "config = {**defaults, **user_config, **env_config}", "good_code": "from collections import ChainMap\nconfig = ChainMap(env_config, user_config, defaults)", "benefit": "Sem cópia.", "explanation": "ChainMap busca em camadas sem mesclar os dicts."},
         {"icon": "🔐", "title": "Usar slots em dataclasses", "category": "Performance & Otimização", "difficulty": "Intermediário", "description": "Combine dataclass com __slots__.", "bad_code": "@dataclass\nclass Ponto:\n    x: float\n    y: float\n    # Sem slots, usa __dict__", "good_code": "@dataclass(slots=True)\nclass Ponto:\n    x: float\n    y: float", "benefit": "30% mais rápido.", "explanation": "slots=True disponível no Python 3.10+, reduz memória."},
-        # ── AVANÇADO (original 16 + 10 novos) ──
         {"icon": "🎯", "title": "__slots__", "category": "Performance & Otimização", "difficulty": "Avançado", "description": "Reduz consumo de memória.", "bad_code": "class Ponto:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y", "good_code": "class Ponto:\n    __slots__ = ['x', 'y']\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y", "benefit": "50% menos memória.", "explanation": "Sem __dict__."},
         {"icon": "🔐", "title": "Metaclasses", "category": "Arquitetura & Avançado", "difficulty": "Avançado", "description": "Controlam criação de classes.", "bad_code": "class Singleton:\n    _instance = None\n    def __new__(cls):\n        if cls._instance is None:\n            cls._instance = super().__new__(cls)\n        return cls._instance", "good_code": "class SingletonMeta(type):\n    _instances = {}\n    def __call__(cls, *args):\n        if cls not in cls._instances:\n            cls._instances[cls] = super().__call__(*args)\n        return cls._instances[cls]", "benefit": "Padrões.", "explanation": "Classe de classes."},
         {"icon": "⚡", "title": "Protocol (Typing)", "category": "Qualidade & Manutenção", "difficulty": "Avançado", "description": "Interfaces sem herança.", "bad_code": "def processar(obj):\n    return obj.processar()", "good_code": "from typing import Protocol\n\nclass Processavel(Protocol):\n    def processar(self) -> str: ...\n\ndef processar(obj: Processavel) -> str:\n    return obj.processar()", "benefit": "Type checking.", "explanation": "Structural subtyping."},
@@ -532,7 +577,6 @@ with tab1:
         {"icon": "🚀", "title": "Dependency Injection", "category": "Arquitetura & Manutenção", "difficulty": "Avançado", "description": "Injetar dependências.", "bad_code": "class Servico:\n    def __init__(self):\n        self.db = Database()", "good_code": "class Servico:\n    def __init__(self, db):\n        self.db = db\n\ndb = Database()\nservico = Servico(db)", "benefit": "Testável.", "explanation": "Desacoplado."},
         {"icon": "🎨", "title": "__enter__/__exit__", "category": "Arquitetura & Elegância", "difficulty": "Avançado", "description": "Context managers customizados.", "bad_code": "transacao.begin()\ntry:\n    sql.execute()\nfinally:\n    transacao.commit()", "good_code": "class Transacao:\n    def __enter__(self):\n        self.begin()\n        return self\n    def __exit__(self, *args):\n        self.commit()\n\nwith Transacao() as t:\n    sql.execute()", "benefit": "Reutilizável.", "explanation": "Cleanup garantido."},
         {"icon": "⚡", "title": "cached_property", "category": "Performance & Elegância", "difficulty": "Avançado", "description": "Propriedades com cache.", "bad_code": "class Dados:\n    def __init__(self):\n        self.resultado = self.calcular_pesado()", "good_code": "class Dados:\n    @functools.cached_property\n    def resultado(self):\n        return self.calcular_pesado()", "benefit": "Sob demanda.", "explanation": "Caching automático."},
-        # ── 10 NOVOS AVANÇADO ──
         {"icon": "🌐", "title": "Usar __init_subclass__", "category": "Arquitetura & Avançado", "difficulty": "Avançado", "description": "Hook de criação de subclasses.", "bad_code": "class Plugin:\n    _registry = {}\n    @classmethod\n    def registrar(cls, nome):\n        def decorator(subclass):\n            cls._registry[nome] = subclass\n            return subclass\n        return decorator", "good_code": "class Plugin:\n    _registry = {}\n    def __init_subclass__(cls, nome=None, **kwargs):\n        super().__init_subclass__(**kwargs)\n        if nome:\n            Plugin._registry[nome] = cls", "benefit": "Automático.", "explanation": "__init_subclass__ é chamado ao criar subclasses, sem precisar de decorator."},
         {"icon": "⚗️", "title": "Usar ast para Análise de Código", "category": "Ferramentas & Avançado", "difficulty": "Avançado", "description": "Analise código Python como árvore.", "bad_code": "import re\nfuncoes = re.findall(r'def (\\w+)', codigo)", "good_code": "import ast\ntree = ast.parse(codigo)\nfuncoes = [n.name for n in ast.walk(tree)\n           if isinstance(n, ast.FunctionDef)]", "benefit": "Preciso.", "explanation": "AST é a forma correta de analisar estrutura do código Python."},
         {"icon": "🧲", "title": "Weak References", "category": "Performance & Avançado", "difficulty": "Avançado", "description": "Evite vazamento de memória.", "bad_code": "class Cache:\n    def __init__(self):\n        self.dados = {}  # Impede GC dos objetos", "good_code": "import weakref\nclass Cache:\n    def __init__(self):\n        self.dados = weakref.WeakValueDictionary()", "benefit": "GC funciona.", "explanation": "WeakValueDictionary não impede coleta de lixo dos valores."},
@@ -592,13 +636,18 @@ with tab1:
             st.markdown(f"**Explicação:** {p['explanation']}")
 
 # ============================================================================
-# TAB 2: EDITOR
+# TAB 2: EDITOR PYTHON INTERATIVO
 # ============================================================================
 with tab2:
-    st.markdown('<h3 class="section-header">✏️ Editor Python Interativo</h3>', unsafe_allow_html=True)
-    st.markdown("**📚 Templates Rápidos:**")
+    st.markdown('<h2 class="section-header">✏️ Editor Python Interativo</h2>', unsafe_allow_html=True)
+    st.markdown(
+        '<p style="color: #7b8ba8; margin-bottom: 10px; font-weight:300;">'
+        'Escreva e execute código Python real, diretamente no navegador. '
+        'Use <span style="color:#a78bfa;">print()</span> para ver a saída.</p>',
+        unsafe_allow_html=True,
+    )
 
-    templates = {
+    python_templates = {
         "Hello World": "print('Hello, World!')",
         "Soma": "a = 5\nb = 3\nprint(f'Soma: {a + b}')",
         "List": "numeros = [1, 2, 3, 4, 5]\nfor n in numeros:\n    print(n * 2)",
@@ -616,68 +665,193 @@ with tab2:
         st.session_state.last_template = "Vazio"
     if 'editor_key_counter' not in st.session_state:
         st.session_state.editor_key_counter = 0
-
-    selected_template = st.selectbox("Escolha um template:", ["Vazio"] + list(templates.keys()), key="template_selector")
-
-    if selected_template != st.session_state.last_template:
-        st.session_state.editor_code = templates.get(selected_template, "")
-        st.session_state.last_template = selected_template
-        st.session_state.editor_key_counter += 1
-        st.rerun()
-
-    st.markdown("**Seu Código:**")
-    editor_key = f"code_editor_{st.session_state.editor_key_counter}"
-    code_input = st.text_area(
-        "Digite seu código Python aqui",
-        value=st.session_state.editor_code,
-        height=250,
-        key=editor_key,
-        placeholder="# Digite seu código aqui\nprint('Hello, World!')"
-    )
-    st.session_state.editor_code = code_input
-
-    col1, col2, col3 = st.columns([2, 2, 2])
-    with col1:
-        run_button = st.button("▶️ RUN", use_container_width=True)
-
     if 'editor_runs' not in st.session_state:
         st.session_state.editor_runs = 0
 
-    if run_button and code_input.strip():
-        st.markdown("**Resultado:**")
-        st.session_state.editor_runs += 1
-        st.session_state.python_xp += 5
-        st.session_state.python_points += 5
-        try:
-            output_buffer = StringIO()
-            old_stdout = sys.stdout
-            sys.stdout = output_buffer
-            exec(code_input)
-            sys.stdout = old_stdout
-            output = output_buffer.getvalue()
-            if output:
-                st.markdown(f'<div class="success-box achievement-pop">{output}</div>', unsafe_allow_html=True)
-            else:
-                st.markdown('<div class="success-box">✅ Código executado com sucesso (sem output)</div>', unsafe_allow_html=True)
-        except Exception as e:
-            sys.stdout = old_stdout
-            st.markdown(f'<div class="error-box">❌ {type(e).__name__}: {str(e)}</div>', unsafe_allow_html=True)
-    elif run_button and not code_input.strip():
-        st.markdown('<div class="error-box">❌ Digite um código antes de executar!</div>', unsafe_allow_html=True)
+    st.markdown('<div class="editor-section">', unsafe_allow_html=True)
 
-    st.divider()
-    st.markdown("""
-    ### 💡 Dicas para o Editor
-    - **Templates:** Use os botões acima para inserir exemplos rápidos
-    - **Print:** Use `print()` para ver resultados
-    - **Erros:** Os erros serão exibidos em vermelho
-    - **XP:** Ganhe +5 XP cada vez que executa um script
-    """)
+    col_template, col_editor = st.columns([1, 2], gap="large")
+
+    with col_template:
+        st.markdown('<p class="editor-title">📚 Templates</p>', unsafe_allow_html=True)
+        selected_template = st.selectbox(
+            "Escolha um template:",
+            ["Vazio"] + list(python_templates.keys()),
+            key="template_selector",
+            label_visibility="collapsed",
+        )
+
+        if selected_template != st.session_state.last_template:
+            st.session_state.editor_code = python_templates.get(selected_template, "")
+            st.session_state.last_template = selected_template
+            st.session_state.editor_key_counter += 1
+            st.rerun()
+
+    with col_editor:
+        st.markdown('<p class="editor-title">📝 Seu Código Python</p>', unsafe_allow_html=True)
+        editor_key = f"code_editor_{st.session_state.editor_key_counter}"
+        code_input = st.text_area(
+            "Digite seu código Python aqui",
+            value=st.session_state.editor_code,
+            height=180,
+            key=editor_key,
+            placeholder="# Digite seu código aqui\nprint('Hello, World!')",
+            label_visibility="collapsed",
+        )
+        st.session_state.editor_code = code_input
+
+    run_button = st.button("▶️ RUN", use_container_width=False)
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # --- RESULTADO ---
+    st.markdown('<h2 class="section-header">📊 Resultado da Execução</h2>', unsafe_allow_html=True)
+
+    col_result, col_info = st.columns([2, 1], gap="large")
+
+    with col_result:
+        if run_button and code_input.strip():
+            st.session_state.editor_runs += 1
+            st.session_state.python_xp += 5
+            st.session_state.python_points += 5
+            try:
+                output_buffer = StringIO()
+                old_stdout = sys.stdout
+                sys.stdout = output_buffer
+                exec_globals = {"pd": pd}
+                if st.session_state.get("python_dados_setor"):
+                    exec_globals.update(st.session_state.python_dados_setor)
+                exec(code_input, exec_globals)
+                sys.stdout = old_stdout
+                output = output_buffer.getvalue()
+                if output:
+                    st.markdown(f'<div class="success-box achievement-pop">{output}</div>', unsafe_allow_html=True)
+                else:
+                    st.markdown('<div class="success-box">✅ Código executado com sucesso (sem output)</div>', unsafe_allow_html=True)
+            except Exception as e:
+                sys.stdout = old_stdout
+                st.markdown(f'<div class="error-box">❌ {type(e).__name__}: {str(e)}</div>', unsafe_allow_html=True)
+        elif run_button and not code_input.strip():
+            st.markdown('<div class="error-box">❌ Digite um código antes de executar!</div>', unsafe_allow_html=True)
+        else:
+            st.markdown("""
+            <div style="text-align: center; padding: 40px; color: #2d3748;">
+                <p style="font-size: 1rem;">📝 Escreva um código Python no editor e clique em RUN para ver o resultado</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+    with col_info:
+        dados_setor = st.session_state.get("python_dados_setor")
+        if dados_setor:
+            nomes_tabelas = ", ".join(f"<code>{k}</code>" for k in dados_setor.keys())
+            bloco_tabelas = f"""
+                <span style="color:#e2e8f0; font-weight:600;">Tabelas disponíveis (setor {st.session_state.get('python_setor_atual', '')}):</span>
+                <br>{nomes_tabelas}
+                <br><br>
+            """
+        else:
+            bloco_tabelas = (
+                '<span style="color:#e2e8f0; font-weight:600;">Dica:</span> '
+                'gere dados na aba <b>🗂️ Dados por Setor</b> para praticar pandas com DataFrames reais aqui.'
+                '<br><br>'
+            )
+
+        st.markdown(f"""
+        <div class="info-panel">
+            <p class="info-panel-title">ℹ️ Dicas & Atalhos</p>
+            <p style="color: #7b8ba8; font-size: 0.85rem; line-height: 1.8; margin-bottom: 16px; font-weight:300;">
+                {bloco_tabelas}
+                <span style="color:#e2e8f0; font-weight:600;">print():</span> exibe valores na saída
+                <br><br>
+                <span style="color:#e2e8f0; font-weight:600;">pd:</span> pandas já está disponível, sem precisar de import
+                <br><br>
+                <span style="color:#e2e8f0; font-weight:600;">Erros:</span> aparecem destacados em vermelho, com o tipo da exceção
+            </p>
+            <p style="color: #2d3748; font-size: 0.82rem; font-weight:300; border-top: 1px solid rgba(167,139,250,0.1); padding-top: 14px;">
+                💡 Cada execução vale +5 XP — pratique bastante!
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
 
 # ============================================================================
-# TAB 3: DESAFIOS
+# TAB 3: DADOS POR SETOR (reaproveita o gerador do bi_data_generator)
 # ============================================================================
 with tab3:
+    st.markdown('<h2 class="section-header">🗂️ Dados por Setor</h2>', unsafe_allow_html=True)
+    st.markdown(
+        "Gere um conjunto de dados fictícios (dimensões + tabela fato, com relacionamentos íntegros) "
+        "e pratique pandas de verdade na aba **✏️ Editor** — mesmo gerador usado na página "
+        "**Gerador Dados BI** do portfólio."
+    )
+
+    if not GERADOR_BI_DISPONIVEL:
+        st.warning(
+            "⚠️ O pacote `generators_bi` não foi encontrado. Ele precisa estar na raiz do projeto "
+            "(mesmo nível da pasta `Views/`) para esta aba funcionar."
+        )
+    else:
+        col_setor, col_datas, col_linhas = st.columns([1.2, 1.4, 1])
+        with col_setor:
+            setor_py = st.selectbox("🏢 Setor", list(SETORES.keys()), key="python_setor_select")
+        with col_datas:
+            sub_ini, sub_fim = st.columns(2)
+            with sub_ini:
+                data_ini_py = st.date_input("Início", value=date(2023, 1, 1), key="python_data_ini")
+            with sub_fim:
+                data_fim_py = st.date_input("Fim", value=date(2023, 12, 31), key="python_data_fim")
+        with col_linhas:
+            n_linhas_py = st.slider(
+                "Linhas (fato)", min_value=100, max_value=MAX_LINHAS_FATO_PY,
+                value=1000, step=100, key="python_n_linhas",
+                help=f"Limitado a {MAX_LINHAS_FATO_PY:,} linhas.",
+            )
+
+        if st.button("🚀 Gerar Dados do Setor", type="primary", key="python_gerar_dados"):
+            if data_fim_py <= data_ini_py:
+                st.error("A data final deve ser posterior à data inicial.")
+            else:
+                with st.spinner(f"Gerando dados de {setor_py}..."):
+                    fn = SETORES[setor_py]
+                    st.session_state.python_dados_setor = fn(n_linhas_py, data_ini_py, data_fim_py)
+                    st.session_state.python_setor_atual = setor_py
+                st.success(
+                    f"✅ Dados de **{setor_py}** gerados! Vá até a aba **✏️ Editor** — as tabelas já estão "
+                    "disponíveis como variáveis para você usar no seu código."
+                )
+                st.rerun()
+
+        dados_atual = st.session_state.get("python_dados_setor")
+        if dados_atual:
+            setor_atual = st.session_state.get("python_setor_atual")
+            fato_key = next(k for k in dados_atual if k.startswith("Fato"))
+
+            st.divider()
+            col_m1, col_m2 = st.columns(2)
+            col_m1.metric("Setor gerado", setor_atual)
+            col_m2.metric("Linhas na tabela fato", f"{len(dados_atual[fato_key]):,}")
+
+            st.markdown("**🔗 Relacionamentos:**")
+            for origem, coluna, destino, pk in RELACIONAMENTOS.get(setor_atual, []):
+                st.code(f"{origem}[{coluna}]  →  {destino}[{pk}]", language="text")
+
+            st.markdown("**👁️ Prévia das tabelas (use exatamente estes nomes no Editor):**")
+            tabela_escolhida = st.selectbox("Tabela:", list(dados_atual.keys()), key="python_tabela_preview")
+            st.dataframe(dados_atual[tabela_escolhida].head(50), use_container_width=True, hide_index=True)
+
+            st.info(
+                f"💡 No Editor, use `{fato_key}` e as tabelas `Dim...` diretamente — "
+                f"por exemplo: `print({fato_key}.head())` ou `{fato_key}.groupby(...)`."
+            )
+
+            if st.button("🗑️ Limpar dados gerados", key="python_limpar_dados"):
+                st.session_state.python_dados_setor = None
+                st.session_state.python_setor_atual = None
+                st.rerun()
+
+# ============================================================================
+# TAB 4: DESAFIOS
+# ============================================================================
+with tab4:
     st.markdown('<h3 class="section-header">🎯 Desafios Semanais</h3>', unsafe_allow_html=True)
     st.markdown("Complete desafios para ganhar XP e subir de nível!")
 
@@ -703,9 +877,9 @@ with tab3:
                     st.rerun()
 
 # ============================================================================
-# TAB 4: BADGES
+# TAB 5: BADGES
 # ============================================================================
-with tab4:
+with tab5:
     st.markdown('<h3 class="section-header">🏆 Suas Conquistas</h3>', unsafe_allow_html=True)
 
     learned_count = len(st.session_state.python_learned)
@@ -740,9 +914,9 @@ with tab4:
                 st.markdown(f'<div class="badge badge-locked">{badge_info["icon"]}<br><small>{badge_info["title"]}</small><br><tiny style="font-size: 0.7rem;">{badge_info["description"]}</tiny></div>', unsafe_allow_html=True)
 
 # ============================================================================
-# TAB 5: PERFIL
+# TAB 6: PERFIL
 # ============================================================================
-with tab5:
+with tab6:
     st.markdown('<h3 class="section-header">📊 Seu Perfil</h3>', unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
