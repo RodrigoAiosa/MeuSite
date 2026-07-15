@@ -1,0 +1,823 @@
+import streamlit as st
+
+st.set_page_config(
+    page_title="DAX - Melhores Práticas Pro",
+    page_icon="📊",
+    layout="wide"
+)
+
+# --- INICIALIZAR SESSION STATE ---
+if 'dax_favorites' not in st.session_state:
+    st.session_state.dax_favorites = set()
+if 'dax_learned' not in st.session_state:
+    st.session_state.dax_learned = set()
+if 'dax_points' not in st.session_state:
+    st.session_state.dax_points = 0
+if 'dax_xp' not in st.session_state:
+    st.session_state.dax_xp = 0
+if 'dax_badges' not in st.session_state:
+    st.session_state.dax_badges = set()
+if 'dax_challenges_completed' not in st.session_state:
+    st.session_state.dax_challenges_completed = set()
+if 'dax_streak' not in st.session_state:
+    st.session_state.dax_streak = 0
+if 'dax_sim_runs' not in st.session_state:
+    st.session_state.dax_sim_runs = 0
+if 'dax_sim_correct' not in st.session_state:
+    st.session_state.dax_sim_correct = set()
+
+MASTERY_LEVELS = {
+    1: {"title": "🥉 DAX Padawan", "icon": "🥉", "xp_required": 0, "color": "#CD7F32", "theme": "bronze"},
+    2: {"title": "🥈 Modelador Ninja", "icon": "🥈", "xp_required": 250, "color": "#C0C0C0", "theme": "silver"},
+    3: {"title": "🥇 DAX Master", "icon": "🥇", "xp_required": 750, "color": "#FFD700", "theme": "gold"},
+    4: {"title": "💎 Arquiteto de Modelos", "icon": "💎", "xp_required": 1500, "color": "#00D9FF", "theme": "diamond"},
+    5: {"title": "🏆 Power BI Elite", "icon": "🏆", "xp_required": 2500, "color": "#FF1493", "theme": "legendary"},
+}
+
+BADGES = {
+    "first_steps": {"icon": "👣", "title": "Primeiros Passos", "description": "Completou a 1ª prática", "condition": lambda p: p >= 1},
+    "ten_practices": {"icon": "🔟", "title": "Persistência", "description": "Completou 10 práticas", "condition": lambda p: p >= 10},
+    "twenty_practices": {"icon": "2️⃣0️⃣", "title": "Veterano", "description": "Completou 20 práticas", "condition": lambda p: p >= 20},
+    "favorite_collector": {"icon": "⭐", "title": "Colecionador", "description": "Favoritou 10 práticas", "condition": lambda p: p >= 10},
+    "simulator_fan": {"icon": "🧩", "title": "Resolvedor", "description": "Acertou 10 exercícios no simulador", "condition": lambda p: p >= 10},
+    "context_master": {"icon": "🧠", "title": "Mestre do Contexto", "description": "Completou práticas de Contexto de Filtro", "condition": lambda p: p >= 1},
+    "code_master": {"icon": "👑", "title": "Rei do DAX", "description": "1000+ pontos conquistados", "condition": lambda p: p >= 1000},
+}
+
+CHALLENGES = [
+    {"id": "challenge_1", "title": "Mestre do CALCULATE", "difficulty": "Intermediário", "xp_reward": 100, "description": "Complete 3 práticas sobre CALCULATE e contexto de filtro"},
+    {"id": "challenge_2", "title": "Viajante do Tempo", "difficulty": "Avançado", "xp_reward": 150, "description": "Complete 2 práticas de Time Intelligence"},
+    {"id": "challenge_3", "title": "Simulador Speedrunner", "difficulty": "Iniciante", "xp_reward": 50, "description": "Acerte 10 exercícios no Simulador de Fórmulas"},
+    {"id": "challenge_4", "title": "Colecionador de Estrelas", "difficulty": "Iniciante", "xp_reward": 75, "description": "Favoritou 5 práticas"},
+    {"id": "challenge_5", "title": "Iterador Profissional", "difficulty": "Avançado", "xp_reward": 200, "description": "Complete todas as práticas sobre funções iteradoras (X)"},
+]
+
+# ── DESIGN (mesma paleta SQL/Python Pro) ──
+st.markdown("""
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, .main, [data-testid="stAppViewContainer"] {
+    background-color: #0a0e27 !important;
+}
+
+[data-testid="stAppViewContainer"] {
+    background-image:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(139,92,246,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 80% 60%, rgba(59,130,246,0.08) 0%, transparent 50%);
+}
+
+[data-testid="stHeader"] { background: transparent !important; }
+
+.main h1, .main h2, .main h3, .main h4,
+.main p, .main a, .main li,
+[data-testid="stAppViewContainer"] div:not([data-testid="stSidebar"]) {
+    font-family: 'DM Sans', sans-serif !important;
+}
+
+[data-testid="stMarkdownContainer"] { width: 100% !important; }
+.block-container {
+    max-width: 100% !important;
+    padding-left: 4rem !important;
+    padding-right: 4rem !important;
+}
+
+.hero-wrapper {
+    text-align: center;
+    padding: 80px 20px 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero-badge {
+    display: inline-block;
+    font-family: 'Syne', sans-serif !important;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #a78bfa;
+    border: 1px solid rgba(167,139,250,0.35);
+    background: rgba(167,139,250,0.07);
+    padding: 6px 18px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+}
+
+.hero-title {
+    font-family: 'Syne', sans-serif !important;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    color: #f0f4ff;
+    margin: 0 auto 20px;
+    max-width: 760px;
+    text-align: center;
+}
+
+.hero-title .accent {
+    background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 50%, #c4b5fd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle {
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: #7b8ba8;
+    max-width: 560px;
+    margin: 0 auto 48px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    flex-wrap: wrap;
+    margin-bottom: 60px;
+}
+
+.hero-stat { text-align: center; }
+
+.hero-stat-number {
+    font-family: 'Syne', sans-serif !important;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #a78bfa;
+    display: block;
+    line-height: 1;
+}
+
+.hero-stat-label {
+    font-size: 0.78rem;
+    color: #4a5568;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 6px;
+    display: block;
+}
+
+.hero-divider {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(167,139,250,0.3), transparent);
+}
+
+.section-header {
+    font-family: 'Syne', sans-serif !important;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #f0f4ff;
+    margin: 50px 0 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(167,139,250,0.2);
+    letter-spacing: -0.5px;
+    position: relative;
+}
+
+.section-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 48px;
+    height: 2px;
+    background: #a78bfa;
+}
+
+.badge-container { display: flex; flex-wrap: wrap; gap: 10px; margin: 15px 0; }
+
+.badge {
+    background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.3) 100%);
+    border: 1px solid rgba(167,139,250,0.2);
+    border-radius: 10px;
+    padding: 10px 15px;
+    text-align: center;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.badge:hover { transform: scale(1.1); border-color: #a78bfa; box-shadow: 0 0 15px rgba(167,139,250,0.3); }
+.badge-locked { opacity: 0.3; }
+
+.challenge-box {
+    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
+    border: 1px solid rgba(167,139,250,0.2);
+    border-radius: 12px;
+    padding: 15px;
+    margin: 10px 0;
+}
+.challenge-completed { border-color: #22c55e; background: linear-gradient(145deg, rgba(34,197,94,0.1) 0%, rgba(0,0,0,0.2) 100%); }
+
+.streak-fire { font-size: 2rem; animation: bounce 1s infinite; }
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.success-box {
+    background: linear-gradient(145deg, rgba(34,197,94,0.1) 0%, rgba(34,197,94,0.05) 100%);
+    border: 1px solid rgba(34,197,94,0.3);
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 15px;
+    font-family: 'Courier New', monospace;
+    color: #22c55e;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+.error-box {
+    background: linear-gradient(145deg, rgba(239,68,68,0.1) 0%, rgba(239,68,68,0.05) 100%);
+    border: 1px solid rgba(239,68,68,0.3);
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 15px;
+    font-family: 'Courier New', monospace;
+    color: #ff6b6b;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+.achievement-pop { animation: slideIn 0.5s ease-out; }
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+div[data-testid="stTextInput"] input {
+    background-color: rgba(255,255,255,0.03) !important;
+    color: #e2e8f0 !important;
+    border: 1px solid rgba(167,139,250,0.25) !important;
+    border-radius: 14px !important;
+    padding: 14px 22px !important;
+    font-size: 0.95rem !important;
+}
+hr {
+    border: none !important;
+    border-top: 1px solid rgba(167,139,250,0.1) !important;
+    margin: 40px 0 !important;
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0a0e27; }
+::-webkit-scrollbar-thumb { background: rgba(167,139,250,0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(167,139,250,0.4); }
+</style>
+""", unsafe_allow_html=True)
+
+# ── HERO ──
+st.markdown("""
+<div class="hero-wrapper">
+    <h1 class="hero-title">
+        Melhores Práticas DAX para <span class="accent">modelos que performam</span>
+    </h1>
+    <p class="hero-subtitle">
+        Domine contexto de filtro, funções iteradoras e Time Intelligence.
+        Escreva medidas DAX limpas, rápidas e fáceis de manter.
+    </p>
+    <div class="hero-stats">
+        <div class="hero-stat">
+            <span class="hero-stat-number">30+</span>
+            <span class="hero-stat-label">Práticas</span>
+        </div>
+        <div class="hero-stat">
+            <span class="hero-stat-number">6</span>
+            <span class="hero-stat-label">Categorias</span>
+        </div>
+        <div class="hero-stat">
+            <span class="hero-stat-number">3</span>
+            <span class="hero-stat-label">Níveis</span>
+        </div>
+    </div>
+    <div class="hero-divider"></div>
+</div>
+""", unsafe_allow_html=True)
+
+
+# --- FUNÇÕES AUXILIARES ---
+def get_current_level(xp):
+    for level in sorted(MASTERY_LEVELS.keys(), reverse=True):
+        if xp >= MASTERY_LEVELS[level]["xp_required"]:
+            return level
+    return 1
+
+def get_xp_for_next_level(current_level):
+    if current_level >= 5:
+        return MASTERY_LEVELS[5]["xp_required"] + 1000
+    return MASTERY_LEVELS[current_level + 1]["xp_required"]
+
+def check_badges(learned_count, favorites_count, sim_correct_count, points):
+    new_badges = set()
+    if learned_count >= 1: new_badges.add("first_steps")
+    if learned_count >= 10: new_badges.add("ten_practices")
+    if learned_count >= 20: new_badges.add("twenty_practices")
+    if favorites_count >= 10: new_badges.add("favorite_collector")
+    if sim_correct_count >= 10: new_badges.add("simulator_fan")
+    if points >= 1000: new_badges.add("code_master")
+    return new_badges
+
+
+# --- HEADER PONTOS + STREAK ---
+col1, col2, col3 = st.columns([2, 3, 2])
+with col2:
+    st.markdown('<h3 style="text-align: center; color: #7c3aed;">Jornada de Maestria DAX</h3>', unsafe_allow_html=True)
+with col3:
+    st.markdown(f'<h1 style="text-align: center; font-size: 2rem;">⭐ {st.session_state.dax_points} pontos</h1>', unsafe_allow_html=True)
+
+current_level = get_current_level(st.session_state.dax_xp)
+current_xp = st.session_state.dax_xp
+
+if st.session_state.dax_streak > 0:
+    st.markdown(f'<p style="text-align: center; font-size: 1.3rem;"><span class="streak-fire">🔥</span> {st.session_state.dax_streak} dias em sequência!</p>', unsafe_allow_html=True)
+
+# --- TABS ---
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["📚 Práticas", "🧩 Simulador de Fórmulas", "🎯 Desafios", "🏆 Badges", "📊 Perfil"])
+
+# ============================================================================
+# TAB 1: PRÁTICAS
+# ============================================================================
+with tab1:
+    st.markdown('<h3 class="section-header">🔎 Filtrar Práticas</h3>', unsafe_allow_html=True)
+    col1, col2 = st.columns(2)
+    with col1:
+        selected_difficulty = st.selectbox("📈 Nível de Dificuldade", ["Todas", "Iniciante", "Intermediário", "Avançado"], key="dax_difficulty")
+    with col2:
+        search = st.text_input("🔍 Buscar prática", key="dax_search")
+
+    dax_practices = [
+        # ── INICIANTE ──
+        {"icon": "🧮", "title": "Medida vs Coluna Calculada", "category": "Fundamentos", "difficulty": "Iniciante",
+         "description": "Prefira medidas a colunas calculadas quando o valor depende do contexto do relatório.",
+         "bad_code": "Total Vendas (Coluna) =\nVendas[Quantidade] * Vendas[PrecoUnitario]",
+         "good_code": "Total Vendas (Medida) =\nSUMX(Vendas, Vendas[Quantidade] * Vendas[PrecoUnitario])",
+         "benefit": "Recalcula dinamicamente conforme os filtros do relatório.",
+         "explanation": "Colunas calculadas são fixas na tabela; medidas respeitam o contexto de filtro de cada visual."},
+        {"icon": "➗", "title": "Usar DIVIDE() em vez de /", "category": "Fundamentos", "difficulty": "Iniciante",
+         "description": "Evite erros de divisão por zero.",
+         "bad_code": "Margem % =\nVendas[Lucro] / Vendas[Receita]",
+         "good_code": "Margem % =\nDIVIDE(Vendas[Lucro], Vendas[Receita], 0)",
+         "benefit": "Sem erros na visualização.",
+         "explanation": "DIVIDE() tem um terceiro argumento opcional para valor alternativo quando o denominador é 0 ou em branco."},
+        {"icon": "📐", "title": "Usar SUM() para Somas Simples", "category": "Fundamentos", "difficulty": "Iniciante",
+         "description": "Para somas de uma única coluna, SUM é suficiente e mais performático que SUMX.",
+         "bad_code": "Total Vendas =\nSUMX(Vendas, Vendas[ValorTotal])",
+         "good_code": "Total Vendas =\nSUM(Vendas[ValorTotal])",
+         "benefit": "Mais rápido e legível.",
+         "explanation": "SUMX só é necessário quando é preciso calcular uma expressão linha a linha antes de somar."},
+        {"icon": "🔠", "title": "Nomear Medidas com Clareza", "category": "Qualidade & Manutenção", "difficulty": "Iniciante",
+         "description": "Use nomes descritivos e formatação consistente.",
+         "bad_code": "M1 = SUM(Vendas[Valor])",
+         "good_code": "Total de Vendas (R$) = SUM(Vendas[Valor])",
+         "benefit": "Facilita manutenção e reuso.",
+         "explanation": "Nomes claros ajudam outros desenvolvedores (e você no futuro) a entender o propósito da medida."},
+        {"icon": "🧱", "title": "Organizar Medidas em Display Folders", "category": "Qualidade & Manutenção", "difficulty": "Iniciante",
+         "description": "Agrupe medidas relacionadas em pastas de exibição.",
+         "bad_code": "-- Todas as medidas soltas na tabela, sem organização --",
+         "good_code": "-- Vendas[Total Vendas] -> pasta \"01. Vendas\"\n-- Vendas[Margem %] -> pasta \"02. Rentabilidade\"",
+         "benefit": "Modelo mais navegável.",
+         "explanation": "Display Folders (configuráveis no painel de propriedades) organizam o painel de campos para o usuário final."},
+        {"icon": "🎯", "title": "Usar COUNTROWS() em vez de COUNT()", "category": "Fundamentos", "difficulty": "Iniciante",
+         "description": "Para contar linhas de uma tabela, prefira COUNTROWS.",
+         "bad_code": "Qtd Pedidos =\nCOUNT(Vendas[IDPedido])",
+         "good_code": "Qtd Pedidos =\nCOUNTROWS(Vendas)",
+         "benefit": "Mais rápido, ignora nulos corretamente.",
+         "explanation": "COUNTROWS conta linhas da tabela diretamente, sem depender de uma coluna específica não estar em branco."},
+        {"icon": "🔑", "title": "Usar DISTINCTCOUNT() para Contagens Únicas", "category": "Fundamentos", "difficulty": "Iniciante",
+         "description": "Conte valores distintos de forma nativa.",
+         "bad_code": "Clientes Únicos =\nCOUNTROWS(VALUES(Vendas[ClienteID]))",
+         "good_code": "Clientes Únicos =\nDISTINCTCOUNT(Vendas[ClienteID])",
+         "benefit": "Sintaxe direta.",
+         "explanation": "DISTINCTCOUNT é otimizada especificamente para essa operação."},
+        {"icon": "🚦", "title": "Usar IF() com Poucas Condições", "category": "Fundamentos", "difficulty": "Iniciante",
+         "description": "Para 2-3 condições, IF é claro; para mais, use SWITCH.",
+         "bad_code": "Status =\nIF(Vendas[Qtd] > 100, \"Alto\",\n  IF(Vendas[Qtd] > 50, \"Médio\",\n    IF(Vendas[Qtd] > 0, \"Baixo\", \"Zero\")))",
+         "good_code": "Status =\nSWITCH(\n    TRUE(),\n    Vendas[Qtd] > 100, \"Alto\",\n    Vendas[Qtd] > 50, \"Médio\",\n    Vendas[Qtd] > 0, \"Baixo\",\n    \"Zero\"\n)",
+         "benefit": "Mais legível.",
+         "explanation": "SWITCH(TRUE(), ...) substitui cadeias de IF aninhados com clareza superior."},
+        {"icon": "🈳", "title": "Tratar Valores em Branco com BLANK()", "category": "Fundamentos", "difficulty": "Iniciante",
+         "description": "Retorne BLANK() explicitamente quando não há dado, em vez de 0 ou texto.",
+         "bad_code": "Meta Atingida =\nIF(ISBLANK([Total Vendas]), 0, [Total Vendas] / [Meta])",
+         "good_code": "Meta Atingida =\nIF(ISBLANK([Total Vendas]), BLANK(), [Total Vendas] / [Meta])",
+         "benefit": "Visuais mais limpos.",
+         "explanation": "BLANK() faz com que o Power BI omita a linha/categoria em vez de mostrar 0 enganosamente."},
+        {"icon": "📋", "title": "Comentar Medidas Complexas", "category": "Qualidade & Manutenção", "difficulty": "Iniciante",
+         "description": "Use -- ou /* */ para documentar lógica não óbvia.",
+         "bad_code": "Vendas LY =\nCALCULATE([Total Vendas], SAMEPERIODLASTYEAR('Calendario'[Data]))",
+         "good_code": "-- Vendas do mesmo período no ano anterior, usada para comparativos YoY\nVendas LY =\nCALCULATE(\n    [Total Vendas],\n    SAMEPERIODLASTYEAR('Calendario'[Data])\n)",
+         "benefit": "Facilita manutenção futura.",
+         "explanation": "Comentários explicam o 'porquê', não apenas o 'o quê', economizando tempo de quem revisar depois."},
+
+        # ── INTERMEDIÁRIO ──
+        {"icon": "🧠", "title": "Entender CALCULATE como Modificador de Contexto", "category": "Contexto de Filtro", "difficulty": "Intermediário",
+         "description": "CALCULATE altera o contexto de filtro de uma expressão.",
+         "bad_code": "-- Tentando filtrar sem CALCULATE (não funciona como esperado) --\nVendas SP =\nIF(Vendas[Estado] = \"SP\", [Total Vendas])",
+         "good_code": "Vendas SP =\nCALCULATE(\n    [Total Vendas],\n    Vendas[Estado] = \"SP\"\n)",
+         "benefit": "Filtro aplicado corretamente.",
+         "explanation": "CALCULATE é a única função que modifica o contexto de filtro atual de forma confiável em DAX."},
+        {"icon": "🔄", "title": "Context Transition com CALCULATE", "category": "Contexto de Filtro", "difficulty": "Intermediário",
+         "description": "Entenda que CALCULATE converte contexto de linha em contexto de filtro.",
+         "bad_code": "-- Coluna calculada tentando somar tudo do cliente sem transição --\nTotal do Cliente =\nSUM(Vendas[Valor])  -- retorna só a própria linha",
+         "good_code": "Total do Cliente =\nCALCULATE(\n    SUM(Vendas[Valor]),\n    ALLEXCEPT(Vendas, Vendas[ClienteID])\n)",
+         "benefit": "Agregações corretas por grupo.",
+         "explanation": "Ao usar CALCULATE dentro de um contexto de linha, o DAX transforma os valores da linha atual em filtros equivalentes."},
+        {"icon": "🚫", "title": "ALL() para Remover Filtros", "category": "Contexto de Filtro", "difficulty": "Intermediário",
+         "description": "Use ALL() para ignorar filtros de uma tabela/coluna, útil em % do total.",
+         "bad_code": "-- % do Total sem remover filtro do produto atual --\n% do Total =\nDIVIDE([Total Vendas], [Total Vendas])  -- sempre 100%",
+         "good_code": "% do Total =\nDIVIDE(\n    [Total Vendas],\n    CALCULATE([Total Vendas], ALL(Produtos))\n)",
+         "benefit": "Cálculo correto de participação.",
+         "explanation": "ALL(Produtos) remove os filtros da tabela Produtos, calculando o total geral independente do produto selecionado."},
+        {"icon": "🎯", "title": "ALLEXCEPT() para Manter Alguns Filtros", "category": "Contexto de Filtro", "difficulty": "Intermediário",
+         "description": "Remova todos os filtros de uma tabela, exceto os especificados.",
+         "bad_code": "-- Remove TODOS os filtros da tabela, incluindo os que deveriam ficar --\nTotal Categoria =\nCALCULATE([Total Vendas], ALL(Produtos))",
+         "good_code": "Total Categoria =\nCALCULATE(\n    [Total Vendas],\n    ALLEXCEPT(Produtos, Produtos[Categoria])\n)",
+         "benefit": "Mantém o contexto desejado.",
+         "explanation": "ALLEXCEPT é mais seguro que combinar ALL() com múltiplos VALUES(), pois lista explicitamente o que preservar."},
+        {"icon": "🔍", "title": "Usar VALUES() vs DISTINCT()", "category": "Contexto de Filtro", "difficulty": "Intermediário",
+         "description": "VALUES() inclui uma linha em branco se houver valores ausentes; DISTINCT() não.",
+         "bad_code": "-- Usando DISTINCT quando se precisa detectar linhas em branco --\nQtd Categorias =\nCOUNTROWS(DISTINCT(Produtos[Categoria]))",
+         "good_code": "Qtd Categorias =\nCOUNTROWS(VALUES(Produtos[Categoria]))",
+         "benefit": "Comportamento previsível com relacionamentos.",
+         "explanation": "VALUES() é a escolha padrão em a maioria dos padrões de CALCULATE por respeitar corretamente a linha em branco de relacionamentos."},
+        {"icon": "🧾", "title": "Variáveis (VAR/RETURN)", "category": "Qualidade & Performance", "difficulty": "Intermediário",
+         "description": "Use VAR para evitar recalcular a mesma expressão múltiplas vezes.",
+         "bad_code": "Margem % =\nDIVIDE(\n    [Total Vendas] - [Total Custo],\n    [Total Vendas]\n) * 100",
+         "good_code": "Margem % =\nVAR TotalVendas = [Total Vendas]\nVAR TotalCusto = [Total Custo]\nRETURN\n    DIVIDE(TotalVendas - TotalCusto, TotalVendas) * 100",
+         "benefit": "Mais rápido e legível.",
+         "explanation": "VAR calcula a expressão uma única vez e reutiliza o valor, evitando reprocessamento e facilitando debug."},
+        {"icon": "📊", "title": "SUMX para Cálculos Linha a Linha", "category": "Iteradoras", "difficulty": "Intermediário",
+         "description": "Use SUMX quando o cálculo depende de múltiplas colunas por linha.",
+         "bad_code": "-- Não é possível multiplicar colunas de tabelas diferentes com SUM --\nReceita Total =\nSUM(Vendas[Quantidade]) * SUM(Vendas[PrecoUnitario])  -- errado!",
+         "good_code": "Receita Total =\nSUMX(\n    Vendas,\n    Vendas[Quantidade] * Vendas[PrecoUnitario]\n)",
+         "benefit": "Resultado matematicamente correto.",
+         "explanation": "SUM(A)*SUM(B) não equivale a somar A*B linha a linha; SUMX percorre cada linha antes de agregar."},
+        {"icon": "🔗", "title": "RELATED() vs RELATEDTABLE()", "category": "Modelagem", "difficulty": "Intermediário",
+         "description": "RELATED busca do lado 'muitos' para 'um'; RELATEDTABLE faz o inverso.",
+         "bad_code": "-- Tentando usar RELATED do lado \"um\" para \"muitos\" (não funciona) --\nQtd Pedidos do Produto =\nRELATED(Vendas[IDPedido])",
+         "good_code": "Qtd Pedidos do Produto =\nCOUNTROWS(RELATEDTABLE(Vendas))",
+         "benefit": "Direção correta da navegação.",
+         "explanation": "RELATED() funciona na direção N:1 (traz 1 valor); RELATEDTABLE() funciona na direção 1:N (traz uma tabela)."},
+        {"icon": "🏆", "title": "RANKX para Ranking", "category": "Iteradoras", "difficulty": "Intermediário",
+         "description": "Use RANKX para criar rankings dinâmicos que respeitam filtros.",
+         "bad_code": "-- Ranking fixo calculado fora do DAX, não reage a filtros --\nRanking = 1  -- valor estático inserido manualmente",
+         "good_code": "Ranking Produtos =\nRANKX(\n    ALL(Produtos[Nome]),\n    [Total Vendas],\n    ,\n    DESC\n)",
+         "benefit": "Ranking dinâmico e correto.",
+         "explanation": "RANKX recalcula a posição de cada item conforme os filtros aplicados no relatório."},
+        {"icon": "🧩", "title": "KEEPFILTERS() para Filtros Aditivos", "category": "Contexto de Filtro", "difficulty": "Intermediário",
+         "description": "Use KEEPFILTERS quando quiser combinar (não substituir) filtros existentes.",
+         "bad_code": "-- CALCULATE substitui o filtro de categoria existente --\nVendas Eletrônicos =\nCALCULATE([Total Vendas], Produtos[Categoria] = \"Eletrônicos\")",
+         "good_code": "Vendas Eletrônicos =\nCALCULATE(\n    [Total Vendas],\n    KEEPFILTERS(Produtos[Categoria] = \"Eletrônicos\")\n)",
+         "benefit": "Combina filtros ao invés de sobrescrever.",
+         "explanation": "Sem KEEPFILTERS, o filtro do CALCULATE substitui qualquer filtro de categoria já aplicado por um segmentador, por exemplo."},
+
+        # ── AVANÇADO ──
+        {"icon": "📅", "title": "Time Intelligence com Tabela Calendário", "category": "Time Intelligence", "difficulty": "Avançado",
+         "description": "Funções de Time Intelligence exigem uma tabela calendário marcada como tabela de datas.",
+         "bad_code": "Vendas LY =\nCALCULATE([Total Vendas], SAMEPERIODLASTYEAR(Vendas[DataVenda]))",
+         "good_code": "-- Com 'Calendario' marcada como Date Table e relacionada a Vendas[DataVenda]\nVendas LY =\nCALCULATE(\n    [Total Vendas],\n    SAMEPERIODLASTYEAR('Calendario'[Data])\n)",
+         "benefit": "Cálculos de data confiáveis.",
+         "explanation": "Usar a coluna da tabela fato diretamente pode gerar resultados incorretos se houver datas faltando (gaps)."},
+        {"icon": "📈", "title": "TOTALYTD / TOTALQTD / TOTALMTD", "category": "Time Intelligence", "difficulty": "Avançado",
+         "description": "Use as funções TOTAL* para acumulados de período de forma direta.",
+         "bad_code": "Vendas YTD =\nCALCULATE(\n    [Total Vendas],\n    DATESYTD('Calendario'[Data])\n)",
+         "good_code": "Vendas YTD =\nTOTALYTD([Total Vendas], 'Calendario'[Data])",
+         "benefit": "Sintaxe mais direta.",
+         "explanation": "TOTALYTD é um atalho para CALCULATE + DATESYTD, mais legível para o caso comum de acumulado anual."},
+        {"icon": "↔️", "title": "DATEADD() para Comparativos de Período", "category": "Time Intelligence", "difficulty": "Avançado",
+         "description": "Use DATEADD para deslocar o contexto de tempo de forma genérica.",
+         "bad_code": "-- SAMEPERIODLASTYEAR só funciona para deslocar 1 ano --\nVendas 3 Meses Atras = \"não é possível com essa função\"",
+         "good_code": "Vendas 3 Meses Atrás =\nCALCULATE(\n    [Total Vendas],\n    DATEADD('Calendario'[Data], -3, MONTH)\n)",
+         "benefit": "Flexibilidade de período.",
+         "explanation": "DATEADD aceita qualquer intervalo (DAY, MONTH, QUARTER, YEAR) e qualquer deslocamento positivo ou negativo."},
+        {"icon": "🧮", "title": "Medidas de Comparação (YoY %)", "category": "Time Intelligence", "difficulty": "Avançado",
+         "description": "Combine VAR com Time Intelligence para crescimento percentual.",
+         "bad_code": "Crescimento YoY =\n([Total Vendas] - [Vendas LY]) / [Vendas LY]",
+         "good_code": "Crescimento YoY % =\nVAR VendasAtual = [Total Vendas]\nVAR VendasAnoAnterior = [Vendas LY]\nRETURN\n    DIVIDE(VendasAtual - VendasAnoAnterior, VendasAnoAnterior)",
+         "benefit": "Sem erros de divisão por zero.",
+         "explanation": "Combinar VAR com DIVIDE deixa a lógica de negócio explícita e protegida contra denominador zero/em branco."},
+        {"icon": "🕸️", "title": "Star Schema em vez de Tabela Única", "category": "Modelagem", "difficulty": "Avançado",
+         "description": "Modele em esquema estrela (fatos e dimensões) em vez de uma única tabela larga.",
+         "bad_code": "-- Uma única tabela \"Vendas\" com todas as colunas de cliente, produto e data misturadas --",
+         "good_code": "-- Fato: Vendas(ClienteID, ProdutoID, DataID, Quantidade, Valor)\n-- Dimensões: Clientes, Produtos, Calendario",
+         "benefit": "Melhor performance e medidas mais simples.",
+         "explanation": "O motor VertiPaq é otimizado para esquemas estrela; tabelas únicas dificultam relacionamentos e Time Intelligence."},
+        {"icon": "🚫", "title": "Evitar Relacionamentos Bidirecionais Desnecessários", "category": "Modelagem", "difficulty": "Avançado",
+         "description": "Use filtro cruzado bidirecional apenas quando realmente necessário.",
+         "bad_code": "-- Todos os relacionamentos configurados como \"Ambos\" por padrão --",
+         "good_code": "-- Relacionamentos como \"Único\" (dimensão -> fato)\n-- Bidirecional apenas em casos específicos, como tabelas ponte muitos-para-muitos",
+         "benefit": "Evita ambiguidade e melhora performance.",
+         "explanation": "Filtro cruzado bidirecional pode causar ambiguidade em modelos com múltiplas tabelas fato e degradar performance."},
+        {"icon": "⚡", "title": "Evitar FILTER() em Tabelas Grandes sem Necessidade", "category": "Performance", "difficulty": "Avançado",
+         "description": "Prefira filtros diretos em CALCULATE a FILTER() de tabela inteira quando possível.",
+         "bad_code": "Vendas Altas =\nCALCULATE(\n    [Total Vendas],\n    FILTER(Vendas, Vendas[Valor] > 1000)\n)",
+         "good_code": "Vendas Altas =\nCALCULATE(\n    [Total Vendas],\n    Vendas[Valor] > 1000\n)",
+         "benefit": "Mais rápido em tabelas grandes.",
+         "explanation": "Um filtro booleano direto no CALCULATE é traduzido em um filtro nativo do motor, mais eficiente que FILTER() varrendo a tabela inteira."},
+        {"icon": "🧵", "title": "Medidas Auxiliares para Reuso", "category": "Qualidade & Performance", "difficulty": "Avançado",
+         "description": "Quebre lógica complexa em medidas menores e reutilizáveis.",
+         "bad_code": "Margem Líquida % =\nDIVIDE(\n    SUMX(Vendas, Vendas[Valor] - Vendas[Custo]) - [Despesas Operacionais],\n    SUMX(Vendas, Vendas[Valor])\n)",
+         "good_code": "Lucro Bruto = SUMX(Vendas, Vendas[Valor] - Vendas[Custo])\nLucro Líquido = [Lucro Bruto] - [Despesas Operacionais]\nMargem Líquida % = DIVIDE([Lucro Líquido], [Total Vendas])",
+         "benefit": "Reutilizável e testável.",
+         "explanation": "Medidas menores podem ser reaproveitadas em outras medidas e são mais fáceis de auditar e depurar individualmente."},
+        {"icon": "🔬", "title": "Usar DAX Studio / Performance Analyzer", "category": "Performance", "difficulty": "Avançado",
+         "description": "Meça o tempo de execução real das medidas antes de otimizar.",
+         "bad_code": "-- Otimizar 'no escuro', sem medir antes e depois --",
+         "good_code": "-- 1. Abrir Performance Analyzer no Power BI Desktop\n-- 2. Identificar visuais/medidas lentas (tempo de motor de dados x visual)\n-- 3. Usar DAX Studio para ver o plano de consulta (query plan)",
+         "benefit": "Otimização baseada em dados reais.",
+         "explanation": "Sem medir, é fácil 'otimizar' algo que já era rápido e ignorar o verdadeiro gargalo."},
+        {"icon": "🧊", "title": "Evitar Calcular em Tempo de Consulta o que pode ser Pré-calculado", "category": "Performance", "difficulty": "Avançado",
+         "description": "Quando o valor não muda com o contexto do relatório, calcule na consulta de origem (Power Query) ou em coluna calculada.",
+         "bad_code": "-- Medida recalculando algo estático em toda renderização de visual --\nIdade do Cliente =\nDATEDIFF(Clientes[DataNascimento], TODAY(), YEAR)",
+         "good_code": "-- Calculado 1x como coluna na tabela Clientes (ou no Power Query)\nClientes[IdadeAtual] =\nDATEDIFF(Clientes[DataNascimento], TODAY(), YEAR)",
+         "benefit": "Menos recomputação em tempo de consulta.",
+         "explanation": "Valores que não dependem do contexto de filtro do visual são bons candidatos a coluna calculada ou transformação no Power Query, evitando reprocessamento a cada interação."},
+    ]
+
+    filtered = dax_practices
+    if selected_difficulty != "Todas":
+        filtered = [p for p in filtered if p["difficulty"] == selected_difficulty]
+    if search:
+        filtered = [p for p in filtered if search.lower() in p["title"].lower()]
+
+    st.markdown('<h3 class="section-header">📖 Melhores Práticas</h3>', unsafe_allow_html=True)
+    st.markdown(f'**Mostrando {len(filtered)} de {len(dax_practices)} práticas**')
+
+    for idx, p in enumerate(filtered):
+        is_learned = idx in st.session_state.dax_learned
+        is_favorite = idx in st.session_state.dax_favorites
+
+        with st.expander(f"{p['icon']} {p['title']} — {p['difficulty']}" + (" ✅" if is_learned else "") + (" ⭐" if is_favorite else ""), expanded=False):
+            col1, col2 = st.columns([3, 1])
+            with col1:
+                st.markdown(f"**Descrição:** {p['description']}")
+                st.markdown(f"**Benefício:** {p['benefit']}")
+                st.markdown(f"**Categoria:** `{p['category']}`")
+            with col2:
+                if is_favorite:
+                    if st.button("★ Favoritado", key=f"dax_fav_{idx}"):
+                        st.session_state.dax_favorites.discard(idx)
+                        st.session_state.dax_points -= 5
+                        st.session_state.dax_xp -= 5
+                        st.rerun()
+                elif st.button("⭐ Favoritar", key=f"dax_fav_{idx}"):
+                    st.session_state.dax_favorites.add(idx)
+                    st.session_state.dax_points += 5
+                    st.session_state.dax_xp += 5
+                    st.rerun()
+                if is_learned:
+                    st.button("✅ Aprendida", key=f"dax_learn_{idx}", disabled=True)
+                elif st.button("✅ Aprendida", key=f"dax_learn_{idx}"):
+                    st.session_state.dax_learned.add(idx)
+                    st.session_state.dax_points += 25
+                    st.session_state.dax_xp += 25
+                    st.rerun()
+
+            st.markdown("**❌ Evitar:**")
+            st.code(p["bad_code"], language="dax")
+            st.markdown("**✅ Preferir:**")
+            st.code(p["good_code"], language="dax")
+            st.markdown(f"**Explicação:** {p['explanation']}")
+
+# ============================================================================
+# TAB 2: SIMULADOR DE FÓRMULAS
+# ============================================================================
+with tab2:
+    st.markdown('<h3 class="section-header">🧩 Simulador de Fórmulas DAX</h3>', unsafe_allow_html=True)
+    st.markdown(
+        "Complete a fórmula DAX correta para cada cenário. "
+        "Isso não executa em um modelo real do Power BI — é um exercício de fixação de sintaxe e lógica."
+    )
+
+    simulador_exercicios = [
+        {
+            "pergunta": "Você quer somar a coluna Vendas[ValorTotal] de forma simples. Qual medida você escreve?",
+            "opcoes": [
+                "Total Vendas = SUMX(Vendas, Vendas[ValorTotal])",
+                "Total Vendas = SUM(Vendas[ValorTotal])",
+                "Total Vendas = Vendas[ValorTotal]",
+            ],
+            "correta": 1,
+            "explicacao": "SUM() é suficiente e mais performático para somar uma única coluna diretamente.",
+        },
+        {
+            "pergunta": "Como evitar erro de divisão por zero ao calcular Margem = Lucro / Receita?",
+            "opcoes": [
+                "Margem = Lucro / Receita",
+                "Margem = DIVIDE(Lucro, Receita, 0)",
+                "Margem = IF(Receita = 0, Lucro / Receita)",
+            ],
+            "correta": 1,
+            "explicacao": "DIVIDE() trata denominador zero ou em branco retornando o valor alternativo (0 no exemplo).",
+        },
+        {
+            "pergunta": "Qual fórmula calcula corretamente a receita multiplicando Quantidade x PreçoUnitário linha a linha?",
+            "opcoes": [
+                "Receita = SUM(Vendas[Quantidade]) * SUM(Vendas[PrecoUnitario])",
+                "Receita = SUMX(Vendas, Vendas[Quantidade] * Vendas[PrecoUnitario])",
+                "Receita = Vendas[Quantidade] * Vendas[PrecoUnitario]",
+            ],
+            "correta": 1,
+            "explicacao": "SUMX percorre cada linha calculando Quantidade x Preço antes de somar; SUM(A)*SUM(B) dá resultado errado.",
+        },
+        {
+            "pergunta": "Como calcular vendas apenas do estado 'SP', ignorando o filtro da página inteira?",
+            "opcoes": [
+                "Vendas SP = IF(Vendas[Estado] = \"SP\", [Total Vendas])",
+                "Vendas SP = CALCULATE([Total Vendas], Vendas[Estado] = \"SP\")",
+                "Vendas SP = FILTER([Total Vendas], \"SP\")",
+            ],
+            "correta": 1,
+            "explicacao": "CALCULATE é a função que aplica um novo filtro (Estado = 'SP') sobre a expressão.",
+        },
+        {
+            "pergunta": "Qual função remove todos os filtros da tabela Produtos, mantendo apenas o filtro de Categoria?",
+            "opcoes": [
+                "ALL(Produtos)",
+                "ALLEXCEPT(Produtos, Produtos[Categoria])",
+                "VALUES(Produtos[Categoria])",
+            ],
+            "correta": 1,
+            "explicacao": "ALLEXCEPT remove todos os filtros da tabela, exceto os das colunas especificadas.",
+        },
+        {
+            "pergunta": "Como calcular as vendas do mesmo período do ano anterior, com 'Calendario' marcada como tabela de datas?",
+            "opcoes": [
+                "Vendas LY = CALCULATE([Total Vendas], SAMEPERIODLASTYEAR('Calendario'[Data]))",
+                "Vendas LY = [Total Vendas] - 1",
+                "Vendas LY = CALCULATE([Total Vendas], 'Calendario'[Data] - 365)",
+            ],
+            "correta": 0,
+            "explicacao": "SAMEPERIODLASTYEAR desloca corretamente o período para o ano anterior, respeitando meses e dias.",
+        },
+        {
+            "pergunta": "Qual a forma correta de criar um ranking de produtos por Total de Vendas, do maior para o menor?",
+            "opcoes": [
+                "Ranking = RANKX(ALL(Produtos[Nome]), [Total Vendas], , DESC)",
+                "Ranking = SORT(Produtos[Nome], [Total Vendas])",
+                "Ranking = ORDERBY([Total Vendas])",
+            ],
+            "correta": 0,
+            "explicacao": "RANKX calcula a posição de cada item dentro do conjunto informado (aqui, todos os produtos), na ordem DESC.",
+        },
+        {
+            "pergunta": "Você quer usar variáveis para evitar recalcular [Total Vendas] duas vezes numa medida. Qual estrutura usar?",
+            "opcoes": [
+                "Margem % = [Total Vendas] - [Total Custo] / [Total Vendas]",
+                "Margem % = VAR TotalVendas = [Total Vendas] VAR TotalCusto = [Total Custo] RETURN DIVIDE(TotalVendas - TotalCusto, TotalVendas)",
+                "Margem % = CALCULATE([Total Vendas] - [Total Custo]) / [Total Vendas]",
+            ],
+            "correta": 1,
+            "explicacao": "VAR/RETURN calcula cada valor uma única vez e reutiliza, deixando a medida mais rápida e legível.",
+        },
+    ]
+
+    acertos = 0
+    for i, ex in enumerate(simulador_exercicios):
+        st.markdown(f"**{i+1}. {ex['pergunta']}**")
+        resposta = st.radio(
+            "Escolha a fórmula correta:",
+            options=list(range(len(ex["opcoes"]))),
+            format_func=lambda x, ex=ex: ex["opcoes"][x],
+            key=f"dax_sim_{i}",
+            index=None,
+            label_visibility="collapsed",
+        )
+        if resposta is not None:
+            if resposta == ex["correta"]:
+                acertos += 1
+                if i not in st.session_state.dax_sim_correct:
+                    st.session_state.dax_sim_correct.add(i)
+                    st.session_state.dax_xp += 10
+                    st.session_state.dax_points += 10
+                st.markdown(f'<div class="success-box achievement-pop">✅ Correto! {ex["explicacao"]}</div>', unsafe_allow_html=True)
+            else:
+                st.markdown(f'<div class="error-box">❌ Não é essa. Dica: {ex["explicacao"]}</div>', unsafe_allow_html=True)
+        st.markdown("---")
+
+    st.markdown(f"### 🎯 Progresso: {len(st.session_state.dax_sim_correct)}/{len(simulador_exercicios)} exercícios corretos")
+
+# ============================================================================
+# TAB 3: DESAFIOS
+# ============================================================================
+with tab3:
+    st.markdown('<h3 class="section-header">🎯 Desafios Semanais</h3>', unsafe_allow_html=True)
+    st.markdown("Complete desafios para ganhar XP e subir de nível!")
+
+    for challenge in CHALLENGES:
+        is_completed = challenge["id"] in st.session_state.dax_challenges_completed
+        col1, col2 = st.columns([4, 1])
+        with col1:
+            status = "✅ Completo" if is_completed else f"🎯 {challenge['difficulty']}"
+            st.markdown(f"""
+            <div class="challenge-box {'challenge-completed' if is_completed else ''}">
+                <h4>{challenge['title']} {status}</h4>
+                <p>{challenge['description']}</p>
+                <p><strong>Recompensa:</strong> +{challenge['xp_reward']} XP</p>
+            </div>
+            """, unsafe_allow_html=True)
+        with col2:
+            if not is_completed:
+                if st.button("Marcar ✓", key=f"dax_challenge_{challenge['id']}"):
+                    st.session_state.dax_challenges_completed.add(challenge["id"])
+                    st.session_state.dax_xp += challenge["xp_reward"]
+                    st.session_state.dax_points += challenge["xp_reward"]
+                    st.rerun()
+
+# ============================================================================
+# TAB 4: BADGES
+# ============================================================================
+with tab4:
+    st.markdown('<h3 class="section-header">🏆 Suas Conquistas</h3>', unsafe_allow_html=True)
+
+    learned_count = len(st.session_state.dax_learned)
+    favorites_count = len(st.session_state.dax_favorites)
+    sim_correct_count = len(st.session_state.dax_sim_correct)
+    current_badges = check_badges(learned_count, favorites_count, sim_correct_count, st.session_state.dax_points)
+    st.session_state.dax_badges = current_badges
+
+    st.markdown(f"""
+    ### 📊 Estatísticas
+    - **Práticas Aprendidas:** {learned_count}/30
+    - **Práticas Favoritadas:** {favorites_count}
+    - **Exercícios Corretos no Simulador:** {sim_correct_count}
+    - **Pontos Totais:** {st.session_state.dax_points}
+    - **XP Total:** {st.session_state.dax_xp}
+    """)
+
+    unlocked = [(bid, bi) for bid, bi in BADGES.items() if bid in st.session_state.dax_badges]
+    locked = [(bid, bi) for bid, bi in BADGES.items() if bid not in st.session_state.dax_badges]
+
+    st.markdown("### 🎖️ Badges Desbloqueados")
+    if unlocked:
+        cols = st.columns(5)
+        for idx, (badge_id, badge_info) in enumerate(unlocked):
+            with cols[idx % 5]:
+                st.markdown(f'<div class="badge">{badge_info["icon"]}<br><small><b>{badge_info["title"]}</b></small></div>', unsafe_allow_html=True)
+    else:
+        st.caption("Nenhum badge desbloqueado ainda — comece completando práticas!")
+
+    st.markdown("### 🔒 Badges Bloqueados")
+    if locked:
+        cols = st.columns(5)
+        for idx, (badge_id, badge_info) in enumerate(locked):
+            with cols[idx % 5]:
+                st.markdown(f'<div class="badge badge-locked">{badge_info["icon"]}<br><small>{badge_info["title"]}</small><br><span style="font-size: 0.7rem;">{badge_info["description"]}</span></div>', unsafe_allow_html=True)
+
+# ============================================================================
+# TAB 5: PERFIL
+# ============================================================================
+with tab5:
+    st.markdown('<h3 class="section-header">📊 Seu Perfil</h3>', unsafe_allow_html=True)
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown(f"""
+        ### 🏆 Estatísticas Gerais
+        - **Nível Atual:** {current_level}/{len(MASTERY_LEVELS)}
+        - **Título:** {MASTERY_LEVELS[current_level]['title']}
+        - **XP Total:** {st.session_state.dax_xp}
+        - **Pontos:** {st.session_state.dax_points}
+        - **Streak:** 🔥 {st.session_state.dax_streak} dias
+        """)
+    with col2:
+        learned_count = len(st.session_state.dax_learned)
+        st.markdown(f"""
+        ### 📚 Progresso no Aprendizado
+        - **Práticas Completadas:** {learned_count}/30
+        - **Taxa de Conclusão:** {(learned_count/30)*100:.1f}%
+        - **Favoritas:** {len(st.session_state.dax_favorites)}
+        - **Exercícios no Simulador:** {len(st.session_state.dax_sim_correct)}
+        - **Badges:** {len(st.session_state.dax_badges)}/{len(BADGES)}
+        """)
+
+    st.divider()
+    st.markdown("### 🎯 Próximas Metas")
+    if current_level < 5:
+        next_level_xp = get_xp_for_next_level(current_level)
+        xp_needed = next_level_xp - st.session_state.dax_xp
+        next_title = MASTERY_LEVELS[current_level + 1]["title"]
+        st.markdown(f"""
+        ⬆️ **Próximo Nível:** {next_title}
+
+        Você precisa de **{xp_needed} XP** para chegar ao próximo nível!
+        """)
+    else:
+        st.markdown("🏆 **Você é um Power BI Elite! Parabéns!**")
+
+    st.divider()
+    st.markdown("""
+    ### 💪 Dicas para Evoluir Rápido
+    1. **Complete Desafios:** +50-200 XP cada
+    2. **Resolva o Simulador:** +10 XP por acerto
+    3. **Favoritize Práticas:** +5 XP cada
+    4. **Marque Aprendidas:** +25 XP cada
+    5. **Mantenha Streak:** Use a plataforma todos os dias!
+
+    **Meta:** Chegue ao nível Power BI Elite (🏆) em 30 dias!
+    """)
