@@ -392,13 +392,6 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 # --------------------------------------------------
 python_projects = [
 
-    # {
-    # "title": "📊 Funchal Negocios Comparador de Concorrentes",
-    # "desc": "Dashboard comparativo que extrai automaticamente (web scraping) o portfólio de serviços de empresas do setor de recuperação de crédito, cobrança e contact center direto dos sites oficiais. Cada empresa possui um scraper próprio adaptado à estrutura do seu site (Webflow, WordPress e Wix), com os serviços normalizados por categoria para permitir comparação lado a lado, gráficos de cobertura e identificação de gaps competitivos entre concorrentes.",
-    # "url": "https://funchal.streamlit.app/",
-    # "category": "Web Scraping & BI"
-    # },
-
     {
         "title": "🤖 Automação GNX Group",
         "desc": "Automação inteligente para preenchimento de formulários no site da GNX Group. Sistema com suporte a múltiplas execuções, geração de logs em CSV com separador ponto e vírgula, e interface intuitiva para automação de processos de captação de leads e contatos comerciais.",
