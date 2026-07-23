@@ -393,7 +393,7 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 python_projects = [
 
     {
-    "title": "📊 Comparador de Concorrentes - Cobrança & Recuperação de Crédito",
+    "title": "📊 Funchal Negocios Comparador de Concorrentes",
     "desc": "Dashboard comparativo que extrai automaticamente (web scraping) o portfólio de serviços de empresas do setor de recuperação de crédito, cobrança e contact center direto dos sites oficiais. Cada empresa possui um scraper próprio adaptado à estrutura do seu site (Webflow, WordPress e Wix), com os serviços normalizados por categoria para permitir comparação lado a lado, gráficos de cobertura e identificação de gaps competitivos entre concorrentes.",
     "url": "https://funchal.streamlit.app/",
     "category": "Web Scraping & BI"
