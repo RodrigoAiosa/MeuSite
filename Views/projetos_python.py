@@ -393,6 +393,13 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 python_projects = [
 
     {
+        "title": "🤖 Automação GNX Group",
+        "desc": "Automação inteligente para preenchimento de formulários no site da GNX Group. Sistema com suporte a múltiplas execuções, geração de logs em CSV com separador ponto e vírgula, e interface intuitiva para automação de processos de captação de leads e contatos comerciais.",
+        "url": "https://rpagnxgroup.streamlit.app/",
+        "category": "Automação & BI"
+    },
+    
+    {
     "title": "💰Salário Médio por Estado — Brasil",
     "desc": "Explore o salário médio dos trabalhadores em todos os estados brasileiros com dados oficiais. Compare remunerações por unidade da federação, visualize rankings, mapas e gráficos interativos para analisar as diferenças salariais entre as regiões do país.",
     "url": "https://salariomediobrasil.streamlit.app/",
