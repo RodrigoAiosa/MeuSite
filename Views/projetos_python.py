@@ -391,7 +391,12 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 # DATA SOURCING (LISTA DE PROJETOS COM CATEGORIAS)
 # --------------------------------------------------
 python_projects = [
-
+    {
+      "title": "🎮 DAX 2048",
+      "desc": "Um jogo educativo inspirado no clássico 2048, onde cada peça representa uma função DAX do Power BI. Ao combinar duas peças iguais, você evolui para funções cada vez mais avançadas, transformando o aprendizado de DAX em uma experiência divertida, interativa e progressiva.",
+      "url": "https://jogo2048dax.streamlit.app/",
+      "category": "Educação"
+    },
     {
         "title": "🤖 Automação GNX Group",
         "desc": "Automação inteligente para preenchimento de formulários no site da GNX Group. Sistema com suporte a múltiplas execuções, geração de logs em CSV com separador ponto e vírgula, e interface intuitiva para automação de processos de captação de leads e contatos comerciais.",
