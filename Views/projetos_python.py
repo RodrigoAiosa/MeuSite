@@ -392,6 +392,12 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 # --------------------------------------------------
 python_projects = [
     {
+    "title": "🦟 Painel de Arboviroses — Brasil",
+    "desc": "Acompanhe o risco de dengue, zika e chikungunya em qualquer município do Brasil com dados oficiais do InfoDengue (Fiocruz) e IBGE. Consulte o nível de alerta por cidade, visualize a evolução histórica de casos, compare anos e explore um mapa interativo por estado com o risco de cada município.",
+    "url": "[Painel de Arboviroses - Brasil · Streamlit](https://acompanhamentoarboviroses.streamlit.app/)",
+    "category": "Dados & Saúde Pública"
+    },
+    {
       "title": "🎮 DAX 2048",
       "desc": "Um jogo educativo inspirado no clássico 2048, onde cada peça representa uma função DAX do Power BI. Ao combinar duas peças iguais, você evolui para funções cada vez mais avançadas, transformando o aprendizado de DAX em uma experiência divertida, interativa e progressiva.",
       "url": "https://jogo2048dax.streamlit.app/",
