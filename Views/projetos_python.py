@@ -395,7 +395,7 @@ python_projects = [
     "title": "🦟 Painel de Arboviroses — Brasil",
     "desc": "Acompanhe o risco de dengue, zika e chikungunya em qualquer município do Brasil com dados oficiais do InfoDengue (Fiocruz) e IBGE. Consulte o nível de alerta por cidade, visualize a evolução histórica de casos, compare anos e explore um mapa interativo por estado com o risco de cada município.",
     "url": "https://acompanhamentoarboviroses.streamlit.app/",
-    "category": "Dados & Saúde Pública"
+    "category": "Dados & IBGE"
     },
     {
       "title": "🎮 DAX 2048",
