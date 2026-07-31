@@ -392,6 +392,12 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 # --------------------------------------------------
 python_projects = [
     {
+    "title": "🍔 Big Mac Index Dashboard",
+    "desc": "Compare o preço do Big Mac em mais de 50 países com dados oficiais do The Economist Big Mac Index. Explore o mapa mundial interativo de paridade do poder de compra (PPP), veja rankings com moeda-base ajustável, acompanhe a evolução histórica de preços e use a calculadora de conversão via PPP.",
+    "url": "https://economiabigmac.streamlit.app/",
+    "category": "Automação & BI"
+    },
+    {
     "title": "🦟 Painel de Arboviroses — Brasil",
     "desc": "Acompanhe o risco de dengue, zika e chikungunya em qualquer município do Brasil com dados oficiais do InfoDengue (Fiocruz) e IBGE. Consulte o nível de alerta por cidade, visualize a evolução histórica de casos, compare anos e explore um mapa interativo por estado com o risco de cada município.",
     "url": "https://acompanhamentoarboviroses.streamlit.app/",
