@@ -392,6 +392,12 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 # --------------------------------------------------
 python_projects = [
     {
+    "title": "📚 Biblioteca de Comandos para ChatGPT",
+    "desc": "Explore e organize prompts otimizados para o ChatGPT com esta biblioteca interativa. Acesse comandos categorizados para aumentar sua produtividade em automação, análise de dados e rotinas diárias, permitindo filtrar, copiar e aplicar os melhores templates de IA com facilidade.",
+    "url": "https://comandoschatgptinfo.streamlit.app/",
+    "category": "Automação & BI"
+    },
+    {
     "title": "🍔 Big Mac Index Dashboard",
     "desc": "Compare o preço do Big Mac em mais de 50 países com dados oficiais do The Economist Big Mac Index. Explore o mapa mundial interativo de paridade do poder de compra (PPP), veja rankings com moeda-base ajustável, acompanhe a evolução histórica de preços e use a calculadora de conversão via PPP.",
     "url": "https://economiabigmac.streamlit.app/",
