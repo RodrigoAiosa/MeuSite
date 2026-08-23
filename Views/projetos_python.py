@@ -392,6 +392,12 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 # --------------------------------------------------
 python_projects = [
     {
+    "title": "⚖️ Calculadora de Honorários Advocatícios",
+    "desc": "Calcule honorários advocatícios com base na Tabela OAB, percentual, valor fixo, hora técnica, êxito e modelo misto. Inclui custo real da hora do escritório, comparação de cenários, sucumbência (art. 85 CPC), correção 2016→2026, fator de complexidade, parcelamentos e exportação de proposta em PDF.",
+    "url": "https://calculadorahonorariosadvocaticios.streamlit.app/",
+    "category": "Automação & BI"
+    },
+    {
     "title": "📚 Biblioteca de Comandos para ChatGPT",
     "desc": "Explore e organize prompts otimizados para o ChatGPT com esta biblioteca interativa. Acesse comandos categorizados para aumentar sua produtividade em automação, análise de dados e rotinas diárias, permitindo filtrar, copiar e aplicar os melhores templates de IA com facilidade.",
     "url": "https://comandoschatgptinfo.streamlit.app/",
