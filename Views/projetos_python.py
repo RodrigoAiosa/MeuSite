@@ -392,6 +392,12 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 # --------------------------------------------------
 python_projects = [
     {
+    "title": "🧭 Consórcio Educa — Simulador e Educação Financeira",
+    "desc": "Simule e compare consórcios com transparência: parcela estimada, Custo Efetivo Total (CET), composição de custos (taxa de administração, fundo de reserva, seguro), impacto de lance próprio/embutido e reajuste anual (INCC/IPCA). Inclui comparador consórcio x financiamento x poupança programada, simulador de probabilidade de contemplação por sorteio, glossário educativo dos termos do setor, comparação de administradoras via importação de CSV com ranking por CET, e exportação de proposta em PDF.",
+    "url": "https://consorcioeduca.streamlit.app/",
+    "category": "Automação & BI"
+    },
+    {
     "title": "⚖️ Calculadora de Honorários Advocatícios",
     "desc": "Calcule honorários advocatícios com base na Tabela OAB, percentual, valor fixo, hora técnica, êxito e modelo misto. Inclui custo real da hora do escritório, comparação de cenários, sucumbência (art. 85 CPC), correção 2016→2026, fator de complexidade, parcelamentos e exportação de proposta em PDF.",
     "url": "https://calculadorahonorariosadvocaticios.streamlit.app/",
