@@ -401,7 +401,7 @@ python_projects = [
     "title": "🧭 Consórcio Educa — Simulador e Educação Financeira",
     "desc": "Simule e compare consórcios com transparência: parcela estimada, Custo Efetivo Total (CET), composição de custos (taxa de administração, fundo de reserva, seguro), impacto de lance próprio/embutido e reajuste anual (INCC/IPCA). Inclui comparador consórcio x financiamento x poupança programada, simulador de probabilidade de contemplação por sorteio, glossário educativo dos termos do setor, comparação de administradoras via importação de CSV com ranking por CET, e exportação de proposta em PDF.",
     "url": "https://consorcioeduca.streamlit.app/",
-    "category": "Automação & BI"
+    "category": "Educação"
     },
     {
     "title": "⚖️ Calculadora de Honorários Advocatícios",
