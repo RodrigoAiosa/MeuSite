@@ -392,6 +392,12 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 # --------------------------------------------------
 python_projects = [
     {
+    "title": "📊 Calculadora ROI de Consórcio; Vale a Pena?",
+    "desc": "Calcule e compare consórcios com clareza: parcela estimada, custo total do grupo e o retorno de cada estratégia. Traz 3 comparações lado a lado — consórcio x financiamento (Tabela Price), consórcio x investir a parcela e comprar o bem à vista, e simulação de lance para contemplação antecipada (benefício da valorização evitada vs. custo de oportunidade do dinheiro). Cenários pré-definidos para veículo, moto, imóvel e máquina/caminhão, gráficos interativos de custo acumulado e saldo devedor, tabela de projeção mês a mês, e exportação da proposta em Excel com resumo e projeção completa.",
+    "url": "https://calculadoraroiconsorcio.streamlit.app/",
+    "category": "Educação"
+    },    
+    {
     "title": "🧭 Consórcio Educa — Simulador e Educação Financeira",
     "desc": "Simule e compare consórcios com transparência: parcela estimada, Custo Efetivo Total (CET), composição de custos (taxa de administração, fundo de reserva, seguro), impacto de lance próprio/embutido e reajuste anual (INCC/IPCA). Inclui comparador consórcio x financiamento x poupança programada, simulador de probabilidade de contemplação por sorteio, glossário educativo dos termos do setor, comparação de administradoras via importação de CSV com ranking por CET, e exportação de proposta em PDF.",
     "url": "https://consorcioeduca.streamlit.app/",
