@@ -23,7 +23,7 @@ st.markdown(
 st.title("🏆 Cases de Sucesso")
 st.write("Confira os resultados da nossa Mentoria Estratégica.")
 
-slides = ["11.png", "22.png", "33.png", "44.png", "55.png", "66.png", "77.png", "88.png"]
+slides = ["1.png", "2.png", "3.png", "4.png", "5.png", "6.png", "7.png", "8.png", "9.png"]
 
 for slide in slides:
     caminho_img = os.path.join("assets", slide)
