@@ -1,5 +1,5 @@
 import streamlit as st
-import os
+import re
 from pathlib import Path
 from PIL import Image, UnidentifiedImageError
 from utils import exibir_rodape, registrar_acesso
@@ -28,22 +28,38 @@ st.write("Confira os resultados da nossa Mentoria Estratégica.")
 # Mapeia o diretório base do próprio script
 BASE_DIR = Path(__file__).resolve().parent
 
-slides = ["1.png", "2.png", "3.png", "4.png", "5.png", "7.png", "8.png", "9.png","10.png"]
+# Tenta localizar a pasta primeiro no mesmo nível da view e, caso não ache, na raiz do projeto
+PASTA_IMAGENS = BASE_DIR / "assets" / "img_cases_suceso"
+if not PASTA_IMAGENS.exists():
+    PASTA_IMAGENS = BASE_DIR.parent / "assets" / "img_cases_suceso"
 
-for slide in slides:
-    # Tenta localizar primeiro no mesmo nível/pasta da view e, caso não ache, na raiz do projeto
-    caminho_img = BASE_DIR / "assets" / slide
-    if not caminho_img.exists():
-        caminho_img = BASE_DIR.parent / "assets" / slide
+EXTENSOES_VALIDAS = (".png", ".jpg", ".jpeg", ".webp")
 
-    if caminho_img.exists():
+
+def chave_ordenacao(caminho: Path):
+    """Ordena pelo número contido no nome do arquivo (1, 2, 3... 10),
+    e não como texto (1, 10, 2, 3...). Se não houver número, joga pro final."""
+    numeros = re.findall(r"\d+", caminho.stem)
+    return int(numeros[0]) if numeros else float("inf")
+
+
+if PASTA_IMAGENS.exists():
+    slides = sorted(
+        [p for p in PASTA_IMAGENS.iterdir() if p.suffix.lower() in EXTENSOES_VALIDAS],
+        key=chave_ordenacao
+    )
+
+    if not slides:
+        st.info("Nenhuma imagem encontrada na pasta de cases de sucesso.")
+
+    for caminho_img in slides:
         try:
             # Valida a abertura da imagem antes de enviar ao st.image
             img = Image.open(caminho_img)
             st.image(img, use_container_width=True)
         except (UnidentifiedImageError, Exception) as e:
-            st.error(f"Erro ao carregar a imagem '{slide}': O arquivo pode estar corrompido ou em formato inválido.")
-    else:
-        st.warning(f"Imagem não encontrada: {slide} (Caminho procurado: {caminho_img})")
+            st.error(f"Erro ao carregar a imagem '{caminho_img.name}': O arquivo pode estar corrompido ou em formato inválido.")
+else:
+    st.warning(f"Pasta de imagens não encontrada: {PASTA_IMAGENS}")
 
 exibir_rodape()
