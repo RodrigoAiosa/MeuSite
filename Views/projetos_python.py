@@ -393,7 +393,7 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 python_projects = [
     {
     "title": "♟️ Jogo de Xadrez; Jogue, Treine e Domine as Regras Oficiais",
-    "desc": "Um jogo de xadrez completo rodando 100% no navegador, sem instalação. Siga o regulamento oficial da FIDE de ponta a ponta: roque, en passant, promoção, xeque-mate, afogamento, material insuficiente, repetição tríplice e quíntupla, e as regras dos 50 e 75 lances. Jogue no modo Dois Jogadores no mesmo aparelho ou desafie o PC em 5 níveis progressivos (do iniciante ao avançado), liberando o próximo só ao vencer o anterior. Treine com 100 puzzles de mate em 2 e em 3 lances, com métrica de evolução. Acompanhe a notação algébrica em tempo real e exporte a partida completa em PGN ou em PDF ilustrado, com uma imagem do tabuleiro para cada lance jogado.",
+    "desc": "Jogo de xadrez completo, direto no navegador, sem instalar nada. Regras oficiais da FIDE, modo contra o PC com 5 níveis, 100 puzzles de mate para treinar, notação em tempo real e exportação em PDF com imagem de cada lance da partida.",
     "url": "https://rodrigoaiosa.github.io/jogoxadrez/new-jogo-de-xadrez.html",
     "category": "Educação"
     },
