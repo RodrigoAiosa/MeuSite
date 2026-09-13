@@ -392,6 +392,12 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 # --------------------------------------------------
 python_projects = [
     {
+    "title": "♟️ Xadrez do Davizão; Jogue, Treine e Domine as Regras Oficiais",
+    "desc": "Um jogo de xadrez completo rodando 100% no navegador, sem instalação. Siga o regulamento oficial da FIDE de ponta a ponta: roque, en passant, promoção, xeque-mate, afogamento, material insuficiente, repetição tríplice e quíntupla, e as regras dos 50 e 75 lances. Jogue no modo Dois Jogadores no mesmo aparelho ou desafie o PC em 5 níveis progressivos (do iniciante ao avançado), liberando o próximo só ao vencer o anterior. Treine com 100 puzzles de mate em 2 e em 3 lances, com métrica de evolução. Acompanhe a notação algébrica em tempo real e exporte a partida completa em PGN ou em PDF ilustrado, com uma imagem do tabuleiro para cada lance jogado.",
+    "url": "https://rodrigoaiosa.github.io/jogoxadrez/new-jogo-de-xadrez.html",
+    "category": "Educação"
+    },
+    {
     "title": "🔢 Conjectura de Collatz; Todo Número Chega em 1?",
     "desc": "Explore na prática um dos maiores mistérios não resolvidos da matemática: digite qualquer número inteiro e acompanhe passo a passo sua trajetória até chegar em 1, seguindo a regra 'par divide por 2, ímpar multiplica por 3 e soma 1'. Traz gráfico interativo da evolução da sequência (linear e em escala logarítmica), gráfico comparativo de passos pares x ímpares, métricas de destaque como total de passos e maior valor atingido no caminho, tabela detalhada com a operação aplicada em cada etapa, e exportação completa da sequência em CSV.",
     "url": "https://conjecturadecollatz.streamlit.app/",
