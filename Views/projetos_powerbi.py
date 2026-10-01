@@ -223,6 +223,13 @@ div[data-testid="stTextInput"] input:focus {
 # --- BASE DE DADOS DOS PROJETOS CATEGORIZADOS ---
 pbi_projects = [
     {
+    "title": "Panorama Macroeconômico Brasil",
+    "icon": "📈",
+    "category": "Economia & Finanças",
+    "url": "https://app.powerbi.com/view?r=eyJrIjoiM2ZlNzhiZGYtYjk1ZC00MmNhLTgyMzMtYmFmZGQ0YzZlZGY3IiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9",
+    "desc": "Selic, IPCA, dólar e desemprego atualizados diariamente via API pública do Banco Central. Acompanhe juro real, inflação frente à meta e a evolução do câmbio e do emprego em um só painel."
+    },
+    {
         "title": "Transporte - Travel Company",
         "icon": "🚛",
         "category": "Operações & Logística",
