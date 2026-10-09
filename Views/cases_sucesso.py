@@ -1,11 +1,9 @@
 import streamlit as st
 import re
 from pathlib import Path
-from PIL import Image, UnidentifiedImageError
 from utils import exibir_rodape, registrar_acesso
 
 # --- REGISTRO DE ACESSO ---
-registrar_acesso("Cases de Sucesso")
 
 # --- ESTILO CSS ---
 st.markdown(
@@ -54,10 +52,10 @@ if PASTA_IMAGENS.exists():
 
     for caminho_img in slides:
         try:
-            # Valida a abertura da imagem antes de enviar ao st.image
-            img = Image.open(caminho_img)
-            st.image(img, use_container_width=True)
-        except (UnidentifiedImageError, Exception) as e:
+            # Passa o caminho: como os arquivos são JPEG com até 1460 px de largura, o Streamlit
+            # entrega os bytes originais, sem redimensionar nem recomprimir a cada execução.
+            st.image(str(caminho_img), use_container_width=True)
+        except Exception:
             st.error(f"Erro ao carregar a imagem '{caminho_img.name}': O arquivo pode estar corrompido ou em formato inválido.")
 else:
     st.warning(f"Pasta de imagens não encontrada: {PASTA_IMAGENS}")

@@ -2,7 +2,6 @@ import streamlit as st
 from utils import exibir_rodape, registrar_acesso
 
 # --- REGISTRO DE ACESSO ---
-registrar_acesso("🦉 Gerar Dados BI")
 
 # --- ESTILO CSS ---
 st.markdown(

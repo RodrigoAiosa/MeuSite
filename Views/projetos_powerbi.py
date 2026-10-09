@@ -3,7 +3,6 @@ from utils import exibir_rodape, registrar_acesso
 import urllib.parse
 
 # --- REGISTRO DE ACESSO ---
-registrar_acesso("Projetos Power BI")
 
 # --- ESTILO LANDING PAGE PREMIUM (FOCO EM RETENÇÃO & UX) ---
 st.markdown("""

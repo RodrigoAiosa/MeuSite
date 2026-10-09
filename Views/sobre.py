@@ -1,5 +1,4 @@
 import streamlit as st
-import time
 import base64
 from utils import registrar_acesso, exibir_rodape
 
@@ -7,9 +6,9 @@ from utils import registrar_acesso, exibir_rodape
 st.set_page_config(layout="wide", page_title="Portfolio | Rodrigo Aiosa")
 
 # 2. REGISTRO DE ACESSO
-registrar_acesso("Sobre Mim")
 
 # 3. FUNÇÃO PARA CARREGAR IMAGEM EM BASE64
+@st.cache_data(show_spinner=False)
 def img_to_base64(path):
     with open(path, "rb") as f:
         return base64.b64encode(f.read()).decode()
@@ -298,6 +297,17 @@ hr {
     margin: 40px 0 !important;
 }
 
+/* Contador animado no navegador (antes era um loop com sleep no servidor) */
+@property --n { syntax: '<integer>'; initial-value: 0; inherits: false; }
+@keyframes card-count { from { --n: 0; } to { --n: var(--target); } }
+.card-number.count {
+    --n: var(--target);
+    counter-reset: n var(--n);
+    animation: card-count 1.2s ease-out both;
+}
+.card-number.count::before { content: counter(n); }
+@media (prefers-reduced-motion: reduce) { .card-number.count { animation: none; } }
+
 .footer-spacer { height: 60px; }
 
 ::-webkit-scrollbar { width: 6px; }
@@ -345,8 +355,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-card_placeholders = st.empty()
-
 back_texts = [
     "Expertise em automação de processos e análise preditiva.",
     "Soluções personalizadas para grandes players do mercado.",
@@ -354,58 +362,51 @@ back_texts = [
     "Parceria contínua baseada em confiança e resultados reais."
 ]
 
-for i in range(0, 101, 5):
-    val_exp  = int(20  * i / 100)
-    val_emp  = int(450 * i / 100)
-    val_proj = int(500 * i / 100)
-    val_rec  = int(87  * i / 100)
-
-    html_cards = f"""
-    <div class="cards-container">
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="card-icon">🏆</div>
-                    <div class="card-number">{val_exp}+</div>
-                    <div class="card-title">Anos de experiência</div>
-                </div>
-                <div class="flip-card-back">{back_texts[0]}</div>
+html_cards = f"""
+<div class="cards-container">
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="flip-card-front">
+                <div class="card-icon">🏆</div>
+                <div class="card-number count" style="--target:20">+</div>
+                <div class="card-title">Anos de experiência</div>
             </div>
-        </div>
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="card-icon">🏢</div>
-                    <div class="card-number">{val_emp}+</div>
-                    <div class="card-title">Empresas atendidas</div>
-                </div>
-                <div class="flip-card-back">{back_texts[1]}</div>
-            </div>
-        </div>
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="card-icon">📊</div>
-                    <div class="card-number">{val_proj}+</div>
-                    <div class="card-title">Projetos entregues</div>
-                </div>
-                <div class="flip-card-back">{back_texts[2]}</div>
-            </div>
-        </div>
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="card-icon">🤝</div>
-                    <div class="card-number">{val_rec}%</div>
-                    <div class="card-title">Recompra de clientes</div>
-                </div>
-                <div class="flip-card-back">{back_texts[3]}</div>
-            </div>
+            <div class="flip-card-back">{back_texts[0]}</div>
         </div>
     </div>
-    """
-    card_placeholders.markdown(html_cards, unsafe_allow_html=True)
-    time.sleep(0.02)
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="flip-card-front">
+                <div class="card-icon">🏢</div>
+                <div class="card-number count" style="--target:450">+</div>
+                <div class="card-title">Empresas atendidas</div>
+            </div>
+            <div class="flip-card-back">{back_texts[1]}</div>
+        </div>
+    </div>
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="flip-card-front">
+                <div class="card-icon">📊</div>
+                <div class="card-number count" style="--target:500">+</div>
+                <div class="card-title">Projetos entregues</div>
+            </div>
+            <div class="flip-card-back">{back_texts[2]}</div>
+        </div>
+    </div>
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="flip-card-front">
+                <div class="card-icon">🤝</div>
+                <div class="card-number count" style="--target:87">%</div>
+                <div class="card-title">Recompra de clientes</div>
+            </div>
+            <div class="flip-card-back">{back_texts[3]}</div>
+        </div>
+    </div>
+</div>
+"""
+st.markdown(html_cards, unsafe_allow_html=True)
 
 st.markdown("---")
 

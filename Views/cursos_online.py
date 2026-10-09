@@ -21,7 +21,6 @@ except ImportError:
 # =========================================================
 # 🔹 REGISTRO DE ACESSO
 # =========================================================
-registrar_acesso("Cursos Online")
 
 # =========================================================
 # 🔹 FUNÇÃO SEGURA PARA EXIBIR IMAGEM
@@ -335,7 +334,7 @@ st.markdown('<div class="section-title">Treinamentos disponíveis</div>', unsafe
 col1, col2 = st.columns([1, 2], gap="large")
 
 with col1:
-    carregar_imagem("fundamentos_power_bi.png")
+    carregar_imagem("fundamentos_power_bi.jpg")
 
 with col2:
     st.header("Fundamento Power BI")
@@ -393,7 +392,7 @@ st.markdown("")
 col5, col6 = st.columns([1, 2], gap="large")
 
 with col5:
-    carregar_imagem("excel_para_negocios.png")
+    carregar_imagem("excel_para_negocios.jpg")
 
 with col6:
     st.header("Excel Essencial Para Negócios")
