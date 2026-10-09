@@ -3,7 +3,6 @@ import urllib.parse
 from utils import exibir_rodape, registrar_acesso
 
 # --- REGISTRO DE ACESSO ---
-registrar_acesso("Treinamento Corporativo")
 
 # --- ESTILO LANDING PAGE ---
 st.markdown("""

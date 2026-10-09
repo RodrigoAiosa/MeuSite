@@ -1,4 +1,5 @@
 import streamlit as st
+import threading
 import uuid
 import psycopg2
 import urllib.parse
@@ -40,9 +41,43 @@ inicializar_estado()
 # CONEXÃO — SUPABASE
 # ============================================================
 
+_db_lock = threading.Lock()
+
+
+@st.cache_resource(show_spinner=False)
 def _conectar_supabase():
-    """Retorna uma conexão psycopg2 com o Supabase via Session Pooler IPv4."""
-    return psycopg2.connect(**SUPABASE_CONFIG)
+    """
+    Conexão psycopg2 única, reaproveitada entre execuções e sessões.
+    Abrir uma conexão TLS nova a cada rerun era o maior custo de cada página.
+    """
+    conn = psycopg2.connect(
+        **SUPABASE_CONFIG,
+        keepalives=1,
+        keepalives_idle=30,
+        keepalives_interval=10,
+        keepalives_count=3,
+    )
+    conn.autocommit = True
+    return conn
+
+
+def _executar(sql: str, params: tuple = (), retornar: bool = False):
+    """
+    Executa um comando na conexão compartilhada.
+    Se a conexão em cache tiver caído (timeout do pooler, rede), descarta-a
+    e tenta uma vez com uma conexão nova. Falha ao conectar não é repetida,
+    para não dobrar a espera quando o banco está fora do ar.
+    """
+    for tentativa in (1, 2):
+        conn = _conectar_supabase()
+        try:
+            with _db_lock, conn.cursor() as cur:
+                cur.execute(sql, params)
+                return cur.fetchone() if retornar else None
+        except (psycopg2.OperationalError, psycopg2.InterfaceError):
+            _conectar_supabase.clear()
+            if tentativa == 2:
+                raise
 
 
 # ============================================================
@@ -85,31 +120,36 @@ def _coletar_metadados() -> dict:
 
 def registrar_acesso(nome_pagina: str, acao: str = "Visualização"):
     """
-    Registra o acesso inicial na tabela registros_acesso.
-    Chame no início de cada página do seu app.
+    Registra o acesso na tabela registros_acesso.
+    Chamada uma única vez, no main.py. Só grava quando o visitante muda de
+    página: reruns na mesma página (cliques em botões, filtros) não geram
+    novo INSERT.
     """
     try:
         inicializar_estado()
-        st.session_state["pagina_atual"] = nome_pagina
+        if st.session_state.get("pagina_atual") == nome_pagina:
+            return
 
-        meta  = _coletar_metadados()
         agora = datetime.now(timezone(timedelta(hours=-3)))
-        sid   = st.session_state["session_id"]
+        st.session_state["pagina_atual"] = nome_pagina
+        st.session_state["entrada_pagina"] = agora
+        st.session_state["registro_id"] = None
 
-        conn = _conectar_supabase()
-        cur  = conn.cursor()
-        cur.execute(
+        meta = _coletar_metadados()
+        sid  = st.session_state["session_id"]
+
+        linha = _executar(
             """
             INSERT INTO registros_acesso
                 (data_hora, session_id, dispositivo, navegador, ip, pagina, acao, duracao)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            RETURNING id
             """,
             (agora, sid, meta["dispositivo"], meta["navegador"],
              meta["ip"], nome_pagina, acao, "00:00"),
+            retornar=True,
         )
-        conn.commit()
-        cur.close()
-        conn.close()
+        st.session_state["registro_id"] = linha[0] if linha else None
 
     except Exception as e:
         print(f"[registrar_acesso] Erro: {e}")
@@ -120,31 +160,15 @@ def registrar_acesso(nome_pagina: str, acao: str = "Visualização"):
 # ============================================================
 
 def atualizar_duracao_db():
-    """Atualiza a duração real no registro mais recente desta sessão."""
+    """Atualiza a duração no registro de acesso da página atual."""
     try:
-        tempo_real = calcular_duracao_texto()
-        sid    = st.session_state.get("session_id")
-        pagina = st.session_state.get("pagina_atual")
-
-        conn = _conectar_supabase()
-        cur  = conn.cursor()
-        cur.execute(
-            """
-            UPDATE registros_acesso
-            SET duracao = %s
-            WHERE id = (
-                SELECT id FROM registros_acesso
-                WHERE session_id = %s AND pagina = %s
-                ORDER BY data_hora DESC
-                LIMIT 1
-            )
-            """,
-            (tempo_real, sid, pagina),
+        registro_id = st.session_state.get("registro_id")
+        if registro_id is None:
+            return
+        _executar(
+            "UPDATE registros_acesso SET duracao = %s WHERE id = %s",
+            (calcular_duracao_texto(), registro_id),
         )
-        conn.commit()
-        cur.close()
-        conn.close()
-
     except Exception as e:
         print(f"[atualizar_duracao_db] Erro: {e}")
 
@@ -188,9 +212,7 @@ def salvar_formulario_contato(dados: list) -> bool:
     try:
         atualizar_duracao_db()
 
-        conn = _conectar_supabase()
-        cur  = conn.cursor()
-        cur.execute(
+        _executar(
             """
             INSERT INTO contatos
                 (nome, email, servico, mensagem, data_hora)
@@ -204,9 +226,6 @@ def salvar_formulario_contato(dados: list) -> bool:
                 datetime.now(timezone(timedelta(hours=-3))),
             ),
         )
-        conn.commit()
-        cur.close()
-        conn.close()
 
         servico = dados[2] if len(dados) > 2 else "Data Intelligence"
         whatsapp_link = gerar_link_whatsapp(dados[0], servico)

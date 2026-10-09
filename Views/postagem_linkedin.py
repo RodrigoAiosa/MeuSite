@@ -4,7 +4,6 @@ from utils import exibir_rodape, registrar_acesso
 # -----------------------------
 # REGISTRO DE ACESSO
 # -----------------------------
-registrar_acesso("Postagens LinkedIn")
 
 st.set_page_config(layout="wide")
 
