@@ -9,11 +9,20 @@ from datetime import datetime, timedelta, timezone
 # CONFIGURAÇÕES — Supabase (Session Pooler IPv4)
 # ============================================================
 
+def _segredo(nome: str) -> str:
+    """Lê um segredo do Streamlit sem derrubar o app se nenhum estiver configurado."""
+    try:
+        return st.secrets.get(nome, "")
+    except Exception:
+        print(f"[segredos] '{nome}' não configurado nos Secrets do Streamlit.")
+        return ""
+
+
 SUPABASE_CONFIG = {
     "host":            "aws-1-us-east-1.pooler.supabase.com",
     "database":        "postgres",
     "user":            "postgres.hqkhtpwmciavtobsutph",
-    "password":        st.secrets.get("SUPABASE_PASSWORD", ""),
+    "password":        _segredo("SUPABASE_PASSWORD"),
     "port":            "5432",
     "sslmode":         "require",
     "connect_timeout": 10,
