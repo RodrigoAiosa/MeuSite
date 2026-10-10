@@ -391,6 +391,12 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 # --------------------------------------------------
 python_projects = [
     {
+    "title": "🌐 API Atlas",
+    "desc": "Encontre mais de 2.000 APIs públicas e gratuitas em 51 categorias, com busca global e informações de autenticação, HTTPS e CORS. Use os Kits Power BI para trazer dados reais do Banco Central, IBGE, Banco Mundial e outras fontes com consultas prontas em Power Query (M) e Python, e gere scripts em requests + pandas para qualquer API com o Gerador Python. Interface em português e inglês.",
+    "url": "https://atlasapi.streamlit.app/",
+    "category": "Automação & BI"
+    },
+    {
     "title": "♟️ Jogo de Xadrez; Jogue, Treine e Domine as Regras Oficiais",
     "desc": "Jogo de xadrez completo, direto no navegador, sem instalar nada. Regras oficiais da FIDE, modo contra o PC com 5 níveis, 100 puzzles de mate para treinar, notação em tempo real e exportação em PDF com imagem de cada lance da partida.",
     "url": "https://rodrigoaiosa.github.io/jogoxadrez/new-jogo-de-xadrez.html",
