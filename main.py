@@ -191,7 +191,7 @@ gerar_dados_bi = st.Page(page="https://ai-bidatagenerator.streamlit.app", title=
 
 # --- NAVEGAÇÃO ---
 navigation_dict = {
-    "Informações": [sobre_page, projeto_recente_page],
+    "Informações": [sobre_page],
     "Resultados": [cases_sucesso_page],
     "Portifólio": [projeto_python_page, projeto_powerbi_page],
     "Escola de Dados": [escola_sql, escola_python, escola_excel, curso_excel, gerar_dados_bi],
