@@ -335,6 +335,30 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 
 .card-actions { display: flex; flex-direction: column; gap: 12px; margin-top: auto; }
 
+/* ── PROJETOS EM DESTAQUE ── */
+.ux-card.destaque {
+    background: linear-gradient(145deg, rgba(0,180,216,0.08) 0%, rgba(0,0,0,0.3) 100%);
+    border: 1px solid rgba(0,180,216,0.35);
+    box-shadow: 0 0 0 1px rgba(0,180,216,0.06), 0 10px 30px rgba(0,180,216,0.06);
+}
+.ux-card.destaque:hover {
+    border-color: rgba(0,180,216,0.7);
+    box-shadow: 0 12px 34px rgba(0,180,216,0.18);
+}
+.card-badges { display: flex; gap: 8px; flex-wrap: wrap; align-self: flex-start; }
+.card-badge.star {
+    color: #fbbf24;
+    background: rgba(251,191,36,0.08);
+    border-color: rgba(251,191,36,0.35);
+}
+.section-label.destaque-label { color: #00b4d8; }
+.section-sub {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    margin: -22px 0 30px;
+}
+
 .btn-direct {
     background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
     color: #ffffff !important;
@@ -541,6 +565,20 @@ python_projects = [
 total_projetos = len(python_projects)
 
 # --------------------------------------------------
+# PROJETOS EM DESTAQUE (na ordem de exibição)
+# Para trocar um destaque, basta alterar o link aqui.
+# --------------------------------------------------
+destaques_urls = [
+    "https://enem-simulador.streamlit.app/",
+    "https://atlasapi.streamlit.app/",
+    "https://conjecturadecollatz.streamlit.app/",
+    "https://jogo2048dax.streamlit.app/",
+    "https://appsptrans.streamlit.app/",
+]
+_projetos_por_url = {p["url"]: p for p in python_projects}
+projetos_destaque = [_projetos_por_url[u] for u in destaques_urls if u in _projetos_por_url]
+
+# --------------------------------------------------
 # RENDER HERO
 # --------------------------------------------------
 st.markdown(f"""
@@ -624,7 +662,7 @@ if search_query:
 # --------------------------------------------------
 # RENDERIZADOR DE CARD INDIVIDUAL (mesmo padrão do Power BI)
 # --------------------------------------------------
-def renderizar_card(p):
+def renderizar_card(p, destaque=False):
     mensagem_whatsapp = (
         f"Olá! Veja esse projeto em Python:\n\n"
         f"📌 *{p['title']}*\n"
@@ -640,9 +678,12 @@ def renderizar_card(p):
     li_link = f"{li_base}&url={li_url}&title={li_title}&summary={li_summary}"
 
     st.markdown(f"""
-    <div class="ux-card">
+    <div class="ux-card{' destaque' if destaque else ''}">
         <div style="display:flex; flex-direction:column; flex-grow:1;">
-            <div class="card-badge">{p['category']}</div>
+            <div class="card-badges">
+                {'<div class="card-badge star">⭐ Destaque</div>' if destaque else ''}
+                <div class="card-badge">{p['category']}</div>
+            </div>
             <div class="ux-card-title">{p['title']}</div>
             <div class="ux-card-desc">{p['desc']}</div>
         </div>
@@ -666,17 +707,36 @@ def renderizar_card(p):
 # --------------------------------------------------
 # EXIBIÇÃO EM GRID NATIVO STREAMLIT (rolagem da própria página)
 # --------------------------------------------------
-if filtered_projects:
-    label_secao = f"Aplicações Ativas — {st.session_state.selected_category}" if st.session_state.selected_category != "Todos" else "Todas as Aplicações"
-    st.markdown(f'<div class="section-label">{label_secao}</div>', unsafe_allow_html=True)
-
-    for i in range(0, len(filtered_projects), 3):
+def renderizar_grid(projetos, destaque=False):
+    for i in range(0, len(projetos), 3):
         cols = st.columns(3)
         for j in range(3):
             idx = i + j
-            if idx < len(filtered_projects):
+            if idx < len(projetos):
                 with cols[j]:
-                    renderizar_card(filtered_projects[idx])
+                    renderizar_card(projetos[idx], destaque=destaque)
+
+
+# Visão padrão (sem filtro nem busca): destaques primeiro, demais abaixo
+visao_padrao = st.session_state.selected_category == "Todos" and not search_query
+
+if visao_padrao and projetos_destaque:
+    st.markdown('<div class="section-label destaque-label">⭐ Projetos em Destaque</div>', unsafe_allow_html=True)
+    st.markdown('<p class="section-sub">Uma seleção das aplicações com maior impacto e alcance.</p>', unsafe_allow_html=True)
+    renderizar_grid(projetos_destaque, destaque=True)
+    urls_destaque = {p["url"] for p in projetos_destaque}
+    filtered_projects = [p for p in filtered_projects if p["url"] not in urls_destaque]
+
+if filtered_projects:
+    if visao_padrao:
+        label_secao = "Demais Aplicações" if projetos_destaque else "Todas as Aplicações"
+    else:
+        label_secao = f"Aplicações Ativas — {st.session_state.selected_category}" if st.session_state.selected_category != "Todos" else "Todas as Aplicações"
+    st.markdown(f'<div class="section-label">{label_secao}</div>', unsafe_allow_html=True)
+    renderizar_grid(filtered_projects)
+
+elif visao_padrao:
+    pass
 
 else:
     st.markdown("""
