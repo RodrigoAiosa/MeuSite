@@ -677,12 +677,13 @@ def renderizar_card(p, destaque=False):
     li_url = urllib.parse.quote(p['url'])
     li_link = f"{li_base}&url={li_url}&title={li_title}&summary={li_summary}"
 
-    st.markdown(f"""
+    selo_destaque = '<div class="card-badge star">⭐ Destaque</div>' if destaque else ''
+
+    html_card = f"""
     <div class="ux-card{' destaque' if destaque else ''}">
         <div style="display:flex; flex-direction:column; flex-grow:1;">
             <div class="card-badges">
-                {'<div class="card-badge star">⭐ Destaque</div>' if destaque else ''}
-                <div class="card-badge">{p['category']}</div>
+                {selo_destaque}<div class="card-badge">{p['category']}</div>
             </div>
             <div class="ux-card-title">{p['title']}</div>
             <div class="ux-card-desc">{p['desc']}</div>
@@ -702,7 +703,11 @@ def renderizar_card(p, destaque=False):
             </div>
         </div>
     </div>
-    """, unsafe_allow_html=True)
+    """
+    # Remove recuo e linhas vazias: no Markdown, uma linha vazia encerra o
+    # bloco HTML e o recuo de 4+ espaços vira bloco de código.
+    html_card = "\n".join(l.strip() for l in html_card.splitlines() if l.strip())
+    st.markdown(html_card, unsafe_allow_html=True)
 
 # --------------------------------------------------
 # EXIBIÇÃO EM GRID NATIVO STREAMLIT (rolagem da própria página)
