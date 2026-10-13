@@ -1,5 +1,6 @@
 import streamlit as st
 from utils import registrar_acesso, exibir_rodape
+from esconder_selo import esconder_selo_streamlit
 
 # 1. Configuração da página
 st.set_page_config(
@@ -168,6 +169,41 @@ st.markdown("""
         transform: translateY(0) !important;
         box-shadow: none !important;
     }
+    /* ── Controles do Streamlit Cloud (Fork, GitHub, Share, favorito, editar,
+       menu, "Manage app", selo "Hosted with Streamlit" e foto do dono).
+       O cabeçalho continua, porque nele fica o botão de abrir o menu lateral. ── */
+    [data-testid="stToolbarActions"],
+    [data-testid="stAppDeployButton"],
+    [data-testid="stMainMenu"],
+    #MainMenu,
+    .stAppDeployButton,
+    .stDeployButton,
+    [data-testid="stDecoration"],
+    [data-testid="stStatusWidget"],
+    [data-testid="manage-app-button"],
+    [data-testid="stManageAppButton"],
+    [class*="viewerBadge"],
+    [class*="_terminalButton_"],
+    [class*="_container_gzau3_"],
+    [class*="profileContainer"],
+    [class*="profilePreview"],
+    [class*="hostedWith"],
+    a[href*="streamlit.io/cloud"],
+    div:has(> a[href*="streamlit.io/cloud"]) {
+        display: none !important;
+        visibility: hidden !important;
+    }
+
+    [data-testid="stHeader"] {
+        background: transparent !important;
+    }
+
+    /* O iframe de 1px que só roda o script de esconder_selo.py fica fora do layout. */
+    .st-key-esconder_selo {
+        position: absolute !important; width: 1px !important; height: 1px !important;
+        margin: 0 !important; padding: 0 !important; overflow: hidden !important;
+        opacity: 0 !important; pointer-events: none !important;
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -211,5 +247,8 @@ except Exception:
 # --- SIDEBAR ---
 with st.sidebar:
     st.markdown("<div style='margin-top: 15px;'></div>", unsafe_allow_html=True)
+
+# Esconde selo "Hosted with Streamlit", foto do dono e "Manage app" (todas as páginas)
+esconder_selo_streamlit()
 
 pg.run()
