@@ -417,7 +417,7 @@ python_projects = [
     {
     "title": "🌐 API Atlas",
     "desc": "Encontre mais de 2.000 APIs públicas e gratuitas em 51 categorias, com busca global e informações de autenticação, HTTPS e CORS. Use os Kits Power BI para trazer dados reais do Banco Central, IBGE, Banco Mundial e outras fontes com consultas prontas em Power Query (M) e Python, e gere scripts em requests + pandas para qualquer API com o Gerador Python. Interface em português e inglês.",
-    "url": "https://atlasapi.streamlit.app/",
+    "url": "https://atlasapi.streamlit.app/?embed=true",
     "category": "Automação & BI"
     },
     {
@@ -429,117 +429,117 @@ python_projects = [
     {
     "title": "🔢 Conjectura de Collatz; Todo Número Chega em 1?",
     "desc": "Explore na prática um dos maiores mistérios não resolvidos da matemática: digite qualquer número inteiro e acompanhe passo a passo sua trajetória até chegar em 1, seguindo a regra 'par divide por 2, ímpar multiplica por 3 e soma 1'. Traz gráfico interativo da evolução da sequência (linear e em escala logarítmica), gráfico comparativo de passos pares x ímpares, métricas de destaque como total de passos e maior valor atingido no caminho, tabela detalhada com a operação aplicada em cada etapa, e exportação completa da sequência em CSV.",
-    "url": "https://conjecturadecollatz.streamlit.app/",
+    "url": "https://conjecturadecollatz.streamlit.app/?embed=true",
     "category": "Educação"
     },
     {
     "title": "📊 Calculadora ROI de Consórcio; Vale a Pena?",
     "desc": "Calcule e compare consórcios com clareza: parcela estimada, custo total do grupo e o retorno de cada estratégia. Traz 3 comparações lado a lado — consórcio x financiamento (Tabela Price), consórcio x investir a parcela e comprar o bem à vista, e simulação de lance para contemplação antecipada (benefício da valorização evitada vs. custo de oportunidade do dinheiro). Cenários pré-definidos para veículo, moto, imóvel e máquina/caminhão, gráficos interativos de custo acumulado e saldo devedor, tabela de projeção mês a mês, e exportação da proposta em Excel com resumo e projeção completa.",
-    "url": "https://calculadoraroiconsorcio.streamlit.app/",
+    "url": "https://calculadoraroiconsorcio.streamlit.app/?embed=true",
     "category": "Educação"
     },    
     {
     "title": "🧭 Consórcio Educa — Simulador e Educação Financeira",
     "desc": "Simule e compare consórcios com transparência: parcela estimada, Custo Efetivo Total (CET), composição de custos (taxa de administração, fundo de reserva, seguro), impacto de lance próprio/embutido e reajuste anual (INCC/IPCA). Inclui comparador consórcio x financiamento x poupança programada, simulador de probabilidade de contemplação por sorteio, glossário educativo dos termos do setor, comparação de administradoras via importação de CSV com ranking por CET, e exportação de proposta em PDF.",
-    "url": "https://consorcioeduca.streamlit.app/",
+    "url": "https://consorcioeduca.streamlit.app/?embed=true",
     "category": "Educação"
     },
     {
     "title": "⚖️ Calculadora de Honorários Advocatícios",
     "desc": "Calcule honorários advocatícios com base na Tabela OAB, percentual, valor fixo, hora técnica, êxito e modelo misto. Inclui custo real da hora do escritório, comparação de cenários, sucumbência (art. 85 CPC), correção 2016→2026, fator de complexidade, parcelamentos e exportação de proposta em PDF.",
-    "url": "https://calculadorahonorariosadvocaticios.streamlit.app/",
+    "url": "https://calculadorahonorariosadvocaticios.streamlit.app/?embed=true",
     "category": "Automação & BI"
     },
     {
     "title": "📚 Biblioteca de Comandos para ChatGPT",
     "desc": "Explore e organize prompts otimizados para o ChatGPT com esta biblioteca interativa. Acesse comandos categorizados para aumentar sua produtividade em automação, análise de dados e rotinas diárias, permitindo filtrar, copiar e aplicar os melhores templates de IA com facilidade.",
-    "url": "https://comandoschatgptinfo.streamlit.app/",
+    "url": "https://comandoschatgptinfo.streamlit.app/?embed=true",
     "category": "Automação & BI"
     },
     {
     "title": "🍔 Big Mac Index Dashboard",
     "desc": "Compare o preço do Big Mac em mais de 50 países com dados oficiais do The Economist Big Mac Index. Explore o mapa mundial interativo de paridade do poder de compra (PPP), veja rankings com moeda-base ajustável, acompanhe a evolução histórica de preços e use a calculadora de conversão via PPP.",
-    "url": "https://economiabigmac.streamlit.app/",
+    "url": "https://economiabigmac.streamlit.app/?embed=true",
     "category": "Automação & BI"
     },
     {
     "title": "🦟 Painel de Arboviroses — Brasil",
     "desc": "Acompanhe o risco de dengue, zika e chikungunya em qualquer município do Brasil com dados oficiais do InfoDengue (Fiocruz) e IBGE. Consulte o nível de alerta por cidade, visualize a evolução histórica de casos, compare anos e explore um mapa interativo por estado com o risco de cada município.",
-    "url": "https://acompanhamentoarboviroses.streamlit.app/",
+    "url": "https://acompanhamentoarboviroses.streamlit.app/?embed=true",
     "category": "Dados & IBGE"
     },
     {
       "title": "🎮 DAX 2048",
       "desc": "Um jogo educativo inspirado no clássico 2048, onde cada peça representa uma função DAX do Power BI. Ao combinar duas peças iguais, você evolui para funções cada vez mais avançadas, transformando o aprendizado de DAX em uma experiência divertida, interativa e progressiva.",
-      "url": "https://jogo2048dax.streamlit.app/",
+      "url": "https://jogo2048dax.streamlit.app/?embed=true",
       "category": "Educação"
     },
     {
         "title": "🤖 Automação GNX Group",
         "desc": "Automação inteligente para preenchimento de formulários no site da GNX Group. Sistema com suporte a múltiplas execuções, geração de logs em CSV com separador ponto e vírgula, e interface intuitiva para automação de processos de captação de leads e contatos comerciais.",
-        "url": "https://rpagnxgroup.streamlit.app/",
+        "url": "https://rpagnxgroup.streamlit.app/?embed=true",
         "category": "Automação & BI"
     },
     
     {
     "title": "💰Salário Médio por Estado — Brasil",
     "desc": "Explore o salário médio dos trabalhadores em todos os estados brasileiros com dados oficiais. Compare remunerações por unidade da federação, visualize rankings, mapas e gráficos interativos para analisar as diferenças salariais entre as regiões do país.",
-    "url": "https://salariomediobrasil.streamlit.app/",
+    "url": "https://salariomediobrasil.streamlit.app/?embed=true",
     "category": "Dados & IBGE"
     },
     
     {
     "title": "🚌 Olho Vivo Dashboard",
     "desc": "Acompanhe o transporte público de São Paulo em tempo real com dados da API Olho Vivo (SPTrans). Consulte linhas, paradas e corredores, veja a posição ao vivo de toda a frota e a previsão de chegada por parada ou linha, com mapa interativo e atualização automática.",
-    "url": "https://appsptrans.streamlit.app/",
+    "url": "https://appsptrans.streamlit.app/?embed=true",
     "category": "Automação & BI"
     },
     {
     "title": "📊 Processador Inteligente de CEPs",
     "desc": "Automatize a consulta de endereços com dados do Via CEP. Realize buscas individuais com mapa interativo ou processe lotes de planilhas (CSV/XLSX) para obter dados completos como DDD e IBGE. Explore ainda bairros por faixa de CEP com consultas por amostragem.",
-    "url": "https://consultacep.streamlit.app/",
+    "url": "https://consultacep.streamlit.app/?embed=true",
     "category": "Dados & IBGE"
     },
     {
         "title": "📍 População Brasil",
         "desc": "Dashboard interativo com dados populacionais oficiais do IBGE. Explore estimativas demográficas por região, estado e município com visualizações dinâmicas e mapas interativos.",
-        "url": "https://populacaobrasil.streamlit.app/",
+        "url": "https://populacaobrasil.streamlit.app/?embed=true",
         "category": "Dados & IBGE"
     },
     {
         "title": "📍 População Municipal",
         "desc": "Consulta detalhada de população por município brasileiro usando dados oficiais da tabela SIDRA 6579 do IBGE. Visualize rankings, compare regiões e acompanhe tendências demográficas.",
-        "url": "https://popualcaoibge.streamlit.app/",
+        "url": "https://popualcaoibge.streamlit.app/?embed=true",
         "category": "Dados & IBGE"
     },
     {
         "title": "💰 Renda por Município - São Paulo",
         "desc": "Análise aprofundada da distribuição de renda nos municípios paulistas com dados oficiais do IBGE. Explore PIB per capita, estimativas de renda familiar e desigualdades regionais em dashboards interativos.",
-        "url": "https://renda-cidades-sp-ibge.streamlit.app/",
+        "url": "https://renda-cidades-sp-ibge.streamlit.app/?embed=true",
         "category": "Dados & IBGE"
     },
     {
         "title": "🎓 O cursinho que o Brasil não pode pagar — eu construí de graça",
         "desc": "Simulador ENEM gratuito com questões reais, correção automática, estatísticas de desempenho e plano de estudos personalizado. Democratizando o acesso à preparação para o vestibular.",
-        "url": "https://enem-simulador.streamlit.app/",
+        "url": "https://enem-simulador.streamlit.app/?embed=true",
         "category": "Educação"
     },
     {
         "title": "🎓 Simulador FUVEST",
         "desc": "Treine para a FUVEST com questões de provas anteriores, correção instantânea, análise de desempenho por área e recomendações personalizadas de estudo. 100% gratuito e sem cadastro.",
-        "url": "https://simulador-fuvest.streamlit.app/",
+        "url": "https://simulador-fuvest.streamlit.app/?embed=true",
         "category": "Educação"
     },
     {
         "title": "✈️ Simulador ITA — 2021 a 2025",
         "desc": "Prepare-se para o vestibular mais concorrido do Brasil com questões reais do ITA dos últimos 5 anos. Gabarito comentado, cronômetro integrado, estatísticas de desempenho e análise por disciplina.",
-        "url": "https://simulador-ita.streamlit.app/",
+        "url": "https://simulador-ita.streamlit.app/?embed=true",
         "category": "Educação"
     },
     {
         "title": "🚀 BI Data Generator PRO",
         "desc": "Ferramenta inteligente que analisa seu desempenho no ENEM por área do conhecimento, explica cada resposta detalhadamente e identifica pontos críticos para otimizar seus estudos. Com IA integrada.",
-        "url": "https://ai-bidatagenerator.streamlit.app/",
+        "url": "https://ai-bidatagenerator.streamlit.app/?embed=true",
         "category": "Automação & BI"
     },
     {
@@ -551,7 +551,7 @@ python_projects = [
     {
         "title": "🦉 Calculadora ROI de Automação",
         "desc": "Ferramenta estratégica para calcular o Retorno sobre Investimento (ROI) de projetos de automação. Compare cenários, projete resultados financeiros e tome decisões baseadas em dados.",
-        "url": "https://roiautomacao.streamlit.app/",
+        "url": "https://roiautomacao.streamlit.app/?embed=true",
         "category": "Automação & BI"
     },
     {
@@ -569,11 +569,11 @@ total_projetos = len(python_projects)
 # Para trocar um destaque, basta alterar o link aqui.
 # --------------------------------------------------
 destaques_urls = [
-    "https://enem-simulador.streamlit.app/",
-    "https://atlasapi.streamlit.app/",
-    "https://conjecturadecollatz.streamlit.app/",
-    "https://jogo2048dax.streamlit.app/",
-    "https://appsptrans.streamlit.app/",
+    "https://enem-simulador.streamlit.app/?embed=true",
+    "https://atlasapi.streamlit.app/?embed=true",
+    "https://conjecturadecollatz.streamlit.app/?embed=true",
+    "https://jogo2048dax.streamlit.app/?embed=true",
+    "https://appsptrans.streamlit.app/?embed=true",
 ]
 _projetos_por_url = {p["url"]: p for p in python_projects}
 projetos_destaque = [_projetos_por_url[u] for u in destaques_urls if u in _projetos_por_url]
