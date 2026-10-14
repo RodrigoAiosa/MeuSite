@@ -503,7 +503,10 @@ const COURSES = [
     m: ["Fundamentos do Excel corporativo", "Fórmulas essenciais", "PROCV e PROCX", "Tabelas dinâmicas", "Dashboards no Excel", "Formatação condicional", "Indicadores financeiros", "Power Query no Excel", "Introdução a macros", "Projeto final aplicado"] }
 ];
 
-const CASES_TOTAL = 15; // imagens assets/img_cases_suceso/1.jpg ... 15.jpg
+// Imagens da pasta assets/img_cases_suceso, na ordem em que aparecem no site.
+// Ao adicionar ou remover uma imagem na pasta, atualize esta lista.
+const CASES = ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "7.jpg", "8.jpg", "9.jpg",
+               "10.jpg", "11.jpg", "12.jpg", "13.jpg", "14.jpg", "15.jpg"];
 
 /* ============================================================
    RENDERIZAÇÃO
@@ -525,8 +528,8 @@ function projCard(p, tag) {
 }
 
 // Cases
-$("#casesGrid").innerHTML = Array.from({ length: CASES_TOTAL }, (_, i) =>
-  `<button data-img="assets/img_cases_suceso/${i + 1}.jpg" aria-label="Ampliar case ${i + 1}"><img src="assets/img_cases_suceso/${i + 1}.jpg" alt="Case de sucesso ${i + 1}" loading="lazy"></button>`
+$("#casesGrid").innerHTML = CASES.map((f, i) =>
+  `<button data-img="assets/img_cases_suceso/${f}" aria-label="Ampliar case ${i + 1}"><img src="assets/img_cases_suceso/${f}" alt="Case de sucesso ${i + 1}" loading="lazy" onerror="this.closest('button').remove()"></button>`
 ).join("");
 
 // Python (mostra 9 e expande)
