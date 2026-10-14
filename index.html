@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rodrigo Aiosa | Dados, BI e Automação</title>
+<meta name="description" content="Portfólio de Rodrigo Aiosa: Python, Excel, Power BI, SQL Server, ETL, Linguagem M e DAX. Consultoria, treinamentos corporativos e cursos online.">
+<meta property="og:title" content="Rodrigo Aiosa | Dados, BI e Automação">
+<meta property="og:description" content="Mais de 20 anos transformando dados em decisões. Projetos, cases e treinamentos em Python, Power BI, SQL e Excel.">
+<meta property="og:image" content="assets/EU.jpg">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#060912">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦉</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #060912;
+  --bg-2: #0d0d14;
+  --surface: rgba(255,255,255,0.035);
+  --border: rgba(255,255,255,0.07);
+  --text: #f0f4ff;
+  --text-2: #c3cde0;
+  --muted: #7b8ba8;
+  --accent: #00b4d8;
+  --accent-2: #48cae4;
+  --gold: #f5a623;
+  --radius: 16px;
+  --max: 1180px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+body {
+  margin: 0;
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0,180,216,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 85% 40%, rgba(0,100,180,0.06) 0%, transparent 50%);
+  background-repeat: no-repeat;
+  color: var(--text-2);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: var(--accent); }
+h1, h2, h3, h4 { font-family: 'Syne', sans-serif; color: var(--text); letter-spacing: -0.02em; line-height: 1.2; margin: 0; }
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,0.04); }
+.eyebrow { font-family: 'Syne', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+.section-title { font-size: clamp(1.7rem, 3.2vw, 2.4rem); font-weight: 800; margin-bottom: 12px; }
+.section-lead { color: var(--muted); max-width: 680px; margin: 0 0 40px; font-weight: 300; font-size: 1.05rem; }
+
+/* ── NAV ── */
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(6,9,18,0.82);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.05rem; white-space: nowrap; }
+.brand span { color: var(--accent); }
+.nav-links { display: flex; gap: 4px; list-style: none; margin: 0; padding: 0; }
+.nav-links a { display: block; padding: 8px 12px; border-radius: 8px; color: rgba(210,220,240,0.75); text-decoration: none; font-size: 0.9rem; transition: background .2s, color .2s; }
+.nav-links a:hover, .nav-links a.active { background: rgba(0,180,216,0.09); color: #e8f4ff; }
+.nav-cta { padding: 9px 16px; border-radius: 10px; background: var(--accent); color: #031018; font-weight: 600; font-size: 0.88rem; text-decoration: none; white-space: nowrap; }
+.nav-cta:hover { background: var(--accent-2); }
+.menu-btn { display: none; background: none; border: 1px solid rgba(0,180,216,0.3); color: var(--accent); border-radius: 8px; width: 40px; height: 40px; font-size: 1.2rem; cursor: pointer; }
+@media (max-width: 980px) {
+  .menu-btn { display: block; }
+  .nav-cta { display: none; }
+  .nav-links { position: absolute; top: 64px; left: 0; right: 0; flex-direction: column; background: var(--bg-2); padding: 12px 16px 20px; border-bottom: 1px solid var(--border); display: none; }
+  .nav-links.open { display: flex; }
+  .nav-links a { padding: 12px 14px; font-size: 1rem; }
+}
+
+/* ── HERO ── */
+.hero { padding: 72px 0 80px; border-top: none; text-align: center; }
+.photo { position: relative; width: 196px; height: 196px; margin: 0 auto 26px; border-radius: 50%; overflow: hidden; display: grid; place-items: center; box-shadow: 0 6px 40px rgba(0,180,216,0.22); }
+.photo::before { content: ''; position: absolute; width: 150%; height: 150%; background: conic-gradient(transparent, var(--accent), var(--accent-2), transparent 40%); animation: spin 4s linear infinite; }
+.photo img { position: relative; width: 186px; height: 186px; border-radius: 50%; object-fit: cover; border: 3px solid var(--bg); background: var(--bg); }
+@keyframes spin { to { transform: rotate(360deg); } }
+.hero h1 { font-size: clamp(2.4rem, 6vw, 3.8rem); font-weight: 800; letter-spacing: -0.04em; margin-bottom: 10px; }
+.stack { font-family: 'Syne', sans-serif; font-size: 0.8rem; font-weight: 700; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 20px; }
+.hero p.lead { max-width: 640px; margin: 0 auto 32px; color: var(--muted); font-size: 1.1rem; font-weight: 300; }
+.btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 10px; font-weight: 600; font-size: 0.95rem; text-decoration: none; border: 1px solid transparent; cursor: pointer; font-family: inherit; transition: transform .2s, background .2s, border-color .2s, box-shadow .2s; }
+.btn-primary { background: var(--accent); color: #031018; }
+.btn-primary:hover { background: var(--accent-2); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,180,216,0.25); }
+.btn-ghost { background: transparent; color: var(--accent); border-color: rgba(0,180,216,0.4); }
+.btn-ghost:hover { background: rgba(0,180,216,0.08); border-color: var(--accent); }
+
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 64px; }
+.stat { position: relative; height: 168px; border-radius: 18px; overflow: hidden; }
+.stat > div { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; border-radius: 18px; transition: opacity .35s; text-align: center; }
+.stat .front { background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(0,0,0,0.25)); border: 1px solid var(--border); }
+.stat .back { background: linear-gradient(135deg, rgba(0,180,216,0.16), rgba(0,100,180,0.26)); border: 1px solid rgba(0,180,216,0.35); color: #e2e8f0; font-size: 0.92rem; opacity: 0; }
+.stat:hover .front, .stat:focus-within .front { opacity: 0; }
+.stat:hover .back, .stat:focus-within .back { opacity: 1; }
+.stat .ico { font-size: 1.6rem; margin-bottom: 4px; }
+.stat .num { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; color: var(--accent); line-height: 1.1; }
+.stat .lbl { font-size: 0.76rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.14em; margin-top: 4px; }
+@media (max-width: 760px) { .stats { grid-template-columns: repeat(2, 1fr); } .stat { height: 150px; } }
+
+/* ── CARDS GENÉRICOS ── */
+.grid { display: grid; gap: 18px; }
+.g2 { grid-template-columns: repeat(2, 1fr); }
+.g3 { grid-template-columns: repeat(3, 1fr); }
+.g4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 980px) { .g3, .g4 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .g2, .g3, .g4 { grid-template-columns: 1fr; } }
+.card { background: linear-gradient(145deg, rgba(255,255,255,0.035), rgba(0,0,0,0.22)); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px; transition: transform .3s, border-color .3s, box-shadow .3s; }
+.card:hover { transform: translateY(-4px); border-color: rgba(0,180,216,0.28); box-shadow: 0 18px 36px rgba(0,0,0,0.35); }
+.card h3 { font-size: 1.06rem; font-weight: 700; margin-bottom: 8px; }
+.card p { margin: 0; color: var(--muted); font-size: 0.94rem; font-weight: 300; }
+.card.lined { border-left: 3px solid var(--accent); }
+
+.clients { text-align: center; margin-top: 56px; }
+.clients p.names { color: var(--muted); max-width: 760px; margin: 6px auto 24px; }
+.clients img { margin: 0 auto; border-radius: 12px; max-width: 560px; width: 100%; }
+
+/* ── CASES ── */
+.cases { columns: 3 280px; column-gap: 16px; }
+.cases button { display: block; width: 100%; margin: 0 0 16px; padding: 0; border: 1px solid rgba(0,180,216,0.3); border-radius: 14px; overflow: hidden; background: var(--bg-2); cursor: zoom-in; break-inside: avoid; transition: border-color .2s, transform .2s; }
+.cases button:hover { border-color: var(--accent); transform: translateY(-2px); }
+.cases img { width: 100%; height: auto; }
+
+/* ── PROJETOS ── */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+.chip { padding: 8px 14px; border-radius: 999px; border: 1px solid var(--border); background: transparent; color: var(--text-2); font: inherit; font-size: 0.86rem; cursor: pointer; transition: all .2s; }
+.chip:hover { border-color: rgba(0,180,216,0.4); }
+.chip.on { background: rgba(0,180,216,0.14); border-color: var(--accent); color: #e8f4ff; }
+.proj { display: flex; flex-direction: column; }
+.proj .tag { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 8px; font-weight: 600; }
+.proj p { flex: 1; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.proj .actions { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+.proj .actions .btn { padding: 9px 14px; font-size: 0.86rem; }
+.more { text-align: center; margin-top: 28px; }
+
+/* ── EMPRESAS ── */
+.manifesto { text-align: center; max-width: 860px; margin: 0 auto 48px; }
+.manifesto h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; margin-bottom: 18px; }
+.manifesto p { color: var(--muted); font-size: 1.1rem; font-weight: 300; }
+.manifesto b { color: var(--text); font-weight: 600; }
+.badge { display: inline-block; margin-top: 22px; padding: 10px 20px; border-radius: 999px; border: 1px solid rgba(0,180,216,0.4); background: rgba(0,180,216,0.08); color: #e8f4ff; font-weight: 600; font-size: 0.92rem; }
+.feat { position: relative; min-height: 230px; overflow: hidden; }
+.feat .ico { font-size: 1.8rem; margin-bottom: 10px; }
+.feat .see { margin-top: 26px; font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.16em; color: var(--accent); text-transform: uppercase; }
+.feat .story { position: absolute; inset: 0; padding: 26px; display: flex; align-items: center; background: linear-gradient(135deg, #0a2a3a, #071a2a); color: #e2e8f0; font-size: 0.98rem; font-style: italic; opacity: 0; transition: opacity .35s; border-radius: var(--radius); }
+.feat:hover .story, .feat:focus-within .story { opacity: 1; }
+.pilares { margin-top: 48px; }
+.pilares h3 { text-align: center; font-size: 1.5rem; font-weight: 800; margin-bottom: 6px; }
+.pilares .sub { text-align: center; font-family: 'Syne', sans-serif; color: var(--accent); font-weight: 600; letter-spacing: 0.1em; font-size: 0.9rem; margin-bottom: 28px; }
+.pilar { display: flex; gap: 14px; align-items: flex-start; }
+.pilar h4 { font-size: 1rem; margin-bottom: 4px; }
+
+/* ── CURSOS ── */
+.course { display: grid; grid-template-columns: 220px 1fr; gap: 26px; align-items: start; }
+.course img { border-radius: 12px; aspect-ratio: 2/3; object-fit: cover; width: 100%; }
+.course h3 { font-size: 1.3rem; margin-bottom: 8px; }
+.course details { margin-top: 16px; }
+.course summary { cursor: pointer; color: var(--accent); font-weight: 500; font-size: 0.92rem; }
+.course ol { margin: 10px 0 0; padding-left: 22px; color: var(--muted); font-size: 0.92rem; }
+@media (max-width: 640px) { .course { grid-template-columns: 1fr; } .course img { max-width: 220px; } }
+
+/* ── IA ── */
+.ia-box { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--bg-2); }
+.ia-start { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 56px 24px; text-align: center; }
+.ia-start img { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(0,180,216,0.4); }
+.ia-box iframe { width: 100%; height: 720px; border: 0; display: block; background: #fff; }
+
+/* ── CONTATO ── */
+.contact { display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: start; }
+@media (max-width: 860px) { .contact { grid-template-columns: 1fr; } }
+form .field { margin-bottom: 16px; }
+label { display: block; font-size: 0.88rem; color: var(--text-2); margin-bottom: 6px; font-weight: 500; }
+input, textarea, select { width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border); background: rgba(255,255,255,0.03); color: var(--text); font: inherit; }
+input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,180,216,0.15); }
+select option { background: var(--bg-2); }
+textarea { min-height: 120px; resize: vertical; }
+.form-msg { font-size: 0.9rem; margin-top: 10px; min-height: 1.4em; color: #ff8a8a; }
+
+/* ── FOOTER / FLOAT ── */
+footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; text-align: center; color: #5b6880; font-size: 0.85rem; }
+.promo { position: fixed; right: 22px; bottom: 22px; z-index: 40; display: flex; align-items: center; gap: 8px; padding: 13px 20px; border-radius: 999px; background: linear-gradient(135deg, #d4910e, var(--gold), #d4910e); color: #1a0800; font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 2px; text-decoration: none; box-shadow: 0 4px 0 #7a4e00, 0 6px 24px rgba(200,134,10,0.5); transition: transform .2s; }
+.promo:hover { transform: translateY(-3px) scale(1.03); }
+@media (max-width: 520px) { .promo { right: 12px; bottom: 12px; font-size: 13px; padding: 11px 16px; } }
+
+/* ── MODAL ── */
+.modal { position: fixed; inset: 0; z-index: 100; background: rgba(2,4,10,0.88); display: none; align-items: center; justify-content: center; padding: 20px; }
+.modal.open { display: flex; }
+.modal-box { width: min(1200px, 100%); height: min(86vh, 900px); background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; }
+.modal-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--border); }
+.modal-bar strong { color: var(--text); font-family: 'Syne', sans-serif; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.modal-bar .acts { display: flex; gap: 8px; flex-shrink: 0; }
+.modal-bar .btn { padding: 7px 12px; font-size: 0.82rem; }
+.modal iframe { flex: 1; width: 100%; border: 0; background: #fff; }
+.modal.img .modal-box { width: auto; height: auto; max-width: 100%; max-height: 92vh; background: transparent; border: none; }
+.modal.img .modal-bar { display: none; }
+.modal.img img { max-height: 92vh; max-width: 100%; border-radius: 10px; }
+.x { background: none; border: 1px solid var(--border); color: var(--text); width: 34px; height: 34px; border-radius: 8px; cursor: pointer; font-size: 1rem; }
+.img-close { position: fixed; top: 16px; right: 16px; z-index: 101; display: none; }
+.modal.img.open ~ .img-close { display: block; }
+
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .photo::before { animation: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: rgba(0,180,216,0.25); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#inicio">🦉 Rodrigo <span>Aiosa</span></a>
+    <button class="menu-btn" aria-label="Abrir menu" aria-expanded="false" id="menuBtn">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#cases">Cases</a></li>
+      <li><a href="#python">Python</a></li>
+      <li><a href="#powerbi">Power BI</a></li>
+      <li><a href="#escola">Escola de Dados</a></li>
+      <li><a href="#empresas">Para Empresas</a></li>
+      <li><a href="#cursos">Cursos</a></li>
+      <li><a href="#ia">AIOSA IA</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+    <a class="nav-cta" href="#contato">Fale comigo</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<header class="hero" id="inicio">
+  <div class="wrap">
+    <div class="photo"><img src="assets/EU.jpg" alt="Foto de Rodrigo Aiosa" width="186" height="186"></div>
+    <h1>Rodrigo Aiosa</h1>
+    <div class="stack">Python · Excel · Power BI · ETL · SQL Server · Linguagem M · DAX</div>
+    <p class="lead">Especialista em Análise de Dados e Business Intelligence, transformando dados brutos em decisões inteligentes.</p>
+    <div class="btns">
+      <a class="btn btn-primary" href="#contato">Vamos conversar</a>
+      <a class="btn btn-ghost" href="#python">Ver projetos</a>
+    </div>
+
+    <div class="stats" id="stats">
+      <div class="stat" tabindex="0"><div class="front"><div class="ico">🏆</div><div class="num" data-to="20" data-suffix="+">0</div><div class="lbl">Anos de experiência</div></div><div class="back">Expertise em automação de processos e análise preditiva.</div></div>
+      <div class="stat" tabindex="0"><div class="front"><div class="ico">🏢</div><div class="num" data-to="450" data-suffix="+">0</div><div class="lbl">Empresas atendidas</div></div><div class="back">Soluções personalizadas para grandes players do mercado.</div></div>
+      <div class="stat" tabindex="0"><div class="front"><div class="ico">📊</div><div class="num" data-to="500" data-suffix="+">0</div><div class="lbl">Projetos entregues</div></div><div class="back">Dashboards estratégicos focados em KPIs de alto nível.</div></div>
+      <div class="stat" tabindex="0"><div class="front"><div class="ico">🤝</div><div class="num" data-to="87" data-suffix="%">0</div><div class="lbl">Recompra de clientes</div></div><div class="back">Parceria contínua baseada em confiança e resultados reais.</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ SOBRE ═══ -->
+<section id="sobre">
+  <div class="wrap">
+    <div class="eyebrow">Experiência de mercado</div>
+    <h2 class="section-title">Dados que viram decisão</h2>
+    <p class="section-lead">Da automação ao dashboard executivo, com foco total em resolver a dor do cliente e gerar valor rápido.</p>
+    <div class="grid g2">
+      <div class="card lined reveal"><h3>🔎 Análise Avançada e Automação</h3><p>Desenvolvimento de scripts Python e modelos em Excel para otimização de tempo e processos.</p></div>
+      <div class="card lined reveal"><h3>🗄️ Gerenciamento de Dados</h3><p>Estruturação de bancos de dados SQL Server e fluxos de ETL eficientes para alta performance.</p></div>
+      <div class="card lined reveal"><h3>📊 Business Intelligence (BI)</h3><p>Criação de ecossistemas de dados robustos utilizando Power BI, Linguagem M e DAX.</p></div>
+      <div class="card lined reveal"><h3>🎯 Minha Abordagem</h3><p>Foco total na solução da dor do cliente, visando agilidade e a geração de valor imediato.</p></div>
+    </div>
+    <div class="clients reveal">
+      <h3>Clientes em destaque</h3>
+      <p class="names">Cimed, Unimed Seguros, Ouro Safra, Kraft Heinz, Loggi, Usina Santa Terezinha, Megavig, Lowell e BSS Blindagens.</p>
+      <img src="assets/clientes_atendidos.jpg" alt="Logos de clientes atendidos" loading="lazy" width="540" height="327">
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CASES ═══ -->
+<section id="cases">
+  <div class="wrap">
+    <div class="eyebrow">Resultados</div>
+    <h2 class="section-title">🏆 Cases de Sucesso</h2>
+    <p class="section-lead">Confira os resultados da Mentoria Estratégica. Clique em uma imagem para ampliar.</p>
+    <div class="cases" id="casesGrid"></div>
+  </div>
+</section>
+
+<!-- ═══ PYTHON ═══ -->
+<section id="python">
+  <div class="wrap">
+    <div class="eyebrow">Portfólio</div>
+    <h2 class="section-title">🚧 Projetos Python</h2>
+    <p class="section-lead">Aplicações web, simuladores e dashboards construídos em Python. Alguns apps podem levar alguns segundos para "acordar" no primeiro acesso.</p>
+    <div class="grid g3" id="pyGrid"></div>
+    <div class="more"><button class="btn btn-ghost" id="pyMore">Ver todos os projetos</button></div>
+  </div>
+</section>
+
+<!-- ═══ POWER BI ═══ -->
+<section id="powerbi">
+  <div class="wrap">
+    <div class="eyebrow">Portfólio</div>
+    <h2 class="section-title">📊 Projetos Power BI</h2>
+    <p class="section-lead">Relatórios interativos publicados. Abra direto aqui ou em tela cheia.</p>
+    <div class="filters" id="pbiFilters"></div>
+    <div class="grid g3" id="pbiGrid"></div>
+  </div>
+</section>
+
+<!-- ═══ ESCOLA ═══ -->
+<section id="escola">
+  <div class="wrap">
+    <div class="eyebrow">Escola de Dados</div>
+    <h2 class="section-title">Aprenda na prática</h2>
+    <p class="section-lead">Ferramentas e conteúdos interativos gratuitos para quem quer dominar dados.</p>
+    <div class="grid g3" id="escolaGrid"></div>
+  </div>
+</section>
+
+<!-- ═══ EMPRESAS ═══ -->
+<section id="empresas">
+  <div class="wrap">
+    <div class="eyebrow" style="text-align:center">Para empresas</div>
+    <div class="manifesto reveal">
+      <h2>Sua empresa gera inteligência ou apenas acumula planilhas?</h2>
+      <p>Conectamos <b>Python, BI e Processos</b> para transformar dados brutos em decisões que geram lucro imediato. Metodologia aplicada em gigantes do setor com <b>ROI auditado de até 42%</b>.</p>
+      <div class="badge">💎 Resultado: ROI de 35% a 42%</div>
+    </div>
+    <div class="grid g4" id="featGrid"></div>
+
+    <div class="pilares">
+      <h3>Diferenciais do Treinamento Corporativo</h3>
+      <div class="sub">POWER BI · EXCEL · SQL · PYTHON</div>
+      <div class="grid g2">
+        <div class="card pilar"><div>✅</div><div><h4>Treinamento 100% Personalizado</h4><p>Conteúdo totalmente direcionado às necessidades reais da empresa, focado em solucionar problemas práticos e otimizar processos internos.</p></div></div>
+        <div class="card pilar"><div>✅</div><div><h4>Levantamento Prévio de Necessidades</h4><p>Diagnóstico das demandas antes do início, garantindo que o aprendizado seja relevante e aplicável imediatamente.</p></div></div>
+        <div class="card pilar"><div>✅</div><div><h4>Material Completo &amp; Vitalício</h4><p>Aulas gravadas e disponibilizadas para a empresa, para consultas futuras, treinamento de novos colaboradores ou reciclagem.</p></div></div>
+        <div class="card pilar"><div>✅</div><div><h4>Suporte Pós-Treinamento (WhatsApp)</h4><p>Grupo exclusivo para suporte prático e dúvidas, garantindo que o conhecimento se transforme em execução.</p></div></div>
+      </div>
+      <div class="btns" style="margin-top:32px">
+        <a class="btn btn-primary" target="_blank" rel="noopener" href="https://wa.me/5511977019335?text=Ol%C3%A1%20Rodrigo%2C%20gostaria%20de%20agendar%20uma%20conversa%20sobre%20os%20treinamentos%20corporativos.">Agendar conversa no WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CURSOS ═══ -->
+<section id="cursos">
+  <div class="wrap">
+    <div class="eyebrow">Treinamentos</div>
+    <h2 class="section-title">🛜 Cursos Online</h2>
+    <p class="section-lead">Formações práticas e direto ao ponto, para aplicar no trabalho desde a primeira aula.</p>
+    <div class="grid" id="courseGrid" style="gap:22px"></div>
+  </div>
+</section>
+
+<!-- ═══ IA ═══ -->
+<section id="ia">
+  <div class="wrap">
+    <div class="eyebrow">Assistente</div>
+    <h2 class="section-title">🦉 AIOSA IA</h2>
+    <p class="section-lead">Assistente virtual inteligente desenvolvido por Rodrigo Aiosa.</p>
+    <div class="ia-box" id="iaBox">
+      <div class="ia-start">
+        <img src="assets/eu_ia.png" alt="Avatar da AIOSA IA" loading="lazy" width="110" height="110">
+        <p style="margin:0;color:var(--muted)">O assistente carrega sob demanda para deixar o site mais rápido.</p>
+        <button class="btn btn-primary" id="iaStart">Conversar com a AIOSA IA</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTATO ═══ -->
+<section id="contato">
+  <div class="wrap contact">
+    <div>
+      <div class="eyebrow">Contato</div>
+      <h2 class="section-title">🚀 Vamos escalar seu projeto?</h2>
+      <p class="section-lead" style="margin-bottom:24px">Conte rapidamente o que você precisa. Ao enviar, a conversa abre no WhatsApp já com a sua mensagem.</p>
+      <a class="btn btn-ghost" target="_blank" rel="noopener" href="https://wa.me/5511977019335">💬 WhatsApp direto</a>
+    </div>
+    <form class="card" id="contactForm" novalidate>
+      <div class="field"><label for="fNome">👤 Nome completo</label><input id="fNome" name="nome" autocomplete="name" placeholder="Digite seu nome" required></div>
+      <div class="field"><label for="fEmail">📧 E-mail profissional</label><input id="fEmail" name="email" type="email" autocomplete="email" placeholder="exemplo@email.com" required></div>
+      <div class="field"><label for="fServ">🧩 Interesse</label>
+        <select id="fServ" name="servico">
+          <option>Consultoria em dados</option>
+          <option>Treinamento corporativo</option>
+          <option>Dashboard Power BI</option>
+          <option>Automação com Python</option>
+          <option>Cursos online</option>
+          <option>Outro assunto</option>
+        </select>
+      </div>
+      <div class="field"><label for="fMsg">💬 Sua mensagem</label><textarea id="fMsg" name="mensagem" placeholder="Como posso ajudar?" required></textarea></div>
+      <button class="btn btn-primary" type="submit" style="width:100%;justify-content:center">Enviar pelo WhatsApp</button>
+      <div class="form-msg" id="formMsg" role="status"></div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <img src="assets/logo_sky_data_soluction.jpg" alt="Sky Data Solution" width="56" height="50" style="margin:0 auto 12px;border-radius:8px" loading="lazy">
+  SKY DATA SOLUTION © <span id="year">2026</span> | Rodrigo Aiosa
+</footer>
+
+<a class="promo" href="https://rodrigoaiosa.github.io/promocao_curso_online/" target="_blank" rel="noopener">🔥 Promoção Treinamento Online</a>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box">
+    <div class="modal-bar">
+      <strong id="modalTitle"></strong>
+      <div class="acts">
+        <a class="btn btn-ghost" id="modalNew" target="_blank" rel="noopener">Abrir em nova aba ↗</a>
+        <button class="x" id="modalClose" aria-label="Fechar">✕</button>
+      </div>
+    </div>
+    <iframe id="modalFrame" title="Projeto" allowfullscreen allow="clipboard-read; clipboard-write; fullscreen"></iframe>
+    <img id="modalImg" alt="" hidden>
+  </div>
+</div>
+<button class="x img-close" id="imgClose" aria-label="Fechar imagem">✕</button>
+
+<script>
+/* ============================================================
+   CONTEÚDO DO SITE: edite aqui para adicionar ou remover itens
+   ============================================================ */
+
+// Endereço do seu app Streamlit (para as Escolas SQL, Python e Excel).
+// Ex.: "https://seuapp.streamlit.app". Deixe vazio para esconder esse card.
+const APP_STREAMLIT_URL = "";
+
+const WHATSAPP = "5511977019335";
+
+const PY_PROJECTS = [
+  { t: "🌐 API Atlas", u: "https://atlasapi.streamlit.app", d: "Encontre mais de 2.000 APIs públicas e gratuitas em 51 categorias, com busca global e informações de autenticação, HTTPS e CORS. Kits Power BI com consultas prontas em Power Query (M) e Python e gerador de scripts em requests + pandas." },
+  { t: "♟️ Jogo de Xadrez", u: "https://rodrigoaiosa.github.io/jogoxadrez/new-jogo-de-xadrez.html", d: "Xadrez completo no navegador, com regras oficiais da FIDE, modo contra o PC em 5 níveis, 100 puzzles de mate, notação em tempo real e exportação em PDF." },
+  { t: "🔢 Conjectura de Collatz", u: "https://conjecturadecollatz.streamlit.app", d: "Digite qualquer inteiro e acompanhe passo a passo sua trajetória até 1, com gráficos interativos (linear e log), métricas, tabela detalhada e exportação em CSV." },
+  { t: "📊 Calculadora ROI de Consórcio", u: "https://calculadoraroiconsorcio.streamlit.app", d: "Compare consórcio x financiamento, consórcio x investir a parcela e simule lances, com cenários prontos, gráficos de custo acumulado e exportação em Excel." },
+  { t: "🧭 Consórcio Educa", u: "https://consorcioeduca.streamlit.app", d: "Simulador com CET, composição de custos, lances, reajuste anual, comparador com financiamento e poupança, probabilidade de contemplação e proposta em PDF." },
+  { t: "⚖️ Calculadora de Honorários Advocatícios", u: "https://calculadorahonorariosadvocaticios.streamlit.app", d: "Honorários pela Tabela OAB, percentual, valor fixo, hora técnica, êxito e modelo misto, com sucumbência, correção, parcelamentos e proposta em PDF." },
+  { t: "📚 Biblioteca de Comandos para ChatGPT", u: "https://comandoschatgptinfo.streamlit.app", d: "Prompts otimizados e categorizados para automação, análise de dados e rotinas diárias, com filtros e cópia rápida." },
+  { t: "🍔 Big Mac Index Dashboard", u: "https://economiabigmac.streamlit.app", d: "Preço do Big Mac em mais de 50 países, mapa mundial de paridade do poder de compra, rankings, histórico e calculadora PPP." },
+  { t: "🦟 Painel de Arboviroses — Brasil", u: "https://acompanhamentoarboviroses.streamlit.app", d: "Risco de dengue, zika e chikungunya por município com dados do InfoDengue (Fiocruz) e IBGE, evolução histórica e mapa por estado." },
+  { t: "🎮 DAX 2048", u: "https://jogo2048dax.streamlit.app", d: "Jogo educativo inspirado no 2048 em que cada peça é uma função DAX. Combine peças e evolua para funções cada vez mais avançadas." },
+  { t: "🤖 Automação GNX Group", u: "https://rpagnxgroup.streamlit.app", d: "Automação de preenchimento de formulários com múltiplas execuções, logs em CSV e interface para captação de leads." },
+  { t: "💰 Salário Médio por Estado", u: "https://salariomediobrasil.streamlit.app", d: "Salário médio dos trabalhadores em todos os estados, com rankings, mapas e gráficos interativos." },
+  { t: "🚌 Olho Vivo Dashboard", u: "https://appsptrans.streamlit.app", d: "Transporte público de São Paulo em tempo real pela API Olho Vivo (SPTrans): linhas, paradas, frota ao vivo e previsão de chegada." },
+  { t: "📊 Processador Inteligente de CEPs", u: "https://consultacep.streamlit.app", d: "Consultas individuais com mapa ou em lote via CSV/XLSX, com DDD, código IBGE e exploração de bairros por faixa de CEP." },
+  { t: "📍 População Brasil", u: "https://populacaobrasil.streamlit.app", d: "Estimativas populacionais oficiais do IBGE por região, estado e município, com mapas interativos." },
+  { t: "📍 População Municipal", u: "https://popualcaoibge.streamlit.app", d: "População por município com dados da tabela SIDRA 6579 do IBGE, rankings e comparações regionais." },
+  { t: "💰 Renda por Município — SP", u: "https://renda-cidades-sp-ibge.streamlit.app", d: "Distribuição de renda nos municípios paulistas: PIB per capita, renda familiar e desigualdades regionais." },
+  { t: "🎓 Simulador ENEM gratuito", u: "https://enem-simulador.streamlit.app", d: "Questões reais, correção automática, estatísticas de desempenho e plano de estudos personalizado." },
+  { t: "🎓 Simulador FUVEST", u: "https://simulador-fuvest.streamlit.app", d: "Questões de provas anteriores com correção instantânea e análise de desempenho por área. Gratuito e sem cadastro." },
+  { t: "✈️ Simulador ITA — 2021 a 2025", u: "https://simulador-ita.streamlit.app", d: "Questões reais do ITA dos últimos 5 anos, gabarito comentado, cronômetro e estatísticas por disciplina." },
+  { t: "🚀 BI Data Generator PRO", u: "https://ai-bidatagenerator.streamlit.app", d: "Gerador inteligente de dados para treinar e prototipar projetos de BI, com IA integrada." },
+  { t: "🗺️ CrimeMap BR", u: "https://rodrigoaiosa-crimemap.hf.space", d: "Criminalidade no Rio de Janeiro com dados oficiais: padrões por município, tipo de crime e período, com mapas e filtros." },
+  { t: "🦉 Calculadora ROI de Automação", u: "https://roiautomacao.streamlit.app", d: "Calcule o retorno de projetos de automação, compare cenários e projete resultados financeiros." },
+  { t: "💼 APP S.O.S. Mulher", u: "https://rodrigoaiosa-help-mulher.hf.space", d: "Conscientização e dados sobre violência contra a mulher no Brasil, com estatísticas, tendências regionais e recursos de apoio." }
+];
+
+const PBI_PROJECTS = [
+  { t: "📈 Panorama Macroeconômico Brasil", c: "Setor Público & Geral", u: "https://app.powerbi.com/view?r=eyJrIjoiZjAxMTdhODAtMjE2OC00ZTQ5LTllOTQtMmRiZjVmYWViMzFiIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9&pageName=c0a1b2c3d4e5f6a7b8c9", d: "Selic, IPCA, dólar e desemprego atualizados diariamente via API do Banco Central, com juro real e inflação frente à meta." },
+  { t: "🚛 Transporte — Travel Company", c: "Operações & Logística", u: "https://app.powerbi.com/view?r=eyJrIjoiNjY5NThlNjctZWY1Ny00YjA0LTk0MjEtNzhiNjgzZjdjZjA2IiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9", d: "Indicadores de performance operacional para identificar ineficiências e otimizar custos logísticos." },
+  { t: "📞 Dashboard ANATEL — Reclamações", c: "Operações & Logística", u: "https://app.powerbi.com/reportEmbed?reportId=a416b3a1-5446-422b-9d1c-9ac5c3089fd7&autoAuth=true&ctid=3606e3a2-62f5-40ac-ad22-0d6c80989030", d: "Monitoramento de reclamações para identificar gargalos de atendimento, tendências e causas de insatisfação." },
+  { t: "🏭 Dashboard OEE — Eficiência Industrial", c: "Operações & Logística", u: "https://app.powerbi.com/view?r=eyJrIjoiM2YxN2NhZmQtMTg4My00YTgwLWJhOGQtZmRkNGZkNTM1ZDM0IiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9", d: "Disponibilidade, desempenho e qualidade da produção, mitigando as perdas ocultas do chão de fábrica." },
+  { t: "🏛️ Portal da Transparência — Ilhéus", c: "Setor Público & Geral", u: "https://app.powerbi.com/view?r=eyJrIjoiYTM2ZWFlM2QtOTc2NC00NDQ2LTg2ZTctOGY5Nzc4YTk2YWM1IiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9", d: "Receitas, despesas empenhadas e investimentos do município em uma visão clara e auditável." },
+  { t: "💹 DRE Estratégico — Finanças", c: "Estratégico & Financeiro", u: "https://app.powerbi.com/view?r=eyJrIjoiOWE0ZmU3ZTMtYzAyYi00NDE1LTg3YWItYjcxZTE2ZWI2OWRjIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9", d: "Demonstrativo de Resultados com análises vertical e horizontal automáticas, margens de contribuição e lucratividade." },
+  { t: "🏦 Monitoramento de Vagas — Bradesco", c: "RH & People Analytics", u: "https://app.powerbi.com/view?r=eyJrIjoiMjQxN2Q4NGYtNWRmNy00NWVjLWE4YmQtNWMyNWYwNGYyZDUzIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9", d: "Fluxo interno de contratações por praça regional, perfil técnico e status das posições." },
+  { t: "💳 Relatório STONE — Faturamento B2B", c: "Estratégico & Financeiro", u: "https://app.powerbi.com/view?r=eyJrIjoiMmViN2ZlMWMtY2Q4My00NmNmLTg0NzAtZjEzMzliNzcwMWMyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", d: "Performance de adquirência de cartões: ticket médio, faturamento bruto e participação de mercado." },
+  { t: "🎯 Vendas Meta vs Realizado", c: "Estratégico & Financeiro", u: "https://app.powerbi.com/view?r=eyJrIjoiYTg4OTdkZDUtNmIwZS00NGE1LTk2MDktMzc1YjM3ZjViN2Q5IiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", d: "Identifique rapidamente filiais e vendedores abaixo da meta esperada." },
+  { t: "📦 Controle de Pedidos BNZ", c: "Operações & Logística", u: "https://app.powerbi.com/view?r=eyJrIjoiZDZlNzViNzMtODllZS00OTVlLWI4MWQtNzBhZmU5ZTkxY2E0IiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9", d: "Níveis de estoque e giro de produtos para evitar rupturas e excesso de capital imobilizado." },
+  { t: "📈 Análise de Dados Estratégica", c: "Estratégico & Financeiro", u: "https://app.powerbi.com/view?r=eyJrIjoiM2ZhYjQ5YzItNTliMS00M2QxLWFhMmItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", d: "Visão unificada para C-Level com vetores de crescimento e gaps de eficiência." },
+  { t: "👥 People Analytics (RH)", c: "RH & People Analytics", u: "https://app.powerbi.com/view?r=eyJrIjoiYmE2OGE3ODktZTUzMi00YTU2LTlkYmItYzUzY2UzNmJkMjAyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", d: "Funil de R&S, turnover e custos de comissões e bonificações integrados à performance." },
+  { t: "🚀 Relatório Borelli", c: "Operações & Logística", u: "https://app.powerbi.com/view?r=eyJrIjoiZTY5YmEzZmQtZDVhMS00N2QyLWJhY2QtMDNhMWFmMDRjMjNmIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9", d: "Ciclo de produção industrial com identificação de gargalos e ociosidade de máquinas." },
+  { t: "🏖️ Financeiro — Beocean Resort", c: "Estratégico & Financeiro", u: "https://app.powerbi.com/view?r=eyJrIjoiY2VkZmU1MDMtNTgwZS00NTJmLWFhOTktYzM0YzMwZDE3OTE4IiwidCI6IjdjNTYzNjMxLTcyZGMtNDY1Ny05MTRkLWIyM2M5ZTI5OGVlMSJ9", d: "Fluxo de caixa para hotelaria com gestão centralizada de receitas e custos operacionais." }
+];
+
+const ESCOLA = [
+  { t: "📊 Escola DAX", u: "https://escoladax.streamlit.app", d: "Aprenda DAX do zero ao avançado com exemplos práticos de Power BI." },
+  { t: "💡 Gerador de Dados BI", u: "https://ai-bidatagenerator.streamlit.app", d: "Gere bases de dados realistas para praticar e prototipar dashboards." },
+  { t: "🎮 DAX 2048", u: "https://jogo2048dax.streamlit.app", d: "Aprenda funções DAX jogando: combine peças e evolua de nível." },
+  { t: "🗄️ Escolas SQL, Python e Excel", u: APP_STREAMLIT_URL, d: "Trilhas interativas de SQL, Python, Excel e teclas de atalho do Excel." }
+].filter(e => e.u);
+
+const FEATURES = [
+  { i: "⚡", t: "Automação", d: "Libere seu time do operacional repetitivo.", s: "Economizei 40h/mês de um time financeiro. O que levava 5 dias de planilha hoje acontece em 5 segundos." },
+  { i: "🎯", t: "Precisão", d: "Decisões baseadas em fatos, não em palpites.", s: "Reduzi em 28% a divergência de estoque de um grande varejista. Menos ruptura, mais dinheiro no caixa." },
+  { i: "📈", t: "Escalabilidade", d: "Estrutura pronta para dobrar de tamanho.", s: "Criei o Data Lake de uma Scale-up que triplicou de tamanho em um ano sem precisar contratar mais analistas." },
+  { i: "🎓", t: "Cultura", d: "Independência total para seus gestores.", s: "Treinei +250 líderes para serem donos dos seus dados. O time de TI parou de apagar incêndio e passou a focar em estratégia." }
+];
+
+const COURSES = [
+  { t: "Fundamentos Power BI", img: "assets/fundamentos_power_bi.jpg", u: "https://pay.kiwify.com.br/DFeDsQV", d: "Transforme dados brutos em dashboards profissionais e indicadores estratégicos.",
+    m: ["Introdução ao Power BI", "Power Query (tratamento de dados)", "Modelagem de dados (modelo estrela)", "Relacionamentos entre tabelas", "Fundamentos de DAX", "Medidas e KPIs", "Dashboards interativos", "Storytelling com dados", "Publicação no Power BI Service", "Projeto final aplicado"] },
+  { t: "SQL Fundamentos", img: "assets/SQL_Fundamentos.jpg", u: "https://pay.kiwify.com.br/ivdojL8", d: "Desenvolva autonomia analítica e capacidade de extrair informações estratégicas.",
+    m: ["Conceitos de banco de dados", "SELECT, WHERE e ORDER BY", "Funções agregadas", "GROUP BY e HAVING", "INNER JOIN e LEFT JOIN", "Subqueries", "Views", "Manipulação de datas", "Otimização de consultas", "Projeto final corporativo"] },
+  { t: "Excel Essencial para Negócios", img: "assets/excel_para_negocios.jpg", u: "https://pay.kiwify.com.br/EEb9ADQ", d: "Excel aplicado ao mundo corporativo, automação e análises estratégicas.",
+    m: ["Fundamentos do Excel corporativo", "Fórmulas essenciais", "PROCV e PROCX", "Tabelas dinâmicas", "Dashboards no Excel", "Formatação condicional", "Indicadores financeiros", "Power Query no Excel", "Introdução a macros", "Projeto final aplicado"] }
+];
+
+const CASES_TOTAL = 15; // imagens assets/img_cases_suceso/1.jpg ... 15.jpg
+
+/* ============================================================
+   RENDERIZAÇÃO
+   ============================================================ */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const embedUrl = u => u.includes(".streamlit.app") ? u.replace(/\/?$/, "/?embed=true") : u;
+
+function projCard(p, tag) {
+  return `<article class="card proj reveal">
+    ${tag ? `<div class="tag">${esc(tag)}</div>` : ""}
+    <h3>${esc(p.t)}</h3>
+    <p>${esc(p.d)}</p>
+    <div class="actions">
+      <button class="btn btn-primary" data-open="${esc(p.u)}" data-title="${esc(p.t)}">Abrir aqui</button>
+      <a class="btn btn-ghost" href="${esc(p.u)}" target="_blank" rel="noopener">Nova aba ↗</a>
+    </div>
+  </article>`;
+}
+
+// Cases
+$("#casesGrid").innerHTML = Array.from({ length: CASES_TOTAL }, (_, i) =>
+  `<button data-img="assets/img_cases_suceso/${i + 1}.jpg" aria-label="Ampliar case ${i + 1}"><img src="assets/img_cases_suceso/${i + 1}.jpg" alt="Case de sucesso ${i + 1}" loading="lazy"></button>`
+).join("");
+
+// Python (mostra 9 e expande)
+let pyAll = false;
+function renderPy() {
+  const list = pyAll ? PY_PROJECTS : PY_PROJECTS.slice(0, 9);
+  $("#pyGrid").innerHTML = list.map(p => projCard(p)).join("");
+  $("#pyMore").textContent = pyAll ? "Mostrar menos" : `Ver todos os ${PY_PROJECTS.length} projetos`;
+  observeReveal();
+}
+$("#pyMore").addEventListener("click", () => {
+  pyAll = !pyAll; renderPy();
+  if (!pyAll) $("#python").scrollIntoView();
+});
+
+// Power BI com filtro por categoria
+const cats = ["Todos", ...new Set(PBI_PROJECTS.map(p => p.c))];
+let cat = "Todos";
+function renderPbi() {
+  $("#pbiFilters").innerHTML = cats.map(c => `<button class="chip ${c === cat ? "on" : ""}" data-cat="${esc(c)}">${esc(c)}</button>`).join("");
+  $("#pbiGrid").innerHTML = PBI_PROJECTS.filter(p => cat === "Todos" || p.c === cat).map(p => projCard(p, p.c)).join("");
+  observeReveal();
+}
+$("#pbiFilters").addEventListener("click", e => {
+  const b = e.target.closest("[data-cat]"); if (!b) return;
+  cat = b.dataset.cat; renderPbi();
+});
+
+// Escola, Empresas e Cursos
+$("#escolaGrid").innerHTML = ESCOLA.map(p => projCard(p)).join("");
+$("#featGrid").innerHTML = FEATURES.map(f => `<div class="card feat reveal" tabindex="0">
+  <div class="ico">${f.i}</div><h3>${esc(f.t)}</h3><p>${esc(f.d)}</p><div class="see">Ver resultado real</div>
+  <div class="story">“${esc(f.s)}”</div></div>`).join("");
+$("#courseGrid").innerHTML = COURSES.map(c => `<article class="card course reveal">
+  <img src="${c.img}" alt="Capa do curso ${esc(c.t)}" loading="lazy">
+  <div>
+    <h3>${esc(c.t)}</h3>
+    <p>${esc(c.d)}</p>
+    <div class="btns" style="justify-content:flex-start;margin-top:18px">
+      <a class="btn btn-primary" href="${c.u}" target="_blank" rel="noopener">Comprar</a>
+    </div>
+    <details><summary>📚 Ver conteúdo programático</summary><ol>${c.m.map(x => `<li>${esc(x)}</li>`).join("")}</ol></details>
+  </div></article>`).join("");
+
+/* ── Modal (iframe e imagem) ── */
+const modal = $("#modal"), frame = $("#modalFrame"), mImg = $("#modalImg");
+let lastFocus = null;
+function openFrame(url, title) {
+  lastFocus = document.activeElement;
+  modal.classList.remove("img");
+  mImg.hidden = true; frame.hidden = false;
+  $("#modalTitle").textContent = title;
+  $("#modalNew").href = url;
+  frame.src = embedUrl(url);
+  modal.classList.add("open");
+  document.body.style.overflow = "hidden";
+  $("#modalClose").focus();
+}
+function openImg(src, alt) {
+  lastFocus = document.activeElement;
+  modal.classList.add("img");
+  frame.hidden = true; mImg.hidden = false;
+  mImg.src = src; mImg.alt = alt;
+  modal.classList.add("open");
+  document.body.style.overflow = "hidden";
+  $("#imgClose").focus();
+}
+function closeModal() {
+  modal.classList.remove("open", "img");
+  frame.src = "about:blank";
+  document.body.style.overflow = "";
+  if (lastFocus) lastFocus.focus();
+}
+document.addEventListener("click", e => {
+  const o = e.target.closest("[data-open]");
+  if (o) { openFrame(o.dataset.open, o.dataset.title); return; }
+  const i = e.target.closest("[data-img]");
+  if (i) { openImg(i.dataset.img, i.querySelector("img").alt); return; }
+});
+$("#modalClose").addEventListener("click", closeModal);
+$("#imgClose").addEventListener("click", closeModal);
+modal.addEventListener("click", e => { if (e.target === modal || modal.classList.contains("img")) closeModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && modal.classList.contains("open")) closeModal(); });
+
+/* ── AIOSA IA (carrega sob demanda) ── */
+$("#iaStart").addEventListener("click", () => {
+  $("#iaBox").innerHTML = `<iframe src="https://aiosaia.streamlit.app/?embed=true" title="AIOSA IA" allow="clipboard-read; clipboard-write"
+    sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-downloads"></iframe>`;
+});
+
+/* ── Contato → WhatsApp ── */
+$("#contactForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const f = e.target, msg = $("#formMsg");
+  const nome = f.nome.value.trim(), email = f.email.value.trim(), serv = f.servico.value, texto = f.mensagem.value.trim();
+  if (!nome || !email || !texto) { msg.textContent = "⚠️ Preencha nome, e-mail e mensagem."; return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.textContent = "⚠️ Confira o e-mail informado."; return; }
+  msg.textContent = "";
+  const t = `Olá Rodrigo! Meu nome é ${nome} (${email}) e tenho interesse em ${serv}. Vi seu portfólio e gostaria de conversar.\n\n${texto}`;
+  window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(t)}`, "_blank", "noopener");
+});
+
+/* ── Menu mobile ── */
+const menuBtn = $("#menuBtn"), links = $("#navLinks");
+menuBtn.addEventListener("click", () => {
+  const open = links.classList.toggle("open");
+  menuBtn.setAttribute("aria-expanded", open);
+});
+links.addEventListener("click", e => { if (e.target.tagName === "A") { links.classList.remove("open"); menuBtn.setAttribute("aria-expanded", false); } });
+
+/* ── Animações: contadores, reveal e link ativo ── */
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function countUp(el) {
+  const to = +el.dataset.to, suf = el.dataset.suffix || "";
+  if (reduce) { el.textContent = to + suf; return; }
+  const t0 = performance.now(), dur = 1200;
+  (function step(t) {
+    const k = Math.min(1, (t - t0) / dur), v = Math.round(to * (1 - Math.pow(1 - k, 3)));
+    el.textContent = v + suf;
+    if (k < 1) requestAnimationFrame(step);
+  })(t0);
+}
+const io = "IntersectionObserver" in window ? new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (!en.isIntersecting) return;
+    if (en.target.id === "stats") en.target.querySelectorAll(".num").forEach(countUp);
+    else en.target.classList.add("in");
+    io.unobserve(en.target);
+  });
+}, { threshold: 0.15 }) : null;
+function observeReveal() {
+  document.querySelectorAll(".reveal:not(.in)").forEach(el => io ? io.observe(el) : el.classList.add("in"));
+}
+renderPy();
+renderPbi();
+if (io) io.observe($("#stats")); else document.querySelectorAll(".num").forEach(countUp);
+observeReveal();
+
+const navA = [...document.querySelectorAll(".nav-links a")];
+if ("IntersectionObserver" in window) {
+  const so = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) navA.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + en.target.id));
+    });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  document.querySelectorAll("section[id]").forEach(s => so.observe(s));
+}
+$("#year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+# A Vercel publica só o site estático (index.html + assets/).
+# O app Streamlit continua no repositório, mas fica fora do deploy da Vercel,
+# senão ela tenta rodar o main.py como função Python e o build falha.
+*.py
+requirements.txt
+Views/
+.streamlit/
+.devcontainer/
+__pycache__/
+assets/*.docx
