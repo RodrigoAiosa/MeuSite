@@ -366,8 +366,8 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
     <div class="ia-box" id="iaBox">
       <div class="ia-start">
         <img src="assets/eu_ia.png" alt="Avatar da AIOSA IA" loading="lazy" width="110" height="110">
-        <p style="margin:0;color:var(--muted)">O assistente carrega sob demanda para deixar o site mais rápido.</p>
-        <button class="btn btn-primary" id="iaStart">Conversar com a AIOSA IA</button>
+        <p style="margin:0;color:var(--muted)">O assistente abre em uma nova aba.</p>
+        <a class="btn btn-primary" id="iaStart" href="https://aiosaia.vercel.app/" target="_blank" rel="noopener">Conversar com a AIOSA IA ↗</a>
       </div>
     </div>
   </div>
@@ -603,11 +603,6 @@ $("#imgClose").addEventListener("click", closeModal);
 modal.addEventListener("click", e => { if (e.target === modal || modal.classList.contains("img")) closeModal(); });
 document.addEventListener("keydown", e => { if (e.key === "Escape" && modal.classList.contains("open")) closeModal(); });
 
-/* ── AIOSA IA (carrega sob demanda) ── */
-$("#iaStart").addEventListener("click", () => {
-  $("#iaBox").innerHTML = `<iframe src="https://aiosaia.streamlit.app/?embed=true" title="AIOSA IA" allow="clipboard-read; clipboard-write"
-    sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-downloads"></iframe>`;
-});
 
 /* ── Menu mobile ── */
 const menuBtn = $("#menuBtn"), links = $("#navLinks");
