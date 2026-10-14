@@ -557,7 +557,7 @@ python_projects = [
     {
         "title": "💼 APP S.O.S. MULHER",
         "desc": "Plataforma de conscientização e análise de dados sobre violência contra a mulher no Brasil. Visualize estatísticas, tendências regionais e tenha acesso a recursos e informações de apoio.",
-        "url": "https://rodrigoaiosa-help-mulher.hf.space",
+        "url": "https://sosmulher.vercel.app/",
         "category": "Impacto Social"
     },
 ]

@@ -187,7 +187,7 @@ python_projects = [
     {
         "title": "💼 APP S.O.S. MULHER",
         "desc": "Aplicação voltada à conscientização e análise de dados relacionados à violência contra a mulher no Brasil.",
-        "url": "https://rodrigoaiosa-help-mulher.hf.space"
+        "url": "https://sosmulher.vercel.app/"
     },
     {
         "title": "💼 Precificador Profissional para MEI",
