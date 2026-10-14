@@ -435,7 +435,7 @@ python_projects = [
     {
     "title": "📊 Calculadora ROI de Consórcio; Vale a Pena?",
     "desc": "Calcule e compare consórcios com clareza: parcela estimada, custo total do grupo e o retorno de cada estratégia. Traz 3 comparações lado a lado — consórcio x financiamento (Tabela Price), consórcio x investir a parcela e comprar o bem à vista, e simulação de lance para contemplação antecipada (benefício da valorização evitada vs. custo de oportunidade do dinheiro). Cenários pré-definidos para veículo, moto, imóvel e máquina/caminhão, gráficos interativos de custo acumulado e saldo devedor, tabela de projeção mês a mês, e exportação da proposta em Excel com resumo e projeção completa.",
-    "url": "https://calculadoraroiconsorcio.streamlit.app/?embed=true",
+    "url": "https://calculadora-consorcio-roi.vercel.app/",
     "category": "Educação"
     },    
     {
