@@ -123,10 +123,13 @@ section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,0.04); }
 .clients img { margin: 0 auto; border-radius: 12px; max-width: 560px; width: 100%; }
 
 /* ── CASES ── */
-.cases { columns: 3 280px; column-gap: 16px; }
-.cases button { display: block; width: 100%; margin: 0 0 16px; padding: 0; border: 1px solid rgba(0,180,216,0.3); border-radius: 14px; overflow: hidden; background: var(--bg-2); cursor: zoom-in; break-inside: avoid; transition: border-color .2s, transform .2s; }
+.cases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 900px) { .cases { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .cases { grid-template-columns: 1fr; } }
+.cases button { display: block; width: 100%; aspect-ratio: 3 / 2; margin: 0; padding: 0; border: 1px solid rgba(0,180,216,0.3); border-radius: 14px; overflow: hidden; background: var(--bg-2); cursor: zoom-in; transition: border-color .2s, transform .2s; }
 .cases button:hover { border-color: var(--accent); transform: translateY(-2px); }
-.cases img { width: 100%; height: auto; }
+.cases img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.cases img.fit { object-fit: contain; }
 
 /* ── PROJETOS ── */
 .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
@@ -528,8 +531,13 @@ function projCard(p, tag) {
 }
 
 // Cases
+// Imagem com proporção diferente de 3:2 aparece inteira no card, sem corte.
+function fitCase(img) {
+  const r = img.naturalWidth / img.naturalHeight;
+  if (Math.abs(r - 1.5) > 0.05) img.classList.add("fit");
+}
 $("#casesGrid").innerHTML = CASES.map((f, i) =>
-  `<button data-img="assets/img_cases_suceso/${f}" aria-label="Ampliar case ${i + 1}"><img src="assets/img_cases_suceso/${f}" alt="Case de sucesso ${i + 1}" loading="lazy" onerror="this.closest('button').remove()"></button>`
+  `<button data-img="assets/img_cases_suceso/${f}" aria-label="Ampliar case ${i + 1}"><img src="assets/img_cases_suceso/${f}" alt="Case de sucesso ${i + 1}" loading="lazy" onload="fitCase(this)" onerror="this.closest('button').remove()"></button>`
 ).join("");
 
 // Python (mostra 9 e expande)
