@@ -423,7 +423,7 @@ python_projects = [
     {
     "title": "♟️ Jogo de Xadrez; Jogue, Treine e Domine as Regras Oficiais",
     "desc": "Jogo de xadrez completo, direto no navegador, sem instalar nada. Regras oficiais da FIDE, modo contra o PC com 5 níveis, 100 puzzles de mate para treinar, notação em tempo real e exportação em PDF com imagem de cada lance da partida.",
-    "url": "https://rodrigoaiosa.github.io/jogoxadrez/new-jogo-de-xadrez.html",
+    "url": "https://jogoxadrez.vercel.app/",
     "category": "Educação"
     },
     {
