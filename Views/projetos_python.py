@@ -474,12 +474,6 @@ python_projects = [
       "url": "https://jogo2048dax.streamlit.app/?embed=true",
       "category": "Educação"
     },
-    {
-        "title": "🤖 Automação GNX Group",
-        "desc": "Automação inteligente para preenchimento de formulários no site da GNX Group. Sistema com suporte a múltiplas execuções, geração de logs em CSV com separador ponto e vírgula, e interface intuitiva para automação de processos de captação de leads e contatos comerciais.",
-        "url": "https://rpagnxgroup.streamlit.app/?embed=true",
-        "category": "Automação & BI"
-    },
     
     {
     "title": "💰Salário Médio por Estado — Brasil",
