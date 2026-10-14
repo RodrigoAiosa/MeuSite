@@ -501,12 +501,6 @@ python_projects = [
         "category": "Dados & IBGE"
     },
     {
-        "title": "📍 População Municipal",
-        "desc": "Consulta detalhada de população por município brasileiro usando dados oficiais da tabela SIDRA 6579 do IBGE. Visualize rankings, compare regiões e acompanhe tendências demográficas.",
-        "url": "https://popualcaoibge.streamlit.app/?embed=true",
-        "category": "Dados & IBGE"
-    },
-    {
         "title": "💰 Renda por Município - São Paulo",
         "desc": "Análise aprofundada da distribuição de renda nos municípios paulistas com dados oficiais do IBGE. Explore PIB per capita, estimativas de renda familiar e desigualdades regionais em dashboards interativos.",
         "url": "https://renda-cidades-sp-ibge.streamlit.app/?embed=true",
