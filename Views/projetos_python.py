@@ -417,7 +417,7 @@ python_projects = [
     {
     "title": "🌐 API Atlas",
     "desc": "Encontre mais de 2.000 APIs públicas e gratuitas em 51 categorias, com busca global e informações de autenticação, HTTPS e CORS. Use os Kits Power BI para trazer dados reais do Banco Central, IBGE, Banco Mundial e outras fontes com consultas prontas em Power Query (M) e Python, e gere scripts em requests + pandas para qualquer API com o Gerador Python. Interface em português e inglês.",
-    "url": "https://atlasapi.streamlit.app/?embed=true",
+    "url": "https://atlasapi-delta.vercel.app/",
     "category": "Automação & BI"
     },
     {
@@ -570,7 +570,7 @@ total_projetos = len(python_projects)
 # --------------------------------------------------
 destaques_urls = [
     "https://enem-simulador.streamlit.app/?embed=true",
-    "https://atlasapi.streamlit.app/?embed=true",
+    "https://atlasapi-delta.vercel.app/",
     "https://conjecturadecollatz.streamlit.app/?embed=true",
     "https://jogo2048dax.streamlit.app/?embed=true",
     "https://appsptrans.streamlit.app/?embed=true",
