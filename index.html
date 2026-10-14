@@ -496,14 +496,17 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const embedUrl = u => u.includes(".streamlit.app") ? u.replace(/\/?$/, "/?embed=true") : u;
 
-function projCard(p, tag) {
+// soNovaAba: mostra só o botão "Nova aba" (usado em Projetos Python).
+function projCard(p, tag, soNovaAba = false) {
+  const abrirAqui = soNovaAba ? "" :
+    `<button class="btn btn-primary" data-open="${esc(p.u)}" data-title="${esc(p.t)}">Abrir aqui</button>`;
   return `<article class="card proj reveal">
     ${tag ? `<div class="tag">${esc(tag)}</div>` : ""}
     <h3>${esc(p.t)}</h3>
     <p>${esc(p.d)}</p>
     <div class="actions">
-      <button class="btn btn-primary" data-open="${esc(p.u)}" data-title="${esc(p.t)}">Abrir aqui</button>
-      <a class="btn btn-ghost" href="${esc(p.u)}" target="_blank" rel="noopener">Nova aba ↗</a>
+      ${abrirAqui}
+      <a class="btn ${soNovaAba ? "btn-primary" : "btn-ghost"}" href="${esc(p.u)}" target="_blank" rel="noopener">Nova aba ↗</a>
     </div>
   </article>`;
 }
@@ -522,7 +525,7 @@ $("#casesGrid").innerHTML = CASES.map((f, i) =>
 let pyAll = false;
 function renderPy() {
   const list = pyAll ? PY_PROJECTS : PY_PROJECTS.slice(0, 9);
-  $("#pyGrid").innerHTML = list.map(p => projCard(p)).join("");
+  $("#pyGrid").innerHTML = list.map(p => projCard(p, null, true)).join("");
   $("#pyMore").textContent = pyAll ? "Mostrar menos" : `Ver todos os ${PY_PROJECTS.length} projetos`;
   observeReveal();
 }
