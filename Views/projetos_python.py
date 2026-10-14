@@ -429,7 +429,7 @@ python_projects = [
     {
     "title": "🔢 Conjectura de Collatz; Todo Número Chega em 1?",
     "desc": "Explore na prática um dos maiores mistérios não resolvidos da matemática: digite qualquer número inteiro e acompanhe passo a passo sua trajetória até chegar em 1, seguindo a regra 'par divide por 2, ímpar multiplica por 3 e soma 1'. Traz gráfico interativo da evolução da sequência (linear e em escala logarítmica), gráfico comparativo de passos pares x ímpares, métricas de destaque como total de passos e maior valor atingido no caminho, tabela detalhada com a operação aplicada em cada etapa, e exportação completa da sequência em CSV.",
-    "url": "https://conjecturadecollatz.streamlit.app/?embed=true",
+    "url": "https://conjectura-de-collatz-two.vercel.app/",
     "category": "Educação"
     },
     {
@@ -571,7 +571,7 @@ total_projetos = len(python_projects)
 destaques_urls = [
     "https://enem-simulador.streamlit.app/?embed=true",
     "https://atlasapi-delta.vercel.app/",
-    "https://conjecturadecollatz.streamlit.app/?embed=true",
+    "https://conjectura-de-collatz-two.vercel.app/",
     "https://jogo2048dax.streamlit.app/?embed=true",
     "https://appsptrans.streamlit.app/?embed=true",
 ]
