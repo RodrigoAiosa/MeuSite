@@ -160,16 +160,6 @@ python_projects = [
         "url": "https://enem-simulador.streamlit.app/"
     },
     {
-        "title": "🎓 Simulador FUVEST",
-        "desc": "Construí um simulador da FUVEST gratuito com Python + Streamlit. E quero te contar por que isso importa.",
-        "url": "https://simulador-fuvest.streamlit.app/"
-    },
-    {
-        "title": "✈️ Criei um simulado GRATUITO do ITA com questões reais de 2021 a 2025",
-        "desc": "Questões reais, gabarito comentado, cronômetro. Sem cadastro. Sem pagar nada, porque o sonho não pode depender do bolso",
-        "url": "https://simulador-ita.streamlit.app/"
-    },
-    {
         "title": "🚀 BI Data Generator PRO",
         "desc": "Construí uma ferramenta que analisa seu desempenho no ENEM por área, explica cada resposta e aponta onde focar. Open source, gratuito, acessível a qualquer estudante com internet.",
         "url": "https://bi-data-generator.streamlit.app"

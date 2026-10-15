@@ -513,18 +513,6 @@ python_projects = [
         "category": "Educação"
     },
     {
-        "title": "🎓 Simulador FUVEST",
-        "desc": "Treine para a FUVEST com questões de provas anteriores, correção instantânea, análise de desempenho por área e recomendações personalizadas de estudo. 100% gratuito e sem cadastro.",
-        "url": "https://simulador-fuvest.streamlit.app/?embed=true",
-        "category": "Educação"
-    },
-    {
-        "title": "✈️ Simulador ITA — 2021 a 2025",
-        "desc": "Prepare-se para o vestibular mais concorrido do Brasil com questões reais do ITA dos últimos 5 anos. Gabarito comentado, cronômetro integrado, estatísticas de desempenho e análise por disciplina.",
-        "url": "https://simulador-ita.streamlit.app/?embed=true",
-        "category": "Educação"
-    },
-    {
         "title": "🚀 BI Data Generator PRO",
         "desc": "Ferramenta inteligente que analisa seu desempenho no ENEM por área do conhecimento, explica cada resposta detalhadamente e identifica pontos críticos para otimizar seus estudos. Com IA integrada.",
         "url": "https://ai-bidatagenerator.streamlit.app/?embed=true",
