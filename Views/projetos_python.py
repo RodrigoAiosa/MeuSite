@@ -519,12 +519,6 @@ python_projects = [
         "category": "Automação & BI"
     },
     {
-        "title": "🗺️ CrimeMap BR — Segurança Pública",
-        "desc": "Dashboard interativo com dados oficiais de criminalidade do Rio de Janeiro. Analise padrões de ocorrências por município, tipo de crime e período, com visualizações georreferenciadas e filtros dinâmicos.",
-        "url": "https://rodrigoaiosa-crimemap.hf.space",
-        "category": "Impacto Social"
-    },
-    {
         "title": "🦉 Calculadora ROI de Automação",
         "desc": "Ferramenta estratégica para calcular o Retorno sobre Investimento (ROI) de projetos de automação. Compare cenários, projete resultados financeiros e tome decisões baseadas em dados.",
         "url": "https://roiautomacao.streamlit.app/?embed=true",

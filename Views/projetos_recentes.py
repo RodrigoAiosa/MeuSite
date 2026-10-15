@@ -165,11 +165,6 @@ python_projects = [
         "url": "https://bi-data-generator.streamlit.app"
     },
     {
-        "title": "🗺️ CrimeMap BR — Segurança Pública",
-        "desc": "Dashboard interativo com dados abertos oficiais do Rio de Janeiro. Explore ocorrências criminais por município, tipo e período.",
-        "url": "https://rodrigoaiosa-crimemap.hf.space"
-    },
-    {
         "title": "🦉 Calculadora ROI de Automação",
         "desc": "Ferramenta estratégica para estimar o Retorno sobre Investimento (ROI) de projetos de automação empresarial.",
         "url": "https://rodrigoaiosa-roi-automacao.hf.space"
