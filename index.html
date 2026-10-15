@@ -146,6 +146,20 @@ section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,0.04); }
 .proj .actions { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
 .proj .actions .btn { padding: 9px 14px; font-size: 0.86rem; }
 .more { text-align: center; margin-top: 28px; }
+/* ── BUSCA DE PROJETOS ── */
+.search { position: relative; max-width: 560px; margin: 0 0 14px; }
+.search svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--muted); pointer-events: none; }
+.search input { width: 100%; padding: 13px 44px 13px 46px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-2); color: #e8f4ff; font: inherit; font-size: 0.95rem; transition: border-color .2s, box-shadow .2s; }
+.search input::placeholder { color: var(--muted); }
+.search input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,180,216,0.15); }
+.search input::-webkit-search-cancel-button { display: none; }
+.search .clear { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; border: 0; border-radius: 8px; background: transparent; color: var(--muted); font-size: 1.1rem; cursor: pointer; display: none; }
+.search .clear:hover { color: #e8f4ff; background: rgba(255,255,255,0.06); }
+.search.has-text .clear { display: block; }
+.search-info { color: var(--muted); font-size: 0.86rem; margin: 0 0 22px; min-height: 1.2em; }
+.search-info strong { color: var(--accent); font-weight: 600; }
+.proj mark { background: rgba(0,180,216,0.22); color: #e8f4ff; border-radius: 3px; padding: 0 1px; }
+.search-empty { grid-column: 1 / -1; text-align: center; padding: 40px 16px; color: var(--muted); border: 1px dashed var(--border); border-radius: var(--radius); }
 
 /* ── EMPRESAS ── */
 .manifesto { text-align: center; max-width: 860px; margin: 0 auto 48px; }
@@ -297,6 +311,12 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
     <div class="eyebrow">Portfólio</div>
     <h2 class="section-title">🚧 Projetos Python</h2>
     <p class="section-lead">Aplicações web, simuladores e dashboards construídos em Python. Alguns apps podem levar alguns segundos para "acordar" no primeiro acesso.</p>
+    <div class="search" id="pySearch">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" id="pyQ" placeholder="Pesquisar projetos… ex.: IBGE, consórcio, jogo, simulador" autocomplete="off" aria-label="Pesquisar projetos" aria-describedby="pyInfo">
+      <button type="button" class="clear" id="pyClear" aria-label="Limpar pesquisa">×</button>
+    </div>
+    <p class="search-info" id="pyInfo" aria-live="polite"></p>
     <div class="grid g3" id="pyGrid"></div>
     <div class="more"><button class="btn btn-ghost" id="pyMore">Ver todos os projetos</button></div>
   </div>
@@ -308,6 +328,12 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
     <div class="eyebrow">Portfólio</div>
     <h2 class="section-title">📊 Projetos Power BI</h2>
     <p class="section-lead">Relatórios interativos publicados. Abra direto aqui ou em tela cheia.</p>
+    <div class="search" id="pbiSearch">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" id="pbiQ" placeholder="Pesquisar relatórios… ex.: vendas, RH, logística, saúde" autocomplete="off" aria-label="Pesquisar projetos" aria-describedby="pbiInfo">
+      <button type="button" class="clear" id="pbiClear" aria-label="Limpar pesquisa">×</button>
+    </div>
+    <p class="search-info" id="pbiInfo" aria-live="polite"></p>
     <div class="filters" id="pbiFilters"></div>
     <div class="grid g3" id="pbiGrid"></div>
   </div>
@@ -495,13 +521,13 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;"
 const embedUrl = u => u.includes(".streamlit.app") ? u.replace(/\/?$/, "/?embed=true") : u;
 
 // soNovaAba: mostra só o botão "Nova aba" (usado em Projetos Python).
-function projCard(p, tag, soNovaAba = false) {
+function projCard(p, tag, soNovaAba = false, termos = []) {
   const abrirAqui = soNovaAba ? "" :
     `<button class="btn btn-primary" data-open="${esc(p.u)}" data-title="${esc(p.t)}">Abrir aqui</button>`;
   return `<article class="card proj reveal">
     ${tag ? `<div class="tag">${esc(tag)}</div>` : ""}
-    <h3>${esc(p.t)}</h3>
-    <p>${esc(p.d)}</p>
+    <h3>${destacar(p.t, termos)}</h3>
+    <p>${destacar(p.d, termos)}</p>
     <div class="actions">
       ${abrirAqui}
       <a class="btn ${soNovaAba ? "btn-primary" : "btn-ghost"}" href="${esc(p.u)}" target="_blank" rel="noopener">Nova aba ↗</a>
@@ -519,16 +545,133 @@ $("#casesGrid").innerHTML = CASES.map((f, i) =>
   `<button data-img="assets/img_cases_suceso/${f}" aria-label="Ampliar case ${i + 1}"><img src="assets/img_cases_suceso/${f}" alt="Case de sucesso ${i + 1}" loading="lazy" onload="fitCase(this)" onerror="this.closest('button').remove()"></button>`
 ).join("");
 
-// Python (mostra 2 linhas completas da grade e expande)
+/* ============================================================
+   PESQUISA INTELIGENTE DE PROJETOS
+   - ignora acentos e maiúsculas ("saude" acha "Saúde")
+   - várias palavras: o projeto precisa ter todas ("ibge renda")
+   - aceita início de palavra ("consor" acha "Consórcio")
+   - tolera pequenos erros de digitação ("consorsio", "simuldor")
+   - entende sinônimos comuns ("painel" acha "dashboard", "game" acha "jogo")
+   - procura no título, descrição e categoria; títulos pesam mais na ordem
+   ============================================================ */
+const semAcento = s => String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const PARADAS = new Set(["de", "da", "do", "das", "dos", "e", "a", "o", "as", "os", "em", "no", "na", "para", "com", "por", "um", "uma"]);
+const SINONIMOS = {
+  painel: ["dashboard", "relatorio"], dashboard: ["painel", "relatorio"], relatorio: ["dashboard", "painel"],
+  jogo: ["game", "jogar"], game: ["jogo"], simulado: ["simulador"], simulador: ["simulado"],
+  vestibular: ["enem", "simulador"], escola: ["educacao", "curso"], educacao: ["escola", "ensino"],
+  saude: ["dengue", "arboviroses", "hospital", "medico"], dinheiro: ["financeiro", "financas", "renda", "salario"],
+  financeiro: ["financas", "financa", "contabil"], vendas: ["comercial", "venda", "varejo"], venda: ["vendas", "comercial"],
+  pessoas: ["rh", "recursos", "colaboradores"], rh: ["recursos", "pessoas", "colaboradores"],
+  mapa: ["mapas", "municipio", "estado"], populacao: ["demografico", "habitantes", "ibge"],
+  transporte: ["onibus", "logistica", "frota"], onibus: ["transporte", "sptrans"], ia: ["inteligencia", "chatgpt"],
+  automacao: ["automatizar", "rpa", "robo"], python: ["streamlit"], dax: ["power", "bi"], api: ["apis"]
+};
+function editMax1(a, b) {          // distância de edição <= 1 (erro de 1 letra)
+  if (Math.abs(a.length - b.length) > 1) return false;
+  let i = 0, j = 0, dif = 0;
+  while (i < a.length && j < b.length) {
+    if (a[i] === b[j]) { i++; j++; continue; }
+    if (++dif > 1) return false;
+    if (a.length > b.length) i++; else if (b.length > a.length) j++; else { i++; j++; }
+  }
+  return dif + (a.length - i) + (b.length - j) <= 1;
+}
+function preparar(lista, campos) {
+  lista.forEach(p => {
+    p._t = semAcento(p.t);
+    p._tudo = semAcento(campos.map(c => p[c] || "").join(" "));
+    p._palavras = [...new Set(p._tudo.match(/[a-z0-9]+/g) || [])];
+  });
+}
+preparar(PY_PROJECTS, ["t", "d"]);
+preparar(PBI_PROJECTS, ["t", "d", "c"]);
+function termosDe(q) {
+  return [...new Set(semAcento(q).match(/[a-z0-9]+/g) || [])].filter(t => !PARADAS.has(t));
+}
+// pontua um termo num projeto (0 = não encontrou)
+function pontoTermo(p, termo) {
+  const variantes = [termo, ...(SINONIMOS[termo] || [])];
+  let melhor = 0;
+  for (const v of variantes) {
+    const peso = v === termo ? 1 : 0.6;
+    if (p._t.includes(v)) melhor = Math.max(melhor, 3 * peso);
+    else if (p._palavras.some(w => w.startsWith(v))) melhor = Math.max(melhor, 2 * peso);
+    else if (v.length >= 3 && p._tudo.includes(v)) melhor = Math.max(melhor, 1.5 * peso);
+    // erro de digitação: só no termo digitado, com 5+ letras e mesma letra inicial ("renda" não vira "venda")
+    else if (v === termo && v.length >= 5 && p._palavras.some(w => w[0] === v[0] && (editMax1(w, v) || (w.length > v.length && editMax1(w.slice(0, v.length), v))))) melhor = Math.max(melhor, 1 * peso);
+  }
+  return melhor;
+}
+function pesquisar(lista, q) {
+  const termos = termosDe(q);
+  if (!termos.length) return { termos, itens: lista };
+  const itens = lista.map((p, i) => {
+    let total = 0;
+    for (const t of termos) { const s = pontoTermo(p, t); if (!s) return null; total += s; }
+    return { p, total, i };
+  }).filter(Boolean).sort((a, b) => b.total - a.total || a.i - b.i).map(x => x.p);
+  return { termos, itens };
+}
+// destaca no texto os trechos que batem com a pesquisa (sem acento, sem diferenciar maiúsculas)
+function destacar(texto, termos) {
+  texto = String(texto);
+  if (!termos || !termos.length) return esc(texto);
+  let norm = "";
+  for (const ch of texto) { const n = semAcento(ch); norm += n.length === ch.length ? n : ch; }
+  const marcas = new Array(texto.length).fill(false);
+  for (const t of termos) {
+    for (const v of [t, ...(SINONIMOS[t] || [])]) {
+      if (v.length < 2) continue;
+      let k = norm.indexOf(v);
+      while (k !== -1) {
+        // só marca a partir do início de uma palavra ("ia" não acende dentro de "diárias")
+        if (k === 0 || !/[a-z0-9]/.test(norm[k - 1])) for (let x = k; x < k + v.length; x++) marcas[x] = true;
+        k = norm.indexOf(v, k + 1);
+      }
+    }
+  }
+  let out = "", aberto = false;
+  for (let x = 0; x < texto.length; x++) {
+    if (marcas[x] && !aberto) { out += "<mark>"; aberto = true; }
+    if (!marcas[x] && aberto) { out += "</mark>"; aberto = false; }
+    out += esc(texto[x]);
+  }
+  return out + (aberto ? "</mark>" : "");
+}
+function infoBusca(el, n, total, q) {
+  el.innerHTML = q.trim()
+    ? (n ? `<strong>${n}</strong> de ${total} ${total === 1 ? "projeto" : "projetos"} para “${esc(q.trim())}”` : "")
+    : "";
+}
+const vazio = q => `<div class="search-empty">Nenhum projeto encontrado para “${esc(q.trim())}”.<br>Tente outra palavra, como o nome de um setor, ferramenta ou assunto.</div>`;
+function ligarBusca(pref, render) {
+  const box = $(`#${pref}Search`), inp = $(`#${pref}Q`);
+  let timer;
+  inp.addEventListener("input", () => {
+    box.classList.toggle("has-text", !!inp.value);
+    clearTimeout(timer); timer = setTimeout(render, 120);
+  });
+  inp.addEventListener("keydown", e => { if (e.key === "Escape" && inp.value) { inp.value = ""; box.classList.remove("has-text"); render(); } });
+  $(`#${pref}Clear`).addEventListener("click", () => { inp.value = ""; box.classList.remove("has-text"); render(); inp.focus(); });
+}
+
+// Python (mostra 2 linhas completas da grade e expande; com pesquisa mostra todos os resultados)
 let pyAll = false;
 const mqPy4 = matchMedia("(min-width: 1600px)"), mqPy5 = matchMedia("(min-width: 2200px)");
 const pyInicial = () => mqPy5.matches ? 10 : mqPy4.matches ? 8 : 9;
 function renderPy() {
-  const list = pyAll ? PY_PROJECTS : PY_PROJECTS.slice(0, pyInicial());
-  $("#pyGrid").innerHTML = list.map(p => projCard(p, null, true)).join("");
+  const q = $("#pyQ").value;
+  const { termos, itens } = pesquisar(PY_PROJECTS, q);
+  const buscando = termos.length > 0;
+  const list = buscando || pyAll ? itens : itens.slice(0, pyInicial());
+  $("#pyGrid").innerHTML = list.length ? list.map(p => projCard(p, null, true, termos)).join("") : vazio(q);
+  $("#pyMore").parentElement.style.display = buscando ? "none" : "";
   $("#pyMore").textContent = pyAll ? "Mostrar menos" : `Ver todos os ${PY_PROJECTS.length} projetos`;
+  infoBusca($("#pyInfo"), itens.length, PY_PROJECTS.length, q);
   observeReveal();
 }
+ligarBusca("py", renderPy);
 [mqPy4, mqPy5].forEach(mq => mq.addEventListener("change", () => { if (!pyAll) renderPy(); }));
 $("#pyMore").addEventListener("click", () => {
   pyAll = !pyAll; renderPy();
@@ -540,9 +683,13 @@ const cats = ["Todos", ...new Set(PBI_PROJECTS.map(p => p.c))];
 let cat = "Todos";
 function renderPbi() {
   $("#pbiFilters").innerHTML = cats.map(c => `<button class="chip ${c === cat ? "on" : ""}" data-cat="${esc(c)}">${esc(c)}</button>`).join("");
-  $("#pbiGrid").innerHTML = PBI_PROJECTS.filter(p => cat === "Todos" || p.c === cat).map(p => projCard(p, p.c)).join("");
+  const q = $("#pbiQ").value;
+  const { termos, itens } = pesquisar(PBI_PROJECTS.filter(p => cat === "Todos" || p.c === cat), q);
+  $("#pbiGrid").innerHTML = itens.length ? itens.map(p => projCard(p, p.c, false, termos)).join("") : vazio(q);
+  infoBusca($("#pbiInfo"), itens.length, PBI_PROJECTS.filter(p => cat === "Todos" || p.c === cat).length, q);
   observeReveal();
 }
+ligarBusca("pbi", renderPbi);
 $("#pbiFilters").addEventListener("click", e => {
   const b = e.target.closest("[data-cat]"); if (!b) return;
   cat = b.dataset.cat; renderPbi();
