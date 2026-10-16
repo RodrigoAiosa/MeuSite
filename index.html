@@ -53,23 +53,40 @@ section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,0.04); }
 .section-title { font-size: clamp(1.7rem, 3.2vw, 2.4rem); font-weight: 800; margin-bottom: 12px; }
 .section-lead { color: var(--muted); max-width: 680px; margin: 0 0 40px; font-weight: 300; font-size: 1.05rem; }
 
-/* ── NAV ── */
+/* ── NAV CENTRALIZADO ── */
 .nav {
   position: sticky; top: 0; z-index: 50;
   background: rgba(6,9,18,0.82);
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(255,255,255,0.05);
 }
-.nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+.nav-inner { 
+  display: grid; 
+  grid-template-columns: 1fr auto 1fr; 
+  align-items: center; 
+  height: 64px; 
+  gap: 16px; 
+}
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.05rem; white-space: nowrap; }
 .brand span { color: var(--accent); }
 .nav-links { display: flex; gap: 2px; list-style: none; margin: 0 auto; padding: 0; }
 .nav-links a { display: block; padding: 8px 10px; border-radius: 8px; color: rgba(210,220,240,0.75); text-decoration: none; font-size: 0.88rem; white-space: nowrap; transition: background .2s, color .2s; }
 .nav-links a:hover, .nav-links a.active { background: rgba(0,180,216,0.09); color: #e8f4ff; }
-.nav-cta { padding: 9px 16px; border-radius: 10px; background: var(--accent); color: #031018; font-weight: 600; font-size: 0.88rem; text-decoration: none; white-space: nowrap; }
+.nav-cta { 
+  padding: 9px 16px; 
+  border-radius: 10px; 
+  background: var(--accent); 
+  color: #031018; 
+  font-weight: 600; 
+  font-size: 0.88rem; 
+  text-decoration: none; 
+  white-space: nowrap; 
+  justify-self: end;
+}
 .nav-cta:hover { background: var(--accent-2); }
 .menu-btn { display: none; background: none; border: 1px solid rgba(0,180,216,0.3); color: var(--accent); border-radius: 8px; width: 40px; height: 40px; font-size: 1.2rem; cursor: pointer; }
 @media (max-width: 1240px) {
+  .nav-inner { display: flex; justify-content: space-between; }
   .menu-btn { display: block; }
   .nav-cta { display: none; }
   .nav-links { position: absolute; top: 64px; left: 0; right: 0; flex-direction: column; background: var(--bg-2); padding: 12px 16px 20px; border-bottom: 1px solid var(--border); display: none; }
@@ -246,6 +263,7 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
 
 <nav class="nav">
   <div class="wrap nav-inner">
+    <div></div> <!-- Espaçador para manter o alinhamento com Grid -->
     <button class="menu-btn" aria-label="Abrir menu" aria-expanded="false" id="menuBtn">☰</button>
     <ul class="nav-links" id="navLinks">
       <li><a href="#sobre">Sobre</a></li>
@@ -452,8 +470,6 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
    CONTEÚDO DO SITE: edite aqui para adicionar ou remover itens
    ============================================================ */
 
-// Endereço do seu app Streamlit (para as Escolas SQL, Python e Excel).
-// Ex.: "https://seuapp.streamlit.app". Deixe vazio para esconder esse card.
 const APP_STREAMLIT_URL = "";
 
 const PY_PROJECTS = [
@@ -490,7 +506,7 @@ const PBI_PROJECTS = [
   { t: "💳 Relatório STONE — Faturamento B2B", c: "Estratégico & Financeiro", u: "https://app.powerbi.com/view?r=eyJrIjoiMmViN2ZlMWMtY2Q4My00NmNmLTg0NzAtZjEzMzliNzcwMWMyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", d: "Performance de adquirência de cartões: ticket médio, faturamento bruto e participação de mercado." },
   { t: "🎯 Vendas Meta vs Realizado", c: "Estratégico & Financeiro", u: "https://app.powerbi.com/view?r=eyJrIjoiYTg4OTdkZDUtNmIwZS00NGE1LTk2MDktMzc1YjM3ZjViN2Q5IiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", d: "Identifique rapidamente filiais e vendedores abaixo da meta esperada." },
   { t: "📦 Controle de Pedidos BNZ", c: "Operações & Logística", u: "https://app.powerbi.com/view?r=eyJrIjoiZDZlNzViNzMtODllZS00OTVlLWI4MWQtNzBhZmU5ZTkxY2E0IiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9", d: "Níveis de estoque e giro de produtos para evitar rupturas e excesso de capital imobilizado." },
-  { t: "📈 Análise de Dados Estratégica", c: "Estratégico & Financeiro", u: "https://app.powerbi.com/view?r=eyJrIjoiM2ZhYjQ5YzItNTliMS00M2QxLWFhMmItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", d: "Visão unificada para C-Level com vetores de crescimento e gaps de eficiência." },
+  { t: "📈 Análise de Dados Estratégica", c: "Estratégico & Financeiro", u: "https://app.powerbi.com/view?r=eyJrIjoiM3ZhYjQ5YzItNTliMS00M2QxLWFhMmItN2QzMjVhNThjY2QxIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", d: "Visão unificada para C-Level com vetores de crescimento e gaps de eficiência." },
   { t: "👥 People Analytics (RH)", c: "RH & People Analytics", u: "https://app.powerbi.com/view?r=eyJrIjoiYmE2OGE3ODktZTUzMi00YTU2LTlkYmItYzUzY2UzNmJkMjAyIiwidCI6ImVlMmMzMDc0LTIyZDQtNGI3MC05MTdjLTJiYmFhZjUwZGQ4MyJ9", d: "Funil de R&S, turnover e custos de comissões e bonificações integrados à performance." },
   { t: "🚀 Relatório Borelli", c: "Operações & Logística", u: "https://app.powerbi.com/view?r=eyJrIjoiZTY5YmEzZmQtZDVhMS00N2QyLWJhY2QtMDNhMWFmMDRjMjNmIiwidCI6IjM2MDZlM2EyLTYyZjUtNDBhYy1hZDIyLTBkNmM4MDk4OTAzMCJ9", d: "Ciclo de produção industrial com identificação de gargalos e ociosidade de máquinas." },
   { t: "🏖️ Financeiro — Beocean Resort", c: "Estratégico & Financeiro", u: "https://app.powerbi.com/view?r=eyJrIjoiY2VkZmU1MDMtNTgwZS00NTJmLWFhOTktYzM0YzMwZDE3OTE4IiwidCI6IjdjNTYzNjMxLTcyZGMtNDY1Ny05MTRkLWIyM2M5ZTI5OGVlMSJ9", d: "Fluxo de caixa para hotelaria com gestão centralizada de receitas e custos operacionais." }
@@ -519,8 +535,6 @@ const COURSES = [
     m: ["Fundamentos do Excel corporativo", "Fórmulas essenciais", "PROCV e PROCX", "Tabelas dinâmicas", "Dashboards no Excel", "Formatação condicional", "Indicadores financeiros", "Power Query no Excel", "Introdução a macros", "Projeto final aplicado"] }
 ];
 
-// Imagens da pasta assets/img_cases_suceso, na ordem em que aparecem no site.
-// Ao adicionar ou remover uma imagem na pasta, atualize esta lista.
 const CASES = ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "7.jpg", "8.jpg", "9.jpg",
                "10.jpg", "11.jpg", "12.jpg", "13.jpg", "14.jpg", "15.jpg"];
 
@@ -531,7 +545,6 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const embedUrl = u => u.includes(".streamlit.app") ? u.replace(/\/?$/, "/?embed=true") : u;
 
-// soNovaAba: mostra só o botão "Nova aba" (usado em Projetos Python).
 function projCard(p, tag, soNovaAba = false, termos = []) {
   const abrirAqui = soNovaAba ? "" :
     `<button class="btn btn-primary" data-open="${esc(p.u)}" data-title="${esc(p.t)}">Abrir aqui</button>`;
@@ -546,8 +559,6 @@ function projCard(p, tag, soNovaAba = false, termos = []) {
   </article>`;
 }
 
-// Cases
-// Imagem com proporção diferente de 3:2 aparece inteira no card, sem corte.
 function fitCase(img) {
   const r = img.naturalWidth / img.naturalHeight;
   if (Math.abs(r - 1.5) > 0.05) img.classList.add("fit");
@@ -556,15 +567,6 @@ $("#casesGrid").innerHTML = CASES.map((f, i) =>
   `<button data-img="assets/img_cases_suceso/${f}" aria-label="Ampliar case ${i + 1}"><img src="assets/img_cases_suceso/${f}" alt="Case de sucesso ${i + 1}" loading="lazy" onload="fitCase(this)" onerror="this.closest('button').remove()"></button>`
 ).join("");
 
-/* ============================================================
-   PESQUISA INTELIGENTE DE PROJETOS
-   - ignora acentos e maiúsculas ("saude" acha "Saúde")
-   - várias palavras: o projeto precisa ter todas ("ibge renda")
-   - aceita início de palavra ("consor" acha "Consórcio")
-   - tolera pequenos erros de digitação ("consorsio", "simuldor")
-   - entende sinônimos comuns ("painel" acha "dashboard", "game" acha "jogo")
-   - procura no título, descrição e categoria; títulos pesam mais na ordem
-   ============================================================ */
 const semAcento = s => String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 const PARADAS = new Set(["de", "da", "do", "das", "dos", "e", "a", "o", "as", "os", "em", "no", "na", "para", "com", "por", "um", "uma"]);
 const SINONIMOS = {
@@ -578,7 +580,7 @@ const SINONIMOS = {
   transporte: ["onibus", "logistica", "frota"], onibus: ["transporte", "sptrans"], ia: ["inteligencia", "chatgpt"],
   automacao: ["automatizar", "rpa", "robo"], python: ["streamlit"], dax: ["power", "bi"], api: ["apis"]
 };
-function editMax1(a, b) {          // distância de edição <= 1 (erro de 1 letra)
+function editMax1(a, b) {
   if (Math.abs(a.length - b.length) > 1) return false;
   let i = 0, j = 0, dif = 0;
   while (i < a.length && j < b.length) {
@@ -600,7 +602,6 @@ preparar(PBI_PROJECTS, ["t", "d", "c"]);
 function termosDe(q) {
   return [...new Set(semAcento(q).match(/[a-z0-9]+/g) || [])].filter(t => !PARADAS.has(t));
 }
-// pontua um termo num projeto (0 = não encontrou)
 function pontoTermo(p, termo) {
   const variantes = [termo, ...(SINONIMOS[termo] || [])];
   let melhor = 0;
@@ -609,7 +610,6 @@ function pontoTermo(p, termo) {
     if (p._t.includes(v)) melhor = Math.max(melhor, 3 * peso);
     else if (p._palavras.some(w => w.startsWith(v))) melhor = Math.max(melhor, 2 * peso);
     else if (v.length >= 3 && p._tudo.includes(v)) melhor = Math.max(melhor, 1.5 * peso);
-    // erro de digitação: só no termo digitado, com 5+ letras e mesma letra inicial ("renda" não vira "venda")
     else if (v === termo && v.length >= 5 && p._palavras.some(w => w[0] === v[0] && (editMax1(w, v) || (w.length > v.length && editMax1(w.slice(0, v.length), v))))) melhor = Math.max(melhor, 1 * peso);
   }
   return melhor;
@@ -624,7 +624,6 @@ function pesquisar(lista, q) {
   }).filter(Boolean).sort((a, b) => b.total - a.total || a.i - b.i).map(x => x.p);
   return { termos, itens };
 }
-// destaca no texto os trechos que batem com a pesquisa (sem acento, sem diferenciar maiúsculas)
 function destacar(texto, termos) {
   texto = String(texto);
   if (!termos || !termos.length) return esc(texto);
@@ -636,7 +635,6 @@ function destacar(texto, termos) {
       if (v.length < 2) continue;
       let k = norm.indexOf(v);
       while (k !== -1) {
-        // só marca a partir do início de uma palavra ("ia" não acende dentro de "diárias")
         if (k === 0 || !/[a-z0-9]/.test(norm[k - 1])) for (let x = k; x < k + v.length; x++) marcas[x] = true;
         k = norm.indexOf(v, k + 1);
       }
@@ -667,7 +665,6 @@ function ligarBusca(pref, render) {
   $(`#${pref}Clear`).addEventListener("click", () => { inp.value = ""; box.classList.remove("has-text"); render(); inp.focus(); });
 }
 
-// Python (mostra 2 linhas completas da grade e expande; com pesquisa mostra todos os resultados)
 let pyAll = false;
 const mqPy4 = matchMedia("(min-width: 1600px)"), mqPy5 = matchMedia("(min-width: 2200px)");
 const pyInicial = () => mqPy5.matches ? 10 : mqPy4.matches ? 8 : 9;
@@ -689,7 +686,6 @@ $("#pyMore").addEventListener("click", () => {
   if (!pyAll) $("#python").scrollIntoView();
 });
 
-// Power BI com filtro por categoria
 const cats = ["Todos", ...new Set(PBI_PROJECTS.map(p => p.c))];
 let cat = "Todos";
 function renderPbi() {
@@ -706,7 +702,6 @@ $("#pbiFilters").addEventListener("click", e => {
   cat = b.dataset.cat; renderPbi();
 });
 
-// Escola, Empresas e Cursos
 $("#escolaGrid").innerHTML = ESCOLA.map(p => projCard(p)).join("");
 $("#featGrid").innerHTML = FEATURES.map(f => `<div class="card feat reveal" tabindex="0">
   <div class="ico">${f.i}</div><h3>${esc(f.t)}</h3><p>${esc(f.d)}</p><div class="see">Ver resultado real</div>
@@ -722,7 +717,7 @@ $("#courseGrid").innerHTML = COURSES.map(c => `<article class="card course revea
     <details><summary>📚 Ver conteúdo programático</summary><ol>${c.m.map(x => `<li>${esc(x)}</li>`).join("")}</ol></details>
   </div></article>`).join("");
 
-/* ── Modal (iframe e imagem) ── */
+/* ── Modal ── */
 const modal = $("#modal"), frame = $("#modalFrame"), mImg = $("#modalImg");
 let lastFocus = null;
 function openFrame(url, title) {
@@ -736,7 +731,7 @@ function openFrame(url, title) {
   document.body.style.overflow = "hidden";
   $("#modalClose").focus();
 }
-// Galeria dos cases: setas (botões, teclado e deslizar no celular) com volta ao início/fim.
+
 let galeria = [], galeriaIdx = 0, ignorarClique = 0;
 function mostrarCase(i) {
   if (!galeria.length) return;
@@ -745,7 +740,6 @@ function mostrarCase(i) {
   mImg.src = b.dataset.img;
   mImg.alt = b.querySelector("img").alt;
   $("#imgCount").textContent = (galeriaIdx + 1) + " / " + galeria.length;
-  // pré-carrega a vizinha para a troca ser instantânea
   [1, -1].forEach(d => { new Image().src = galeria[(galeriaIdx + d + galeria.length) % galeria.length].dataset.img; });
 }
 function openImg(btn) {
@@ -781,7 +775,7 @@ document.addEventListener("keydown", e => {
 });
 $("#imgPrev").addEventListener("click", () => mostrarCase(galeriaIdx - 1));
 $("#imgNext").addEventListener("click", () => mostrarCase(galeriaIdx + 1));
-// deslizar o dedo para os lados troca de imagem
+
 let toqueX = null;
 modal.addEventListener("touchstart", e => { toqueX = modal.classList.contains("img") ? e.touches[0].clientX : null; }, { passive: true });
 modal.addEventListener("touchend", e => {
@@ -789,7 +783,6 @@ modal.addEventListener("touchend", e => {
   const dx = e.changedTouches[0].clientX - toqueX; toqueX = null;
   if (Math.abs(dx) > 50) { ignorarClique = Date.now(); mostrarCase(galeriaIdx + (dx < 0 ? 1 : -1)); }
 });
-
 
 /* ── Menu mobile ── */
 const menuBtn = $("#menuBtn"), links = $("#navLinks");
@@ -799,7 +792,7 @@ menuBtn.addEventListener("click", () => {
 });
 links.addEventListener("click", e => { if (e.target.tagName === "A") { links.classList.remove("open"); menuBtn.setAttribute("aria-expanded", false); } });
 
-/* ── Animações: contadores, reveal e link ativo ── */
+/* ── Animações ── */
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 function countUp(el) {
   const to = +el.dataset.to, suf = el.dataset.suffix || "";
