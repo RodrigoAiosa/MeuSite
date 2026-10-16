@@ -263,7 +263,7 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
 
 <nav class="nav">
   <div class="wrap nav-inner">
-    <div></div> <!-- Espaçador para manter o alinhamento com Grid -->
+    <div></div> <!-- Espaçador para alinhamento simétrico no grid -->
     <button class="menu-btn" aria-label="Abrir menu" aria-expanded="false" id="menuBtn">☰</button>
     <ul class="nav-links" id="navLinks">
       <li><a href="#sobre">Sobre</a></li>
@@ -352,7 +352,7 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
   <div class="wrap">
     <div class="eyebrow">Portfólio</div>
     <h2 class="section-title">📊 Projetos Power BI</h2>
-    <p class="section-lead">Relatórios interativos publicados. Abra direto aqui ou em tela cheia.</p>
+    <p class="section-lead">Relatórios interativos publicados. Clique para abrir diretamente em nova aba.</p>
     <div class="search" id="pbiSearch">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       <input type="search" id="pbiQ" placeholder="Pesquisar relatórios… ex.: vendas, RH, logística, saúde" autocomplete="off" aria-label="Pesquisar projetos" aria-describedby="pbiInfo">
@@ -532,7 +532,7 @@ const COURSES = [
   { t: "SQL Fundamentos", img: "assets/SQL_Fundamentos.jpg", u: "https://pay.kiwify.com.br/ivdojL8", d: "Desenvolva autonomia analítica e capacidade de extrair informações estratégicas.",
     m: ["Conceitos de banco de dados", "SELECT, WHERE e ORDER BY", "Funções agregadas", "GROUP BY e HAVING", "INNER JOIN e LEFT JOIN", "Subqueries", "Views", "Manipulação de datas", "Otimização de consultas", "Projeto final corporativo"] },
   { t: "Excel Essencial para Negócios", img: "assets/excel_para_negocios.jpg", u: "https://pay.kiwify.com.br/EEb9ADQ", d: "Excel aplicado ao mundo corporativo, automação e análises estratégicas.",
-    m: ["Fundamentos do Excel corporativo", "Fórmulas essenciais", "PROCV e PROCX", "Tabelas dinâmicas", "Dashboards no Excel", "Formatação condicional", "Indicadores financeiros", "Power Query no Excel", "Introdução a macros", "Projeto final aplicado"] }
+    m: ["Fundamentos do Excel corporativo", "Fórmulas essenciais", "PROCV e PROCX", "Tabelas dinâmicas", "Dashboards no Excel", "Formatação condicional", "Indicadores financeiros", "Power Query no Excel", "Introdução a macros", "Projeto final applied"] }
 ];
 
 const CASES = ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "7.jpg", "8.jpg", "9.jpg",
@@ -545,16 +545,14 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const embedUrl = u => u.includes(".streamlit.app") ? u.replace(/\/?$/, "/?embed=true") : u;
 
+// Card unificado: EXCLUSIVAMENTE o botão "Abrir ↗" (que abre direto em nova aba)
 function projCard(p, tag, soNovaAba = false, termos = []) {
-  const abrirAqui = soNovaAba ? "" :
-    `<button class="btn btn-primary" data-open="${esc(p.u)}" data-title="${esc(p.t)}">Abrir aqui</button>`;
   return `<article class="card proj reveal">
     ${tag ? `<div class="tag">${esc(tag)}</div>` : ""}
     <h3>${destacar(p.t, termos)}</h3>
     <p>${destacar(p.d, termos)}</p>
     <div class="actions">
-      ${abrirAqui}
-      <a class="btn ${soNovaAba ? "btn-primary" : "btn-ghost"}" href="${esc(p.u)}" target="_blank" rel="noopener">Nova aba ↗</a>
+      <a class="btn btn-primary" href="${esc(p.u)}" target="_blank" rel="noopener">Abrir ↗</a>
     </div>
   </article>`;
 }
@@ -720,17 +718,6 @@ $("#courseGrid").innerHTML = COURSES.map(c => `<article class="card course revea
 /* ── Modal ── */
 const modal = $("#modal"), frame = $("#modalFrame"), mImg = $("#modalImg");
 let lastFocus = null;
-function openFrame(url, title) {
-  lastFocus = document.activeElement;
-  modal.classList.remove("img");
-  mImg.hidden = true; frame.hidden = false;
-  $("#modalTitle").textContent = title;
-  $("#modalNew").href = url;
-  frame.src = embedUrl(url);
-  modal.classList.add("open");
-  document.body.style.overflow = "hidden";
-  $("#modalClose").focus();
-}
 
 let galeria = [], galeriaIdx = 0, ignorarClique = 0;
 function mostrarCase(i) {
@@ -759,8 +746,6 @@ function closeModal() {
   if (lastFocus) lastFocus.focus();
 }
 document.addEventListener("click", e => {
-  const o = e.target.closest("[data-open]");
-  if (o) { openFrame(o.dataset.open, o.dataset.title); return; }
   const i = e.target.closest("[data-img]");
   if (i) { openImg(i); return; }
 });
