@@ -415,6 +415,12 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 # --------------------------------------------------
 python_projects = [
     {
+    "title": "🐷 Aprender com Dinheiro — Contagem de Dinheiro para Crianças",
+    "desc": "Simulação lúdica para ensinar crianças a contar dinheiro brasileiro e entender equivalências entre notas e moedas (ex.: a nota de R$ 2 vale o mesmo que 4 moedas de 50 centavos). Modo Explorar com todas as trocas possíveis e leitura em voz alta, modo Montar valor com cofrinho interativo, modo Desafio com placar de acertos, e Área do Professor que gera folhas A4 de atividades para imprimir (Quantas cabem?, Quanto dinheiro tem aqui?, Quanto falta?, Ligue os valores iguais e Dinheirinho para recortar) em 3 níveis, coloridas ou em preto e branco, com gabarito.",
+    "url": "https://aprender-com-dinheiro.vercel.app/",
+    "category": "Educação"
+    },
+    {
     "title": "🌐 API Atlas",
     "desc": "Encontre mais de 2.000 APIs públicas e gratuitas em 51 categorias, com busca global e informações de autenticação, HTTPS e CORS. Use os Kits Power BI para trazer dados reais do Banco Central, IBGE, Banco Mundial e outras fontes com consultas prontas em Power Query (M) e Python, e gere scripts em requests + pandas para qualquer API com o Gerador Python. Interface em português e inglês.",
     "url": "https://atlasapi-delta.vercel.app/",
