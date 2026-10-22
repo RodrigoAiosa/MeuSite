@@ -85,7 +85,7 @@ section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,0.04); }
 }
 .nav-cta:hover { background: var(--accent-2); }
 .menu-btn { display: none; background: none; border: 1px solid rgba(0,180,216,0.3); color: var(--accent); border-radius: 8px; width: 40px; height: 40px; font-size: 1.2rem; cursor: pointer; }
-@media (max-width: 1240px) {
+@media (max-width: 1280px) {
   .nav-inner { display: flex; justify-content: space-between; }
   .menu-btn { display: block; }
   .nav-cta { display: none; }
@@ -177,6 +177,16 @@ section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,0.04); }
 .search-info strong { color: var(--accent); font-weight: 600; }
 .proj mark { background: rgba(0,180,216,0.22); color: #e8f4ff; border-radius: 3px; padding: 0 1px; }
 .search-empty { grid-column: 1 / -1; text-align: center; padding: 40px 16px; color: var(--muted); border: 1px dashed var(--border); border-radius: var(--radius); }
+
+/* ── LINKEDIN ── */
+#liGrid { align-items: start; }
+.li-card { display: flex; flex-direction: column; }
+.li-card .tag { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 8px; font-weight: 600; }
+.li-card p { white-space: pre-line; display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
+.li-card mark { background: rgba(0,180,216,0.22); color: #e8f4ff; border-radius: 3px; padding: 0 1px; }
+.li-card .actions { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+.li-card .actions .btn { padding: 9px 14px; font-size: 0.86rem; }
+.li-embed iframe { width: 100%; height: 520px; border: 0; border-radius: 10px; margin-top: 16px; background: #fff; }
 
 /* ── EMPRESAS ── */
 .manifesto { text-align: center; max-width: 860px; margin: 0 auto 48px; }
@@ -273,6 +283,7 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
       <li><a href="#escola">Escola de Dados</a></li>
       <li><a href="#empresas">Para Empresas</a></li>
       <li><a href="#cursos">Cursos</a></li>
+      <li><a href="#linkedin">Em destaque Linkedin</a></li>
       <li><a href="#ia">AIOSA IA</a></li>
     </ul>
     <a class="nav-cta" href="#contato">Fale comigo</a>
@@ -408,6 +419,23 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
     <h2 class="section-title">🛜 Cursos Online</h2>
     <p class="section-lead">Formações práticas e direto ao ponto, para aplicar no trabalho desde a primeira aula.</p>
     <div class="grid" id="courseGrid" style="gap:22px"></div>
+  </div>
+</section>
+
+<!-- ═══ LINKEDIN ═══ -->
+<section id="linkedin">
+  <div class="wrap">
+    <div class="eyebrow">LinkedIn</div>
+    <h2 class="section-title">💼 Em destaque no LinkedIn</h2>
+    <p class="section-lead">Os 10 posts mais recentes sobre dados, BI e automação. Pesquise por qualquer palavra-chave para encontrar os posts relacionados.</p>
+    <div class="search" id="liSearch">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" id="liQ" placeholder="Pesquisar posts… ex.: Power BI, SQL, automação, MEI" autocomplete="off" aria-label="Pesquisar posts do LinkedIn" aria-describedby="liInfo">
+      <button type="button" class="clear" id="liClear" aria-label="Limpar pesquisa">×</button>
+    </div>
+    <p class="search-info" id="liInfo" aria-live="polite"></p>
+    <div class="grid g3" id="liGrid"></div>
+    <div class="more"><a class="btn btn-ghost" href="https://www.linkedin.com/in/rodrigoaiosa/" target="_blank" rel="noopener">Ver perfil completo no LinkedIn ↗</a></div>
   </div>
 </section>
 
@@ -646,12 +674,12 @@ function destacar(texto, termos) {
   }
   return out + (aberto ? "</mark>" : "");
 }
-function infoBusca(el, n, total, q) {
+function infoBusca(el, n, total, q, nome = ["projeto", "projetos"]) {
   el.innerHTML = q.trim()
-    ? (n ? `<strong>${n}</strong> de ${total} ${total === 1 ? "projeto" : "projetos"} para “${esc(q.trim())}”` : "")
+    ? (n ? `<strong>${n}</strong> de ${total} ${total === 1 ? nome[0] : nome[1]} para “${esc(q.trim())}”` : "")
     : "";
 }
-const vazio = q => `<div class="search-empty">Nenhum projeto encontrado para “${esc(q.trim())}”.<br>Tente outra palavra, como o nome de um setor, ferramenta ou assunto.</div>`;
+const vazio = (q, nome = "projeto") => `<div class="search-empty">Nenhum ${nome} encontrado para “${esc(q.trim())}”.<br>Tente outra palavra, como o nome de um setor, ferramenta ou assunto.</div>`;
 function ligarBusca(pref, render) {
   const box = $(`#${pref}Search`), inp = $(`#${pref}Q`);
   let timer;
@@ -699,6 +727,56 @@ $("#pbiFilters").addEventListener("click", e => {
   const b = e.target.closest("[data-cat]"); if (!b) return;
   cat = b.dataset.cat; renderPbi();
 });
+
+/* ── LinkedIn: 10 mais recentes + pesquisa em todo o arquivo (data/linkedin_posts.json) ── */
+const LI_MAX = 10;
+let LI_POSTS = [];
+const liFmt = d => d ? new Date(d.slice(0, 10) + "T12:00:00").toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" }) : "";
+function liCard(p, termos) {
+  const embed = p.urn ? `https://www.linkedin.com/embed/feed/update/${p.urn}?collapsed=1` : "";
+  return `<article class="card li-card reveal">
+    <div class="tag">${esc(liFmt(p.date))}</div>
+    <h3>${destacar(p.t, termos)}</h3>
+    ${p.d ? `<p>${destacar(p.d, termos)}</p>` : ""}
+    <div class="actions">
+      <a class="btn btn-primary" href="${esc(p.u)}" target="_blank" rel="noopener">Ver no LinkedIn ↗</a>
+      ${embed ? `<button type="button" class="btn btn-ghost" data-embed="${esc(embed)}" aria-expanded="false">Ver post aqui</button>` : ""}
+    </div>
+    <div class="li-embed" hidden></div>
+  </article>`;
+}
+function renderLi() {
+  const q = $("#liQ").value;
+  const { termos, itens } = pesquisar(LI_POSTS, q);
+  const buscando = termos.length > 0;
+  const list = buscando ? itens : itens.slice(0, LI_MAX);
+  $("#liGrid").innerHTML = list.length ? list.map(p => liCard(p, termos)).join("") : vazio(q, "post");
+  if (buscando) infoBusca($("#liInfo"), itens.length, LI_POSTS.length, q, ["post", "posts"]);
+  else $("#liInfo").textContent = list.length ? `Mostrando os ${list.length} ${list.length === 1 ? "post mais recente" : "posts mais recentes"}.` : "";
+  observeReveal();
+}
+ligarBusca("li", renderLi);
+$("#liGrid").addEventListener("click", e => {
+  const b = e.target.closest("[data-embed]"); if (!b) return;
+  const box = b.closest(".li-card").querySelector(".li-embed");
+  const abrir = box.hidden;
+  if (abrir && !box.firstChild) box.innerHTML = `<iframe src="${esc(b.dataset.embed)}" loading="lazy" title="Publicação do LinkedIn" allowfullscreen></iframe>`;
+  box.hidden = !abrir;
+  b.textContent = abrir ? "Ocultar post" : "Ver post aqui";
+  b.setAttribute("aria-expanded", abrir);
+});
+fetch("data/linkedin_posts.json", { cache: "no-cache" })
+  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(j => {
+    LI_POSTS = (j.posts || [])
+      .map(p => ({ t: p.title || "Publicação no LinkedIn", d: p.text || "", u: p.url, urn: p.urn, date: p.date || "" }))
+      .sort((a, b) => b.date.localeCompare(a.date));
+    preparar(LI_POSTS, ["t", "d"]);
+    renderLi();
+  })
+  .catch(() => {
+    $("#liGrid").innerHTML = `<div class="search-empty">Não foi possível carregar os posts agora.<br><a href="https://www.linkedin.com/in/rodrigoaiosa/" target="_blank" rel="noopener">Acesse meu perfil no LinkedIn ↗</a></div>`;
+  });
 
 $("#escolaGrid").innerHTML = ESCOLA.map(p => projCard(p)).join("");
 $("#featGrid").innerHTML = FEATURES.map(f => `<div class="card feat reveal" tabindex="0">
