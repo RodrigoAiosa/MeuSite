@@ -68,16 +68,25 @@ def dividir(texto: str):
     return corte + "…", texto
 
 
-def novo_post(link: str, texto: str, data: str | None):
+def novo_post(link: str, texto: str, data: str | None, imagem: str | None = None,
+              curtidas: int | None = None, comentarios: int | None = None):
+    """imagem/curtidas/comentarios são opcionais: alimentam a capa, o engajamento e a ordenação do site."""
     urn = extrair_urn(link)
     titulo, corpo = dividir(texto)
-    return {
+    post = {
         "urn": urn,
         "url": link.strip(),
         "date": (data or data_do_urn(urn) or dt.date.today().isoformat())[:10],
         "title": titulo or "Publicação no LinkedIn",
         "text": corpo,
     }
+    if imagem is not None:
+        post["image"] = imagem or ""
+    if curtidas is not None:
+        post["likes"] = int(curtidas)
+    if comentarios is not None:
+        post["comments"] = int(comentarios)
+    return post
 
 
 def chave(p):
@@ -91,11 +100,16 @@ def carregar():
 
 
 def salvar(posts, maximo):
-    vistos, unicos = set(), []
+    vistos, unicos = {}, []
     for p in posts:  # a ordem recebida dá prioridade aos registros novos
-        if chave(p) in vistos:
+        k = chave(p)
+        if k in vistos:
+            # mantém imagem/engajamento do registro antigo quando o novo não trouxe esses campos
+            for campo in ("image", "likes", "comments"):
+                if campo not in vistos[k] and campo in p:
+                    vistos[k][campo] = p[campo]
             continue
-        vistos.add(chave(p))
+        vistos[k] = p
         unicos.append(p)
     unicos = sorted(unicos, key=lambda p: p.get("date", ""), reverse=True)[:maximo]
     ARQUIVO.parent.mkdir(parents=True, exist_ok=True)

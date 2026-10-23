@@ -185,7 +185,20 @@ section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,0.04); }
 .li-card { display: flex; flex-direction: column; height: 100%; min-width: 0; }
 .li-card .tag { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 8px; font-weight: 600; }
 .li-card h3 { line-height: 1.35; min-height: calc(1.35em * 3); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
-.li-card p { white-space: pre-line; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.li-card p { white-space: pre-line; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+/* Capa: imagem do post ou, se não houver, um fundo com o emoji do título (mantém os cards do mesmo tamanho) */
+.li-card { padding-top: 0; overflow: hidden; }
+.li-cover { position: relative; margin: 0 -26px 18px; aspect-ratio: 16 / 9; background: linear-gradient(135deg, #0a2a3a, #061522 60%, #0b1f33); border-bottom: 1px solid var(--border); overflow: hidden; }
+.li-cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.li-cover .ph { position: absolute; inset: 0; display: grid; place-items: center; font-size: 3.4rem; line-height: 1; }
+.li-cover .ph.logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2.6rem; color: rgba(0,200,240,0.55); letter-spacing: -0.02em; }
+.li-badge { position: absolute; top: 12px; left: 12px; padding: 5px 10px; border-radius: 999px; background: linear-gradient(90deg, #ff8a00, #ff3d6e); color: #fff; font-size: 0.74rem; font-weight: 700; box-shadow: 0 4px 14px rgba(255,80,60,0.35); }
+.li-meta { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 8px; }
+.li-meta .tag { margin-bottom: 0; }
+.li-eng { display: flex; gap: 10px; font-size: 0.8rem; color: var(--text-2); white-space: nowrap; }
+.li-card .actions .btn-tool { border-color: rgba(255,214,10,0.55); color: #ffd60a; }
+.li-card .actions .btn-tool:hover { border-color: #ffd60a; background: rgba(255,214,10,0.08); }
+.li-sort { margin: -2px 0 12px; }
 .li-card mark { background: rgba(0,180,216,0.22); color: #e8f4ff; border-radius: 3px; padding: 0 1px; }
 .li-card .actions { display: flex; gap: 10px; margin-top: auto; padding-top: 18px; flex-wrap: wrap; }
 .li-card .actions .btn { padding: 9px 14px; font-size: 0.86rem; }
@@ -435,6 +448,10 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       <input type="search" id="liQ" placeholder="Pesquisar posts… ex.: Power BI, SQL, automação, MEI" autocomplete="off" aria-label="Pesquisar posts do LinkedIn" aria-describedby="liInfo">
       <button type="button" class="clear" id="liClear" aria-label="Limpar pesquisa">×</button>
+    </div>
+    <div class="filters li-sort" id="liSort" role="group" aria-label="Ordenar posts">
+      <button type="button" class="chip on" data-sort="recentes" aria-pressed="true">🕒 Mais recentes</button>
+      <button type="button" class="chip" data-sort="curtidos" aria-pressed="false">🔥 Mais curtidos</button>
     </div>
     <p class="search-info" id="liInfo" aria-live="polite"></p>
     <div class="grid g3" id="liGrid"></div>
@@ -736,29 +753,66 @@ const LI_MAX = 50;
 const semAsteriscos = s => (s || "").replace(/\*([^*\n]+)\*/g, "$1");
 let LI_POSTS = [];
 const liFmt = d => d ? new Date(d.slice(0, 10) + "T12:00:00").toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" }) : "";
+// Ferramentas citadas nos posts: o card ganha um botão que abre a ferramenta direto (sem passar pelo LinkedIn)
+const LI_TOOLS = [
+  { re: /bi data generator|lnkd\.in\/(gnyjnJbc|gyQys2TJ|gFnRmeXk)/i, nome: "BI Data Generator", u: "https://bi-data-generator.vercel.app/" },
+  { re: /api atlas|apis? (públicas|gratuitas)|lnkd\.in\/(g3WP7seD|gqvHyJ3v)/i, nome: "API Atlas", u: "https://atlasapi-delta.vercel.app/" },
+  { re: /simulador (do )?enem|redaçãoia|inscritos no enem/i, nome: "Simulador ENEM", u: "https://simuladorenem-rose.vercel.app" },
+  { re: /aprender com dinheiro/i, nome: "Aprender com Dinheiro", u: "https://aprender-com-dinheiro.vercel.app/" },
+  { re: /dax 2048/i, nome: "DAX 2048", u: "https://dax2048.vercel.app/" },
+  { re: /minha aiosa|aiosa ia/i, nome: "AIOSA IA", u: "https://aiosaia.vercel.app/" },
+];
+function liFerramenta(p) {
+  const txt = `${p.t}\n${p.d}`;
+  let melhor = null;
+  for (const f of LI_TOOLS) {
+    const m = txt.match(f.re);
+    if (m && (!melhor || m.index < melhor.i)) melhor = { ...f, i: m.index };
+  }
+  return melhor;
+}
+const liEngaj = p => (p.likes || 0) + 2 * (p.comments || 0);
+const liEmoji = t => (t.match(/\p{Extended_Pictographic}/u) || [""])[0];
+let liSort = "recentes";
 function liCard(p, termos) {
   const embed = p.urn ? `https://www.linkedin.com/embed/feed/update/${p.urn}?collapsed=1` : "";
+  const emo = liEmoji(p.t);
+  const ph = `<div class="ph${emo ? "" : " logo"}" aria-hidden="true">${emo || "in"}</div>`;
+  // A imagem fica por cima do fundo; se o link expirar, ela some e o fundo com emoji aparece
+  const capa = ph + (p.img ? `<img src="${esc(p.img)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : "");
+  const eng = [p.likes ? `<span title="Reações">👍 ${p.likes}</span>` : "", p.comments ? `<span title="Comentários">💬 ${p.comments}</span>` : ""].join("");
+  const tool = liFerramenta(p);
   return `<article class="card li-card reveal">
-    <div class="tag">${esc(liFmt(p.date))}</div>
+    <div class="li-cover">${capa}${p.popular ? `<span class="li-badge">🔥 Mais popular</span>` : ""}</div>
+    <div class="li-meta"><div class="tag">${esc(liFmt(p.date))}</div>${eng ? `<div class="li-eng">${eng}</div>` : ""}</div>
     <h3>${destacar(p.t, termos)}</h3>
     ${p.d ? `<p>${destacar(p.d, termos)}</p>` : ""}
     <div class="actions">
       <a class="btn btn-primary" href="${esc(p.u)}" target="_blank" rel="noopener">Ver no LinkedIn ↗</a>
       ${embed ? `<button type="button" class="btn btn-ghost" data-embed="${esc(embed)}" data-url="${esc(p.u)}" data-title="${esc(p.t)}">Ver post aqui</button>` : ""}
+      ${tool ? `<a class="btn btn-ghost btn-tool" href="${esc(tool.u)}" target="_blank" rel="noopener" title="Abrir ${esc(tool.nome)}">Abrir ${esc(tool.nome)} ↗</a>` : ""}
     </div>
   </article>`;
 }
 function renderLi() {
   const q = $("#liQ").value;
-  const { termos, itens } = pesquisar(LI_POSTS, q);
+  let { termos, itens } = pesquisar(LI_POSTS, q);
   const buscando = termos.length > 0;
+  // "Mais recentes" mantém a ordem do arquivo (ou a relevância, quando há busca); "Mais curtidos" ordena por reações + comentários
+  if (liSort === "curtidos") itens = [...itens].sort((a, b) => liEngaj(b) - liEngaj(a) || b.date.localeCompare(a.date));
   const list = buscando ? itens : itens.slice(0, LI_MAX);
   $("#liGrid").innerHTML = list.length ? list.map(p => liCard(p, termos)).join("") : vazio(q, "post");
   if (buscando) infoBusca($("#liInfo"), itens.length, LI_POSTS.length, q, ["post", "posts"]);
-  else $("#liInfo").textContent = list.length ? `Mostrando os ${list.length} ${list.length === 1 ? "post mais recente" : "posts mais recentes"}.` : "";
+  else $("#liInfo").textContent = list.length ? `Mostrando os ${list.length} ${liSort === "curtidos" ? "posts com mais reações e comentários" : (list.length === 1 ? "post mais recente" : "posts mais recentes")}.` : "";
   observeReveal();
 }
 ligarBusca("li", renderLi);
+$("#liSort").addEventListener("click", e => {
+  const b = e.target.closest("[data-sort]"); if (!b || b.dataset.sort === liSort) return;
+  liSort = b.dataset.sort;
+  $("#liSort").querySelectorAll("[data-sort]").forEach(x => { const on = x === b; x.classList.toggle("on", on); x.setAttribute("aria-pressed", on); });
+  renderLi();
+});
 $("#liGrid").addEventListener("click", e => {
   const b = e.target.closest("[data-embed]"); if (!b) return;
   openLiPost(b);
@@ -768,8 +822,11 @@ fetch("data/linkedin_posts.json", { cache: "no-cache" })
   .then(j => {
     LI_POSTS = (j.posts || [])
       // Remove os asteriscos de ênfase (*texto*) usados nos posts, que o site mostraria literalmente
-      .map(p => ({ t: semAsteriscos(p.title) || "Publicação no LinkedIn", d: semAsteriscos(p.text), u: p.url, urn: p.urn, date: p.date || "" }))
+      .map(p => ({ t: semAsteriscos(p.title) || "Publicação no LinkedIn", d: semAsteriscos(p.text), u: p.url, urn: p.urn, date: p.date || "",
+                   img: p.image || "", likes: +p.likes || 0, comments: +p.comments || 0 }))
       .sort((a, b) => b.date.localeCompare(a.date));
+    // Selo "Mais popular": os 3 posts com mais engajamento entre os exibidos (mínimo de 5 reações)
+    LI_POSTS.slice(0, LI_MAX).sort((a, b) => liEngaj(b) - liEngaj(a)).slice(0, 3).forEach(p => { if (p.likes >= 5) p.popular = true; });
     preparar(LI_POSTS, ["t", "d"]);
     renderLi();
   })
