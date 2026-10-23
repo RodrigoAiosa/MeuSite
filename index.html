@@ -825,8 +825,8 @@ fetch("data/linkedin_posts.json", { cache: "no-cache" })
       .map(p => ({ t: semAsteriscos(p.title) || "Publicação no LinkedIn", d: semAsteriscos(p.text), u: p.url, urn: p.urn, date: p.date || "",
                    img: p.image || "", likes: +p.likes || 0, comments: +p.comments || 0 }))
       .sort((a, b) => b.date.localeCompare(a.date));
-    // Selo "Mais popular": os 3 posts com mais engajamento entre os exibidos (mínimo de 5 reações)
-    LI_POSTS.slice(0, LI_MAX).sort((a, b) => liEngaj(b) - liEngaj(a)).slice(0, 3).forEach(p => { if (p.likes >= 5) p.popular = true; });
+    // Selo "Mais popular": os 3 posts com mais engajamento de todo o arquivo (mínimo de 5 reações)
+    [...LI_POSTS].sort((a, b) => liEngaj(b) - liEngaj(a)).slice(0, 3).forEach(p => { if (p.likes >= 5) p.popular = true; });
     preparar(LI_POSTS, ["t", "d"]);
     renderLi();
   })
