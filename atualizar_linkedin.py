@@ -19,7 +19,7 @@ oficiais (sem scraping) para alimentar o arquivo:
    A data é calculada a partir do ID do post; use --data AAAA-MM-DD para forçar outra.
 
 Em ambos os casos o script faz merge com o que já existe (sem duplicar), ordena do mais
-recente para o mais antigo e mantém no máximo --max posts (padrão 50). O site exibe os 30
+recente para o mais antigo e mantém no máximo --max posts (padrão 80). O site exibe os 50
 mais recentes e usa o arquivo inteiro para a pesquisa por palavra-chave.
 Depois é só fazer commit e push: a Vercel republica o site sozinha.
 """
@@ -124,7 +124,7 @@ def main():
     ap.add_argument("--add", metavar="URL", help="Link de um post para adicionar")
     ap.add_argument("--texto", default="", help="Texto do post (usado com --add)")
     ap.add_argument("--data", help="Data AAAA-MM-DD (usado com --add; padrão: calculada pelo ID)")
-    ap.add_argument("--max", type=int, default=50, help="Máximo de posts guardados no arquivo (padrão 50)")
+    ap.add_argument("--max", type=int, default=80, help="Máximo de posts guardados no arquivo (padrão 80)")
     args = ap.parse_args()
 
     if not args.csv and not args.add:
