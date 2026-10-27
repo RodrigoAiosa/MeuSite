@@ -179,14 +179,11 @@ section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,0.04); }
 .search-empty { grid-column: 1 / -1; text-align: center; padding: 40px 16px; color: var(--muted); border: 1px dashed var(--border); border-radius: var(--radius); }
 
 /* ── LINKEDIN ── */
-/* Todos os cards com a mesma altura: linhas iguais na grade, título e texto com número fixo de linhas
-   e botões sempre no rodapé. O post completo abre na janela (modal), sem esticar o card. */
 #liGrid { align-items: stretch; grid-auto-rows: 1fr; }
 .li-card { display: flex; flex-direction: column; height: 100%; min-width: 0; }
 .li-card .tag { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 8px; font-weight: 600; }
 .li-card h3 { line-height: 1.35; min-height: calc(1.35em * 3); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
 .li-card p { white-space: pre-line; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
-/* Capa: imagem do post ou, se não houver, um fundo com o emoji do título (mantém os cards do mesmo tamanho) */
 .li-card { padding-top: 0; overflow: hidden; }
 .li-cover { position: relative; margin: 0 -26px 18px; aspect-ratio: 16 / 9; background: linear-gradient(135deg, #0a2a3a, #061522 60%, #0b1f33); border-bottom: 1px solid var(--border); overflow: hidden; }
 .li-cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -289,7 +286,7 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
 
 <nav class="nav">
   <div class="wrap nav-inner">
-    <div></div> <!-- Espaçador para alinhamento simétrico no grid -->
+    <div></div>
     <button class="menu-btn" aria-label="Abrir menu" aria-expanded="false" id="menuBtn">☰</button>
     <ul class="nav-links" id="navLinks">
       <li><a href="#sobre">Sobre</a></li>
@@ -521,7 +518,7 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
 const APP_STREAMLIT_URL = "";
 
 const PY_PROJECTS = [
-  { t: "🚦 Monitor de Mobilidade Urbana", u: "https://monitoriamento.vercel.app", d: "Monitoramento de tráfego e semáforos de São Paulo em tempo real: mapeamento geoespacial via Overpass API, ocorrências ordenadas por nível de impacto, filtros por zona e categoria, navegação interativa no mapa e atualizações em tempo real (pt-BR)." }
+  { t: "🚦 Monitor de Mobilidade Urbana", u: "https://monitoriamento.vercel.app", d: "Monitoramento de tráfego e semáforos de São Paulo em tempo real: mapeamento geoespacial via Overpass API, ocorrências ordenadas por nível de impacto, filtros por zona e categoria, navegação interativa no mapa e atualizações em tempo real (pt-BR)." },
   { t: "🐷 Aprender com Dinheiro", u: "https://aprender-com-dinheiro.vercel.app/", d: "Ensina crianças a contar dinheiro brincando: descubra quantas moedas cabem em cada nota, monte valores no cofrinho e encare desafios. Inclui área do professor com atividades para imprimir em A4, com gabarito." },
   { t: "🌐 API Atlas", u: "https://atlasapi-delta.vercel.app/", d: "Encontre +5.000 APIs públicas e gratuitas em +50 categorias, com busca global e informações de autenticação, HTTPS e CORS. Kits Power BI com consultas prontas em Power Query (M) e Python e gerador de scripts em requests + pandas." },
   { t: "♟️ Jogo de Xadrez", u: "https://jogoxadrez.vercel.app/", d: "Xadrez completo no navegador, com regras oficiais da FIDE, modo contra o PC em 5 níveis, 100 puzzles de mate, notação em tempo real e exportação em PDF." },
@@ -577,10 +574,10 @@ const FEATURES = [
 
 const COURSES = [
   { t: "Fundamentos Power BI", img: "assets/fundamentos_power_bi.jpg", u: "https://pay.kiwify.com.br/DFeDsQV", d: "Transforme dados brutos em dashboards profissionais e indicadores estratégicos.",
-    m: ["Introdução ao Power BI", "Power Query (tratamento de dados)", "Modelagem de dados (modelo estrela)", "Relacionamentos entre tabelas", "Fundamentos de DAX", "Medidas e KPIs", "Dashboards interativos", "Storytelling com dados", "Publicação no Power BI Service", "Projeto final aplicado"] },
+    m: ["Introdução ao Power BI", "Power Query (tratamento de dados)", "Modelagem de dados (modelo estrela)", "Relacionamentos entre tabelas", "Fundamentos de DAX", "Medidas e KPIs", "Dashboards interativos", "Storytelling com dados", "Publicação no Power BI Service", "Projeto final applied"] },
   { t: "SQL Fundamentos", img: "assets/SQL_Fundamentos.jpg", u: "https://pay.kiwify.com.br/ivdojL8", d: "Desenvolva autonomia analítica e capacidade de extrair informações estratégicas.",
     m: ["Conceitos de banco de dados", "SELECT, WHERE e ORDER BY", "Funções agregadas", "GROUP BY e HAVING", "INNER JOIN e LEFT JOIN", "Subqueries", "Views", "Manipulação de datas", "Otimização de consultas", "Projeto final corporativo"] },
-  { t: "Excel Essencial para Negócios", img: "assets/excel_para_negocios.jpg", u: "https://pay.kiwify.com.br/EEb9ADQ", d: "Excel aplicado ao mundo corporativo, automação e análises estratégicas.",
+  { t: "Excel Essencial para Negócios", img: "assets/excel_para_negocios.jpg", u: "https://pay.kiwify.com.br/EEb9ADQ", d: "Excel applied ao mundo corporativo, automação e análises estratégicas.",
     m: ["Fundamentos do Excel corporativo", "Fórmulas essenciais", "PROCV e PROCX", "Tabelas dinâmicas", "Dashboards no Excel", "Formatação condicional", "Indicadores financeiros", "Power Query no Excel", "Introdução a macros", "Projeto final applied"] }
 ];
 
@@ -754,7 +751,7 @@ const LI_MAX = 50;
 const semAsteriscos = s => (s || "").replace(/\*([^*\n]+)\*/g, "$1");
 let LI_POSTS = [];
 const liFmt = d => d ? new Date(d.slice(0, 10) + "T12:00:00").toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" }) : "";
-// Ferramentas citadas nos posts: o card ganha um botão que abre a ferramenta direto (sem passar pelo LinkedIn)
+
 const LI_TOOLS = [
   { re: /bi data generator|lnkd\.in\/(gnyjnJbc|gyQys2TJ|gFnRmeXk)/i, nome: "BI Data Generator", u: "https://bi-data-generator.vercel.app/" },
   { re: /api atlas|apis? (públicas|gratuitas)|lnkd\.in\/(g3WP7seD|gqvHyJ3v)/i, nome: "API Atlas", u: "https://atlasapi-delta.vercel.app/" },
@@ -779,7 +776,6 @@ function liCard(p, termos) {
   const embed = p.urn ? `https://www.linkedin.com/embed/feed/update/${p.urn}?collapsed=1` : "";
   const emo = liEmoji(p.t);
   const ph = `<div class="ph${emo ? "" : " logo"}" aria-hidden="true">${emo || "in"}</div>`;
-  // A imagem fica por cima do fundo; se o link expirar, ela some e o fundo com emoji aparece
   const capa = ph + (p.img ? `<img src="${esc(p.img)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : "");
   const eng = [p.likes ? `<span title="Reações">👍 ${p.likes}</span>` : "", p.comments ? `<span title="Comentários">💬 ${p.comments}</span>` : ""].join("");
   const tool = liFerramenta(p);
@@ -799,7 +795,6 @@ function renderLi() {
   const q = $("#liQ").value;
   let { termos, itens } = pesquisar(LI_POSTS, q);
   const buscando = termos.length > 0;
-  // "Mais recentes" mantém a ordem do arquivo (ou a relevância, quando há busca); "Mais curtidos" ordena por reações + comentários
   if (liSort === "curtidos") itens = [...itens].sort((a, b) => liEngaj(b) - liEngaj(a) || b.date.localeCompare(a.date));
   const list = buscando ? itens : itens.slice(0, LI_MAX);
   $("#liGrid").innerHTML = list.length ? list.map(p => liCard(p, termos)).join("") : vazio(q, "post");
@@ -822,11 +817,9 @@ fetch("data/linkedin_posts.json", { cache: "no-cache" })
   .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
   .then(j => {
     LI_POSTS = (j.posts || [])
-      // Remove os asteriscos de ênfase (*texto*) usados nos posts, que o site mostraria literalmente
       .map(p => ({ t: semAsteriscos(p.title) || "Publicação no LinkedIn", d: semAsteriscos(p.text), u: p.url, urn: p.urn, date: p.date || "",
                    img: p.image || "", likes: +p.likes || 0, comments: +p.comments || 0 }))
       .sort((a, b) => b.date.localeCompare(a.date));
-    // Selo "Mais popular": os 3 posts com mais engajamento de todo o arquivo (mínimo de 5 reações)
     [...LI_POSTS].sort((a, b) => liEngaj(b) - liEngaj(a)).slice(0, 3).forEach(p => { if (p.likes >= 5) p.popular = true; });
     preparar(LI_POSTS, ["t", "d"]);
     renderLi();
