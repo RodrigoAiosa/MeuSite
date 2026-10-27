@@ -415,6 +415,12 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 # --------------------------------------------------
 python_projects = [
     {
+      "title": "🚦 Monitor de Mobilidade & Trânsito Urbano — São Paulo em Tempo Real",
+      "desc": "Dashboard interativo e georreferenciado para monitoramento do tráfego e semáforos da cidade de São Paulo via Overpass API (OpenStreetMap). Conta com mapeamento em tempo real de semáforos por agrupamento (MarkerCluster), painel de ocorrências classificadas de Alto a Baixo Impacto, sistema de busca e filtros multi-critério (Zona, Categoria, Impacto, Ordenação), navegação interativa com flyTo direto no mapa e timestamp de atualização no padrão pt-BR.",
+      "url": "https://monitoriamento.vercel.app",
+      "category": "Automação & BI"
+    },
+    {
     "title": "🐷 Aprender com Dinheiro — Contagem de Dinheiro para Crianças",
     "desc": "Simulação lúdica para ensinar crianças a contar dinheiro brasileiro e entender equivalências entre notas e moedas (ex.: a nota de R$ 2 vale o mesmo que 4 moedas de 50 centavos). Modo Explorar com todas as trocas possíveis e leitura em voz alta, modo Montar valor com cofrinho interativo, modo Desafio com placar de acertos, e Área do Professor que gera folhas A4 de atividades para imprimir (Quantas cabem?, Quanto dinheiro tem aqui?, Quanto falta?, Ligue os valores iguais e Dinheirinho para recortar) em 3 níveis, coloridas ou em preto e branco, com gabarito.",
     "url": "https://aprender-com-dinheiro.vercel.app/",
