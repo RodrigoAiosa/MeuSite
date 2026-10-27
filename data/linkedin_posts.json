@@ -1,6 +1,336 @@
 {
-  "atualizado_em": "2026-10-22",
+  "atualizado_em": "2026-10-27",
   "posts": [
+    {
+      "urn": "urn:li:activity:7520856623200890881",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520856623200890881/",
+      "date": "2026-10-27",
+      "title": "🚦 Como transformar dados geoespaciais em decisões de tráfego em tempo real?",
+      "text": "Acabo de colocar no ar o Monitor de Mobilidade & Trânsito Urbano, uma aplicação desenvolvida para mapear e monitorar a malha viária, semáforos e incidentes da cidade de São Paulo em tempo real.\n\n💡 Destaques técnicos da aplicação:\n\n🗺️ Mapeamento Geoespacial em Larga Escala: Consulta otimizada à Overpass API (OpenStreetMap) cobrindo toda a extensão urbana de São Paulo.\n⚡ Performance & UX: Uso do MarkerCluster no Leaflet para agrupar e renderizar milhares de pontos de semáforos sem perda de taxa de quadros.\n⚠️ Gestão de Incidentes por Prioridade: Algoritmo de ordenação automática e classificação de ocorrências de Alto, Médio e Baixo Impacto.\n🎯 Navegação Interativa: Voo de câmera (flyTo) e foco direto no mapa ao interagir com as ocorrências no painel.\n🔎 Filtros Multi-critério: Busca por Zona (Norte, Sul, Leste, Oeste, Centro), categoria, nível de severidade e barra de chips dinâmicos de estado.\n🕒 Padronização pt-BR: Atualizações em tempo real sincronizadas com o fuso horário oficial de Brasília (UTC-3).\n\n🔗 Acesse a aplicação ao vivo: https://lnkd.in/gjTVjhtH\nO que achou do resultado? Como você aplica dados geoespaciais na sua operação ou dashboard de BI? Vamos trocar uma ideia nos comentários! 👇\n\n#BusinessIntelligence #Python #OpenStreetMap #DataAnalytics #UX #UI #Vercel #DataVisualization #EngenhariaDeDados #SaoPaulo",
+      "image": "https://media.licdn.com/dms/image/v2/D5622AQH-f8Rhye-Gmw/feedshare-shrink_800/B56aF9zPuuHQAc-/0/1793111948433?e=1794441600&v=beta&t=eaDqjD2k7nCIubXSlwCu0HUfVH5rZcqiRvUhzX_rvs4",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520856087986761728",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520856087986761728/",
+      "date": "2026-10-27",
+      "title": "Precisa de uma API de clima? De câmbio? De CEP? De criptomoedas? 🤔",
+      "text": "Provavelmente ela está aqui.\n\nO *API Atlas* reúne +5.000 APIs gratuitas em +50 categorias, com busca rápida e link direto para a documentação.\n\n👉 https://lnkd.in/g3WP7seD",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520819493208576001",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520819493208576001/",
+      "date": "2026-10-27",
+      "title": "📣 Fez um dashboard e quer mostrar no LinkedIn?",
+      "text": "O BI Data Generator tem o Carrossel Power BI, para transformar seu projeto em conteúdo para as redes.\n\nE se ainda falta o projeto, a plataforma ajuda nisso também:\n• Bases fictícias de diferentes setores\n• Modelo estrela com Fato, Dimensões e Calendário\n• Medidas DAX\n• Modelo TMDL\n• Scripts SQL\n• Dicionário de dados\n\n🛠️ Mais ferramentas:\n✅ Auditor de Modelo\n✅ DAX Sandbox\n✅ Formatador DAX e M\n✅ Pergunte aos Dados\n✅ Simulador PL-300\n✅ Dados Causais\n\n🔥 10.696 medidas DAX possíveis, sem depender de IA.\n\n👉 Acesse gratuitamente:\nhttps://lnkd.in/gnyjnJbc\n\nCrie, analise e compartilhe. 🚀",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520818593383645184",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520818593383645184/",
+      "date": "2026-10-27",
+      "title": "📊 BI Data Generator: transforme seus estudos em projetos de BI!",
+      "text": "Desenvolvi uma solução para quem quer praticar Power BI, DAX, SQL e Modelagem Estrela sem depender sempre das mesmas bases de dados.\n\n🚀 Gere rapidamente:\n• Modelo estrela com Fato, Dimensões e Calendário\n• Medidas DAX\n• Modelo TMDL\n• Dicionário de dados\n• Scripts SQL\n• Bases de diferentes setores\n\n🛠️ E ainda estão disponíveis ferramentas como:\n✅ Gerador de 200 setores\n✅ Automação de BI\n✅ Simulador PL-300\n✅ Dados Causais\n✅ Formatador DAX e M\n✅ Auditor de Modelo\n✅ DAX Sandbox\n✅ Pergunte aos Dados\n✅ Carrossel Power BI\n\n🔥 São 10.696 medidas DAX possíveis, sem depender de IA.\n\n👉 Teste gratuitamente:\nhttps://lnkd.in/gnyjnJbc\n\nUma opção para quem quer praticar Dados colocando a mão na massa. 🚀",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520818593161359360",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520818593161359360/",
+      "date": "2026-10-27",
+      "title": "🤔 Quer treinar Power BI, mas não encontra uma boa base para praticar?",
+      "text": "O BI Data Generator foi criado para resolver exatamente esse problema.\n\n🚀 Gere em poucos segundos:\n• Dados fictícios\n• Modelo estrela\n• Tabela Fato\n• Dimensões\n• Calendário\n• Medidas DAX\n• Modelo TMDL\n• Scripts SQL\n• Dicionário de dados\n\nE ainda tenha acesso a ferramentas para evoluir seus conhecimentos em BI:\n\n✅ Simulador PL-300\n✅ Formatador DAX e M\n✅ Auditor de Modelo\n✅ DAX Sandbox\n✅ Pergunte aos Dados\n✅ Dados Causais\n✅ Automação de BI\n✅ Carrossel Power BI\n\n🔥 Mais de 10 mil medidas DAX geradas pelo próprio motor, sem depender de IA.\n\n👉 Use gratuitamente:\nhttps://lnkd.in/gnyjnJbc\n\nCompartilhe com quem está estudando Dados, BI ou Power BI! 🚀",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520798460393046017",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520798460393046017/",
+      "date": "2026-10-27",
+      "title": "🌐 *5.000+ APIs gratuitas, uma busca só*",
+      "text": "Criei o *API Atlas*: um diretório com mais de 5.000 APIs públicas em 56 categorias.\n\nDigita o que precisa, acha a API e abre a documentação em um clique.\n\n👉 https://lnkd.in/g3WP7seD",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520767508274913280",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520767508274913280/",
+      "date": "2026-10-27",
+      "title": "🚀 *Ferramenta gratuita para devs*",
+      "text": "*API Atlas*: +5.000 APIs públicas em +50 categorias, com busca e link direto para a documentação de cada uma.\n\nServe para estudo, portfólio, protótipo ou projeto real.\n\n👉 https://lnkd.in/g3WP7seD\n\nConhece alguém começando um projeto? Encaminha para ele 😉",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520767506106683392",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520767506106683392/",
+      "date": "2026-10-27",
+      "title": "🚀 Cansado de procurar bases para praticar Power BI, DAX e SQL?",
+      "text": "Criei o BI Data Generator para facilitar essa etapa.\n\n📊 Gere dados fictícios e construa seus próprios exercícios e projetos com:\n\n• Modelo estrela completo\n• Fato + Dimensões + Calendário\n• Medidas DAX\n• Modelo TMDL\n• Scripts SQL\n• Dicionário de dados\n• Bases de múltiplos setores\n\n🛠️ A plataforma também reúne ferramentas para:\n✅ Automação de BI\n✅ Simulação PL-300\n✅ Análise de Dados Causais\n✅ Formatação DAX e M\n✅ Auditoria de Modelos\n✅ DAX Sandbox\n✅ Pergunte aos Dados\n✅ Carrossel Power BI\n\n🔥 Motor próprio com 10.696 medidas DAX possíveis sem depender de IA.\n\n👉 Experimente gratuitamente:\nhttps://lnkd.in/gnyjnJbc\n\nIdeal para quem quer transformar teoria em prática. 📈",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520642434167422976",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520642434167422976/",
+      "date": "2026-10-27",
+      "title": "🎯 Está estudando para a certificação PL-300?",
+      "text": "Você pode praticar não apenas questões, mas também modelagem, DAX e análise de dados.\n\n📚 No BI Data Generator você encontra:\n\n• Simulador PL-300\n• Modelo estrela completo\n• DAX Sandbox\n• Auditor de Modelo\n• Formatador DAX e Power Query M\n• Dados Causais\n• Automação de BI\n• Pergunte aos Dados\n\n💡 No Pergunte aos Dados, você escreve uma pergunta em português e a ferramenta gera a medida DAX equivalente.\n\n🚀 Além disso, você pode gerar suas próprias bases fictícias com Fato, Dimensões e Calendário.\n\n🔥 O motor possui 10.696 medidas DAX possíveis sem depender de IA.\n\n👉 Comece gratuitamente:\nhttps://lnkd.in/gnyjnJbc\n\nBons estudos e bons projetos! 📊",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520621043632295936",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520621043632295936/",
+      "date": "2026-10-26",
+      "title": "📈 Quer diversificar seu portfólio de Power BI?",
+      "text": "Em vez de utilizar sempre as mesmas bases, gere dados fictícios para diferentes setores e crie projetos variados.\n\nO BI Data Generator permite gerar bases de até 200 setores, acompanhadas de estruturas para análise.\n\n🚀 Você pode gerar:\n• Modelo estrela\n• Tabela Fato\n• Dimensões\n• Calendário\n• Medidas DAX\n• Modelo TMDL\n• Scripts SQL\n• Dicionário de dados\n\n✨ E ainda pode utilizar:\n✅ Dados Causais\n✅ Automação de BI\n✅ Auditor de Modelo\n✅ DAX Sandbox\n✅ Formatador DAX e M\n✅ Pergunte aos Dados\n✅ Simulador PL-300\n✅ Carrossel Power BI\n\n🔥 São 10.696 medidas DAX possíveis, sem depender de IA.\n\n👉 Teste gratuitamente:\nhttps://lnkd.in/gnyjnJbc\n\nSeu próximo projeto de BI pode começar aqui. 🚀",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520617519343296512",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520617519343296512/",
+      "date": "2026-10-26",
+      "title": "📚 *Dica para quem está aprendendo a programar*",
+      "text": "Projeto de portfólio fica muito melhor com dados reais. E dá para conseguir isso de graça.\n\nNo *API Atlas* você encontra +5.000 APIs públicas: clima, filmes, jogos, câmbio, esportes e muito mais.\n\nEscolhe uma, lê a documentação e começa a praticar.\n\n👉 https://lnkd.in/g3WP7seD",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520588722250358784",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520588722250358784/",
+      "date": "2026-10-26",
+      "title": "📉 Dados aleatórios demais deixam a análise sem graça.",
+      "text": "Por isso o BI Data Generator tem a ferramenta de Dados Causais: bases com relações entre as variáveis, para que suas análises contem uma história.\n\n🚀 Gere também:\n• Modelo estrela completo\n• Fato + Dimensões + Calendário\n• Medidas DAX\n• Modelo TMDL\n• Scripts SQL\n• Dicionário de dados\n\n🛠️ E conte com:\n✅ Automação de BI\n✅ Auditor de Modelo\n✅ DAX Sandbox\n✅ Formatador DAX e M\n✅ Pergunte aos Dados\n✅ Simulador PL-300\n\n🔥 10.696 medidas DAX possíveis, sem depender de IA.\n\n👉 Gratuito:\nhttps://lnkd.in/gnyjnJbc\n\nInsights de verdade começam com dados que fazem sentido. 📈",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520583290047680512",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520583290047680512/",
+      "date": "2026-10-26",
+      "title": "🗂️ *56 categorias de APIs gratuitas em uma página*",
+      "text": "Algumas delas:\n🌦️ Clima\n💱 Câmbio e finanças\n🎮 Jogos\n🏥 Saúde\n🏛️ Governo e dados abertos\n🤖 Machine learning\n📍 Geolocalização\n\nSão +5.000 APIs no total, todas no *API Atlas*.\n\n👉 https://lnkd.in/g3WP7seD",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520578508771909632",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520578508771909632/",
+      "date": "2026-10-26",
+      "title": "📊 BI Data Generator: Eleve seus estudos em Dados!",
+      "text": "Criei uma plataforma gratuita para quem quer praticar Power BI, DAX, SQL e Modelagem Dimensional com dados fictícios e estruturas profissionais.\n\n🚀 Em poucos segundos você gera:\n• Modelo estrela completo (Fato + Dimensões + Calendário)\n• Medidas DAX e Modelo TMDL para Power BI\n• Dicionário de dados e Scripts SQL\n• Bases para diferentes setores\n\nAlém disso, o app conta com ferramentas para:\n✅ Automação de BI\n✅ Simulador PL-300\n✅ Dados Causais\n✅ Formatador DAX e M\n✅ Auditor de Modelo\n✅ DAX Sandbox\n✅ Pergunte aos Dados\n✅ Carrossel Power BI\n\n🔥 O motor já gera 10.696 medidas DAX sem depender de IA.\n\n👉 Acesse gratuitamente:\nhttps://lnkd.in/gnyjnJbc\n\nSe você estuda ou trabalha com Dados, BI, Power BI ou SQL, vale a pena testar! 🚀",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520564966622593025",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520564966622593025/",
+      "date": "2026-10-26",
+      "title": "⚡ De zero a um modelo dimensional completo em poucos segundos.",
+      "text": "Conheça o BI Data Generator, uma ferramenta gratuita para gerar dados fictícios e praticar Power BI, DAX, SQL e Modelagem Dimensional.\n\n🚀 Gere:\n✅ Fato + Dimensões + Calendário\n✅ Modelo estrela\n✅ Medidas DAX\n✅ Modelo TMDL\n✅ Scripts SQL\n✅ Dicionário de dados\n✅ Bases para diferentes setores\n\n🛠️ E utilize ferramentas como:\n✅ Auditor de Modelo\n✅ Formatador DAX e M\n✅ DAX Sandbox\n✅ Pergunte aos Dados\n✅ Simulador PL-300\n✅ Dados Causais\n✅ Automação de BI\n✅ Carrossel Power BI\n\n🔥 10.696 medidas DAX diferentes, sem depender de IA.\n\n👉 Acesse gratuitamente:\nhttps://lnkd.in/gnyjnJbc\n\nSe você trabalha ou estuda Dados, Power BI ou SQL, vale conhecer! 🚀",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520552231830667264",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520552231830667264/",
+      "date": "2026-10-26",
+      "title": "🔍 Seu modelo do Power BI está seguindo boas práticas?",
+      "text": "O BI Data Generator tem um Auditor de Modelo para ajudar a revisar sua modelagem.\n\nE ele vai além:\n✅ Formatador DAX e M\n✅ DAX Sandbox\n✅ Pergunte aos Dados\n✅ Automação de BI\n✅ Dados Causais\n✅ Simulador PL-300\n✅ Carrossel Power BI\n\n📊 Você também pode gerar bases fictícias com modelo estrela completo, Medidas DAX, Modelo TMDL, Scripts SQL e Dicionário de dados.\n\n🔥 Motor com 10.696 medidas DAX possíveis, sem depender de IA.\n\n👉 Experimente gratuitamente:\nhttps://lnkd.in/gnyjnJbc\n\nModelos bem feitos, relatórios mais confiáveis. ✅",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520550326031167488",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520550326031167488/",
+      "date": "2026-10-26",
+      "title": "⏱️ *De meia hora de pesquisa para alguns segundos*",
+      "text": "É o que o *API Atlas* faz: junta +5.000 APIs gratuitas em uma única página.\n\n1. Digita o que procura\n2. Vê autenticação, HTTPS e CORS no cartão\n3. Clica e abre a documentação\n\n👉 https://lnkd.in/g3WP7seD",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520523039436873728",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520523039436873728/",
+      "date": "2026-10-26",
+      "title": "👩‍🏫 Professores e instrutores de Power BI, SQL e Dados:",
+      "text": "Precisa de bases novas para exercícios, provas ou projetos em sala?\n\nO BI Data Generator gera conjuntos de dados fictícios com estrutura profissional:\n• Modelo estrela\n• Fato + Dimensões + Calendário\n• Medidas DAX\n• Modelo TMDL\n• Scripts SQL\n• Dicionário de dados\n• Bases de diversos setores\n\n🛠️ Recursos que ajudam nas aulas:\n✅ Simulador PL-300\n✅ DAX Sandbox\n✅ Formatador DAX e M\n✅ Pergunte aos Dados\n✅ Auditor de Modelo\n\n🔥 10.696 medidas DAX possíveis, sem depender de IA.\n\n👉 Gratuito:\nhttps://lnkd.in/gnyjnJbc\n\nCada turma pode ter um caso diferente. 📚",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520496615338717184",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520496615338717184/",
+      "date": "2026-10-26",
+      "title": "💼 Vai participar de um processo seletivo para Analista de Dados ou BI?",
+      "text": "Ter projetos próprios no portfólio faz diferença. E com o BI Data Generator você cria cenários novos sempre que precisar.\n\n🚀 Gere em segundos:\n• Bases de diferentes setores\n• Modelo estrela com Fato, Dimensões e Calendário\n• Medidas DAX\n• Modelo TMDL\n• Scripts SQL\n• Dicionário de dados\n\n🛠️ E use também:\n✅ Simulador PL-300\n✅ Auditor de Modelo\n✅ Dados Causais\n✅ Carrossel Power BI para divulgar seus projetos\n\n🔥 10.696 medidas DAX possíveis, sem depender de IA.\n\n👉 Acesse gratuitamente:\nhttps://lnkd.in/gnyjnJbc\n\nMostre na prática o que você sabe fazer. 💪",
+      "image": "",
+      "likes": 4,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520472300215771136",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520472300215771136/",
+      "date": "2026-10-26",
+      "title": "Acabei de implementar uma nova funcionalidade no meu site: o módulo \"Em destaque no…",
+      "text": "Acabei de implementar uma nova funcionalidade no meu site: o módulo \"Em destaque no LinkedIn\"!\n\n\nAgora ficou muito mais simples acessar insights práticos, tutoriais e dicas técnicas sem depender do algoritmo:\n🔍 Busca Inteligente por Termo: Digite qualquer palavra-chave como Power BI, SQL, Python ou Automação para filtrar na hora os posts relacionados.\n⏱️ Mais Recentes vs. Mais Curtidos: Alterne facilmente entre as publicações mais recentes e os conteúdos de maior engajamento da comunidade.\n📚 Acervo Atualizado: Acesso rápido aos 50 posts mais relevantes para consulta direta.\n\n\nFicou bem mais fácil encontrar exatamente a solução que você precisa para o seu dia a dia de trabalho.\n👉 Teste agora mesmo acessando: https://lnkd.in/guwA2XyZ",
+      "image": "https://media.licdn.com/dms/image/v2/D5622AQEtaRC7ZQHNjQ/feedshare-shrink_800/B56aF4VtMbKsAg-/0/1793020318743?e=1794441600&v=beta&t=NeIEfgo16y9QS8lb-gsXXQVbj4CA3GNVlEJ7Xp3idR0",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520470215688884225",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520470215688884225/",
+      "date": "2026-10-26",
+      "title": "📊 Vendas Meta vs Realizado",
+      "text": "ℹ️ Gestão comercial cirúrgica. Identifique rapidamente quais filiais ou vendedores estão performando abaixo da linha de corte esperada.\n\n🔗 Acesse o painel completo aqui: https://lnkd.in/gHUytd4M",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520470192485740544",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520470192485740544/",
+      "date": "2026-10-26",
+      "title": "🏖️ Financeiro — Beocean Resort",
+      "text": "ℹ️ Fluxo de caixa corporativo adaptado para redes de hotelaria. Gestão centralizada de canais de receita direta e custos operacionais fixos.\n\n🔗 Acesse o painel completo aqui: https://lnkd.in/g9kk_Jcv",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520457105586159617",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520457105586159617/",
+      "date": "2026-10-26",
+      "title": "🧠 DAX travando seus estudos?",
+      "text": "No BI Data Generator existe o Pergunte aos Dados: você escreve uma pergunta em português e a ferramenta mostra a medida DAX equivalente.\n\nE para treinar de verdade, você ainda tem:\n✅ DAX Sandbox\n✅ Formatador DAX e M\n✅ Auditor de Modelo\n✅ Simulador PL-300\n\n📊 Além de gerar bases fictícias com:\n• Modelo estrela completo\n• Fato + Dimensões + Calendário\n• Medidas DAX\n• Modelo TMDL\n• Scripts SQL\n\n🔥 São 10.696 medidas DAX possíveis, sem depender de IA.\n\n👉 Teste gratuitamente:\nhttps://lnkd.in/gnyjnJbc\n\nAprender DAX fica muito mais fácil quando você pratica. 🚀",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520405363498594305",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520405363498594305/",
+      "date": "2026-10-26",
+      "title": "Acessar gratuitamente: https://lnkd.in/gnyjnJbc",
+      "text": "",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520285394089717760",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520285394089717760/",
+      "date": "2026-10-26",
+      "title": "🗄️ Praticando SQL e não sabe de onde tirar os dados?",
+      "text": "No BI Data Generator você gera bases fictícias completas e já recebe os Scripts SQL prontos para criar e popular as tabelas.\n\n🚀 O pacote inclui:\n• Tabela Fato\n• Dimensões\n• Calendário\n• Scripts SQL\n• Dicionário de dados\n• Modelo TMDL e Medidas DAX para levar tudo ao Power BI\n\n🛠️ Ferramentas extras:\n✅ Automação de BI\n✅ Dados Causais\n✅ Auditor de Modelo\n✅ DAX Sandbox\n✅ Simulador PL-300\n\n🔥 Motor próprio com 10.696 medidas DAX, sem depender de IA.\n\n👉 Gratuito:\nhttps://lnkd.in/gnyjnJbc\n\nDo banco de dados ao dashboard, tudo em um só lugar. 📊",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520284268712071168",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520284268712071168/",
+      "date": "2026-10-26",
+      "title": "💡 Dica para quem está começando em BI:",
+      "text": "A melhor forma de aprender Power BI é praticando com dados parecidos com os do mundo real.\n\nFoi pensando nisso que criei o BI Data Generator.\n\n📊 Com ele você gera:\n• Modelo estrela (Fato + Dimensões + Calendário)\n• Medidas DAX\n• Modelo TMDL\n• Scripts SQL\n• Dicionário de dados\n\n🛠️ E ainda conta com:\n✅ Simulador PL-300\n✅ DAX Sandbox\n✅ Auditor de Modelo\n✅ Formatador DAX e M\n✅ Pergunte aos Dados\n✅ Carrossel Power BI\n\n🔥 10.696 medidas DAX possíveis, sem depender de IA.\n\n👉 Acesse gratuitamente:\nhttps://lnkd.in/gnyjnJbc\n\nSalve este post para praticar depois! 📌",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520280044590530560",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520280044590530560/",
+      "date": "2026-10-26",
+      "title": "🌐 +5.000 APIs gratuitas reunidas em um lugar, com busca e +50 categorias.",
+      "text": "*API Atlas* 👉 https://lnkd.in/g3WP7seD",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520255125257482240",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520255125257482240/",
+      "date": "2026-10-25",
+      "title": "Quem nunca perdeu meia hora procurando uma API gratuita que funcione? 😅",
+      "text": "Reuni mais de 5.000 delas em um lugar só: o *API Atlas*.\n\n🔎 Busca no catálogo inteiro\n🗂️ +50 categorias\n🔐 Mostra autenticação, HTTPS e CORS de cada uma\n\nGratuito e funciona no celular.\n\n👉 https://lnkd.in/g3WP7seD",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520230686151262208",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520230686151262208/",
+      "date": "2026-10-25",
+      "title": "Criei uma plataforma gratuita para quem quer praticar Power BI, DAX, SQL e Modelagem…",
+      "text": "Criei uma plataforma gratuita para quem quer praticar Power BI, DAX, SQL e Modelagem Dimensional com dados fictícios e estruturas profissionais.\n\n🚀 Em poucos segundos você gera:\n• Modelo estrela completo (Fato + Dimensões + Calendário)\n• Medidas DAX e Modelo TMDL para Power BI\n• Dicionário de dados e Scripts SQL\n• Bases para diferentes setores\n\nAlém disso, o app conta com ferramentas para:\n✅ Automação de BI\n✅ Simulador PL-300\n✅ Dados Causais\n✅ Formatador DAX e M\n✅ Auditor de Modelo\n✅ DAX Sandbox\n✅ Pergunte aos Dados\n✅ Carrossel Power BI\n\n🔥 O motor já gera 10.696 medidas DAX sem depender de IA.\n\n👉 Acesse gratuitamente:\nhttps://lnkd.in/gnyjnJbc",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7520220904325509120",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7520220904325509120/",
+      "date": "2026-10-25",
+      "title": "Pessoal, compartilhando um projeto que fiz e que pode ser útil para vocês 🙌",
+      "text": "É o *API Atlas*, um diretório com +5.000 APIs públicas e gratuitas. Fiz porque cansei de procurar API em dez abas diferentes.\n\nTem busca, +50 categorias e já mostra se a API exige autenticação.\n\n👉 https://lnkd.in/g3WP7seD\n\nFeedback é muito bem-vindo!",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7519424587206393857",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7519424587206393857/",
+      "date": "2026-10-23",
+      "title": "Acessar: https://lnkd.in/gnyjnJbc",
+      "text": "",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7519369038658125824",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7519369038658125824/",
+      "date": "2026-10-23",
+      "title": "💡 Tem uma ideia de app e não sabe de onde tirar os dados?",
+      "text": "Antes de construir tudo do zero, vale conferir se já existe uma API pronta.\n\nNo *API Atlas* são mais de 5.000 opções gratuitas, organizadas por categoria e com busca.\n\n👉 https://lnkd.in/g3WP7seD",
+      "image": "",
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "urn": "urn:li:activity:7519325553171161088",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7519325553171161088/",
+      "date": "2026-10-23",
+      "title": "O LinkedIn não deixa pesquisar nos posts de um perfil. 😤",
+      "text": "Então eu criei essa busca no meu site. 🔎\nNo vídeo:\n👉 Digito \"Space\" e aparecem só os posts sobre a IA que joga Space Invaders\n👉 Abro o post completo sem sair da página\n👉 Troco para \"bore\" e acho o Relatório Borelli na hora\n\nSão meus 50 posts mais recentes, organizados e pesquisáveis por qualquer palavra: Power BI, DAX, SQL, API, Python…\n\nPor trás: Python + JavaScript, um arquivo JSON e zero banco de dados. E toda segunda-feira ele se atualiza sozinho com os posts novos.\n\n🔗 Teste: https://lnkd.in/gibmnErE\nQual palavra você pesquisaria primeiro? 👇\n#Python #JavaScript #PowerBI #Dados #Portfólio #LinkedIn",
+      "image": "https://media.licdn.com/dms/image/sync/v2/D4D27AQE5tdTHjFckFg/articleshare-shrink_800/B4DaE_iAm_KkAg-/0/1792067242797?e=1793718000&v=beta&t=l8b_IW6bvU4kdnML5l4d0dRxU2mtySgctNaiH95KLVo",
+      "likes": 0,
+      "comments": 0
+    },
     {
       "urn": "urn:li:activity:7519184058149675008",
       "url": "https://www.linkedin.com/feed/update/urn:li:activity:7519184058149675008/",
@@ -9,157 +339,7 @@
       "text": "Eu publico bastante sobre Power BI, DAX, SQL e automação. E toda vez que alguém me pedia \"aquele post sobre o CALCULATE\" ou \"aquela ferramenta de APIs\", eu precisava rolar a aba de atividades até encontrar.\n\nNa aba de atividades do perfil não existe um campo para pesquisar os posts de uma pessoa por palavra-chave.\n\nEntão eu construí isso no meu portfólio. 🚀\n\nA nova aba \"Em destaque no LinkedIn\" traz:\n✅ Meus 30 posts mais recentes, em cards organizados\n✅ Um campo de pesquisa: digite \"Power BI\", \"API\", \"DAX\" ou \"ENEM\" e veja só os posts relacionados\n✅ Os termos pesquisados ficam destacados no texto\n✅ A busca vai além dos 30 da tela e inclui posts mais antigos\n✅ Botão para ler o post completo ali mesmo, sem sair da página\n\n\nPor trás, um script em Python mantém um arquivo JSON atualizado com os posts, e o site lê esse arquivo e faz a busca direto no navegador. Simples, gratuito e sem banco de dados.\nFica a sugestão para o LinkedIn: um campo \"Pesquisar nos posts deste perfil\" ajudaria muito quem produz conteúdo e quem quer reencontrar aquele post que salvou na memória, mas não nos favoritos. 😅\n\n👉 Teste a busca: https://lnkd.in/gibmnErE\n\nQual palavra você pesquisaria primeiro? Me conta nos comentários!\n#LinkedIn #Python #JavaScript #Portfólio #PowerBI #UX #Dados",
       "likes": 0,
       "comments": 0,
-      "image": "https://media.licdn.com/dms/image/sync/v2/D5627AQFPNCwI3KcqZg/articleshare-shrink_800/B56aE_iAbuGkAY-/0/1792067242365?e=1793322000&v=beta&t=7VKQg9dqEvt8_Sk99h8X-xhSw_uox5908f4tdYfxzEI"
-    },
-    {
-      "urn": "urn:li:activity:7519171490152620032",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7519171490152620032/",
-      "date": "2026-10-22",
-      "title": "📊 BI Data Generator: Eleve seus estudos em Dados!",
-      "text": "Criei uma plataforma gratuita para quem quer praticar Power BI, DAX, SQL e Modelagem Dimensional com dados fictícios e estruturas profissionais.\n\n🚀 Em poucos segundos você gera:\n• Modelo estrela completo (Fato + Dimensões + Calendário)\n• Medidas DAX e Modelo TMDL para Power BI\n• Dicionário de dados e Scripts SQL\n• Bases para diferentes setores\n\nAlém disso, o app conta com ferramentas para:\n✅ Automação de BI\n✅ Simulador PL-300\n✅ Dados Causais\n✅ Formatador DAX e M\n✅ Auditor de Modelo\n✅ DAX Sandbox\n✅ Pergunte aos Dados\n✅ Carrossel Power BI\n\n🔥 O motor já gera 10.696 medidas DAX sem depender de IA.\n\n👉 Acesse gratuitamente:\nhttps://lnkd.in/gnyjnJbc\n\nSe você estuda ou trabalha com Dados, BI, Power BI ou SQL, vale a pena testar! 🚀",
-      "likes": 0,
-      "comments": 0,
-      "image": ""
-    },
-    {
-      "urn": "urn:li:activity:7519167970703753216",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7519167970703753216/",
-      "date": "2026-10-22",
-      "title": "🚀 *Ferramenta gratuita para devs*",
-      "text": "*API Atlas*: +5.000 APIs públicas em +50 categorias, com busca e link direto para a documentação de cada uma.\n\nServe para estudo, portfólio, protótipo ou projeto real.\n\n👉 https://lnkd.in/g3WP7seD\n\nConhece alguém começando um projeto? Encaminha para ele 😉",
-      "likes": 0,
-      "comments": 0,
-      "image": ""
-    },
-    {
-      "urn": "urn:li:activity:7519133743735926784",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7519133743735926784/",
-      "date": "2026-10-22",
-      "title": "🌐 *5.000+ APIs gratuitas, uma busca só*",
-      "text": "Criei o *API Atlas*: um diretório com mais de 5.000 APIs públicas em 56 categorias.\n\nDigita o que precisa, acha a API e abre a documentação em um clique.\n\n👉 https://lnkd.in/g3WP7seD",
-      "likes": 0,
-      "comments": 0,
-      "image": ""
-    },
-    {
-      "urn": "urn:li:activity:7519128959419174912",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7519128959419174912/",
-      "date": "2026-10-22",
-      "title": "📊 BI Data Generator: transforme seus estudos em projetos de BI!",
-      "text": "Desenvolvi uma solução para quem quer praticar Power BI, DAX, SQL e Modelagem Estrela sem depender sempre das mesmas bases de dados.\n\n🚀 Gere rapidamente:\n• Modelo estrela com Fato, Dimensões e Calendário\n• Medidas DAX\n• Modelo TMDL\n• Dicionário de dados\n• Scripts SQL\n• Bases de diferentes setores\n\n🛠️ E ainda estão disponíveis ferramentas como:\n✅ Gerador de 200 setores\n✅ Automação de BI\n✅ Simulador PL-300\n✅ Dados Causais\n✅ Formatador DAX e M\n✅ Auditor de Modelo\n✅ DAX Sandbox\n✅ Pergunte aos Dados\n✅ Carrossel Power BI\n\n🔥 São 10.696 medidas DAX possíveis, sem depender de IA.\n\n👉 Teste gratuitamente:\nhttps://lnkd.in/gnyjnJbc\n\nUma opção para quem quer praticar Dados colocando a mão na massa. 🚀",
-      "likes": 0,
-      "comments": 0,
-      "image": ""
-    },
-    {
-      "urn": "urn:li:activity:7519100771506970624",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7519100771506970624/",
-      "date": "2026-10-22",
-      "title": "⏱️ *De meia hora de pesquisa para alguns segundos*",
-      "text": "É o que o *API Atlas* faz: junta +5.000 APIs gratuitas em uma única página.\n\n1. Digita o que procura\n2. Vê autenticação, HTTPS e CORS no cartão\n3. Clica e abre a documentação\n\n👉 https://lnkd.in/g3WP7seD",
-      "likes": 0,
-      "comments": 0,
-      "image": ""
-    },
-    {
-      "urn": "urn:li:activity:7519071585224323072",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7519071585224323072/",
-      "date": "2026-10-22",
-      "title": "Precisa de uma API de clima? De câmbio? De CEP? De criptomoedas? 🤔",
-      "text": "Provavelmente ela está aqui.\n\nO *API Atlas* reúne +5.000 APIs gratuitas em +50 categorias, com busca rápida e link direto para a documentação.\n\n👉 https://lnkd.in/g3WP7seD",
-      "likes": 0,
-      "comments": 0,
-      "image": ""
-    },
-    {
-      "urn": "urn:li:activity:7519054214619156480",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7519054214619156480/",
-      "date": "2026-10-22",
-      "title": "🤔 Quer treinar Power BI, mas não encontra uma boa base para praticar?",
-      "text": "O BI Data Generator foi criado para resolver exatamente esse problema.\n\n🚀 Gere em poucos segundos:\n• Dados fictícios\n• Modelo estrela\n• Tabela Fato\n• Dimensões\n• Calendário\n• Medidas DAX\n• Modelo TMDL\n• Scripts SQL\n• Dicionário de dados\n\nE ainda tenha acesso a ferramentas para evoluir seus conhecimentos em BI:\n\n✅ Simulador PL-300\n✅ Formatador DAX e M\n✅ Auditor de Modelo\n✅ DAX Sandbox\n✅ Pergunte aos Dados\n✅ Dados Causais\n✅ Automação de BI\n✅ Carrossel Power BI\n\n🔥 Mais de 10 mil medidas DAX geradas pelo próprio motor, sem depender de IA.\n\n👉 Use gratuitamente:\nhttps://lnkd.in/gnyjnJbc\n\nCompartilhe com quem está estudando Dados, BI ou Power BI! 🚀",
-      "likes": 0,
-      "comments": 0,
-      "image": ""
-    },
-    {
-      "urn": "urn:li:activity:7519044153658265601",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7519044153658265601/",
-      "date": "2026-10-22",
-      "title": "Quem nunca perdeu meia hora procurando uma API gratuita que funcione? 😅",
-      "text": "Reuni mais de 5.000 delas em um lugar só: o *API Atlas*.\n\n🔎 Busca no catálogo inteiro\n🗂️ +50 categorias\n🔐 Mostra autenticação, HTTPS e CORS de cada uma\n\nGratuito e funciona no celular.\n\n👉 https://lnkd.in/g3WP7seD",
-      "likes": 0,
-      "comments": 0,
-      "image": ""
-    },
-    {
-      "urn": "urn:li:activity:7519006654399627264",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7519006654399627264/",
-      "date": "2026-10-22",
-      "title": "🚀 Cansado de procurar bases para praticar Power BI, DAX e SQL?",
-      "text": "Criei o BI Data Generator para facilitar essa etapa.\n\n📊 Gere dados fictícios e construa seus próprios exercícios e projetos com:\n\n• Modelo estrela completo\n• Fato + Dimensões + Calendário\n• Medidas DAX\n• Modelo TMDL\n• Scripts SQL\n• Dicionário de dados\n• Bases de múltiplos setores\n\n🛠️ A plataforma também reúne ferramentas para:\n✅ Automação de BI\n✅ Simulação PL-300\n✅ Análise de Dados Causais\n✅ Formatação DAX e M\n✅ Auditoria de Modelos\n✅ DAX Sandbox\n✅ Pergunte aos Dados\n✅ Carrossel Power BI\n\n🔥 Motor próprio com 10.696 medidas DAX possíveis sem depender de IA.\n\n👉 Experimente gratuitamente:\nhttps://lnkd.in/gnyjnJbc\n\nIdeal para quem quer transformar teoria em prática. 📈",
-      "likes": 0,
-      "comments": 0,
-      "image": ""
-    },
-    {
-      "urn": "urn:li:activity:7518955566858190848",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7518955566858190848/",
-      "date": "2026-10-22",
-      "title": "💡 Tem uma ideia de app e não sabe de onde tirar os dados?",
-      "text": "Antes de construir tudo do zero, vale conferir se já existe uma API pronta.\n\nNo *API Atlas* são mais de 5.000 opções gratuitas, organizadas por categoria e com busca.\n\n👉 https://lnkd.in/g3WP7seD",
-      "likes": 0,
-      "comments": 0,
-      "image": ""
-    },
-    {
-      "urn": "urn:li:activity:7518865974805114882",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7518865974805114882/",
-      "date": "2026-10-22",
-      "title": "🗂️ *56 categorias de APIs gratuitas em uma página*",
-      "text": "Algumas delas:\n🌦️ Clima\n💱 Câmbio e finanças\n🎮 Jogos\n🏥 Saúde\n🏛️ Governo e dados abertos\n🤖 Machine learning\n📍 Geolocalização\n\nSão +5.000 APIs no total, todas no *API Atlas*.\n\n👉 https://lnkd.in/g3WP7seD",
-      "likes": 0,
-      "comments": 0,
-      "image": ""
-    },
-    {
-      "urn": "urn:li:activity:7518805574998941696",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7518805574998941696/",
-      "date": "2026-10-21",
-      "title": "🎯 Está estudando para a certificação PL-300?",
-      "text": "Você pode praticar não apenas questões, mas também modelagem, DAX e análise de dados.\n\n📚 No BI Data Generator você encontra:\n\n• Simulador PL-300\n• Modelo estrela completo\n• DAX Sandbox\n• Auditor de Modelo\n• Formatador DAX e Power Query M\n• Dados Causais\n• Automação de BI\n• Pergunte aos Dados\n\n💡 No Pergunte aos Dados, você escreve uma pergunta em português e a ferramenta gera a medida DAX equivalente.\n\n🚀 Além disso, você pode gerar suas próprias bases fictícias com Fato, Dimensões e Calendário.\n\n🔥 O motor possui 10.696 medidas DAX possíveis sem depender de IA.\n\n👉 Comece gratuitamente:\nhttps://lnkd.in/gnyjnJbc\n\nBons estudos e bons projetos! 📊",
-      "likes": 1,
-      "comments": 0,
-      "image": ""
-    },
-    {
-      "urn": "urn:li:activity:7518771354482073601",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7518771354482073601/",
-      "date": "2026-10-21",
-      "title": "📚 *Dica para quem está aprendendo a programar*",
-      "text": "Projeto de portfólio fica muito melhor com dados reais. E dá para conseguir isso de graça.\n\nNo *API Atlas* você encontra +5.000 APIs públicas: clima, filmes, jogos, câmbio, esportes e muito mais.\n\nEscolhe uma, lê a documentação e começa a praticar.\n\n👉 https://lnkd.in/g3WP7seD",
-      "likes": 0,
-      "comments": 0,
-      "image": ""
-    },
-    {
-      "urn": "urn:li:activity:7518644268983406592",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7518644268983406592/",
-      "date": "2026-10-21",
-      "title": "📈 Quer diversificar seu portfólio de Power BI?",
-      "text": "Em vez de utilizar sempre as mesmas bases, gere dados fictícios para diferentes setores e crie projetos variados.\n\nO BI Data Generator permite gerar bases de até 200 setores, acompanhadas de estruturas para análise.\n\n🚀 Você pode gerar:\n• Modelo estrela\n• Tabela Fato\n• Dimensões\n• Calendário\n• Medidas DAX\n• Modelo TMDL\n• Scripts SQL\n• Dicionário de dados\n\n✨ E ainda pode utilizar:\n✅ Dados Causais\n✅ Automação de BI\n✅ Auditor de Modelo\n✅ DAX Sandbox\n✅ Formatador DAX e M\n✅ Pergunte aos Dados\n✅ Simulador PL-300\n✅ Carrossel Power BI\n\n🔥 São 10.696 medidas DAX possíveis, sem depender de IA.\n\n👉 Teste gratuitamente:\nhttps://lnkd.in/gnyjnJbc\n\nSeu próximo projeto de BI pode começar aqui. 🚀",
-      "likes": 0,
-      "comments": 0,
-      "image": ""
-    },
-    {
-      "urn": "urn:li:activity:7518375743848939520",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7518375743848939520/",
-      "date": "2026-10-20",
-      "title": "⚡ De zero a um modelo dimensional completo em poucos segundos.",
-      "text": "Conheça o BI Data Generator, uma ferramenta gratuita para gerar dados fictícios e praticar Power BI, DAX, SQL e Modelagem Dimensional.\n\n🚀 Gere:\n✅ Fato + Dimensões + Calendário\n✅ Modelo estrela\n✅ Medidas DAX\n✅ Modelo TMDL\n✅ Scripts SQL\n✅ Dicionário de dados\n✅ Bases para diferentes setores\n\n🛠️ E utilize ferramentas como:\n✅ Auditor de Modelo\n✅ Formatador DAX e M\n✅ DAX Sandbox\n✅ Pergunte aos Dados\n✅ Simulador PL-300\n✅ Dados Causais\n✅ Automação de BI\n✅ Carrossel Power BI\n\n🔥 10.696 medidas DAX diferentes, sem depender de IA.\n\n👉 Acesse gratuitamente:\nhttps://lnkd.in/gnyjnJbc\n\nSe você trabalha ou estuda Dados, Power BI ou SQL, vale conhecer! 🚀",
-      "likes": 0,
-      "comments": 0,
-      "image": ""
+      "image": "https://media.licdn.com/dms/image/sync/v2/D4D27AQE5tdTHjFckFg/articleshare-shrink_800/B4DaE_iAm_KkAg-/0/1792067242797?e=1793718000&v=beta&t=l8b_IW6bvU4kdnML5l4d0dRxU2mtySgctNaiH95KLVo"
     },
     {
       "urn": "urn:li:activity:7518299320341774337",
@@ -167,16 +347,6 @@
       "date": "2026-10-20",
       "title": "Construí uma ferramenta para comparar as propostas econômicas dos candidatos à…",
       "text": "Construí uma ferramenta para comparar as propostas econômicas dos candidatos à Presidência: Lula x Flávio Bolsonaro. \n\nFaltam poucos dias para o 2º turno e a maior parte do debate fica no “quem disse o quê”. Eu queria algo mais simples: \n\nolhar o que está nos planos de governo e ver as diferenças lado a lado. \n\nO site traz: \n\n✅ Top 5 propostas econômicas: gastos públicos, impostos, estatais, trabalho e infraestrutura.\n✅ Comparação por setor: energia, crédito, agro, habitação e proteção social.\n✅ Links para baixar os planos oficiais e ler com calma.\n✅ Em todas as telas, quem propõe menos Estado e quem propõe mais Estado A parte mais interessante foi separar o que o candidato promete de o quanto a proposta é detalhada. \n\nCortar gastos e reduzir impostos soa bem, mas sem dizer o que será cortado nem como será compensado, a proposta vale menos na hora de avaliar. O site mostra essas duas leituras. \n\n⚠️ As notas são uma régua editorial aberta, e não uma verdade científica. \n\nA metodologia e as fontes estão na página, e o código está pronto para ser ajustado. \n\nNão é ferramenta partidária: a ideia é só facilitar a leitura de quem quer decidir com informação. \n\n🔗https://lnkd.in/g-VSZR4f\n\nSe você vê algo que deveria ser ajustado, me diga nos comentários. #Eleições2026 #Economia #PolíticaEconômica #Python #Dados #Transparência",
-      "likes": 1,
-      "comments": 0,
-      "image": ""
-    },
-    {
-      "urn": "urn:li:activity:7517748992223547392",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7517748992223547392/",
-      "date": "2026-10-19",
-      "title": "Pessoal, compartilhando um projeto que fiz e que pode ser útil para vocês 🙌",
-      "text": "É o *API Atlas*, um diretório com +5.000 APIs públicas e gratuitas. Fiz porque cansei de procurar API em dez abas diferentes.\n\nTem busca, +50 categorias e já mostra se a API exige autenticação.\n\n👉 https://lnkd.in/g3WP7seD\n\nFeedback é muito bem-vindo!",
       "likes": 1,
       "comments": 0,
       "image": ""
@@ -299,7 +469,7 @@
       "text": "Você já viveu essa cena. O dashboard está desenhado na cabeça, o cliente está esperando, e você passa a tarde inteira caçando uma fonte confiável. \n\nProcura uma API que não peça cadastro, testa um endpoint que devolve erro e tenta entender a documentação de alguém que escreveu para si mesmo. \n\nQuando finalmente acha os dados, ainda falta escrever a consulta no Power Query, tipar as colunas e descobrir por que a atualização agendada falha no Power BI Service.\n\nEu passei por isso vezes demais. \n\nEntão construí a ferramenta que eu queria ter tido.\nApresento o API Atlas\n\nEle começou como uma lista de APIs públicas e virou um caminho completo, da fonte de dados até o relatório pronto.\n\n🔎 Um catálogo com mais de 3.100 APIs gratuitas\nSão 56 categorias reunidas de sete repositórios do GitHub, sem itens duplicados e atualizadas automaticamente. A busca funciona em português e em inglês, e cada cartão mostra autenticação, HTTPS, CORS e o link da documentação. Para os endereços que já devolvem JSON, o script em Python vem pronto dentro do próprio cartão.\n\n📊 22 kits prontos para Power BI\nSelic, IPCA, dólar, PIB, desemprego, Censo 2022, produção agrícola, clima, câmbio, terremotos no mundo… \n\nTudo de fontes oficiais como Banco Central, IBGE, Banco Mundial e Open-Meteo, e nenhuma pede chave ou cadastro. Você ajusta os parâmetros e recebe:\n- a consulta em Power Query (M), já tipada e compatível com a atualização agendada;\n- o mesmo resultado em Python;\n- uma prévia dos dados com download em CSV;\n- sugestões de visuais e as primeiras medidas DAX.\n\n🧩 O Montador de Projeto: a parte de que mais me orgulho\nEscolha os kits que quiser e baixe um projeto do Power BI (.pbip) pronto para abrir. Ele já vem com:\n- tabela calendário;\n- dimensões de municípios e UFs;\n- relacionamentos montados;\n- medidas que cruzam os kits, como PIB per capita;\n- uma página de relatório por tema, cada uma com design próprio;\n- uma capa que apresenta o projeto.\nO que levava dias agora leva segundos.\n\n🐍 Gerador Python para todo o resto\nEncontrou outra API no catálogo? Cole a URL e receba o script em requests + pandas, com suporte a chave de API.\n\n🌎 E tudo funciona em português e em inglês.\nO API Atlas é gratuito e de código aberto. Se você trabalha com dados, ensina Power BI ou simplesmente gosta de explorar dados públicos, experimente e me conte o que achou. \n\nA próxima fonte de dados pode estar a um clique.\n👉 https://lnkd.in/gqvHyJ3v\n\n#PowerBI #Python #DadosAbertos #APIs #DataAnalytics #BusinessIntelligence #IBGE",
       "likes": 1,
       "comments": 1,
-      "image": "https://media.licdn.com/dms/image/sync/v2/D5627AQG0yfeyk9045g/articleshare-shrink_800/B56aEttDzvLAAQ-/0/1791768151007?e=1793322000&v=beta&t=cVoreUuuLCcEmiPRWp-nFmOP_90uuRJIVd_f_n-O9aU"
+      "image": "https://media.licdn.com/dms/image/sync/v2/D5627AQG0yfeyk9045g/articleshare-shrink_800/B56aEttDzvLAAQ-/0/1791768151007?e=1793718000&v=beta&t=HZJj9qbHCxx7f1j2ACq68b_wFSARYF-NQAyftsMGiOk"
     },
     {
       "urn": "urn:li:activity:7515028677445881856",
@@ -329,7 +499,7 @@
       "text": "A parte difícil vem depois: abrir a documentação, entender o JSON, descobrir como trazer aquilo para o Power BI e transformar em uma tabela que preste.\n\nÉ aí que muita gente de dados desiste e volta para a mesma base de sempre.\nPor isso o API Atlas ganhou duas novidades pensadas para quem trabalha com BI.\n\n📦 Kits Power BI\nSão 9 APIs que não exigem cadastro nem chave, com tudo pronto para usar:\n🏦 Selic, IPCA e dólar (Banco Central)\n💱 Câmbio diário\n📅 Feriados nacionais\n🗺️ Municípios do Brasil (IBGE)\n🌦️ Clima histórico\n🌍 Indicadores de países (Banco Mundial)\n🌋 Terremotos no mundo\n🏛️ Deputados federais\n\nEm cada kit você encontra:\n✅ A consulta em Power Query (M), é só colar no Editor Avançado\n✅ O mesmo resultado em Python\n✅ Parâmetros ajustáveis: datas, moedas, cidade\n✅ Prévia dos dados com download em CSV\n✅ Ideias de visuais e medidas DAX para começar\n🐍 Gerador Python\n\nPara as outras 2.000+ APIs do catálogo: você cola a URL do endpoint e recebe o script em requests + pandas, pronto para um notebook ou para o conector Python do Power BI.\nE tem um detalhe de que gosto bastante: cada kit mostra como encaixar os dados em um modelo estrela criado no BI Data Generator.\n\nVocê gera a base de vendas lá, traz o IPCA ou o câmbio daqui, e monta um projeto de portfólio com dados reais.\n\nTudo gratuito.\n👉 API Atlas: https://lnkd.in/gqvHyJ3v\n👉 BI Data Generator: https://lnkd.in/gyQys2TJ\nQual API você gostaria de ver como próximo kit? Me conta nos comentários.\n#PowerBI #Dados #BusinessIntelligence #Python #APIs",
       "likes": 0,
       "comments": 0,
-      "image": "https://media.licdn.com/dms/image/sync/v2/D5627AQG0yfeyk9045g/articleshare-shrink_800/B56aEttDzvLAAQ-/0/1791768151007?e=1793322000&v=beta&t=cVoreUuuLCcEmiPRWp-nFmOP_90uuRJIVd_f_n-O9aU"
+      "image": "https://media.licdn.com/dms/image/sync/v2/D5627AQG0yfeyk9045g/articleshare-shrink_800/B56aEttDzvLAAQ-/0/1791768151007?e=1793718000&v=beta&t=HZJj9qbHCxx7f1j2ACq68b_wFSARYF-NQAyftsMGiOk"
     },
     {
       "urn": "urn:li:activity:7514723419100323840",
@@ -470,96 +640,6 @@
       "likes": 1,
       "comments": 0,
       "image": "https://media.licdn.com/dms/image/v2/D5622AQEPLd96P7HxhA/feedshare-shrink_800/B56aENwTQ.IEAc-/0/1791232128312?e=1794441600&v=beta&t=grS8lVNonEBY-KzzU9xAyQMZ85Lv3cJI7OF2hJlBS6E"
-    },
-    {
-      "urn": "urn:li:activity:7512908490840014848",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7512908490840014848/",
-      "date": "2026-10-05",
-      "title": "Os \"ispeçialistas\" criandom soluções com vibe coding>>>",
-      "text": "",
-      "likes": 0,
-      "comments": 0,
-      "image": ""
-    },
-    {
-      "urn": "urn:li:activity:7512654846571786240",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7512654846571786240/",
-      "date": "2026-10-04",
-      "title": "📊 *BI Data Generator PRO*",
-      "text": "Quer praticar *Power BI, DAX e SQL* com dados de verdade? Esta ferramenta gratuita gera bases sintéticas completas (modelo estrela) em segundos, para você treinar sem precisar de dado de empresa.\n\n✅ 200 setores de negócio\n✅ Medidas DAX e scripts SQL prontos\n✅ Simulador da prova PL-300\n✅ Grátis, leva menos de 1 minuto para se cadastrar\n👉",
-      "likes": 0,
-      "comments": 0,
-      "image": "https://media.licdn.com/dms/image/sync/v2/D5627AQE03Pfu-xaYUw/articleshare-shrink_800/B4DaFkgt35KYAU-/0/1792687661958?e=1793322000&v=beta&t=aCGmcuemTBEY8d72PbE5Gvi_vzURC7Ka-lXlNAFbbl8"
-    },
-    {
-      "urn": "urn:li:activity:7511923230979317760",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7511923230979317760/",
-      "date": "2026-10-02",
-      "title": "🇧🇷 Economia brasileira em um único painel.",
-      "text": "Selic, IPCA, câmbio e desemprego, atualizados todos os dias a partir da API pública do Banco Central. Dá para acompanhar o juro real, o quanto a inflação está da meta e como dólar e emprego vêm se movendo.\n\n🔗 Veja o painel completo: https://lnkd.in/dbEEbusS",
-      "likes": 1,
-      "comments": 0,
-      "image": ""
-    },
-    {
-      "urn": "urn:li:activity:7503586696895135744",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7503586696895135744/",
-      "date": "2026-09-09",
-      "title": "🔧 De planilha manual a dashboard automático: um caso real de como dados parados dentro do…",
-      "text": "🔧 De planilha manual a dashboard automático: um caso real de como dados parados dentro do banco viram decisão de negócio.\n\nUm cliente do setor de autopeças tinha um problema comum (e caro): os dados de vendas e serviços estavam espalhados no operacional, sem nenhuma camada analítica por trás.\n\nCada relatório era feito manualmente, sob demanda, sempre atrasado em relação ao que estava realmente acontecendo na operação.\n\nO resultado disso é previsível: decisões tomadas com base em \"achismo\" ou em números de semanas atrás, tempo da equipe gasto rodando consulta e montando planilha ao invés de analisar o negócio, e KPIs importantes (faturamento, ticket médio, variação mês a mês, mão de obra x peças) sem visibilidade nenhuma no dia a dia.\n\nA primeira etapa do trabalho foi resolver a base: modelei e construí do zero o Data Warehouse e as views gerenciais (vw_KPIsGerenciais_Servico, vw_KPIsGerenciais_Venda, vw_IndicadoresMoMYoY_Servico, vw_IndicadoresMoMYoY_Venda) diretamente no SQL Server, consolidando as regras de negócio de vendas e serviços em indicadores prontos para consumo totais, médias, variação mês a mês (MoM) e ano a ano (YoY).\n\nCom o Data Warehouse e as views já modeladas e no ar, veio a segunda etapa: um projeto em Python, rodando 100% local na máquina do cliente, que:\n\n✅Conecta diretamente às views do SQL Server via autenticação do Windows (sem custo de licença, sem infraestrutura extra)\n\n✅Lê os indicadores já calculados nas views gerenciais\n\n✅Processa e organiza os dados de vendas e serviços\n\n✅Gera um dashboard em HTML com KPIs, gráficos e filtros por período pronto para abrir em qualquer navegador\n\nSem SaaS, sem mensalidade, sem depender de internet ou de terceiros. Desde a modelagem do banco até a tela final, uma solução construída ponta a ponta.\n\nEsse tipo de demanda aparece o tempo todo em negócios de médio porte: os dados operacionais existem, mas falta a camada analítica que os transforma em indicador de negócio e depois a ponte que leva esse indicador até quem decide. Modelar o Data Warehouse certo é o que sustenta tudo o que vem depois.\n\n#Python #SQLServer #DataWarehouse #DataDriven #Automação #DashboardGerencial #TransformaçãoDigital",
-      "likes": 9,
-      "comments": 2,
-      "image": ""
-    },
-    {
-      "urn": "urn:li:activity:7503587484857970688",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7503587484857970688/",
-      "date": "2026-09-09",
-      "title": "📊 Transformei dados operacionais em uma solução de BI completa!",
-      "text": "Recentemente desenvolvi uma solução para um cliente do setor de autopeças que precisava sair de relatórios manuais e decisões baseadas em dados antigos.\n\nA solução integra SQL Server + Data Warehouse + Python + Dashboard HTML, tudo rodando 100% local, sem SaaS, mensalidade ou dependência de internet.\n\n🚀 Resultado: KPIs, gráficos, filtros e indicadores de vendas e serviços disponíveis de forma rápida e automatizada.\nUma solução ponta a ponta, construída de acordo com a realidade do negócio.\n\nQuer saber como, acessar: https://lnkd.in/gtiMRXfy",
-      "likes": 2,
-      "comments": 0,
-      "image": "https://media.licdn.com/dms/image/v2/D5622AQHTV6kwB4Pdqw/feedshare-shrink_800/B56aCIZBq5IsAg-/0/1788994657256?e=1794441600&v=beta&t=BRWEG4bJZA8rxxN_WkqG5YGJU4vV8BfoDbV1kMKgy1A"
-    },
-    {
-      "urn": "urn:li:activity:7485312801041940480",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7485312801041940480/",
-      "date": "2026-07-21",
-      "title": "🚧🚧Dados reais para seu projeto de Business Intelligence 🚧🚧",
-      "text": "Gere bases profissionais no modelo estrela em segundos. Tabelas fato, dimensões e dCalendario prontos para Power BI, Tableau e qualquer ferramenta de BI.\n\n✅60 Setores\n✅100k Linhas máx.\n✅.zip Download\n✅free e Sem cadastro",
-      "likes": 7,
-      "comments": 0,
-      "image": ""
-    },
-    {
-      "urn": "urn:li:activity:7484838391633666049",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7484838391633666049/",
-      "date": "2026-07-20",
-      "title": "Em um dia qualquer, eu abri o Power BI pela enésima vez pra \"só treinar um pouco\" e…",
-      "text": "Em um dia qualquer, eu abri o Power BI pela enésima vez pra \"só treinar um pouco\" e travei na mesma parede de sempre.\nNão tinha dado.\n\nBaixar dataset genérico de Kaggle não resolve. Ou é pequeno demais, ou não tem calendário, ou não tem chave nenhuma pra montar relacionamento, ou parece que foi feito por alguém que nunca trabalhou com BI de verdade.\nEu não precisava de \"dados\".\n\nEu precisava de um problema de negócio pra resolver com fato, dimensão, hierarquia, sazonalidade, um pouco de sujeira nos dados pra treinar tratamento. Do jeito que aparece no dia a dia real.\nEntão resolvi construir isso.\n\nCriei o BI Data Generator: uma ferramenta que gera, em segundos, bases de dados fictícias, mas realistas no modelo estrela (fato + dimensões + calendário), prontas pra qualquer ferramenta de BI.\n\nHoje ele já cobre 60 setores diferentes. Varejo, saúde, fintech, logística, cibersegurança, agronegócio, startups & venture capital, locadora de veículos, restaurantes... praticamente qualquer contexto de negócio que alguém queira praticar.\n\nVocê escolhe o setor, define o período e o volume (de 100 a 100 mil linhas), clica em gerar e recebe:\n✅As tabelas fato e dimensão, com relacionamento e chaves já corretos\n✅ Uma dCalendario completa\n✅ Um dicionário de dados de cada coluna\n✅ Uma bateria de medidas DAX sugeridas (agregações, %, Time Intelligence MoM, YoY, YTD, MTD)\n✅ Script SQL pronto (DDL, INSERT, ou os dois) para SQL Server, PostgreSQL ou MySQL\n✅ E, pra quem usa Power BI, o modelo já sai em TMDL importa e já sobe com relacionamento e medida prontos\n\nTudo gratuito. Sem cadastro.\n\nComecei fazendo isso pra mim. Pra parar de perder tempo procurando dataset decente toda vez que eu (ou meus alunos) precisava treinar uma técnica nova.\n\nVirou uma ferramenta que hoje uso pra ensinar, pra montar prova de conceito rápida, e pra qualquer pessoa que está estudando BI e só quer focar no que importa: aprender a modelar, escrever DAX, construir dashboard sem gastar a primeira hora só procurando um dado bom pra trabalhar.\n\nSe você estuda ou ensina Power BI, SQL ou modelagem dimensional, testa e me conta o que achou. E se tiver um setor que não está na lista, me chama é bem provável que eu consiga adicionar.\n\n#PowerBI #BusinessIntelligence #DAX #SQL #DataAnalytics #Streamlit #CienciaDeDados\n\nLink da ferramenta no primeiro comentário...",
-      "likes": 14,
-      "comments": 1,
-      "image": ""
-    },
-    {
-      "urn": "urn:li:activity:7484250960526069760",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7484250960526069760/",
-      "date": "2026-07-18",
-      "title": "🚀 50 Medidas Geradas Automaticamente: Sem IA, Sem Tokens e Sem Trabalho Manual!",
-      "text": "Neste vídeo, você vai ver minha solução transformando dados em um modelo analítico completo de forma totalmente automatizada.\n\nhttps://lnkd.in/gWURCbRU",
-      "likes": 4,
-      "comments": 0,
-      "image": ""
-    },
-    {
-      "urn": "urn:li:share:7427415116943597568",
-      "url": "https://www.linkedin.com/feed/update/urn:li:share:7427415116943597568/",
-      "date": "2026-02-11",
-      "title": "📊 A importância da precificação correta para MEIs",
-      "text": "",
-      "likes": 0,
-      "comments": 0,
-      "image": ""
     }
   ]
 }
