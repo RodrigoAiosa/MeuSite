@@ -440,14 +440,14 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
   <div class="wrap">
     <div class="eyebrow">LinkedIn</div>
     <h2 class="section-title">💼 Em destaque no LinkedIn</h2>
-    <p class="section-lead">Os posts que escolhi para destacar no meu perfil do LinkedIn. Pesquise por qualquer palavra-chave para encontrar os posts relacionados.</p>
+    <p class="section-lead">Os 70 posts mais recentes sobre dados, BI e automação. Pesquise por qualquer palavra-chave para encontrar os posts relacionados.</p>
     <div class="search" id="liSearch">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       <input type="search" id="liQ" placeholder="Pesquisar posts… ex.: Power BI, SQL, automação, MEI" autocomplete="off" aria-label="Pesquisar posts do LinkedIn" aria-describedby="liInfo">
       <button type="button" class="clear" id="liClear" aria-label="Limpar pesquisa">×</button>
     </div>
     <div class="filters li-sort" id="liSort" role="group" aria-label="Ordenar posts">
-      <button type="button" class="chip on" data-sort="recentes" aria-pressed="true">📌 Ordem do destaque</button>
+      <button type="button" class="chip on" data-sort="recentes" aria-pressed="true">🕒 Mais recentes</button>
       <button type="button" class="chip" data-sort="curtidos" aria-pressed="false">🔥 Mais curtidos</button>
     </div>
     <p class="search-info" id="liInfo" aria-live="polite"></p>
@@ -746,8 +746,8 @@ $("#pbiFilters").addEventListener("click", e => {
   cat = b.dataset.cat; renderPbi();
 });
 
-/* ── LinkedIn: posts da seção "Em destaque" do perfil, na mesma ordem (data/linkedin_posts.json) ── */
-const LI_MAX = 100;
+/* ── LinkedIn: 70 mais recentes + pesquisa em todo o arquivo (data/linkedin_posts.json) ── */
+const LI_MAX = 70;
 const semAsteriscos = s => (s || "").replace(/\*([^*\n]+)\*/g, "$1");
 let LI_POSTS = [];
 const liFmt = d => d ? new Date(d.slice(0, 10) + "T12:00:00").toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" }) : "";
@@ -799,7 +799,7 @@ function renderLi() {
   const list = buscando ? itens : itens.slice(0, LI_MAX);
   $("#liGrid").innerHTML = list.length ? list.map(p => liCard(p, termos)).join("") : vazio(q, "post");
   if (buscando) infoBusca($("#liInfo"), itens.length, LI_POSTS.length, q, ["post", "posts"]);
-  else $("#liInfo").textContent = list.length ? `${list.length} ${list.length === 1 ? "post em destaque" : "posts em destaque"} no LinkedIn${liSort === "curtidos" ? ", dos mais curtidos aos menos curtidos" : ""}.` : "";
+  else $("#liInfo").textContent = list.length ? `Mostrando os ${list.length} ${liSort === "curtidos" ? "posts com mais reações e comentários" : (list.length === 1 ? "post mais recente" : "posts mais recentes")}.` : "";
   observeReveal();
 }
 ligarBusca("li", renderLi);
@@ -819,8 +819,7 @@ fetch("data/linkedin_posts.json", { cache: "no-cache" })
     LI_POSTS = (j.posts || [])
       .map(p => ({ t: semAsteriscos(p.title) || "Publicação no LinkedIn", d: semAsteriscos(p.text), u: p.url, urn: p.urn, date: p.date || "",
                    img: p.image || "", likes: +p.likes || 0, comments: +p.comments || 0 }))
-      .map((p, i) => ({ ...p, ordem: +(j.posts[i].ordem) || 1e9 }))
-      .sort((a, b) => a.ordem - b.ordem || b.date.localeCompare(a.date));
+      .sort((a, b) => b.date.localeCompare(a.date));
     [...LI_POSTS].sort((a, b) => liEngaj(b) - liEngaj(a)).slice(0, 3).forEach(p => { if (p.likes >= 5) p.popular = true; });
     preparar(LI_POSTS, ["t", "d"]);
     renderLi();
