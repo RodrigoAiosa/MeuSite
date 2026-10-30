@@ -69,6 +69,10 @@ section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,0.04); }
 }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.05rem; white-space: nowrap; }
 .brand span { color: var(--accent); }
+.brand span[aria-hidden] { color: inherit; }
+.brand b { font-weight: inherit; }
+.brand:hover { opacity: .85; }
+.brand:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 6px; }
 .nav-links { display: flex; gap: 2px; list-style: none; margin: 0 auto; padding: 0; }
 .nav-links a { display: block; padding: 8px 10px; border-radius: 8px; color: rgba(210,220,240,0.75); text-decoration: none; font-size: 0.88rem; white-space: nowrap; transition: background .2s, color .2s; }
 .nav-links a:hover, .nav-links a.active { background: rgba(0,180,216,0.09); color: #e8f4ff; }
@@ -318,7 +322,7 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
 
 <nav class="nav">
   <div class="wrap nav-inner">
-    <div></div>
+    <a class="brand" href="#inicio" aria-label="Rodrigo Aiosa — voltar ao início"><span aria-hidden="true">🦉</span><b>Rodrigo <span>Aiosa</span></b></a>
     <button class="menu-btn" aria-label="Abrir menu" aria-expanded="false" id="menuBtn">☰</button>
     <ul class="nav-links" id="navLinks">
       <li><a href="#sobre">Sobre</a></li>
