@@ -75,7 +75,17 @@ section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,0.04); }
 .brand:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 6px; }
 .nav-links { display: flex; gap: 2px; list-style: none; margin: 0 auto; padding: 0; }
 .nav-links a { display: block; padding: 8px 10px; border-radius: 8px; color: rgba(210,220,240,0.75); text-decoration: none; font-size: 0.88rem; white-space: nowrap; transition: background .2s, color .2s; }
-.nav-links a:hover, .nav-links a.active { background: rgba(0,180,216,0.09); color: #e8f4ff; }
+.nav-links a:hover { background: rgba(0,180,216,0.09); color: #e8f4ff; }
+/* seção atual: cor de destaque + traço embaixo (gradiente de meta: o visitante sabe onde está) */
+.nav-links a { position: relative; }
+.nav-links a.active { background: rgba(0,180,216,0.12); color: #e8f4ff; }
+.nav-links a.active::after { content: ""; position: absolute; left: 10px; right: 10px; bottom: 3px; height: 2px; border-radius: 2px; background: var(--accent); }
+.nav-cta.active { box-shadow: 0 0 0 2px rgba(255,255,255,0.85); }
+/* barra de progresso de leitura na borda inferior da barra fixa */
+.nav-progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; pointer-events: none; }
+.nav-progress span { display: block; height: 100%; width: 100%; transform-origin: 0 50%; transform: scaleX(0); background: linear-gradient(90deg, var(--accent), #48cae4 70%, #25d366); box-shadow: 0 0 10px rgba(0,180,216,0.55); }
+/* no menu recolhido (celular/tablet), o nome da seção atual aparece ao lado do botão */
+.nav-atual { display: none; }
 .nav-cta { 
   padding: 9px 16px; 
   border-radius: 10px; 
@@ -96,6 +106,10 @@ section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,0.04); }
   .nav-links { position: absolute; top: 64px; left: 0; right: 0; flex-direction: column; background: var(--bg-2); padding: 12px 16px 20px; border-bottom: 1px solid var(--border); display: none; }
   .nav-links.open { display: flex; }
   .nav-links a { padding: 12px 14px; font-size: 1rem; }
+  .nav-links a.active::after { left: 0; right: auto; top: 10px; bottom: 10px; width: 3px; height: auto; }
+  .nav-atual { display: block; margin-left: auto; margin-right: 10px; max-width: 46vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.82rem; color: var(--muted); }
+  .nav-atual:empty { display: none; }
+  .nav-atual strong { color: #e8f4ff; font-weight: 600; }
 }
 
 /* ── HERO ── */
@@ -323,6 +337,7 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
 <nav class="nav">
   <div class="wrap nav-inner">
     <a class="brand" href="#inicio" aria-label="Rodrigo Aiosa — voltar ao início"><span aria-hidden="true">🦉</span><b>Rodrigo <span>Aiosa</span></b></a>
+    <span class="nav-atual" id="navAtual" aria-hidden="true"></span>
     <button class="menu-btn" aria-label="Abrir menu" aria-expanded="false" id="menuBtn">☰</button>
     <ul class="nav-links" id="navLinks">
       <li><a href="#sobre">Sobre</a></li>
@@ -337,6 +352,7 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
     </ul>
     <a class="nav-cta" href="#contato">Fale comigo</a>
   </div>
+  <div class="nav-progress" aria-hidden="true"><span id="navProgress"></span></div>
 </nav>
 
 <!-- ═══ HERO ═══ -->
@@ -1091,15 +1107,41 @@ renderPbi();
 if (io) io.observe($("#stats")); else document.querySelectorAll(".num").forEach(countUp);
 observeReveal();
 
+/* ── Gradiente de meta: barra de progresso de leitura + seção atual no menu ── */
 const navA = [...document.querySelectorAll(".nav-links a")];
-if ("IntersectionObserver" in window) {
-  const so = new IntersectionObserver(entries => {
-    entries.forEach(en => {
-      if (en.isIntersecting) navA.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + en.target.id));
-    });
-  }, { rootMargin: "-45% 0px -50% 0px" });
-  document.querySelectorAll("section[id]").forEach(s => so.observe(s));
+const navCta = $(".nav-cta"), navAtual = $("#navAtual"), navProg = $("#navProgress");
+const secoes = [...document.querySelectorAll("header.hero[id], section[id]")];
+const nomeSecao = id => {
+  const a = navA.find(a => a.getAttribute("href") === "#" + id);
+  return a ? a.textContent.trim() : ({ inicio: "Início", contato: "Contato" }[id] || "");
+};
+let secaoAtual = null, rafNav = 0;
+function atualizarNav() {
+  rafNav = 0;
+  const maxY = document.documentElement.scrollHeight - innerHeight;
+  const prog = maxY > 0 ? Math.min(1, Math.max(0, scrollY / maxY)) : 0;
+  navProg.style.transform = `scaleX(${prog})`;
+  // seção atual: a última cujo topo já passou de 35% da tela; no fim da página, a última seção
+  let atual = secoes[0];
+  if (prog > 0.995) atual = secoes[secoes.length - 1];
+  else for (const sec of secoes) { if (sec.getBoundingClientRect().top <= innerHeight * 0.35) atual = sec; else break; }
+  if (atual === secaoAtual) return;
+  secaoAtual = atual;
+  const id = atual ? atual.id : "";
+  navA.forEach(a => {
+    const on = a.getAttribute("href") === "#" + id;
+    a.classList.toggle("active", on);
+    if (on) a.setAttribute("aria-current", "location"); else a.removeAttribute("aria-current");
+  });
+  navCta.classList.toggle("active", id === "contato");
+  const nome = id && id !== "inicio" ? nomeSecao(id) : "";
+  navAtual.innerHTML = nome ? `📍 <strong>${esc(nome)}</strong>` : "";
 }
+addEventListener("scroll", () => { if (!rafNav) rafNav = requestAnimationFrame(atualizarNav); }, { passive: true });
+addEventListener("resize", () => { secaoAtual = null; atualizarNav(); });
+// conteúdo carregado depois (posts do LinkedIn, "Ver mais") muda a altura da página
+if ("ResizeObserver" in window) new ResizeObserver(() => { if (!rafNav) rafNav = requestAnimationFrame(atualizarNav); }).observe(document.body);
+atualizarNav();
 $("#year").textContent = new Date().getFullYear();
 </script>
 </body>
