@@ -180,6 +180,7 @@ section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,0.04); }
 
 /* ── LINKEDIN ── */
 #liGrid { align-items: stretch; grid-auto-rows: 1fr; }
+.li-more { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
 .li-card { display: flex; flex-direction: column; height: 100%; min-width: 0; }
 .li-card .tag { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 8px; font-weight: 600; }
 .li-card h3 { line-height: 1.35; min-height: calc(1.35em * 3); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
@@ -236,6 +237,37 @@ section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,0.04); }
 /* ── CONTATO ── */
 .contact { text-align: center; }
 .contact .section-lead { margin: 0 auto 32px; }
+/* ── DIAGNÓSTICO (contato em 3 cliques) ── */
+.diag { max-width: 760px; margin: 0 auto; text-align: left; background: linear-gradient(145deg, rgba(255,255,255,0.035), rgba(0,0,0,0.22)); border: 1px solid var(--border); border-radius: var(--radius); padding: clamp(20px, 4vw, 34px); }
+.diag-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+.diag-step { font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+.diag-back { white-space: nowrap; flex-shrink: 0; background: none; border: 0; color: var(--muted); font: inherit; font-size: 0.88rem; cursor: pointer; padding: 6px 8px; border-radius: 8px; }
+.diag-back:hover { color: #e8f4ff; background: rgba(255,255,255,0.05); }
+.diag-bar { height: 6px; border-radius: 99px; background: rgba(255,255,255,0.06); overflow: hidden; margin-bottom: 22px; }
+.diag-bar span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), #48cae4); border-radius: inherit; transition: width .35s ease; }
+.diag h3 { font-size: clamp(1.15rem, 2.4vw, 1.4rem); margin-bottom: 16px; }
+.diag-opts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media (max-width: 600px) { .diag-opts { grid-template-columns: 1fr; } }
+.diag-opt { display: flex; gap: 12px; align-items: flex-start; text-align: left; width: 100%; min-height: 64px; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-2); color: var(--text-2); font: inherit; cursor: pointer; transition: border-color .2s, background .2s, transform .2s; }
+.diag-opt:hover, .diag-opt:focus-visible { border-color: var(--accent); background: rgba(0,180,216,0.07); transform: translateY(-1px); outline: none; }
+.diag-opt.on { border-color: var(--accent); background: rgba(0,180,216,0.12); }
+.diag-opt .ico { font-size: 1.4rem; line-height: 1; }
+.diag-opt strong { display: block; color: #e8f4ff; font-weight: 600; margin-bottom: 2px; }
+.diag-opt small { color: var(--muted); font-size: 0.84rem; }
+.diag-res { display: grid; grid-template-columns: 1fr 260px; gap: 22px; align-items: start; }
+@media (max-width: 700px) { .diag-res { grid-template-columns: 1fr; } }
+.diag-res .tag { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); font-weight: 600; margin-bottom: 6px; }
+.diag-res h3 { margin-bottom: 8px; }
+.diag-res p { color: var(--muted); margin: 0 0 12px; }
+.diag-res ul { margin: 0 0 14px; padding-left: 20px; color: var(--text-2); font-size: 0.95rem; }
+.diag-res li { margin: 4px 0; }
+.diag-case { display: block; width: 100%; padding: 0; border: 1px solid rgba(0,180,216,0.3); border-radius: 12px; overflow: hidden; background: var(--bg-2); cursor: zoom-in; aspect-ratio: 3 / 2; }
+.diag-case img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.diag-case-cap { font-size: 0.82rem; color: var(--muted); margin-top: 8px; text-align: center; }
+.diag-ctas { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 6px; }
+.diag-alt { text-align: center; margin: 18px 0 0; font-size: 0.9rem; color: var(--muted); }
+.diag-alt a { color: var(--accent); }
+@media (prefers-reduced-motion: reduce) { .diag-bar span, .diag-opt { transition: none; } }
 .btn-whats { background: #25d366; color: #052e16; font-size: 1.05rem; padding: 15px 30px; }
 .btn-whats:hover { background: #3ee07a; transform: translateY(-1px); box-shadow: 0 6px 22px rgba(37,211,102,0.3); }
 .btn-whats svg { width: 22px; height: 22px; fill: currentColor; }
@@ -452,7 +484,8 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
     </div>
     <p class="search-info" id="liInfo" aria-live="polite"></p>
     <div class="grid g3" id="liGrid"></div>
-    <div class="more"><a class="btn btn-ghost" href="https://www.linkedin.com/in/rodrigoaiosa/" target="_blank" rel="noopener">Ver perfil completo no LinkedIn ↗</a></div>
+    <div class="more li-more"><button type="button" class="btn btn-primary" id="liMais" hidden>Ver mais posts</button>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/rodrigoaiosa/" target="_blank" rel="noopener">Ver perfil completo no LinkedIn ↗</a></div>
   </div>
 </section>
 
@@ -477,11 +510,9 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
   <div class="wrap contact">
     <div class="eyebrow">Contato</div>
     <h2 class="section-title">🚀 Vamos escalar seu projeto?</h2>
-    <p class="section-lead">Fale comigo direto pelo WhatsApp e conte o que você precisa.</p>
-    <a class="btn btn-whats" target="_blank" rel="noopener" href="https://wa.me/5511977019335?text=Ol%C3%A1%20Rodrigo!%20Vi%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar.">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.05 21.5h-.01a9.4 9.4 0 0 1-4.8-1.31l-.34-.2-3.57.93.95-3.48-.22-.36a9.4 9.4 0 0 1-1.44-5.01c0-5.2 4.24-9.44 9.45-9.44 2.52 0 4.89.99 6.67 2.77a9.37 9.37 0 0 1 2.76 6.68c0 5.2-4.24 9.43-9.45 9.43zm8.04-17.48A11.3 11.3 0 0 0 12.05.7C5.78.7.68 5.8.68 12.06c0 2 .52 3.96 1.52 5.68L.58 23.65l6.04-1.58a11.35 11.35 0 0 0 5.43 1.38h.01c6.26 0 11.36-5.1 11.36-11.36 0-3.04-1.18-5.89-3.33-8.04z"/></svg>
-      Falar no WhatsApp
-    </a>
+    <p class="section-lead">Responda 3 perguntas rápidas e veja a solução e o case mais parecidos com o seu desafio. A mensagem para o WhatsApp já sai pronta.</p>
+    <div class="diag" id="diag" aria-live="polite"></div>
+    <p class="diag-alt">Prefere falar direto? <a href="https://wa.me/5511977019335?text=Ol%C3%A1%20Rodrigo!%20Vi%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar." target="_blank" rel="noopener">Chamar no WhatsApp sem o diagnóstico ↗</a></p>
   </div>
 </section>
 
@@ -747,7 +778,8 @@ $("#pbiFilters").addEventListener("click", e => {
 });
 
 /* ── LinkedIn: posts da seção "Em destaque" do perfil, na mesma ordem (data/linkedin_posts.json) ── */
-const LI_MAX = 100;
+const LI_PASSO = 6;          // posts mostrados de início e a cada "Ver mais"
+let liVisiveis = LI_PASSO;
 const semAsteriscos = s => (s || "").replace(/\*([^*\n]+)\*/g, "$1");
 let LI_POSTS = [];
 const liFmt = d => d ? new Date(d.slice(0, 10) + "T12:00:00").toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" }) : "";
@@ -796,16 +828,24 @@ function renderLi() {
   let { termos, itens } = pesquisar(LI_POSTS, q);
   const buscando = termos.length > 0;
   if (liSort === "curtidos") itens = [...itens].sort((a, b) => liEngaj(b) - liEngaj(a) || b.date.localeCompare(a.date));
-  const list = buscando ? itens : itens.slice(0, LI_MAX);
+  const list = buscando ? itens : itens.slice(0, liVisiveis);
   $("#liGrid").innerHTML = list.length ? list.map(p => liCard(p, termos)).join("") : vazio(q, "post");
   if (buscando) infoBusca($("#liInfo"), itens.length, LI_POSTS.length, q, ["post", "posts"]);
-  else $("#liInfo").textContent = list.length ? `${list.length} ${list.length === 1 ? "post em destaque" : "posts em destaque"} no LinkedIn${liSort === "curtidos" ? ", dos mais curtidos aos menos curtidos" : ""}.` : "";
+  else $("#liInfo").textContent = list.length ? `Mostrando ${list.length} de ${itens.length} posts em destaque no LinkedIn${liSort === "curtidos" ? ", dos mais curtidos aos menos curtidos" : ""}.` : "";
+  const restam = itens.length - list.length;
+  const mais = $("#liMais");
+  mais.hidden = buscando || restam <= 0;
+  mais.textContent = `Ver mais ${Math.min(LI_PASSO, restam)} posts (${restam} restantes)`;
   observeReveal();
 }
 ligarBusca("li", renderLi);
+$("#liMais").addEventListener("click", () => {
+  const antes = liVisiveis; liVisiveis += LI_PASSO; renderLi();
+  const novo = $("#liGrid").children[antes]; if (novo) novo.querySelector("a, button")?.focus({ preventScroll: true });
+});
 $("#liSort").addEventListener("click", e => {
   const b = e.target.closest("[data-sort]"); if (!b || b.dataset.sort === liSort) return;
-  liSort = b.dataset.sort;
+  liSort = b.dataset.sort; liVisiveis = LI_PASSO;
   $("#liSort").querySelectorAll("[data-sort]").forEach(x => { const on = x === b; x.classList.toggle("on", on); x.setAttribute("aria-pressed", on); });
   renderLi();
 });
@@ -828,6 +868,107 @@ fetch("data/linkedin_posts.json", { cache: "no-cache" })
   .catch(() => {
     $("#liGrid").innerHTML = `<div class="search-empty">Não foi possível carregar os posts agora.<br><a href="https://www.linkedin.com/in/rodrigoaiosa/" target="_blank" rel="noopener">Acesse meu perfil no LinkedIn ↗</a></div>`;
   });
+
+/* ============================================================
+   DIAGNÓSTICO EM 3 CLIQUES (seção Contato)
+   Lei de Tesler: o site absorve a complexidade de "explicar o problema".
+   Efeito Zeigarnik + gradiente de meta: barra de progresso incentiva a terminar.
+   Resultado: serviço recomendado + case mais parecido + WhatsApp com mensagem pronta.
+   ============================================================ */
+const WHATS = "5511977019335";
+const WHATS_SVG = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.05 21.5h-.01a9.4 9.4 0 0 1-4.8-1.31l-.34-.2-3.57.93.95-3.48-.22-.36a9.4 9.4 0 0 1-1.44-5.01c0-5.2 4.24-9.44 9.45-9.44 2.52 0 4.89.99 6.67 2.77a9.37 9.37 0 0 1 2.76 6.68c0 5.2-4.24 9.43-9.45 9.43zm8.04-17.48A11.3 11.3 0 0 0 12.05.7C5.78.7.68 5.8.68 12.06c0 2 .52 3.96 1.52 5.68L.58 23.65l6.04-1.58a11.35 11.35 0 0 0 5.43 1.38h.01c6.26 0 11.36-5.1 11.36-11.36 0-3.04-1.18-5.89-3.33-8.04z"/></svg>`;
+const DIAG_PERGUNTAS = [
+  { id: "dor", titulo: "Qual é a sua principal dor hoje?", opcoes: [
+    { v: "automacao", ico: "⏱️", t: "Relatórios manuais e planilhas demoradas", s: "O time perde horas copiando e colando dados." },
+    { v: "dashboards", ico: "📊", t: "Falta de visão dos indicadores", s: "A gestão decide sem enxergar os números a tempo." },
+    { v: "dados", ico: "🗄️", t: "Dados espalhados em vários sistemas", s: "Cada área tem sua versão da verdade." },
+    { v: "treinamento", ico: "🎓", t: "Equipe precisa dominar Excel e Power BI", s: "Quero autonomia do time com os dados." } ] },
+  { id: "equipe", titulo: "Quantas pessoas vão usar a solução?", opcoes: [
+    { v: "pequena", ico: "👤", t: "Até 10 pessoas", s: "Uma área ou equipe enxuta." },
+    { v: "media", ico: "👥", t: "De 11 a 50 pessoas", s: "Algumas áreas ou filiais." },
+    { v: "grande", ico: "🏢", t: "Mais de 50 pessoas", s: "Diretoria, várias áreas ou a empresa toda." } ] },
+  { id: "prazo", titulo: "Para quando você precisa?", opcoes: [
+    { v: "urgente", ico: "🚀", t: "Urgente — até 30 dias", s: "Preciso de resultado rápido." },
+    { v: "trimestre", ico: "📅", t: "Nos próximos 1 a 3 meses", s: "Já está no planejamento." },
+    { v: "planejando", ico: "🧭", t: "Ainda estou planejando", s: "Quero entender as possibilidades." } ] }
+];
+// case por dor: [empresa grande, empresa média/pequena] — imagens de assets/img_cases_suceso
+const DIAG_SOLUCOES = {
+  automacao: { servico: "Automação de relatórios e processos",
+    resumo: "Rotinas em Python, VBA e Power Query que tiram o trabalho repetitivo da equipe e entregam o relatório pronto.",
+    itens: ["Mapeamento das rotinas manuais que mais consomem tempo", "Automação com Python, VBA ou Power Query", "Relatórios atualizados sem copiar e colar"],
+    cases: [{ img: "13.jpg", nome: "Banco Safra", txt: "bots em Python e BI" }, { img: "2.jpg", nome: "Loggi", txt: "automação e dashboards de logística" }] },
+  dashboards: { servico: "Dashboards executivos em Power BI",
+    resumo: "Indicadores certos, atualizados e acessíveis para a gestão decidir com base em fatos.",
+    itens: ["Definição dos KPIs com a gestão", "Modelagem de dados e medidas DAX", "Painéis executivos com atualização automática"],
+    cases: [{ img: "11.jpg", nome: "Santander", txt: "dashboard comercial" }, { img: "10.jpg", nome: "O Boticário", txt: "relatórios de vendas e metas" }] },
+  dados: { servico: "Integração de dados, ETL e Data Warehouse",
+    resumo: "Uma única fonte da verdade, unindo sistemas e planilhas num modelo confiável para BI.",
+    itens: ["Pipeline de ETL com SQL Server e Python", "Modelagem em Data Warehouse", "BI executivo em cima de dados confiáveis"],
+    cases: [{ img: "14.jpg", nome: "BTG Pactual", txt: "data pipeline, DW e BI executivo" }, { img: "15.jpg", nome: "Pagsmile", txt: "DW e BI financeiro" }] },
+  treinamento: { servico: "Treinamento corporativo personalizado",
+    resumo: "Excel, Power BI, SQL e Python com conteúdo sob medida para os problemas reais da equipe.",
+    itens: ["Levantamento prévio das necessidades", "Aulas práticas com os dados da empresa", "Material gravado e suporte pós-treinamento"],
+    cases: [{ img: "7.jpg", nome: "Unimed Seguros", txt: "treinamento de Excel e automação" }, { img: "9.jpg", nome: "CAU/RJ", txt: "Excel, VBA e Power Query" }] }
+};
+const DIAG_EQUIPE = { pequena: "Começamos por uma entrega enxuta, focada na equipe que usa os dados todo dia.",
+  media: "Estruturamos por áreas, com um modelo comum que cresce junto com a empresa.",
+  grande: "Trabalhamos em fases, com governança e um piloto antes de escalar para toda a empresa." };
+const DIAG_PRAZO = { urgente: "Para prazo de até 30 dias, começamos por um piloto com o ganho mais rápido.",
+  trimestre: "Em 1 a 3 meses dá para entregar a solução completa, com validações a cada etapa.",
+  planejando: "Na conversa, desenhamos juntos um plano com prioridades e estimativa de retorno." };
+let diagPasso = 0; const diagResp = {};
+function diagRotulo(id) { const q = DIAG_PERGUNTAS.find(q => q.id === id); return q.opcoes.find(o => o.v === diagResp[id]).t; }
+function renderDiag(foco) {
+  const box = $("#diag"), total = DIAG_PERGUNTAS.length;
+  const pct = Math.round(diagPasso / total * 100);
+  if (diagPasso < total) {
+    const q = DIAG_PERGUNTAS[diagPasso];
+    box.innerHTML = `<div class="diag-top"><span class="diag-step">Pergunta ${diagPasso + 1} de ${total}</span>
+        ${diagPasso ? `<button type="button" class="diag-back" data-diag-voltar>← Voltar</button>` : ""}</div>
+      <div class="diag-bar" role="progressbar" aria-label="Progresso do diagnóstico" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><span style="width:${pct}%"></span></div>
+      <h3 id="diagQ">${q.titulo}</h3>
+      <div class="diag-opts" role="group" aria-labelledby="diagQ">
+        ${q.opcoes.map(o => `<button type="button" class="diag-opt${diagResp[q.id] === o.v ? " on" : ""}" data-diag="${o.v}">
+          <span class="ico" aria-hidden="true">${o.ico}</span><span><strong>${o.t}</strong><small>${o.s}</small></span></button>`).join("")}
+      </div>`;
+  } else {
+    const sol = DIAG_SOLUCOES[diagResp.dor];
+    const cs = diagResp.equipe === "grande" ? sol.cases[0] : sol.cases[1];
+    const msg = `Olá, Rodrigo! Fiz o diagnóstico no seu site.\n\n` +
+      `• Principal dor: ${diagRotulo("dor")}\n• Pessoas que vão usar: ${diagRotulo("equipe")}\n• Prazo: ${diagRotulo("prazo")}\n\n` +
+      `Tenho interesse em: ${sol.servico}. Vi o case ${cs.nome} e gostaria de conversar sobre algo parecido para a minha empresa.`;
+    const link = `https://wa.me/${WHATS}?text=${encodeURIComponent(msg)}`;
+    box.innerHTML = `<div class="diag-top"><span class="diag-step">✅ Diagnóstico concluído</span>
+        <button type="button" class="diag-back" data-diag-refazer>↺ Refazer</button></div>
+      <div class="diag-bar" role="progressbar" aria-label="Progresso do diagnóstico" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><span style="width:100%"></span></div>
+      <div class="diag-res">
+        <div>
+          <div class="tag">Solução recomendada</div>
+          <h3 id="diagQ">${sol.servico}</h3>
+          <p>${sol.resumo}</p>
+          <ul>${sol.itens.map(i => `<li>${i}</li>`).join("")}</ul>
+          <p>${DIAG_EQUIPE[diagResp.equipe]} ${DIAG_PRAZO[diagResp.prazo]}</p>
+          <div class="diag-ctas">
+            <a class="btn btn-whats" href="${link}" target="_blank" rel="noopener">${WHATS_SVG} Enviar diagnóstico no WhatsApp</a>
+          </div>
+        </div>
+        <div>
+          <button type="button" class="diag-case" data-img="assets/img_cases_suceso/${cs.img}" aria-label="Ampliar case ${cs.nome}">
+            <img src="assets/img_cases_suceso/${cs.img}" alt="Case de sucesso ${cs.nome}" loading="lazy"></button>
+          <div class="diag-case-cap">Case parecido: <strong>${cs.nome}</strong> — ${cs.txt}</div>
+        </div>
+      </div>`;
+  }
+  if (foco) (box.querySelector(".diag-opt.on, .diag-opt, .btn-whats") || box).focus({ preventScroll: true });
+}
+$("#diag").addEventListener("click", e => {
+  const op = e.target.closest("[data-diag]");
+  if (op) { diagResp[DIAG_PERGUNTAS[diagPasso].id] = op.dataset.diag; diagPasso++; renderDiag(true); return; }
+  if (e.target.closest("[data-diag-voltar]")) { diagPasso = Math.max(0, diagPasso - 1); renderDiag(true); return; }
+  if (e.target.closest("[data-diag-refazer]")) { diagPasso = 0; Object.keys(diagResp).forEach(k => delete diagResp[k]); renderDiag(true); }
+});
+renderDiag(false);
 
 $("#escolaGrid").innerHTML = ESCOLA.map(p => projCard(p)).join("");
 $("#featGrid").innerHTML = FEATURES.map(f => `<div class="card feat reveal" tabindex="0">
@@ -863,7 +1004,7 @@ function openImg(btn) {
   galeria = [...document.querySelectorAll("#casesGrid [data-img]")];
   modal.classList.add("img");
   frame.hidden = true; mImg.hidden = false;
-  mostrarCase(Math.max(0, galeria.indexOf(btn)));
+  mostrarCase(Math.max(0, galeria.findIndex(b => b.dataset.img === btn.dataset.img)));
   modal.classList.add("open");
   document.body.style.overflow = "hidden";
   $("#imgClose").focus();
