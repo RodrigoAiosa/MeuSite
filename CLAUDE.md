@@ -15,7 +15,9 @@ Sempre que for pedido um novo case, fazer as três etapas:
    (paleta de cores do site do cliente, nome do cliente no topo e no rodapé,
    pelo menos 10 processos). Entregar PNG em alta resolução e JPG 1460×973.
 2. **Site**: salvar o JPG em `assets/img_cases_suceso/<próximo número>.jpg`
-   e incluir o arquivo na lista `CASES` do `index.html`.
+   e incluir na lista `CASES` do `index.html` (`{ f, t: cliente, s: setor }`).
+   Depois rodar `python ocr_cases.py` para atualizar `data/cases_texto.json`,
+   que alimenta a pesquisa por texto da seção Cases de Sucesso.
 3. **Currículo**: atualizar `_Rodrigo_Aiosa_CV 2026.docx` no repositório
    `RodrigoAiosa/AIOSA_IA`, adicionando o case em "Cases de Sucesso"
    (mesmo formato dos demais: `Cliente | Setor` + 3 a 4 bullets, o último

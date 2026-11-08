@@ -169,6 +169,11 @@ section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,0.04); }
 .cases button:hover { border-color: var(--accent); transform: translateY(-2px); }
 .cases img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .cases img.fit { object-fit: contain; }
+.case-item { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.case-item[hidden], .case-hit[hidden] { display: none; }
+.case-hit { margin: 0; font-size: 0.84rem; line-height: 1.45; color: var(--muted); }
+.case-hit b { color: #e8f4ff; font-weight: 600; }
+.case-hit mark { background: rgba(0,180,216,0.22); color: #e8f4ff; border-radius: 3px; padding: 0 2px; }
 
 /* ── PROJETOS ── */
 .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
@@ -402,6 +407,12 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
     <div class="eyebrow">Resultados</div>
     <h2 class="section-title">🏆 Cases de Sucesso</h2>
     <p class="section-lead">Confira os resultados da Mentoria Estratégica. Clique em uma imagem para ampliar.</p>
+    <div class="search" id="casesSearch">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" id="casesQ" placeholder="Pesquisar nos cases… ex.: Power Query, consórcio, inadimplência, Santander" autocomplete="off" aria-label="Pesquisar texto dos cases" aria-describedby="casesInfo">
+      <button type="button" class="clear" id="casesClear" aria-label="Limpar pesquisa">×</button>
+    </div>
+    <p class="search-info" id="casesInfo" aria-live="polite"></p>
     <div class="cases" id="casesGrid"></div>
   </div>
 </section>
@@ -632,8 +643,26 @@ const COURSES = [
     m: ["Fundamentos do Excel corporativo", "Fórmulas essenciais", "PROCV e PROCX", "Tabelas dinâmicas", "Dashboards no Excel", "Formatação condicional", "Indicadores financeiros", "Power Query no Excel", "Introdução a macros", "Projeto final applied"] }
 ];
 
-const CASES = ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "7.jpg", "8.jpg", "9.jpg",
-               "10.jpg", "11.jpg", "12.jpg", "13.jpg", "14.jpg", "15.jpg", "16.jpg", "17.jpg"];
+// Cases (imagens em assets/img_cases_suceso/). O texto de cada imagem, para a pesquisa,
+// fica em data/cases_texto.json, gerado por OCR com: python ocr_cases.py
+const CASES = [
+  { f: "1.jpg",  t: "Kraft Heinz",           s: "Bens de consumo" },
+  { f: "2.jpg",  t: "Loggi",                 s: "Logística e entregas" },
+  { f: "3.jpg",  t: "Lowell",                s: "Serviços financeiros e crédito" },
+  { f: "4.jpg",  t: "BSS Blindagens",        s: "Manufatura e segurança" },
+  { f: "5.jpg",  t: "Usina Santa Terezinha", s: "Agronegócio" },
+  { f: "7.jpg",  t: "Unimed Seguros",        s: "Saúde e seguros" },
+  { f: "8.jpg",  t: "Ouro Safra",            s: "Agronegócio" },
+  { f: "9.jpg",  t: "CAU/RJ",                s: "Conselho de Arquitetura e Urbanismo" },
+  { f: "10.jpg", t: "O Boticário",           s: "Varejo e beleza" },
+  { f: "11.jpg", t: "Santander",             s: "Setor bancário" },
+  { f: "12.jpg", t: "Di Santinni",           s: "Varejo de moda" },
+  { f: "13.jpg", t: "Banco Safra",           s: "Setor bancário" },
+  { f: "14.jpg", t: "BTG Pactual",           s: "Banco de investimentos" },
+  { f: "15.jpg", t: "Pagsmile",              s: "Pagamentos" },
+  { f: "16.jpg", t: "John Deere",            s: "Consórcio de máquinas agrícolas" },
+  { f: "17.jpg", t: "LiuGong",               s: "Máquinas pesadas e construção" }
+];
 
 /* ============================================================
    RENDERIZAÇÃO
@@ -658,8 +687,8 @@ function fitCase(img) {
   const r = img.naturalWidth / img.naturalHeight;
   if (Math.abs(r - 1.5) > 0.05) img.classList.add("fit");
 }
-$("#casesGrid").innerHTML = CASES.map((f, i) =>
-  `<button data-img="assets/img_cases_suceso/${f}" aria-label="Ampliar case ${i + 1}"><img src="assets/img_cases_suceso/${f}" alt="Case de sucesso ${i + 1}" loading="lazy" onload="fitCase(this)" onerror="this.closest('button').remove()"></button>`
+$("#casesGrid").innerHTML = CASES.map(c =>
+  `<div class="case-item" data-f="${c.f}"><button data-img="assets/img_cases_suceso/${c.f}" aria-label="Ampliar case ${esc(c.t)}"><img src="assets/img_cases_suceso/${c.f}" alt="Case de sucesso ${esc(c.t)}, ${esc(c.s)}" loading="lazy" onload="fitCase(this)" onerror="this.closest('.case-item').remove()"></button><p class="case-hit" hidden></p></div>`
 ).join("");
 
 const semAcento = s => String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
@@ -759,6 +788,48 @@ function ligarBusca(pref, render) {
   inp.addEventListener("keydown", e => { if (e.key === "Escape" && inp.value) { inp.value = ""; box.classList.remove("has-text"); render(); } });
   $(`#${pref}Clear`).addEventListener("click", () => { inp.value = ""; box.classList.remove("has-text"); render(); inp.focus(); });
 }
+
+/* ── Pesquisa nos cases: nome do cliente, setor e texto extraído das imagens ── */
+CASES.forEach(c => { c.d = c.s; });
+preparar(CASES, ["t", "d"]);
+fetch("data/cases_texto.json").then(r => r.ok ? r.json() : {}).then(txt => {
+  CASES.forEach(c => { c.d = c.s + " " + (txt[c.f] || ""); });
+  preparar(CASES, ["t", "d"]);
+  if ($("#casesQ").value) renderCases();
+}).catch(() => {});
+function trechos(c, termos) {
+  // palavras do texto da imagem que bateram com a pesquisa (para mostrar onde o termo aparece)
+  const achadas = [];
+  for (const w of new Set(c.d.split(/\s+/))) {
+    const n = semAcento(w);
+    if (termos.some(t => [t, ...(SINONIMOS[t] || [])].some(v => n.startsWith(v) || (v.length >= 4 && n.includes(v))))) achadas.push(w);
+    if (achadas.length >= 6) break;
+  }
+  return achadas;
+}
+function renderCases() {
+  const q = $("#casesQ").value;
+  const { termos, itens } = pesquisar(CASES, q);
+  const ordem = new Map(itens.map((c, i) => [c.f, i]));
+  const grid = $("#casesGrid");
+  const blocos = [...grid.querySelectorAll(".case-item")];
+  blocos.forEach(el => {
+    const c = CASES.find(x => x.f === el.dataset.f), hit = el.querySelector(".case-hit");
+    const visivel = ordem.has(el.dataset.f);
+    el.hidden = !visivel;
+    el.style.order = visivel ? ordem.get(el.dataset.f) : "";
+    if (visivel && termos.length) {
+      const palavras = trechos(c, termos);
+      hit.innerHTML = `<b>${destacar(c.t, termos)}</b> · ${destacar(c.s, termos)}` +
+        (palavras.length ? `<br>Na imagem: ${palavras.map(w => destacar(w, termos)).join(", ")}` : "");
+      hit.hidden = false;
+    } else hit.hidden = true;
+  });
+  grid.querySelector(".search-empty")?.remove();
+  if (termos.length && !itens.length) grid.insertAdjacentHTML("beforeend", vazio(q, "case"));
+  infoBusca($("#casesInfo"), itens.length, CASES.length, q, ["case", "cases"]);
+}
+ligarBusca("cases", renderCases);
 
 let pyAll = false;
 const mqPy4 = matchMedia("(min-width: 1600px)"), mqPy5 = matchMedia("(min-width: 2200px)");
@@ -1021,7 +1092,9 @@ function mostrarCase(i) {
 }
 function openImg(btn) {
   lastFocus = document.activeElement;
-  galeria = [...document.querySelectorAll("#casesGrid [data-img]")];
+  galeria = [...document.querySelectorAll("#casesGrid .case-item:not([hidden])")]
+    .sort((a, b) => (+a.style.order || 0) - (+b.style.order || 0))
+    .map(el => el.querySelector("[data-img]"));
   modal.classList.add("img");
   frame.hidden = true; mImg.hidden = false;
   mostrarCase(Math.max(0, galeria.findIndex(b => b.dataset.img === btn.dataset.img)));
