@@ -158,7 +158,31 @@ section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,0.04); }
 
 .clients { text-align: center; margin-top: 56px; }
 .clients p.names { color: var(--muted); max-width: 760px; margin: 6px auto 24px; }
-.clients img { margin: 0 auto; border-radius: 12px; max-width: 560px; width: 100%; }
+/* carrossel de logos */
+.logo-rail { overflow: hidden; margin: 0 -8px 14px; padding: 6px 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+.logo-track { display: flex; gap: 14px; width: max-content; animation: rolar var(--dur, 50s) linear infinite; }
+.logo-rail.rev .logo-track { animation-direction: reverse; }
+.logo-rail:hover .logo-track, .logo-rail:focus-within .logo-track { animation-play-state: paused; }
+@keyframes rolar { to { transform: translateX(calc(-50% - 7px)); } }
+.logo-card { flex: none; display: grid; place-items: center; border-radius: 14px; border: 1px solid var(--border); transition: transform .2s, border-color .2s; }
+.logo-card:hover { transform: translateY(-2px); border-color: rgba(0,180,216,0.5); }
+.logo-card img { display: block; width: auto; max-width: none; border-radius: 0; margin: 0; object-fit: contain; }
+.logo-rail.destaque .logo-card { height: 88px; padding: 14px 28px; background: #0b1424; }
+.logo-rail.destaque .logo-card img { height: 48px; max-width: 230px; }
+.logo-rail.destaque .logo-card span { font-family: inherit; font-weight: 800; font-size: 1.7rem; letter-spacing: 0.02em; color: #fff; white-space: nowrap; padding: 0 10px; }
+.logo-rail.todos .logo-card { height: 68px; padding: 10px 20px; background: #fff; border-color: rgba(255,255,255,0.6); }
+.logo-rail.todos .logo-card img { height: 46px; max-width: 170px; }
+@media (max-width: 560px) {
+  .logo-rail.destaque .logo-card { height: 76px; padding: 10px 18px; } .logo-rail.destaque .logo-card img { height: 38px; max-width: 180px; }
+  .logo-rail.todos .logo-card { height: 58px; } .logo-rail.todos .logo-card img { height: 38px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .logo-track { animation: none; }
+  .logo-rail { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+  .logo-track [aria-hidden="true"] { display: none; }
+}
 
 /* ── CASES ── */
 .cases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
@@ -396,7 +420,8 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
     <div class="clients reveal">
       <h3>Clientes em destaque</h3>
       <p class="names">Cimed, Unimed Seguros, Ouro Safra, Kraft Heinz, Loggi, Usina Santa Terezinha, Megavig, Lowell e BSS Blindagens.</p>
-      <img src="assets/clientes_atendidos.jpg" alt="Logos de clientes atendidos" loading="lazy" width="540" height="327">
+      <div class="logo-rail destaque" style="--dur: 38s" role="region" aria-label="Clientes em destaque"><div class="logo-track" id="logosDestaque"></div></div>
+      <div class="logo-rail todos rev" style="--dur: 110s" role="region" aria-label="Outros clientes atendidos"><div class="logo-track" id="logosTodos"></div></div>
     </div>
   </div>
 </section>
@@ -682,6 +707,31 @@ function projCard(p, tag, soNovaAba = false, termos = []) {
     </div>
   </article>`;
 }
+
+/* ── Carrossel de logos de clientes (assets/logos/) ── */
+const LOGOS_DESTAQUE = [
+  { n: "Cimed" },
+  { n: "Unimed Seguros", f: "unimed_seguros.webp", bg: "#011017" },
+  { n: "Ouro Safra", f: "ouro_safra.webp", bg: "#000a16" },
+  { n: "Kraft Heinz", f: "kraft_heinz.webp", bg: "#01050f" },
+  { n: "Loggi", f: "loggi.webp", bg: "#010d1e" },
+  { n: "Usina Santa Terezinha", f: "usina_santa_terezinha.webp", bg: "#000710" },
+  { n: "Megavig" },
+  { n: "Lowell", f: "lowell.webp", bg: "#000614" },
+  { n: "BSS Blindagens", f: "bss.webp", bg: "#000b1c" }
+];
+const LOGOS_CLIENTES = [["Vivo","c_vivo"],["Bradesco","c_bradesco"],["Claro","c_claro"],["Recovery","c_recovery"],["Nubank","c_nubank"],["Oi","c_oi"],["Santander","c_santander"],["Hoepers","c_hoepers"],["Itapeva","c_itapeva"],["Ativos S.A.","c_ativos_s_a"],["Riachuelo","c_riachuelo"],["Itaú","c_itau"],["Banco do Brasil","c_banco_do_brasil"],["Ipanema","c_ipanema"],["Credsystem","c_credsystem"],["Carrefour Soluções Financeiras","c_carrefour_solucoes_financeiras"],["Avon","c_avon"],["Crediativos","c_crediativos"],["Havan","c_havan"],["Claro nxt","c_claro_nxt"],["Sky","c_sky"],["Banco BMG","c_banco_bmg"],["C6 Bank","c_c6_bank"],["Crefisa","c_crefisa"],["Porto Seguro Bank","c_porto_seguro_bank"],["Marisa","c_marisa"],["Renner","c_renner"],["Tribanco","c_tribanco"],["Digio","c_digio"],["Pernambucanas","c_pernambucanas"],["Algar Telecom","c_algar_telecom"],["DMcard","c_dmcard"],["TIM","c_tim"],["Di Santinni","c_di_santinni"],["Losango","c_losango"],["Banco BV","c_banco_bv"],["Zema","c_zema"],["O Boticário","c_o_boticario"],["Will Bank","c_will_bank"],["Senff","c_senff"],["Banco Pan","c_banco_pan"],["Banco Original / PicPay","c_banco_original_picpay"],["Inter","c_inter"],["Neon","c_neon"],["Safra","c_safra"],["C&A Pay","c_c_a_pay"],["BTG Pactual","c_btg_pactual"]];
+function trilho(el, itens, card) {
+  // conteúdo duplicado para o loop contínuo; a cópia fica oculta para leitores de tela
+  const html = itens.map(card).join("");
+  el.innerHTML = `<div style="display:contents">${html}</div><div style="display:contents" aria-hidden="true">${html.replace(/alt="[^"]*"/g, 'alt=""')}</div>`;
+  el.lastElementChild.querySelectorAll(".logo-card").forEach(c => c.setAttribute("aria-hidden", "true"));
+}
+trilho($("#logosDestaque"), LOGOS_DESTAQUE, l => l.f
+  ? `<div class="logo-card" title="${esc(l.n)}"><img src="assets/logos/${l.f}" alt="${esc(l.n)}" decoding="async"></div>`
+  : `<div class="logo-card" title="${esc(l.n)}"><span>${esc(l.n)}</span></div>`);
+trilho($("#logosTodos"), LOGOS_CLIENTES, ([n, f]) =>
+  `<div class="logo-card" title="${esc(n)}"><img src="assets/logos/${f}.webp" alt="${esc(n)}" decoding="async"></div>`);
 
 function fitCase(img) {
   const r = img.naturalWidth / img.naturalHeight;
