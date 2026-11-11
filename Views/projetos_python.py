@@ -415,6 +415,12 @@ div[data-testid="stHorizontalBlock"] div[data-testid="element-container"] button
 # --------------------------------------------------
 python_projects = [
     {
+  "title": "⛽ Brasil Combustíveis — Série Histórica da ANP (2004–2026)",
+  "desc": "Dashboard interativo da série histórica de preços de gasolina, etanol e diesel da ANP, com mais de 25 milhões de coletas na bomba. Conta com linha do tempo animada (play) e marcos históricos (greves, pandemia, guerra, mudanças de política), mapa do Brasil por estado, ranking de municípios mais caros e mais baratos, comparação nominal vs. real corrigida pelo IPCA, regra dos 70% do etanol estado por estado, mapa de calor etanol/gasolina (27 UFs × anos), KPIs por estado e filtros por Estado e Combustível. Construído em HTML + D3, sem Power BI.",
+  "url": "https://indicadordashanp.vercel.app/",
+  "category": "Automação & BI"
+    },
+    {
       "title": "🚦 Monitor de Mobilidade & Trânsito Urbano — São Paulo em Tempo Real",
       "desc": "Dashboard interativo e georreferenciado para monitoramento do tráfego e semáforos da cidade de São Paulo via Overpass API (OpenStreetMap). Conta com mapeamento em tempo real de semáforos por agrupamento (MarkerCluster), painel de ocorrências classificadas de Alto a Baixo Impacto, sistema de busca e filtros multi-critério (Zona, Categoria, Impacto, Ordenação), navegação interativa com flyTo direto no mapa e timestamp de atualização no padrão pt-BR.",
       "url": "https://monitoriamento.vercel.app",
