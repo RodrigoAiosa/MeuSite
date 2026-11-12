@@ -158,6 +158,12 @@ section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,0.04); }
 
 .clients { text-align: center; margin-top: 56px; }
 .clients p.names { color: var(--muted); max-width: 760px; margin: 6px auto 24px; }
+/* vídeo de apresentação (#sobre) */
+.intro-video { margin: 4px auto 36px; max-width: 960px; }
+.intro-video video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 16px; border: 1px solid var(--border); background: #000; box-shadow: 0 24px 60px rgba(0,0,0,0.45), 0 0 0 1px rgba(0,180,216,0.08); }
+.intro-video figcaption { margin-top: 12px; text-align: center; font-size: 0.9rem; color: var(--muted); }
+.intro-video figcaption a { color: #7fdcef; text-decoration: none; font-weight: 600; }
+.intro-video figcaption a:hover { text-decoration: underline; }
 /* carrossel de logos */
 .logo-rail { overflow: hidden; margin: 0 -8px 14px; padding: 6px 0;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
@@ -411,6 +417,14 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
     <div class="eyebrow">Experiência de mercado</div>
     <h2 class="section-title">Dados que viram decisão</h2>
     <p class="section-lead">Da automação ao dashboard executivo, com foco total em resolver a dor do cliente e gerar valor rápido.</p>
+    <figure class="intro-video reveal">
+      <video controls playsinline preload="none" width="1280" height="720" poster="assets/video/sky_data_solution_poster.webp" aria-label="Vídeo de apresentação da Sky Data Solution, 60 segundos">
+        <source src="assets/video/sky_data_solution.mp4" type="video/mp4">
+        <track kind="captions" src="assets/video/sky_data_solution.pt-BR.vtt" srclang="pt-BR" label="Português">
+        Seu navegador não reproduz vídeo. <a href="assets/video/sky_data_solution.mp4">Baixe o vídeo</a>.
+      </video>
+      <figcaption>Sky Data Solution em 60 segundos · <a href="https://www.linkedin.com/posts/rodrigoaiosa_ugcPost-7526701166181912578-BNHA/" target="_blank" rel="noopener">Ver no LinkedIn</a></figcaption>
+    </figure>
     <div class="grid g2">
       <div class="card lined reveal"><h3>🔎 Análise Avançada e Automação</h3><p>Desenvolvimento de scripts Python e modelos em Excel para otimização de tempo e processos.</p></div>
       <div class="card lined reveal"><h3>🗄️ Gerenciamento de Dados</h3><p>Estruturação de bancos de dados SQL Server e fluxos de ETL eficientes para alta performance.</p></div>
