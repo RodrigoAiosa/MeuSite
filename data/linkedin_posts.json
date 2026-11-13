@@ -1,17 +1,28 @@
 {
-  "atualizado_em": "2026-11-12",
+  "atualizado_em": "2026-11-13",
   "fonte": "https://www.linkedin.com/in/rodrigoaiosa/details/featured/",
   "posts": [
+    {
+      "urn": "urn:li:activity:7527081772011069440",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7527081772011069440/",
+      "date": "2026-11-13",
+      "title": "Seu celular está sem sinal? A resposta já era pública. Ninguém tinha te mostrado.",
+      "text": "A Anatel publica, de graça, a localização de cada antena de celular licenciada no Brasil. São mais de 114 mil.\n\nO problema: o dado vem num arquivo de 1 GB e 3,3 milhões de linhas. Ninguém abre isso para descobrir “qual torre é a mais perto da minha casa?”.\n\nEntão adaptei e evoluí um projeto open source que transforma esse arquivo num mapa. \n\nVocê clica em qualquer ponto e vê, em segundos:\n📍 A antena mais próxima de cada operadora, com a distância\n📶 Quais gerações ela tem (2G, 3G, 4G, 5G)\n🏆 Um ranking de qual operadora tem melhor estrutura ali\n🛰️ Funciona com GPS, CEP, endereço ou coordenada, e até sem internet\n\nAlguns cuidados que fiz questão de ter:\n✔ Nenhum dado pessoal é coletado. Seus pontos e buscas ficam só no seu navegador.\n✔ O ranking avisa claramente que NÃO mede sinal real. A base mostra onde há licença, não se a antena está ligada.\n✔ Atualiza sozinho toda semana com a base nova da Anatel.\n\nDado aberto só vira valor quando alguém o torna fácil de usar.\nAcessar: https://lnkd.in/g7EmBZ4Y\nJá usou dado público do governo em algum projeto? Conta aqui nos comentários 👇\n#DadosAbertos #Telecom #Anatel #OpenSource #Vercel #Python #JavaScript #5G #Tecnologia",
+      "image": "https://media.licdn.com/dms/image/v2/D5622AQFfazPGAmQ8oQ/feedshare-shrink_480/B56aHWQ..xGgAg-/0/1794596139249?e=1796256000&v=beta&t=mApXOkzHM4_rDxmpbLP6-_gYJd7QDDsjiYofzZGFLSw",
+      "likes": 0,
+      "comments": 0,
+      "ordem": 1
+    },
     {
       "urn": "urn:li:activity:7526803698006589441",
       "url": "https://www.linkedin.com/feed/update/urn:li:activity:7526803698006589441/",
       "date": "2026-11-12",
       "title": "Terminei meu dia jogando Pedra, Papel e Tesoura. Sem encostar no mouse nem no teclado. ✊✋✌️",
       "text": "Depois do HandMouse, quis testar a mesma ideia em outra coisa: um Jokenpo contra o computador, jogado só com a mão, pela webcam.\n\nComo funciona:\n→ Abro a câmera e escolho o nível apontando o dedo para o cartão: 🌱 Aprendiz, ⚔️ Jovem ou 🐉 Mestre\n→ A tela conta PEDRA… PAPEL… TESOURA… e eu mostro a jogada no JÁ!\n→ Punho é pedra, mão aberta é papel, dois dedos são tesoura\n→ O placar acompanha vitórias, empates, derrotas e minha melhor sequência\n→ Para sair: um 👍 por 1 segundo\n\nO que deu trabalho:\n🧠 O computador não pode trapacear. Ele escolhe a jogada antes da contagem, só com o histórico das rodadas anteriores. Nunca olha a minha mão.\n\n🎚️ Dificuldade de verdade. O Aprendiz joga aleatório. O Jovem percebe qual jogada eu mais repito. O Mestre lê padrões de sequência e reage ao resultado da rodada anterior. Contra quem joga de forma realmente aleatória, ninguém ganha vantagem. Isso eu testei.\n\n✋ Reconhecer o gesto na hora certa. Eu leio a mão numa pequena janela depois do “JÁ!”, e não no frame em que ela aparece, porque o gesto de quem está balançando o punho muda o tempo todo.\n\nTudo roda no navegador. O vídeo é processado no seu computador e não vai para nenhum servidor.\nSó jogar....\n👉 https://lnkd.in/gzPZk4WM\nMe conta: você aguenta quantas rodadas contra o Mestre? 🐉",
-      "image": "https://dms.licdn.com/playlist/vid/v2/D5605AQFcvExGMK7HMA/thumbnail-shrink_720_1280/B56aHSUC9xKAAk-/0/1794529833855?e=1795136400&v=beta&t=CEIXPzGLSyEiSbMQLwCrFYYwh_eCTdZuVa_VvmCnZ4k",
-      "likes": 0,
+      "image": "https://dms.licdn.com/playlist/vid/v2/D5605AQFcvExGMK7HMA/thumbnail-shrink_720_1280/B56aHSUC9xKAAk-/0/1794529833855?e=1795201200&v=beta&t=ytphYug0vd90OQl61DAx0P87V92ywJgEdjJ93zBMxk4",
+      "likes": 1,
       "comments": 0,
-      "ordem": 1
+      "ordem": 2
     },
     {
       "urn": "urn:li:activity:7526323910003380224",
@@ -22,7 +33,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQFAJsix5l02rQ/feedshare-shrink_480/B56aHLftZ5GUAY-/0/1794415450020?e=1796256000&v=beta&t=6rexE4eofZKcf8_NNQCBknUDzT64eiD0R1kbdsXfNfo",
       "likes": 4,
       "comments": 1,
-      "ordem": 2
+      "ordem": 3
     },
     {
       "urn": "urn:li:activity:7524280614368395264",
@@ -33,7 +44,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQFR0L8oO3L6Fw/feedshare-shrink_480/B56aGudWK_HgAY-/0/1793928291248?e=1796256000&v=beta&t=cHhkx4HMRypH9EjkwGK-rs8R3LOEEpsUDw4-I-bnx8w",
       "likes": 0,
       "comments": 0,
-      "ordem": 3
+      "ordem": 4
     },
     {
       "urn": "urn:li:activity:7520856623200890881",
@@ -44,7 +55,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQH-f8Rhye-Gmw/feedshare-shrink_480/B56aF9zPuuHQAg-/0/1793111948433?e=1796256000&v=beta&t=-Wi_-3I5LM18aKzTS89N-N1wD9KVBdgZUpMK7jr7Drw",
       "likes": 0,
       "comments": 0,
-      "ordem": 4
+      "ordem": 5
     },
     {
       "urn": "urn:li:activity:7519184058149675008",
@@ -52,10 +63,10 @@
       "date": "2026-10-22",
       "title": "🔎 Quantas vezes você já tentou achar um post antigo no LinkedIn… e desistiu?",
       "text": "Eu publico bastante sobre Power BI, DAX, SQL e automação. E toda vez que alguém me pedia \"aquele post sobre o CALCULATE\" ou \"aquela ferramenta de APIs\", eu precisava rolar a aba de atividades até encontrar.\n\nNa aba de atividades do perfil não existe um campo para pesquisar os posts de uma pessoa por palavra-chave.\n\nEntão eu construí isso no meu portfólio. 🚀\n\nA nova aba \"Em destaque no LinkedIn\" traz:\n✅ Meus 30 posts mais recentes, em cards organizados\n✅ Um campo de pesquisa: digite \"Power BI\", \"API\", \"DAX\" ou \"ENEM\" e veja só os posts relacionados\n✅ Os termos pesquisados ficam destacados no texto\n✅ A busca vai além dos 30 da tela e inclui posts mais antigos\n✅ Botão para ler o post completo ali mesmo, sem sair da página\n\nPor trás, um script em Python mantém um arquivo JSON atualizado com os posts, e o site lê esse arquivo e faz a busca direto no navegador. Simples, gratuito e sem banco de dados.\nFica a sugestão para o LinkedIn: um campo \"Pesquisar nos posts deste perfil\" ajudaria muito quem produz conteúdo e quem quer reencontrar aquele post que salvou na memória, mas não nos favoritos. 😅\n\n👉 Teste a busca: https://lnkd.in/gibmnErE\n\nQual palavra você pesquisaria primeiro? Me conta nos comentários!\n#LinkedIn #Python #JavaScript #Portfólio #PowerBI #UX #Dados\n\nRodrigo Aiosa | Dados, BI e Automação\n\nrodrigoaiosa.vercel.app",
-      "image": "https://media.licdn.com/dms/image/sync/v2/D5627AQFPNCwI3KcqZg/articleshare-shrink_480/B56aE_iAbuGkAU-/0/1792067242435?e=1794225600&v=beta&t=8gjjhdIozskoLtEnwnO2XhgP7lrXSAjGvQl42KG3tiI",
+      "image": "https://media.licdn.com/dms/image/sync/v2/D5627AQFTmPtkAVLkgg/articleshare-shrink_480/B56aE_iAcSHkAU-/0/1792067242233?e=1795201200&v=beta&t=GYbUDSASCvEeB-ZgK98mGl75GXU6Xi8yW3NSNPlhKrw",
       "likes": 0,
       "comments": 0,
-      "ordem": 5
+      "ordem": 6
     },
     {
       "urn": "urn:li:activity:7518299320341774337",
@@ -66,7 +77,7 @@
       "image": "",
       "likes": 1,
       "comments": 0,
-      "ordem": 6
+      "ordem": 7
     },
     {
       "urn": "urn:li:activity:7517237101726351360",
@@ -77,7 +88,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQH6IhkuCakhzg/feedshare-shrink_480/B56aFKXTvjKsAg-/0/1792248986879?e=1796256000&v=beta&t=UQ-14rD72j9HcoDfnyV0cvJIChVC7tDD6bJnZkyZIzk",
       "likes": 1,
       "comments": 0,
-      "ordem": 7
+      "ordem": 8
     },
     {
       "urn": "urn:li:activity:7516682008136368128",
@@ -88,7 +99,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQG1TktuKXKvzw/feedshare-shrink_480/B56aFCedKEG0Ag-/0/1792116642689?e=1796256000&v=beta&t=qD1tTPs7iBZ-3w219TAREkHp3J316UVmHwCw_XPJv-o",
       "likes": 0,
       "comments": 0,
-      "ordem": 8
+      "ordem": 9
     },
     {
       "urn": "urn:li:activity:7515449577605369857",
@@ -99,7 +110,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQFrkRmVhBpG5g/feedshare-shrink_480/B56aEw9kF7LAAg-/0/1791822807776?e=1796256000&v=beta&t=ZRqmEyN0fJmc0YI3vkwhB0arH9gBrWSW2-ECF7SIGYk",
       "likes": 0,
       "comments": 0,
-      "ordem": 9
+      "ordem": 10
     },
     {
       "urn": "urn:li:activity:7515028677445881856",
@@ -110,7 +121,7 @@
       "image": "",
       "likes": 0,
       "comments": 0,
-      "ordem": 10
+      "ordem": 11
     },
     {
       "urn": "urn:li:activity:7503587484857970688",
@@ -121,7 +132,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQHTV6kwB4Pdqw/feedshare-shrink_480/B56aCIZBq5IsAk-/0/1788994657256?e=1795046400&v=beta&t=hMXEzNDVTEwvTqkTUzmobKJgozgtF6lNkvfa4iYbd2M",
       "likes": 2,
       "comments": 0,
-      "ordem": 11
+      "ordem": 12
     },
     {
       "urn": "urn:li:activity:7503586696895135744",
@@ -132,7 +143,7 @@
       "image": "",
       "likes": 10,
       "comments": 2,
-      "ordem": 12
+      "ordem": 13
     },
     {
       "urn": "urn:li:activity:7485362963323969536",
@@ -143,7 +154,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D4D05AQGSTiDgIs3krA/videocover-low/B4DZ.FZ2z_HgBM-/0/1784649578862?e=1794225600&v=beta&t=xxASQDQIy9mcrJQQ-iw8bslwxRR-V71_v7IJavbT3QU",
       "likes": 19,
       "comments": 2,
-      "ordem": 13
+      "ordem": 14
     },
     {
       "urn": "urn:li:activity:7485312801041940480",
@@ -154,7 +165,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQGYguJwiv6wWA/videocover-low/B56Z.EsPTeIUBI-/0/1784637619863?e=1794225600&v=beta&t=2fmYxCXonbJoaEKDqIrDECKeNpMoQcynEKIMXlWsb6Y",
       "likes": 7,
       "comments": 0,
-      "ordem": 14
+      "ordem": 15
     },
     {
       "urn": "urn:li:activity:7484838391633666049",
@@ -165,7 +176,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQFpGb6-DJ_t1g/videocover-low/B56Z998wnrKcBI-/0/1784524509823?e=1794225600&v=beta&t=ovOczvnbdk42jMvOiZfIT_TDqwNFs-0BcYNXEq9x23k",
       "likes": 14,
       "comments": 1,
-      "ordem": 15
+      "ordem": 16
     },
     {
       "urn": "urn:li:activity:7484250960526069760",
@@ -176,7 +187,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQG7B0wXOP1unA/videocover-low/B56Z91lSzMGsBI-/0/1784384140189?e=1794225600&v=beta&t=SOy5FKaFSjNxcRRrjqOp46V5l-SBuNFSUKuQ7p-kzHE",
       "likes": 4,
       "comments": 0,
-      "ordem": 16
+      "ordem": 17
     },
     {
       "urn": "urn:li:activity:7482868405633433600",
@@ -187,7 +198,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQE-BL-fj2iXZw/feedshare-shrink_480/B56Z9h9KYzG0Ag-/0/1784054851343?e=1795046400&v=beta&t=uiBfFlrctNBKfxFWd3mcw5-oscqRMUGz68ne6I4LOM4",
       "likes": 6,
       "comments": 0,
-      "ordem": 17
+      "ordem": 18
     },
     {
       "urn": "urn:li:activity:7482517424693485568",
@@ -198,7 +209,7 @@
       "image": "",
       "likes": 6,
       "comments": 1,
-      "ordem": 18
+      "ordem": 19
     },
     {
       "urn": "urn:li:activity:7482419721691336704",
@@ -209,7 +220,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQFGtDrg6vBgpw/feedshare-shrink_480/B56Z9blFlvHYAk-/0/1783947876944?e=1795046400&v=beta&t=p8xq63gWQP7EXzArMjzT0iLlCZAVuQfQE2704dBfozM",
       "likes": 2,
       "comments": 0,
-      "ordem": 19
+      "ordem": 20
     },
     {
       "urn": "urn:li:activity:7480836219413614592",
@@ -220,7 +231,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQG_5e3RBJPavQ/videocover-low/B56Z9FE0HpLABI-/0/1783570319932?e=1794225600&v=beta&t=OAK2WJDDYg_bNsThsQuP1wUYghztca9cTOPpY_Gk89s",
       "likes": 0,
       "comments": 0,
-      "ordem": 20
+      "ordem": 21
     },
     {
       "urn": "urn:li:activity:7480774117202243584",
@@ -231,7 +242,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQHeUuQ_rCUwSQ/feedshare-shrink_480/B56Z9EMavVLAAo-/0/1783555534045?e=1795046400&v=beta&t=PMcd5J2ySMivWsVZ6CH51quq_e38r74j8Q23XP1pxo4",
       "likes": 0,
       "comments": 0,
-      "ordem": 21
+      "ordem": 22
     },
     {
       "urn": "urn:li:activity:7480614533850456064",
@@ -242,7 +253,7 @@
       "image": "",
       "likes": 2,
       "comments": 1,
-      "ordem": 22
+      "ordem": 23
     },
     {
       "urn": "urn:li:activity:7480439503854260224",
@@ -253,7 +264,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQHlAMFEsGfn4w/videocover-low/B56Z8_cD4vGUBI-/0/1783475749785?e=1794225600&v=beta&t=QuAPlJUyjm3CtbJ35SLxV8DPdASsYmXE7j5os1woDRI",
       "likes": 18,
       "comments": 0,
-      "ordem": 23
+      "ordem": 24
     },
     {
       "urn": "urn:li:activity:7479965720412381184",
@@ -264,7 +275,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQFAVhyEVaDYYA/feedshare-shrink_480/B56Z84tMCaGoAg-/0/1783362797984?e=1795046400&v=beta&t=zFb_kfmUCmwplpeXA_plKZIJGF09das4-j1FgWhXCvE",
       "likes": 6,
       "comments": 0,
-      "ordem": 24
+      "ordem": 25
     },
     {
       "urn": "urn:li:activity:7479916396525576193",
@@ -275,7 +286,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQEDpDz-qfc1bw/videocover-low/B56Z84ASWFHcBM-/0/1783351028722?e=1794225600&v=beta&t=eZaS9bltskjWmbunCVgVmyp6BZ1RFKYaNZvHvWndtbc",
       "likes": 4,
       "comments": 0,
-      "ordem": 25
+      "ordem": 26
     },
     {
       "urn": "urn:li:activity:7479912287709974529",
@@ -286,7 +297,7 @@
       "image": "",
       "likes": 1,
       "comments": 1,
-      "ordem": 26
+      "ordem": 27
     },
     {
       "urn": "urn:li:activity:7479236744060796928",
@@ -297,7 +308,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQHjGVs8dYHIUA/feedshare-shrink_480/B56Z8uWL9iGQAg-/0/1783188996213?e=1795046400&v=beta&t=aB3_jLA0CB84e-MxljLMRy_8t_esgPBl59G-MFGE_fk",
       "likes": 1,
       "comments": 0,
-      "ordem": 27
+      "ordem": 28
     },
     {
       "urn": "urn:li:activity:7477888061381574656",
@@ -308,7 +319,7 @@
       "image": "",
       "likes": 50,
       "comments": 2,
-      "ordem": 28
+      "ordem": 29
     },
     {
       "urn": "urn:li:activity:7477524513434411008",
@@ -319,7 +330,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQEYdOhZC4t4UA/feedshare-shrink_480/B56Z8WA6liIUAk-/0/1782780766817?e=1795046400&v=beta&t=ZWloiHOniERx7_edZAtgCVBCD_cLhVABPA7I8kR4fJE",
       "likes": 6,
       "comments": 4,
-      "ordem": 29
+      "ordem": 30
     },
     {
       "urn": "urn:li:activity:7477284778938105856",
@@ -330,7 +341,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQEmF-aoc9beBQ/videocover-low/B56Z8L5UlHIQBI-/0/1782611005271?e=1794225600&v=beta&t=7h5bQw_nXKpCfDsJAVSYq3RtoYIOidQDrhg4t2rH0Y0",
       "likes": 648,
       "comments": 59,
-      "ordem": 30
+      "ordem": 31
     },
     {
       "urn": "urn:li:activity:7475701310042894336",
@@ -341,7 +352,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQHEbD3gfODuNA/feedshare-shrink_800/B56Z78GugfKUAc-/0/1782346082758?e=1795046400&v=beta&t=NEiA0lRkrlo727V8GU_9aTC1STSuflX9yAHtJdlI5hA",
       "likes": 91,
       "comments": 32,
-      "ordem": 31
+      "ordem": 32
     },
     {
       "urn": "urn:li:activity:7470436600217300992",
@@ -352,7 +363,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQH9hQlC7y-Bvg/feedshare-shrink_480/B56Z6xSgN0I4Ak-/0/1781090878611?e=1795046400&v=beta&t=agWBF01qfEFbj-jQRMyv-7lT0Fz6bTF2SqujyUpaHvI",
       "likes": 2,
       "comments": 0,
-      "ordem": 32
+      "ordem": 33
     },
     {
       "urn": "urn:li:activity:7463193145607008256",
@@ -363,7 +374,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D4E05AQFLEV0JzueXhw/videocover-low/B4EZ5KWkx1JMBM-/0/1779363894329?e=1794225600&v=beta&t=A4F6SlfZkb0lMxC1jkNW0ki8uFM8tPnxOVHx2Y47vvk",
       "likes": 21,
       "comments": 2,
-      "ordem": 33
+      "ordem": 34
     },
     {
       "urn": "urn:li:activity:7456179212153114624",
@@ -374,7 +385,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQHXTLxqln99wg/videocover-low/B56Z3mrTmEGUBM-/0/1777691607760?e=1794225600&v=beta&t=pAryzaCk-ouELk00T1oSF7wWLzPRKO8QqrQCLEDg2eU",
       "likes": 8,
       "comments": 0,
-      "ordem": 34
+      "ordem": 35
     },
     {
       "urn": "urn:li:activity:7452015206932586496",
@@ -385,7 +396,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQEwbbbx0tDOnw/feedshare-shrink_160/B56Z2rgV8wGgAo-/0/1776698875934?e=1795046400&v=beta&t=zxk2vMM6DVh5_EogBMgbYkpuk0e1tkWJMHAmIOBLR4M",
       "likes": 13,
       "comments": 2,
-      "ordem": 35
+      "ordem": 36
     },
     {
       "urn": "urn:li:activity:7451452290563211264",
@@ -396,7 +407,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQHmA0r-giZtAA/feedshare-shrink_480/B56Z2jcwR7IsAo-/0/1776563717533?e=1795046400&v=beta&t=DMZ8x2J7vM6diYv5f30fspOUSI3WFuLoQGUshsidUeY",
       "likes": 17,
       "comments": 0,
-      "ordem": 36
+      "ordem": 37
     },
     {
       "urn": "urn:li:activity:7447640647722962946",
@@ -407,7 +418,7 @@
       "image": "",
       "likes": 16,
       "comments": 3,
-      "ordem": 37
+      "ordem": 38
     },
     {
       "urn": "urn:li:activity:7447050236356898816",
@@ -418,7 +429,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQFw9G-_39co2Q/feedshare-shrink_480/B56Z1k8ufrIIAk-/0/1775515134181?e=1795046400&v=beta&t=85WWedbMzRWN-1o-Jgc3KgDcNq9jYkkzS5K0jGvo6EM",
       "likes": 3,
       "comments": 1,
-      "ordem": 38
+      "ordem": 39
     },
     {
       "urn": "urn:li:activity:7444909765983596544",
@@ -429,7 +440,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQGMxAYatOPDKw/feedshare-thumbnail_720_1280/B56Z1Gh8A4H8A4-/0/1775004796824?e=1794225600&v=beta&t=zlBufrFjBhavRqk-OJQIfpaJSXHijuzbx6BQItIAg5w",
       "likes": 14,
       "comments": 0,
-      "ordem": 39
+      "ordem": 40
     },
     {
       "urn": "urn:li:activity:7444477803414073344",
@@ -440,7 +451,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQEl5ykq0_9mDQ/feedshare-thumbnail_720_1280/B56Z1AZFDsJwA8-/0/1774901810786?e=1794225600&v=beta&t=vGiMzbPJ6uuyt1kVH9G1p5y5KfmD9EdChMzvmSHBW18",
       "likes": 9,
       "comments": 3,
-      "ordem": 40
+      "ordem": 41
     },
     {
       "urn": "urn:li:activity:7442717669839179776",
@@ -451,7 +462,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQG_rGfI1aQVzQ/videocover-low/B56Z0nYPpnKsBU-/0/1774482161698?e=1794225600&v=beta&t=Ey1gVSM0EJheK5K2v0XGybj-a_-Pi-CrzjeddWJI_tM",
       "likes": 15,
       "comments": 3,
-      "ordem": 41
+      "ordem": 42
     },
     {
       "urn": "urn:li:activity:7442569673856151554",
@@ -462,7 +473,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQF9R0-xoBVUiw/feedshare-shrink_480/B56Z0lRrosJYAk-/0/1774446885715?e=1795046400&v=beta&t=0ZLYNtf-p-XUyFNhP0nNX_bgT5fZOwnkFGDZZo0wXyc",
       "likes": 10,
       "comments": 0,
-      "ordem": 42
+      "ordem": 43
     },
     {
       "urn": "urn:li:activity:7441125916795363329",
@@ -473,7 +484,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQHesREDOYODZQ/videocover-low/B56Z0QwjuBJMBU-/0/1774102659294?e=1794225600&v=beta&t=hA0Ddw6pGg-Cf08F6T9lWHFRoyyFJyHs6y1lxLziVp4",
       "likes": 7,
       "comments": 1,
-      "ordem": 43
+      "ordem": 44
     },
     {
       "urn": "urn:li:activity:7440861272813936640",
@@ -484,7 +495,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQEf5XyWvHmHEQ/videocover-low/B56Z0M_4XcH8BU-/0/1774039566718?e=1794225600&v=beta&t=Kyvnggq28OHCfreIIMx7nBax22PyXsNPzkLN725_bCE",
       "likes": 16,
       "comments": 2,
-      "ordem": 44
+      "ordem": 45
     },
     {
       "urn": "urn:li:activity:7440794660840722432",
@@ -495,7 +506,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQF_sLxL5Q9kCw/feedshare-shrink_480/B56Z0MDT9.KIAo-/0/1774023688312?e=1795046400&v=beta&t=kFuxOIny_QmeNl5b9CVXtPxdqqMRXNtjyvGz47YnL5Q",
       "likes": 6,
       "comments": 2,
-      "ordem": 45
+      "ordem": 46
     },
     {
       "urn": "urn:li:activity:7440771736243113984",
@@ -506,7 +517,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQEk3XZpnp5mig/videocover-low/B56Z0LubEaJ8BY-/0/1774018213685?e=1794225600&v=beta&t=PorxXs6a8lmblWCDIIfhkTWey6cU3Jkrm3gvk2dWILE",
       "likes": 8,
       "comments": 0,
-      "ordem": 46
+      "ordem": 47
     },
     {
       "urn": "urn:li:activity:7440493365672095746",
@@ -517,7 +528,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQFgFSCzzsmSOg/videocover-low/B56Z0HxP0CKYBU-/0/1773951845115?e=1794225600&v=beta&t=i2pNsKDPFabN-V65JYRNjnHqqEPXutQk-FeVdmpo_v0",
       "likes": 15,
       "comments": 2,
-      "ordem": 47
+      "ordem": 48
     },
     {
       "urn": "urn:li:activity:7440337706787811328",
@@ -528,7 +539,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQEYs9a7YEwY5g/feedshare-shrink_480/B56Z0FjtwjHoAk-/0/1773914742047?e=1795046400&v=beta&t=cO-SZsa1E6-x9psRvyNy7SCn7KvRSZLqLa60yopc_4k",
       "likes": 46,
       "comments": 1,
-      "ordem": 48
+      "ordem": 49
     },
     {
       "urn": "urn:li:activity:7439855172484407297",
@@ -539,7 +550,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQG-OkbNwDXwZQ/feedshare-shrink_480/B56Zz.s249JwAs-/0/1773799698223?e=1795046400&v=beta&t=bpAUvqHuxoBR5H6doAO0gg8g3BdCTtFy6kLrk3B7Ha4",
       "likes": 10,
       "comments": 1,
-      "ordem": 49
+      "ordem": 50
     },
     {
       "urn": "urn:li:activity:7439477397667811328",
@@ -550,7 +561,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQFs4NJfNp_fLg/feedshare-shrink_480/B56Zz5VREJIMAo-/0/1773709627898?e=1795046400&v=beta&t=yG-FlvQN_bCGhkpxd47Hu2l2wHAGRLCW5Yin1hz3Iu0",
       "likes": 15,
       "comments": 1,
-      "ordem": 50
+      "ordem": 51
     },
     {
       "urn": "urn:li:activity:7439092043848704000",
@@ -561,7 +572,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQHWM1mpYKguyw/videocover-low/B56Zzz2w0gJkBU-/0/1773617746651?e=1794225600&v=beta&t=LrLn1qrQmO4SrXXlFLxlgQoJIVkbZaQH4urdVcs67Mo",
       "likes": 12,
       "comments": 1,
-      "ordem": 51
+      "ordem": 52
     },
     {
       "urn": "urn:li:activity:7439057356954439680",
@@ -572,7 +583,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQHU3vPmnqobug/feedshare-shrink_480/B56ZzzXPrBHoAk-/0/1773609483221?e=1795046400&v=beta&t=ypfrl_gn1e8QdarAFxK-OcjbeImNa_YVWMtJyoPDM70",
       "likes": 12,
       "comments": 1,
-      "ordem": 52
+      "ordem": 53
     },
     {
       "urn": "urn:li:activity:7438596589176340480",
@@ -583,7 +594,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQEoJMpZKNeG9A/feedshare-shrink_480/B56Zzs0Lm3JkAk-/0/1773499628192?e=1795046400&v=beta&t=Hmt9TbaNc8vNtpm8f9Fw4IJMPTw_Gdorql5LmGNvwH8",
       "likes": 6,
       "comments": 1,
-      "ordem": 53
+      "ordem": 54
     },
     {
       "urn": "urn:li:activity:7438582653081079811",
@@ -594,7 +605,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQFK8Y27VHJOGg/videocover-low/B56ZzsndZQI0CE-/0/1773496294586?e=1794225600&v=beta&t=l66a0D3AbgdJTXJNDslbVb369I1KZYgAv5o6wkWvphQ",
       "likes": 21,
       "comments": 0,
-      "ordem": 54
+      "ordem": 55
     },
     {
       "urn": "urn:li:activity:7438582194723409920",
@@ -605,7 +616,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQFoBCwnwNaFQw/videocover-low/B56ZzsnBrWHoBU-/0/1773496181430?e=1794225600&v=beta&t=9rJ6E4KHDzGEDYFur2tJYUSvQ6esoIklVWMoLO_hpGA",
       "likes": 24,
       "comments": 0,
-      "ordem": 55
+      "ordem": 56
     },
     {
       "urn": "urn:li:activity:7438360962358935552",
@@ -616,7 +627,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQFU4anGVDxKNQ/feedshare-shrink_480/B56Zzpd4GpKUAk-/0/1773443449517?e=1795046400&v=beta&t=WHQTVe2fc6WUOz2qSn8ZrjFFNcE1DwIO1L0de_Fs8XU",
       "likes": 12,
       "comments": 0,
-      "ordem": 56
+      "ordem": 57
     },
     {
       "urn": "urn:li:activity:7437681300607500289",
@@ -627,7 +638,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQHkzMSmdRgcCg/videocover-low/B56ZzfzoGKKUBY-/0/1773281381436?e=1794225600&v=beta&t=7LMqzkk0ASv2DmdPQ4SencPNhfcV2wqGYV5IGDnPXZQ",
       "likes": 2,
       "comments": 0,
-      "ordem": 57
+      "ordem": 58
     },
     {
       "urn": "urn:li:activity:7436588313131589632",
@@ -638,7 +649,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQHdGtKlokzR3Q/feedshare-shrink_480/B56ZzQRqiJIoAk-/0/1773020817787?e=1795046400&v=beta&t=hux93ZxWYpTtZeYmjXevywVNjrxSkLR7vJbI6W4XIqI",
       "likes": 425,
       "comments": 36,
-      "ordem": 58
+      "ordem": 59
     },
     {
       "urn": "urn:li:activity:7435772621922664448",
@@ -649,7 +660,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQFZSTG5JVCN6A/videocover-low/B56ZzErw.GH8BU-/0/1772826334379?e=1794225600&v=beta&t=q-ahtzzcM5SCUznJiQRMWi4fFxILxZS2P3NXlKBNSIM",
       "likes": 6,
       "comments": 2,
-      "ordem": 59
+      "ordem": 60
     },
     {
       "urn": "urn:li:activity:7434934263256403969",
@@ -660,7 +671,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQHaKJrhYr9qfg/feedshare-shrink_480/B56Zy4xUMgGQAo-/0/1772626461745?e=1795046400&v=beta&t=vlOtLYtBm5H0T9v6mbWuwOyZfHBtoh8nX3BQyeHsaew",
       "likes": 60,
       "comments": 0,
-      "ordem": 60
+      "ordem": 61
     },
     {
       "urn": "urn:li:activity:7434609740086726656",
@@ -671,7 +682,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQGAynO98yFGFw/videocover-low/B56Zy0KH2AHUBY-/0/1772549080080?e=1794225600&v=beta&t=NmYDDBNKXw0Il8B1P0cwIHNkyQ2SEQ8rEqK8pfeY014",
       "likes": 4,
       "comments": 0,
-      "ordem": 61
+      "ordem": 62
     },
     {
       "urn": "urn:li:activity:7434320966136041472",
@@ -682,7 +693,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D4D22AQFnOWQespW0SA/feedshare-shrink_160/B4DZywDhf4IUAs-/0/1772480239962?e=1795046400&v=beta&t=G-FYtH-PqBmdYHPLb1BgV6de7uDZ2bmJQWg938QCjnk",
       "likes": 7,
       "comments": 0,
-      "ordem": 62
+      "ordem": 63
     },
     {
       "urn": "urn:li:activity:7434075704717385728",
@@ -693,7 +704,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQHZJ9tGK1MG7Q/videocover-low/B56ZyskYPFHgBU-/0/1772421745490?e=1794225600&v=beta&t=JFgjHSnC46vU-pbcjjKJQcOvO9cHY2exkU55G3-0VSY",
       "likes": 10,
       "comments": 0,
-      "ordem": 63
+      "ordem": 64
     },
     {
       "urn": "urn:li:activity:7433707428795338752",
@@ -704,7 +715,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQH4IowM7lb9SQ/feedshare-shrink_160/B56ZynVhJAIAAs-/0/1772333962055?e=1795046400&v=beta&t=IW_ROk0vJeRGGHjcUwtJFV6pNufLvg7MZZvvBejIdNE",
       "likes": 22,
       "comments": 5,
-      "ordem": 64
+      "ordem": 65
     },
     {
       "urn": "urn:li:activity:7433312671892029441",
@@ -715,7 +726,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQHVe4H1Jfwm6g/feedshare-shrink_480/B56ZyhufMrHQAs-/0/1772239844396?e=1795046400&v=beta&t=uiUq4gsEz1_F5wBTj4ezbft6k7TKl8hERyyEH2h_w9I",
       "likes": 911,
       "comments": 89,
-      "ordem": 65
+      "ordem": 66
     },
     {
       "urn": "urn:li:activity:7432075287452094464",
@@ -726,7 +737,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQF1sqhhehTqEg/feedshare-shrink_480/B56ZyQJFy4KoAo-/0/1771944828361?e=1795046400&v=beta&t=2uI_K-fL0KQBlFCO4G-bnTnV4OFW9s3SAWXklhTUMEI",
       "likes": 21,
       "comments": 2,
-      "ordem": 66
+      "ordem": 67
     },
     {
       "urn": "urn:li:activity:7431804073559097345",
@@ -737,7 +748,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQHDH-QgS_sW_w/videocover-low/B56ZyMSY0EI0BY-/0/1771880158239?e=1794225600&v=beta&t=OAeda5ER2eDMgnlccPR1Sz_8d8G3-O8r3eNc-VEp41w",
       "likes": 16,
       "comments": 0,
-      "ordem": 67
+      "ordem": 68
     },
     {
       "urn": "urn:li:activity:7431706970145067010",
@@ -748,7 +759,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQF5PSsYkL5YWQ/feedshare-shrink_480/B56ZyK6HGTHYAo-/0/1771857015479?e=1795046400&v=beta&t=azyfPLiFxbGyS4yMtlpccWuLUMIS6dicjI4fvpOnXKU",
       "likes": 14,
       "comments": 6,
-      "ordem": 68
+      "ordem": 69
     },
     {
       "urn": "urn:li:activity:7431403041431494657",
@@ -759,7 +770,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQE8Qe5ACasodQ/feedshare-shrink_480/B56ZyGlr17KMAo-/0/1771784552079?e=1795046400&v=beta&t=hVvhQDGwJ6k3RE2IJPNgwt28uLl9I5_nmgxNug5QmEY",
       "likes": 7,
       "comments": 0,
-      "ordem": 69
+      "ordem": 70
     },
     {
       "urn": "urn:li:activity:7430806899744432128",
@@ -770,7 +781,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQFTj_wuiqOraQ/videocover-low/B56Zx.HcheIcBU-/0/1771642409304?e=1794225600&v=beta&t=XHwg8Kwk8Mim8LbQGn7Tch0nO9diYgvBqyR_SDAWr9Q",
       "likes": 14,
       "comments": 0,
-      "ordem": 70
+      "ordem": 71
     },
     {
       "urn": "urn:li:activity:7429183626174693377",
@@ -781,7 +792,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5605AQHRPSHtvySuiA/videocover-low/B56ZxnDFNZKgBU-/0/1771255389225?e=1794225600&v=beta&t=g3YrqpTcHRy53dto3sf6KUvkuGCo6WAsQyXrvUZRcJ8",
       "likes": 14,
       "comments": 0,
-      "ordem": 71
+      "ordem": 72
     },
     {
       "urn": "urn:li:activity:7427415117883121664",
@@ -792,7 +803,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQGHZbGpZZc8Mw/feedshare-shrink_480/B56ZxN6sZbJMAw-/0/1770833758068?e=1795046400&v=beta&t=t5wYXCbQvRnKFm8UFl8pCGayow5mng3J5XawEpCZ47c",
       "likes": 4,
       "comments": 1,
-      "ordem": 72
+      "ordem": 73
     },
     {
       "urn": "urn:li:activity:7425612242248835073",
@@ -803,7 +814,7 @@
       "image": "https://media.licdn.com/dms/image/v2/D5622AQF74taisme4XA/feedshare-shrink_480/B56Zw0S_FZHIAs-/0/1770403918426?e=1795046400&v=beta&t=uR7vEHCV53H76_qcm94SArUKIUb0JvHkzGddA5v1tcI",
       "likes": 3,
       "comments": 0,
-      "ordem": 73
+      "ordem": 74
     }
   ]
 }
