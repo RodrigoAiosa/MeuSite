@@ -328,6 +328,7 @@ section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,0.04); }
 footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; text-align: center; color: #5b6880; font-size: 0.85rem; }
 .promo { position: fixed; right: 22px; bottom: 22px; z-index: 40; display: flex; align-items: center; gap: 8px; padding: 13px 20px; border-radius: 999px; background: linear-gradient(135deg, #d4910e, var(--gold), #d4910e); color: #1a0800; font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 2px; text-decoration: none; box-shadow: 0 4px 0 #7a4e00, 0 6px 24px rgba(200,134,10,0.5); transition: transform .2s; }
 .promo:hover { transform: translateY(-3px) scale(1.03); }
+.promo.oculto { opacity: 0; pointer-events: none; transform: translateY(16px); transition: opacity .2s, transform .2s; }
 @media (max-width: 520px) { .promo { right: 12px; bottom: 12px; font-size: 13px; padding: 11px 16px; } }
 
 /* ── MODAL ── */
@@ -757,6 +758,10 @@ $("#iaStart")?.addEventListener("click", () => {
   box.innerHTML = `<iframe src="https://aiosaia.vercel.app/" title="Chat com a AIOSA IA" allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"></iframe>
     <div class="ia-bar"><a href="https://aiosaia.vercel.app/" target="_blank" rel="noopener">Abrir em uma nova aba ↗</a></div>`;
   box.querySelector("iframe").focus();
+  // esconde o botão flutuante da promoção enquanto o chat está na tela (ele cobria o botão de enviar)
+  const promo = document.querySelector(".promo");
+  if (promo && "IntersectionObserver" in window)
+    new IntersectionObserver(([e]) => promo.classList.toggle("oculto", e.isIntersecting), { threshold: 0.15 }).observe(box);
 });
 
 function fitCase(img) {
