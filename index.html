@@ -282,7 +282,9 @@ section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,0.04); }
 .ia-box { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--bg-2); }
 .ia-start { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 56px 24px; text-align: center; }
 .ia-start img { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(0,180,216,0.4); }
-.ia-box iframe { width: 100%; height: 720px; border: 0; display: block; background: #fff; }
+.ia-box iframe { width: 100%; height: min(720px, 80vh); min-height: 520px; border: 0; display: block; background: var(--bg-2); }
+.ia-bar { display: flex; justify-content: flex-end; padding: 8px 12px; border-top: 1px solid var(--border); font-size: .85rem; }
+.ia-bar a { color: var(--muted); }
 
 /* ── CONTATO ── */
 .contact { text-align: center; }
@@ -564,8 +566,9 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
     <div class="ia-box" id="iaBox">
       <div class="ia-start">
         <img src="assets/eu_ia.png" alt="Avatar da AIOSA IA" loading="lazy" width="110" height="110">
-        <p style="margin:0;color:var(--muted)">O assistente abre em uma nova aba.</p>
-        <a class="btn btn-primary" id="iaStart" href="https://aiosaia.vercel.app/" target="_blank" rel="noopener">Conversar com a AIOSA IA ↗</a>
+        <p style="margin:0;color:var(--muted)">Tire dúvidas sobre projetos, serviços e cases, aqui mesmo no site.</p>
+        <button type="button" class="btn btn-primary" id="iaStart">Conversar com a AIOSA IA</button>
+        <a href="https://aiosaia.vercel.app/" target="_blank" rel="noopener" style="font-size:.85rem;color:var(--muted)">ou abrir em uma nova aba ↗</a>
       </div>
     </div>
   </div>
@@ -747,6 +750,14 @@ trilho($("#logosDestaque"), LOGOS_DESTAQUE, l => l.f
   : `<div class="logo-card" title="${esc(l.n)}"><span>${esc(l.n)}</span></div>`);
 trilho($("#logosTodos"), LOGOS_CLIENTES, ([n, f]) =>
   `<div class="logo-card" title="${esc(n)}"><img src="assets/logos/${f}.webp" alt="${esc(n)}" decoding="async"></div>`);
+
+/* ── AIOSA IA embutida: carrega o chat só quando o visitante pede ── */
+$("#iaStart")?.addEventListener("click", () => {
+  const box = $("#iaBox");
+  box.innerHTML = `<iframe src="https://aiosaia.vercel.app/" title="Chat com a AIOSA IA" allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    <div class="ia-bar"><a href="https://aiosaia.vercel.app/" target="_blank" rel="noopener">Abrir em uma nova aba ↗</a></div>`;
+  box.querySelector("iframe").focus();
+});
 
 function fitCase(img) {
   const r = img.naturalWidth / img.naturalHeight;
