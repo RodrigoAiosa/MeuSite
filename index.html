@@ -565,12 +565,8 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
     <h2 class="section-title">🦉 AIOSA IA</h2>
     <p class="section-lead">Assistente virtual inteligente desenvolvido por Rodrigo Aiosa.</p>
     <div class="ia-box" id="iaBox">
-      <div class="ia-start">
-        <img src="assets/eu_ia.png" alt="Avatar da AIOSA IA" loading="lazy" width="110" height="110">
-        <p style="margin:0;color:var(--muted)">Tire dúvidas sobre projetos, serviços e cases, aqui mesmo no site.</p>
-        <button type="button" class="btn btn-primary" id="iaStart">Conversar com a AIOSA IA</button>
-        <a href="https://aiosaia.vercel.app/" target="_blank" rel="noopener" style="font-size:.85rem;color:var(--muted)">ou abrir em uma nova aba ↗</a>
-      </div>
+      <iframe src="https://aiosaia.vercel.app/" title="Chat com a AIOSA IA" loading="lazy" allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      <div class="ia-bar"><a href="https://aiosaia.vercel.app/" target="_blank" rel="noopener">Abrir em uma nova aba ↗</a></div>
     </div>
   </div>
 </section>
@@ -752,17 +748,12 @@ trilho($("#logosDestaque"), LOGOS_DESTAQUE, l => l.f
 trilho($("#logosTodos"), LOGOS_CLIENTES, ([n, f]) =>
   `<div class="logo-card" title="${esc(n)}"><img src="assets/logos/${f}.webp" alt="${esc(n)}" decoding="async"></div>`);
 
-/* ── AIOSA IA embutida: carrega o chat só quando o visitante pede ── */
-$("#iaStart")?.addEventListener("click", () => {
-  const box = $("#iaBox");
-  box.innerHTML = `<iframe src="https://aiosaia.vercel.app/" title="Chat com a AIOSA IA" allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-    <div class="ia-bar"><a href="https://aiosaia.vercel.app/" target="_blank" rel="noopener">Abrir em uma nova aba ↗</a></div>`;
-  box.querySelector("iframe").focus();
-  // esconde o botão flutuante da promoção enquanto o chat está na tela (ele cobria o botão de enviar)
-  const promo = document.querySelector(".promo");
-  if (promo && "IntersectionObserver" in window)
+/* ── AIOSA IA: o botão flutuante da promoção some enquanto o chat está na tela (cobria o botão de enviar no celular) ── */
+(() => {
+  const promo = document.querySelector(".promo"), box = $("#iaBox");
+  if (promo && box && "IntersectionObserver" in window)
     new IntersectionObserver(([e]) => promo.classList.toggle("oculto", e.isIntersecting), { threshold: 0.15 }).observe(box);
-});
+})();
 
 function fitCase(img) {
   const r = img.naturalWidth / img.naturalHeight;
