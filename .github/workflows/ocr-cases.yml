@@ -1,0 +1,37 @@
+name: Atualizar pesquisa dos cases
+
+# Sempre que uma imagem de case entra ou muda em assets/img_cases_suceso/, extrai o texto
+# por OCR e atualiza data/cases_texto.json, usado pela pesquisa da seção Cases de Sucesso.
+on:
+  push:
+    branches: [main]
+    paths: [assets/img_cases_suceso/**]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: commits-automaticos
+  cancel-in-progress: false
+
+jobs:
+  ocr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update -q && sudo apt-get install -y -q tesseract-ocr tesseract-ocr-por
+      - run: pip install pillow
+      - run: python ocr_cases.py
+      - name: Commit do índice de pesquisa
+        run: |
+          git add data/cases_texto.json
+          if git diff --cached --quiet; then echo "Pesquisa já estava atualizada."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Atualiza pesquisa dos cases (OCR)"
+          git pull --rebase origin main
+          git push origin HEAD:main

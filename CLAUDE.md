@@ -16,10 +16,17 @@ Sempre que for pedido um novo case, fazer as três etapas:
    pelo menos 10 processos). Entregar PNG em alta resolução e JPG 1460×973.
 2. **Site**: salvar o JPG em `assets/img_cases_suceso/<próximo número>.jpg`
    e incluir na lista `CASES` do `index.html` (`{ f, t: cliente, s: setor }`).
-   Depois rodar `python ocr_cases.py` para atualizar `data/cases_texto.json`,
-   que alimenta a pesquisa por texto da seção Cases de Sucesso.
+   O GitHub Actions (`.github/workflows/ocr-cases.yml`) roda o `ocr_cases.py`
+   sozinho quando a imagem chega no main e atualiza `data/cases_texto.json`
+   (pesquisa da seção Cases de Sucesso); não é preciso rodar à mão.
 3. **Currículo**: atualizar `_Rodrigo_Aiosa_CV 2026.docx` no repositório
    `RodrigoAiosa/AIOSA_IA`, adicionando o case em "Cases de Sucesso"
    (mesmo formato dos demais: `Cliente | Setor` + 3 a 4 bullets, o último
    com "Resultado:") e incluindo o cliente na lista do resumo profissional.
    Não inventar números de resultado que o usuário não informou.
+
+## Aba "Em destaque Linkedin"
+
+- `data/linkedin_posts.json` pode receber links de imagem do LinkedIn normalmente:
+  o GitHub Actions (`.github/workflows/linkedin-imagens.yml`) baixa cada imagem para
+  `assets/linkedin/` e troca o link pelo arquivo local, porque os links do LinkedIn expiram.
