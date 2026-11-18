@@ -18,6 +18,9 @@ concurrency:
 jobs:
   ocr:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      OMP_THREAD_LIMIT: "1"   # o script já roda 4 OCRs em paralelo; sem isso o Tesseract disputa os núcleos e fica muito lento
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
