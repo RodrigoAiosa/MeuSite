@@ -8,3 +8,4 @@ Views/
 .devcontainer/
 __pycache__/
 assets/*.docx
+.github/
