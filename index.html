@@ -1078,7 +1078,7 @@ function track(name, data) { try { if (window.va) window.va("event", { name, dat
 // Leads do diagnóstico vão para o webhook do Make (cenário "Site - Lead do diagnóstico", que salva no Google Drive)
 const LEAD_WEBHOOK = "https://hook.us2.make.com/netnvxsr634ilf3wit9muh59wip71ho8";
 // Link de agendamento (página de agendamento do Google Agenda). Vazio = o pedido de horário vai pelo WhatsApp.
-const AGENDA_URL = "";
+const AGENDA_URL = "https://calendar.google.com/calendar/appointments/schedules/AcZssZ2XHbpVx3ZNimwVj1Idw84qYAz0U3F7G0HqZjg28AHIyyIf9Bb0XPSU53UUN2PVPyj5ly58fjvd";
 const DIAG_PERGUNTAS = [
   { id: "dor", titulo: "Qual é a sua principal dor hoje?", opcoes: [
     { v: "automacao", ico: "⏱️", t: "Relatórios manuais e planilhas demoradas", s: "O time perde horas copiando e colando dados." },
@@ -1201,7 +1201,11 @@ function renderDiag(foco) {
           ? `<p>Abra o case abaixo para ver o projeto completo. Quando quiser conversar, é só chamar.</p>
              <div class="diag-ctas"><button type="button" class="btn btn-primary" data-img="assets/img_cases_suceso/${cs.img}">Ver o case ${esc(cs.nome)}</button>
              <a class="btn btn-ghost" href="${diagWhats(diagEnviado)}" target="_blank" rel="noopener" data-track="whats_pos_material">${WHATS_SVG} Falar no WhatsApp</a></div>`
-          : `<p>Se o WhatsApp não abriu, <a href="${diagEnviado.destino === "agenda" && AGENDA_URL ? AGENDA_URL : diagWhats(diagEnviado)}" target="_blank" rel="noopener">clique aqui</a>.</p>`}
+          : diagEnviado.destino === "agenda" && AGENDA_URL
+            ? `<p>A agenda abriu em outra aba: escolha o melhor horário e você recebe o convite com o link do Google Meet.</p>
+               <div class="diag-ctas"><a class="btn btn-primary" href="${AGENDA_URL}" target="_blank" rel="noopener" data-track="agenda_reabrir">📅 Abrir a agenda</a>
+               <a class="btn btn-ghost" href="${diagWhats(diagEnviado)}" target="_blank" rel="noopener" data-track="whats_pos_agenda">${WHATS_SVG} Prefiro o WhatsApp</a></div>`
+            : `<p>Se o WhatsApp não abriu, <a href="${diagWhats(diagEnviado)}" target="_blank" rel="noopener">clique aqui</a>.</p>`}
       </div>` : `<form class="diag-form" id="diagForm" novalidate>
         <div class="diag-form-t">${cta.titulo}</div>
         <div class="diag-campos">
@@ -1212,7 +1216,7 @@ function renderDiag(foco) {
         ${diagResp.prazo === "urgente" && !AGENDA_URL ? `<div class="diag-horarios" role="radiogroup" aria-label="Melhor horário para a conversa">
           ${DIAG_HORARIOS.map((t, i) => `<label><input type="radio" name="horario" value="${t}"${i ? "" : " checked"}><span>${t}</span></label>`).join("")}</div>` : ""}
         <p class="diag-erro" id="diagErro" role="alert" hidden></p>
-        <button type="submit" class="btn btn-whats">${cta.destino === "material" ? "" : WHATS_SVG} ${cta.botao}</button>
+        <button type="submit" class="btn btn-whats">${cta.destino === "material" || (cta.destino === "agenda" && AGENDA_URL) ? "📅" : WHATS_SVG} ${cta.destino === "agenda" && AGENDA_URL ? "Escolher horário na agenda" : cta.botao}</button>
         <p class="diag-lgpd">Seus dados são usados apenas para este contato.</p>
       </form>`;
     box.innerHTML = `<div class="diag-top"><span class="diag-step">✅ Diagnóstico concluído</span>
