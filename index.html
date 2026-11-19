@@ -324,22 +324,27 @@ section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,0.04); }
 .diag-roi { margin: 4px 0 14px; padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(37,211,102,0.35); background: rgba(37,211,102,0.07); color: var(--text-2); }
 .diag-roi strong { display: block; color: #7ef0a8; font-size: 1.15rem; }
 .diag-roi small { display: block; color: var(--muted); font-size: 0.8rem; margin-top: 4px; }
-.diag-form { margin: 8px 0 4px; padding: 16px; border-radius: 12px; border: 1px solid rgba(0,180,216,0.3); background: var(--bg-2); }
-.diag-form-t { font-weight: 600; color: #e8f4ff; margin-bottom: 10px; }
-.diag-campos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.diag-form { margin: 10px 0 4px; padding: clamp(18px, 3vw, 24px); border-radius: 16px; border: 1px solid rgba(0,180,216,0.28); background: linear-gradient(160deg, rgba(0,180,216,0.08), rgba(0,0,0,0.18) 60%); box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+.diag-form-t { font-weight: 700; font-size: 1.08rem; line-height: 1.35; color: #e8f4ff; margin-bottom: 4px; }
+.diag-res .diag-form-s { font-size: 0.86rem; color: var(--muted); margin: 0 0 16px; }
+.diag-campos { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; margin-bottom: 16px; }
 .diag-campos .full { grid-column: 1 / -1; }
-@media (max-width: 520px) { .diag-campos { grid-template-columns: 1fr; } }
-.diag-campos label { display: flex; flex-direction: column; gap: 4px; font-size: 0.82rem; color: var(--muted); }
-.diag-campos input { font: inherit; font-size: 1rem; color: #e8f4ff; background: rgba(0,0,0,0.25); border: 1px solid var(--border); border-radius: 10px; padding: 11px 12px; min-height: 44px; }
-.diag-campos input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,180,216,0.18); }
+@media (max-width: 520px) { .diag-campos { grid-template-columns: minmax(0, 1fr); } }
+.diag-campos label { display: flex; flex-direction: column; gap: 6px; min-width: 0; font-size: 0.82rem; font-weight: 500; color: var(--text-2); }
+.diag-campos label em { font-style: normal; font-weight: 400; color: var(--muted); }
+.diag-campos input { width: 100%; min-width: 0; font: inherit; font-size: 1rem; color: #e8f4ff; background: rgba(255,255,255,0.035); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 0 14px; height: 48px; transition: border-color .2s, box-shadow .2s, background .2s; }
+.diag-campos input::placeholder { color: var(--muted); opacity: 0.6; }
+.diag-campos input:hover { border-color: rgba(255,255,255,0.22); }
+.diag-campos input:focus { outline: none; border-color: var(--accent); background: rgba(0,180,216,0.06); box-shadow: 0 0 0 3px rgba(0,180,216,0.18); }
+.diag-campos input.invalido { border-color: #ff8a8a; box-shadow: 0 0 0 3px rgba(255,138,138,0.15); }
 .diag-horarios { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
 .diag-horarios input { position: absolute; opacity: 0; pointer-events: none; }
 .diag-horarios span { display: inline-block; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--border); font-size: 0.86rem; color: var(--text-2); cursor: pointer; }
 .diag-horarios input:checked + span { border-color: var(--accent); background: rgba(0,180,216,0.14); color: #e8f4ff; }
 .diag-horarios input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
-.diag-form .btn-whats { width: 100%; justify-content: center; }
-.diag-erro { color: #ff8a8a; font-size: 0.88rem; margin: 0 0 10px; }
-.diag-lgpd { font-size: 0.76rem; color: var(--muted); margin: 8px 0 0; text-align: center; }
+.diag-form .btn-whats { width: 100%; justify-content: center; min-height: 52px; border-radius: 12px; font-weight: 600; }
+.diag-res .diag-erro { color: #ff8a8a; font-size: 0.88rem; margin: -4px 0 12px; }
+.diag-lgpd { font-size: 0.78rem; color: var(--muted); margin: 10px 0 0; text-align: center; }
 .diag-ok { margin: 8px 0 4px; padding: 16px; border-radius: 12px; border: 1px solid rgba(37,211,102,0.35); background: rgba(37,211,102,0.07); }
 .diag-ok strong { color: #7ef0a8; font-size: 1.05rem; }
 .diag-ok p { margin: 6px 0 12px; }
@@ -1208,16 +1213,17 @@ function renderDiag(foco) {
             : `<p>Se o WhatsApp não abriu, <a href="${diagWhats(diagEnviado)}" target="_blank" rel="noopener">clique aqui</a>.</p>`}
       </div>` : `<form class="diag-form" id="diagForm" novalidate>
         <div class="diag-form-t">${cta.titulo}</div>
+        <p class="diag-form-s">Leva menos de 20 segundos.</p>
         <div class="diag-campos">
-          <label>Nome<input name="nome" autocomplete="name" required maxlength="80"></label>
-          <label>Empresa<input name="empresa" autocomplete="organization" maxlength="80"></label>
-          <label class="full">WhatsApp ou e-mail<input name="contato" autocomplete="tel" required maxlength="100" placeholder="(11) 90000-0000 ou nome@empresa.com"></label>
+          <label><span>Nome</span><input name="nome" autocomplete="name" required maxlength="80"></label>
+          <label><span>Empresa <em>(opcional)</em></span><input name="empresa" autocomplete="organization" maxlength="80"></label>
+          <label class="full"><span>WhatsApp ou e-mail</span><input name="contato" autocomplete="tel" required maxlength="100" placeholder="(11) 90000-0000"></label>
         </div>
         ${diagResp.prazo === "urgente" && !AGENDA_URL ? `<div class="diag-horarios" role="radiogroup" aria-label="Melhor horário para a conversa">
           ${DIAG_HORARIOS.map((t, i) => `<label><input type="radio" name="horario" value="${t}"${i ? "" : " checked"}><span>${t}</span></label>`).join("")}</div>` : ""}
         <p class="diag-erro" id="diagErro" role="alert" hidden></p>
         <button type="submit" class="btn btn-whats">${cta.destino === "material" || (cta.destino === "agenda" && AGENDA_URL) ? "📅" : WHATS_SVG} ${cta.destino === "agenda" && AGENDA_URL ? "Escolher horário na agenda" : cta.botao}</button>
-        <p class="diag-lgpd">Seus dados são usados apenas para este contato.</p>
+        <p class="diag-lgpd">🔒 Seus dados são usados apenas para este contato.</p>
       </form>`;
     box.innerHTML = `<div class="diag-top"><span class="diag-step">✅ Diagnóstico concluído</span>
         <button type="button" class="diag-back" data-diag-refazer>↺ Refazer</button></div>
@@ -1266,7 +1272,7 @@ $("#diag").addEventListener("submit", e => {
   const erro = $("#diagErro"), digitos = (lead.contato || "").replace(/\D/g, "");
   const ok = lead.nome && (/^\S+@\S+\.\S+$/.test(lead.contato) || digitos.length >= 10);
   if (!ok) { erro.textContent = !lead.nome ? "Informe seu nome." : "Informe um WhatsApp com DDD ou um e-mail válido."; erro.hidden = false;
-    e.target.querySelector(!lead.nome ? "[name=nome]" : "[name=contato]").focus(); return; }
+    const campo = e.target.querySelector(!lead.nome ? "[name=nome]" : "[name=contato]"); campo.classList.add("invalido"); campo.focus(); return; }
   lead.destino = DIAG_CTA[diagResp.prazo].destino;
   diagEnviarLead(lead);
   track("lead_enviado", { prazo: diagResp.prazo, dor: diagResp.dor, setor: diagResp.setor, destino: lead.destino });
@@ -1274,7 +1280,7 @@ $("#diag").addEventListener("submit", e => {
   else if (lead.destino !== "material") window.open(diagWhats(lead), "_blank", "noopener");
   diagEnviado = lead; renderDiag(true);
 });
-$("#diag").addEventListener("input", e => { if (e.target.closest("#diagForm")) { const er = $("#diagErro"); if (er) er.hidden = true; } });
+$("#diag").addEventListener("input", e => { if (e.target.closest("#diagForm")) { const er = $("#diagErro"); if (er) er.hidden = true; e.target.classList.remove("invalido"); } });
 $("#diag").addEventListener("click", e => {
   const op = e.target.closest("[data-diag]");
   if (op) {
