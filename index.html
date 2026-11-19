@@ -306,7 +306,8 @@ section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,0.04); }
 .diag-opt .ico { font-size: 1.4rem; line-height: 1; }
 .diag-opt strong { display: block; color: #e8f4ff; font-weight: 600; margin-bottom: 2px; }
 .diag-opt small { color: var(--muted); font-size: 0.84rem; }
-.diag-res { display: grid; grid-template-columns: 1fr 260px; gap: 22px; align-items: start; }
+.diag-res { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 22px; align-items: start; }
+.diag-res > div { min-width: 0; }
 @media (max-width: 700px) { .diag-res { grid-template-columns: 1fr; } }
 .diag-res .tag { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); font-weight: 600; margin-bottom: 6px; }
 .diag-res h3 { margin-bottom: 8px; }
@@ -320,6 +321,34 @@ section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,0.04); }
 .diag-alt { text-align: center; margin: 18px 0 0; font-size: 0.9rem; color: var(--muted); }
 .diag-alt a { color: var(--accent); }
 @media (prefers-reduced-motion: reduce) { .diag-bar span, .diag-opt { transition: none; } }
+.diag-roi { margin: 4px 0 14px; padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(37,211,102,0.35); background: rgba(37,211,102,0.07); color: var(--text-2); }
+.diag-roi strong { display: block; color: #7ef0a8; font-size: 1.15rem; }
+.diag-roi small { display: block; color: var(--muted); font-size: 0.8rem; margin-top: 4px; }
+.diag-form { margin: 8px 0 4px; padding: 16px; border-radius: 12px; border: 1px solid rgba(0,180,216,0.3); background: var(--bg-2); }
+.diag-form-t { font-weight: 600; color: #e8f4ff; margin-bottom: 10px; }
+.diag-campos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.diag-campos .full { grid-column: 1 / -1; }
+@media (max-width: 520px) { .diag-campos { grid-template-columns: 1fr; } }
+.diag-campos label { display: flex; flex-direction: column; gap: 4px; font-size: 0.82rem; color: var(--muted); }
+.diag-campos input { font: inherit; font-size: 1rem; color: #e8f4ff; background: rgba(0,0,0,0.25); border: 1px solid var(--border); border-radius: 10px; padding: 11px 12px; min-height: 44px; }
+.diag-campos input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,180,216,0.18); }
+.diag-horarios { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.diag-horarios input { position: absolute; opacity: 0; pointer-events: none; }
+.diag-horarios span { display: inline-block; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--border); font-size: 0.86rem; color: var(--text-2); cursor: pointer; }
+.diag-horarios input:checked + span { border-color: var(--accent); background: rgba(0,180,216,0.14); color: #e8f4ff; }
+.diag-horarios input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.diag-form .btn-whats { width: 100%; justify-content: center; }
+.diag-erro { color: #ff8a8a; font-size: 0.88rem; margin: 0 0 10px; }
+.diag-lgpd { font-size: 0.76rem; color: var(--muted); margin: 8px 0 0; text-align: center; }
+.diag-ok { margin: 8px 0 4px; padding: 16px; border-radius: 12px; border: 1px solid rgba(37,211,102,0.35); background: rgba(37,211,102,0.07); }
+.diag-ok strong { color: #7ef0a8; font-size: 1.05rem; }
+.diag-ok p { margin: 6px 0 12px; }
+.diag-ok .btn svg { width: 20px; height: 20px; fill: currentColor; flex-shrink: 0; }
+.diag-confia { list-style: none; padding: 0 !important; margin: 14px 0 0 !important; font-size: 0.86rem !important; color: var(--muted) !important; }
+.diag-confia li::before { content: "✔ "; color: #25d366; }
+.diag-logos { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 14px; }
+.diag-logos span { width: 76px; height: 40px; border-radius: 8px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; padding: 4px 6px; }
+.diag-logos img { max-width: 100%; max-height: 100%; object-fit: contain; }
 .btn-whats { background: #25d366; color: #052e16; font-size: 1.05rem; padding: 15px 30px; }
 .btn-whats:hover { background: #3ee07a; transform: translateY(-1px); box-shadow: 0 6px 22px rgba(37,211,102,0.3); }
 .btn-whats svg { width: 22px; height: 22px; fill: currentColor; }
@@ -366,6 +395,8 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: rgba(0,180,216,0.25); border-radius: 4px; }
 </style>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 
@@ -575,10 +606,10 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
 <section id="contato">
   <div class="wrap contact">
     <div class="eyebrow">Contato</div>
-    <h2 class="section-title">🚀 Vamos escalar seu projeto?</h2>
-    <p class="section-lead">Responda 3 perguntas rápidas e veja a solução e o case mais parecidos com o seu desafio. A mensagem para o WhatsApp já sai pronta.</p>
+    <h2 class="section-title">🚀 Descubra em 1 minuto onde sua empresa está perdendo tempo com dados</h2>
+    <p class="section-lead">Responda algumas perguntas de um clique e veja a solução recomendada, uma estimativa de horas recuperadas e o case do seu setor.</p>
     <div class="diag" id="diag" aria-live="polite"></div>
-    <p class="diag-alt">Prefere falar direto? <a href="https://wa.me/5511977019335?text=Ol%C3%A1%20Rodrigo!%20Vi%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar." target="_blank" rel="noopener">Chamar no WhatsApp sem o diagnóstico ↗</a></p>
+    <p class="diag-alt">Prefere falar direto? <a href="https://wa.me/5511977019335?text=Ol%C3%A1%20Rodrigo!%20Vi%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar." target="_blank" rel="noopener" data-track="whats_direto">Chamar no WhatsApp sem o diagnóstico ↗</a></p>
   </div>
 </section>
 
@@ -748,11 +779,13 @@ trilho($("#logosDestaque"), LOGOS_DESTAQUE, l => l.f
 trilho($("#logosTodos"), LOGOS_CLIENTES, ([n, f]) =>
   `<div class="logo-card" title="${esc(n)}"><img src="assets/logos/${f}.webp" alt="${esc(n)}" decoding="async"></div>`);
 
-/* ── AIOSA IA: o botão flutuante da promoção some enquanto o chat está na tela (cobria o botão de enviar no celular) ── */
+/* ── O botão flutuante da promoção some no chat da AIOSA IA (cobria o botão de enviar no celular) e no contato (não disputa com o fechamento) ── */
 (() => {
-  const promo = document.querySelector(".promo"), box = $("#iaBox");
-  if (promo && box && "IntersectionObserver" in window)
-    new IntersectionObserver(([e]) => promo.classList.toggle("oculto", e.isIntersecting), { threshold: 0.15 }).observe(box);
+  const promo = document.querySelector(".promo"), alvos = [$("#iaBox"), $("#contato")].filter(Boolean), vis = new Set();
+  if (promo && alvos.length && "IntersectionObserver" in window) {
+    const io = new IntersectionObserver(es => { es.forEach(e => e.isIntersecting ? vis.add(e.target) : vis.delete(e.target)); promo.classList.toggle("oculto", vis.size > 0); }, { threshold: 0.15 });
+    alvos.forEach(a => io.observe(a));
+  }
 })();
 
 function fitCase(img) {
@@ -1040,53 +1073,115 @@ fetch("data/linkedin_posts.json", { cache: "no-cache" })
    ============================================================ */
 const WHATS = "5511977019335";
 const WHATS_SVG = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.05 21.5h-.01a9.4 9.4 0 0 1-4.8-1.31l-.34-.2-3.57.93.95-3.48-.22-.36a9.4 9.4 0 0 1-1.44-5.01c0-5.2 4.24-9.44 9.45-9.44 2.52 0 4.89.99 6.67 2.77a9.37 9.37 0 0 1 2.76 6.68c0 5.2-4.24 9.43-9.45 9.43zm8.04-17.48A11.3 11.3 0 0 0 12.05.7C5.78.7.68 5.8.68 12.06c0 2 .52 3.96 1.52 5.68L.58 23.65l6.04-1.58a11.35 11.35 0 0 0 5.43 1.38h.01c6.26 0 11.36-5.1 11.36-11.36 0-3.04-1.18-5.89-3.33-8.04z"/></svg>`;
+/* ── Funil do diagnóstico: eventos na Vercel Web Analytics (sem efeito se a Analytics estiver desligada) ── */
+function track(name, data) { try { if (window.va) window.va("event", { name, data }); } catch (_) {} }
+// Leads do diagnóstico vão para o webhook do Make (cenário "Site - Lead do diagnóstico", que salva no Google Drive)
+const LEAD_WEBHOOK = "https://hook.us2.make.com/netnvxsr634ilf3wit9muh59wip71ho8";
+// Link de agendamento (página de agendamento do Google Agenda). Vazio = o pedido de horário vai pelo WhatsApp.
+const AGENDA_URL = "";
 const DIAG_PERGUNTAS = [
   { id: "dor", titulo: "Qual é a sua principal dor hoje?", opcoes: [
     { v: "automacao", ico: "⏱️", t: "Relatórios manuais e planilhas demoradas", s: "O time perde horas copiando e colando dados." },
     { v: "dashboards", ico: "📊", t: "Falta de visão dos indicadores", s: "A gestão decide sem enxergar os números a tempo." },
     { v: "dados", ico: "🗄️", t: "Dados espalhados em vários sistemas", s: "Cada área tem sua versão da verdade." },
     { v: "treinamento", ico: "🎓", t: "Equipe precisa dominar Excel e Power BI", s: "Quero autonomia do time com os dados." } ] },
+  { id: "setor", titulo: "Qual é o setor da sua empresa?", opcoes: [
+    { v: "financeiro", ico: "🏦", t: "Bancos, financeiro e seguros", s: "Crédito, pagamentos, consórcio, seguros." },
+    { v: "varejo", ico: "🛒", t: "Varejo e bens de consumo", s: "Lojas, e-commerce, moda, alimentos." },
+    { v: "agro", ico: "🌾", t: "Agro, indústria e máquinas", s: "Produção, usinas, máquinas e equipamentos." },
+    { v: "outros", ico: "🚚", t: "Logística, saúde e serviços", s: "Também setor público e conselhos." } ] },
   { id: "equipe", titulo: "Quantas pessoas vão usar a solução?", opcoes: [
     { v: "pequena", ico: "👤", t: "Até 10 pessoas", s: "Uma área ou equipe enxuta." },
     { v: "media", ico: "👥", t: "De 11 a 50 pessoas", s: "Algumas áreas ou filiais." },
     { v: "grande", ico: "🏢", t: "Mais de 50 pessoas", s: "Diretoria, várias áreas ou a empresa toda." } ] },
+  { id: "horas", titulo: "Quantas horas por semana a equipe gasta com essa rotina?", pula: r => r.dor === "treinamento", opcoes: [
+    { v: "3", ico: "🕐", t: "Até 5 horas", s: "Somando todas as pessoas envolvidas." },
+    { v: "10", ico: "🕒", t: "De 5 a 15 horas", s: "Algumas horas por dia no total." },
+    { v: "25", ico: "🕘", t: "De 15 a 40 horas", s: "Quase uma pessoa dedicada." },
+    { v: "45", ico: "⏳", t: "Mais de 40 horas", s: "Uma ou mais pessoas só nisso." } ] },
   { id: "prazo", titulo: "Para quando você precisa?", opcoes: [
     { v: "urgente", ico: "🚀", t: "Urgente — até 30 dias", s: "Preciso de resultado rápido." },
     { v: "trimestre", ico: "📅", t: "Nos próximos 1 a 3 meses", s: "Já está no planejamento." },
     { v: "planejando", ico: "🧭", t: "Ainda estou planejando", s: "Quero entender as possibilidades." } ] }
 ];
-// case por dor: [empresa grande, empresa média/pequena] — imagens de assets/img_cases_suceso
 const DIAG_SOLUCOES = {
   automacao: { servico: "Automação de relatórios e processos",
     resumo: "Rotinas em Python, VBA e Power Query que tiram o trabalho repetitivo da equipe e entregam o relatório pronto.",
-    itens: ["Mapeamento das rotinas manuais que mais consomem tempo", "Automação com Python, VBA ou Power Query", "Relatórios atualizados sem copiar e colar"],
-    cases: [{ img: "13.jpg", nome: "Banco Safra", txt: "bots em Python e BI" }, { img: "2.jpg", nome: "Loggi", txt: "automação e dashboards de logística" }] },
+    itens: ["Mapeamento das rotinas manuais que mais consomem tempo", "Automação com Python, VBA ou Power Query", "Relatórios atualizados sem copiar e colar"] },
   dashboards: { servico: "Dashboards executivos em Power BI",
     resumo: "Indicadores certos, atualizados e acessíveis para a gestão decidir com base em fatos.",
-    itens: ["Definição dos KPIs com a gestão", "Modelagem de dados e medidas DAX", "Painéis executivos com atualização automática"],
-    cases: [{ img: "11.jpg", nome: "Santander", txt: "dashboard comercial" }, { img: "10.jpg", nome: "O Boticário", txt: "relatórios de vendas e metas" }] },
+    itens: ["Definição dos KPIs com a gestão", "Modelagem de dados e medidas DAX", "Painéis executivos com atualização automática"] },
   dados: { servico: "Integração de dados, ETL e Data Warehouse",
     resumo: "Uma única fonte da verdade, unindo sistemas e planilhas num modelo confiável para BI.",
-    itens: ["Pipeline de ETL com SQL Server e Python", "Modelagem em Data Warehouse", "BI executivo em cima de dados confiáveis"],
-    cases: [{ img: "14.jpg", nome: "BTG Pactual", txt: "data pipeline, DW e BI executivo" }, { img: "15.jpg", nome: "Pagsmile", txt: "DW e BI financeiro" }] },
+    itens: ["Pipeline de ETL com SQL Server e Python", "Modelagem em Data Warehouse", "BI executivo em cima de dados confiáveis"] },
   treinamento: { servico: "Treinamento corporativo personalizado",
     resumo: "Excel, Power BI, SQL e Python com conteúdo sob medida para os problemas reais da equipe.",
-    itens: ["Levantamento prévio das necessidades", "Aulas práticas com os dados da empresa", "Material gravado e suporte pós-treinamento"],
-    cases: [{ img: "7.jpg", nome: "Unimed Seguros", txt: "treinamento de Excel e automação" }, { img: "9.jpg", nome: "CAU/RJ", txt: "Excel, VBA e Power Query" }] }
+    itens: ["Levantamento prévio das necessidades", "Aulas práticas com os dados da empresa", "Material gravado e suporte pós-treinamento"] }
 };
+// cases por setor, na ordem de preferência; "d" = dores que o case mostra (a primeira é a principal)
+const DIAG_CASES = [
+  { img: "11.jpg", nome: "Santander", setor: "financeiro", d: ["dashboards", "automacao"], txt: "dashboard comercial" },
+  { img: "13.jpg", nome: "Banco Safra", setor: "financeiro", d: ["automacao", "dashboards"], txt: "bots em Python e BI" },
+  { img: "14.jpg", nome: "BTG Pactual", setor: "financeiro", d: ["dados", "dashboards"], txt: "data pipeline, DW e BI executivo" },
+  { img: "15.jpg", nome: "Pagsmile", setor: "financeiro", d: ["dados", "dashboards"], txt: "DW e BI financeiro" },
+  { img: "3.jpg", nome: "Lowell", setor: "financeiro", d: ["dados", "dashboards"], txt: "análise de crédito com dados" },
+  { img: "16.jpg", nome: "John Deere", setor: "financeiro", d: ["dashboards", "dados"], txt: "esteira de consórcio com visão executiva" },
+  { img: "18.jpg", nome: "Renner", setor: "varejo", d: ["dados", "automacao", "dashboards"], txt: "faturamento consolidado e folha de ponto" },
+  { img: "19.jpg", nome: "Carrefour", setor: "varejo", d: ["dashboards", "dados"], txt: "estudo de cross selling em Power BI" },
+  { img: "10.jpg", nome: "O Boticário", setor: "varejo", d: ["dashboards", "automacao"], txt: "relatórios de vendas e metas" },
+  { img: "12.jpg", nome: "Di Santinni", setor: "varejo", d: ["automacao", "dashboards"], txt: "automação financeira e operacional" },
+  { img: "1.jpg", nome: "Kraft Heinz", setor: "varejo", d: ["dados", "dashboards"], txt: "análise de vendas e faturamento com Python" },
+  { img: "17.jpg", nome: "LiuGong", setor: "agro", d: ["automacao", "treinamento"], txt: "rotina mensal automatizada com Python e Power Query" },
+  { img: "8.jpg", nome: "Ouro Safra", setor: "agro", d: ["treinamento"], txt: "treinamento de Excel com provas personalizadas" },
+  { img: "5.jpg", nome: "Usina Santa Terezinha", setor: "agro", d: ["dashboards", "dados"], txt: "controle de produção e estoque" },
+  { img: "4.jpg", nome: "BSS Blindagens", setor: "agro", d: ["dashboards", "automacao"], txt: "dashboard de produção e qualidade" },
+  { img: "2.jpg", nome: "Loggi", setor: "outros", d: ["automacao", "dashboards"], txt: "automação e dashboards de logística" },
+  { img: "7.jpg", nome: "Unimed Seguros", setor: "outros", d: ["treinamento", "automacao"], txt: "treinamento de Excel e automação" },
+  { img: "9.jpg", nome: "CAU/RJ", setor: "outros", d: ["treinamento", "automacao"], txt: "Excel, VBA e Power Query" }
+];
+function diagCase(r) {
+  const doSetor = DIAG_CASES.filter(c => c.setor === r.setor);
+  const cs = doSetor.find(c => c.d[0] === r.dor) || doSetor.find(c => c.d.includes(r.dor))
+    || DIAG_CASES.find(c => c.d[0] === r.dor) || DIAG_CASES[0];
+  return { cs, mesmoSetor: cs.setor === r.setor, outros: doSetor.filter(c => c !== cs).slice(0, 3).map(c => c.nome) };
+}
 const DIAG_EQUIPE = { pequena: "Começamos por uma entrega enxuta, focada na equipe que usa os dados todo dia.",
   media: "Estruturamos por áreas, com um modelo comum que cresce junto com a empresa.",
   grande: "Trabalhamos em fases, com governança e um piloto antes de escalar para toda a empresa." };
 const DIAG_PRAZO = { urgente: "Para prazo de até 30 dias, começamos por um piloto com o ganho mais rápido.",
   trimestre: "Em 1 a 3 meses dá para entregar a solução completa, com validações a cada etapa.",
   planejando: "Na conversa, desenhamos juntos um plano com prioridades e estimativa de retorno." };
-let diagPasso = 0; const diagResp = {};
-function diagRotulo(id) { const q = DIAG_PERGUNTAS.find(q => q.id === id); return q.opcoes.find(o => o.v === diagResp[id]).t; }
+const DIAG_HORAS_TXT = { 3: "até 5 horas", 10: "5 a 15 horas", 25: "15 a 40 horas", 45: "mais de 40 horas" };
+const DIAG_HORARIOS = ["Amanhã de manhã", "Amanhã à tarde", "Ainda esta semana", "Na próxima semana"];
+let diagPasso = 0, diagEnviado = null; const diagResp = {};
+const diagLista = () => DIAG_PERGUNTAS.filter(q => !(q.pula && q.pula(diagResp)));
+function diagRotulo(id) { const q = DIAG_PERGUNTAS.find(q => q.id === id); const o = q.opcoes.find(o => o.v === diagResp[id]); return o ? o.t : ""; }
+// estimativa conservadora: automatizar 60% da rotina informada (4,33 semanas por mês), arredondada para 5 h
+const diagHorasMes = () => diagResp.horas ? Math.max(5, Math.round(+diagResp.horas * 4.33 * 0.6 / 5) * 5) : 0;
+function diagMensagem(lead) {
+  const sol = DIAG_SOLUCOES[diagResp.dor], { cs } = diagCase(diagResp);
+  let m = `Olá, Rodrigo! ${lead && lead.nome ? `Sou ${lead.nome}${lead.empresa ? `, da ${lead.empresa}` : ""}. ` : ""}Fiz o diagnóstico no seu site.\n\n` +
+    `• Principal dor: ${diagRotulo("dor")}\n• Setor: ${diagRotulo("setor")}\n• Pessoas que vão usar: ${diagRotulo("equipe")}\n` +
+    (diagResp.horas ? `• Horas por semana nessa rotina: ${diagRotulo("horas")}\n` : "") + `• Prazo: ${diagRotulo("prazo")}\n\n` +
+    `Tenho interesse em: ${sol.servico}. Vi o case ${cs.nome} e gostaria de conversar sobre algo parecido para a minha empresa.`;
+  if (lead && lead.horario) m += `\n\nQuero agendar uma conversa de 30 minutos. Melhor horário: ${lead.horario}.`;
+  return m;
+}
+const diagWhats = lead => `https://wa.me/${WHATS}?text=${encodeURIComponent(diagMensagem(lead))}`;
+const DIAG_CTA = {
+  urgente: { titulo: "Vamos marcar 30 minutos ainda esta semana?", botao: "Agendar conversa de 30 min", destino: "agenda" },
+  trimestre: { titulo: "Para onde envio o diagnóstico completo?", botao: "Enviar diagnóstico no WhatsApp", destino: "whatsapp" },
+  planejando: { titulo: "Quer receber o case completo para avaliar com calma?", botao: "Quero receber o case", destino: "material" }
+};
+function diagLogos() {
+  return LOGOS_DESTAQUE.filter(l => l.f).slice(0, 6).map(l =>
+    `<span title="${esc(l.n)}"><img src="assets/logos/${l.f}" alt="${esc(l.n)}" decoding="async"></span>`).join("");
+}
 function renderDiag(foco) {
-  const box = $("#diag"), total = DIAG_PERGUNTAS.length;
+  const box = $("#diag"), lista = diagLista(), total = lista.length;
   const pct = Math.round(diagPasso / total * 100);
   if (diagPasso < total) {
-    const q = DIAG_PERGUNTAS[diagPasso];
+    const q = lista[diagPasso];
     box.innerHTML = `<div class="diag-top"><span class="diag-step">Pergunta ${diagPasso + 1} de ${total}</span>
         ${diagPasso ? `<button type="button" class="diag-back" data-diag-voltar>← Voltar</button>` : ""}</div>
       <div class="diag-bar" role="progressbar" aria-label="Progresso do diagnóstico" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><span style="width:${pct}%"></span></div>
@@ -1096,12 +1191,30 @@ function renderDiag(foco) {
           <span class="ico" aria-hidden="true">${o.ico}</span><span><strong>${o.t}</strong><small>${o.s}</small></span></button>`).join("")}
       </div>`;
   } else {
-    const sol = DIAG_SOLUCOES[diagResp.dor];
-    const cs = diagResp.equipe === "grande" ? sol.cases[0] : sol.cases[1];
-    const msg = `Olá, Rodrigo! Fiz o diagnóstico no seu site.\n\n` +
-      `• Principal dor: ${diagRotulo("dor")}\n• Pessoas que vão usar: ${diagRotulo("equipe")}\n• Prazo: ${diagRotulo("prazo")}\n\n` +
-      `Tenho interesse em: ${sol.servico}. Vi o case ${cs.nome} e gostaria de conversar sobre algo parecido para a minha empresa.`;
-    const link = `https://wa.me/${WHATS}?text=${encodeURIComponent(msg)}`;
+    const sol = DIAG_SOLUCOES[diagResp.dor], { cs, mesmoSetor, outros } = diagCase(diagResp);
+    const cta = DIAG_CTA[diagResp.prazo], h = diagHorasMes();
+    const roi = h ? `<div class="diag-roi"><strong>≈ ${h} horas por mês</strong> que a sua equipe pode recuperar
+        <small>Estimativa considerando automatizar 60% de uma rotina de ${DIAG_HORAS_TXT[diagResp.horas]} por semana. O número real sai da conversa, com os seus processos.</small></div>` : "";
+    const form = diagEnviado ? `<div class="diag-ok" role="status">
+        <strong>✅ Recebido${diagEnviado.nome ? `, ${esc(diagEnviado.nome.split(" ")[0])}` : ""}!</strong>
+        ${diagEnviado.destino === "material"
+          ? `<p>Abra o case abaixo para ver o projeto completo. Quando quiser conversar, é só chamar.</p>
+             <div class="diag-ctas"><button type="button" class="btn btn-primary" data-img="assets/img_cases_suceso/${cs.img}">Ver o case ${esc(cs.nome)}</button>
+             <a class="btn btn-ghost" href="${diagWhats(diagEnviado)}" target="_blank" rel="noopener" data-track="whats_pos_material">${WHATS_SVG} Falar no WhatsApp</a></div>`
+          : `<p>Se o WhatsApp não abriu, <a href="${diagEnviado.destino === "agenda" && AGENDA_URL ? AGENDA_URL : diagWhats(diagEnviado)}" target="_blank" rel="noopener">clique aqui</a>.</p>`}
+      </div>` : `<form class="diag-form" id="diagForm" novalidate>
+        <div class="diag-form-t">${cta.titulo}</div>
+        <div class="diag-campos">
+          <label>Nome<input name="nome" autocomplete="name" required maxlength="80"></label>
+          <label>Empresa<input name="empresa" autocomplete="organization" maxlength="80"></label>
+          <label class="full">WhatsApp ou e-mail<input name="contato" autocomplete="tel" required maxlength="100" placeholder="(11) 90000-0000 ou nome@empresa.com"></label>
+        </div>
+        ${diagResp.prazo === "urgente" && !AGENDA_URL ? `<div class="diag-horarios" role="radiogroup" aria-label="Melhor horário para a conversa">
+          ${DIAG_HORARIOS.map((t, i) => `<label><input type="radio" name="horario" value="${t}"${i ? "" : " checked"}><span>${t}</span></label>`).join("")}</div>` : ""}
+        <p class="diag-erro" id="diagErro" role="alert" hidden></p>
+        <button type="submit" class="btn btn-whats">${cta.destino === "material" ? "" : WHATS_SVG} ${cta.botao}</button>
+        <p class="diag-lgpd">Seus dados são usados apenas para este contato.</p>
+      </form>`;
     box.innerHTML = `<div class="diag-top"><span class="diag-step">✅ Diagnóstico concluído</span>
         <button type="button" class="diag-back" data-diag-refazer>↺ Refazer</button></div>
       <div class="diag-bar" role="progressbar" aria-label="Progresso do diagnóstico" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><span style="width:100%"></span></div>
@@ -1110,26 +1223,68 @@ function renderDiag(foco) {
           <div class="tag">Solução recomendada</div>
           <h3 id="diagQ">${sol.servico}</h3>
           <p>${sol.resumo}</p>
+          ${roi}
           <ul>${sol.itens.map(i => `<li>${i}</li>`).join("")}</ul>
           <p>${DIAG_EQUIPE[diagResp.equipe]} ${DIAG_PRAZO[diagResp.prazo]}</p>
-          <div class="diag-ctas">
-            <a class="btn btn-whats" href="${link}" target="_blank" rel="noopener">${WHATS_SVG} Enviar diagnóstico no WhatsApp</a>
-          </div>
+          ${form}
+          <ul class="diag-confia">
+            <li>Conversa inicial gratuita e sem compromisso</li>
+            <li>Mais de 20 anos com dados em grandes empresas</li>
+            <li>${CASES.length} cases de sucesso publicados neste site</li>
+          </ul>
         </div>
         <div>
           <button type="button" class="diag-case" data-img="assets/img_cases_suceso/${cs.img}" aria-label="Ampliar case ${cs.nome}">
             <img src="assets/img_cases_suceso/${cs.img}" alt="Case de sucesso ${cs.nome}" loading="lazy"></button>
-          <div class="diag-case-cap">Case parecido: <strong>${cs.nome}</strong> — ${cs.txt}</div>
+          <div class="diag-case-cap">${mesmoSetor ? "Case do seu setor" : "Case parecido"}: <strong>${cs.nome}</strong> — ${cs.txt}</div>
+          ${outros.length ? `<div class="diag-case-cap">Outros do setor: ${outros.join(", ")}</div>` : ""}
+          <div class="diag-logos" aria-label="Alguns clientes atendidos">${diagLogos()}</div>
         </div>
       </div>`;
   }
-  if (foco) (box.querySelector(".diag-opt.on, .diag-opt, .btn-whats") || box).focus({ preventScroll: true });
+  if (foco) (box.querySelector(".diag-opt.on, .diag-opt, #diagForm input, .diag-ok .btn") || box).focus({ preventScroll: true });
 }
+function diagEnviarLead(lead) {
+  const { cs } = diagCase(diagResp);
+  const dados = { data: new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" }),
+    nome: lead.nome, empresa: lead.empresa, contato: lead.contato, setor: diagRotulo("setor"), dor: diagRotulo("dor"),
+    equipe: diagRotulo("equipe"), prazo: diagRotulo("prazo"), horas_semana: diagRotulo("horas") || "-",
+    preferencia: lead.horario || "-", solucao: DIAG_SOLUCOES[diagResp.dor].servico, case: cs.nome,
+    origem: lead.destino, link_whatsapp: /\d{8,}/.test(lead.contato.replace(/\D/g, "")) && !lead.contato.includes("@")
+      ? "https://wa.me/" + (lead.contato.replace(/\D/g, "").length <= 11 ? "55" : "") + lead.contato.replace(/\D/g, "") : "-" };
+  try { fetch(LEAD_WEBHOOK, { method: "POST", mode: "no-cors", keepalive: true, body: new URLSearchParams(dados) }).catch(() => {}); } catch (_) {}
+}
+document.querySelector(".diag-alt a")?.addEventListener("click", () => track("whats_direto"));
+$("#diag").addEventListener("submit", e => {
+  if (e.target.id !== "diagForm") return;
+  e.preventDefault();
+  const f = new FormData(e.target), lead = Object.fromEntries([...f].map(([k, v]) => [k, String(v).trim()]));
+  const erro = $("#diagErro"), digitos = (lead.contato || "").replace(/\D/g, "");
+  const ok = lead.nome && (/^\S+@\S+\.\S+$/.test(lead.contato) || digitos.length >= 10);
+  if (!ok) { erro.textContent = !lead.nome ? "Informe seu nome." : "Informe um WhatsApp com DDD ou um e-mail válido."; erro.hidden = false;
+    e.target.querySelector(!lead.nome ? "[name=nome]" : "[name=contato]").focus(); return; }
+  lead.destino = DIAG_CTA[diagResp.prazo].destino;
+  diagEnviarLead(lead);
+  track("lead_enviado", { prazo: diagResp.prazo, dor: diagResp.dor, setor: diagResp.setor, destino: lead.destino });
+  if (lead.destino === "agenda" && AGENDA_URL) window.open(AGENDA_URL, "_blank", "noopener");
+  else if (lead.destino !== "material") window.open(diagWhats(lead), "_blank", "noopener");
+  diagEnviado = lead; renderDiag(true);
+});
+$("#diag").addEventListener("input", e => { if (e.target.closest("#diagForm")) { const er = $("#diagErro"); if (er) er.hidden = true; } });
 $("#diag").addEventListener("click", e => {
   const op = e.target.closest("[data-diag]");
-  if (op) { diagResp[DIAG_PERGUNTAS[diagPasso].id] = op.dataset.diag; diagPasso++; renderDiag(true); return; }
+  if (op) {
+    const q = diagLista()[diagPasso];
+    if (!diagPasso && !diagResp.dor) track("diag_inicio");
+    diagResp[q.id] = op.dataset.diag;
+    track("diag_resposta", { pergunta: q.id, valor: op.dataset.diag });
+    diagPasso++;
+    if (diagPasso >= diagLista().length) track("diag_concluido", { dor: diagResp.dor, setor: diagResp.setor, prazo: diagResp.prazo });
+    renderDiag(true); return;
+  }
+  const t = e.target.closest("[data-track]"); if (t) track(t.dataset.track);
   if (e.target.closest("[data-diag-voltar]")) { diagPasso = Math.max(0, diagPasso - 1); renderDiag(true); return; }
-  if (e.target.closest("[data-diag-refazer]")) { diagPasso = 0; Object.keys(diagResp).forEach(k => delete diagResp[k]); renderDiag(true); }
+  if (e.target.closest("[data-diag-refazer]")) { diagPasso = 0; diagEnviado = null; Object.keys(diagResp).forEach(k => delete diagResp[k]); renderDiag(true); }
 });
 renderDiag(false);
 
