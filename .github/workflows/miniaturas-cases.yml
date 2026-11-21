@@ -1,0 +1,37 @@
+name: Gerar miniaturas dos cases
+
+# Sempre que uma imagem de case entra ou muda em assets/img_cases_suceso/, gera a miniatura
+# leve (WebP 720 px) usada na grade do site e atualiza data/miniaturas.js.
+on:
+  push:
+    branches: [main]
+    paths: [assets/img_cases_suceso/**, gerar_miniaturas.py]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: commits-automaticos
+  cancel-in-progress: false
+
+jobs:
+  miniaturas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pillow
+      - run: python gerar_miniaturas.py
+      - name: Commit das miniaturas
+        run: |
+          git add -A assets/cases_thumb data/miniaturas.js
+          if git diff --cached --quiet; then echo "Miniaturas já estavam atualizadas."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Atualiza miniaturas dos cases"
+          git pull --rebase origin main
+          git push origin HEAD:main

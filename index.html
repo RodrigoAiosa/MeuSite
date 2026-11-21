@@ -468,7 +468,7 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
 <!-- ═══ HERO ═══ -->
 <header class="hero" id="inicio">
   <div class="wrap">
-    <div class="photo"><img src="assets/EU.jpg" alt="Foto de Rodrigo Aiosa" width="186" height="186"></div>
+    <div class="photo"><img src="assets/EU.jpg" alt="Foto de Rodrigo Aiosa" width="186" height="186" fetchpriority="high" decoding="async"></div>
     <h1>Rodrigo Aiosa</h1>
     <div class="stack">Python · Excel · Power BI · ETL · SQL Server · Linguagem M · DAX</div>
     <p class="lead">Especialista em Análise de Dados e Business Intelligence, transformando dados brutos em decisões inteligentes.</p>
@@ -690,6 +690,7 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
 <div class="img-count" id="imgCount" aria-live="polite"></div>
 <button type="button" class="btn btn-whats img-cta" id="imgCta">Quero um resultado parecido →</button>
 
+<script src="data/miniaturas.js"></script>
 <script>
 /* ============================================================
    CONTEÚDO DO SITE: edite aqui para adicionar ou remover itens
@@ -840,12 +841,18 @@ trilho($("#logosTodos"), LOGOS_CLIENTES, ([n, f]) =>
   }
 })();
 
+// grade usa a miniatura leve (gerada pelo GitHub Actions); sem miniatura, cai na imagem original
+const thumbCase = f => (window.MINIATURAS || {})[f] || "assets/img_cases_suceso/" + f;
+function erroCase(img, f) {
+  const orig = "assets/img_cases_suceso/" + f;
+  if (!img.src.endsWith(orig)) img.src = orig; else img.closest(".case-item")?.remove();
+}
 function fitCase(img) {
   const r = img.naturalWidth / img.naturalHeight;
   if (Math.abs(r - 1.5) > 0.05) img.classList.add("fit");
 }
 $("#casesGrid").innerHTML = CASES.map(c =>
-  `<div class="case-item" data-f="${c.f}"><button data-img="assets/img_cases_suceso/${c.f}" aria-label="Ampliar case ${esc(c.t)}"><img src="assets/img_cases_suceso/${c.f}" alt="Case de sucesso ${esc(c.t)}, ${esc(c.s)}" loading="lazy" onload="fitCase(this)" onerror="this.closest('.case-item').remove()"></button><p class="case-hit" hidden></p></div>`
+  `<div class="case-item" data-f="${c.f}"><button data-img="assets/img_cases_suceso/${c.f}" aria-label="Ampliar case ${esc(c.t)}"><img src="${thumbCase(c.f)}" alt="Case de sucesso ${esc(c.t)}, ${esc(c.s)}" width="720" height="480" loading="lazy" decoding="async" onload="fitCase(this)" onerror="erroCase(this, '${c.f}')"></button><p class="case-hit" hidden></p></div>`
 ).join("");
 
 const semAcento = s => String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
@@ -1293,7 +1300,7 @@ function renderDiag(foco) {
         </div>
         <div>
           <button type="button" class="diag-case" data-img="assets/img_cases_suceso/${cs.img}" aria-label="Ampliar case ${cs.nome}">
-            <img src="assets/img_cases_suceso/${cs.img}" alt="Case de sucesso ${cs.nome}" loading="lazy"></button>
+            <img src="${thumbCase(cs.img)}" alt="Case de sucesso ${cs.nome}" width="720" height="480" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='assets/img_cases_suceso/${cs.img}'"></button>
           <div class="diag-case-cap">${mesmoSetor ? "Case do seu setor" : "Case parecido"}: <strong>${cs.nome}</strong> — ${cs.txt}</div>
           ${outros.length ? `<div class="diag-case-cap">Outros do setor: ${outros.join(", ")}</div>` : ""}
           <div class="diag-logos" aria-label="Alguns clientes atendidos">${diagLogos()}</div>
