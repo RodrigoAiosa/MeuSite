@@ -410,8 +410,9 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
 @media (max-width: 560px) { .cta-faixa { padding: 18px; } .cta-faixa-btns, .cta-faixa-btns .btn { width: 100%; justify-content: center; } }
 .modal.img.de-cases img { max-height: calc(100vh - 150px); }
 .modal.img.open.de-cases ~ .img-count { top: 16px; bottom: auto; }
-.img-cta { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 101; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); white-space: nowrap; }
+.img-cta { position: fixed; bottom: 22px; left: 0; right: 0; margin: 0 auto; width: max-content; max-width: calc(100% - 32px); justify-content: center; z-index: 101; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); white-space: nowrap; }
 .modal.img.open.de-cases ~ .img-cta { display: inline-flex; }
+.img-cta:hover, .img-cta:active { transform: none; }
 .diag-pre { margin: 0 0 12px; padding: 10px 14px; border-radius: 10px; background: rgba(0,180,216,0.1); border: 1px solid rgba(0,180,216,0.25); color: var(--text-2); font-size: 0.9rem; }
 .diag-pre strong { color: #e8f4ff; }
 .modal.img.open ~ .img-nav { display: block; }
