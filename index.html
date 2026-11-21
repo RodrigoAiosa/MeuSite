@@ -1430,12 +1430,11 @@ document.addEventListener("keydown", e => {
   else if (modal.classList.contains("img") && e.key === "ArrowRight") { e.preventDefault(); mostrarCase(galeriaIdx + 1); }
 });
 $("#imgPrev").addEventListener("click", () => mostrarCase(galeriaIdx - 1));
-// "Quero um resultado parecido": abre o diagnóstico já com a dor e o setor do case que a pessoa está vendo
+// "Quero um resultado parecido": abre o diagnóstico do zero, sem nada pré-selecionado
 $("#imgCta").addEventListener("click", () => {
   const arq = (galeria[galeriaIdx]?.dataset.img || "").split("/").pop();
   const cs = DIAG_CASES.find(c => c.img === arq);
   Object.keys(diagResp).forEach(k => delete diagResp[k]); diagEnviado = null; diagOrigem = null; diagPasso = 0;
-  if (cs) { diagResp.dor = cs.d[0]; diagResp.setor = cs.setor; diagOrigem = cs.nome; diagPasso = 2; }
   track("cta_case_parecido", { case: cs ? cs.nome : arq });
   lastFocus = null; closeModal();
   renderDiag(false);
