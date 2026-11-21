@@ -7,6 +7,8 @@ Requer o Tesseract com os idiomas por e eng.
 import glob, json, re, subprocess, os, tempfile
 from PIL import Image, ImageOps
 from concurrent.futures import ThreadPoolExecutor
+# siglas sem vogal que o filtro de lixo descartaria, mas que as pessoas pesquisam
+SIGLAS = {"SQL", "CRM", "HTML", "XML", "PDF", "CSV", "TXT", "DW", "RH", "CNPJ", "CPF", "NPS", "BPM", "SSRS", "DFC", "MRP", "PPR", "CLT", "SQLS"}
 SRC = "assets/img_cases_suceso"; OUT = "data/cases_texto.json"; TMP = tempfile.mkdtemp()
 def ocr(f):
     im = Image.open(f).convert('L')
@@ -23,7 +25,8 @@ def ocr(f):
             w = w.strip('.,-/')
             # descarta lixo de OCR: tokens curtos sem vogal ou com mistura estranha
             if len(w) < 2 and not w.isdigit(): continue
-            if not re.search(r"[aeiouáéíóúâêôãõàAEIOUÁÉÍÓÚÂÊÔÃÕ0-9]", w): continue
+            # (siglas técnicas sem vogal, como SQL, CRM e HTML, são mantidas para a pesquisa funcionar)
+            if not re.search(r"[aeiouáéíóúâêôãõàAEIOUÁÉÍÓÚÂÊÔÃÕ0-9]", w) and w.upper() not in SIGLAS: continue
             k = w.lower()
             if k not in vistos: vistos.add(k); palavras.append(w)
     return os.path.basename(f), " ".join(palavras)
