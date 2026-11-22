@@ -1345,6 +1345,10 @@ function diagEnviarLead(lead) {
     case_url: "https://skydatasolution.com.br/assets/img_cases_suceso/" + cs.img, agenda_url: AGENDA_URL,
     origem: lead.destino, link_whatsapp: /\d{8,}/.test(lead.contato.replace(/\D/g, "")) && !lead.contato.includes("@")
       ? "https://wa.me/" + (lead.contato.replace(/\D/g, "").length <= 11 ? "55" : "") + lead.contato.replace(/\D/g, "") : "-" };
+  // botão de ação para o e-mail de aviso: WhatsApp quando é telefone, resposta por e-mail quando é e-mail
+  const ehEmail = lead.contato.includes("@");
+  dados.acao_url = ehEmail ? "mailto:" + lead.contato : dados.link_whatsapp;
+  dados.acao_texto = ehEmail ? "Responder por e-mail" : "Chamar no WhatsApp";
   try { fetch(LEAD_WEBHOOK, { method: "POST", mode: "no-cors", keepalive: true, body: new URLSearchParams(dados) }).catch(() => {}); } catch (_) {}
 }
 document.addEventListener("click", e => { const c = e.target.closest("[data-cta]"); if (c) track("cta_" + c.dataset.cta); });
