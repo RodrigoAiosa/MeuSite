@@ -356,6 +356,7 @@ section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,0.04); }
 .diag-campos input::placeholder { color: var(--muted); opacity: 0.6; }
 .diag-campos input:hover { border-color: rgba(255,255,255,0.22); }
 .diag-campos input:focus { outline: none; border-color: var(--accent); background: rgba(0,180,216,0.06); box-shadow: 0 0 0 3px rgba(0,180,216,0.18); }
+.diag-campo-erro { color: #ff8a8a; font-size: 0.8rem; font-weight: 400; line-height: 1.3; }
 .diag-campos input.invalido { border-color: #ff8a8a; box-shadow: 0 0 0 3px rgba(255,138,138,0.15); }
 .diag-horarios { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
 .diag-horarios input { position: absolute; opacity: 0; pointer-events: none; }
@@ -1272,13 +1273,12 @@ function renderDiag(foco) {
         <div class="diag-form-t">${cta.titulo}</div>
         <p class="diag-form-s">Leva menos de 20 segundos.</p>
         <div class="diag-campos">
-          <label><span>Nome</span><input name="nome" autocomplete="name" required maxlength="80"></label>
-          <label><span>Empresa <em>(opcional)</em></span><input name="empresa" autocomplete="organization" maxlength="80"></label>
-          <label class="full"><span>WhatsApp ou e-mail</span><input name="contato" autocomplete="tel" required maxlength="100" placeholder="(11) 90000-0000"></label>
+          <label><span>Nome</span><input name="nome" autocomplete="name" required minlength="2" maxlength="80" aria-describedby="err-nome"><small class="diag-campo-erro" id="err-nome" hidden></small></label>
+          <label><span>Empresa</span><input name="empresa" autocomplete="organization" required minlength="2" maxlength="80" aria-describedby="err-empresa"><small class="diag-campo-erro" id="err-empresa" hidden></small></label>
+          <label class="full"><span>WhatsApp ou e-mail</span><input name="contato" autocomplete="tel" required maxlength="100" placeholder="(11) 90000-0000 ou seu e-mail" aria-describedby="err-contato"><small class="diag-campo-erro" id="err-contato" hidden></small></label>
         </div>
         ${diagResp.prazo === "urgente" && !AGENDA_URL ? `<div class="diag-horarios" role="radiogroup" aria-label="Melhor horário para a conversa">
           ${DIAG_HORARIOS.map((t, i) => `<label><input type="radio" name="horario" value="${t}"${i ? "" : " checked"}><span>${t}</span></label>`).join("")}</div>` : ""}
-        <p class="diag-erro" id="diagErro" role="alert" hidden></p>
         <button type="submit" class="btn btn-whats">${cta.destino === "material" || (cta.destino === "agenda" && AGENDA_URL) ? "📅" : WHATS_SVG} ${cta.destino === "agenda" && AGENDA_URL ? "Escolher horário na agenda" : cta.botao}</button>
         <p class="diag-lgpd">🔒 Seus dados são usados apenas para este contato.</p>
       </form>`;
@@ -1311,6 +1311,31 @@ function renderDiag(foco) {
   }
   if (foco) (box.querySelector(".diag-opt.on, .diag-opt, #diagForm input, .diag-ok .btn") || box).focus({ preventScroll: true });
 }
+/* ── Validação do formulário (todos os campos obrigatórios, com regex) ── */
+const LETRAS = "A-Za-zÀ-ÖØ-öø-ÿ";
+const RE_NOME = new RegExp(`^[${LETRAS}]+(?:['’ .-]+[${LETRAS}]+)*\\.?$`);
+const RE_EMPRESA = new RegExp(`^[${LETRAS}0-9](?:[${LETRAS}0-9&.,'’()/+ -]*[${LETRAS}0-9.)])?$`);
+const RE_EMAIL = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)*\.[A-Za-z]{2,}$/;
+const RE_FONE_BR = /^(?:\+?55[\s-]?)?\(?[1-9][1-9]\)?[\s-]?(?:9\d{4}|[2-8]\d{3})[\s.-]?\d{4}$/;
+const contaLetras = v => (v.match(new RegExp(`[${LETRAS}]`, "g")) || []).length;
+const DIAG_VALIDA = {
+  nome: v => !v ? "Informe seu nome." : v.length < 2 || contaLetras(v) < 2 ? "O nome precisa ter pelo menos 2 letras." : !RE_NOME.test(v) ? "Use apenas letras no nome, sem números ou símbolos." : "",
+  empresa: v => !v ? "Informe o nome da empresa." : contaLetras(v) < 2 || !RE_EMPRESA.test(v) ? "Informe um nome de empresa válido." : "",
+  contato: v => {
+    if (!v) return "Informe seu WhatsApp ou e-mail.";
+    if (v.includes("@")) return RE_EMAIL.test(v) ? "" : "E-mail inválido. Exemplo: nome@empresa.com.br";
+    const d = v.replace(/\D/g, "");
+    if (!RE_FONE_BR.test(v)) return "WhatsApp inválido. Use DDD + número, ex.: (11) 90000-0000";
+    if (/^(\d)\1+$/.test(d.slice(-8))) return "Esse número não parece válido. Confira o WhatsApp.";
+    return "";
+  }
+};
+function diagMarcaCampo(campo) {
+  const msg = DIAG_VALIDA[campo.name](campo.value.trim()), erro = document.getElementById("err-" + campo.name);
+  campo.classList.toggle("invalido", !!msg); campo.setAttribute("aria-invalid", msg ? "true" : "false");
+  if (erro) { erro.textContent = msg; erro.hidden = !msg; }
+  return !msg;
+}
 function diagEnviarLead(lead) {
   const { cs } = diagCase(diagResp);
   const dados = { data: new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" }),
@@ -1328,10 +1353,8 @@ $("#diag").addEventListener("submit", e => {
   if (e.target.id !== "diagForm") return;
   e.preventDefault();
   const f = new FormData(e.target), lead = Object.fromEntries([...f].map(([k, v]) => [k, String(v).trim()]));
-  const erro = $("#diagErro"), digitos = (lead.contato || "").replace(/\D/g, "");
-  const ok = lead.nome && (/^\S+@\S+\.\S+$/.test(lead.contato) || digitos.length >= 10);
-  if (!ok) { erro.textContent = !lead.nome ? "Informe seu nome." : "Informe um WhatsApp com DDD ou um e-mail válido."; erro.hidden = false;
-    const campo = e.target.querySelector(!lead.nome ? "[name=nome]" : "[name=contato]"); campo.classList.add("invalido"); campo.focus(); return; }
+  const invalidos = ["nome", "empresa", "contato"].filter(c => !diagMarcaCampo(e.target.elements[c]));
+  if (invalidos.length) { e.target.elements[invalidos[0]].focus(); track("lead_invalido", { campos: invalidos.join(",") }); return; }
   lead.destino = DIAG_CTA[diagResp.prazo].destino;
   diagEnviarLead(lead);
   track("lead_enviado", { prazo: diagResp.prazo, dor: diagResp.dor, setor: diagResp.setor, destino: lead.destino });
@@ -1339,7 +1362,9 @@ $("#diag").addEventListener("submit", e => {
   else if (lead.destino !== "material") window.open(diagWhats(lead), "_blank", "noopener");
   diagEnviado = lead; renderDiag(true);
 });
-$("#diag").addEventListener("input", e => { if (e.target.closest("#diagForm")) { const er = $("#diagErro"); if (er) er.hidden = true; e.target.classList.remove("invalido"); } });
+// valida ao sair do campo; enquanto digita, só tira o erro quando o valor fica válido
+$("#diag").addEventListener("focusout", e => { const c = e.target; if (c.closest?.("#diagForm") && c.name in DIAG_VALIDA && c.value.trim()) diagMarcaCampo(c); });
+$("#diag").addEventListener("input", e => { const c = e.target; if (c.closest("#diagForm") && c.classList.contains("invalido")) diagMarcaCampo(c); });
 $("#diag").addEventListener("click", e => {
   const op = e.target.closest("[data-diag]");
   if (op) {
