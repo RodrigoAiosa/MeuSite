@@ -1317,6 +1317,7 @@ function diagEnviarLead(lead) {
     nome: lead.nome, empresa: lead.empresa, contato: lead.contato, setor: diagRotulo("setor"), dor: diagRotulo("dor"),
     equipe: diagRotulo("equipe"), prazo: diagRotulo("prazo"), horas_semana: diagRotulo("horas") || "-",
     preferencia: lead.horario || "-", solucao: DIAG_SOLUCOES[diagResp.dor].servico, case: cs.nome,
+    case_url: "https://skydatasolution.com.br/assets/img_cases_suceso/" + cs.img, agenda_url: AGENDA_URL,
     origem: lead.destino, link_whatsapp: /\d{8,}/.test(lead.contato.replace(/\D/g, "")) && !lead.contato.includes("@")
       ? "https://wa.me/" + (lead.contato.replace(/\D/g, "").length <= 11 ? "55" : "") + lead.contato.replace(/\D/g, "") : "-" };
   try { fetch(LEAD_WEBHOOK, { method: "POST", mode: "no-cors", keepalive: true, body: new URLSearchParams(dados) }).catch(() => {}); } catch (_) {}
