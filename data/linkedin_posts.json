@@ -1,7 +1,18 @@
 {
-  "atualizado_em": "2026-11-17",
+  "atualizado_em": "2026-11-23",
   "fonte": "https://www.linkedin.com/in/rodrigoaiosa/details/featured/",
   "posts": [
+    {
+      "urn": "urn:li:activity:7530604569333039104",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7530604569333039104/",
+      "date": "2026-11-23",
+      "title": "🪄Parei de atualizar painel na mão: o Python faz isso sozinho a cada 2 dias.",
+      "text": "Eu tinha um painel no Power BI com as reclamações da Anatel. Toda vez que saíam dados novos, era a mesma rotina: baixar, atualizar, conferir, republicar. \n\nE bastava esquecer uma etapa para o painel ficar desatualizado sem ninguém perceber.\n\nEntão refiz o fluxo em Python, e agora ele roda sozinho:\n🔄 A cada 2 dias, o GitHub Actions baixa a base da Anatel (2,4 GB, mais de 12 milhões de linhas)\n⚡ O DuckDB agrega tudo em cerca de 20 segundos\n🚀 A Vercel publica o painel atualizado automaticamente\n🕒 O rodapé mostra a data dos dados e a data da última verificação\nO que mudou na prática:\n✅ Ninguém precisa lembrar de atualizar\n✅ Cada atualização fica registrada no GitHub, com histórico e possibilidade de voltar atrás\n✅ As regras de cálculo ficam no código, versionadas e fáceis de auditar\n✅ Qualquer pessoa abre o painel por um link, sem licença nem login\n✅ O visual é meu: tooltips, mapa por UF e abas no estilo Power BI\n\nO Power BI continua sendo ótimo para explorar dados rápido, sem programar. Mas para dados públicos que mudam toda hora e precisam estar sempre em dia, automatizar custa um pouco mais no começo e quase nada depois.\n\nPainel no ar: https://lnkd.in/gX25VQDT\nVocê ainda atualiza seus painéis na mão? Me conta nos comentários. 👇\n#Python #PowerBI #DadosAbertos #Automação #GitHubActions #DuckDB #Vercel #DataAnalytics",
+      "image": "https://media.licdn.com/dms/image/v2/D5622AQH72pdxV9xrJA/feedshare-shrink_160/B56aIIU8t4IsAg-/0/1795436039346?e=1796860800&v=beta&t=i9iEWX3cqJIDQtU-CHHh3MjpM43YKyZDMOyubYylMyo",
+      "likes": 0,
+      "comments": 0,
+      "ordem": 1
+    },
     {
       "urn": "urn:li:activity:7528621810171629569",
       "url": "https://www.linkedin.com/feed/update/urn:li:activity:7528621810171629569/",
@@ -11,7 +22,7 @@
       "image": "assets/linkedin/7528621810171629569.jpg",
       "likes": 0,
       "comments": 0,
-      "ordem": 1
+      "ordem": 2
     },
     {
       "urn": "urn:li:activity:7527412237108416512",
@@ -22,7 +33,7 @@
       "image": "assets/linkedin/7527412237108416512.jpg",
       "likes": 0,
       "comments": 0,
-      "ordem": 2
+      "ordem": 3
     },
     {
       "urn": "urn:li:activity:7527352982632378370",
@@ -33,7 +44,7 @@
       "image": "assets/linkedin/7527352982632378370.jpg",
       "likes": 0,
       "comments": 0,
-      "ordem": 3
+      "ordem": 4
     },
     {
       "urn": "urn:li:activity:7527081772011069440",
@@ -44,7 +55,7 @@
       "image": "assets/linkedin/7527081772011069440.jpg",
       "likes": 0,
       "comments": 2,
-      "ordem": 4
+      "ordem": 5
     },
     {
       "urn": "urn:li:activity:7526803698006589441",
@@ -55,7 +66,7 @@
       "image": "assets/linkedin/7526803698006589441.jpg",
       "likes": 1,
       "comments": 0,
-      "ordem": 5
+      "ordem": 6
     },
     {
       "urn": "urn:li:activity:7526323910003380224",
@@ -66,7 +77,7 @@
       "image": "assets/linkedin/7526323910003380224.jpg",
       "likes": 4,
       "comments": 1,
-      "ordem": 6
+      "ordem": 7
     },
     {
       "urn": "urn:li:activity:7524280614368395264",
@@ -77,7 +88,7 @@
       "image": "assets/linkedin/7524280614368395264.jpg",
       "likes": 0,
       "comments": 0,
-      "ordem": 7
+      "ordem": 8
     },
     {
       "urn": "urn:li:activity:7520856623200890881",
@@ -88,7 +99,7 @@
       "image": "assets/linkedin/7520856623200890881.jpg",
       "likes": 0,
       "comments": 0,
-      "ordem": 8
+      "ordem": 9
     },
     {
       "urn": "urn:li:activity:7519184058149675008",
@@ -99,7 +110,7 @@
       "image": "assets/linkedin/7519184058149675008.jpg",
       "likes": 0,
       "comments": 0,
-      "ordem": 9
+      "ordem": 10
     },
     {
       "urn": "urn:li:activity:7518299320341774337",
@@ -109,7 +120,7 @@
       "text": "Construí uma ferramenta para comparar as propostas econômicas dos candidatos à Presidência: Lula x Flávio Bolsonaro. \n\nFaltam poucos dias para o 2º turno e a maior parte do debate fica no “quem disse o quê”. Eu queria algo mais simples: \n\nolhar o que está nos planos de governo e ver as diferenças lado a lado. \n\nO site traz: \n\n✅ Top 5 propostas econômicas: gastos públicos, impostos, estatais, trabalho e infraestrutura.\n✅ Comparação por setor: energia, crédito, agro, habitação e proteção social.\n✅ Links para baixar os planos oficiais e ler com calma.\n✅ Em todas as telas, quem propõe menos Estado e quem propõe mais Estado A parte mais interessante foi separar o que o candidato promete de o quanto a proposta é detalhada. \n\nCortar gastos e reduzir impostos soa bem, mas sem dizer o que será cortado nem como será compensado, a proposta vale menos na hora de avaliar. O site mostra essas duas leituras. \n\n⚠️ As notas são uma régua editorial aberta, e não uma verdade científica. \n\nA metodologia e as fontes estão na página, e o código está pronto para ser ajustado. \n\nNão é ferramenta partidária: a ideia é só facilitar a leitura de quem quer decidir com informação. \n\n🔗https://lnkd.in/g-VSZR4f\n\nSe você vê algo que deveria ser ajustado, me diga nos comentários. #Eleições2026 #Economia #PolíticaEconômica #Python #Dados #Transparência",
       "likes": 1,
       "comments": 0,
-      "ordem": 10
+      "ordem": 11
     },
     {
       "urn": "urn:li:activity:7517237101726351360",
@@ -120,7 +131,7 @@
       "image": "assets/linkedin/7517237101726351360.jpg",
       "likes": 1,
       "comments": 0,
-      "ordem": 11
+      "ordem": 12
     },
     {
       "urn": "urn:li:activity:7516682008136368128",
@@ -131,7 +142,7 @@
       "image": "assets/linkedin/7516682008136368128.jpg",
       "likes": 0,
       "comments": 0,
-      "ordem": 12
+      "ordem": 13
     },
     {
       "urn": "urn:li:activity:7515449577605369857",
@@ -142,7 +153,7 @@
       "image": "assets/linkedin/7515449577605369857.jpg",
       "likes": 0,
       "comments": 0,
-      "ordem": 13
+      "ordem": 14
     },
     {
       "urn": "urn:li:activity:7515028677445881856",
@@ -153,7 +164,7 @@
       "image": "assets/linkedin/7515028677445881856.jpg",
       "likes": 0,
       "comments": 0,
-      "ordem": 14
+      "ordem": 15
     },
     {
       "urn": "urn:li:activity:7503587484857970688",
@@ -164,7 +175,7 @@
       "image": "assets/linkedin/7503587484857970688.jpg",
       "likes": 2,
       "comments": 0,
-      "ordem": 15
+      "ordem": 16
     },
     {
       "urn": "urn:li:activity:7503586696895135744",
@@ -174,7 +185,7 @@
       "text": "🔧 De planilha manual a dashboard automático: um caso real de como dados parados dentro do banco viram decisão de negócio.\n \nUm cliente do setor de autopeças tinha um problema comum (e caro): os dados de vendas e serviços estavam espalhados no operacional, sem nenhuma camada analítica por trás. \n\nCada relatório era feito manualmente, sob demanda, sempre atrasado em relação ao que estava realmente acontecendo na operação.\n \nO resultado disso é previsível: decisões tomadas com base em \"achismo\" ou em números de semanas atrás, tempo da equipe gasto rodando consulta e montando planilha ao invés de analisar o negócio, e KPIs importantes (faturamento, ticket médio, variação mês a mês, mão de obra x peças) sem visibilidade nenhuma no dia a dia.\n \nA primeira etapa do trabalho foi resolver a base: modelei e construí do zero o Data Warehouse e as views gerenciais (vw_KPIsGerenciais_Servico, vw_KPIsGerenciais_Venda, vw_IndicadoresMoMYoY_Servico, vw_IndicadoresMoMYoY_Venda) diretamente no SQL Server, consolidando as regras de negócio de vendas e serviços em indicadores prontos para consumo totais, médias, variação mês a mês (MoM) e ano a ano (YoY).\n \nCom o Data Warehouse e as views já modeladas e no ar, veio a segunda etapa: um projeto em Python, rodando 100% local na máquina do cliente, que:\n \n✅Conecta diretamente às views do SQL Server via autenticação do Windows (sem custo de licença, sem infraestrutura extra) \n\n✅Lê os indicadores já calculados nas views gerenciais \n\n✅Processa e organiza os dados de vendas e serviços \n\n✅Gera um dashboard em HTML com KPIs, gráficos e filtros por período pronto para abrir em qualquer navegador\n \nSem SaaS, sem mensalidade, sem depender de internet ou de terceiros. Desde a modelagem do banco até a tela final, uma solução construída ponta a ponta.\n \nEsse tipo de demanda aparece o tempo todo em negócios de médio porte: os dados operacionais existem, mas falta a camada analítica que os transforma em indicador de negócio e depois a ponte que leva esse indicador até quem decide. Modelar o Data Warehouse certo é o que sustenta tudo o que vem depois.\n\n#Python #SQLServer #DataWarehouse #DataDriven #Automação #DashboardGerencial #TransformaçãoDigital",
       "likes": 11,
       "comments": 2,
-      "ordem": 16
+      "ordem": 17
     },
     {
       "urn": "urn:li:activity:7485362963323969536",
@@ -185,7 +196,7 @@
       "image": "assets/linkedin/7485362963323969536.jpg",
       "likes": 19,
       "comments": 2,
-      "ordem": 17
+      "ordem": 18
     },
     {
       "urn": "urn:li:activity:7485312801041940480",
@@ -196,7 +207,7 @@
       "image": "assets/linkedin/7485312801041940480.jpg",
       "likes": 7,
       "comments": 0,
-      "ordem": 18
+      "ordem": 19
     },
     {
       "urn": "urn:li:activity:7484838391633666049",
@@ -207,7 +218,7 @@
       "image": "assets/linkedin/7484838391633666049.jpg",
       "likes": 14,
       "comments": 1,
-      "ordem": 19
+      "ordem": 20
     },
     {
       "urn": "urn:li:activity:7484250960526069760",
@@ -218,7 +229,7 @@
       "image": "assets/linkedin/7484250960526069760.jpg",
       "likes": 4,
       "comments": 0,
-      "ordem": 20
+      "ordem": 21
     },
     {
       "urn": "urn:li:activity:7482868405633433600",
@@ -229,7 +240,7 @@
       "image": "assets/linkedin/7482868405633433600.jpg",
       "likes": 6,
       "comments": 0,
-      "ordem": 21
+      "ordem": 22
     },
     {
       "urn": "urn:li:activity:7482517424693485568",
@@ -239,7 +250,7 @@
       "text": "Não é opinião. É dado oficial do IBGE.\n\nFoi isso que me fez parar de rolar o feed outro dia e abrir o VS Code.\nPeguei a API do IBGE (SIDRA/PNAD Contínua), o Python e o Streamlit, e passei alguns dias construindo um dashboard interativo pra enxergar estado por estado como o Brasil realmente paga seus trabalhadores.\n\nO resultado me deixou incomodado.\n📍 São Paulo: R$ 7.406,80 de renda média mensal \n📍 Alagoas: R$ 2.926,56\n\nMesmo país. Mesma moeda. Realidades completamente diferentes.\nE não parei no mapa. Fui atrás da série histórica, trimestre a trimestre, desde 2015.\n\nO salário médio nacional saiu de R$ 2.330 para R$ 4.213. Quase dobrou. +80% em 11 anos.\n\nParece ótimo, até você lembrar que inflação também comeu esse número e que o abismo entre os estados não fechou nem um pouco.\n\nO que mais me chamou atenção construindo isso:\n→ A diferença não é só Norte/Nordeste vs Sudeste. Dentro da própria região Sudeste, o Rio de Janeiro já tem renda média quase 34% maior que o Espírito Santo.\n→ O setor que mais puxa a média varia muito de estado pra estado — não existe uma resposta única pra \"por que esse estado ganha mais\".\n→ Dado público, quando bem visualizado, conta uma história que nenhuma manchete conta sozinha.\n\nEsse projeto começou como estudo técnico (Python + API pública + visualização de dados) e virou um retrato bem cru da desigualdade regional brasileira.\n\nÀs vezes um dashboard vale mais que mil discursos.\n💬 De qual estado você é? Os números bateram com a sua realidade ou te surpreenderam?\n\n🔗 Link do dashboard nos comentários.\n#DadosAbertos #IBGE #Python #Streamlit #DataViz #Desigualdade #MercadoDeTrabalho #AnaliseDeDados",
       "likes": 6,
       "comments": 1,
-      "ordem": 22
+      "ordem": 23
     },
     {
       "urn": "urn:li:activity:7482419721691336704",
@@ -250,7 +261,7 @@
       "image": "assets/linkedin/7482419721691336704.jpg",
       "likes": 2,
       "comments": 0,
-      "ordem": 23
+      "ordem": 24
     },
     {
       "urn": "urn:li:activity:7480836219413614592",
@@ -261,7 +272,7 @@
       "image": "assets/linkedin/7480836219413614592.jpg",
       "likes": 0,
       "comments": 0,
-      "ordem": 24
+      "ordem": 25
     },
     {
       "urn": "urn:li:activity:7480774117202243584",
@@ -272,7 +283,7 @@
       "image": "assets/linkedin/7480774117202243584.jpg",
       "likes": 0,
       "comments": 0,
-      "ordem": 25
+      "ordem": 26
     },
     {
       "urn": "urn:li:activity:7480614533850456064",
@@ -282,7 +293,7 @@
       "text": "Tem o Power BI. Tem o Tableau. Tem a ferramenta.\n\nMas não tem banco de dados. Não tem tabelas criadas. Não tem dados.\n\nAí começa a dança:\npede pro DBA criar as tabelas,\nespera o time de dados liberar acesso,\ndigita CREATE TABLE na mão,\nerra o tipo de dado,\nvolta do zero.\n\nEu cansei desse ciclo.\n\nO BI Data Generator PRO agora gera o script SQL completo do setor que você escolher.\n\nCom um clique, você tem:\n\n📋 CREATE TABLE (DDL)\nEstrutura completa das tabelas com tipos de dados inferidos automaticamente — BIGINT para IDs, DECIMAL(18,2) para valores monetários, DATE para datas, VARCHAR(20) para UF. Chaves primárias e índices sugeridos já incluídos.\n\n💾 INSERT INTO (dados reais)\nO banco populado com dados sintéticos realistas — nomes brasileiros, CNPJs, CPFs, datas, valores. Tudo pronto pra executar.\n\n📦 Script Completo (DDL + INSERT)\nUm único arquivo .sql. Cola no SSMS, DBeaver ou psql e executa. Banco criado e populado em segundos.\n\n3 dialetos disponíveis: SQL Server, PostgreSQL e MySQL.\n52 setores disponíveis.\n\nVocê sabe o que isso significa na prática?\n\nSignifica que estudante de BI agora consegue criar um banco de dados realista pra praticar do zero, sem pedir nada pra ninguém.\n\nSignifica que o analista que vai apresentar um projeto consegue subir um ambiente completo em 2 minutos.\n\nSignifica que o professor de SQL que precisa de dados para a aula não vai mais usar a tabela de Northwind de 1997.\n\nProcurei na internet. Não encontrei nada parecido gratuito, open source e com essa amplitude de setores.\n\nSe existe, me manda o link porque eu não achei.\n\nlink do BI Data Generator PRO no primeiro comentário...\n\n#SQL #BusinessIntelligence #PowerBI #Python #OpenSource #DataAnalytics #Dados #SQLServer #PostgreSQL",
       "likes": 2,
       "comments": 1,
-      "ordem": 26
+      "ordem": 27
     },
     {
       "urn": "urn:li:activity:7480439503854260224",
@@ -293,7 +304,7 @@
       "image": "assets/linkedin/7480439503854260224.jpg",
       "likes": 18,
       "comments": 0,
-      "ordem": 27
+      "ordem": 28
     },
     {
       "urn": "urn:li:activity:7479965720412381184",
@@ -304,7 +315,7 @@
       "image": "assets/linkedin/7479965720412381184.jpg",
       "likes": 6,
       "comments": 0,
-      "ordem": 28
+      "ordem": 29
     },
     {
       "urn": "urn:li:activity:7479916396525576193",
@@ -315,7 +326,7 @@
       "image": "assets/linkedin/7479916396525576193.jpg",
       "likes": 4,
       "comments": 0,
-      "ordem": 29
+      "ordem": 30
     },
     {
       "urn": "urn:li:activity:7479912287709974529",
@@ -325,7 +336,7 @@
       "text": "📊 Automatizar tarefas repetitivas não é apenas uma questão de velocidade. É uma questão de qualidade na tomada de decisão.\n\nTodo processo manual, quando repetido em grande escala, aumenta o risco de erros e consome tempo que poderia ser investido em atividades de maior valor.\nA consulta de CEPs é uma dessas tarefas: seja para validar cadastros, enriquecer bases de dados ou localizar endereços, fazer isso manualmente rapidamente se torna um gargalo.\n\nAutomatizar esse processo significa ganhar produtividade, confiabilidade e escalabilidade.\n\nFoi pensando nisso que desenvolvi o Processador Inteligente de CEPs.\nA aplicação permite:\n\n✅ Busca individual: informe um CEP e visualize o endereço completo em um cartão organizado, além de um mapa interativo com fallback de precisão (rua → bairro → cidade → estado).\n\n✅ Busca em lote: envie uma planilha CSV ou XLSX contendo uma coluna de CEPs e receba um novo arquivo processado com:\nCEP\nEndereço completo\nBairro\nCidade\nEstado\nDDD\nCódigo IBGE\n\n✅ Bairros por faixa de CEP: informe uma faixa (ex.: 01000–01999) e o sistema identifica automaticamente os bairros observados naquela região por meio de consultas por amostragem à API ViaCEP.\n\nO objetivo foi criar uma ferramenta simples de usar, mas capaz de resolver um problema recorrente de quem trabalha com cadastros, logística, CRM, análise de dados e integração de sistemas.\n\nCada pequeno processo automatizado representa mais tempo para resolver problemas que realmente exigem inteligência humana.\n\n#Desenvolvimento #Python #Automação #DataEngineering #API #ViaCEP #Produtividade #Tecnologia #LinkedIn #Inovação\n\nLink no primeiro comentário",
       "likes": 1,
       "comments": 1,
-      "ordem": 30
+      "ordem": 31
     },
     {
       "urn": "urn:li:activity:7479236744060796928",
@@ -336,7 +347,7 @@
       "image": "assets/linkedin/7479236744060796928.jpg",
       "likes": 1,
       "comments": 0,
-      "ordem": 31
+      "ordem": 32
     },
     {
       "urn": "urn:li:activity:7477888061381574656",
@@ -346,7 +357,7 @@
       "text": "Você recebe uma base nova, importa as tabelas e, antes mesmo de começar a criar medidas ou visualizar os dados, precisa fazer o trabalho mais repetitivo de todos: criar os relacionamentos.\nÉ tabela para lá, tabela para cá.\nArrasta campo.\nConfere cardinalidade.\nConfere direção do filtro.\nRepete o processo dezenas de vezes.\n\nE basta um relacionamento errado para comprometer todo o modelo.\n\nFoi exatamente pensando nesse problema que comecei a explorar uma alternativa pouco conhecida do Power BI: o TMDL\n\nNo vídeo de hoje mostro, passo a passo, como utilizar o TMDL para criar todos os relacionamentos do modelo de forma automática, sem precisar fazer esse trabalho manual.\n\nVocê vai aprender:\n✅ Como estruturar o arquivo TMDL.\n✅ Como definir os relacionamentos entre as tabelas.\n✅ Como importar o script para o Power BI.\n✅ Como gerar todo o modelo em poucos segundos.\n✅ Como economizar tempo e padronizar seus projetos.\n\nEssa abordagem é especialmente útil para quem trabalha com múltiplos projetos, desenvolve modelos corporativos ou simplesmente quer eliminar tarefas repetitivas e focar no que realmente gera valor: a análise dos dados.\n\nAutomação não serve apenas para ganhar velocidade.\nEla serve para reduzir erros, criar padrões e transformar horas de trabalho manual em alguns segundos de execução.\n\nSe você ainda cria relacionamentos um a um no Power BI, talvez esteja perdendo uma das funcionalidades mais poderosas para desenvolvimento de modelos semânticos.\n\nAssista ao tutorial e me conte nos comentários: você já conhecia essa possibilidade com TMDL ou ainda fazia tudo manualmente?",
       "likes": 50,
       "comments": 2,
-      "ordem": 32
+      "ordem": 33
     },
     {
       "urn": "urn:li:activity:7477524513434411008",
@@ -357,7 +368,7 @@
       "image": "assets/linkedin/7477524513434411008.jpg",
       "likes": 6,
       "comments": 4,
-      "ordem": 33
+      "ordem": 34
     },
     {
       "urn": "urn:li:activity:7477284778938105856",
@@ -368,7 +379,7 @@
       "image": "assets/linkedin/7477284778938105856.jpg",
       "likes": 648,
       "comments": 59,
-      "ordem": 34
+      "ordem": 35
     },
     {
       "urn": "urn:li:activity:7475701310042894336",
@@ -379,7 +390,7 @@
       "image": "assets/linkedin/7475701310042894336.jpg",
       "likes": 91,
       "comments": 32,
-      "ordem": 35
+      "ordem": 36
     },
     {
       "urn": "urn:li:activity:7470436600217300992",
@@ -390,7 +401,7 @@
       "image": "assets/linkedin/7470436600217300992.jpg",
       "likes": 2,
       "comments": 0,
-      "ordem": 36
+      "ordem": 37
     },
     {
       "urn": "urn:li:activity:7463193145607008256",
@@ -401,7 +412,7 @@
       "image": "assets/linkedin/7463193145607008256.jpg",
       "likes": 21,
       "comments": 2,
-      "ordem": 37
+      "ordem": 38
     },
     {
       "urn": "urn:li:activity:7456179212153114624",
@@ -412,7 +423,7 @@
       "image": "assets/linkedin/7456179212153114624.jpg",
       "likes": 8,
       "comments": 0,
-      "ordem": 38
+      "ordem": 39
     },
     {
       "urn": "urn:li:activity:7452015206932586496",
@@ -423,7 +434,7 @@
       "image": "assets/linkedin/7452015206932586496.jpg",
       "likes": 13,
       "comments": 2,
-      "ordem": 39
+      "ordem": 40
     },
     {
       "urn": "urn:li:activity:7451452290563211264",
@@ -434,7 +445,7 @@
       "image": "assets/linkedin/7451452290563211264.jpg",
       "likes": 17,
       "comments": 0,
-      "ordem": 40
+      "ordem": 41
     },
     {
       "urn": "urn:li:activity:7447640647722962946",
@@ -444,7 +455,7 @@
       "text": "Mas tem um problema enorme: onde encontrar bases boas para praticar?\nEu passei por isso. E vi centenas de colegas passando também.\n\nO ciclo é sempre o mesmo:\n1️⃣ Faz o curso, aprende teoria\n2️⃣ Quer praticar… mas não tem base real\n3️⃣ Sai caçando planilhas soltas, datasets antigos, arquivos quebrados\n4️⃣ Perde mais tempo procurando dado do que estudando de verdade\n\nResultado: frustração, desistência ou pior o aluno treina com dados irreais e chega no mercado sem saber lidar com volume, sujeira ou estrutura de verdade.\n\nFoi pensando nisso que criei o bi_data_generator.\n🎯 Um gerador de dados feito para quem estuda BI.\n\nCom ele, o estudante pode:\n✅ Gerar bases sob demanda no tamanho que precisar\n✅ Simular cenários reais (vendas, clientes, produtos, estoque)\n✅ Praticar limpeza, modelagem, DAX, SQL e dashboards\n✅ Ter dados NOVOS sempre que quiser sem depender de ninguém\n\nO mercado não vai te dar uma base pronta. Mas você pode criar a sua.\n🔁 Marque aquele estudante de BI que tá sofrendo pra achar dado pra treinar.\n\n👇 E você: já desistiu de praticar BI por não ter base boa? Conta aí.\n#BI #BusinessIntelligence #EstudantesDeBI #Dados #Python #DataAnalytics #OpenSource\n\nlink no primeiro comentário...",
       "likes": 16,
       "comments": 3,
-      "ordem": 41
+      "ordem": 42
     },
     {
       "urn": "urn:li:activity:7447050236356898816",
@@ -455,7 +466,7 @@
       "image": "assets/linkedin/7447050236356898816.jpg",
       "likes": 3,
       "comments": 1,
-      "ordem": 42
+      "ordem": 43
     },
     {
       "urn": "urn:li:activity:7444909765983596544",
@@ -466,7 +477,7 @@
       "image": "assets/linkedin/7444909765983596544.jpg",
       "likes": 14,
       "comments": 0,
-      "ordem": 43
+      "ordem": 44
     },
     {
       "urn": "urn:li:activity:7444477803414073344",
@@ -477,7 +488,7 @@
       "image": "assets/linkedin/7444477803414073344.jpg",
       "likes": 9,
       "comments": 3,
-      "ordem": 44
+      "ordem": 45
     },
     {
       "urn": "urn:li:activity:7442717669839179776",
@@ -488,7 +499,7 @@
       "image": "assets/linkedin/7442717669839179776.jpg",
       "likes": 16,
       "comments": 3,
-      "ordem": 45
+      "ordem": 46
     },
     {
       "urn": "urn:li:activity:7442569673856151554",
@@ -499,7 +510,7 @@
       "image": "assets/linkedin/7442569673856151554.jpg",
       "likes": 10,
       "comments": 0,
-      "ordem": 46
+      "ordem": 47
     },
     {
       "urn": "urn:li:activity:7441125916795363329",
@@ -510,7 +521,7 @@
       "image": "assets/linkedin/7441125916795363329.jpg",
       "likes": 7,
       "comments": 1,
-      "ordem": 47
+      "ordem": 48
     },
     {
       "urn": "urn:li:activity:7440861272813936640",
@@ -521,7 +532,7 @@
       "image": "assets/linkedin/7440861272813936640.jpg",
       "likes": 16,
       "comments": 2,
-      "ordem": 48
+      "ordem": 49
     },
     {
       "urn": "urn:li:activity:7440794660840722432",
@@ -532,7 +543,7 @@
       "image": "assets/linkedin/7440794660840722432.jpg",
       "likes": 6,
       "comments": 2,
-      "ordem": 49
+      "ordem": 50
     },
     {
       "urn": "urn:li:activity:7440771736243113984",
@@ -543,7 +554,7 @@
       "image": "assets/linkedin/7440771736243113984.jpg",
       "likes": 8,
       "comments": 0,
-      "ordem": 50
+      "ordem": 51
     },
     {
       "urn": "urn:li:activity:7440493365672095746",
@@ -554,7 +565,7 @@
       "image": "assets/linkedin/7440493365672095746.jpg",
       "likes": 14,
       "comments": 2,
-      "ordem": 51
+      "ordem": 52
     },
     {
       "urn": "urn:li:activity:7440337706787811328",
@@ -565,7 +576,7 @@
       "image": "assets/linkedin/7440337706787811328.jpg",
       "likes": 46,
       "comments": 1,
-      "ordem": 52
+      "ordem": 53
     },
     {
       "urn": "urn:li:activity:7439855172484407297",
@@ -576,7 +587,7 @@
       "image": "assets/linkedin/7439855172484407297.jpg",
       "likes": 10,
       "comments": 1,
-      "ordem": 53
+      "ordem": 54
     },
     {
       "urn": "urn:li:activity:7439477397667811328",
@@ -587,7 +598,7 @@
       "image": "assets/linkedin/7439477397667811328.jpg",
       "likes": 15,
       "comments": 1,
-      "ordem": 54
+      "ordem": 55
     },
     {
       "urn": "urn:li:activity:7439092043848704000",
@@ -598,7 +609,7 @@
       "image": "assets/linkedin/7439092043848704000.jpg",
       "likes": 12,
       "comments": 1,
-      "ordem": 55
+      "ordem": 56
     },
     {
       "urn": "urn:li:activity:7439057356954439680",
@@ -609,7 +620,7 @@
       "image": "assets/linkedin/7439057356954439680.jpg",
       "likes": 12,
       "comments": 1,
-      "ordem": 56
+      "ordem": 57
     },
     {
       "urn": "urn:li:activity:7438596589176340480",
@@ -620,7 +631,7 @@
       "image": "assets/linkedin/7438596589176340480.jpg",
       "likes": 6,
       "comments": 1,
-      "ordem": 57
+      "ordem": 58
     },
     {
       "urn": "urn:li:activity:7438582653081079811",
@@ -631,7 +642,7 @@
       "image": "assets/linkedin/7438582653081079811.jpg",
       "likes": 21,
       "comments": 0,
-      "ordem": 58
+      "ordem": 59
     },
     {
       "urn": "urn:li:activity:7438582194723409920",
@@ -642,7 +653,7 @@
       "image": "assets/linkedin/7438582194723409920.jpg",
       "likes": 24,
       "comments": 0,
-      "ordem": 59
+      "ordem": 60
     },
     {
       "urn": "urn:li:activity:7438360962358935552",
@@ -653,7 +664,7 @@
       "image": "assets/linkedin/7438360962358935552.jpg",
       "likes": 12,
       "comments": 0,
-      "ordem": 60
+      "ordem": 61
     },
     {
       "urn": "urn:li:activity:7437681300607500289",
@@ -664,7 +675,7 @@
       "image": "assets/linkedin/7437681300607500289.jpg",
       "likes": 2,
       "comments": 0,
-      "ordem": 61
+      "ordem": 62
     },
     {
       "urn": "urn:li:activity:7436588313131589632",
@@ -675,7 +686,7 @@
       "image": "assets/linkedin/7436588313131589632.jpg",
       "likes": 425,
       "comments": 36,
-      "ordem": 62
+      "ordem": 63
     },
     {
       "urn": "urn:li:activity:7435772621922664448",
@@ -686,7 +697,7 @@
       "image": "assets/linkedin/7435772621922664448.jpg",
       "likes": 6,
       "comments": 2,
-      "ordem": 63
+      "ordem": 64
     },
     {
       "urn": "urn:li:activity:7434934263256403969",
@@ -697,7 +708,7 @@
       "image": "assets/linkedin/7434934263256403969.jpg",
       "likes": 60,
       "comments": 0,
-      "ordem": 64
+      "ordem": 65
     },
     {
       "urn": "urn:li:activity:7434609740086726656",
@@ -708,7 +719,7 @@
       "image": "assets/linkedin/7434609740086726656.jpg",
       "likes": 4,
       "comments": 0,
-      "ordem": 65
+      "ordem": 66
     },
     {
       "urn": "urn:li:activity:7434320966136041472",
@@ -719,7 +730,7 @@
       "image": "assets/linkedin/7434320966136041472.jpg",
       "likes": 7,
       "comments": 0,
-      "ordem": 66
+      "ordem": 67
     },
     {
       "urn": "urn:li:activity:7434075704717385728",
@@ -730,7 +741,7 @@
       "image": "assets/linkedin/7434075704717385728.jpg",
       "likes": 10,
       "comments": 0,
-      "ordem": 67
+      "ordem": 68
     },
     {
       "urn": "urn:li:activity:7433707428795338752",
@@ -741,7 +752,7 @@
       "image": "assets/linkedin/7433707428795338752.jpg",
       "likes": 22,
       "comments": 5,
-      "ordem": 68
+      "ordem": 69
     },
     {
       "urn": "urn:li:activity:7433312671892029441",
@@ -752,29 +763,7 @@
       "image": "assets/linkedin/7433312671892029441.jpg",
       "likes": 910,
       "comments": 89,
-      "ordem": 69
-    },
-    {
-      "urn": "urn:li:activity:7432075287452094464",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7432075287452094464/",
-      "date": "2026-02-24",
-      "title": "🚀 Nunca mais perca tempo criando dados fictícios para estudar BI",
-      "text": "Gere tabelas fato e dimensões realistas em segundos e foque no que realmente importa: análise, modelagem e insights.\n\nTodo profissional de Business Intelligence já passou por isso:\nVocê quer estudar modelagem estrela, criar dashboards no Power BI ou praticar SQL…\n\n Mas antes precisa inventar dados, montar tabelas manualmente e simular cenários que raramente parecem reais.\nIsso consome horas.\n\nE o pior:\n Os dados criados manualmente não têm sazonalidade, relacionamento coerente ou estrutura adequada para um modelo dimensional de verdade.\n\nO resultado?\nEstudos superficiais.\n Portfólios fracos.\n Aprendizado limitado.\n\n🎯 A Solução\nO BI Data Generator PRO resolve essa dor de forma direta:\n✔ Gera automaticamente tabela fato\n ✔ Cria múltiplas dimensões relacionadas\n ✔ Estrutura pronta no modelo estrela\n ✔ Dados com sazonalidade real\n ✔ Exportação em .zip pronta para Power BI, Tableau ou SQL\n\nEm segundos, você tem um ambiente completo para:\nTreinar modelagem dimensional\nTestar DAX\nSimular cenários financeiros\nCriar dashboards profissionais\nMontar portfólio de alto nível\n\nAcesse gratuitamente: \"https://lnkd.in/gc5y2YqR\"",
-      "image": "assets/linkedin/7432075287452094464.jpg",
-      "likes": 21,
-      "comments": 2,
       "ordem": 70
-    },
-    {
-      "urn": "urn:li:activity:7431804073559097345",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7431804073559097345/",
-      "date": "2026-02-23",
-      "title": "🚀 Diferencial Técnico: Automação com .BAT para Estruturação de Projetos Python",
-      "text": "Um dos grandes diferenciais do meu trabalho com Python é a utilização estratégica de uma tecnologia simples, porém extremamente poderosa: arquivos .BAT (Batch Script do Windows).\n\nEmbora seja uma tecnologia antiga, o uso inteligente de scripts .bat me permite criar, configurar e padronizar automaticamente todo o ambiente de desenvolvimento de um projeto Python com apenas um clique.\n\n🔧 O que isso significa na prática?\nCom um único arquivo executável, eu consigo:\nCriar o ambiente virtual (venv)\nInstalar automaticamente todas as dependências do requirements.txt\nEstruturar pastas do projeto (src, data, logs, utils, etc.)\nCriar arquivos base (main.py, .env, README, .gitignore)\nConfigurar variáveis de ambiente\nPadronizar boas práticas desde o início\n\n💡 Por que isso é um diferencial?\nEnquanto muitos desenvolvedores configuram projetos manualmente, eu aplico automação desde o primeiro passo. Isso traz:\n✅ Redução de erros humanos\n✅ Padronização profissional dos projetos\n✅ Economia de tempo\n✅ Facilidade de replicação em qualquer máquina\n✅ Onboarding mais rápido para equipes\n\nAlém disso, essa abordagem garante que qualquer pessoa consiga rodar o projeto corretamente, mesmo sem conhecimento avançado de configuração.\n\n🎯 Resultado\nProjetos mais organizados, escaláveis e prontos para produção desde a primeira execução.\nTecnologia antiga? Sim.\n Aplicação estratégica e inteligente? Com certeza.",
-      "image": "assets/linkedin/7431804073559097345.jpg",
-      "likes": 16,
-      "comments": 0,
-      "ordem": 71
     }
   ]
 }
