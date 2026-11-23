@@ -183,7 +183,7 @@
       "date": "2026-09-09",
       "title": "🔧 De planilha manual a dashboard automático: um caso real de como dados parados dentro do…",
       "text": "🔧 De planilha manual a dashboard automático: um caso real de como dados parados dentro do banco viram decisão de negócio.\n \nUm cliente do setor de autopeças tinha um problema comum (e caro): os dados de vendas e serviços estavam espalhados no operacional, sem nenhuma camada analítica por trás. \n\nCada relatório era feito manualmente, sob demanda, sempre atrasado em relação ao que estava realmente acontecendo na operação.\n \nO resultado disso é previsível: decisões tomadas com base em \"achismo\" ou em números de semanas atrás, tempo da equipe gasto rodando consulta e montando planilha ao invés de analisar o negócio, e KPIs importantes (faturamento, ticket médio, variação mês a mês, mão de obra x peças) sem visibilidade nenhuma no dia a dia.\n \nA primeira etapa do trabalho foi resolver a base: modelei e construí do zero o Data Warehouse e as views gerenciais (vw_KPIsGerenciais_Servico, vw_KPIsGerenciais_Venda, vw_IndicadoresMoMYoY_Servico, vw_IndicadoresMoMYoY_Venda) diretamente no SQL Server, consolidando as regras de negócio de vendas e serviços em indicadores prontos para consumo totais, médias, variação mês a mês (MoM) e ano a ano (YoY).\n \nCom o Data Warehouse e as views já modeladas e no ar, veio a segunda etapa: um projeto em Python, rodando 100% local na máquina do cliente, que:\n \n✅Conecta diretamente às views do SQL Server via autenticação do Windows (sem custo de licença, sem infraestrutura extra) \n\n✅Lê os indicadores já calculados nas views gerenciais \n\n✅Processa e organiza os dados de vendas e serviços \n\n✅Gera um dashboard em HTML com KPIs, gráficos e filtros por período pronto para abrir em qualquer navegador\n \nSem SaaS, sem mensalidade, sem depender de internet ou de terceiros. Desde a modelagem do banco até a tela final, uma solução construída ponta a ponta.\n \nEsse tipo de demanda aparece o tempo todo em negócios de médio porte: os dados operacionais existem, mas falta a camada analítica que os transforma em indicador de negócio e depois a ponte que leva esse indicador até quem decide. Modelar o Data Warehouse certo é o que sustenta tudo o que vem depois.\n\n#Python #SQLServer #DataWarehouse #DataDriven #Automação #DashboardGerencial #TransformaçãoDigital",
-      "likes": 11,
+      "likes": 12,
       "comments": 2,
       "ordem": 17
     },
@@ -764,28 +764,6 @@
       "likes": 910,
       "comments": 89,
       "ordem": 70
-    },
-    {
-      "urn": "urn:li:activity:7432075287452094464",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7432075287452094464/",
-      "date": "2026-02-24",
-      "title": "🚀 Nunca mais perca tempo criando dados fictícios para estudar BI",
-      "text": "Gere tabelas fato e dimensões realistas em segundos e foque no que realmente importa: análise, modelagem e insights.\n\nTodo profissional de Business Intelligence já passou por isso:\nVocê quer estudar modelagem estrela, criar dashboards no Power BI ou praticar SQL…\n\n Mas antes precisa inventar dados, montar tabelas manualmente e simular cenários que raramente parecem reais.\nIsso consome horas.\n\nE o pior:\n Os dados criados manualmente não têm sazonalidade, relacionamento coerente ou estrutura adequada para um modelo dimensional de verdade.\n\nO resultado?\nEstudos superficiais.\n Portfólios fracos.\n Aprendizado limitado.\n\n🎯 A Solução\nO BI Data Generator PRO resolve essa dor de forma direta:\n✔ Gera automaticamente tabela fato\n ✔ Cria múltiplas dimensões relacionadas\n ✔ Estrutura pronta no modelo estrela\n ✔ Dados com sazonalidade real\n ✔ Exportação em .zip pronta para Power BI, Tableau ou SQL\n\nEm segundos, você tem um ambiente completo para:\nTreinar modelagem dimensional\nTestar DAX\nSimular cenários financeiros\nCriar dashboards profissionais\nMontar portfólio de alto nível\n\nAcesse gratuitamente: \"https://lnkd.in/gc5y2YqR\"",
-      "image": "assets/linkedin/7432075287452094464.jpg",
-      "likes": 21,
-      "comments": 2,
-      "ordem": 71
-    },
-    {
-      "urn": "urn:li:activity:7431804073559097345",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7431804073559097345/",
-      "date": "2026-02-23",
-      "title": "🚀 Diferencial Técnico: Automação com .BAT para Estruturação de Projetos Python",
-      "text": "Um dos grandes diferenciais do meu trabalho com Python é a utilização estratégica de uma tecnologia simples, porém extremamente poderosa: arquivos .BAT (Batch Script do Windows).\n\nEmbora seja uma tecnologia antiga, o uso inteligente de scripts .bat me permite criar, configurar e padronizar automaticamente todo o ambiente de desenvolvimento de um projeto Python com apenas um clique.\n\n🔧 O que isso significa na prática?\nCom um único arquivo executável, eu consigo:\nCriar o ambiente virtual (venv)\nInstalar automaticamente todas as dependências do requirements.txt\nEstruturar pastas do projeto (src, data, logs, utils, etc.)\nCriar arquivos base (main.py, .env, README, .gitignore)\nConfigurar variáveis de ambiente\nPadronizar boas práticas desde o início\n\n💡 Por que isso é um diferencial?\nEnquanto muitos desenvolvedores configuram projetos manualmente, eu aplico automação desde o primeiro passo. Isso traz:\n✅ Redução de erros humanos\n✅ Padronização profissional dos projetos\n✅ Economia de tempo\n✅ Facilidade de replicação em qualquer máquina\n✅ Onboarding mais rápido para equipes\n\nAlém disso, essa abordagem garante que qualquer pessoa consiga rodar o projeto corretamente, mesmo sem conhecimento avançado de configuração.\n\n🎯 Resultado\nProjetos mais organizados, escaláveis e prontos para produção desde a primeira execução.\nTecnologia antiga? Sim.\n Aplicação estratégica e inteligente? Com certeza.",
-      "image": "assets/linkedin/7431804073559097345.jpg",
-      "likes": 16,
-      "comments": 0,
-      "ordem": 72
     }
   ]
 }
