@@ -12,7 +12,7 @@
   if (!raiz) return;
   const q = s => raiz.querySelector(s);
   const LIMITE_MB = 15, LIMITE_LINHAS = 200000;
-  const LIBS = { xlsx: ["assets/vendor/read-excel-file-9.3.20.min.js", "readXlsxFile"], csv: ["assets/vendor/papaparse-5.7.1.min.js", "Papa"], dash: ["assets/raiox-dash.js?v=1", "RaioXDash"] };
+  const LIBS = { xlsx: ["assets/vendor/read-excel-file-9.3.20.min.js", "readXlsxFile"], csv: ["assets/vendor/papaparse-5.7.1.min.js", "Papa"], dash: ["assets/raiox-dash.js?v=2", "RaioXDash"] };
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const semAc = s => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
   const evento = (n, d) => { try { if (window.va) window.va("event", { name: n, data: d }); } catch (_) {} };
@@ -107,12 +107,22 @@
   }
 
   /* ── perfil de cada coluna ── */
-  const RE_ID = /(^|\b)(id|cod|codigo|cpf|cnpj|cep|telefone|celular|fone|matricula|pedido|nota|nf|chave|sku|ean)(\b|$)/;
+  // colunas de código (id, cod, matrícula, CPF…): nunca somar, só contar
+  const ehCodigo = nome => {
+    const bruto = String(nome ?? "").trim(), k = semAc(bruto).replace(/[_\-.\/#]+/g, " ").replace(/\s+/g, " ");
+    if (/^idade\b/.test(k)) return false;
+    return /(^|\s)(id|ids|cod|codigo|cd|cpf|cnpj|cep|matricula|sku|ean|gtin|chave|nf|nfe|nota fiscal|telefone|celular|fone|whatsapp|protocolo|pedido|ticket id|uuid|guid|placa|chassi|renavam|rg|pis|cnh|conta|agencia)(\s|$)/.test(k)
+      || /^(n|no|nr|num|numero|nº|n°)\s/.test(k)
+      || /^cod/.test(k)
+      || /^(id|Id|ID|cd|Cd|CD)(?=[A-Z0-9])/.test(bruto)
+      || /(?<=[a-z0-9])(Id|ID|Cod|COD)$/.test(bruto);
+  };
+  const RE_ID = { test: k => ehCodigo(k) };
   const RE_METRICA = /valor|receita|venda|fatur|total|preco|custo|montante|lucro|margem|quantidade|qtd|qtde|volume|saldo|pagamento|despesa|peso|horas|salario|remunera|r\$|reais|enps|nps|nota|idade|score|preco|ticket/;
   const RE_CATEG = /produto|categoria|regiao|cliente|vendedor|loja|cidade|estado|uf|canal|setor|segmento|filial|marca|departamento|area|tipo|status|grupo|unidade|fornecedor|representante|equipe/;
   function perfil(nome, i, dados) {
     const brutos = dados.map(l => l[i]), cheios = brutos.filter(v => !vazio(v));
-    const p = { nome, i, vazios: brutos.length - cheios.length, total: brutos.length, chave: semAc(nome) };
+    const p = { nome, i, vazios: brutos.length - cheios.length, total: brutos.length, chave: semAc(nome), codigo: ehCodigo(nome) };
     let nNum = 0, nNumTexto = 0, nData = 0;
     for (const v of cheios) {
       if (v instanceof Date || (typeof v === "string" && data(v))) nData++;
@@ -122,9 +132,9 @@
     p.unicos = unicos.size; p.numTexto = nNumTexto;
     const c = cheios.length || 1;
     if (nData / c >= 0.8) p.tipo = "data";
-    else if (nNum / c >= 0.8) p.tipo = RE_ID.test(p.chave) || (unicos.size > 0.95 * c && c > 30 && cheios.every(v => Number.isInteger(numero(v))) && !RE_METRICA.test(p.chave)) ? "id" : "numero";
-    else if (unicos.size >= 2 && unicos.size <= Math.max(60, c * 0.05) && !RE_ID.test(p.chave)) p.tipo = "categoria";
-    else p.tipo = RE_ID.test(p.chave) ? "id" : "texto";
+    else if (nNum / c >= 0.8) p.tipo = p.codigo || (unicos.size > 0.95 * c && c > 30 && cheios.every(v => Number.isInteger(numero(v))) && !RE_METRICA.test(p.chave)) ? "id" : "numero";
+    else if (unicos.size >= 2 && unicos.size <= Math.max(60, c * 0.05) && !p.codigo) p.tipo = "categoria";
+    else p.tipo = p.codigo ? "id" : "texto";
     if (p.tipo === "numero") p.valores = brutos.map(numero);
     if (p.tipo === "data") p.datas = brutos.map(data);
     return p;

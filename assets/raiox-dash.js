@@ -9,6 +9,16 @@
   const semAc = s => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
   const escH = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const MAX_LINHAS = 50000;
+  // colunas de código (id, cod, matrícula, CPF…): nunca somar, só contar
+  const ehCodigo = nome => {
+    const bruto = String(nome ?? "").trim(), k = semAc(bruto).replace(/[_\-.\/#]+/g, " ").replace(/\s+/g, " ");
+    if (/^idade\b/.test(k)) return false;
+    return /(^|\s)(id|ids|cod|codigo|cd|cpf|cnpj|cep|matricula|sku|ean|gtin|chave|nf|nfe|nota fiscal|telefone|celular|fone|whatsapp|protocolo|pedido|ticket id|uuid|guid|placa|chassi|renavam|rg|pis|cnh|conta|agencia)(\s|$)/.test(k)
+      || /^(n|no|nr|num|numero|nº|n°)\s/.test(k)
+      || /^cod/.test(k)
+      || /^(id|Id|ID|cd|Cd|CD)(?=[A-Z0-9])/.test(bruto)
+      || /(?<=[a-z0-9])(Id|ID|Cod|COD)$/.test(bruto);
+  };
 
   // papéis das colunas no dashboard
   const RE_ANO = /^(ano|year|exercicio|ano (de )?referencia|safra)$/;
@@ -22,6 +32,7 @@
     const n = linhas.length;
     cols.forEach(c => {
       c.papel = c.tipo;
+      if (ehCodigo(c.nome) || c.tipo === "id") { c.papel = "id"; c.tipo = "id"; return; }
       if (c.tipo === "numero") {
         const v = linhas.map(l => l[c.i]).filter(x => x !== null);
         const uni = new Set(v).size, inteiros = v.every(Number.isInteger);
@@ -50,7 +61,8 @@
     const m1 = mets[0], m2 = mets[1];
 
     // KPIs
-    const kpis = [{ tipo: "cont" }];
+    const idC = cols.find(c => c.papel === "id");
+    const kpis = [{ tipo: "cont", c: idC ? idC.i : -1 }];
     const binarias = cats.filter(c => c.niveis === 2 && RE_STATUS.test(c.chave)).sort((a, b) => (RE_STATUS.test(b.chave) ? 1 : 0) - (RE_STATUS.test(a.chave) ? 1 : 0));
     const minoria = c => { const m = new Map(); linhas.forEach(l => { const v = l[c.i]; if (v !== null && v !== "") m.set(v, (m.get(v) || 0) + 1); }); return [...m.entries()].sort((a, b) => a[1] - b[1])[0][0]; };
     mets.slice(0, 3).forEach(c => kpis.push({ tipo: "met", c: c.i, agg: c.agg }));
@@ -123,7 +135,8 @@
       const ls = filtradas;
       $("#kpis").innerHTML = P.kpis.map((k, i) => {
         let rot, val, sub, verso;
-        if (k.tipo === "cont") { rot = "Registros"; val = nf(ls.length); sub = ls.length === L.length ? "na base completa" : `de ${nf(L.length)} na base`; verso = "Quantidade de linhas que atendem aos filtros escolhidos."; }
+        if (k.tipo === "cont" && k.c >= 0) { const c = C[k.c], dist = new Set(ls.map(l => l[k.c]).filter(v => !vazio(v))).size, rep_ = ls.filter(l => !vazio(l[k.c])).length - dist; rot = "Qtd. de " + c.nome; val = nf(dist); sub = rep_ ? `distintos em ${nf(ls.length)} linhas` : `um por linha (${nf(ls.length)} linhas)`; verso = `Contagem de ${esc(c.nome)} distintos. Por ser um código, essa coluna é contada, nunca somada.`; }
+        else if (k.tipo === "cont") { rot = "Registros"; val = nf(ls.length); sub = ls.length === L.length ? "na base completa" : `de ${nf(L.length)} na base`; verso = "Quantidade de linhas que atendem aos filtros escolhidos."; }
         if (k.tipo === "met") { const c = C[k.c]; rot = (k.agg === "media" ? "Média de " : "Total de ") + c.nome; const v = agg(k.c, k.agg, ls); val = fmtV(k.c, v, true); sub = k.agg === "media" ? "por registro" : `${nf(ls.filter(l => typeof l[k.c] === "number").length)} valores somados`; verso = k.agg === "media" ? `Média simples da coluna ${esc(c.nome)}, ignorando células vazias.` : `Soma da coluna ${esc(c.nome)} nos registros filtrados.`; }
         if (k.tipo === "pct") { const c = C[k.c], q = ls.filter(l => String(l[k.c]) === String(k.v)).length; rot = `% ${k.v}`; val = ls.length ? nf(q / ls.length * 100, 1) + "%" : "—"; sub = `${nf(q)} com ${esc(c.nome)} = ${esc(k.v)}`; verso = `(Registros com ${esc(c.nome)} “${esc(k.v)}” ÷ total filtrado) × 100.`; }
         if (k.tipo === "periodo") { const ds = ls.map(l => l[k.c]).filter(Boolean).sort(); rot = "Período"; val = ds.length ? `${MESES[+ds[0].slice(5, 7) - 1]}/${ds[0].slice(2, 4)} – ${MESES[+ds[ds.length - 1].slice(5, 7) - 1]}/${ds[ds.length - 1].slice(2, 4)}` : "—"; sub = esc(C[k.c].nome); verso = `Primeira e última data da coluna ${esc(C[k.c].nome)}.`; }
@@ -252,6 +265,7 @@
       if (t.tipo === "numero" && t.papel === "categoria") return `<td class="num">${esc(v)}</td>`;
       if (t.tipo === "numero") return `<td class="num${t.din ? " din" : ""}">${esc(fmtV(c, v))}</td>`;
       if (t.tipo === "data") return `<td class="mono">${dataBR(v)}</td>`;
+      if (t.tipo === "id") return `<td class="mono cod">${esc(v)}</td>`;
       if (binaria[c] !== null && binaria[c] !== undefined) return `<td><span class="badge ${String(v) === String(binaria[c]) ? "ok" : "alt"}">${esc(v)}</span></td>`;
       return `<td>${esc(v)}</td>`;
     }
@@ -367,7 +381,7 @@ option{background:#111827;color:#f1f5f9}
 table{width:100%;border-collapse:collapse;font-size:.8rem}
 th{position:sticky;top:0;background:rgba(255,255,255,.1);backdrop-filter:blur(6px);text-align:left;padding:10px 12px;font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#e2e8f0;white-space:nowrap;cursor:pointer;user-select:none}
 th:hover{color:#67e8f9}td{padding:9px 12px;border-top:1px solid rgba(255,255,255,.05);white-space:nowrap;max-width:280px;overflow:hidden;text-overflow:ellipsis}
-tbody tr:hover{background:rgba(255,255,255,.06)}.num{text-align:right;font-variant-numeric:tabular-nums}.din{color:#6ee7b7;font-weight:600}.mono{font-family:ui-monospace,Consolas,monospace}.mut{color:var(--mut)}
+tbody tr:hover{background:rgba(255,255,255,.06)}.num{text-align:right;font-variant-numeric:tabular-nums}.din{color:#6ee7b7;font-weight:600}.mono{font-family:ui-monospace,Consolas,monospace}.cod{color:#67e8f9}.mut{color:var(--mut)}
 .badge{padding:2px 9px;border-radius:99px;font-size:.68rem;font-weight:600;border:1px solid}.badge.ok{background:rgba(52,211,153,.14);color:#6ee7b7;border-color:rgba(110,231,183,.3)}.badge.alt{background:rgba(251,113,133,.14);color:#fda4af;border-color:rgba(253,164,175,.3)}
 .pagina{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:.78rem;color:var(--mut);padding-top:12px}
 .pagina select{width:auto;padding:4px 8px}.pagina .nav{display:flex;align-items:center;gap:6px}#pg{color:#67e8f9;font-weight:700;padding:0 8px}
