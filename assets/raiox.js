@@ -12,7 +12,7 @@
   if (!raiz) return;
   const q = s => raiz.querySelector(s);
   const LIMITE_MB = 15, LIMITE_LINHAS = 200000;
-  const LIBS = { xlsx: ["assets/vendor/read-excel-file-9.3.20.min.js", "readXlsxFile"], csv: ["assets/vendor/papaparse-5.7.1.min.js", "Papa"], dash: ["assets/raiox-dash.js?v=3", "RaioXDash"] };
+  const LIBS = { xlsx: ["assets/vendor/read-excel-file-9.3.20.min.js", "readXlsxFile"], csv: ["assets/vendor/papaparse-5.7.1.min.js", "Papa"], dash: ["assets/raiox-dash.js?v=4", "RaioXDash"] };
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const semAc = s => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
   const evento = (n, d) => { try { if (window.va) window.va("event", { name: n, data: d }); } catch (_) {} };
@@ -197,6 +197,9 @@
   }
   const ehDinheiro = c => c && /valor|receita|venda|fatur|preco|custo|montante|lucro|saldo|pagamento|despesa|ticket|r\$/.test(c.chave) && !/quant|qtd|qtde/.test(c.chave);
 
+  /* ── variação percentual com seta (verde sobe, vermelho desce) ── */
+  const pctTxt = v => v === null || v === undefined || !isFinite(v) ? `<i class="rx-nd">—</i>` : `<i class="${v >= 0 ? "rx-up" : "rx-down"}">${v >= 0 ? "▲ +" : "▼ "}${nf(v, 1)}%</i>`;
+
   /* ── gráficos em SVG ── */
   function graficoMeses(pontos, dinheiro) {
     if (pontos.length < 2) return `<p class="rx-vazio">Poucas datas para mostrar uma evolução.</p>`;
@@ -208,8 +211,8 @@
     const passo = Math.ceil(pontos.length / Math.max(3, Math.floor((W - mE) / 58)));
     pontos.forEach((p, k) => {
       const x = mE + k * bw + bw * 0.15, h = H - mB - y(p.v);
-      s += `<rect x="${x}" y="${y(p.v)}" width="${bw * 0.7}" height="${Math.max(h, 0.5)}" rx="3" class="rx-barra"><title>${esc(p.rot)}: ${dinheiro ? "R$ " : ""}${esc(nf(p.v, dinheiro ? 2 : 0))}</title></rect>`;
-      if (k % passo === 0 || k === pontos.length - 1) s += `<text x="${x + bw * 0.35}" y="${H - 9}" class="rx-eixo" text-anchor="middle">${esc(p.curto)}</text>`;
+      s += `<rect x="${x}" y="${y(p.v)}" width="${bw * 0.7}" height="${Math.max(h, 0.5)}" rx="3" class="rx-barra" tabindex="0" data-rx-tip="${esc(`<b>${esc(p.rot)}</b><span>${dinheiro ? "R$ " : ""}${esc(nf(p.v, dinheiro ? 2 : 0))}</span><span>%MoM ${pctTxt(p.mom)}</span><span>%YoY ${pctTxt(p.yoy)}</span>`)}"></rect>`;
+      if (k % passo === 0 || k === pontos.length - 1) { const cx = x + bw * 0.35, fim = cx + 24 > W; s += `<text x="${fim ? W - 2 : cx}" y="${H - 9}" class="rx-eixo" text-anchor="${fim ? "end" : "middle"}">${esc(p.curto)}</text>`; }
     });
     return s + `</svg>`;
   }
@@ -249,12 +252,14 @@
       const ks = [...m.keys()].sort((a, b) => a - b);
       if (ks.length) {
         const ult = ks.slice(-36);
-        for (let k = ult[0]; k <= ult[ult.length - 1]; k++) meses.push({ v: m.get(k) || 0, rot: `${MESES[k % 12]}/${Math.floor(k / 12)}`, curto: `${MESES[k % 12]}/${String(Math.floor(k / 12)).slice(2)}` });
+        const base = k => k >= ks[0] ? m.get(k) || 0 : null, varP = (a, b) => b === null || !b ? null : (a - b) / Math.abs(b) * 100;
+        for (let k = ult[0]; k <= ult[ult.length - 1]; k++) meses.push({ v: m.get(k) || 0, mom: varP(m.get(k) || 0, base(k - 1)), yoy: varP(m.get(k) || 0, base(k - 12)), rot: `${MESES[k % 12]}/${Math.floor(k / 12)}`, curto: `${MESES[k % 12]}/${String(Math.floor(k / 12)).slice(2)}` });
         periodo = `${MESES[ks[0] % 12]}/${Math.floor(ks[0] / 12)} a ${MESES[ks[ks.length - 1] % 12]}/${Math.floor(ks[ks.length - 1] / 12)}`;
       }
     }
     let varMes = "";
-    if (meses.length >= 2) { const a = meses[meses.length - 2].v, b = meses[meses.length - 1].v; if (a) { const p = (b - a) / Math.abs(a) * 100; varMes = `<b class="${p >= 0 ? "rx-up" : "rx-down"}">${p >= 0 ? "+" : ""}${nf(p, 1)}%</b>`; } }
+    const ultM = meses[meses.length - 1];
+    if (ultM && (ultM.mom !== null || ultM.yoy !== null)) varMes = `<span class="rx-var"><b class="rx-peq">${pctTxt(ultM.mom)}</b><small>%MoM</small></span><span class="rx-var"><b class="rx-peq">${pctTxt(ultM.yoy)}</b><small>%YoY</small></span>`;
     // ranking
     let rank = "";
     if (cat) {
@@ -292,7 +297,7 @@
         <div><small>${met ? "Total de " + esc(met.nome) : "Linhas com dados"}</small><b>${esc(fmt(total))}</b></div>
         <div><small>${met ? "Média por linha" : "Colunas"}</small><b>${met ? esc(fmt(n ? total / n : 0)) : nf(T.cab.length)}</b></div>
         <div><small>${dat ? "Período" : met ? "Maior valor" : "Células vazias"}</small><b class="${dat ? "rx-peq" : ""}">${dat ? esc(periodo || "—") : met ? esc(fmt(maior)) : nf(COLS.reduce((s, c) => s + c.vazios, 0))}</b></div>
-        <div><small>${varMes ? "Último mês × anterior" : "Qualidade dos dados"}</small>${varMes || `<b class="rx-nota-${corNota}">${nota}/100</b>`}</div>
+        <div><small>${varMes ? `Último mês (${esc(ultM.rot)})` : "Qualidade dos dados"}</small>${varMes ? `<div class="rx-vars">${varMes}</div>` : `<b class="rx-nota-${corNota}">${nota}/100</b>`}</div>
       </div>
       <div class="rx-grid">
         <div class="rx-card rx-largo"><h4>${dat ? `${esc(met ? met.nome : "Linhas")} por mês` : "Evolução no tempo"}</h4>${dat ? graficoMeses(meses, dinheiro) : `<p class="rx-vazio">Não encontrei uma coluna de data. Com ela, o painel mostra a evolução mês a mês.</p>`}</div>
@@ -398,6 +403,22 @@
   let largura = raiz.clientWidth, tm;
   addEventListener("resize", () => { clearTimeout(tm); tm = setTimeout(() => {
     if (T && Math.abs(raiz.clientWidth - largura) > 40) { largura = raiz.clientWidth; render(); } }, 200); });
+  // tooltip do gráfico mensal (mouse, toque e teclado)
+  const tipEl = document.createElement("div"); tipEl.className = "rx-tip"; tipEl.hidden = true; document.body.appendChild(tipEl);
+  function mostraTip(el, x, y) {
+    tipEl.innerHTML = el.dataset.rxTip; tipEl.hidden = false;
+    const w = tipEl.offsetWidth, h = tipEl.offsetHeight;
+    tipEl.style.left = Math.max(8, Math.min(x + 14, innerWidth - w - 8)) + "px";
+    tipEl.style.top = (y - h - 12 < 8 ? y + 18 : y - h - 12) + "px";
+  }
+  let toque = 0; // o toque gera eventos de mouse e de rolagem logo depois: ignora por alguns instantes
+  const esconde = () => { if (Date.now() - toque > 800) tipEl.hidden = true; };
+  raiz.addEventListener("mousemove", e => { if (Date.now() - toque < 800) return; const b = e.target.closest("[data-rx-tip]"); if (b) mostraTip(b, e.clientX, e.clientY); else tipEl.hidden = true; });
+  raiz.addEventListener("mouseleave", esconde);
+  raiz.addEventListener("focusin", e => { const b = e.target.closest("[data-rx-tip]"); if (b) { const r = b.getBoundingClientRect(); mostraTip(b, r.left + r.width / 2, r.top); } });
+  raiz.addEventListener("focusout", esconde);
+  raiz.addEventListener("touchstart", e => { toque = Date.now(); const b = e.target.closest("[data-rx-tip]"); if (b) { const t = e.touches[0]; mostraTip(b, t.clientX, t.clientY); } else tipEl.hidden = true; }, { passive: true });
+  addEventListener("scroll", esconde, { passive: true });
   raiz.addEventListener("change", e => {
     const s = e.target.closest("[data-rx-sel]"); if (!s || !T) return;
     ESC[s.dataset.rxSel] = +s.value; render();
