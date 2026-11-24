@@ -213,6 +213,18 @@
       const ks = [...mp.keys()].sort((a, b) => a - b);
       if (ks.length < 2) return el.innerHTML = `<p class="mut">Poucas datas na seleção para mostrar a evolução.</p>`;
       const pts = []; for (let k = Math.max(ks[0], ks[ks.length - 1] - 35); k <= ks[ks.length - 1]; k++) { const arr = mp.get(k) || []; pts.push({ k, n: arr.length, m: g.m >= 0 ? agg(g.m, C[g.m].agg, arr) : null }); }
+      const vMes = k => { const arr = mp.get(k) || []; return { n: arr.length, m: g.m >= 0 && arr.length ? agg(g.m, C[g.m].agg, arr) : null }; };
+      const temMes = k => k >= ks[0];
+      const varPct = (a, b) => b === null || b === undefined || !b || a === null ? null : (a - b) / Math.abs(b) * 100;
+      const pctH = v => v === null ? `<span class="t-nd">—</span>` : `<b class="${v >= 0 ? "t-up" : "t-down"}">${v >= 0 ? "▲ +" : "▼ "}${nf(v, 1)}%</b>`;
+      const tipMes = p => {
+        const ant = temMes(p.k - 1) ? vMes(p.k - 1) : null, aa = temMes(p.k - 12) ? vMes(p.k - 12) : null;
+        const lin = (rot, val, mom, yoy) => `<tr><th>${rot}</th><td>${val}</td><td>${pctH(mom)}</td><td>${pctH(yoy)}</td></tr>`;
+        let h = `<div class="t-tit">${MESES[p.k % 12]}/${Math.floor(p.k / 12)}</div><table class="t-tab"><tr><th></th><th></th><th>%MoM</th><th>%YoY</th></tr>`;
+        h += lin("Registros", nf(p.n), ant ? varPct(p.n, ant.n) : null, aa ? varPct(p.n, aa.n) : null);
+        if (g.m >= 0) h += lin(esc((C[g.m].agg === "media" ? "Média de " : "") + C[g.m].nome), esc(fmtV(g.m, p.m)), ant ? varPct(p.m, ant.m) : null, aa ? varPct(p.m, aa.m) : null);
+        return h + `</table><div class="t-nota">MoM: contra o mês anterior · YoY: contra o mesmo mês do ano anterior</div>`;
+      };
       const W = larg(el), H = 270, mE = 46, mD = g.m >= 0 ? 66 : 10, mB = 30, mT = 14, bw = (W - mE - mD) / pts.length;
       const maxN = tickN(Math.max(...pts.map(p => p.n))), mm = pts.map(p => p.m).filter(v => v !== null), maxM = tickN(Math.max(...mm, 0));
       const y1 = v => mT + (H - mT - mB) * (1 - v / maxN), y2 = v => mT + (H - mT - mB) * (1 - v / maxM);
@@ -225,11 +237,11 @@
       let linha = "";
       pts.forEach((p, i) => {
         const x = mE + i * bw, rot = `${MESES[p.k % 12]}/${String(Math.floor(p.k / 12)).slice(2)}`;
-        s += `<rect x="${x + bw * 0.16}" y="${y1(p.n)}" width="${bw * 0.68}" height="${Math.max(0.5, H - mB - y1(p.n))}" rx="${Math.min(6, bw * 0.2)}" fill="#22d3ee" fill-opacity=".35" stroke="#67e8f9" stroke-opacity=".8" class="mk" data-tip="${rot}: ${nf(p.n)} registros${g.m >= 0 ? ` · ${esc(C[g.m].agg === "media" ? "média de " : "")}${esc(C[g.m].nome)} ${esc(fmtV(g.m, p.m))}` : ""}"/>`;
+        s += `<rect x="${x + bw * 0.16}" y="${y1(p.n)}" width="${bw * 0.68}" height="${Math.max(0.5, H - mB - y1(p.n))}" rx="${Math.min(6, bw * 0.2)}" fill="#22d3ee" fill-opacity=".35" stroke="#67e8f9" stroke-opacity=".8" class="mk" data-tiph="${esc(tipMes(p))}"/>`;
         if (i % passo === 0 || i === pts.length - 1) s += `<text x="${x + bw / 2}" y="${H - 10}" class="ex" text-anchor="middle">${rot}</text>`;
         if (g.m >= 0 && p.m !== null) linha += `${linha ? "L" : "M"} ${x + bw / 2} ${y2(p.m)} `;
       });
-      if (linha) { s += `<path d="${linha}" fill="none" stroke="#fb7185" stroke-width="2.4" stroke-linejoin="round"/>`; pts.forEach((p, i) => { if (p.m !== null) s += `<circle cx="${mE + i * bw + bw / 2}" cy="${y2(p.m)}" r="3.6" fill="#fb7185"/>`; }); }
+      if (linha) { s += `<path d="${linha}" fill="none" stroke="#fb7185" stroke-width="2.4" stroke-linejoin="round"/>`; pts.forEach((p, i) => { if (p.m !== null) s += `<circle cx="${mE + i * bw + bw / 2}" cy="${y2(p.m)}" r="4" fill="#fb7185" class="mk" data-tiph="${esc(tipMes(p))}"/>`; }); }
       el.innerHTML = s + `</svg>`;
     }
 
@@ -308,9 +320,10 @@
       if (e.target.closest("#prox") && pag * tam < filtradas.length) { pag++; tabela(); }
     });
     document.addEventListener("mousemove", e => {
-      const m = e.target.closest("[data-tip]");
+      const m = e.target.closest("[data-tip],[data-tiph]");
       if (!m) { tip.hidden = true; return; }
-      tip.textContent = m.dataset.tip; tip.hidden = false;
+      if (m.dataset.tiph) tip.innerHTML = m.dataset.tiph; else tip.textContent = m.dataset.tip;
+      tip.hidden = false;
       const x = Math.min(e.clientX + 14, innerWidth - tip.offsetWidth - 8), y = e.clientY - tip.offsetHeight - 12;
       tip.style.left = x + "px"; tip.style.top = (y < 8 ? e.clientY + 18 : y) + "px";
     });
@@ -385,7 +398,8 @@ tbody tr:hover{background:rgba(255,255,255,.06)}.num{text-align:right;font-varia
 .badge{padding:2px 9px;border-radius:99px;font-size:.68rem;font-weight:600;border:1px solid}.badge.ok{background:rgba(52,211,153,.14);color:#6ee7b7;border-color:rgba(110,231,183,.3)}.badge.alt{background:rgba(251,113,133,.14);color:#fda4af;border-color:rgba(253,164,175,.3)}
 .pagina{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:.78rem;color:var(--mut);padding-top:12px}
 .pagina select{width:auto;padding:4px 8px}.pagina .nav{display:flex;align-items:center;gap:6px}#pg{color:#67e8f9;font-weight:700;padding:0 8px}
-#tip{position:fixed;z-index:50;pointer-events:none;background:rgba(15,23,42,.88);border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(10px);border-radius:10px;padding:7px 11px;font-size:.78rem;max-width:280px}
+.t-tit{font-weight:700;margin-bottom:4px}.t-tab{border-collapse:collapse;font-size:.76rem}.t-tab th,.t-tab td{padding:2px 6px;border:0;white-space:nowrap;text-align:right;background:none;position:static;text-transform:none;letter-spacing:0;font-size:.76rem;cursor:default}.t-tab th:first-child{text-align:left;color:var(--mut);font-weight:500}.t-tab tr:first-child th{color:var(--mut);font-weight:600;font-size:.68rem}.t-up{color:#4ade80}.t-down{color:#fb7185}.t-nd{color:var(--mut)}.t-nota{margin-top:5px;font-size:.66rem;color:var(--mut)}
+#tip{position:fixed;z-index:50;pointer-events:none;background:rgba(15,23,42,.88);border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(10px);border-radius:10px;padding:7px 11px;font-size:.78rem;max-width:380px}
 footer{text-align:center;font-size:.75rem;color:var(--mut);padding:10px 0 34px}footer a{color:#67e8f9;text-decoration:none}footer a:hover{text-decoration:underline}
 @media (max-width:1000px){#graficos{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:680px){.wrap{padding:0 12px}#kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.flip{height:118px}.k-val{font-size:1.3rem}.face{padding:13px 14px}#graficos{grid-template-columns:minmax(0,1fr)}.card.largo{grid-column:auto}.acoes{width:100%}.acoes .btn{flex:1;justify-content:center}.marca h1{white-space:normal}header.topo{position:static}}
