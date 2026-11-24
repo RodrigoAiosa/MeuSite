@@ -166,7 +166,8 @@
   function painelPronto(c) {
     return `<div class="ad-dash" style="--ca:${c.cor};--cb:${c.cor2};--ct:${c.txt2}"><div class="ad-dash-top"><b>${c.nome}</b><span>atualizado automaticamente</span></div>
       <div class="ad-dash-kpis">${c.kpis.map(([k, v]) => `<div><small>${k}</small><b>${v}</b></div>`).join("")}</div>
-      <div class="ad-dash-graf">${[42, 55, 48, 63, 58, 71, 69, 77, 74, 82, 79, 88].map(h => `<i style="height:${h}%"></i>`).join("")}</div>
+      <div class="ad-dash-graf" role="img" aria-label="Gráfico mensal ilustrativo de janeiro a dezembro">${[42, 55, 48, 63, 58, 71, 69, 77, 74, 82, 79, 88].map((h, i) => `<div class="ad-col" style="--hn:${(h / 88).toFixed(3)}"><div class="ad-area"><i></i><em>${h}</em></div><span>${["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"][i]}</span></div>`).join("")}</div>
+      <small class="ad-dash-nota">valores ilustrativos</small>
       <p>${c.depois}</p></div>`;
   }
   function renderAD() {
