@@ -2,7 +2,7 @@
 window.MINIATURAS = {
  "1.jpg": "assets/cases_thumb/1-48790492.webp",
  "2.jpg": "assets/cases_thumb/2-b7b1eb25.webp",
- "3.jpg": "assets/cases_thumb/3-f94edf65.webp",
+ "3.jpg": "assets/cases_thumb/3-2012b384.webp",
  "4.jpg": "assets/cases_thumb/4-7762633d.webp",
  "5.jpg": "assets/cases_thumb/5-85e4596c.webp",
  "7.jpg": "assets/cases_thumb/7-83e0f744.webp",
