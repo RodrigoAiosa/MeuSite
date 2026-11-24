@@ -12,7 +12,7 @@
   if (!raiz) return;
   const q = s => raiz.querySelector(s);
   const LIMITE_MB = 15, LIMITE_LINHAS = 200000;
-  const LIBS = { xlsx: ["assets/vendor/read-excel-file-9.3.20.min.js", "readXlsxFile"], csv: ["assets/vendor/papaparse-5.7.1.min.js", "Papa"], dash: ["assets/raiox-dash.js?v=2", "RaioXDash"] };
+  const LIBS = { xlsx: ["assets/vendor/read-excel-file-9.3.20.min.js", "readXlsxFile"], csv: ["assets/vendor/papaparse-5.7.1.min.js", "Papa"], dash: ["assets/raiox-dash.js?v=3", "RaioXDash"] };
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const semAc = s => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
   const evento = (n, d) => { try { if (window.va) window.va("event", { name: n, data: d }); } catch (_) {} };
