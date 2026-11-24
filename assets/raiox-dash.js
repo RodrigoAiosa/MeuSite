@@ -408,7 +408,7 @@ footer{text-align:center;font-size:.75rem;color:var(--mut);padding:10px 0 34px}f
 @media (max-width:680px){.wrap{padding:0 12px}#kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.flip{height:118px}.k-val{font-size:1.3rem}.face{padding:13px 14px}#graficos{grid-template-columns:minmax(0,1fr)}.card{grid-column:auto}.acoes{width:100%}.acoes .btn{flex:1;justify-content:center}.marca h1{white-space:normal}header.topo{position:static}}
 `;
 
-  function gerar({ arquivo, cols, linhas }) {
+  function gerar({ arquivo, cols, linhas, abas }) {
     const lin = linhas.slice(0, MAX_LINHAS);
     const cs = cols.map((c, i) => ({ nome: c.nome, tipo: c.tipo, chave: semAc(c.nome), i }));
     const plano = planejar(cs, lin);
@@ -431,7 +431,7 @@ footer{text-align:center;font-size:.75rem;color:var(--mut);padding:10px 0 34px}f
 <div class="fundo" aria-hidden="true"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="orb o4"></div></div>
 <header class="topo wrap"><div class="glass barra">
   <div class="marca"><div class="logo" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M21 12A9 9 0 1 1 12 3v9z"/><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"/></svg></div>
-    <div><h1>${escH(titulo)}</h1><p>${lin.length.toLocaleString("pt-BR")} registros${corte} · ${cols.length} colunas · gerado em ${hoje}</p></div></div>
+    <div><h1>${escH(titulo)}</h1><p>${lin.length.toLocaleString("pt-BR")} registros${corte} · ${cols.length} colunas${abas ? ` · ${abas} abas consolidadas` : ""} · gerado em ${hoje}</p></div></div>
   <div class="acoes"><button type="button" class="btn" id="limpar">↺ Limpar filtros</button><button type="button" class="btn verde csv">⬇ Exportar CSV</button></div>
 </div></header>
 <main class="wrap">

@@ -12,7 +12,7 @@
   if (!raiz) return;
   const q = s => raiz.querySelector(s);
   const LIMITE_MB = 15, LIMITE_LINHAS = 200000;
-  const LIBS = { xlsx: ["assets/vendor/read-excel-file-9.3.20.min.js", "readXlsxFile"], csv: ["assets/vendor/papaparse-5.7.1.min.js", "Papa"], dash: ["assets/raiox-dash.js?v=4", "RaioXDash"] };
+  const LIBS = { xlsx: ["assets/vendor/read-excel-file-9.3.20.min.js", "readXlsxFile"], csv: ["assets/vendor/papaparse-5.7.1.min.js", "Papa"], dash: ["assets/raiox-dash.js?v=5", "RaioXDash"] };
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const semAc = s => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
   const evento = (n, d) => { try { if (window.va) window.va("event", { name: n, data: d }); } catch (_) {} };
@@ -33,18 +33,49 @@
   }
 
   /* ── leitura do arquivo ── */
+  /* ── consolidação de abas: antes de qualquer cálculo, junta as abas com as mesmas colunas ── */
+  let ABAS = null; // { usadas: [nomes], ignoradas: [nomes] } da última planilha lida
+  function consolidarAbas(abas) {
+    const blocos = abas.map(a => {
+      const d = (a.data || []).filter(Array.isArray);
+      const ini = d.findIndex(l => l.filter(c => !vazio(c)).length >= 2);
+      if (ini < 0) return null;
+      const cab = d[ini].map((c, i) => String(c ?? "").trim() || `Coluna ${i + 1}`);
+      const dados = d.slice(ini + 1).filter(l => l.some(c => !vazio(c)));
+      return dados.length ? { nome: String(a.sheet), cab, chaves: cab.map(semAc), dados } : null;
+    }).filter(Boolean);
+    if (!blocos.length) { ABAS = null; return []; }
+    // agrupa abas com cabeçalhos parecidos (mesmas colunas, mesmo que em outra ordem)
+    const parecido = (a, b) => { const A = new Set(a), B = new Set(b); let i = 0; A.forEach(x => B.has(x) && i++); return i / new Set([...A, ...B]).size; };
+    const grupos = [];
+    for (const b of blocos) { const g = grupos.find(g => parecido(g[0].chaves, b.chaves) >= 0.6); if (g) g.push(b); else grupos.push([b]); }
+    const linhasG = g => g.reduce((s, b) => s + b.dados.length, 0);
+    grupos.sort((a, b) => b.length - a.length || linhasG(b) - linhasG(a));
+    const g = grupos[0], ignoradas = blocos.filter(b => !g.includes(b)).map(b => b.nome);
+    ABAS = { usadas: g.map(b => b.nome), ignoradas };
+    if (g.length === 1) return [g[0].cab, ...g[0].dados];
+    // união das colunas (pela ordem em que aparecem) + coluna com a aba de origem
+    const chaves = [], nomes = [];
+    g.forEach(b => b.chaves.forEach((k, i) => { if (!chaves.includes(k)) { chaves.push(k); nomes.push(b.cab[i]); } }));
+    const temAba = chaves.some(k => /^(aba|planilha|sheet|origem)( de origem)?$/.test(k));
+    const linhas = [temAba ? nomes : [...nomes, "Aba de origem"]];
+    g.forEach(b => {
+      const pos = chaves.map(k => b.chaves.indexOf(k));
+      b.dados.forEach(l => { const r = pos.map(p => p < 0 ? null : l[p] ?? null); if (!temAba) r.push(b.nome); linhas.push(r); });
+    });
+    return linhas;
+  }
+
   async function lerArquivo(arq) {
+    ABAS = null;
     const ext = (arq.name.split(".").pop() || "").toLowerCase();
     if (arq.size > LIMITE_MB * 1024 * 1024) throw new Error(`O arquivo tem ${nf(arq.size / 1048576, 1)} MB. Para o teste no navegador, use até ${LIMITE_MB} MB.`);
     if (ext === "xls") throw new Error("Esse é o formato antigo do Excel (.xls). Abra no Excel e use “Salvar como” .xlsx ou .csv.");
     if (["xlsx", "xlsm"].includes(ext)) {
       const ler = await lib("xlsx");
       let r = await ler(arq);
-      // a versão 9 devolve todas as abas: [{ sheet, data }]; usa a aba com mais linhas preenchidas
-      if (r.length && r[0] && !Array.isArray(r[0]) && Array.isArray(r[0].data)) {
-        const cheias = d => d.filter(l => l.some(c => !vazio(c))).length;
-        r = r.reduce((a, b) => cheias(b.data) > cheias(a.data) ? b : a).data;
-      }
+      // a versão 9 devolve todas as abas: [{ sheet, data }]; consolida as abas com a mesma estrutura
+      if (r.length && r[0] && !Array.isArray(r[0]) && Array.isArray(r[0].data)) r = consolidarAbas(r);
       // datas do Excel chegam em UTC à meia-noite: usa o dia do calendário, sem fuso
       return r.map(l => l.map(c => c instanceof Date ? new Date(c.getUTCFullYear(), c.getUTCMonth(), c.getUTCDate(), c.getUTCHours(), c.getUTCMinutes()) : c));
     }
@@ -229,11 +260,17 @@
   const NOME_TIPO = { numero: "número", data: "data", categoria: "categoria", texto: "texto", id: "código" };
 
   function analisar(linhas, origem) {
-    T = montarTabela(linhas);
+    T = montarTabela(linhas); T.abas = ABAS; ABAS = null;
     COLS = T.cab.map((n, i) => perfil(n, i, T.dados));
     ESC = escolher(COLS);
     ORIGEM = origem;
     render();
+  }
+
+  function abasTxt() {
+    if (!T.abas || T.abas.usadas.length < 2 && !T.abas.ignoradas.length) return "";
+    const lista = a => a.length > 6 ? a.slice(0, 5).map(esc).join(", ") + ` e mais ${a.length - 5}` : a.map(esc).join(", ");
+    return `<div class="rx-sub rx-abas">${T.abas.usadas.length > 1 ? `🗂️ ${T.abas.usadas.length} abas consolidadas: ${lista(T.abas.usadas)}` : `🗂️ Aba usada: ${esc(T.abas.usadas[0])}`}${T.abas.ignoradas.length ? ` · ignorada${T.abas.ignoradas.length > 1 ? "s" : ""} (estrutura diferente): ${lista(T.abas.ignoradas)}` : ""}</div>`;
   }
 
   function render() {
@@ -284,7 +321,7 @@
 
     q("#rxPainel").innerHTML = `
       <div class="rx-topo">
-        <div><div class="rx-arq">📄 ${esc(ORIGEM)}</div><div class="rx-sub">${nf(T.dados.length)} linhas · ${nf(T.cab.length)} colunas${T.cortado ? " · analisadas as primeiras " + nf(LIMITE_LINHAS) : ""}</div></div>
+        <div><div class="rx-arq">📄 ${esc(ORIGEM)}</div><div class="rx-sub">${nf(T.dados.length)} linhas · ${nf(T.cab.length)} colunas${T.cortado ? " · analisadas as primeiras " + nf(LIMITE_LINHAS) : ""}</div>${abasTxt()}</div>
         <div class="rx-acoes"><button type="button" class="btn btn-primary rx-novo" data-rx="dash">⬇ Baixar dashboard interativo (.html)</button>
         <button type="button" class="btn btn-ghost rx-novo" data-rx="novo">↺ Analisar outra planilha</button></div>
       </div>
@@ -340,7 +377,7 @@
     try {
       const gerador = await lib("dash");
       const arquivo = ORIGEM.replace(/\s*\(.*\)$/, "");
-      const html = gerador.gerar({ arquivo, cols: COLS.map(c => ({ nome: c.nome, tipo: c.tipo })), linhas: linhasDash() });
+      const html = gerador.gerar({ arquivo, abas: T.abas && T.abas.usadas.length > 1 ? T.abas.usadas.length : 0, cols: COLS.map(c => ({ nome: c.nome, tipo: c.tipo })), linhas: linhasDash() });
       const url = URL.createObjectURL(new Blob([html], { type: "text/html;charset=utf-8" }));
       const a = document.createElement("a"); a.href = url; a.download = arquivo.replace(/\.[^.]+$/, "") + "_dashboard.html";
       document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 60000);
