@@ -433,6 +433,74 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: rgba(0,180,216,0.25); border-radius: 4px; }
+
+/* ── Raio-X dos seus dados ── */
+#raiox .eyebrow, #raiox .section-title, #raiox .section-lead { text-align: center; }
+#raiox .section-lead { margin-left: auto; margin-right: auto; }
+.rx { max-width: 1060px; margin: 0 auto; }
+.rx-entrada { border: 2px dashed rgba(0,180,216,0.35); border-radius: 18px; padding: 38px 22px; text-align: center; background: linear-gradient(160deg, rgba(0,180,216,0.07), rgba(13,13,20,0.6)); transition: border-color .2s, background .2s; }
+.rx-entrada.rx-sobre { border-color: var(--accent); background: rgba(0,180,216,0.14); }
+.rx-entrada.rx-carregando { opacity: .65; pointer-events: none; }
+.rx-ico { font-size: 2.4rem; line-height: 1; margin-bottom: 10px; }
+.rx-entrada h3 { margin: 0 0 6px; font-size: 1.2rem; }
+.rx-entrada > p { margin: 0 0 20px; color: var(--muted); font-size: .95rem; }
+.rx-botoes { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.rx-file { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+.rx-file:focus-visible + .btn { outline: 2px solid var(--accent-2); outline-offset: 3px; }
+.rx-priv { margin: 20px auto 0 !important; max-width: 560px; font-size: .85rem !important; color: var(--text-2) !important; }
+.rx-msg { margin: 14px 0 0; text-align: center; color: var(--text-2); font-size: .92rem; }
+.rx-msg.rx-erro { color: #ff8a8a; }
+.rx-topo { display: flex; justify-content: space-between; align-items: center; gap: 12px 20px; flex-wrap: wrap; margin-bottom: 14px; }
+.rx-arq { font-weight: 600; word-break: break-word; }
+.rx-sub { color: var(--muted); font-size: .85rem; margin-top: 2px; }
+.rx-novo { padding: 9px 16px; font-size: .88rem; }
+.rx-sel { display: flex; gap: 10px 16px; flex-wrap: wrap; margin-bottom: 16px; }
+.rx-sel label { display: flex; flex-direction: column; gap: 4px; font-size: .78rem; color: var(--muted); flex: 1 1 180px; min-width: 0; }
+.rx-sel select { background: var(--bg-2); color: var(--text); border: 1px solid rgba(255,255,255,0.14); border-radius: 8px; padding: 8px 10px; font: inherit; font-size: .9rem; width: 100%; }
+.rx-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 14px; }
+.rx-kpis > div { background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; min-width: 0; }
+.rx-kpis small { display: block; color: var(--muted); font-size: .78rem; margin-bottom: 4px; }
+.rx-kpis b { font-size: 1.35rem; color: #e8f4ff; display: block; overflow-wrap: anywhere; }
+.rx-kpis b.rx-peq { font-size: 1rem; line-height: 1.5; }
+.rx-up { color: #4ade80 !important; } .rx-down { color: #ff8a8a !important; }
+.rx-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.rx-card { background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; min-width: 0; }
+.rx-largo { grid-column: 1 / -1; }
+.rx-card h4 { margin: 0 0 12px; font-size: .98rem; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.rx-h4b { margin-top: 16px !important; }
+.rx-svg { width: 100%; height: auto; display: block; }
+.rx-grade { stroke: rgba(255,255,255,0.07); }
+.rx-eixo { fill: var(--muted); font-size: 11px; font-family: inherit; }
+.rx-barra { fill: var(--accent); } .rx-barra:hover { fill: var(--accent-2); }
+.rx-rank { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.rx-rank li { display: grid; grid-template-columns: minmax(0, 7.5rem) minmax(0, 1fr) auto; gap: 10px; align-items: center; font-size: .86rem; }
+.rx-rank-n { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-2); }
+.rx-rank-bar { height: 8px; border-radius: 4px; background: rgba(255,255,255,0.06); overflow: hidden; }
+.rx-rank-bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 4px; }
+.rx-rank-v { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.rx-rank-v small { color: var(--muted); margin-left: 4px; }
+.rx-nota { font-size: .8rem; padding: 3px 9px; border-radius: 99px; font-weight: 600; }
+.rx-nota-ok { color: #4ade80 !important; } .rx-nota-medio { color: #fbbf24 !important; } .rx-nota-ruim { color: #ff8a8a !important; }
+.rx-nota.rx-nota-ok { background: rgba(74,222,128,0.12); } .rx-nota.rx-nota-medio { background: rgba(251,191,36,0.12); } .rx-nota.rx-nota-ruim { background: rgba(255,138,138,0.12); }
+.rx-alertas { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: .86rem; color: var(--text-2); }
+.rx-alertas li { padding: 8px 10px 8px 12px; border-radius: 8px; background: rgba(255,255,255,0.03); border-left: 3px solid var(--muted); }
+.rx-alertas li.rx-alta { border-left-color: #ff8a8a; } .rx-alertas li.rx-media { border-left-color: #fbbf24; } .rx-alertas li.rx-baixa { border-left-color: var(--accent); }
+.rx-alertas b, .rx-sug b { color: #e8f4ff; }
+.rx-vazio { color: var(--muted); font-size: .88rem; margin: 0; }
+.rx-ok { color: #4ade80; font-size: .9rem; margin: 0; }
+.rx-cols { display: flex; flex-wrap: wrap; gap: 6px; }
+.rx-cols span { font-size: .8rem; padding: 4px 9px; border-radius: 99px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text-2); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rx-sug { margin: 0; padding-left: 18px; color: var(--text-2); font-size: .88rem; display: grid; gap: 6px; }
+.rx-cta { margin-top: 16px; padding: 20px 24px; border-radius: 16px; border: 1px solid rgba(0,180,216,0.3); background: linear-gradient(120deg, rgba(0,180,216,0.12), rgba(37,211,102,0.06)); display: flex; align-items: center; justify-content: space-between; gap: 14px 24px; flex-wrap: wrap; }
+.rx-cta strong { display: block; margin-bottom: 4px; } .rx-cta span { color: var(--text-2); font-size: .92rem; }
+.rx-cta > div { flex: 1 1 360px; min-width: 0; }
+@media (max-width: 760px) {
+  .rx-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rx-grid { grid-template-columns: minmax(0, 1fr); }
+  .rx-entrada { padding: 28px 16px; }
+  .rx-botoes .btn, .rx-cta .btn, .rx-novo { width: 100%; justify-content: center; }
+  .rx-rank li { grid-template-columns: minmax(0, 5.5rem) minmax(0, 1fr) auto; }
+}
 </style>
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
 <script defer src="/_vercel/insights/script.js"></script>
@@ -448,6 +516,7 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
       <li class="nav-cta-mob"><a href="#contato" data-cta="menu_mobile">Diagnóstico grátis em 1 min</a></li>
       <li><a href="#cases">Cases</a></li>
       <li><a href="#empresas">Para Empresas</a></li>
+      <li><a href="#raiox">Raio-X</a></li>
       <li><a href="#cursos">Cursos</a></li>
       <li><a href="#sobre">Sobre</a></li>
       <li><a href="#ia">AIOSA IA</a></li>
@@ -561,6 +630,29 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
       <div><strong>Pronto para tirar sua equipe das planilhas manuais?</strong><span>Em 1 minuto você recebe a solução recomendada, uma estimativa de horas recuperadas e o case do seu setor.</span></div>
       <div class="cta-faixa-btns"><a class="btn btn-primary" href="#contato" data-cta="faixa_empresas">Fazer o diagnóstico grátis</a>
         <a class="btn btn-ghost" target="_blank" rel="noopener" href="https://wa.me/5511977019335?text=Ol%C3%A1%20Rodrigo%2C%20gostaria%20de%20agendar%20uma%20conversa%20sobre%20os%20treinamentos%20corporativos." data-cta="faixa_empresas_whats">Falar no WhatsApp</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ RAIOX ═══ -->
+<section id="raiox">
+  <div class="wrap">
+    <div class="eyebrow">Teste grátis</div>
+    <h2 class="section-title">🔬 Raio-X dos seus dados</h2>
+    <p class="section-lead">Arraste uma planilha de vendas, financeiro ou operação e veja, em segundos, um painel automático: indicadores, evolução mês a mês, ranking e um diagnóstico da qualidade dos dados.</p>
+    <div class="rx" id="rx">
+      <div class="rx-entrada" id="rxEntrada">
+        <div class="rx-ico" aria-hidden="true">📊</div>
+        <h3>Arraste sua planilha aqui</h3>
+        <p>Excel (.xlsx) ou CSV, até 15 MB</p>
+        <div class="rx-botoes">
+          <label><input type="file" id="rxArquivo" class="rx-file" accept=".xlsx,.xlsm,.csv,.txt"><span class="btn btn-primary" data-cta="raiox_escolher">📂 Escolher planilha</span></label>
+          <button type="button" class="btn btn-ghost" data-rx="exemplo">Ver com uma planilha de exemplo</button>
+        </div>
+        <p class="rx-priv">🔒 Seu arquivo não sai do seu computador: a análise acontece inteira no seu navegador. Nada é enviado ou salvo.</p>
+      </div>
+      <p id="rxMsg" class="rx-msg" role="status" hidden></p>
+      <div id="rxPainel" hidden></div>
     </div>
   </div>
 </section>
@@ -837,7 +929,7 @@ trilho($("#logosTodos"), LOGOS_CLIENTES, ([n, f]) =>
 
 /* ── O botão flutuante da promoção some no chat da AIOSA IA (cobria o botão de enviar no celular) e no contato (não disputa com o fechamento) ── */
 (() => {
-  const promo = document.querySelector(".promo"), alvos = [$("#iaBox"), $("#contato")].filter(Boolean), vis = new Set();
+  const promo = document.querySelector(".promo"), alvos = [$("#iaBox"), $("#contato"), $("#rx")].filter(Boolean), vis = new Set();
   if (promo && alvos.length && "IntersectionObserver" in window) {
     const io = new IntersectionObserver(es => { es.forEach(e => e.isIntersecting ? vis.add(e.target) : vis.delete(e.target)); promo.classList.toggle("oculto", vis.size > 0); }, { threshold: 0.15 });
     alvos.forEach(a => io.observe(a));
@@ -1249,7 +1341,8 @@ function renderDiag(foco) {
     box.innerHTML = `<div class="diag-top"><span class="diag-step">Pergunta ${diagPasso + 1} de ${total}</span>
         ${diagPasso ? `<button type="button" class="diag-back" data-diag-voltar>← Voltar</button>` : ""}</div>
       <div class="diag-bar" role="progressbar" aria-label="Progresso do diagnóstico" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><span style="width:${pct}%"></span></div>
-      ${diagOrigem ? `<p class="diag-pre">Partindo do case <strong>${esc(diagOrigem)}</strong>: já marcamos a dor e o setor. Faltam ${total - diagPasso} perguntas.</p>` : ""}
+      ${diagOrigem === "raio-x" ? `<p class="diag-pre">Partindo do seu <strong>Raio-X</strong>: já marcamos a dor (dashboards). Faltam ${total - diagPasso} perguntas.</p>`
+        : diagOrigem ? `<p class="diag-pre">Partindo do case <strong>${esc(diagOrigem)}</strong>: já marcamos a dor e o setor. Faltam ${total - diagPasso} perguntas.</p>` : ""}
       <h3 id="diagQ">${q.titulo}</h3>
       <div class="diag-opts" role="group" aria-labelledby="diagQ">
         ${q.opcoes.map(o => `<button type="button" class="diag-opt${diagResp[q.id] === o.v ? " on" : ""}" data-diag="${o.v}">
@@ -1474,6 +1567,14 @@ $("#imgCta").addEventListener("click", () => {
   setTimeout(() => { const b = $("#diag .diag-opt"); if (b) b.focus({ preventScroll: true }); }, 500);
 });
 $("#imgNext").addEventListener("click", () => mostrarCase(galeriaIdx + 1));
+// Raio-X dos dados → diagnóstico já com a dor marcada (nenhum dado da planilha vai junto)
+window.diagIniciar = ({ dor, origem } = {}) => {
+  Object.keys(diagResp).forEach(k => delete diagResp[k]); diagEnviado = null;
+  if (dor && DIAG_SOLUCOES[dor]) { diagResp.dor = dor; diagPasso = 1; diagOrigem = origem || null; } else { diagPasso = 0; diagOrigem = null; }
+  renderDiag(false);
+  $("#contato").scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+  setTimeout(() => { const b = $("#diag .diag-opt"); if (b) b.focus({ preventScroll: true }); }, 500);
+};
 
 let toqueX = null;
 modal.addEventListener("touchstart", e => { toqueX = modal.classList.contains("img") ? e.touches[0].clientX : null; }, { passive: true });
@@ -1563,5 +1664,6 @@ if ("ResizeObserver" in window) new ResizeObserver(() => { if (!rafNav) rafNav =
 atualizarNav();
 $("#year").textContent = new Date().getFullYear();
 </script>
+<script src="assets/raiox.js?v=1" defer></script>
 </body>
 </html>
