@@ -18,5 +18,6 @@ window.MINIATURAS = {
  "17.jpg": "assets/cases_thumb/17-32b11642.webp",
  "18.jpg": "assets/cases_thumb/18-1f063e13.webp",
  "19.jpg": "assets/cases_thumb/19-d618d2d4.webp",
- "20.jpg": "assets/cases_thumb/20-14487e87.webp"
+ "20.jpg": "assets/cases_thumb/20-14487e87.webp",
+ "21.jpg": "assets/cases_thumb/21-2d00c3b1.webp"
 };
