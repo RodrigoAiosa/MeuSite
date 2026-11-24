@@ -12,7 +12,7 @@
   if (!raiz) return;
   const q = s => raiz.querySelector(s);
   const LIMITE_MB = 15, LIMITE_LINHAS = 200000;
-  const LIBS = { xlsx: ["assets/vendor/read-excel-file-9.3.20.min.js", "readXlsxFile"], csv: ["assets/vendor/papaparse-5.7.1.min.js", "Papa"] };
+  const LIBS = { xlsx: ["assets/vendor/read-excel-file-9.3.20.min.js", "readXlsxFile"], csv: ["assets/vendor/papaparse-5.7.1.min.js", "Papa"], dash: ["assets/raiox-dash.js?v=1", "RaioXDash"] };
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const semAc = s => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
   const evento = (n, d) => { try { if (window.va) window.va("event", { name: n, data: d }); } catch (_) {} };
@@ -108,7 +108,7 @@
 
   /* ── perfil de cada coluna ── */
   const RE_ID = /(^|\b)(id|cod|codigo|cpf|cnpj|cep|telefone|celular|fone|matricula|pedido|nota|nf|chave|sku|ean)(\b|$)/;
-  const RE_METRICA = /valor|receita|venda|fatur|total|preco|custo|montante|lucro|margem|quantidade|qtd|qtde|volume|saldo|pagamento|despesa|peso|horas/;
+  const RE_METRICA = /valor|receita|venda|fatur|total|preco|custo|montante|lucro|margem|quantidade|qtd|qtde|volume|saldo|pagamento|despesa|peso|horas|salario|remunera|r\$|reais|enps|nps|nota|idade|score|preco|ticket/;
   const RE_CATEG = /produto|categoria|regiao|cliente|vendedor|loja|cidade|estado|uf|canal|setor|segmento|filial|marca|departamento|area|tipo|status|grupo|unidade|fornecedor|representante|equipe/;
   function perfil(nome, i, dados) {
     const brutos = dados.map(l => l[i]), cheios = brutos.filter(v => !vazio(v));
@@ -270,7 +270,8 @@
     q("#rxPainel").innerHTML = `
       <div class="rx-topo">
         <div><div class="rx-arq">📄 ${esc(ORIGEM)}</div><div class="rx-sub">${nf(T.dados.length)} linhas · ${nf(T.cab.length)} colunas${T.cortado ? " · analisadas as primeiras " + nf(LIMITE_LINHAS) : ""}</div></div>
-        <button type="button" class="btn btn-ghost rx-novo" data-rx="novo">↺ Analisar outra planilha</button>
+        <div class="rx-acoes"><button type="button" class="btn btn-primary rx-novo" data-rx="dash">⬇ Baixar dashboard interativo (.html)</button>
+        <button type="button" class="btn btn-ghost rx-novo" data-rx="novo">↺ Analisar outra planilha</button></div>
       </div>
       <div class="rx-sel">
         <label>Indicador <select data-rx-sel="met">${opt(COLS.filter(c => c.tipo === "numero"), ESC.met, "Quantidade de linhas")}</select></label>
@@ -305,6 +306,33 @@
       </div>`;
     q("#rxPainel").hidden = false;
     q("#rxEntrada").hidden = true;
+    lib("dash").catch(() => {}); // já deixa o gerador pronto para o clique
+  }
+
+  /* ── dashboard em .html para baixar (gerado aqui mesmo, sem enviar nada) ── */
+  const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  function linhasDash() {
+    return T.dados.map(l => COLS.map(c => {
+      const v = l[c.i];
+      if (vazio(v)) return c.tipo === "numero" || c.tipo === "data" ? null : "";
+      if (c.tipo === "numero") { const n = numero(v); return isNaN(n) ? null : n; }
+      if (c.tipo === "data") { const d = data(v); return d ? iso(d) : null; }
+      return v instanceof Date ? iso(v) : String(v).trim();
+    }));
+  }
+  async function baixarDash(botao) {
+    const txt = botao.textContent; botao.disabled = true; botao.textContent = "Montando o dashboard…";
+    try {
+      const gerador = await lib("dash");
+      const arquivo = ORIGEM.replace(/\s*\(.*\)$/, "");
+      const html = gerador.gerar({ arquivo, cols: COLS.map(c => ({ nome: c.nome, tipo: c.tipo })), linhas: linhasDash() });
+      const url = URL.createObjectURL(new Blob([html], { type: "text/html;charset=utf-8" }));
+      const a = document.createElement("a"); a.href = url; a.download = arquivo.replace(/\.[^.]+$/, "") + "_dashboard.html";
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 60000);
+      aviso("Pronto! O dashboard foi baixado. Abra o arquivo .html no navegador: ele funciona sem internet e os dados ficam só nele.");
+      evento("raiox_dash", { faixa: T.dados.length < 1000 ? "<1k" : T.dados.length < 50000 ? "1k-50k" : "50k+" });
+    } catch (e) { aviso("Não consegui montar o dashboard. Tente de novo ou use outra planilha.", true); evento("raiox_erro"); }
+    finally { botao.disabled = false; botao.textContent = txt; }
   }
 
   /* ── planilha de exemplo (vendas fictícias, com alguns problemas de propósito) ── */
@@ -352,6 +380,7 @@
     const b = e.target.closest("[data-rx]"); if (!b) return;
     const a = b.dataset.rx;
     if (a === "exemplo") { analisar(exemplo(), "vendas_exemplo.xlsx (dados fictícios)"); evento("raiox_exemplo"); raiz.scrollIntoView({ behavior: "smooth", block: "start" }); }
+    if (a === "dash") baixarDash(b);
     if (a === "novo") { T = null; q("#rxPainel").hidden = true; q("#rxPainel").innerHTML = ""; entrada.hidden = false; aviso(""); }
     if (a === "cta") { evento("raiox_cta"); if (typeof window.diagIniciar === "function") window.diagIniciar({ dor: "dashboards", origem: "raio-x" }); else location.hash = "#contato"; }
   });
