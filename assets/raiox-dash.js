@@ -263,7 +263,10 @@
       : `${g.m < 0 ? "Registros" : (C[g.m].agg === "media" ? "Média de " : "Total de ") + C[g.m].nome} por ${C[g.c].nome}`;
     const DICA = g => g.tipo === "tempo" ? (g.m >= 0 ? `<span class="leg2"><i style="background:#22d3ee"></i>registros <i style="background:#fb7185"></i>${esc(C[g.m].nome)}</span>` : "") : g.tipo === "hist" ? "" : `<span class="dica">clique para filtrar</span>`;
     P.graficos.forEach((g, i) => { g.cor = i + 1; });
-    $("#graficos").innerHTML = P.graficos.map((g, i) => `<section class="glass card ${g.tipo === "tempo" || g.largo ? "largo" : ""}"><header><h2>${esc(TIT(g))}</h2>${DICA(g)}</header><div class="gbox" id="g${i}"></div></section>`).join("");
+    // largura de cada cartão: preenche a linha inteira, sem buracos (3 colunas no computador, 2 no tablet)
+    const encaixa = (spans, n) => { const r = []; let f = 0; spans.forEach((s0, i) => { const s1 = Math.min(s0, n); if (f && f + s1 > n) { r[i - 1] += n - f; f = 0; } r[i] = s1; f = (f + s1) % n; }); if (f && r.length) r[r.length - 1] += n - f; return r; };
+    const sp = P.graficos.map(g => g.tipo === "tempo" || g.largo ? 2 : 1), d3 = encaixa(sp, 3), t2 = encaixa(sp, 2);
+    $("#graficos").innerHTML = P.graficos.map((g, i) => `<section class="glass card" style="--d:${d3[i]};--t:${t2[i]}"><header><h2>${esc(TIT(g))}</h2>${DICA(g)}</header><div class="gbox" id="g${i}"></div></section>`).join("");
     function graficos() {
       P.graficos.forEach((g, i) => { const el = document.getElementById("g" + i); ({ tempo: gTempo, rosca: gRosca, pizza: gRosca, barra: gBarra, hist: gHist })[g.tipo](el, g); });
     }
@@ -374,7 +377,7 @@ option{background:#111827;color:#f1f5f9}
 .k-val{font-size:1.65rem;font-weight:700;letter-spacing:-.02em;overflow-wrap:anywhere;line-height:1.15}
 .k-sub{font-size:.74rem;color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #graficos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-.card{padding:18px 20px;min-width:0}.card.largo{grid-column:span 2}
+.card{padding:18px 20px;min-width:0;grid-column:span var(--d,1)}
 .card header{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:12px}
 .card h2{margin:0;font-size:.9rem;font-weight:700}
 .dica{font-size:.68rem;color:#67e8f9;opacity:.8;white-space:nowrap;font-family:ui-monospace,Consolas,monospace}
@@ -401,8 +404,8 @@ tbody tr:hover{background:rgba(255,255,255,.06)}.num{text-align:right;font-varia
 .t-tit{font-weight:700;margin-bottom:4px}.t-tab{border-collapse:collapse;font-size:.76rem}.t-tab th,.t-tab td{padding:2px 6px;border:0;white-space:nowrap;text-align:right;background:none;position:static;text-transform:none;letter-spacing:0;font-size:.76rem;cursor:default}.t-tab th:first-child{text-align:left;color:var(--mut);font-weight:500}.t-tab tr:first-child th{color:var(--mut);font-weight:600;font-size:.68rem}.t-up{color:#4ade80}.t-down{color:#fb7185}.t-nd{color:var(--mut)}.t-nota{margin-top:5px;font-size:.66rem;color:var(--mut)}
 #tip{position:fixed;z-index:50;pointer-events:none;background:rgba(15,23,42,.88);border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(10px);border-radius:10px;padding:7px 11px;font-size:.78rem;max-width:380px}
 footer{text-align:center;font-size:.75rem;color:var(--mut);padding:10px 0 34px}footer a{color:#67e8f9;text-decoration:none}footer a:hover{text-decoration:underline}
-@media (max-width:1000px){#graficos{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:680px){.wrap{padding:0 12px}#kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.flip{height:118px}.k-val{font-size:1.3rem}.face{padding:13px 14px}#graficos{grid-template-columns:minmax(0,1fr)}.card.largo{grid-column:auto}.acoes{width:100%}.acoes .btn{flex:1;justify-content:center}.marca h1{white-space:normal}header.topo{position:static}}
+@media (max-width:1000px){#graficos{grid-template-columns:repeat(2,minmax(0,1fr))}.card{grid-column:span var(--t,1)}}
+@media (max-width:680px){.wrap{padding:0 12px}#kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.flip{height:118px}.k-val{font-size:1.3rem}.face{padding:13px 14px}#graficos{grid-template-columns:minmax(0,1fr)}.card{grid-column:auto}.acoes{width:100%}.acoes .btn{flex:1;justify-content:center}.marca h1{white-space:normal}header.topo{position:static}}
 `;
 
   function gerar({ arquivo, cols, linhas }) {
