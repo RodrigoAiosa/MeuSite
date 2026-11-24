@@ -454,6 +454,7 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
 .rx-arq { font-weight: 600; word-break: break-word; }
 .rx-sub { color: var(--muted); font-size: .85rem; margin-top: 2px; }
 .rx-novo { padding: 9px 16px; font-size: .88rem; }
+.rx-acoes { display: flex; gap: 8px; flex-wrap: wrap; }
 .rx-sel { display: flex; gap: 10px 16px; flex-wrap: wrap; margin-bottom: 16px; }
 .rx-sel label { display: flex; flex-direction: column; gap: 4px; font-size: .78rem; color: var(--muted); flex: 1 1 180px; min-width: 0; }
 .rx-sel select { background: var(--bg-2); color: var(--text); border: 1px solid rgba(255,255,255,0.14); border-radius: 8px; padding: 8px 10px; font: inherit; font-size: .9rem; width: 100%; }
@@ -1664,6 +1665,6 @@ if ("ResizeObserver" in window) new ResizeObserver(() => { if (!rafNav) rafNav =
 atualizarNav();
 $("#year").textContent = new Date().getFullYear();
 </script>
-<script src="assets/raiox.js?v=1" defer></script>
+<script src="assets/raiox.js?v=2" defer></script>
 </body>
 </html>
