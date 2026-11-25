@@ -1305,26 +1305,37 @@ function liCard(p, termos) {
     </div>
   </article>`;
 }
+// completa a última linha da grade: mostra sempre um múltiplo do número de colunas
+function liColunas() {
+  const g = $("#liGrid"), c = g ? getComputedStyle(g).gridTemplateColumns.split(" ").filter(Boolean).length : 1;
+  return Math.max(1, c || 1);
+}
+const liArredonda = (n, total) => Math.min(total, Math.ceil(n / liColunas()) * liColunas());
+let liMostrados = 0;
 function renderLi() {
   const q = $("#liQ").value;
   let { termos, itens } = pesquisar(LI_POSTS, q);
   const buscando = termos.length > 0;
   if (liSort === "curtidos") itens = [...itens].sort((a, b) => liEngaj(b) - liEngaj(a) || b.date.localeCompare(a.date));
-  const list = buscando ? itens : itens.slice(0, liVisiveis);
+  const list = buscando ? itens : itens.slice(0, liArredonda(liVisiveis, itens.length));
+  liMostrados = list.length;
   $("#liGrid").innerHTML = list.length ? list.map(p => liCard(p, termos)).join("") : vazio(q, "post");
   if (buscando) infoBusca($("#liInfo"), itens.length, LI_POSTS.length, q, ["post", "posts"]);
   else $("#liInfo").textContent = list.length ? `Mostrando ${list.length} de ${itens.length} posts em destaque no LinkedIn${liSort === "curtidos" ? ", dos mais curtidos aos menos curtidos" : ""}.` : "";
   const restam = itens.length - list.length;
   const mais = $("#liMais");
   mais.hidden = buscando || restam <= 0;
-  mais.textContent = `Ver mais ${Math.min(LI_PASSO, restam)} posts (${restam} restantes)`;
+  mais.textContent = `Ver mais ${liArredonda(list.length + LI_PASSO, itens.length) - list.length} posts (${restam} restantes)`;
   observeReveal();
 }
 ligarBusca("li", renderLi);
 $("#liMais").addEventListener("click", () => {
-  const antes = liVisiveis; liVisiveis += LI_PASSO; renderLi();
+  const antes = liMostrados; liVisiveis = liMostrados + LI_PASSO; renderLi();
   const novo = $("#liGrid").children[antes]; if (novo) novo.querySelector("a, button")?.focus({ preventScroll: true });
 });
+// ao mudar o número de colunas (girar o celular, redimensionar), refaz para não deixar buraco
+let liCols = 0, liRz;
+addEventListener("resize", () => { clearTimeout(liRz); liRz = setTimeout(() => { const c = liColunas(); if (liCols && c !== liCols && !$("#liQ").value.trim()) renderLi(); liCols = c; }, 200); });
 $("#liSort").addEventListener("click", e => {
   const b = e.target.closest("[data-sort]"); if (!b || b.dataset.sort === liSort) return;
   liSort = b.dataset.sort; liVisiveis = LI_PASSO;
