@@ -473,6 +473,16 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
 .rx-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 .rx-card { background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; min-width: 0; }
 .rx-largo { grid-column: 1 / -1; }
+.rx-corr-sub { margin: -4px 0 12px; color: var(--muted); font-size: .86rem; }
+.rx-tab { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
+.rx-tab table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+.rx-tab th, .rx-tab td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.rx-tab th { font-size: .74rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; background: rgba(255,255,255,0.03); }
+.rx-tab .n { text-align: right; font-variant-numeric: tabular-nums; }
+.rx-tab tbody tr:hover { background: rgba(0,180,216,0.05); }
+.rx-tab tfoot td { font-weight: 700; color: #e8f4ff; border-bottom: 0; background: rgba(0,180,216,0.08); }
+.rx-graf { display: inline-block; font-size: .78rem; padding: 2px 8px; border-radius: 99px; margin: 1px 4px 1px 0; background: rgba(255,255,255,0.05); color: var(--text-2); }
+.rx-graf-junta { background: rgba(251,191,36,0.12); color: #fcd34d; }
 .rx-duas { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 14px 28px; }
 .rx-duas > div + div { border-left: 1px solid var(--border); padding-left: 28px; }
 .rx-card h4 { margin: 0 0 12px; font-size: .98rem; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
@@ -506,6 +516,7 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
 @media (max-width: 760px) {
   .rx-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .rx-grid { grid-template-columns: minmax(0, 1fr); }
+  .rx-tab th, .rx-tab td { padding: 8px; } .rx-tab td:nth-child(2) { white-space: normal; min-width: 110px; } .rx-tab td:first-child { white-space: normal; } .rx-corr h4 .rx-nota { white-space: nowrap; }
   .rx-duas { grid-template-columns: minmax(0, 1fr); } .rx-duas > div + div { border-left: 0; padding-left: 0; border-top: 1px solid var(--border); padding-top: 14px; }
   .rx-entrada { padding: 28px 16px; }
   .rx-botoes .btn, .rx-cta .btn, .rx-novo { width: 100%; justify-content: center; }
@@ -1810,7 +1821,7 @@ if ("ResizeObserver" in window) new ResizeObserver(() => { if (!rafNav) rafNav =
 atualizarNav();
 $("#year").textContent = new Date().getFullYear();
 </script>
-<script src="assets/raiox.js?v=9" defer></script>
+<script src="assets/raiox.js?v=10" defer></script>
 <script src="assets/visoes.js?v=2" defer></script>
 </body>
 </html>
