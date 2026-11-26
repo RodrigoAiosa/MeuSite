@@ -72,7 +72,7 @@ section { padding: 88px 0; border-top: 1px solid rgba(255,255,255,0.04); }
 }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.05rem; white-space: nowrap; }
 .brand span { color: var(--accent); }
-.brand span[aria-hidden] { color: inherit; }
+.brand span[aria-hidden] { color: inherit; font-size: 1.6rem; line-height: 1; }
 .brand b { font-weight: inherit; }
 .brand:hover { opacity: .85; }
 .brand:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 6px; }
@@ -645,7 +645,7 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
 
 <nav class="nav">
   <div class="wrap nav-inner">
-    <a class="brand" href="#inicio" aria-label="Rodrigo Aiosa — voltar ao início"><span aria-hidden="true">🦉</span><b>Rodrigo <span>Aiosa</span></b></a>
+    <a class="brand" href="#inicio" aria-label="Rodrigo Aiosa — voltar ao início"><span aria-hidden="true">🦉</span></a>
     <span class="nav-atual" id="navAtual" aria-hidden="true"></span>
     <button class="menu-btn" aria-label="Abrir menu" aria-expanded="false" id="menuBtn">☰</button>
     <ul class="nav-links" id="navLinks">
