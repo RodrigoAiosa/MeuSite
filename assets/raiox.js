@@ -176,6 +176,7 @@
 
   /* ── mesmo valor escrito de formas diferentes (acento, maiúscula, sigla de UF, erro de digitação) ── */
   const UFS = { AC: "acre", AL: "alagoas", AP: "amapa", AM: "amazonas", BA: "bahia", CE: "ceara", DF: "distrito federal", ES: "espirito santo", GO: "goias", MA: "maranhao", MT: "mato grosso", MS: "mato grosso do sul", MG: "minas gerais", PA: "para", PB: "paraiba", PR: "parana", PE: "pernambuco", PI: "piaui", RJ: "rio de janeiro", RN: "rio grande do norte", RS: "rio grande do sul", RO: "rondonia", RR: "roraima", SC: "santa catarina", SP: "sao paulo", SE: "sergipe", TO: "tocantins" };
+  const UF_NOME = { AC: "Acre", AL: "Alagoas", AP: "Amapá", AM: "Amazonas", BA: "Bahia", CE: "Ceará", DF: "Distrito Federal", ES: "Espírito Santo", GO: "Goiás", MA: "Maranhão", MT: "Mato Grosso", MS: "Mato Grosso do Sul", MG: "Minas Gerais", PA: "Pará", PB: "Paraíba", PR: "Paraná", PE: "Pernambuco", PI: "Piauí", RJ: "Rio de Janeiro", RN: "Rio Grande do Norte", RS: "Rio Grande do Sul", RO: "Rondônia", RR: "Roraima", SC: "Santa Catarina", SP: "São Paulo", SE: "Sergipe", TO: "Tocantins" };
   const NOME_UF = Object.fromEntries(Object.entries(UFS).map(([s, n]) => [n, s]));
   const limpa = v => semAc(v).replace(/[^a-z0-9]+/g, " ").trim();
   function dist(a, b, max) { // Levenshtein com corte
@@ -216,7 +217,7 @@
     return [...grupos.values()].filter(g => g.length > 1).map(g => {
       g.sort((a, b) => cont.get(b) - cont.get(a));
       const tot = g.reduce((s, o) => s + cont.get(o), 0), uf = ufDe(limpa(g[0]));
-      return { grafias: g.slice(0, 5), fora: tot - cont.get(g[0]), uf: uf ? "mesma UF: " + uf : "" };
+      return { grafias: g.slice(0, 5), todas: g, fora: tot - cont.get(g[0]), uf: uf ? "mesma UF: " + uf : "", certo: uf ? `${uf} · ${UF_NOME[uf]}` : g[0] };
     }).sort((a, b) => b.fora - a.fora);
   }
 
@@ -355,6 +356,34 @@
       const top = ord.slice(0, 8); if (ord.length > 8) top.push({ k: `Outros (${ord.length - 8})`, v: ord.slice(8).reduce((s, x) => s + x.v, 0) });
       rank = ranking(top, dinheiro);
     }
+    // como fica com as grafias padronizadas
+    let corrigido = "";
+    // usa a categoria do ranking; se ela estiver limpa, a primeira categoria com grafias diferentes
+    let ccor = null, grupos = [];
+    for (const c of [cat, ...COLS.filter(c => c !== cat && (c.tipo === "categoria" || c.tipo === "texto"))]) {
+      if (!c) continue; const g = variantes(T.dados.map(l => l[c.i])); if (g.length) { ccor = c; grupos = g; break; }
+    }
+    if (ccor) {
+      const cat = ccor;
+      {
+        const mapa = new Map(); grupos.forEach(g => g.todas.forEach(o => mapa.set(o, g.certo)));
+        const ag = new Map();
+        for (const l of T.dados) {
+          const raw = l[cat.i]; if (vazio(raw)) continue;
+          const o = String(raw).trim(), k = mapa.get(o) || o, v = valorLinha(l);
+          if (!ag.has(k)) ag.set(k, { k, n: 0, v: 0, grafias: new Set() });
+          const a = ag.get(k); a.n++; if (!isNaN(v)) a.v += v; a.grafias.add(o);
+        }
+        const lin = [...ag.values()].sort((a, b) => b.v - a.v || b.n - a.n), totN = lin.reduce((s, a) => s + a.n, 0), totV = lin.reduce((s, a) => s + a.v, 0) || 1;
+        const antes = new Set(T.dados.map(l => vazio(l[cat.i]) ? null : String(l[cat.i]).trim()).filter(Boolean)).size;
+        const mostra = lin.slice(0, 12);
+        corrigido = `<div class="rx-card rx-largo rx-corr"><h4>${esc(cat.nome)} com as grafias padronizadas <span class="rx-nota rx-nota-ok">${nf(antes)} → ${nf(lin.length)} ${lin.length === 1 ? "valor" : "valores"}</span></h4>
+          <p class="rx-corr-sub">Juntei as formas diferentes de escrever o mesmo valor. Assim ficam a contagem e o total corretos de cada ${esc(cat.nome)}. A planilha original não é alterada.</p>
+          <div class="rx-tab"><table><thead><tr><th>${esc(cat.nome)}</th><th>Grafias encontradas</th><th class="n">Linhas</th><th class="n">${met ? (/total/i.test(met.nome) ? "" : dinheiro ? "Total de " : "Soma de ") + esc(met.nome) : "Participação"}</th><th class="n">%</th></tr></thead><tbody>
+          ${mostra.map(a => `<tr><td><b>${esc(a.k)}</b></td><td>${[...a.grafias].map(g => `<span class="rx-graf${a.grafias.size > 1 ? " rx-graf-junta" : ""}">${esc(g)}</span>`).join("")}</td><td class="n">${nf(a.n)}</td><td class="n">${met ? (dinheiro ? "R$ " : "") + nf(a.v, dinheiro ? 2 : 0) : nf(a.n)}</td><td class="n">${nf((met ? a.v / totV : a.n / totN) * 100, 1)}%</td></tr>`).join("")}
+          </tbody><tfoot><tr><td>Total</td><td>${lin.length > 12 ? `e mais ${nf(lin.length - 12)} valores` : ""}</td><td class="n">${nf(totN)}</td><td class="n">${met ? (dinheiro ? "R$ " : "") + nf(totV, dinheiro ? 2 : 0) : nf(totN)}</td><td class="n">100%</td></tr></tfoot></table></div></div>`;
+      }
+    }
     // sugestões de indicadores
     const nm = met ? met.nome : "Linhas", sug = [];
     if (dat) sug.push(`<b>${esc(nm)} por mês</b>, com variação sobre o mês anterior e sobre o mesmo mês do ano passado`);
@@ -399,6 +428,7 @@
           <div><h4>Indicadores que eu acompanharia</h4>
           <ul class="rx-sug">${sug.slice(0, 5).map(x => `<li>${x}</li>`).join("")}</ul></div>
         </div>
+        ${corrigido}
       </div>
       <div class="rx-cta">
         <div><strong>Gostou do Raio-X? Imagine isso com os seus sistemas, atualizado sozinho.</strong>
