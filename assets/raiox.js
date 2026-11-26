@@ -393,11 +393,11 @@
           ${Q.alertas.length ? `<ul class="rx-alertas">${Q.alertas.slice(0, 7).map(a => `<li class="rx-${a.grav}">${a.txt}</li>`).join("")}</ul>${Q.alertas.length > 7 ? `<p class="rx-vazio">+ ${Q.alertas.length - 7} ponto(s) de atenção.</p>` : ""}`
             : `<p class="rx-ok">✔ Nenhum problema relevante encontrado: sem duplicidades, sem colunas muito vazias e sem números gravados como texto.</p>`}
         </div>
-        <div class="rx-card">
-          <h4>Colunas reconhecidas</h4>
-          <div class="rx-cols">${COLS.map(c => `<span title="${esc(NOME_TIPO[c.tipo])} · ${nf(c.vazios / c.total * 100)}% vazio">${ICONE[c.tipo]} ${esc(c.nome)}</span>`).join("")}</div>
-          <h4 class="rx-h4b">Indicadores que eu acompanharia</h4>
-          <ul class="rx-sug">${sug.slice(0, 5).map(x => `<li>${x}</li>`).join("")}</ul>
+        <div class="rx-card rx-largo rx-duas">
+          <div><h4>Colunas reconhecidas</h4>
+          <div class="rx-cols">${COLS.map(c => `<span title="${esc(NOME_TIPO[c.tipo])} · ${nf(c.vazios / c.total * 100)}% vazio">${ICONE[c.tipo]} ${esc(c.nome)}</span>`).join("")}</div></div>
+          <div><h4>Indicadores que eu acompanharia</h4>
+          <ul class="rx-sug">${sug.slice(0, 5).map(x => `<li>${x}</li>`).join("")}</ul></div>
         </div>
       </div>
       <div class="rx-cta">

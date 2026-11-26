@@ -473,6 +473,8 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
 .rx-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 .rx-card { background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; min-width: 0; }
 .rx-largo { grid-column: 1 / -1; }
+.rx-duas { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 14px 28px; }
+.rx-duas > div + div { border-left: 1px solid var(--border); padding-left: 28px; }
 .rx-card h4 { margin: 0 0 12px; font-size: .98rem; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .rx-h4b { margin-top: 16px !important; }
 .rx-svg { width: 100%; height: auto; display: block; }
@@ -504,6 +506,7 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
 @media (max-width: 760px) {
   .rx-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .rx-grid { grid-template-columns: minmax(0, 1fr); }
+  .rx-duas { grid-template-columns: minmax(0, 1fr); } .rx-duas > div + div { border-left: 0; padding-left: 0; border-top: 1px solid var(--border); padding-top: 14px; }
   .rx-entrada { padding: 28px 16px; }
   .rx-botoes .btn, .rx-cta .btn, .rx-novo { width: 100%; justify-content: center; }
   .rx-rank li { grid-template-columns: minmax(0, 5.5rem) minmax(0, 1fr) auto; }
@@ -1807,7 +1810,7 @@ if ("ResizeObserver" in window) new ResizeObserver(() => { if (!rafNav) rafNav =
 atualizarNav();
 $("#year").textContent = new Date().getFullYear();
 </script>
-<script src="assets/raiox.js?v=8" defer></script>
+<script src="assets/raiox.js?v=9" defer></script>
 <script src="assets/visoes.js?v=2" defer></script>
 </body>
 </html>
