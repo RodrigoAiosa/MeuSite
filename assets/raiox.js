@@ -66,8 +66,9 @@
     return linhas;
   }
 
+  let FONTE_CSV = false; // em CSV tudo é texto: não faz sentido o alerta de número gravado como texto
   async function lerArquivo(arq) {
-    ABAS = null;
+    ABAS = null; FONTE_CSV = false;
     const ext = (arq.name.split(".").pop() || "").toLowerCase();
     if (arq.size > LIMITE_MB * 1024 * 1024) throw new Error(`O arquivo tem ${nf(arq.size / 1048576, 1)} MB. Para o teste no navegador, use até ${LIMITE_MB} MB.`);
     if (ext === "xls") throw new Error("Esse é o formato antigo do Excel (.xls). Abra no Excel e use “Salvar como” .xlsx ou .csv.");
@@ -80,7 +81,7 @@
       return r.map(l => l.map(c => c instanceof Date ? new Date(c.getUTCFullYear(), c.getUTCMonth(), c.getUTCDate(), c.getUTCHours(), c.getUTCMinutes()) : c));
     }
     if (["csv", "txt", "tsv"].includes(ext)) {
-      const Papa = await lib("csv");
+      const Papa = await lib("csv"); FONTE_CSV = true;
       return await new Promise((ok, erro) => Papa.parse(arq, { skipEmptyLines: "greedy", complete: r => ok(r.data), error: erro }));
     }
     throw new Error("Use uma planilha .xlsx ou .csv.");
@@ -172,6 +173,53 @@
   }
 
   /* ── qualidade dos dados ── */
+
+  /* ── mesmo valor escrito de formas diferentes (acento, maiúscula, sigla de UF, erro de digitação) ── */
+  const UFS = { AC: "acre", AL: "alagoas", AP: "amapa", AM: "amazonas", BA: "bahia", CE: "ceara", DF: "distrito federal", ES: "espirito santo", GO: "goias", MA: "maranhao", MT: "mato grosso", MS: "mato grosso do sul", MG: "minas gerais", PA: "para", PB: "paraiba", PR: "parana", PE: "pernambuco", PI: "piaui", RJ: "rio de janeiro", RN: "rio grande do norte", RS: "rio grande do sul", RO: "rondonia", RR: "roraima", SC: "santa catarina", SP: "sao paulo", SE: "sergipe", TO: "tocantins" };
+  const NOME_UF = Object.fromEntries(Object.entries(UFS).map(([s, n]) => [n, s]));
+  const limpa = v => semAc(v).replace(/[^a-z0-9]+/g, " ").trim();
+  function dist(a, b, max) { // Levenshtein com corte
+    if (Math.abs(a.length - b.length) > max) return max + 1;
+    let ant = Array.from({ length: b.length + 1 }, (_, j) => j);
+    for (let i = 1; i <= a.length; i++) {
+      const cur = [i]; let menor = i;
+      for (let j = 1; j <= b.length; j++) { cur[j] = Math.min(ant[j] + 1, cur[j - 1] + 1, ant[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); menor = Math.min(menor, cur[j]); }
+      if (menor > max) return max + 1; ant = cur;
+    }
+    return ant[b.length];
+  }
+  const tolera = k => k.length >= 10 ? 2 : k.length >= 5 ? 1 : 0;
+  const digitos = k => k.replace(/\D/g, "");
+  function variantes(valores) {
+    const cont = new Map(); // grafia original → quantidade
+    for (const v of valores) { if (vazio(v) || typeof v !== "string") continue; const o = v.trim(); cont.set(o, (cont.get(o) || 0) + 1); }
+    if (cont.size < 2 || cont.size > 300) return [];
+    const chaves = new Map(); // chave limpa → grafias
+    cont.forEach((n, o) => { const k = limpa(o); if (!k) return; if (!chaves.has(k)) chaves.set(k, []); chaves.get(k).push(o); });
+    const ks = [...chaves.keys()];
+    const ehUF = ks.filter(k => UFS[k.toUpperCase()] || NOME_UF[k]).length >= Math.max(2, ks.length * 0.5);
+    // raiz de cada chave: UF canônica, nome próximo de uma UF, ou outra chave quase igual
+    const raiz = new Map(), pai = k => { while (raiz.get(k) !== k) k = raiz.get(k); return k; };
+    ks.forEach(k => raiz.set(k, k));
+    const une = (a, b) => { const ra = pai(a), rb = pai(b); if (ra !== rb) raiz.set(rb, ra); };
+    const ufDe = k => { if (!ehUF) return null; if (k.length === 2 && UFS[k.toUpperCase()]) return k.toUpperCase(); if (NOME_UF[k]) return NOME_UF[k];
+      for (const n in NOME_UF) if (tolera(n) && dist(k, n, tolera(n)) <= tolera(n)) return NOME_UF[n]; return null; };
+    const porUF = new Map();
+    ks.forEach(k => { const u = ufDe(k); if (u) { if (porUF.has(u)) une(porUF.get(u), k); else porUF.set(u, k); } });
+    for (let i = 0; i < ks.length; i++) for (let j = i + 1; j < ks.length; j++) {
+      const a = ks[i], b = ks[j], tol = Math.min(tolera(a), tolera(b));
+      if (!tol || digitos(a) !== digitos(b)) continue; // "Loja 1" × "Loja 2" não é erro de digitação
+      if (dist(a, b, tol) <= tol) une(a, b);
+    }
+    const grupos = new Map();
+    ks.forEach(k => { const r = pai(k); if (!grupos.has(r)) grupos.set(r, []); grupos.get(r).push(...chaves.get(k)); });
+    return [...grupos.values()].filter(g => g.length > 1).map(g => {
+      g.sort((a, b) => cont.get(b) - cont.get(a));
+      const tot = g.reduce((s, o) => s + cont.get(o), 0), uf = ufDe(limpa(g[0]));
+      return { grafias: g.slice(0, 5), fora: tot - cont.get(g[0]), uf: uf ? "mesma UF: " + uf : "" };
+    }).sort((a, b) => b.fora - a.fora);
+  }
+
   function qualidade(t, cols) {
     const alertas = []; let pena = 0;
     const al = (grav, txt) => { alertas.push({ grav, txt }); pena += grav === "alta" ? 14 : grav === "media" ? 7 : 3; };
@@ -186,14 +234,15 @@
       else if (pct >= 0.05) al("media", `Coluna <b>${esc(c.nome)}</b> com ${nf(pct * 100)}% das células vazias.`);
     }
     // números gravados como texto
-    for (const c of cols) if (c.tipo === "numero" && c.numTexto > 0) al("media", `Coluna <b>${esc(c.nome)}</b> tem ${nf(c.numTexto)} número(s) gravado(s) como texto, que fórmulas e somas do Excel ignoram.`);
+    if (!t.csv) for (const c of cols) if (c.tipo === "numero" && c.numTexto > 0) al("media", `Coluna <b>${esc(c.nome)}</b> tem ${nf(c.numTexto)} número(s) gravado(s) como texto, que fórmulas e somas do Excel ignoram.`);
     // categorias escritas de jeitos diferentes
     for (const c of cols) {
-      if (c.tipo !== "categoria") continue;
-      const grupos = new Map();
-      for (const l of t.dados) { const v = l[c.i]; if (vazio(v) || typeof v !== "string") continue; const k = semAc(v); if (!grupos.has(k)) grupos.set(k, new Set()); grupos.get(k).add(v); }
-      const var_ = [...grupos.values()].filter(s => s.size > 1);
-      if (var_.length) al("media", `Coluna <b>${esc(c.nome)}</b> tem o mesmo valor escrito de formas diferentes, como ${[...var_[0]].slice(0, 3).map(x => "“" + esc(x) + "”").join(", ")}. Isso divide os totais.`);
+      if (c.tipo !== "categoria" && c.tipo !== "texto") continue;
+      const grupos = variantes(t.dados.map(l => l[c.i]));
+      if (!grupos.length) continue;
+      const fora = grupos.reduce((s, g) => s + g.fora, 0);
+      const lista = grupos.slice(0, 4).map(g => g.grafias.map(x => "“" + esc(x) + "”").join(", ").replace(/, ([^,]*)$/, " e $1") + (g.uf ? ` <small>(${g.uf})</small>` : "")).join("; ");
+      al(fora >= t.dados.length * 0.1 ? "alta" : "media", `Coluna <b>${esc(c.nome)}</b> tem o mesmo valor escrito de formas diferentes: ${lista}${grupos.length > 4 ? ` e mais ${grupos.length - 4} grupo(s)` : ""}. São ${nf(fora)} linha(s) fora da grafia mais usada, e isso divide os totais e o ranking.`);
     }
     // valores fora do padrão
     for (const c of cols) {
@@ -260,7 +309,7 @@
   const NOME_TIPO = { numero: "número", data: "data", categoria: "categoria", texto: "texto", id: "código" };
 
   function analisar(linhas, origem) {
-    T = montarTabela(linhas); T.abas = ABAS; ABAS = null;
+    T = montarTabela(linhas); T.abas = ABAS; T.csv = FONTE_CSV; ABAS = null; FONTE_CSV = false;
     COLS = T.cab.map((n, i) => perfil(n, i, T.dados));
     ESC = escolher(COLS);
     ORIGEM = origem;
