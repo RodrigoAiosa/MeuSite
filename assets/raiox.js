@@ -189,6 +189,19 @@
     }
     return ant[b.length];
   }
+  // SOUNDEX completo (sem cortar em 4 caracteres): primeira letra + códigos das consoantes
+  const SX = { b: 1, f: 1, p: 1, v: 1, c: 2, g: 2, j: 2, k: 2, q: 2, s: 2, x: 2, z: 2, d: 3, t: 3, l: 4, m: 5, n: 5, r: 6 };
+  function soundex(txt) {
+    const w = semAc(txt).replace(/[^a-z]/g, "");
+    if (!w) return "";
+    let cod = w[0].toUpperCase(), ant = SX[w[0]] || 0;
+    for (let i = 1; i < w.length; i++) {
+      const ch = w[i], c = SX[ch];
+      if (c) { if (c !== ant) cod += c; ant = c; }
+      else if (ch !== "h" && ch !== "w") ant = 0; // vogal separa códigos iguais; h e w não
+    }
+    return cod;
+  }
   const tolera = k => k.length >= 10 ? 2 : k.length >= 5 ? 1 : 0;
   const digitos = k => k.replace(/\D/g, "");
   function variantes(valores) {
@@ -207,17 +220,22 @@
       for (const n in NOME_UF) if (tolera(n) && dist(k, n, tolera(n)) <= tolera(n)) return NOME_UF[n]; return null; };
     const porUF = new Map();
     ks.forEach(k => { const u = ufDe(k); if (u) { if (porUF.has(u)) une(porUF.get(u), k); else porUF.set(u, k); } });
+    const sx = new Map(ks.map(k => [k, soundex(k)]));
     for (let i = 0; i < ks.length; i++) for (let j = i + 1; j < ks.length; j++) {
-      const a = ks[i], b = ks[j], tol = Math.min(tolera(a), tolera(b));
-      if (!tol || digitos(a) !== digitos(b)) continue; // "Loja 1" × "Loja 2" não é erro de digitação
-      if (dist(a, b, tol) <= tol) une(a, b);
+      const a = ks[i], b = ks[j];
+      if (digitos(a) !== digitos(b)) continue; // "Loja 1" × "Loja 2" não é erro de digitação
+      const tol = Math.min(tolera(a), tolera(b));
+      if (tol && dist(a, b, tol) <= tol) { une(a, b); continue; }
+      // SOUNDEX: mesmo som (Luiz/Luis, Sousa/Souza, Thiago/Tiago) e grafia parecida, para não juntar Mouse com Mesa
+      const lim = Math.ceil(Math.max(a.length, b.length) * 0.34);
+      if (sx.get(a) && sx.get(a) === sx.get(b) && Math.min(a.length, b.length) >= 3 && dist(a, b, lim) <= lim) une(a, b);
     }
     const grupos = new Map();
     ks.forEach(k => { const r = pai(k); if (!grupos.has(r)) grupos.set(r, []); grupos.get(r).push(...chaves.get(k)); });
     return [...grupos.values()].filter(g => g.length > 1).map(g => {
       g.sort((a, b) => cont.get(b) - cont.get(a));
       const tot = g.reduce((s, o) => s + cont.get(o), 0), uf = ufDe(limpa(g[0]));
-      return { grafias: g.slice(0, 5), todas: g, fora: tot - cont.get(g[0]), uf: uf ? "mesma UF: " + uf : "", certo: uf ? `${uf} · ${UF_NOME[uf]}` : g[0] };
+      return { grafias: g.slice(0, 5), todas: g, fora: tot - cont.get(g[0]), uf: uf ? "mesma UF: " + uf : "", certo: uf ? `${uf} · ${UF_NOME[uf]}` : g[0], sx: soundex(g[0]) };
     }).sort((a, b) => b.fora - a.fora);
   }
 
@@ -378,10 +396,10 @@
         const antes = new Set(T.dados.map(l => vazio(l[cat.i]) ? null : String(l[cat.i]).trim()).filter(Boolean)).size;
         const mostra = lin.slice(0, 12);
         corrigido = `<div class="rx-card rx-largo rx-corr"><h4>${esc(cat.nome)} com as grafias padronizadas <span class="rx-nota rx-nota-ok">${nf(antes)} → ${nf(lin.length)} ${lin.length === 1 ? "valor" : "valores"}</span></h4>
-          <p class="rx-corr-sub">Juntei as formas diferentes de escrever o mesmo valor. Assim ficam a contagem e o total corretos de cada ${esc(cat.nome)}. A planilha original não é alterada.</p>
-          <div class="rx-tab"><table><thead><tr><th>${esc(cat.nome)}</th><th>Grafias encontradas</th><th class="n">Linhas</th><th class="n">${met ? (/total/i.test(met.nome) ? "" : dinheiro ? "Total de " : "Soma de ") + esc(met.nome) : "Participação"}</th><th class="n">%</th></tr></thead><tbody>
-          ${mostra.map(a => `<tr><td><b>${esc(a.k)}</b></td><td>${[...a.grafias].map(g => `<span class="rx-graf${a.grafias.size > 1 ? " rx-graf-junta" : ""}">${esc(g)}</span>`).join("")}</td><td class="n">${nf(a.n)}</td><td class="n">${met ? (dinheiro ? "R$ " : "") + nf(a.v, dinheiro ? 2 : 0) : nf(a.n)}</td><td class="n">${nf((met ? a.v / totV : a.n / totN) * 100, 1)}%</td></tr>`).join("")}
-          </tbody><tfoot><tr><td>Total</td><td>${lin.length > 12 ? `e mais ${nf(lin.length - 12)} valores` : ""}</td><td class="n">${nf(totN)}</td><td class="n">${met ? (dinheiro ? "R$ " : "") + nf(totV, dinheiro ? 2 : 0) : nf(totN)}</td><td class="n">100%</td></tr></tfoot></table></div></div>`;
+          <p class="rx-corr-sub">Juntei as formas diferentes de escrever o mesmo valor, comparando acento, maiúsculas, siglas, erros de digitação e o som da palavra (SOUNDEX). Assim ficam a contagem e o total corretos de cada ${esc(cat.nome)}. A planilha original não é alterada.</p>
+          <div class="rx-tab"><table><thead><tr><th>${esc(cat.nome)}</th><th>Grafias encontradas</th><th>SOUNDEX</th><th class="n">Linhas</th><th class="n">${met ? (/total/i.test(met.nome) ? "" : dinheiro ? "Total de " : "Soma de ") + esc(met.nome) : "Participação"}</th><th class="n">%</th></tr></thead><tbody>
+          ${mostra.map(a => `<tr><td><b>${esc(a.k)}</b></td><td>${[...a.grafias].map(g => `<span class="rx-graf${a.grafias.size > 1 ? " rx-graf-junta" : ""}">${esc(g)}</span>`).join("")}</td><td class="rx-sx">${a.grafias.size > 1 ? [...new Set([...a.grafias].map(soundex))].map(esc).join(" · ") : esc(soundex(a.k))}</td><td class="n">${nf(a.n)}</td><td class="n">${met ? (dinheiro ? "R$ " : "") + nf(a.v, dinheiro ? 2 : 0) : nf(a.n)}</td><td class="n">${nf((met ? a.v / totV : a.n / totN) * 100, 1)}%</td></tr>`).join("")}
+          </tbody><tfoot><tr><td>Total</td><td></td><td>${lin.length > 12 ? `e mais ${nf(lin.length - 12)} valores` : ""}</td><td class="n">${nf(totN)}</td><td class="n">${met ? (dinheiro ? "R$ " : "") + nf(totV, dinheiro ? 2 : 0) : nf(totN)}</td><td class="n">100%</td></tr></tfoot></table></div></div>`;
       }
     }
     // sugestões de indicadores
