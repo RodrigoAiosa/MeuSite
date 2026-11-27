@@ -143,9 +143,9 @@
   addEventListener("pagehide", () => { registrar("saida", { duracao_ms: ativoMs(), scroll_pct: scrollMax }); enviar(true); });
 
   // ── faixa de cookies (LGPD) ──
-  // Aviso desligado a pedido: sem aceite, a telemetria segue sem IP, cidade e coordenadas.
-  // Para voltar a mostrar, troque para true.
-  const MOSTRAR_AVISO = false;
+  // Com aceite grava tudo (IP, cidade, coordenadas); sem aceite segue sem esses três.
+  // Para esconder o aviso, troque para false.
+  const MOSTRAR_AVISO = true;
   if (aceite || !MOSTRAR_AVISO) return;
   const css = `#telConsent{position:fixed;left:16px;right:16px;bottom:16px;z-index:9999;max-width:980px;margin:0 auto;background:#0d1320;color:#d9e6f2;border:1px solid rgba(0,180,216,.35);border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.5);padding:16px 18px;display:flex;gap:12px 18px;align-items:center;flex-wrap:wrap;font:14px/1.5 inherit}
 #telConsent p{margin:0;flex:1 1 420px}#telConsent b{color:#fff}#telConsent .tel-acoes{display:flex;gap:8px;flex-wrap:wrap}
