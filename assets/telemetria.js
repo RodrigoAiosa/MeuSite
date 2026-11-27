@@ -157,7 +157,7 @@
   function faixa() {
     const st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
     const div = document.createElement("div"); div.id = "telConsent"; div.setAttribute("role", "region"); div.setAttribute("aria-label", "Aviso de cookies");
-    div.innerHTML = `<p>🍪 Usamos cookies e dados de navegação, como <b></b>, para entender como o site é usado e melhorá-lo. <a href="#" data-tel="politica">Saiba mais</a></p>
+    div.innerHTML = `<p>🍪 Usamos cookies e dados de navegação,<b></b>, para entender como o site é usado e melhorá-lo. <a href="#" data-tel="politica">Saiba mais</a></p>
       <div class="tel-acoes"><button type="button" data-tel="nao">Só o essencial</button><button type="button" class="tel-sim" data-tel="sim">Aceitar</button></div>`;
     document.body.appendChild(div);
     div.addEventListener("click", e => {
