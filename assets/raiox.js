@@ -12,7 +12,7 @@
   if (!raiz) return;
   const q = s => raiz.querySelector(s);
   const LIMITE_MB = 15, LIMITE_LINHAS = 200000;
-  const LIBS = { xlsx: ["assets/vendor/read-excel-file-9.3.20.min.js", "readXlsxFile"], csv: ["assets/vendor/papaparse-5.7.1.min.js", "Papa"], dash: ["assets/raiox-dash.js?v=5", "RaioXDash"] };
+  const LIBS = { xlsx: ["assets/vendor/read-excel-file-9.3.20.min.js", "readXlsxFile"], csv: ["assets/vendor/papaparse-5.7.1.min.js", "Papa"], dash: ["assets/raiox-dash.js?v=6", "RaioXDash"] };
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const semAc = s => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
   const evento = (n, d) => { try { if (window.va) window.va("event", { name: n, data: d }); } catch (_) {} };
@@ -294,7 +294,7 @@
     const cat = cats.slice().sort((a, b) => pontua(b, RE_CATEG) - pontua(a, RE_CATEG) || Math.abs(a.unicos - 8) - Math.abs(b.unicos - 8))[0];
     return { met: met ? met.i : -1, cat: cat ? cat.i : -1, dat: datas[0] ? datas[0].i : -1 };
   }
-  const ehDinheiro = c => c && /valor|receita|venda|fatur|preco|custo|montante|lucro|saldo|pagamento|despesa|ticket|r\$/.test(c.chave) && !/quant|qtd|qtde/.test(c.chave);
+  const ehDinheiro = c => c && /valor|receita|venda|fatur|preco|custo|montante|lucro|saldo|pagamento|despesa|ticket|salario|remunera|credito|carta|parcela|comissao|premio|r\$/.test(c.chave) && !/quant|qtd|qtde/.test(c.chave);
 
   /* ── variação percentual com seta (verde sobe, vermelho desce) ── */
   const pctTxt = v => v === null || v === undefined || !isFinite(v) ? `<i class="rx-nd">—</i>` : `<i class="${v >= 0 ? "rx-up" : "rx-down"}">${v >= 0 ? "▲ +" : "▼ "}${nf(v, 1)}%</i>`;

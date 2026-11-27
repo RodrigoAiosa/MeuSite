@@ -24,7 +24,7 @@
   const RE_ANO = /^(ano|year|exercicio|ano (de )?referencia|safra)$/;
   const RE_PERIODO = /^(mes|month|trimestre|semestre|semana|dia)$/;
   const RE_MEDIA = /salario|remunera|\bidade|nota|enps|nps|score|avalia|satisf|taxa|percent|%|preco|ticket|media|tempo|dias|prazo|duracao|temperatura|indice|rating/;
-  const RE_DINHEIRO = /valor|receita|venda|fatur|preco|custo|montante|lucro|saldo|pagamento|despesa|ticket|salario|remunera|r\$|reais|orcamento|folha/;
+  const RE_DINHEIRO = /valor|receita|venda|fatur|preco|custo|montante|lucro|saldo|pagamento|despesa|ticket|salario|remunera|r\$|reais|orcamento|folha|credito|carta|parcela|comissao|premio/;
   const RE_FILTRO = /departamento|setor|area|regiao|filial|loja|unidade|canal|categoria|segmento|status|situacao|contrato|tipo|senioridade|nivel|cargo|produto|marca|vendedor|equipe|genero|sexo|estado|uf|cidade|turno|faixa|grupo|fornecedor|cliente|origem|prioridade/;
   const RE_STATUS = /status|situacao|ativo|churn|cancel|desligad|aprovad|pago|entregue|resultado/;
 
