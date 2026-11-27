@@ -447,6 +447,7 @@
           <ul class="rx-sug">${sug.slice(0, 5).map(x => `<li>${x}</li>`).join("")}</ul></div>
         </div>
         ${corrigido}
+        ${antesDepois()}
       </div>
       <div class="rx-cta">
         <div><strong>Gostou do Raio-X? Imagine isso com os seus sistemas, atualizado sozinho.</strong>
@@ -460,6 +461,71 @@
 
   /* ── dashboard em .html para baixar (gerado aqui mesmo, sem enviar nada) ── */
   const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+
+  /* ── antes e depois com os dados do visitante: linhas reais com problema × as mesmas linhas tratadas ── */
+  function antesDepois() {
+    const hoje = new Date(), dataBR = d => `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}/${d.getFullYear()}`;
+    const vistos = new Set();
+    // problema de cada célula: tipo ("grafia" | "texto" | "vazio" | "data" | "dup") e o valor tratado
+    const avalia = (l, c, dup) => {
+      const v = l[c.i];
+      if (vazio(v)) return { antes: "", depois: "—", p: "vazio" };
+      const bruto = v instanceof Date ? dataBR(new Date(v.getFullYear(), v.getMonth(), v.getDate())) : String(v);
+      if (c.tipo === "numero") {
+        const n = numero(v), din = ehDinheiro(c), f = isNaN(n) ? bruto : (din ? "R$ " : "") + nf(n, din || n % 1 ? 2 : 0);
+        return { antes: bruto, depois: f, p: typeof v === "string" && !T.csv ? "texto" : n < 0 ? "neg" : "" };
+      }
+      if (c.tipo === "data") { const d = data(v); if (!d) return { antes: bruto, depois: "data inválida", p: "data" };
+        return { antes: bruto, depois: dataBR(d), p: d > hoje || d.getFullYear() < 1950 ? "data" : "" }; }
+      if (c.tipo === "categoria" || c.tipo === "texto") { const o = bruto.trim(), k = padroniza(c).get(o) || o;
+        return { antes: bruto, depois: k, p: k !== o || bruto !== o ? "grafia" : "" }; }
+      return { antes: bruto, depois: bruto.trim(), p: "" };
+    };
+    // colunas: as que têm problema primeiro
+    const larg = raiz.clientWidth, maxCols = larg < 560 ? 3 : larg < 860 ? 4 : 6;
+    const amostra = T.dados.slice(0, 5000);
+    const probCol = COLS.map(c => ({ c, n: amostra.reduce((s, l) => s + (avalia(l, c).p ? 1 : 0), 0) }));
+    const cols = probCol.filter(x => x.c.tipo !== "id" || x.n).sort((a, b) => (b.n > 0) - (a.n > 0)).slice(0, maxCols)
+      .sort((a, b) => a.c.i - b.c.i).map(x => x.c);
+    if (!cols.length) return "";
+    // linhas: as que mais têm problemas, na ordem original
+    const cand = [];
+    amostra.forEach((l, idx) => {
+      const chave = JSON.stringify(l), dup = vistos.has(chave); vistos.add(chave);
+      const cel = cols.map(c => avalia(l, c)), tipos = new Set(cel.map(x => x.p).filter(Boolean));
+      if (dup) tipos.add("dup");
+      if (tipos.size) cand.push({ idx, cel, dup, tipos, n: cel.filter(x => x.p).length });
+    });
+    if (!cand.length) return "";
+    // variedade: primeiro uma linha de cada tipo de problema, depois as mais problemáticas; no máximo 2 duplicadas
+    const esc_ = [], usa = r => { if (!esc_.includes(r) && esc_.length < 10 && !(r.dup && esc_.filter(x => x.dup).length >= 2)) esc_.push(r); };
+    ["grafia", "texto", "vazio", "data", "neg", "dup"].forEach(t => { const r = cand.find(r => r.tipos.has(t) && !(t !== "dup" && r.dup)); if (r) usa(r); });
+    cand.filter(r => !r.dup).sort((a, b) => b.tipos.size - a.tipos.size || b.n - a.n || a.idx - b.idx).forEach(usa);
+    cand.forEach(usa);
+    const linhas = esc_.sort((a, b) => a.idx - b.idx);
+    const tot = { grafia: 0, texto: 0, vazio: 0, data: 0, neg: 0 }; linhas.forEach(l => l.cel.forEach(x => { if (x.p) tot[x.p]++; }));
+    const cab = cols.map(c => `<th>${esc(c.nome)}</th>`).join("");
+    const lado = antes => linhas.map(l => `<tr class="${l.dup ? "rx-ad-dup" : ""}">${l.cel.map(x => {
+      if (antes) return `<td class="${x.p ? "rx-ad-p-" + x.p : ""}">${esc(x.antes) || "&nbsp;"}</td>`;
+      const conserto = x.p === "grafia" || x.p === "texto"; // corrigido; os demais ficam sinalizados para conferir
+      return `<td class="${!x.p ? "" : conserto ? "rx-ad-ok" : "rx-ad-alerta"}">${l.dup ? "" : !x.p || conserto ? esc(x.depois) : "⚠ " + (x.p === "vazio" ? "preencher" : esc(x.depois))}</td>`;
+    }).join("")}${antes ? `<td class="rx-ad-nota">${l.dup ? "duplicada" : ""}</td>` : `<td class="rx-ad-nota">${l.dup ? "removida" : ""}</td>`}</tr>`).join("");
+    const legenda = [tot.grafia && "grafia diferente", tot.texto && "número como texto", tot.vazio && "célula vazia", tot.data && "data suspeita", tot.neg && "valor negativo", linhas.some(l => l.dup) && "linha duplicada"].filter(Boolean);
+    const altura = 92 + linhas.length * 37;
+    return `<div class="rx-card rx-largo rx-ad">
+      <h4>Antes e depois dos seus dados <span class="rx-nota rx-nota-ok">${linhas.length} linhas da sua planilha</span></h4>
+      <p class="rx-corr-sub">Arraste a barra: à esquerda, as linhas como chegaram; à direita, as mesmas linhas tratadas (em verde o que foi corrigido, em amarelo o que precisa ser conferido). Encontrado nestas linhas: ${legenda.join(", ")}.</p>
+      <div class="ad-box rx-ad-box" style="--p:50%;height:${altura}px">
+        <div class="ad-camada rx-ad-depois"><div class="rx-ad-bar rx-ad-bar-d">✅ Base tratada pelo Raio-X</div><table class="rx-ad-tab"><thead><tr>${cab}<th class="rx-ad-nota"></th></tr></thead><tbody>${lado(false)}</tbody></table></div>
+        <div class="ad-camada ad-antes rx-ad-antes"><div class="rx-ad-bar">📄 ${esc(ORIGEM.replace(/\s*\(.*\)$/, ""))}</div><table class="rx-ad-tab"><thead><tr>${cab}<th class="rx-ad-nota"></th></tr></thead><tbody>${lado(true)}</tbody></table></div>
+        <div class="ad-rot ad-rot-a rx-ad-rot">Antes</div><div class="ad-rot ad-rot-d rx-ad-rot">Depois</div>
+        <div class="ad-alca" aria-hidden="true"><span>⇆</span></div>
+        <input type="range" min="0" max="100" value="50" class="rx-ad-range" aria-label="Comparar antes e depois dos seus dados">
+      </div>
+      <p class="rx-vazio rx-ad-rodape">Nada é alterado no seu arquivo: o tratamento acontece só aqui, no seu navegador.</p>
+    </div>`;
+  }
+
   // grafia original → valor padronizado, por coluna (guardado na tabela atual)
   function padroniza(c) {
     if (!T._pad) T._pad = {};
@@ -541,6 +607,13 @@
     if (a === "novo") { T = null; q("#rxPainel").hidden = true; q("#rxPainel").innerHTML = ""; entrada.hidden = false; aviso(""); }
     if (a === "cta") { evento("raiox_cta"); if (typeof window.diagIniciar === "function") window.diagIniciar({ dor: "dashboards", origem: "raio-x" }); else location.hash = "#contato"; }
   });
+  // barra do antes e depois: arrastar com mouse ou dedo, ou usar o teclado
+  const adPos = (box, p) => { p = Math.max(0, Math.min(100, p)); box.style.setProperty("--p", p + "%"); const r = box.querySelector(".rx-ad-range"); if (r) r.value = p; };
+  let adArr = null;
+  raiz.addEventListener("input", e => { if (e.target.classList.contains("rx-ad-range")) adPos(e.target.closest(".rx-ad-box"), +e.target.value); });
+  raiz.addEventListener("pointerdown", e => { const box = e.target.closest(".rx-ad-box"); if (!box) return; adArr = box; box.setPointerCapture(e.pointerId); const r = box.getBoundingClientRect(); adPos(box, (e.clientX - r.left) / r.width * 100); });
+  raiz.addEventListener("pointermove", e => { if (!adArr) return; const r = adArr.getBoundingClientRect(); adPos(adArr, (e.clientX - r.left) / r.width * 100); });
+  ["pointerup", "pointercancel"].forEach(t => raiz.addEventListener(t, () => { if (adArr) evento("raiox_antes_depois"); adArr = null; }));
   // redesenha o painel quando a largura muda de verdade (girar o celular, redimensionar a janela)
   let largura = raiz.clientWidth, tm;
   addEventListener("resize", () => { clearTimeout(tm); tm = setTimeout(() => {

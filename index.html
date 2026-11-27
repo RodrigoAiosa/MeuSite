@@ -484,6 +484,32 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
 .rx-graf { display: inline-block; font-size: .78rem; padding: 2px 8px; border-radius: 99px; margin: 1px 4px 1px 0; background: rgba(255,255,255,0.05); color: var(--text-2); }
 .rx-sx { font-family: ui-monospace, Consolas, monospace; font-size: .8rem; color: var(--accent-2); }
 .rx-graf-junta { background: rgba(251,191,36,0.12); color: #fcd34d; }
+.rx-ad-box { margin-top: 4px; }
+.rx-ad-antes { background: #f3f3f3; color: #222; }
+.rx-ad-depois { background: #0b1220; color: #e8f4ff; }
+.rx-ad-bar { height: 34px; display: flex; align-items: center; padding: 0 14px 0 96px; font-size: .78rem; background: #217346; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rx-ad-bar-d { background: #0f2a3a; color: var(--accent-2); padding: 0 110px 0 14px; justify-content: flex-end; }
+.rx-ad-tab { width: 100%; table-layout: fixed; border-collapse: collapse; font-size: .84rem; }
+.rx-ad-tab th, .rx-ad-tab td { height: 37px; padding: 0 10px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rx-ad-tab th { height: 40px; font-size: .74rem; }
+.rx-ad-antes .rx-ad-tab { font-family: Calibri, Arial, sans-serif; }
+.rx-ad-antes th { background: #e6e6e6; color: #333; border: 1px solid #d0d0d0; }
+.rx-ad-antes td { border: 1px solid #dcdcdc; background: #fff; }
+.rx-ad-antes td.rx-ad-p-grafia { background: #fff3c4; color: #8a5a00; }
+.rx-ad-antes td.rx-ad-p-texto, .rx-ad-antes td.rx-ad-p-neg { background: #ffe1e1; color: #b00020; }
+.rx-ad-antes td.rx-ad-p-vazio { background: repeating-linear-gradient(45deg, #ffe7e7 0 6px, #fff 6px 12px); }
+.rx-ad-antes td.rx-ad-p-data { background: #ffe1e1; color: #b00020; }
+.rx-ad-antes .rx-ad-dup td { background: #fde2f1; }
+.rx-ad-depois th { color: var(--muted); text-transform: uppercase; letter-spacing: .05em; border-bottom: 1px solid var(--border); }
+.rx-ad-depois td { border-bottom: 1px solid rgba(255,255,255,0.06); color: var(--text-2); }
+.rx-ad-depois td.rx-ad-ok { color: #4ade80; font-weight: 600; }
+.rx-ad-depois td.rx-ad-alerta { color: #fbbf24; font-weight: 600; }
+.rx-ad-depois .rx-ad-dup td { color: transparent; background: rgba(255,255,255,0.02); }
+.rx-ad-depois .rx-ad-dup td.rx-ad-nota { color: var(--muted); }
+.rx-ad-tab .rx-ad-nota { width: 92px; font-size: .74rem; font-style: italic; }
+.rx-ad-antes .rx-ad-dup .rx-ad-nota { color: #b0006a; font-weight: 700; font-style: normal; }
+.rx-ad-rot { top: 5px; }
+.rx-ad-rodape { margin: 10px 0 0; }
 .rx-duas { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 14px 28px; }
 .rx-duas > div + div { border-left: 1px solid var(--border); padding-left: 28px; }
 .rx-card h4 { margin: 0 0 12px; font-size: .98rem; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
@@ -518,6 +544,7 @@ footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0 90px; tex
   .rx-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .rx-grid { grid-template-columns: minmax(0, 1fr); }
   .rx-tab th, .rx-tab td { padding: 8px; } .rx-tab td:nth-child(2) { white-space: normal; min-width: 110px; } .rx-tab td:first-child { white-space: normal; } .rx-corr h4 .rx-nota { white-space: nowrap; }
+  .rx-ad-tab { font-size: .74rem; } .rx-ad-tab th, .rx-ad-tab td { padding: 0 6px; } .rx-ad-tab .rx-ad-nota { width: 64px; }
   .rx-duas { grid-template-columns: minmax(0, 1fr); } .rx-duas > div + div { border-left: 0; padding-left: 0; border-top: 1px solid var(--border); padding-top: 14px; }
   .rx-entrada { padding: 28px 16px; }
   .rx-botoes .btn, .rx-cta .btn, .rx-novo { width: 100%; justify-content: center; }
@@ -1829,7 +1856,7 @@ if ("ResizeObserver" in window) new ResizeObserver(() => { if (!rafNav) rafNav =
 atualizarNav();
 $("#year").textContent = new Date().getFullYear();
 </script>
-<script src="assets/raiox.js?v=15" defer></script>
+<script src="assets/raiox.js?v=17" defer></script>
 <script src="assets/visoes.js?v=2" defer></script>
 </body>
 </html>
