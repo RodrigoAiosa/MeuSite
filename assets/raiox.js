@@ -447,7 +447,7 @@
           <ul class="rx-sug">${sug.slice(0, 5).map(x => `<li>${x}</li>`).join("")}</ul></div>
         </div>
         ${corrigido}
-        ${antesDepois()}
+        ${antesDepois({ met, cat, dat, dinheiro, valorLinha })}
       </div>
       <div class="rx-cta">
         <div><strong>Gostou do Raio-X? Imagine isso com os seus sistemas, atualizado sozinho.</strong>
@@ -463,7 +463,46 @@
   const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
   /* ── antes e depois com os dados do visitante: linhas reais com problema × as mesmas linhas tratadas ── */
-  function antesDepois() {
+
+  /* painel do "depois": indicadores e gráficos calculados com a base tratada */
+  function painelDepois({ met, cat, dat, dinheiro, valorLinha }, larg) {
+    const vistos = new Set(), base = [];
+    for (const l of T.dados) { const k = JSON.stringify(l); if (!vistos.has(k)) { vistos.add(k); base.push(l); } }
+    const dup = T.dados.length - base.length, fmt = v => (dinheiro ? "R$ " : "") + abrev(v);
+    let total = 0; base.forEach(l => { const v = valorLinha(l); if (!isNaN(v)) total += v; });
+    // por categoria, já padronizada
+    let grafCat = "", kpiGraf = "";
+    if (cat) {
+      const pad = padroniza(cat), m = new Map(), brutos = new Set();
+      base.forEach(l => { const r = l[cat.i]; if (vazio(r)) return; const o = String(r).trim(); brutos.add(o); const k = pad.get(o) || o, v = valorLinha(l); if (!isNaN(v)) m.set(k, (m.get(k) || 0) + v); });
+      let it = [...m.entries()].sort((a, b) => b[1] - a[1]);
+      if (it.length > 6) it = [...it.slice(0, 5), [`Outros (${it.length - 5})`, it.slice(5).reduce((s, x) => s + x[1], 0)]];
+      const mx = Math.max(...it.map(x => x[1]), 1);
+      grafCat = `<div class="rx-adp-g"><h5>${met ? (dinheiro ? "Total" : "Soma") : "Linhas"} por ${esc(cat.nome)}</h5><ul class="rx-adp-hbar">${it.map(([k, v]) => `<li><span title="${esc(k)}">${esc(k)}</span><i><b style="width:${(v / mx * 100).toFixed(1)}%"></b></i><em>${esc(fmt(v))}</em></li>`).join("")}</ul></div>`;
+      kpiGraf = `<div><small>${esc(cat.nome)}</small><b>${nf(brutos.size)} → ${nf(m.size)}</b><span>grafias → valores</span></div>`;
+    }
+    // por mês (últimos 12)
+    let grafMes = "";
+    if (dat && larg >= 560) {
+      const m = new Map();
+      base.forEach(l => { const d = data(l[dat.i]); if (!d || d > new Date()) return; const k = d.getFullYear() * 12 + d.getMonth(), v = valorLinha(l); if (!isNaN(v)) m.set(k, (m.get(k) || 0) + v); });
+      const ks = [...m.keys()].sort((a, b) => a - b).slice(-12);
+      if (ks.length >= 2) {
+        const mx = Math.max(...ks.map(k => m.get(k)), 1);
+        grafMes = `<div class="rx-adp-g"><h5>${met ? (dinheiro ? "Total" : "Soma") : "Linhas"} por mês</h5><div class="rx-adp-vbar">${ks.map(k => `<div style="--h:${(m.get(k) / mx).toFixed(3)}"><div class="rx-adp-area"><i></i><em>${esc(abrev(m.get(k)))}</em></div><span>${MESES[k % 12]}/${String(Math.floor(k / 12)).slice(2)}</span></div>`).join("")}</div></div>`;
+      }
+    }
+    return `<div class="rx-adp">
+      <div class="rx-adp-kpis">
+        <div><small>${met ? (dinheiro ? "Total de " : "Soma de ") + esc(met.nome) : "Registros"}</small><b>${esc(fmt(total))}</b><span>sem duplicadas</span></div>
+        <div><small>Linhas válidas</small><b>${nf(base.length)}</b><span>${dup ? nf(dup) + " duplicada(s) removida(s)" : "nenhuma duplicada"}</span></div>
+        ${kpiGraf}
+      </div>
+      <div class="rx-adp-graficos">${grafCat}${grafMes}</div>
+    </div>`;
+  }
+
+  function antesDepois(ctx) {
     const hoje = new Date(), dataBR = d => `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}/${d.getFullYear()}`;
     const vistos = new Set();
     // problema de cada célula: tipo ("grafia" | "texto" | "vazio" | "data" | "dup") e o valor tratado
@@ -511,12 +550,12 @@
       return `<td class="${!x.p ? "" : conserto ? "rx-ad-ok" : "rx-ad-alerta"}">${l.dup ? "" : !x.p || conserto ? esc(x.depois) : "⚠ " + (x.p === "vazio" ? "preencher" : esc(x.depois))}</td>`;
     }).join("")}${antes ? `<td class="rx-ad-nota">${l.dup ? "duplicada" : ""}</td>` : `<td class="rx-ad-nota">${l.dup ? "removida" : ""}</td>`}</tr>`).join("");
     const legenda = [tot.grafia && "grafia diferente", tot.texto && "número como texto", tot.vazio && "célula vazia", tot.data && "data suspeita", tot.neg && "valor negativo", linhas.some(l => l.dup) && "linha duplicada"].filter(Boolean);
-    const altura = 92 + linhas.length * 37;
+    const altura = Math.max(larg < 560 ? 500 : 470, 92 + linhas.length * 37);
     return `<div class="rx-card rx-largo rx-ad">
       <h4>Antes e depois dos seus dados <span class="rx-nota rx-nota-ok">${linhas.length} linhas da sua planilha</span></h4>
-      <p class="rx-corr-sub">Arraste a barra: à esquerda, as linhas como chegaram; à direita, as mesmas linhas tratadas (em verde o que foi corrigido, em amarelo o que precisa ser conferido). Encontrado nestas linhas: ${legenda.join(", ")}.</p>
+      <p class="rx-corr-sub">Arraste a barra: à esquerda, linhas da sua planilha como chegaram; à direita, o painel montado com a base já tratada (grafias unidas, números convertidos e duplicadas removidas). Encontrado nestas linhas: ${legenda.join(", ")}.</p>
       <div class="ad-box rx-ad-box" style="--p:50%;height:${altura}px">
-        <div class="ad-camada rx-ad-depois"><div class="rx-ad-bar rx-ad-bar-d">✅ Base tratada pelo Raio-X</div><table class="rx-ad-tab"><thead><tr>${cab}<th class="rx-ad-nota"></th></tr></thead><tbody>${lado(false)}</tbody></table></div>
+        <div class="ad-camada rx-ad-depois"><div class="rx-ad-bar rx-ad-bar-d">✅ Painel com a base tratada</div>${painelDepois(ctx, larg)}</div>
         <div class="ad-camada ad-antes rx-ad-antes"><div class="rx-ad-bar">📄 ${esc(ORIGEM.replace(/\s*\(.*\)$/, ""))}</div><table class="rx-ad-tab"><thead><tr>${cab}<th class="rx-ad-nota"></th></tr></thead><tbody>${lado(true)}</tbody></table></div>
         <div class="ad-rot ad-rot-a rx-ad-rot">Antes</div><div class="ad-rot ad-rot-d rx-ad-rot">Depois</div>
         <div class="ad-alca" aria-hidden="true"><span>⇆</span></div>
