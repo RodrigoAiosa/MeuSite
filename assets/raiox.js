@@ -35,14 +35,44 @@
   /* ── leitura do arquivo ── */
   /* ── consolidação de abas: antes de qualquer cálculo, junta as abas com as mesmas colunas ── */
   let ABAS = null; // { usadas: [nomes], ignoradas: [nomes] } da última planilha lida
+  /* ── despivotar: tabela "larga" (um produto, mês ou ano por coluna) vira uma linha por valor ── */
+  const MES_NOMES = /^(jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez)[a-z]*\.?(\/?\s*\d{2,4})?$/;
+  function despivotar(cab, dados) {
+    const semNome = h => !String(h ?? "").trim() || /^Coluna \d+$/.test(String(h).trim());
+    // tira colunas totalmente vazias
+    const usadas = cab.map((h, i) => i).filter(i => !(semNome(cab[i]) && dados.every(l => vazio(l[i]))));
+    if (usadas.length < 4) return null;
+    const forma = h => { if (h instanceof Date) return "data"; const k = semAc(h); if (MES_NOMES.test(k)) return "mes"; if (/^(19|20)\d{2}$/.test(k)) return "ano"; return k.replace(/\d+/g, "0"); };
+    const numerica = i => { let n = 0, t = 0; for (const l of dados.slice(0, 300)) { const v = l[i]; if (vazio(v)) continue; t++; if (!isNaN(numero(v))) n++; } return t > 0 && n / t >= 0.8; };
+    const grupos = new Map();
+    usadas.forEach(i => { if (semNome(cab[i]) || !numerica(i)) return; const f = forma(cab[i]); if (!grupos.has(f)) grupos.set(f, []); grupos.get(f).push(i); });
+    const [fz, vals] = [...grupos.entries()].sort((a, b) => b[1].length - a[1].length)[0] || [];
+    // precisa de pelo menos 3 colunas com o mesmo "jeito" de nome (Prod0001, Prod0002… / jan, fev… / 2023, 2024…)
+    if (!vals || vals.length < 3 || !(["data", "mes", "ano"].includes(fz) || /0/.test(fz))) return null;
+    const chaves = usadas.filter(i => !vals.includes(i));
+    if (!chaves.length || chaves.length > 3) return null;
+    const nomeChave = i => { if (!semNome(cab[i])) return String(cab[i]).trim(); return dados.slice(0, 50).filter(l => !vazio(l[i])).every(l => data(l[i])) ? "Data" : "Item"; };
+    const pref = semAc(String(cab[vals[0]])).replace(/[\d\s_\-.]+$/, "");
+    const nomeCat = fz === "mes" ? "Mês" : fz === "ano" ? "Ano" : fz === "data" ? "Data" : /^prod/.test(pref) ? "Produto" : /^loja/.test(pref) ? "Loja" : /^cli/.test(pref) ? "Cliente" : /^vend/.test(pref) ? "Vendedor" : /^fil/.test(pref) ? "Filial" : "Categoria";
+    const novoCab = [...chaves.map(nomeChave), nomeCat, "Valor"], novos = [];
+    for (const l of dados) {
+      if (chaves.every(i => vazio(l[i]))) continue;
+      for (const i of vals) { const v = l[i]; if (vazio(v)) continue; novos.push([...chaves.map(c => l[c]), cab[i] instanceof Date ? cab[i] : String(cab[i]).trim(), v]); }
+    }
+    return novos.length ? { cab: novoCab, dados: novos, info: { n: vals.length, de: String(cab[vals[0]]).trim(), ate: String(cab[vals[vals.length - 1]]).trim(), cab: novoCab } } : null;
+  }
+
   function consolidarAbas(abas) {
     const blocos = abas.map(a => {
       const d = (a.data || []).filter(Array.isArray);
       const ini = d.findIndex(l => l.filter(c => !vazio(c)).length >= 2);
       if (ini < 0) return null;
-      const cab = d[ini].map((c, i) => String(c ?? "").trim() || `Coluna ${i + 1}`);
-      const dados = d.slice(ini + 1).filter(l => l.some(c => !vazio(c)));
-      return dados.length ? { nome: String(a.sheet), cab, chaves: cab.map(semAc), dados } : null;
+      let cab = d[ini].map((c, i) => c instanceof Date ? c : String(c ?? "").trim() || `Coluna ${i + 1}`);
+      let dados = d.slice(ini + 1).filter(l => l.some(c => !vazio(c))), desp = null;
+      const dp = dados.length ? despivotar(cab, dados) : null;
+      if (dp) { cab = dp.cab; dados = dp.dados; desp = dp.info; }
+      cab = cab.map(c => c instanceof Date ? c.toISOString().slice(0, 10) : c);
+      return dados.length ? { nome: String(a.sheet), cab, chaves: cab.map(semAc), dados, desp } : null;
     }).filter(Boolean);
     if (!blocos.length) { ABAS = null; return []; }
     // agrupa abas com cabeçalhos parecidos (mesmas colunas, mesmo que em outra ordem)
@@ -52,12 +82,13 @@
     const linhasG = g => g.reduce((s, b) => s + b.dados.length, 0);
     grupos.sort((a, b) => b.length - a.length || linhasG(b) - linhasG(a));
     const g = grupos[0], ignoradas = blocos.filter(b => !g.includes(b)).map(b => b.nome);
-    ABAS = { usadas: g.map(b => b.nome), ignoradas };
+    ABAS = { usadas: g.map(b => b.nome), ignoradas, desp: g.every(b => b.desp) ? g[0].desp : null };
     if (g.length === 1) return [g[0].cab, ...g[0].dados];
     // união das colunas (pela ordem em que aparecem) + coluna com a aba de origem
     const chaves = [], nomes = [];
     g.forEach(b => b.chaves.forEach((k, i) => { if (!chaves.includes(k)) { chaves.push(k); nomes.push(b.cab[i]); } }));
-    const temAba = chaves.some(k => /^(aba|planilha|sheet|origem)( de origem)?$/.test(k));
+    // abas despivotadas já trazem a data ou a chave de cada linha: não precisa da coluna de origem
+    const temAba = ABAS.desp || chaves.some(k => /^(aba|planilha|sheet|origem)( de origem)?$/.test(k));
     const linhas = [temAba ? nomes : [...nomes, "Aba de origem"]];
     g.forEach(b => {
       const pos = chaves.map(k => b.chaves.indexOf(k));
@@ -328,7 +359,8 @@
   const NOME_TIPO = { numero: "número", data: "data", categoria: "categoria", texto: "texto", id: "código" };
 
   function analisar(linhas, origem) {
-    T = montarTabela(linhas); T.abas = ABAS; T.csv = FONTE_CSV; ABAS = null; FONTE_CSV = false;
+    T = montarTabela(linhas); T.abas = ABAS; T.csv = FONTE_CSV; T.desp = ABAS && ABAS.desp; ABAS = null; FONTE_CSV = false;
+    if (!T.desp) { const dp = despivotar(T.cab, T.dados); if (dp) { T.cab = dp.cab; T.dados = dp.dados; T.desp = dp.info; } }
     COLS = T.cab.map((n, i) => perfil(n, i, T.dados));
     ESC = escolher(COLS);
     ORIGEM = origem;
@@ -371,7 +403,7 @@
       const m = new Map(), pad = padroniza(cat); rankPad = pad.size > 0;
       for (const l of T.dados) { const raw = l[cat.i]; if (vazio(raw)) continue; const o = String(raw).trim(), k = pad.get(o) || o; const v = valorLinha(l); if (isNaN(v)) continue; m.set(k, (m.get(k) || 0) + v); }
       const ord = [...m.entries()].map(([k, v]) => ({ k, v })).sort((a, b) => b.v - a.v);
-      const top = ord.slice(0, 8); if (ord.length > 8) top.push({ k: `Outros (${ord.length - 8})`, v: ord.slice(8).reduce((s, x) => s + x.v, 0) });
+      const top = ord.length <= 9 ? ord : ord.slice(0, 8); if (ord.length > 9) top.push({ k: `Outros (${ord.length - 8})`, v: ord.slice(8).reduce((s, x) => s + x.v, 0) });
       rank = ranking(top, dinheiro);
     }
     // como fica com as grafias padronizadas
@@ -417,8 +449,9 @@
 
     q("#rxPainel").innerHTML = `
       <div class="rx-topo">
-        <div><div class="rx-arq">📄 ${esc(ORIGEM)}</div><div class="rx-sub">${nf(T.dados.length)} linhas · ${nf(T.cab.length)} colunas${T.cortado ? " · analisadas as primeiras " + nf(LIMITE_LINHAS) : ""}</div>${abasTxt()}</div>
+        <div><div class="rx-arq">📄 ${esc(ORIGEM)}</div><div class="rx-sub">${nf(T.dados.length)} linhas · ${nf(T.cab.length)} colunas${T.cortado ? " · analisadas as primeiras " + nf(LIMITE_LINHAS) : ""}</div>${abasTxt()}${T.desp ? `<div class="rx-sub rx-abas">🔄 Tabela despivotada: ${nf(T.desp.n)} colunas (${esc(T.desp.de)} … ${esc(T.desp.ate)}) viraram linhas → ${T.desp.cab.map(esc).join(", ")}</div>` : ""}</div>
         <div class="rx-acoes"><button type="button" class="btn btn-primary rx-novo" data-rx="dash">⬇ Baixar dashboard interativo (.html)</button>
+        <button type="button" class="btn btn-ghost rx-novo" data-rx="base">⬇ Baixar base tratada (.xlsx)</button>
         <button type="button" class="btn btn-ghost rx-novo" data-rx="novo">↺ Analisar outra planilha</button></div>
       </div>
       <div class="rx-sel">
@@ -457,6 +490,55 @@
     q("#rxPainel").hidden = false;
     q("#rxEntrada").hidden = true;
     lib("dash").catch(() => {}); // já deixa o gerador pronto para o clique
+  }
+
+
+  /* ── base tratada em .xlsx (gerado aqui mesmo: zip sem compressão + XML do Excel) ── */
+  const CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+  const crc32 = b => { let c = 0xFFFFFFFF; for (let i = 0; i < b.length; i++) c = CRC[(c ^ b[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; };
+  function zip(arquivos) {
+    const enc = new TextEncoder(), partes = [], central = []; let pos = 0;
+    for (const [nome, txt] of arquivos) {
+      const n = enc.encode(nome), d = enc.encode(txt), c = crc32(d);
+      const h = new DataView(new ArrayBuffer(30)); h.setUint32(0, 0x04034b50, true); h.setUint16(4, 20, true); h.setUint16(8, 0, true); h.setUint32(14, c, true); h.setUint32(18, d.length, true); h.setUint32(22, d.length, true); h.setUint16(26, n.length, true);
+      partes.push(new Uint8Array(h.buffer), n, d);
+      const e = new DataView(new ArrayBuffer(46)); e.setUint32(0, 0x02014b50, true); e.setUint16(4, 20, true); e.setUint16(6, 20, true); e.setUint32(16, c, true); e.setUint32(20, d.length, true); e.setUint32(24, d.length, true); e.setUint16(28, n.length, true); e.setUint32(42, pos, true);
+      central.push(new Uint8Array(e.buffer), n); pos += 30 + n.length + d.length;
+    }
+    const tam = central.reduce((s, x) => s + x.length, 0), f = new DataView(new ArrayBuffer(22));
+    f.setUint32(0, 0x06054b50, true); f.setUint16(8, arquivos.length, true); f.setUint16(10, arquivos.length, true); f.setUint32(12, tam, true); f.setUint32(16, pos, true);
+    return new Blob([...partes, ...central, new Uint8Array(f.buffer)], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+  }
+  const xmlEsc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "");
+  const colL = i => { let s = ""; i++; while (i) { const m = (i - 1) % 26; s = String.fromCharCode(65 + m) + s; i = Math.floor((i - 1) / 26); } return s; };
+  function baixarBase() {
+    const vistos = new Set(), linhas = [];
+    for (const l of T.dados) { const k = JSON.stringify(l); if (!vistos.has(k)) { vistos.add(k); linhas.push(l); } }
+    const serial = d => (Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(1899, 11, 30)) / 864e5;
+    const cel = (c, v, ref) => {
+      if (vazio(v)) return "";
+      if (c.tipo === "data") { const d = data(v); return d ? `<c r="${ref}" s="1"><v>${serial(d)}</v></c>` : `<c r="${ref}" t="inlineStr"><is><t>${xmlEsc(v)}</t></is></c>`; }
+      if (c.tipo === "numero") { const n = numero(v); if (!isNaN(n)) return `<c r="${ref}" s="${ehDinheiro(c) ? 2 : 0}"><v>${n}</v></c>`; }
+      if (c.tipo === "id" && (typeof v === "number" || /^\d{1,15}$/.test(String(v).trim()))) return `<c r="${ref}"><v>${Number(v)}</v></c>`;
+      let o = v instanceof Date ? `${String(v.getDate()).padStart(2, "0")}/${String(v.getMonth() + 1).padStart(2, "0")}/${v.getFullYear()}` : String(v).trim();
+      if (c.tipo === "categoria" || c.tipo === "texto") o = padroniza(c).get(o) || o;
+      return `<c r="${ref}" t="inlineStr"><is><t xml:space="preserve">${xmlEsc(o)}</t></is></c>`;
+    };
+    const rows = [`<row r="1">${COLS.map((c, j) => `<c r="${colL(j)}1" t="inlineStr" s="3"><is><t>${xmlEsc(c.nome)}</t></is></c>`).join("")}</row>`];
+    linhas.forEach((l, i) => rows.push(`<row r="${i + 2}">${COLS.map((c, j) => cel(c, l[c.i], colL(j) + (i + 2))).join("")}</row>`));
+    const sheet = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews><cols>${COLS.map((c, j) => `<col min="${j + 1}" max="${j + 1}" width="${Math.min(40, Math.max(12, c.nome.length + 4))}" customWidth="1"/>`).join("")}</cols><sheetData>${rows.join("")}</sheetData><autoFilter ref="A1:${colL(COLS.length - 1)}${linhas.length + 1}"/></worksheet>`;
+    const blob = zip([
+      ["[Content_Types].xml", `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>`],
+      ["_rels/.rels", `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`],
+      ["xl/workbook.xml", `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Base tratada" sheetId="1" r:id="rId1"/></sheets><definedNames><definedName name="_xlnm._FilterDatabase" localSheetId="0" hidden="1">'Base tratada'!$A$1:$${colL(COLS.length - 1)}$${linhas.length + 1}</definedName></definedNames></workbook>`],
+      ["xl/_rels/workbook.xml.rels", `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`],
+      ["xl/styles.xml", `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="164" formatCode="#,##0.00"/></numFmts><fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills><borders count="1"><border/></borders><cellStyleXfs count="1"><xf/></cellStyleXfs><cellXfs count="4"><xf/><xf numFmtId="14" applyNumberFormat="1"/><xf numFmtId="164" applyNumberFormat="1"/><xf fontId="1" applyFont="1"/></cellXfs></styleSheet>`],
+      ["xl/worksheets/sheet1.xml", sheet],
+    ]);
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = ORIGEM.replace(/\s*\(.*\)$/, "").replace(/\.[^.]+$/, "") + "_base_tratada.xlsx";
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 60000);
+    aviso(`Pronto! Baixei a base tratada com ${nf(linhas.length)} linhas: grafias padronizadas, números convertidos e duplicadas removidas.`);
+    evento("raiox_base");
   }
 
   /* ── dashboard em .html para baixar (gerado aqui mesmo, sem enviar nada) ── */
@@ -643,6 +725,7 @@
     const a = b.dataset.rx;
     if (a === "exemplo") { analisar(exemplo(), "vendas_exemplo.xlsx (dados fictícios)"); evento("raiox_exemplo"); raiz.scrollIntoView({ behavior: "smooth", block: "start" }); }
     if (a === "dash") baixarDash(b);
+    if (a === "base") baixarBase();
     if (a === "novo") { T = null; q("#rxPainel").hidden = true; q("#rxPainel").innerHTML = ""; entrada.hidden = false; aviso(""); }
     if (a === "cta") { evento("raiox_cta"); if (typeof window.diagIniciar === "function") window.diagIniciar({ dor: "dashboards", origem: "raio-x" }); else location.hash = "#contato"; }
   });
