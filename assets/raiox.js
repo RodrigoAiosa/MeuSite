@@ -365,11 +365,11 @@
     let varMes = "";
     const ultM = meses[meses.length - 1];
     if (ultM && (ultM.mom !== null || ultM.yoy !== null)) varMes = `<span class="rx-var"><b class="rx-peq">${pctTxt(ultM.mom)}</b><small>%MoM</small></span><span class="rx-var"><b class="rx-peq">${pctTxt(ultM.yoy)}</b><small>%YoY</small></span>`;
-    // ranking
-    let rank = "";
+    // ranking (já com as grafias padronizadas: "Luis Lima" soma em "Luiz Lima")
+    let rank = "", rankPad = false;
     if (cat) {
-      const m = new Map();
-      for (const l of T.dados) { const raw = l[cat.i]; if (vazio(raw)) continue; const k = String(raw).trim(); const v = valorLinha(l); if (isNaN(v)) continue; m.set(k, (m.get(k) || 0) + v); }
+      const m = new Map(), pad = padroniza(cat); rankPad = pad.size > 0;
+      for (const l of T.dados) { const raw = l[cat.i]; if (vazio(raw)) continue; const o = String(raw).trim(), k = pad.get(o) || o; const v = valorLinha(l); if (isNaN(v)) continue; m.set(k, (m.get(k) || 0) + v); }
       const ord = [...m.entries()].map(([k, v]) => ({ k, v })).sort((a, b) => b.v - a.v);
       const top = ord.slice(0, 8); if (ord.length > 8) top.push({ k: `Outros (${ord.length - 8})`, v: ord.slice(8).reduce((s, x) => s + x.v, 0) });
       rank = ranking(top, dinheiro);
@@ -434,7 +434,7 @@
       </div>
       <div class="rx-grid">
         <div class="rx-card rx-largo"><h4>${dat ? `${esc(met ? met.nome : "Linhas")} por mês` : "Evolução no tempo"}</h4>${dat ? graficoMeses(meses, dinheiro) : `<p class="rx-vazio">Não encontrei uma coluna de data. Com ela, o painel mostra a evolução mês a mês.</p>`}</div>
-        <div class="rx-card"><h4>${cat ? `Ranking por ${esc(cat.nome)}` : "Ranking"}</h4>${rank || `<p class="rx-vazio">Não encontrei uma coluna de categorias (produto, região, cliente…). Com ela, o painel mostra o ranking.</p>`}</div>
+        <div class="rx-card"><h4>${cat ? `Ranking por ${esc(cat.nome)}` : "Ranking"}${rankPad ? ` <span class="rx-nota rx-nota-ok" title="Grafias diferentes do mesmo valor foram somadas juntas">grafias padronizadas</span>` : ""}</h4>${rank || `<p class="rx-vazio">Não encontrei uma coluna de categorias (produto, região, cliente…). Com ela, o painel mostra o ranking.</p>`}</div>
         <div class="rx-card">
           <h4>Qualidade dos dados <span class="rx-nota rx-nota-${corNota}">${nota}/100</span></h4>
           ${Q.alertas.length ? `<ul class="rx-alertas">${Q.alertas.slice(0, 7).map(a => `<li class="rx-${a.grav}">${a.txt}</li>`).join("")}</ul>${Q.alertas.length > 7 ? `<p class="rx-vazio">+ ${Q.alertas.length - 7} ponto(s) de atenção.</p>` : ""}`
@@ -460,13 +460,21 @@
 
   /* ── dashboard em .html para baixar (gerado aqui mesmo, sem enviar nada) ── */
   const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  // grafia original → valor padronizado, por coluna (guardado na tabela atual)
+  function padroniza(c) {
+    if (!T._pad) T._pad = {};
+    if (!T._pad[c.i]) { const m = new Map(); variantes(T.dados.map(l => l[c.i])).forEach(g => g.todas.forEach(o => m.set(o, g.certo))); T._pad[c.i] = m; }
+    return T._pad[c.i];
+  }
   function linhasDash() {
     return T.dados.map(l => COLS.map(c => {
       const v = l[c.i];
       if (vazio(v)) return c.tipo === "numero" || c.tipo === "data" ? null : "";
       if (c.tipo === "numero") { const n = numero(v); return isNaN(n) ? null : n; }
       if (c.tipo === "data") { const d = data(v); return d ? iso(d) : null; }
-      return v instanceof Date ? iso(v) : String(v).trim();
+      if (v instanceof Date) return iso(v);
+      const o = String(v).trim();
+      return c.tipo === "categoria" || c.tipo === "texto" ? padroniza(c).get(o) || o : o;
     }));
   }
   async function baixarDash(botao) {
